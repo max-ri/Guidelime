@@ -1,0 +1,10 @@
+## Title: Guidelime
+## Author: Borick of Arthas(EU)
+## Interface: 11302
+## SavedVariables: GuidelimeData
+## SavedVariablesPerCharacter: GuidelimeDataChar
+## Notes: Load and display leveling guides and automatically update progress
+
+Localization.lua
+Guidelime.lua
+Guidelime_Demo.lua
