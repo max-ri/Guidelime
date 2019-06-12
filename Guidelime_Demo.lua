@@ -21,7 +21,7 @@ Guidelime.guides["Demo"] = {
 		{text = "Kill boars in the surrounding area and return to the camp where you turn in [QT183The Boar Hunter]"},
 		{text = "Go to the next camp SE along the path [L25,76], turn in [QT234], and accept [QP182The Troll Cave]"},
 		{text = "Kill trolls in the area for [QC182]", required = false},
-		{text = "As soon as you are level 4 go back to [L25,76] and accept [QP3364Scalding Mornbrew Delivery]", level = 4},
+		{text = "As soon as you are level 4 go back to [L25,76] and accept [QP3364Scalding Mornbrew Delivery]", levelRequired = 4},
 		{text = "Hearth back and enter Anvilmar. Accept [QP3361A Refugee's Quandary] [L29,68]"},
 		{text = "Further north [L29,66] turn in [QT3364] and accept [QP3365Bring Back the Mug]"},
 		{text = "Get new skills at your trainer and turn in [QT3109]", class = {"Rogue"}, race = {"Dwarf"}},
