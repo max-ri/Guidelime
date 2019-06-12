@@ -8,6 +8,8 @@ Guidelime.faction = UnitFactionGroup("player")
 Guidelime.class = UnitClass("player")
 Guidelime.race = UnitRace("player")
 Guidelime.level = UnitLevel("player")
+Guidelime.xp = UnitXP("player")
+Guidelime.xpMax = UnitXPMax("player")
 Guidelime.guides = {}
 
 local dataLoaded = false
@@ -53,6 +55,8 @@ local function loadGuide(guide)
 	Guidelime.currentGuide = Guidelime.guides[GuidelimeDataChar.currentGuide.name] 
 	Guidelime.quests = {}
 	
+	if debugging then print("LIME: Loading guide " .. Guidelime.currentGuide.name) end
+	
 	local completed = GetQuestsCompleted()
 	
 	for i, step in ipairs(Guidelime.currentGuide.steps) do
@@ -77,18 +81,24 @@ local function loadGuide(guide)
 							element.t = "TURNIN"
 						elseif string.sub(code, 2, 2) == "C" then
 							element.t = "COMPLETE"
+						elseif string.sub(code, 2, 2) == "S" then
+							element.t = "SKIP"
 						else
 							if debugging then print("LIME: quest ".. code) end
 						end
 						string.gsub(string.sub(code, 3), "(%d+)(.*)", function(id, title)
 							element.questId = tonumber(id)
-							element.title = title
+							if title == "-" then
+								element.hidden = true
+							else
+								element.title = title
+							end
 						end)
 						table.insert(step.elements, element)
 					elseif string.sub(code, 1, 1) == "L" then
 						local element = {}
 						element.t = "LOC"
-						string.gsub(code, "L(%d+),(%d+)", function(x, y)
+						string.gsub(code, "L(%d+), *(%d+)", function(x, y)
 							element.x = tonumber(x)
 							element.y = tonumber(y)
 						end)
@@ -107,16 +117,16 @@ local function loadGuide(guide)
 				table.insert(step.elements, element)
 			end
 		end
-		step.hasQuest = false
+		step.canComplete = step.level ~= nil or step.xp ~= nil
 		for j, element in ipairs(step.elements) do
 			if element.questId ~= nil then
-				step.hasQuest = true
+				step.canComplete = element.t ~= "SKIP"
 				if Guidelime.quests[element.questId] == nil then
 					Guidelime.quests[element.questId] = {}
 					Guidelime.quests[element.questId].title = element.title
 					Guidelime.quests[element.questId].completed = completed[element.questId] ~= nil and completed[element.questId]
 					Guidelime.quests[element.questId].finished = Guidelime.quests[element.questId].completed
-				elseif debugging and element.title ~= nil and not element.title == "" and not Guidelime.quests[element.questId].title == element.title then
+				elseif debugging and element.title ~= nil and element.title ~= "" and Guidelime.quests[element.questId].title ~= element.title then
 					print("LIME: quest id ".. element.questId .. " title " .. Guidelime.quests[element.questId].title .. " / " .. element.title)
 				end
 			end
@@ -141,33 +151,39 @@ local function loadGuide(guide)
 	end
 end
 
-local function fadeoutStep(i)
-	step = Guidelime.currentGuide.steps[i]
-	if step == nil then return end
-	if not step.completed and not GuidelimeDataChar.currentGuide.skip[i] then
-		step.fading = nil
-		mainFrame.steps[i]:SetAlpha(1)
-	end		
-	if step.fading == nil then step.fading = 1 end
-	if step.fading > 0 then
-		step.fading = step.fading - 0.05
-		mainFrame.steps[i]:SetAlpha(step.fading)
-		C_Timer.After(0.1, function() 
-			fadeoutStep(i)
-		end)		
-	else
-		step.visible = false
-		local found = false
-		for j, step2 in ipairs(Guidelime.currentGuide.steps) do
-			if step2.visible == true and step2.fading ~= nil and step2.fading > 0 then
-				found = true
-				break
+local function fadeoutStep(indexes)
+	local keepFading = {}
+	local update = false
+	for _, i in ipairs(indexes) do
+		step = Guidelime.currentGuide.steps[i]
+		if step == nil then return end
+		if not step.completed and not GuidelimeDataChar.currentGuide.skip[i] then
+			step.fading = nil
+			mainFrame.steps[i]:SetAlpha(1)
+		end		
+		if step.fading == nil then step.fading = 1 end
+		if step.fading > 0 then
+			step.fading = step.fading - 0.05
+			mainFrame.steps[i]:SetAlpha(step.fading)
+			table.insert(keepFading, i)
+		else
+			step.visible = false
+			local found = false
+			for j, step2 in ipairs(Guidelime.currentGuide.steps) do
+				if step2.visible == true and step2.fading ~= nil and step2.fading > 0 then
+					found = true
+					break
+				end
 			end
-		end
-		if not found then
-			Guidelime_updateMainFrame()
-		end
-	end			
+			if not found then update = true end
+		end			
+	end
+	if update then Guidelime_updateMainFrame() end
+	if #keepFading > 0 then
+		C_Timer.After(0.1, function() 
+			fadeoutStep(keepFading)
+		end)
+	end
 end
 
 local function updateStepText(i)
@@ -181,18 +197,20 @@ local function updateStepText(i)
 		text = text .. "?"
 	else
 		for j, element in ipairs(step.elements) do
-			if element.t=="TEXT" then
-				text = text..element.text
-			elseif Guidelime.quests[element.questId] ~= nil then
-				text = text.."["..Guidelime.quests[element.questId].title.."]"
-			elseif element.questId ~= nil then
-				text = text.."["..element.questId.."]"
-			elseif element.t=="LOC" then
-				text = text.."("..element.x..","..element.y..")"
+			if element.hidden == nil or not element.hidden then
+				if element.t=="TEXT" then
+					text = text..element.text
+				elseif Guidelime.quests[element.questId] ~= nil then
+					text = text.."["..Guidelime.quests[element.questId].title.."]"
+				elseif element.questId ~= nil then
+					text = text.."["..element.questId.."]"
+				elseif element.t=="LOC" then
+					text = text.."("..element.x..","..element.y..")"
+				end
 			end
 		end
 	end
-	if step.active and step.hasQuest then
+	if step.active and step.canComplete then
 		for j, element in ipairs(step.elements) do
 			if element.t == "COMPLETE" or element.t == "TURNIN" then
 				if Guidelime.quests[element.questId].logIndex ~= nil then
@@ -217,7 +235,7 @@ local function updateStep(i)
 	if step.active then
 		for j, pstep in ipairs(Guidelime.currentGuide.steps) do
 			if j == i then break end
-			if (pstep.required == nil or pstep.required) and pstep.visible and (not pstep.completed) and (not GuidelimeDataChar.currentGuide.skip[j]) then
+			if (pstep.required == nil or pstep.required) and pstep.visible and not pstep.completed and not GuidelimeDataChar.currentGuide.skip[j] then
 				step.active = false
 				break 
 			end
@@ -229,22 +247,33 @@ local function updateStep(i)
 	
 	updateStepText(i)
 	
-	if (step.hasQuest == nil or not step.hasQuest) and step.level == nil then return end
+	if (step.canComplete == nil or not step.canComplete) then return false end
 	
-	if step.level ~= nil and step.level > Guidelime.level then return end
+	if step.level ~= nil and step.level > Guidelime.level then return false end
+	
+	if step.xp ~= nil and step.level == Guidelime.level then
+		if step.xpType == "REMAINING" then
+			if step.xp < (Guidelime.xpMax - Guidelime.xp) then return false end
+		elseif step.xpType == "PERCENTAGE" then
+			if step.xp > (Guidelime.xpMax / Guidelime.xp) then return false end
+		else
+			if step.xp > Guidelime.xp then return false end
+		end
+	end
 	
 	for j, element in ipairs(step.elements) do
 		if element.t == "PICKUP" then
 			if not Guidelime.quests[element.questId].completed and Guidelime.quests[element.questId].logIndex == nil then 
-				return
+				return false
 			end
 		elseif element.t == "COMPLETE" then
 			if not Guidelime.quests[element.questId].completed and not Guidelime.quests[element.questId].finished then 
-				return 
+				return false
 			end
 		elseif element.t == "TURNIN" then
+			if debugging and Guidelime.quests[element.questId] == nil then print("LIME : quest nil in ", step.text) end
 			if not Guidelime.quests[element.questId].completed then 
-				return 
+				return false
 			end
 		end
 	end
@@ -252,17 +281,20 @@ local function updateStep(i)
 	step.completed = true
 	if mainFrame.steps[i] ~= nil then 
 		mainFrame.steps[i]:SetChecked(true)
-		fadeoutStep(i) 
+		return true
 	else 
 		step.visible = false 
+		return false
 	end
 end
 
 local function updateSteps()
 	if Guidelime.currentGuide == nil then return end
+	local fadeIndexes = {}
 	for i, step in ipairs(Guidelime.currentGuide.steps) do
-		updateStep(i)
+		if updateStep(i) then table.insert(fadeIndexes, i) end
 	end
+	if #fadeIndexes > 0 then fadeoutStep(fadeIndexes) end
 end
 
 local function updateStepTexts()
@@ -285,11 +317,10 @@ function Guidelime_updateMainFrame()
 	end
 	updateSteps()
 	
-	local height = 0
 	if Guidelime.currentGuide == nil then
 		if debugging then print("LIME: No guide loaded") end
 	else
-		if debugging then print("LIME: Showing guide " .. Guidelime.currentGuide.name) end
+		--if debugging then print("LIME: Showing guide " .. Guidelime.currentGuide.name) end
 		
 		local prev = nil
 		for i, step in ipairs(Guidelime.currentGuide.steps) do
@@ -304,12 +335,12 @@ function Guidelime_updateMainFrame()
 				mainFrame.steps[i]:SetScript("OnClick", function() 
 					GuidelimeDataChar.currentGuide.skip[i] = mainFrame.steps[i]:GetChecked()
 					if mainFrame.steps[i]:GetChecked() then
-						fadeoutStep(i)
+						fadeoutStep({i})
 					end
 				end)
 				
 				mainFrame.steps[i].textBox=CreateFrame("EditBox", nil, mainFrame.steps[i])
-				mainFrame.steps[i].textBox:SetPoint("TOPLEFT", mainFrame.steps[i], "TOPLEFT", 35, -10)
+				mainFrame.steps[i].textBox:SetPoint("TOPLEFT", mainFrame.steps[i], "TOPLEFT", 35, -9)
 				mainFrame.steps[i].textBox:SetMultiLine(true)
 				mainFrame.steps[i].textBox:EnableMouse(false)
 				mainFrame.steps[i].textBox:SetAutoFocus(false)
@@ -317,13 +348,11 @@ function Guidelime_updateMainFrame()
 				mainFrame.steps[i].textBox:SetWidth(mainFrame.scrollChild:GetWidth() - 35)
 				updateStepText(i)
 				
-				local _, _, _, _, top = mainFrame.steps[i]:GetPoint()
-				height = height + mainFrame.steps[i]:GetHeight() - top
 				prev = mainFrame.steps[i].textBox
 			end
 		end
 	end
-	mainFrame.scrollChild:SetHeight(height)
+	mainFrame.scrollChild:SetHeight(mainFrame:GetHeight())
 	mainFrame.scrollFrame:UpdateScrollChildRect();
 end
 
@@ -494,6 +523,8 @@ end
 Guidelime:RegisterEvent('QUEST_LOG_UPDATE', Guidelime)
 function Guidelime:QUEST_LOG_UPDATE()
 	--if debugging then print("LIME: QUEST_LOG_UPDATE") end
+	Guidelime.xp = UnitXP("player")
+	Guidelime.xpMax = UnitXPMax("player")
 	if Guidelime.quests == nil then return end
 	
 	local questLog = {}
@@ -534,6 +565,14 @@ function Guidelime:QUEST_LOG_UPDATE()
 			end
 		end
 	end
+	if not questChanged then
+		for i, step in ipairs(Guidelime.currentGuide.steps) do
+			if step.visible and step.active and step.xp ~= nil then
+				questChanged = true
+			end
+		end
+	end
+	
 	if checkCompleted then
 		if questFound then
 			updateStepTexts()

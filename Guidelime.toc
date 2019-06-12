@@ -8,3 +8,5 @@
 Localization.lua
 Guidelime.lua
 Guidelime_Demo.lua
+Guidelime_Legacy_WoW.lua
+
