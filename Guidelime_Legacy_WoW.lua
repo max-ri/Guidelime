@@ -8,6 +8,7 @@ Guidelime.guides["legacy 1-12 Dun Morogh"] =
 	minLevel = 1,	
 	maxLevel = 12,	
 	race = {"Dwarf", "Gnome"},	
+	colorQuest = "|cFF59C4F1",
 	steps = {
 		-- Part 1
 		{text = "Right in front of where you start accept [QP179Dwarven Outfitters]"},
@@ -73,7 +74,7 @@ Guidelime.guides["legacy 1-12 Dun Morogh"] =
 		{text = "You should be close to half way through lvl 7", level = 7, xpType = "PERCENTAGE", xp = 0.5},
 		{text = "Run west to [L30, 45] and turn in [QT318Evershine] accept [QP319A Favor For Evershine] and [QP315The Perfect Stout]"},
 		{text = "Beside him accept [QP310Bitter Rivals]"},
-		{text = "To the North/NE from here you’ll find tons of bears,leopards, and boars to kill for [QC319A Favor For Evershine] You should ding 8 while killing for this", level = 8},
+		{text = "To the North/NE from here you’ll find tons of bears, leopards, and boars to kill for [QC319A Favor For Evershine] You should ding 8 while killing for this", level = 8},
 		{text = "Kill troll seers and open baskets at [L41, 44] and [L41, 35] for [QC315The Perfect Stout] the drops kinda suck off the trolls but the baskets can be hard to get."},
 		{text = "Die so you end up in Kharanos"},
 		{text = "Next to the GY accept [QP287Frostmane Hold]"},

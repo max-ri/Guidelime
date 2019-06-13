@@ -1,5 +1,6 @@
 ## Title: Guidelime
 ## Author: Borick of Arthas(EU)
+## Version: 1
 ## Interface: 11302
 ## SavedVariables: GuidelimeData
 ## SavedVariablesPerCharacter: GuidelimeDataChar

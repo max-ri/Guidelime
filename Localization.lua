@@ -3,13 +3,15 @@ local addonName, addon = ...
 local L = {}
 
 L.TITLE = addonName
-L.SOME_OPTION = "some option"
+L.SHOW_MAINFRAME = "show window"
+L.LOAD_MESSAGE = "Guidelime: Loading guide \"%s\""
 
 local locale = GetLocale()
 
 if locale == "deDE" then
 
-L.SOME_OPTION = "eine Einstellung"
+L.SHOW_MAINFRAME = "Fenster anzeigen"
+L.LOAD_MESSAGE = "Guidelime: Lade Guide \"%s\""
 
 end
 

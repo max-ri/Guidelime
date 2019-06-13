@@ -19,25 +19,32 @@ local COLOR_INACTIVE = "|cFF666666"
 local function loadData()
 	local defaultOptions = {
 		debugging = false,
-		someOption = true,
+	}
+	local defaultOptionsChar = {
 		mainFrameX = 0,
 		mainFrameY = 0,
 		mainFrameRelative = "CENTER",
 		mainFrameShowing = true,
+		mainFrameWidth = 350,
+		mainFrameHeight = 400,
 	}
 	if GuidelimeData == nil then
 		GuidelimeData = {
-			version = version,
-			options = defaultOptions,
+			version = version
 		}
 	end
 	if GuidelimeDataChar == nil then
-		GuidelimeDataChar = {}
+		GuidelimeDataChar = {
+			version = version
+		}
 	end
 	for option, default in pairs(defaultOptions) do
-		if GuidelimeData.options[option] == nil then GuidelimeData.options[option] = default end
+		if GuidelimeData[option] == nil then GuidelimeData[option] = default end
 	end
-	debugging = GuidelimeData.options.debugging
+	for option, default in pairs(defaultOptionsChar) do
+		if GuidelimeDataChar[option] == nil then GuidelimeDataChar[option] = default end
+	end
+	debugging = GuidelimeData.debugging
 
 	if debugging then print("LIME: Initializing...") end
 
@@ -55,7 +62,7 @@ local function loadGuide(guide)
 	Guidelime.currentGuide = Guidelime.guides[GuidelimeDataChar.currentGuide.name] 
 	Guidelime.quests = {}
 	
-	if debugging then print("LIME: Loading guide " .. Guidelime.currentGuide.name) end
+	print(format(L.LOAD_MESSAGE, Guidelime.currentGuide.name))
 	
 	local completed = GetQuestsCompleted()
 	
@@ -159,12 +166,12 @@ local function fadeoutStep(indexes)
 		if step == nil then return end
 		if not step.completed and not GuidelimeDataChar.currentGuide.skip[i] then
 			step.fading = nil
-			mainFrame.steps[i]:SetAlpha(1)
+			Guidelime_mainFrame.steps[i]:SetAlpha(1)
 		end		
 		if step.fading == nil then step.fading = 1 end
 		if step.fading > 0 then
 			step.fading = step.fading - 0.05
-			mainFrame.steps[i]:SetAlpha(step.fading)
+			Guidelime_mainFrame.steps[i]:SetAlpha(step.fading)
 			table.insert(keepFading, i)
 		else
 			step.visible = false
@@ -188,7 +195,7 @@ end
 
 local function updateStepText(i)
 	step = Guidelime.currentGuide.steps[i]
-	if mainFrame.steps[i] == nil or mainFrame.steps[i].textBox == nil then return end
+	if Guidelime_mainFrame.steps == nil or Guidelime_mainFrame.steps[i] == nil or Guidelime_mainFrame.steps[i].textBox == nil then return end
 	local text = ""
 	if not step.active then
 		text = text .. COLOR_INACTIVE
@@ -199,13 +206,22 @@ local function updateStepText(i)
 		for j, element in ipairs(step.elements) do
 			if element.hidden == nil or not element.hidden then
 				if element.t=="TEXT" then
-					text = text..element.text
+					text = text .. element.text
 				elseif Guidelime.quests[element.questId] ~= nil then
-					text = text.."["..Guidelime.quests[element.questId].title.."]"
-				elseif element.questId ~= nil then
-					text = text.."["..element.questId.."]"
+					if step.active  and Guidelime.currentGuide.colorQuest ~= nil then
+						if type(Guidelime.currentGuide.colorQuest) == "table" then
+							text = text .. Guidelime.currentGuide.colorQuest[element.t]
+						else
+							text = text .. Guidelime.currentGuide.colorQuest
+						end
+					end
+					text = text .. "[" .. Guidelime.quests[element.questId].title .. "]"
+					if step.active and Guidelime.currentGuide.colorQuest ~= nil then
+						text = text .."|r"
+					end
 				elseif element.t=="LOC" then
-					text = text.."("..element.x..","..element.y..")"
+					text = text .. "|TInterface\\Addons\\Guidelime\\lime:12|t"
+					--text = text .. "(" .. element.x .. "," .. element.y .. ")"
 				end
 			end
 		end
@@ -214,9 +230,9 @@ local function updateStepText(i)
 		for j, element in ipairs(step.elements) do
 			if element.t == "COMPLETE" or element.t == "TURNIN" then
 				if Guidelime.quests[element.questId].logIndex ~= nil then
-					for k=1, GetNumQuestLeaderBoards() do
+					for k=1, GetNumQuestLeaderBoards(Guidelime.quests[element.questId].logIndex) do
 						local desc, typ, done = GetQuestLogLeaderBoard(k, Guidelime.quests[element.questId].logIndex)
-						--if debugging then print("LIME: ", desc) end
+						--if debugging then print("LIME: ", desc,typ,done) end
 						if not done and desc ~= nil and desc ~= "" then 
 							text = text .. "\n    -" .. desc 
 						end
@@ -225,7 +241,7 @@ local function updateStepText(i)
 			end
 		end
 	end
-	mainFrame.steps[i].textBox:SetText(text)
+	Guidelime_mainFrame.steps[i].textBox:SetText(text)
 end
 
 local function updateStep(i)
@@ -241,8 +257,8 @@ local function updateStep(i)
 			end
 		end
 	end
-	if mainFrame.steps[i] ~= nil then 
-		mainFrame.steps[i]:SetEnabled(step.active)
+	if Guidelime_mainFrame.steps ~= nil and Guidelime_mainFrame.steps[i] ~= nil then 
+		Guidelime_mainFrame.steps[i]:SetEnabled(step.active)
 	end
 	
 	updateStepText(i)
@@ -255,7 +271,7 @@ local function updateStep(i)
 		if step.xpType == "REMAINING" then
 			if step.xp < (Guidelime.xpMax - Guidelime.xp) then return false end
 		elseif step.xpType == "PERCENTAGE" then
-			if step.xp > (Guidelime.xpMax / Guidelime.xp) then return false end
+			if step.xp > (Guidelime.xp / Guidelime.xpMax) then return false end
 		else
 			if step.xp > Guidelime.xp then return false end
 		end
@@ -279,8 +295,8 @@ local function updateStep(i)
 	end
 	
 	step.completed = true
-	if mainFrame.steps[i] ~= nil then 
-		mainFrame.steps[i]:SetChecked(true)
+	if Guidelime_mainFrame.steps ~= nil and Guidelime_mainFrame.steps[i] ~= nil then 
+		Guidelime_mainFrame.steps[i]:SetChecked(true)
 		return true
 	else 
 		step.visible = false 
@@ -305,12 +321,14 @@ local function updateStepTexts()
 end
 
 function Guidelime_updateMainFrame()
-	if mainFrame.steps ~= nil then
-		for k, step in pairs(mainFrame.steps) do
+	--if debugging then print("LIME: updating main frame") end
+	
+	if Guidelime_mainFrame.steps ~= nil then
+		for k, step in pairs(Guidelime_mainFrame.steps) do
 			step:Hide()
 		end
 	end
-	mainFrame.steps = {}
+	Guidelime_mainFrame.steps = {}
 	
 	if Guidelime.currentGuide == nil then 
 		loadGuide()
@@ -325,103 +343,108 @@ function Guidelime_updateMainFrame()
 		local prev = nil
 		for i, step in ipairs(Guidelime.currentGuide.steps) do
 			if step.visible then
-				mainFrame.steps[i] = CreateFrame("CheckButton", nil, mainFrame.scrollChild, "UICheckButtonTemplate")
+				Guidelime_mainFrame.steps[i] = CreateFrame("CheckButton", nil, Guidelime_mainFrame.scrollChild, "UICheckButtonTemplate")
 				if prev == nil then
-					mainFrame.steps[i]:SetPoint("TOPLEFT", mainFrame.scrollChild, "TOPLEFT", 0, -14)
+					Guidelime_mainFrame.steps[i]:SetPoint("TOPLEFT", Guidelime_mainFrame.scrollChild, "TOPLEFT", 0, -14)
 				else
-					mainFrame.steps[i]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -35, -2)
+					Guidelime_mainFrame.steps[i]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -35, -2)
 				end
-				mainFrame.steps[i]:SetEnabled(step.active)
-				mainFrame.steps[i]:SetScript("OnClick", function() 
-					GuidelimeDataChar.currentGuide.skip[i] = mainFrame.steps[i]:GetChecked()
-					if mainFrame.steps[i]:GetChecked() then
+				Guidelime_mainFrame.steps[i]:SetEnabled(step.active)
+				Guidelime_mainFrame.steps[i]:SetScript("OnClick", function() 
+					GuidelimeDataChar.currentGuide.skip[i] = Guidelime_mainFrame.steps[i]:GetChecked()
+					if Guidelime_mainFrame.steps[i]:GetChecked() then
 						fadeoutStep({i})
 					end
 				end)
 				
-				mainFrame.steps[i].textBox=CreateFrame("EditBox", nil, mainFrame.steps[i])
-				mainFrame.steps[i].textBox:SetPoint("TOPLEFT", mainFrame.steps[i], "TOPLEFT", 35, -9)
-				mainFrame.steps[i].textBox:SetMultiLine(true)
-				mainFrame.steps[i].textBox:EnableMouse(false)
-				mainFrame.steps[i].textBox:SetAutoFocus(false)
-				mainFrame.steps[i].textBox:SetFontObject("GameFontNormal")
-				mainFrame.steps[i].textBox:SetWidth(mainFrame.scrollChild:GetWidth() - 35)
+				Guidelime_mainFrame.steps[i].textBox=CreateFrame("EditBox", nil, Guidelime_mainFrame.steps[i])
+				Guidelime_mainFrame.steps[i].textBox:SetPoint("TOPLEFT", Guidelime_mainFrame.steps[i], "TOPLEFT", 35, -9)
+				Guidelime_mainFrame.steps[i].textBox:SetMultiLine(true)
+				Guidelime_mainFrame.steps[i].textBox:EnableMouse(false)
+				Guidelime_mainFrame.steps[i].textBox:SetAutoFocus(false)
+				Guidelime_mainFrame.steps[i].textBox:SetFontObject("GameFontNormal")
+				Guidelime_mainFrame.steps[i].textBox:SetWidth(Guidelime_mainFrame.scrollChild:GetWidth() - 35)
 				updateStepText(i)
 				
-				prev = mainFrame.steps[i].textBox
+				prev = Guidelime_mainFrame.steps[i].textBox
 			end
 		end
 	end
-	mainFrame.scrollChild:SetHeight(mainFrame:GetHeight())
-	mainFrame.scrollFrame:UpdateScrollChildRect();
+	Guidelime_mainFrame.scrollChild:SetHeight(Guidelime_mainFrame:GetHeight())
+	Guidelime_mainFrame.scrollFrame:UpdateScrollChildRect();
 end
 
 local function showMainFrame()
 	
 	if not dataLoaded then loadData() end
 	
-	if mainFrame == nil then
+	if Guidelime_mainFrame == nil then
+		--if debugging then print("LIME: initializing main frame") end
 		local initParent = UIParent
-		mainFrame = CreateFrame("FRAME", nil, initParent)
-		mainFrame:SetWidth(350)
-		mainFrame:SetHeight(400)
-		mainFrame:SetPoint(GuidelimeData.options.mainFrameRelative, UIParent, GuidelimeData.options.mainFrameRelative, GuidelimeData.options.mainFrameX, GuidelimeData.options.mainFrameY)
-		mainFrame:SetBackdrop({
+		Guidelime_mainFrame = CreateFrame("FRAME", nil, initParent)
+		Guidelime_mainFrame:SetWidth(GuidelimeDataChar.mainFrameWidth)
+		Guidelime_mainFrame:SetHeight(GuidelimeDataChar.mainFrameHeight)
+		Guidelime_mainFrame:SetPoint(GuidelimeDataChar.mainFrameRelative, UIParent, GuidelimeDataChar.mainFrameRelative, GuidelimeDataChar.mainFrameX, GuidelimeDataChar.mainFrameY)
+		Guidelime_mainFrame:SetBackdrop({
 			bgFile = "Interface/DialogFrame/UI-DialogBox-Background",
 			tile = true, tileSize = 32, edgeSize = 0
 		})
-		mainFrame:SetFrameLevel(999)
-		mainFrame:SetMovable(true)
-		mainFrame:EnableMouse(true)
-		mainFrame:SetScript("OnMouseDown", function(this, button) 
-			if (button == "LeftButton") then mainFrame:StartMoving() end
+		Guidelime_mainFrame:SetFrameLevel(999)
+		Guidelime_mainFrame:SetMovable(true)
+		Guidelime_mainFrame:EnableMouse(true)
+		Guidelime_mainFrame:SetScript("OnMouseDown", function(this, button) 
+			if (button == "LeftButton") then Guidelime_mainFrame:StartMoving() end
 		end)
-		mainFrame:SetScript("OnMouseUp", function(this, button) 
+		Guidelime_mainFrame:SetScript("OnMouseUp", function(this, button) 
 			if (button == "LeftButton") then 
-				mainFrame:StopMovingOrSizing() 
+				Guidelime_mainFrame:StopMovingOrSizing() 
 				local _
-				_, _, GuidelimeData.options.mainFrameRelative, GuidelimeData.options.mainFrameX, GuidelimeData.options.mainFrameY = mainFrame:GetPoint()
+				_, _, GuidelimeDataChar.mainFrameRelative, GuidelimeDataChar.mainFrameX, GuidelimeDataChar.mainFrameY = Guidelime_mainFrame:GetPoint()
 			elseif (button == "RightButton") then
 				Guidelime_showOptions()
 			end
 		end)
 		
-		mainFrame.scrollFrame = CreateFrame("SCROLLFRAME", nil, mainFrame, "UIPanelScrollFrameTemplate")
-		mainFrame.scrollFrame:SetAllPoints(mainFrame)
+		Guidelime_mainFrame.scrollFrame = CreateFrame("SCROLLFRAME", nil, Guidelime_mainFrame, "UIPanelScrollFrameTemplate")
+		Guidelime_mainFrame.scrollFrame:SetAllPoints(Guidelime_mainFrame)
 		
-		mainFrame.scrollChild = CreateFrame("FRAME", nil, mainFrame)
-		mainFrame.scrollFrame:SetScrollChild(mainFrame.scrollChild);
-		--mainFrame.scrollChild:SetAllPoints(mainFrame)
-		mainFrame.scrollChild:SetWidth(350)
+		Guidelime_mainFrame.scrollChild = CreateFrame("FRAME", nil, Guidelime_mainFrame)
+		Guidelime_mainFrame.scrollFrame:SetScrollChild(Guidelime_mainFrame.scrollChild);
+		--Guidelime_mainFrame.scrollChild:SetAllPoints(Guidelime_mainFrame)
+		Guidelime_mainFrame.scrollChild:SetWidth(350)
 		
-		Guidelime_updateMainFrame()
+		if Guidelime.firstLogUpdate then 
+			Guidelime_updateMainFrame() 
+		elseif Guidelime.currentGuide == nil then 
+			loadGuide()
+		end
 
-		mainFrame.doneBtn = CreateFrame("BUTTON", nil, mainFrame, "UIPanelButtonTemplate")
-		mainFrame.doneBtn:SetWidth(12)
-		mainFrame.doneBtn:SetHeight(14)
-		mainFrame.doneBtn:SetText( "X" )
-		mainFrame.doneBtn:SetPoint("TOPRIGHT", mainFrame, "TOPRIGHT", -5, -5)
-		mainFrame.doneBtn:SetScript("OnClick", function() 
-			mainFrame:Hide() 
-			GuidelimeData.options.mainFrameShowing = false
+		Guidelime_mainFrame.doneBtn = CreateFrame("BUTTON", nil, Guidelime_mainFrame, "UIPanelButtonTemplate")
+		Guidelime_mainFrame.doneBtn:SetWidth(12)
+		Guidelime_mainFrame.doneBtn:SetHeight(14)
+		Guidelime_mainFrame.doneBtn:SetText( "X" )
+		Guidelime_mainFrame.doneBtn:SetPoint("TOPRIGHT", Guidelime_mainFrame, "TOPRIGHT", -5, -5)
+		Guidelime_mainFrame.doneBtn:SetScript("OnClick", function() 
+			Guidelime_mainFrame:Hide() 
+			GuidelimeDataChar.mainFrameShowing = false
 		end)
 	
 		if debugging then
-			mainFrame.reloadBtn = CreateFrame("BUTTON", nil, mainFrame, "UIPanelButtonTemplate")
-			mainFrame.reloadBtn:SetWidth(12)
-			mainFrame.reloadBtn:SetHeight(14)
-			mainFrame.reloadBtn:SetText( "R" )
-			mainFrame.reloadBtn:SetPoint("TOPRIGHT", mainFrame, "TOPRIGHT", -25, -5)
-			mainFrame.reloadBtn:SetScript("OnClick", function() 
+			Guidelime_mainFrame.reloadBtn = CreateFrame("BUTTON", nil, Guidelime_mainFrame, "UIPanelButtonTemplate")
+			Guidelime_mainFrame.reloadBtn:SetWidth(12)
+			Guidelime_mainFrame.reloadBtn:SetHeight(14)
+			Guidelime_mainFrame.reloadBtn:SetText( "R" )
+			Guidelime_mainFrame.reloadBtn:SetPoint("TOPRIGHT", Guidelime_mainFrame, "TOPRIGHT", -25, -5)
+			Guidelime_mainFrame.reloadBtn:SetScript("OnClick", function() 
 				ReloadUI()
 			end)
 		end
 	end
-	mainFrame:Show()
-	GuidelimeData.options.mainFrameShowing = true
+	Guidelime_mainFrame:Show()
+	GuidelimeDataChar.mainFrameShowing = true
 end
 
-local function addOption(optionsFrame, option, previous, text, tooltip)
+local function addCheckOption(optionsFrame, optionsTable, option, previous, text, tooltip, updateFunction)
 	optionsFrame.options[option] = CreateFrame("CheckButton", nil, optionsFrame, "UICheckButtonTemplate")
 	optionsFrame.options[option]:SetPoint("TOPLEFT", previous, "BOTTOMLEFT", 0, 8)
 	optionsFrame.options[option].text:SetText(text)
@@ -430,8 +453,11 @@ local function addOption(optionsFrame, option, previous, text, tooltip)
 		optionsFrame.options[option]:SetScript("OnEnter", function(this) GameTooltip:SetOwner(this, "ANCHOR_RIGHT",0,-32);  GameTooltip:SetText(tooltip); GameTooltip:Show() end)
 		optionsFrame.options[option]:SetScript("OnLeave", function(this) GameTooltip:Hide() end)
 	end
-	if GuidelimeData.options[option] ~= false then optionsFrame.options[option]:SetChecked(true) end
-	optionsFrame.options[option]:SetScript("OnClick", function() GuidelimeData.options[option] = optionsFrame.options[option]:GetChecked() end)
+	if optionsTable[option] ~= false then optionsFrame.options[option]:SetChecked(true) end
+	optionsFrame.options[option]:SetScript("OnClick", function()
+		optionsTable[option] = optionsFrame.options[option]:GetChecked() 
+		if updateFunction ~= nil then updateFunction() end
+	end)
 	return optionsFrame.options[option]
 end
 
@@ -442,59 +468,65 @@ local function fillOptions(optionsFrame)
 	local prev = optionsFrame.subtitle_options
 
 	optionsFrame.options = {}		
-	prev = addOption(optionsFrame, "someOption", prev, L.SOME_OPTION)
+	prev = addCheckOption(optionsFrame, GuidelimeDataChar, "mainFrameShowing", prev, L.SHOW_MAINFRAME, nil, function()
+		if GuidelimeDataChar.mainFrameShowing then
+			showMainFrame()
+		elseif Guidelime_mainFrame ~= nil then
+			Guidelime_mainFrame:Hide()
+		end
+	end)
 end
 
 function Guidelime_showOptions()
 	
 	if not dataLoaded then loadData() end
 	
-	if optionsFrame == nil then
+	if Guidelime_optionsFrame == nil then
 		local initParent = UIParent
-		optionsFrame = CreateFrame("FRAME", nil, initParent)
-		optionsFrame:SetWidth(350)
-		optionsFrame:SetHeight(400)
-		optionsFrame:SetPoint("CENTER", UIParent, "CENTER")
-		optionsFrame:SetBackdrop({
+		Guidelime_optionsFrame = CreateFrame("FRAME", nil, initParent)
+		Guidelime_optionsFrame:SetWidth(350)
+		Guidelime_optionsFrame:SetHeight(400)
+		Guidelime_optionsFrame:SetPoint("CENTER", UIParent, "CENTER")
+		Guidelime_optionsFrame:SetBackdrop({
 			bgFile = "Interface/DialogFrame/UI-DialogBox-Background",
 			edgeFile = "Interface/DialogFrame/UI-DialogBox-Border",
 			tile = true, tileSize = 32, edgeSize = 32,
 			insets = { left = 11, right = 12, top = 12, bottom = 11}
 		})
-		optionsFrame:SetFrameLevel(999)
-		optionsFrame:SetMovable(true)
-		optionsFrame:SetScript("OnKeyDown", function(this,key) 
+		Guidelime_optionsFrame:SetFrameLevel(999)
+		Guidelime_optionsFrame:SetMovable(true)
+		Guidelime_optionsFrame:SetScript("OnKeyDown", function(this,key) 
 			if key == "ESCAPE" then
-				optionsFrame:SetPropagateKeyboardInput(false)
-				optionsFrame:Hide()
+				Guidelime_optionsFrame:SetPropagateKeyboardInput(false)
+				Guidelime_optionsFrame:Hide()
 			end 
 		end)
 		  
-		optionsFrame.header = CreateFrame("FRAME", nil, optionsFrame)
-		optionsFrame.header:SetSize(384, 64)
-		optionsFrame.header:SetBackdrop({ bgFile = "Interface/DialogFrame/UI-DialogBox-Header"})
-		optionsFrame.header:SetPoint("TOP", optionsFrame, "TOP", 0, 12)
-		optionsFrame.header:EnableMouse(true)
-		optionsFrame.header:SetScript("OnMouseDown", function(this) this:GetParent():StartMoving() end)
-		optionsFrame.header:SetScript("OnMouseUp", function(this) this:GetParent():StopMovingOrSizing() end)
-		optionsFrame.header.text = optionsFrame.header:CreateFontString(nil, optionsFrame.header, "GameFontNormal")
-		optionsFrame.header.text:SetText( L.TITLE )
-		optionsFrame.header.text:SetPoint("TOP", 0, -14)
+		Guidelime_optionsFrame.header = CreateFrame("FRAME", nil, Guidelime_optionsFrame)
+		Guidelime_optionsFrame.header:SetSize(384, 64)
+		Guidelime_optionsFrame.header:SetBackdrop({ bgFile = "Interface/DialogFrame/UI-DialogBox-Header"})
+		Guidelime_optionsFrame.header:SetPoint("TOP", Guidelime_optionsFrame, "TOP", 0, 12)
+		Guidelime_optionsFrame.header:EnableMouse(true)
+		Guidelime_optionsFrame.header:SetScript("OnMouseDown", function(this) this:GetParent():StartMoving() end)
+		Guidelime_optionsFrame.header:SetScript("OnMouseUp", function(this) this:GetParent():StopMovingOrSizing() end)
+		Guidelime_optionsFrame.header.text = Guidelime_optionsFrame.header:CreateFontString(nil, Guidelime_optionsFrame.header, "GameFontNormal")
+		Guidelime_optionsFrame.header.text:SetText( L.TITLE )
+		Guidelime_optionsFrame.header.text:SetPoint("TOP", 0, -14)
 		
-		fillOptions(optionsFrame)
+		fillOptions(Guidelime_optionsFrame)
 
-		optionsFrame.doneBtn = CreateFrame("BUTTON", nil, optionsFrame, "UIPanelButtonTemplate")
-		optionsFrame.doneBtn:SetWidth(128)
-		optionsFrame.doneBtn:SetHeight(24)
-		optionsFrame.doneBtn:SetText( DONE )
-		optionsFrame.doneBtn:SetPoint("BOTTOMRIGHT", optionsFrame, "BOTTOMRIGHT", -20, 20)
-		optionsFrame.doneBtn:SetScript("OnClick", function() 
-			optionsFrame:SetPropagateKeyboardInput(false)
-			optionsFrame:Hide() 
+		Guidelime_optionsFrame.doneBtn = CreateFrame("BUTTON", nil, Guidelime_optionsFrame, "UIPanelButtonTemplate")
+		Guidelime_optionsFrame.doneBtn:SetWidth(128)
+		Guidelime_optionsFrame.doneBtn:SetHeight(24)
+		Guidelime_optionsFrame.doneBtn:SetText( DONE )
+		Guidelime_optionsFrame.doneBtn:SetPoint("BOTTOMRIGHT", Guidelime_optionsFrame, "BOTTOMRIGHT", -20, 20)
+		Guidelime_optionsFrame.doneBtn:SetScript("OnClick", function() 
+			Guidelime_optionsFrame:SetPropagateKeyboardInput(false)
+			Guidelime_optionsFrame:Hide() 
 		end)
 	end
-	optionsFrame:SetPropagateKeyboardInput(true)
-	optionsFrame:Show()
+	Guidelime_optionsFrame:SetPropagateKeyboardInput(true)
+	Guidelime_optionsFrame:Show()
 end
 
 -- Register events and call functions
@@ -510,7 +542,7 @@ function Guidelime:PLAYER_ENTERING_WORLD()
 	o.name = L.TITLE
 	InterfaceOptions_AddCategory(o)
 	fillOptions(o)
-	if GuidelimeData.options.mainFrameShowing then showMainFrame() end
+	if GuidelimeDataChar.mainFrameShowing then showMainFrame() end
 end
 
 Guidelime:RegisterEvent('PLAYER_LEVEL_UP', Guidelime)
@@ -522,77 +554,84 @@ end
 
 Guidelime:RegisterEvent('QUEST_LOG_UPDATE', Guidelime)
 function Guidelime:QUEST_LOG_UPDATE()
-	--if debugging then print("LIME: QUEST_LOG_UPDATE") end
+	--if debugging then print("LIME: QUEST_LOG_UPDATE", Guidelime.firstLogUpdate) end
 	Guidelime.xp = UnitXP("player")
 	Guidelime.xpMax = UnitXPMax("player")
-	if Guidelime.quests == nil then return end
 	
-	local questLog = {}
-	for i=1,GetNumQuestLogEntries() do
-		local _, _, _, header, _, completed, _, id = GetQuestLogTitle(i)
-		if not header then
-			questLog[id] = {}
-			questLog[id].index = i
-			questLog[id].finished = (completed == 1)
-		end
-	end
-	
-	local checkCompleted = false
-	local questChanged = false
-	local questFound = false
-	for id, q in pairs(Guidelime.quests) do
-		if q.logIndex == nil then
-			if questLog[id] ~= nil then
-				questFound = true
-				questChanged = true
-				q.logIndex = questLog[id].index
-				q.finished = questLog[id].finished
-				--if debugging then print("LIME: new log entry ".. id .. " finished", q.finished) end
+	if Guidelime.quests ~= nil then 
+		local questLog = {}
+		for i=1,GetNumQuestLogEntries() do
+			local _, _, _, header, _, completed, _, id = GetQuestLogTitle(i)
+			if not header then
+				questLog[id] = {}
+				questLog[id].index = i
+				questLog[id].finished = (completed == 1)
 			end
-		else
-			if questLog[id] == nil then
-				checkCompleted = true
-				q.logIndex = nil
-				--if debugging then print("LIME: removed log entry ".. id) end
-			else
-				questFound = true
-				if q.logIndex ~= questLog[id].index or q.finished ~= questLog[id].finished then
+		end
+		
+		local checkCompleted = false
+		local questChanged = false
+		local questFound = false
+		for id, q in pairs(Guidelime.quests) do
+			if q.logIndex == nil then
+				if questLog[id] ~= nil then
+					questFound = true
 					questChanged = true
 					q.logIndex = questLog[id].index
 					q.finished = questLog[id].finished
-					--if debugging then print("LIME: changed log entry ".. id .. " finished", q.finished) end
+					--if debugging then print("LIME: new log entry ".. id .. " finished", q.finished) end
+				end
+			else
+				if questLog[id] == nil then
+					checkCompleted = true
+					q.logIndex = nil
+					--if debugging then print("LIME: removed log entry ".. id) end
+				else
+					questFound = true
+					if q.logIndex ~= questLog[id].index or q.finished ~= questLog[id].finished then
+						questChanged = true
+						q.logIndex = questLog[id].index
+						q.finished = questLog[id].finished
+						--if debugging then print("LIME: changed log entry ".. id .. " finished", q.finished) end
+					end
 				end
 			end
 		end
-	end
-	if not questChanged then
-		for i, step in ipairs(Guidelime.currentGuide.steps) do
-			if step.visible and step.active and step.xp ~= nil then
-				questChanged = true
-			end
-		end
-	end
-	
-	if checkCompleted then
-		if questFound then
-			updateStepTexts()
-		end
-		C_Timer.After(1, function(questChanged) 
-			local completed = GetQuestsCompleted()
-			for id, q in pairs(Guidelime.quests) do
-				if completed[id] and not q.completed then
-					questChanged = true
-					q.finished = true
-					q.completed = true
+
+		if Guidelime.firstLogUpdate == nil then
+			Guidelime_updateMainFrame()
+		else
+			if not questChanged then
+				for i, step in ipairs(Guidelime.currentGuide.steps) do
+					if step.visible and step.active and step.xp ~= nil then
+						questChanged = true
+					end
 				end
 			end
-			if questChanged then updateSteps() end
-		end)
-	elseif questChanged then 
-		updateSteps() 
-	elseif questFound then
-		updateStepTexts()
+			
+			if checkCompleted then
+				if questFound then
+					updateStepTexts()
+				end
+				C_Timer.After(1, function(questChanged) 
+					local completed = GetQuestsCompleted()
+					for id, q in pairs(Guidelime.quests) do
+						if completed[id] and not q.completed then
+							questChanged = true
+							q.finished = true
+							q.completed = true
+						end
+					end
+					if questChanged then updateSteps() end
+				end)
+			elseif questChanged then 
+				updateSteps() 
+			elseif questFound then
+				updateStepTexts()
+			end
+		end
 	end
+	Guidelime.firstLogUpdate = true
 end
 
 SLASH_Guidelime1 = "/lime"
@@ -600,5 +639,5 @@ function SlashCmdList.Guidelime(msg)
 	if msg == '' then showMainFrame() 
 	elseif msg == 'debug true' and not debugging then debugging = true; print('LIME: Debugging enabled')
 	elseif msg == 'debug false' and debugging then debugging = false; print('LIME: Debugging disabled') end
-	GuidelimeData.options.debugging = debugging
+	GuidelimeData.debugging = debugging
 end
