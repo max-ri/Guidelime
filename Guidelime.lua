@@ -3,18 +3,79 @@ local L = addon.L
 
 local debugging
 
-Guidelime = CreateFrame("Frame"), {}
+HBD = LibStub("HereBeDragons-2.0")
+HBDPins = LibStub("HereBeDragons-Pins-2.0")
+
+
+Guidelime = CreateFrame("Frame")
 Guidelime.faction = UnitFactionGroup("player")
 Guidelime.class = UnitClass("player")
 Guidelime.race = UnitRace("player")
 Guidelime.level = UnitLevel("player")
 Guidelime.xp = UnitXP("player")
 Guidelime.xpMax = UnitXPMax("player")
+Guidelime.y, Guidelime.x, Guidelime.zone = UnitPosition("player")
 Guidelime.guides = {}
+Guidelime.mapIcons = {}
 
 local dataLoaded = false
 
 local COLOR_INACTIVE = "|cFF666666"
+
+local mapIDs = {
+	["The Hinterlands"] = 1425,
+	["Moonglade"] = 1450,
+	["Thousand Needles"] = 1441,
+	["Winterspring"] = 1452,
+	["Arathi Highlands"] = 1417,
+	["Westfall"] = 1436,
+	["Badlands"] = 1418,
+	["Searing Gorge"] = 1427,
+	["Loch Modan"] = 1432,
+	["Eastern Kingdoms"] = 1415,
+	["Undercity"] = 1458,
+	["Desolace"] = 1443,
+	["Warsong Gulch"] = 1460,
+	["Tirisfal Glades"] = 1420,
+	["Stormwind City"] = 1453,
+	["Azshara"] = 1447,
+	["The Barrens"] = 1413,
+	["Swamp of Sorrows"] = 1435,
+	["Azeroth"] = 947,
+	["Alterac Mountains"] = 1416,
+	["Darkshore"] = 1439,
+	["Blasted Lands"] = 1419,
+	["Stranglethorn Vale"] = 1434,
+	["Eastern Plaguelands"] = 1423,
+	["Duskwood"] = 1431,
+	["Durotar"] = 1411,
+	["Orgrimmar"] = 1454,
+	["Ashenvale"] = 1440,
+	["Teldrassil"] = 1438,
+	["Redridge Mountains"] = 1433,
+	["Un'Goro Crater"] = 1449,
+	["Mulgore"] = 1412,
+	["Ironforge"] = 1455,
+	["Felwood"] = 1448,
+	["Tanaris"] = 1446,
+	["Stonetalon Mountains"] = 1442,
+	["Burning Steppes"] = 1428,
+	["Deadwind Pass"] = 1430,
+	["Dun Morogh"] = 1426,
+	["Western Plaguelands"] = 1422,
+	["Wetlands"] = 1437,
+	["Kalimdor"] = 1414,
+	["Arathi Basin"] = 1461,
+	["Silverpine Forest"] = 1421,
+	["Darnassus"] = 1457,
+	["Feralas"] = 1444,
+	["Elwynn Forest"] = 1429,
+	["Alterac Valley"] = 1459,
+	["Thunder Bluff"] = 1456,
+	["Dustwallow Marsh"] = 1445,
+	["Hillsbrad Foothills"] = 1424,
+	["Silithus"] = 1451,
+}
 
 local function loadData()
 	local defaultOptions = {
@@ -46,7 +107,7 @@ local function loadData()
 	end
 	debugging = GuidelimeData.debugging
 
-	if debugging then print("LIME: Initializing...") end
+	--if debugging then print("LIME: Initializing...") end
 
 	dataLoaded = true
 end
@@ -62,12 +123,13 @@ local function loadGuide(guide)
 	Guidelime.currentGuide = Guidelime.guides[GuidelimeDataChar.currentGuide.name] 
 	Guidelime.quests = {}
 	
-	print(format(L.LOAD_MESSAGE, Guidelime.currentGuide.name))
+	--print(format(L.LOAD_MESSAGE, Guidelime.currentGuide.name))
 	
 	local completed = GetQuestsCompleted()
 	
 	for i, step in ipairs(Guidelime.currentGuide.steps) do
 		if step.text ~= nil then
+			if step.zone == nil then step.zone = Guidelime.currentGuide.zone end
 			step.elements = {}
 			local t = step.text
 			local found
@@ -108,6 +170,16 @@ local function loadGuide(guide)
 						string.gsub(code, "L(%d+), *(%d+)", function(x, y)
 							element.x = tonumber(x)
 							element.y = tonumber(y)
+							element.mapID = mapIDs[step.zone]
+						end)
+						table.insert(step.elements, element)
+					elseif string.sub(code, 1, 1) == "G" then
+						local element = {}
+						element.t = "GOTO"
+						string.gsub(code, "G(%d+), *(%d+)", function(x, y)
+							element.x = tonumber(x)
+							element.y = tonumber(y)
+							element.mapID = mapIDs[step.zone]
 						end)
 						table.insert(step.elements, element)
 					else
@@ -124,10 +196,12 @@ local function loadGuide(guide)
 				table.insert(step.elements, element)
 			end
 		end
+		
 		step.canComplete = step.level ~= nil or step.xp ~= nil
+		step.trackQuest = {}
 		for j, element in ipairs(step.elements) do
 			if element.questId ~= nil then
-				step.canComplete = element.t ~= "SKIP"
+				if element.t ~= "SKIP" then step.canComplete = true end
 				if Guidelime.quests[element.questId] == nil then
 					Guidelime.quests[element.questId] = {}
 					Guidelime.quests[element.questId].title = element.title
@@ -136,7 +210,11 @@ local function loadGuide(guide)
 				elseif debugging and element.title ~= nil and element.title ~= "" and Guidelime.quests[element.questId].title ~= element.title then
 					print("LIME: quest id ".. element.questId .. " title " .. Guidelime.quests[element.questId].title .. " / " .. element.title)
 				end
+				if element.t == "COMPLETE" or element.t == "TURNIN" then
+					step.trackQuest[element.questId] = true
+				end
 			end
+			if element.t == "GOTO" then step.canComplete = true end
 		end
 		step.visible = GuidelimeDataChar.currentGuide.skip[i] == nil or not GuidelimeDataChar.currentGuide.skip[i]
 		if step.visible then
@@ -219,23 +297,24 @@ local function updateStepText(i)
 					if step.active and Guidelime.currentGuide.colorQuest ~= nil then
 						text = text .."|r"
 					end
-				elseif element.t=="LOC" then
-					text = text .. "|TInterface\\Addons\\Guidelime\\lime:12|t"
-					--text = text .. "(" .. element.x .. "," .. element.y .. ")"
+				elseif element.t == "LOC" or element.t == "GOTO" then
+					if element.mapIndex ~= nil then
+						text = text .. "|TInterface\\Addons\\Guidelime\\Icons\\lime" .. element.mapIndex .. ":12|t"
+					else
+						text = text .. "|TInterface\\Addons\\Guidelime\\Icons\\lime:12|t"
+					end
 				end
 			end
 		end
 	end
 	if step.active and step.canComplete then
-		for j, element in ipairs(step.elements) do
-			if element.t == "COMPLETE" or element.t == "TURNIN" then
-				if Guidelime.quests[element.questId].logIndex ~= nil then
-					for k=1, GetNumQuestLeaderBoards(Guidelime.quests[element.questId].logIndex) do
-						local desc, typ, done = GetQuestLogLeaderBoard(k, Guidelime.quests[element.questId].logIndex)
-						--if debugging then print("LIME: ", desc,typ,done) end
-						if not done and desc ~= nil and desc ~= "" then 
-							text = text .. "\n    -" .. desc 
-						end
+		for id, v in pairs(step.trackQuest) do
+			if Guidelime.quests[id].logIndex ~= nil then
+				for k=1, GetNumQuestLeaderBoards(Guidelime.quests[id].logIndex) do
+					local desc, typ, done = GetQuestLogLeaderBoard(k, Guidelime.quests[id].logIndex)
+					--if debugging then print("LIME: ", desc,typ,done) end
+					if not done and desc ~= nil and desc ~= "" then 
+						text = text .. "\n    - " .. desc 
 					end
 				end
 			end
@@ -244,25 +323,73 @@ local function updateStepText(i)
 	Guidelime_mainFrame.steps[i].textBox:SetText(text)
 end
 
-local function updateStep(i)
-	step = Guidelime.currentGuide.steps[i]
-	step.completed = false
-	step.active = step.levelRequired == nil or step.levelRequired <= Guidelime.level
-	if step.active then
-		for j, pstep in ipairs(Guidelime.currentGuide.steps) do
-			if j == i then break end
-			if (pstep.required == nil or pstep.required) and pstep.visible and not pstep.completed and not GuidelimeDataChar.currentGuide.skip[j] then
-				step.active = false
-				break 
+local function createIconFrame(i, minimap)
+    local f = CreateFrame("Button", "Guidelime" .. i .. minimap, nil)
+
+    f:SetFrameStrata("TOOLTIP");
+    f:SetWidth(16)
+    f:SetHeight(16)
+    f.texture = f:CreateTexture(nil, "TOOLTIP")
+    f.texture:SetTexture("Interface\\AddOns\\Guidelime\\Icons\\lime" .. i .. ".blp")
+    f.texture:SetWidth(16)
+    f.texture:SetHeight(16)
+    f.texture:SetAllPoints(f)
+
+    f:SetPoint("CENTER", 0, 0)
+    f:EnableMouse(false)
+
+    function f:Unload()
+        HBDPins:RemoveMinimapIcon(Guidelime, self);
+        HBDPins:RemoveWorldMapIcon(Guidelime, self);
+        if(self.texture) then
+            self.texture:SetVertexColor(1, 1, 1, 1);
+        end
+        self.miniMapIcon = nil;
+		self:SetScript("OnUpdate", nil)
+        self:Hide();
+    end
+    f:Hide()
+    return f
+end
+
+local function createMapIcon()
+	if #Guidelime.mapIcons >= 9 then return nil end
+	local i = #Guidelime.mapIcons + 1
+	Guidelime.mapIcons[i] = createIconFrame(i, 0)
+	Guidelime.mapIcons[i].minimap = createIconFrame(i, 1)
+	Guidelime.mapIcons[i].index = i
+	Guidelime.mapIcons[i].inUse = false
+	return Guidelime.mapIcons[i]
+end
+
+local function getMapIcon(element)
+	for i, mapIcon in ipairs(Guidelime.mapIcons) do
+		if mapIcon.inUse then 
+			if mapIcon.mapID == element.mapID and mapIcon.x == element.x and mapIcon.y == element.y then
+				return mapIcon
 			end
+		else
+			return mapIcon
 		end
 	end
-	if Guidelime_mainFrame.steps ~= nil and Guidelime_mainFrame.steps[i] ~= nil then 
-		Guidelime_mainFrame.steps[i]:SetEnabled(step.active)
+	return createMapIcon()		
+end
+
+local function addMapIcon(element)
+	local mapIcon = getMapIcon(element)
+	if mapIcon ~= nil then
+		mapIcon.inUse = true
+		mapIcon.mapID = element.mapID
+		mapIcon.x = element.x
+		mapIcon.y = element.y
+		element.mapIndex = mapIcon.index
+		--eif debugging then print("Guidelime : AddWorldMapIconMap", element.mapID, element.x / 100, element.y / 100) end
+	else
+		element.mapIndex = nil
 	end
-	
-	updateStepText(i)
-	
+end
+
+local function isStepCompleted(step)
 	if (step.canComplete == nil or not step.canComplete) then return false end
 	
 	if step.level ~= nil and step.level > Guidelime.level then return false end
@@ -291,8 +418,47 @@ local function updateStep(i)
 			if not Guidelime.quests[element.questId].completed then 
 				return false
 			end
+		elseif element.t == "GOTO" then
+			if not step.active then return false end
+			if element.zone ~= Guidelime.zone then return false end
+			if Guidelime.x > element.x + 1 or Guidelime.x < element.x - 1 then return false end
+			if Guidelime.y > element.y + 1 or Guidelime.y < element.y - 1 then return false end
 		end
 	end
+	
+	return true
+end
+
+local function updateStep(i)
+	step = Guidelime.currentGuide.steps[i]
+	step.completed = false
+	step.active = step.levelRequired == nil or step.levelRequired <= Guidelime.level
+	if step.active then
+		for j, pstep in ipairs(Guidelime.currentGuide.steps) do
+			if j == i then break end
+			if (pstep.required == nil or pstep.required) and pstep.visible and not pstep.completed and not GuidelimeDataChar.currentGuide.skip[j] then
+				step.active = false
+				break 
+			end
+		end
+	end
+	if Guidelime_mainFrame.steps ~= nil and Guidelime_mainFrame.steps[i] ~= nil then 
+		Guidelime_mainFrame.steps[i]:SetEnabled(step.active)
+	end
+
+	local completed = isStepCompleted(step)
+	
+	if step.visible and not completed then
+		for j, element in ipairs(step.elements) do
+			if element.t == "LOC" or element.t == "GOTO" then
+				mapIcon = addMapIcon(element)
+			end
+		end
+	end
+	
+	updateStepText(i)
+	
+	if not completed then return false end
 	
 	step.completed = true
 	if Guidelime_mainFrame.steps ~= nil and Guidelime_mainFrame.steps[i] ~= nil then 
@@ -306,11 +472,23 @@ end
 
 local function updateSteps()
 	if Guidelime.currentGuide == nil then return end
+	HBDPins:RemoveAllWorldMapIcons(Guidelime)
+	HBDPins:RemoveAllMinimapIcons(Guidelime)
+	for i, mapIcon in ipairs(Guidelime.mapIcons) do
+		mapIcon.inUse = false
+	end
 	local fadeIndexes = {}
 	for i, step in ipairs(Guidelime.currentGuide.steps) do
 		if updateStep(i) then table.insert(fadeIndexes, i) end
 	end
 	if #fadeIndexes > 0 then fadeoutStep(fadeIndexes) end
+	for i = #Guidelime.mapIcons, 1, -1 do
+		local mapIcon = Guidelime.mapIcons[i]
+		if mapIcon.inUse then
+			HBDPins:AddWorldMapIconMap(Guidelime, mapIcon, mapIcon.mapID, mapIcon.x / 100, mapIcon.y / 100, 3)
+			HBDPins:AddMinimapIconMap(Guidelime, mapIcon.minimap, mapIcon.mapID, mapIcon.x / 100, mapIcon.y / 100, true, true)
+		end
+	end
 end
 
 local function updateStepTexts()
@@ -557,6 +735,8 @@ function Guidelime:QUEST_LOG_UPDATE()
 	--if debugging then print("LIME: QUEST_LOG_UPDATE", Guidelime.firstLogUpdate) end
 	Guidelime.xp = UnitXP("player")
 	Guidelime.xpMax = UnitXPMax("player")
+	Guidelime.y, Guidelime.x, _, Guidelime.zone = UnitPosition("player")
+	--if debugging then print("LIME: QUEST_LOG_UPDATE", UnitPosition("playe r")) end
 	
 	if Guidelime.quests ~= nil then 
 		local questLog = {}
