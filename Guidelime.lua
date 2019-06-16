@@ -422,7 +422,7 @@ local function queryPosition()
 	C_Timer.After(2, function() 
 		Guidelime.queryingPosition = false
 		local y, x = UnitPosition("player")
-		if debugging then print("LIME : queryingPosition", x, y) end
+		--if debugging then print("LIME : queryingPosition", x, y) end
 		if x ~= Guidelime.x or y ~= Guidelime.y then
 			Guidelime.x = x
 			Guidelime.y = y
@@ -447,7 +447,7 @@ local function updateStepCompletion(i)
 		elseif element.t == "GOTO" then
 			if step.completed or not step.active or step.skip then return false end
 			local x, y = HBD:GetZoneCoordinatesFromWorld(Guidelime.x, Guidelime.y, element.mapID, false)
-			if debugging then print("LIME : zone coordinates", x, y, element.mapID) end
+			--if debugging then print("LIME : zone coordinates", x, y, element.mapID) end
 			if x == nil or y == nil then step.completed = false; return false end
 			x = x * 100; y = y * 100
 			if (x - element.x) * (x - element.x) + (y - element.y) * (y - element.y) > element.radius * element.radius then step.completed = false; return false end
@@ -492,12 +492,12 @@ local function updateStepsCompletion()
 			Guidelime_mainFrame.steps[i]:SetChecked(step.completed or step.skip)
 		end
 	end
-	if debugging then print("LIME: completed ", #completedIndexes) end
+	--if debugging then print("LIME: completed ", #completedIndexes) end
 	return completedIndexes
 end
 
 local function fadeoutStep(indexes)
-	if debugging then print("LIME: fade out", #indexes) end
+	--if debugging then print("LIME: fade out", #indexes) end
 	local keepFading = {}
 	local update = false
 	for _, i in ipairs(indexes) do
@@ -597,7 +597,7 @@ local function updateStepsMapIcons()
 end
 
 local function updateStepsText()
-	if debugging then print("LIME: update step texts") end
+	--if debugging then print("LIME: update step texts") end
 	if Guidelime.currentGuide == nil then return end
 	for i, step in ipairs(Guidelime.currentGuide.steps) do
 		updateStepText(i)
