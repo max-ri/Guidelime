@@ -1,12 +1,10 @@
 Guidelime.guides["Demo"] = {
-	name = "Demo",
 	minLevel = 1,
 	maxLevel = 6,
 	colorQuest = "|cFF59C4F1",
 	race = {"Dwarf", "Gnome"},
-	zone = "Dun Morogh",
 	steps = {
-		{text = "At the NPC in front of you [L30,71] get [QP179Dwarven Outfitters]"},
+		{text = "At the NPC in front of you [L30,71Dun Morogh] get [QP179Dwarven Outfitters]"},
 		{text = "Kill wolves south of you for [QC179]"},
 		{text = "Return to the NPC [L30,71], turn in [QT179], and accept [QP3109Encrypted Rune] and [QP233Coldridge Valley Mail Delivery]", class = {"Rogue"}, race = {"Dwarf"}},
 		{text = "Return to the NPC [L30,71], turn in [QT179], and accept [QP3113Encrypted Memorandom] and [QP233Coldridge Valley Mail Delivery]", class = {"Rogue"}, race = {"Gnome"}},
@@ -23,7 +21,7 @@ Guidelime.guides["Demo"] = {
 		{text = "Kill boars in the surrounding area and return to the camp [L22,71] where you turn in [QT183The Boar Hunter]"},
 		{text = "Go to the next camp SE along the path [L25,76], turn in [QT234], and accept [QP182The Troll Cave]"},
 		{text = "Kill trolls in the area for [QC182]", required = false},
-		{text = "As soon as you are level 4 go back to [L25,76] and accept [QP3364Scalding Mornbrew Delivery]", levelRequired = 4},
+		{text = "As soon as you are level [XP4] go back to [L25,76] and accept [QP3364Scalding Mornbrew Delivery]"},
 		{text = "Hearth back and enter Anvilmar. Accept [QP3361A Refugee's Quandary] [L29,68]"},
 		{text = "Further north [L29,66] turn in [QT3364] and accept [QP3365Bring Back the Mug]"},
 		{text = "Get new skills at your trainer and turn in [QT3109]", class = {"Rogue"}, race = {"Dwarf"}},
