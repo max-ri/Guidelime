@@ -143,8 +143,9 @@ local function parseLine(step)
 				else
 					error("parsing guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": code not recognized for [" .. code .. "] in line \"" .. step.text .. "\"")
 				end
-				string.gsub(string.sub(code, 3), "(%d+)(.*)", function(id, title)
+				string.gsub(string.sub(code, 3), "(%d+),?(%d*)(.*)", function(id, objective, title)
 					element.questId = tonumber(id)
+					if objective ~= "" then element.objective = tonumber(objective) end
 					if title == "-" then
 						element.hidden = true
 					else
@@ -282,7 +283,11 @@ local function loadGuide(guide)
 						error("loading guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": different titles for quest " .. element.questId .. "\"" .. Guidelime.quests[element.questId].title .. "\" / \"" .. element.title .. "\" in line \"" .. step.text .. "\"")
 					end
 					if element.t == "COMPLETE" or element.t == "TURNIN" or element.t == "WORK" then
-						step.trackQuest[element.questId] = true
+						if element.objective == nil then
+							step.trackQuest[element.questId] = true
+						else
+							step.trackQuest[element.questId] = element.objective
+						end
 					end
 				end
 			end
@@ -312,6 +317,9 @@ local function updateStepText(i)
 	else
 		for j, element in ipairs(step.elements) do
 			if element.hidden == nil or not element.hidden then
+				if element.completed then
+					text = text .. "|TInterface\\Addons\\Guidelime\\Icons\\check:12|t"
+				end
 				if element.t == "TEXT" or element.t == "LEVEL" then
 					text = text .. element.text
 				elseif Guidelime.quests[element.questId] ~= nil then
@@ -338,12 +346,17 @@ local function updateStepText(i)
 	end
 	if step.active then
 		for id, v in pairs(step.trackQuest) do
-			if Guidelime.quests[id].logIndex ~= nil then
-				for k=1, GetNumQuestLeaderBoards(Guidelime.quests[id].logIndex) do
-					local desc, typ, done = GetQuestLogLeaderBoard(k, Guidelime.quests[id].logIndex)
-					--if debugging then print("LIME: ", desc,typ,done) end
-					if not done and desc ~= nil and desc ~= "" then 
-						text = text .. "\n    - " .. desc 
+			if Guidelime.quests[id].logIndex ~= nil and Guidelime.quests[id].objectives ~= nil then
+				if type(v) == "number" then
+					local o = Guidelime.quests[is].objectives[v]
+					if not o.done and o.desc ~= nil and o.desc ~= "" then 
+						text = text .. "\n    - " .. o.desc 
+					end
+				else
+					for i, o in Guidelime.quests[is].objectives do
+						if not o.done and o.desc ~= nil and o.desc ~= "" then 
+							text = text .. "\n    - " .. o.desc 
+						end
 					end
 				end
 			end
@@ -437,37 +450,53 @@ local function updateStepCompletion(i)
 	local step = Guidelime.currentGuide.steps[i]
 	if (step.canComplete == nil or not step.canComplete) then step.completed = false; return end
 	
+	local completed = true
 	for j, element in ipairs(step.elements) do
 		if element.t == "PICKUP" then
-			if not Guidelime.quests[element.questId].completed and Guidelime.quests[element.questId].logIndex == nil then step.completed = false; return false end
+			element.completed = Guidelime.quests[element.questId].completed or Guidelime.quests[element.questId].logIndex ~= nil
+			if not element.completed then completed = false end
 		elseif element.t == "COMPLETE" then
-			if not Guidelime.quests[element.questId].completed and not Guidelime.quests[element.questId].finished then step.completed = false; return false end
+			element.completed = 
+				Guidelime.quests[element.questId].completed or 
+				Guidelime.quests[element.questId].finished or
+				(element.objective ~= nil and Guidelime.quests[element.questId].objectives ~= nil and Guidelime.quests[element.questId].objectives[element.objective].done)
+			if not element.completed then completed = false end
 		elseif element.t == "TURNIN" then
-			if not Guidelime.quests[element.questId].completed then 	step.completed = false; return false end
+			element.completed = Guidelime.quests[element.questId].completed
+			if not element.completed then completed = false end
 		elseif element.t == "GOTO" then
-			if step.completed or not step.active or step.skip then return false end
-			local x, y = HBD:GetZoneCoordinatesFromWorld(Guidelime.x, Guidelime.y, element.mapID, false)
-			--if debugging then print("LIME : zone coordinates", x, y, element.mapID) end
-			if x == nil or y == nil then step.completed = false; return false end
-			x = x * 100; y = y * 100
-			if (x - element.x) * (x - element.x) + (y - element.y) * (y - element.y) > element.radius * element.radius then step.completed = false; return false end
+			if not step.completed and step.active and not step.skip then
+				local x, y = HBD:GetZoneCoordinatesFromWorld(Guidelime.x, Guidelime.y, element.mapID, false)
+				--if debugging then print("LIME : zone coordinates", x, y, element.mapID) end
+				if x ~= nil and y ~= nil then
+					x = x * 100; y = y * 100;
+					element.completed = (x - element.x) * (x - element.x) + (y - element.y) * (y - element.y) <= element.radius * element.radius
+				else
+					element.completed = false
+				end
+				if not element.completed then completed = false end
+			else
+				completed = step.completed
+			end
 		elseif element.t == "LEVEL" then
-			if element.level > Guidelime.level then step.completed = false; return false end
+			element.completed = element.level <= Guidelime.level
 			if element.xp ~= nil and element.level == Guidelime.level then
 				if element.xpType == "REMAINING" then
-					if element.xp < (Guidelime.xpMax - Guidelime.xp) then step.completed = false; return false end
+					if element.xp < (Guidelime.xpMax - Guidelime.xp) then element.completed = false end
 				elseif element.xpType == "PERCENTAGE" then
-					if element.xp > (Guidelime.xp / Guidelime.xpMax) then step.completed = false; return false end
+					if element.xp > (Guidelime.xp / Guidelime.xpMax) then element.completed = false end
 				else
-					if element.xp > Guidelime.xp then step.completed = false; return false end
+					if element.xp > Guidelime.xp then element.completed = false end
 				end
 			end			
+			if not element.completed then completed = false end
 		end
 	end
-	if not step.completed then
+	if completed and not step.completed then
 		step.completed = true
 		return true
 	end
+	step.completed = completed
 	return false
 end
 
@@ -478,7 +507,7 @@ local function updateStepsCompletion()
 			table.insert(completedIndexes, i)
 		end
 	end
-	-- another parse in reverse in order to deal with completeWithNext
+	-- another pass in reverse in order to deal with completeWithNext
 	for i = #Guidelime.currentGuide.steps, 1, -1 do
 		local step = Guidelime.currentGuide.steps[i]
 		if i < #Guidelime.currentGuide.steps then
@@ -886,20 +915,8 @@ function Guidelime:QUEST_LOG_UPDATE()
 		local questChanged = false
 		local questFound = false
 		for id, q in pairs(Guidelime.quests) do
-			if q.logIndex == nil then
-				if questLog[id] ~= nil then
-					questFound = true
-					questChanged = true
-					q.logIndex = questLog[id].index
-					q.finished = questLog[id].finished
-					--if debugging then print("LIME: new log entry ".. id .. " finished", q.finished) end
-				end
-			else
-				if questLog[id] == nil then
-					checkCompleted = true
-					q.logIndex = nil
-					--if debugging then print("LIME: removed log entry ".. id) end
-				else
+			if questLog[id] ~= nil then
+				if q.logIndex ~= nil then
 					questFound = true
 					if q.logIndex ~= questLog[id].index or q.finished ~= questLog[id].finished then
 						questChanged = true
@@ -907,6 +924,23 @@ function Guidelime:QUEST_LOG_UPDATE()
 						q.finished = questLog[id].finished
 						--if debugging then print("LIME: changed log entry ".. id .. " finished", q.finished) end
 					end
+				else
+					questFound = true
+					questChanged = true
+					q.logIndex = questLog[id].index
+					q.finished = questLog[id].finished
+					--if debugging then print("LIME: new log entry ".. id .. " finished", q.finished) end
+				end
+				q.objectives = {}
+				for k=1, GetNumQuestLeaderBoards(q.logIndex) do
+					local desc, _, done = GetQuestLogLeaderBoard(k, Guidelime.quests[id].logIndex)
+					q.ojectives[k] = {desc = desc, done = done}
+				end
+			else
+				if q.logIndex ~= nil then
+					checkCompleted = true
+					q.logIndex = nil
+					--if debugging then print("LIME: removed log entry ".. id) end
 				end
 			end
 		end
