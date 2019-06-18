@@ -15,9 +15,7 @@ https://github.com/cralor/TourGuideVanilla/issues/42
 Alliance Leveling Guide 1-40 (Classic)
 https://docs.google.com/spreadsheets/d/146T90CwRVmvGz6EGCJH3ftZvvIUFuXa5qmrx-UaTeyE/edit#gid=27631210
 reddit /u/Snipedaddy
-Hey, the addon looks really good so far.
-I know Joana is having someone make an addon for his guide but I think there could definitely be a place for a lightweight version of his guide.
-What I mean, is that there is a lot of redundant/necessary info that he includes in the guide if the user is already using the addon "questie". I am making my own guide where I only kept the essential text and made it as clear and concise and visually appealing as possible. So far I used a different speedleveler's route for 1-20 & Joana's route for 20-40 (He hasn't released 40-60 yet for alliance).
+I am making my own guide where I only kept the essential text and made it as clear and concise and visually appealing as possible. So far I used a different speedleveler's route for 1-20 & Joana's route for 20-40 (He hasn't released 40-60 yet for alliance).
 My guide isn't really meant to be public but I think it could give you an idea of what you could turn Joana's guide into & how the steps might look.
 
 
