@@ -1,0 +1,35 @@
+Reddit:
+https://www.reddit.com/r/classicwow/comments/c1p5so/i_am_writing_an_addon_for_leveling_guides/
+
+
+TourGuide:
+https://github.com/TekNoLogic/TourGuide
+https://twitter.com/tekkub
+https://github.com/TekNoLogic/TourGuide/issues/51
+
+TourGuideVanilla:
+https://github.com/cralor/TourGuideVanilla
+https://github.com/cralor/TourGuideVanilla/issues/42
+
+
+Alliance Leveling Guide 1-40 (Classic)
+https://docs.google.com/spreadsheets/d/146T90CwRVmvGz6EGCJH3ftZvvIUFuXa5qmrx-UaTeyE/edit#gid=27631210
+reddit /u/Snipedaddy
+Hey, the addon looks really good so far.
+I know Joana is having someone make an addon for his guide but I think there could definitely be a place for a lightweight version of his guide.
+What I mean, is that there is a lot of redundant/necessary info that he includes in the guide if the user is already using the addon "questie". I am making my own guide where I only kept the essential text and made it as clear and concise and visually appealing as possible. So far I used a different speedleveler's route for 1-20 & Joana's route for 20-40 (He hasn't released 40-60 yet for alliance).
+My guide isn't really meant to be public but I think it could give you an idea of what you could turn Joana's guide into & how the steps might look.
+
+
+followup database
+https://github.com/TyrsDev/WoW-Classic-Quests
+by reddit /u/terozen "If you need more databases of this sort, I might be able to help out. Let me know. Would love to collab and learn more about Addon development if there's anything I can do."
+
+
+reddit /u/figmentx
+Hello! I am writing a speedleveling guide and was wondering if it would be possible for users to input their own guides?
+
+
+reddit /u/balanceark
+Borick do you have discord? can i add you to ask a few q's about your addon? looks really sweet.
+

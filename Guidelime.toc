@@ -13,11 +13,12 @@ Libs\HereBeDragons\HereBeDragons-Pins-2.0.lua
 
 Localization.lua
 Guidelime.lua
-Guidelime_Demo.lua
-Guidelime_Legacy_WoW.lua
-Guidelime_Stormwind_Rally.lua
-Guidelime_TourGuide_17_18_LochModan.lua
-
+Guidelime_Options.lua
+Guidelime_Parser.lua
+Guides\Guidelime_Demo.lua
+Guides\Guidelime_Legacy_WoW.lua
+Guides\Guidelime_Stormwind_Rally.lua
+Guides\Guidelime_TourGuide_17_18_LochModan.lua
 
 
 
