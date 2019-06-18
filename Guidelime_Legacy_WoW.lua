@@ -7,7 +7,6 @@ Guidelime.guides["legacy 1-12 Dun Morogh"] =
 	minLevel = 1,	
 	maxLevel = 12,	
 	race = {"Dwarf", "Gnome"},	
-	colorQuest = "|cFF59C4F1",
 	steps = {
 		-- Part 1
 		{text = "Right in front of where you start accept [QP179Dwarven Outfitters]"},

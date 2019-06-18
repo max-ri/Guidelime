@@ -22,6 +22,7 @@ Guidelime.queryingPositions = false
 local dataLoaded = false
 
 local COLOR_INACTIVE = "|cFF666666"
+local COLOR_QUEST_DEFAULT = "|cFF59C4F1"
 
 local mapIDs = {
 	["The Hinterlands"] = 1425,
@@ -235,6 +236,7 @@ local function loadGuide(guide)
 	Guidelime.currentGuide.steps = {}
 	Guidelime.quests = {}
 	Guidelime.currentZone = nil
+	if Guidelime.currentGuide.colorQuest == nil then Guidelime.currentGuide.colorQuest = COLOR_QUEST_DEFAULT end
 	
 	--print(format(L.LOAD_MESSAGE, Guidelime.currentGuide.name))
 	
@@ -348,12 +350,12 @@ local function updateStepText(i)
 		for id, v in pairs(step.trackQuest) do
 			if Guidelime.quests[id].logIndex ~= nil and Guidelime.quests[id].objectives ~= nil then
 				if type(v) == "number" then
-					local o = Guidelime.quests[is].objectives[v]
+					local o = Guidelime.quests[id].objectives[v]
 					if not o.done and o.desc ~= nil and o.desc ~= "" then 
 						text = text .. "\n    - " .. o.desc 
 					end
 				else
-					for i, o in Guidelime.quests[is].objectives do
+					for i, o in ipairs(Guidelime.quests[id].objectives) do
 						if not o.done and o.desc ~= nil and o.desc ~= "" then 
 							text = text .. "\n    - " .. o.desc 
 						end
@@ -876,7 +878,7 @@ end)
 
 Guidelime:RegisterEvent('PLAYER_ENTERING_WORLD', Guidelime)
 function Guidelime:PLAYER_ENTERING_WORLD()
-	if debugging then print("LIME: Player entering world...") end
+	--if debugging then print("LIME: Player entering world...") end
 	if not dataLoaded then loadData() end
 	local o = CreateFrame("FRAME")
 	o.name = L.TITLE
@@ -934,7 +936,7 @@ function Guidelime:QUEST_LOG_UPDATE()
 				q.objectives = {}
 				for k=1, GetNumQuestLeaderBoards(q.logIndex) do
 					local desc, _, done = GetQuestLogLeaderBoard(k, Guidelime.quests[id].logIndex)
-					q.ojectives[k] = {desc = desc, done = done}
+					q.objectives[k] = {desc = desc, done = done}
 				end
 			else
 				if q.logIndex ~= nil then
