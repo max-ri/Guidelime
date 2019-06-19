@@ -10,6 +10,34 @@ Guidelime = CreateFrame("Frame")
 Guidelime.COLOR_INACTIVE = "|cFF666666"
 Guidelime.COLOR_QUEST_DEFAULT = "|cFF59C4F1"
 
+addon.COLOR_LEVEL_RED = "|cFFDC143C"
+addon.COLOR_LEVEL_ORANGE = "|cFFFFA500"
+addon.COLOR_LEVEL_YELLOW = "|cFFFFFF00"
+addon.COLOR_LEVEL_GREEN = "|cFF008000"
+addon.COLOR_LEVEL_GRAY = "|cFF808080"
+
+local function getLevelColor(level)
+	if level > addon.level + 4 then
+		return COLOR_LEVEL_RED
+	elseif level > addon.level + 2 then
+		return COLOR_LEVEL_ORANGE
+	elseif level >= addon.level - 2 then
+		return COLOR_LEVEL_YELLOW
+	elseif addon.level >= 40 and level >= addon.level - 8
+		return COLOR_LEVEL_GREEN
+	elseif addon.level >= 30 and level >= addon.level - 7
+		return COLOR_LEVEL_GREEN
+	elseif addon.level >= 20 and level >= addon.level - 6
+		return COLOR_LEVEL_GREEN
+	elseif addon.level >= 10 and level >= addon.level - 5
+		return COLOR_LEVEL_GREEN
+	elseif level >= addon.level - 4
+		return COLOR_LEVEL_GREEN
+	else
+		return COLOR_LEVEL_GRAY	
+	end
+end
+	
 Guidelime.mapIDs = {
 	["The Hinterlands"] = 1425,
 	["Moonglade"] = 1450,
