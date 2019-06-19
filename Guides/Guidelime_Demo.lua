@@ -1,4 +1,6 @@
-Guidelime.guides["Demo"] = {
+local addonName, addon = ...
+
+addon.guides["Demo"] = {
 	minLevel = 1,
 	maxLevel = 6,
 	colorQuest = "|cFF59C4F1",

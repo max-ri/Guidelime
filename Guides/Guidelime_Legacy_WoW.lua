@@ -1,4 +1,6 @@
-Guidelime.guides["legacy 1-12 Dun Morogh"] = 
+local addonName, addon = ...
+
+addon.guides["legacy 1-12 Dun Morogh"] = 
 {	
 	source = {
 		"https://legacy-wow.com/vanilla-1-60-alliance-leveling-guide/1-12-dwarf-gnomea/", 

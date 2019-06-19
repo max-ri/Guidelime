@@ -1,4 +1,6 @@
-Guidelime.guides["Stormwind Rally"] = {
+local addonName, addon = ...
+
+addon.guides["Stormwind Rally"] = {
 	minLevel = 1,
 	maxLevel = 6,
 	colorQuest = "|cFF59C4F1",

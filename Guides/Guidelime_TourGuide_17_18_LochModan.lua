@@ -1,4 +1,6 @@
-Guidelime.guides["TourGuide 17-18 Loch Modan"] = 
+local addonName, addon = ...
+
+addon.guides["TourGuide 17-18 Loch Modan"] = 
 {	
 	source = {
 		"https://github.com/TekNoLogic/TourGuide"
@@ -6,6 +8,7 @@ Guidelime.guides["TourGuide 17-18 Loch Modan"] =
 	minLevel = 17,	
 	maxLevel = 18,
 	faction = "Alliance",	
+	details = "Guide from the addon TourGuide by tekkub (|cFFAAAAAAhttps://github.com/TekNoLogic/TourGuide|r)",
 	steps = {
 		{text = "Fly to [F Loch Modan]. Boat to Stormwind, then fly there!", race={"Dwarf", "Gnome"}, completeWithNext = true},
 		{text = "Go to Loch Modan Boat to Stormwind, take the tram to IF, then run to Loch.  Make sure you grab flight points along the way.", race={"Human", "Night Elf", "Draenei"}},

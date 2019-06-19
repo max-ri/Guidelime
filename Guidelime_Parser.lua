@@ -1,4 +1,6 @@
-function Guidelime.parseLine(step)
+local addonName, addon = ...
+
+function addon.parseLine(step)
 	if step.text == nil then return end
 	step.elements = {}
 	local t = step.text
@@ -43,8 +45,8 @@ function Guidelime.parseLine(step)
 				string.gsub(code, "L(%d+%.?%d*), ?(%d+%.?%d*)(.*)", function(x, y, zone)
 					element.x = tonumber(x)
 					element.y = tonumber(y)
-					if zone ~= "" then Guidelime.currentZone = Guidelime.mapIDs[zone] end
-					element.mapID = Guidelime.currentZone
+					if zone ~= "" then addon.currentZone = addon.mapIDs[zone] end
+					element.mapID = addon.currentZone
 					if element.mapID == nil then error("parsing guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": zone not found for [" .. code .. "] in line \"" .. step.text .. "\"") end
 				end)
 				table.insert(step.elements, element)
@@ -55,8 +57,8 @@ function Guidelime.parseLine(step)
 					element.x = tonumber(x)
 					element.y = tonumber(y)
 					if radius ~= "" then element.radius = tonumber(radius) else element.radius = 1 end
-					if zone ~= "" then Guidelime.currentZone = Guidelime.mapIDs[zone] end
-					element.mapID = Guidelime.currentZone
+					if zone ~= "" then addon.currentZone = addon.mapIDs[zone] end
+					element.mapID = addon.currentZone
 					if element.mapID == nil then error("parsing guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": zone not found for [" .. code .. "] in line \"" .. step.text .. "\"") end
 				end)
 				table.insert(step.elements, element)
