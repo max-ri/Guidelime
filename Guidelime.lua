@@ -23,15 +23,15 @@ local function getLevelColor(level)
 		return COLOR_LEVEL_ORANGE
 	elseif level >= addon.level - 2 then
 		return COLOR_LEVEL_YELLOW
-	elseif addon.level >= 40 and level >= addon.level - 8
+	elseif addon.level >= 40 and level >= addon.level - 8 then
 		return COLOR_LEVEL_GREEN
-	elseif addon.level >= 30 and level >= addon.level - 7
+	elseif addon.level >= 30 and level >= addon.level - 7 then
 		return COLOR_LEVEL_GREEN
-	elseif addon.level >= 20 and level >= addon.level - 6
+	elseif addon.level >= 20 and level >= addon.level - 6 then
 		return COLOR_LEVEL_GREEN
-	elseif addon.level >= 10 and level >= addon.level - 5
+	elseif addon.level >= 10 and level >= addon.level - 5 then
 		return COLOR_LEVEL_GREEN
-	elseif level >= addon.level - 4
+	elseif level >= addon.level - 4 then
 		return COLOR_LEVEL_GREEN
 	else
 		return COLOR_LEVEL_GRAY	
