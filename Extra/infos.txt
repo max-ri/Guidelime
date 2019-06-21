@@ -7,9 +7,15 @@ https://github.com/TekNoLogic/TourGuide
 https://twitter.com/tekkub
 https://github.com/TekNoLogic/TourGuide/issues/51
 
+
 TourGuideVanilla:
 https://github.com/cralor/TourGuideVanilla
 https://github.com/cralor/TourGuideVanilla/issues/42
+
+
+WowPro:
+http://www.wow-pro.com/
+reddit /u/waVeRvaMAlas I hate to rain on your parade, but WoW-Pro already does this, their addon is based on the old TourGuide so it supports the same guide format and it is working in Classic beta.
 
 
 Alliance Leveling Guide 1-40 (Classic)
