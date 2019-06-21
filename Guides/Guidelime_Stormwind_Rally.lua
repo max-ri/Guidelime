@@ -1,6 +1,7 @@
-local addonName, addon = ...
-
-addon.guides["Stormwind Rally"] = {
+Guidelime.registerGuide(
+{
+	group = "Demo",
+	title = "Stormwind Rally",
 	minLevel = 1,
 	maxLevel = 6,
 	colorQuest = "|cFF59C4F1",
@@ -12,4 +13,4 @@ addon.guides["Stormwind Rally"] = {
 		{text = "Return to [G78.09,18.09]"},
 		{text = "Accept [QP6182The First and the Last]"},
 	}
-}
+})

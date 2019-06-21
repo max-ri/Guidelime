@@ -28,8 +28,14 @@ for id, quest in pairs(quests) do
 		end
 		quest.repgain = repgain
 	end
+	if quest.prev ~= nil then quest.prequests = {quest.prev} end
 end
-
+for id, quest in pairs(questsConverted) do
+	if quest.followup ~= nil and id ~= questsConverted[quest.followup].prev then
+		if questsConverted[quest.followup].prequests == nil then questsConverted[quest.followup].prequests = {} end
+		table.insert(questsConverted[quest.followup].prequests, id)
+	end
+end
 f = io.open("..\\Data\\Guidelime_QuestsDB.lua", "w")
 f:write("local addonName, addon = ...\n\n")
 f:write("-- source: https://github.com/TyrsDev/WoW-Classic-Quests\n")

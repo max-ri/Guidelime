@@ -1,7 +1,7 @@
-local addonName, addon = ...
-
-addon.guides["legacy 1-12 Dun Morogh"] = 
+Guidelime.registerGuide(
 {	
+	group = "legacy",
+	title = "Dun Morogh",
 	source = {
 		"https://legacy-wow.com/vanilla-1-60-alliance-leveling-guide/1-12-dwarf-gnomea/", 
 		"https://legacy-wow.com/vanilla-1-60-alliance-leveling-guide/1-12-dwarf-gnomeb/"
@@ -129,4 +129,4 @@ addon.guides["legacy 1-12 Dun Morogh"] =
 		{text = "Go north to the tower at [L24, 18] and turn in [QT353Stormpike's Delivery]"},
 		{text = "You should be [XP12] now or close to it. You can grind if you’d like but it doesn’t matter much. Follow the Night Elf to IF guide but just go backwards. You’re going to go north through the wetlands to menethil, then boat to auberdine from here."},
 	}
-}
+})

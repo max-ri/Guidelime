@@ -1,12 +1,12 @@
-local addonName, addon = ...
-
-addon.guides["TourGuide 17-18 Loch Modan"] = 
+Guidelime.registerGuide(
 {	
+	group = "TourGuide",
 	source = {
 		"https://github.com/TekNoLogic/TourGuide"
 	},
 	minLevel = 17,	
 	maxLevel = 18,
+	title = "Loch Modan",
 	faction = "Alliance",	
 	details = "Guide from the addon TourGuide by tekkub (|cFFAAAAAAhttps://github.com/TekNoLogic/TourGuide|r)",
 	steps = {
@@ -54,4 +54,4 @@ addon.guides["TourGuide 17-18 Loch Modan"] =
 		{text = "Grab flight point", race={"Night Elf", "Draenei"}},
 		{text = "Turn in [QT301Report to Ironforge] Hall of Explorers. Skip the follow-up."}
 	}
-}	
+})

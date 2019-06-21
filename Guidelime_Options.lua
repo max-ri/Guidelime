@@ -71,43 +71,73 @@ function addon.fillGuides()
 	addon.guidesFrame.text2:SetText(L.AVAILABLE_GUIDES .. ":\n")
 	addon.guidesFrame.text2:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -20)
 	prev = addon.guidesFrame.text2
-	
-	local i = 1
-	addon.guidesFrame.guides = {}
-	for name, guide in pairs(addon.guides) do
 
-		addon.guidesFrame.guides[i] = CreateFrame("EditBox", nil, content)
-		addon.guidesFrame.guides[i]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
-		addon.guidesFrame.guides[i]:SetMultiLine(true)
-		addon.guidesFrame.guides[i]:EnableMouse(false)
-		addon.guidesFrame.guides[i]:SetAutoFocus(false)
-		addon.guidesFrame.guides[i]:SetFontObject("GameFontNormal")
-		addon.guidesFrame.guides[i]:SetWidth(550)
-		addon.guidesFrame.guides[i]:SetTextColor(255,255,255,255)
-		addon.guidesFrame.guides[i]:SetText(name)
-		addon.guidesFrame.guides[i]:SetBackdrop({
-			bgFile = "Interface/DialogFrame/UI-DialogBox-Background",
-			tile = true, tileSize = 32, edgeSize = 0
-		})
-		addon.guidesFrame.guides[i].index = i
-		addon.guidesFrame.guides[i].guide = guide
-		if name == GuidelimeDataChar.currentGuide.name then
-			addon.guidesFrame.selectedIndex = i
-			addon.guidesFrame.guides[i]:SetBackdropColor(255,255,255,128)	
-		else
-			addon.guidesFrame.guides[i]:SetBackdropColor(0,0,0,0)	
-		end
-		addon.guidesFrame.guides[i]:SetScript("OnMouseUp", function(self)
-			addon.guidesFrame.guides[addon.guidesFrame.selectedIndex]:SetBackdropColor(0,0,0,0)	
-			addon.guidesFrame.selectedIndex = self.index
-			self:SetBackdropColor(255,255,255,128)
-			addon.guidesFrame.textDetails:SetText(self.guide.details or "")
-    		self:ClearFocus()
-		end)
-		prev = addon.guidesFrame.guides[i]
-		i = i + 1
+	local groups = {}
+	for name, guide in pairs(addon.guides) do
+		if groups[guide.group] == nil then groups[guide.group] = {} end
+		table.insert(groups[guide.group], name)
 	end
 	
+	local i = 1
+	addon.guidesFrame.groups = {}
+	addon.guidesFrame.guides = {}
+	for group, guides in pairs(groups) do
+		addon.guidesFrame.groups[group] = content:CreateFontString(nil, content, "GameFontNormal")
+		addon.guidesFrame.groups[group]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+		addon.guidesFrame.groups[group]:SetText(group)
+		prev = addon.guidesFrame.groups[group]
+
+		for j, name in ipairs(guides) do
+			local guide = addon.guides[name]
+			
+			addon.guidesFrame.guides[i] = CreateFrame("EditBox", nil, content)
+			addon.guidesFrame.guides[i]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+			addon.guidesFrame.guides[i]:EnableMouse(false)
+			addon.guidesFrame.guides[i]:SetAutoFocus(false)
+			addon.guidesFrame.guides[i]:SetFontObject("GameFontNormal")
+			addon.guidesFrame.guides[i]:SetWidth(550)
+			addon.guidesFrame.guides[i]:SetTextColor(255,255,255,255)
+			local text = " "
+			if guide.minLevel ~= nil then
+				--text = text .. addon.getLevelColor(guide.minLevel) .. guide.minLevel .. "|r"
+			end
+			if guide.minLevel ~= nil or guide.maxLevel ~= nil then
+				text = text .. "-"
+			end
+			if guide.maxLevel ~= nil then
+				--text = text .. addon.getLevelColor(guide.maxLevel) .. guide.maxLevel .. "|r"
+			end
+			if guide.minLevel ~= nil or guide.maxLevel ~= nil then
+				text = text .. " "
+			end
+			if guide.title ~= nil then
+				text = text .. guide.title
+			end
+			addon.guidesFrame.guides[i]:SetText(text)
+			addon.guidesFrame.guides[i]:SetBackdrop({
+				bgFile = "Interface/DialogFrame/UI-DialogBox-Background",
+				tile = true, tileSize = 32, edgeSize = 0
+			})
+			addon.guidesFrame.guides[i].index = i
+			addon.guidesFrame.guides[i].guide = guide
+			if name == GuidelimeDataChar.currentGuide.name then
+				addon.guidesFrame.selectedIndex = i
+				addon.guidesFrame.guides[i]:SetBackdropColor(255,255,255,128)	
+			else
+				addon.guidesFrame.guides[i]:SetBackdropColor(0,0,0,0)	
+			end
+			addon.guidesFrame.guides[i]:SetScript("OnMouseUp", function(self)
+				addon.guidesFrame.guides[addon.guidesFrame.selectedIndex]:SetBackdropColor(0,0,0,0)	
+				addon.guidesFrame.selectedIndex = self.index
+				self:SetBackdropColor(255,255,255,128)
+				addon.guidesFrame.textDetails:SetText(self.guide.details or "")
+	    		self:ClearFocus()
+			end)
+			prev = addon.guidesFrame.guides[i]
+			i = i + 1
+		end
+	end
+		
 	addon.guidesFrame.text3 = content:CreateFontString(nil, content, "GameFontNormal")
 	addon.guidesFrame.text3:SetText(L.DETAILS .. ":\n")
 	addon.guidesFrame.text3:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -20)
@@ -210,6 +240,15 @@ function addon.fillOptions()
 			HBDPins:RemoveAllWorldMapIcons(Guidelime)
 			HBDPins:RemoveAllMinimapIcons(Guidelime)
 			addon.mainFrame:Hide()
+		end
+	end)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
+	prev = checkbox
+	local checkbox = addCheckOption(GuidelimeDataChar, "mainFrameLocked", L.LOCK_MAINFRAME, nil, function()
+		if GuidelimeDataChar.mainFrameLocked then
+			addon.mainFrame.lockBtn:SetButtonState("NORMAL")
+		else
+			addon.mainFrame.lockBtn:SetButtonState("PUSHED")
 		end
 	end)
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)

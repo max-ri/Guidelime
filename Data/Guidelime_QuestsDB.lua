@@ -5,20 +5,26 @@ local addonName, addon = ...
 
 addon.questsDB = {
    [2] = {
-      ["name"] = "Sharptalon's Claw";
-      ["prev"] = 6383;
       ["repgain"] = {
          [81] = 250;
+      };
+      ["name"] = "Sharptalon's Claw";
+      ["prev"] = 6383;
+      ["prequests"] = {
+         [1] = 6383;
       };
       ["followup"] = 247;
       ["objective"] = "Bring Sharptalon's Claw to Senani Thunderheart at Splintertree Post, Ashenvale.";
       ["req"] = 20;
    };
    [5] = {
-      ["name"] = "Jitters' Growling Gut";
-      ["prev"] = 163;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "Jitters' Growling Gut";
+      ["prev"] = 163;
+      ["prequests"] = {
+         [1] = 163;
       };
       ["next"] = 93;
       ["objective"] = "Speak with Chef Grual.";
@@ -26,21 +32,27 @@ addon.questsDB = {
    };
    [6] = {
       ["name"] = "Bounty on Garrick Padfoot";
-      ["prev"] = 18;
+      ["objective"] = "Kill Garrick Padfoot and bring his head to Deputy Willem at Northshire Abbey.";
       ["repgain"] = {
          [72] = 150;
       };
+      ["prequests"] = {
+         [1] = 18;
+      };
+      ["prev"] = 18;
       ["reward"] = {
          [1] = 6076;
          [2] = 60;
          [3] = 3070;
       };
-      ["objective"] = "Kill Garrick Padfoot and bring his head to Deputy Willem at Northshire Abbey.";
       ["req"] = 2;
    };
    [7] = {
       ["name"] = "Kobold Camp Cleanup";
       ["prev"] = 783;
+      ["prequests"] = {
+         [1] = 783;
+      };
       ["repgain"] = {
          [72] = 250;
       };
@@ -72,10 +84,13 @@ addon.questsDB = {
       ["req"] = 8;
    };
    [10] = {
-      ["name"] = "The Scrimshank Redemption";
-      ["prev"] = 82;
       ["repgain"] = {
          [369] = 250;
+      };
+      ["name"] = "The Scrimshank Redemption";
+      ["prev"] = 82;
+      ["prequests"] = {
+         [1] = 82;
       };
       ["next"] = 110;
       ["objective"] = "Discover the fate of Junior Surveyor Scrimshank, and bring either him or his surveying equipment to Senior Surveyor Fizzledowser in Gadgetzan.";
@@ -83,15 +98,18 @@ addon.questsDB = {
    };
    [11] = {
       ["name"] = "Riverpaw Gnoll Bounty";
-      ["prev"] = 239;
+      ["objective"] = "Bring 8 Painted Gnoll Armbands to Deputy Rainer at the Barracks.";
       ["repgain"] = {
          [72] = 250;
       };
+      ["prequests"] = {
+         [1] = 239;
+      };
+      ["prev"] = 239;
       ["reward"] = {
          [1] = 2249;
          [2] = 2238;
       };
-      ["objective"] = "Bring 8 Painted Gnoll Armbands to Deputy Rainer at the Barracks.";
       ["req"] = 6;
    };
    [12] = {
@@ -104,10 +122,13 @@ addon.questsDB = {
       ["req"] = 9;
    };
    [13] = {
-      ["name"] = "The People's Militia";
-      ["prev"] = 12;
       ["repgain"] = {
          [72] = 250;
+      };
+      ["name"] = "The People's Militia";
+      ["prev"] = 12;
+      ["prequests"] = {
+         [1] = 12;
       };
       ["next"] = 14;
       ["objective"] = "Gryan Stoutmantle wants you to kill 15 Defias Pillagers and 15 Defias Looters and return to him on Sentinel Hill.";
@@ -115,23 +136,29 @@ addon.questsDB = {
    };
    [14] = {
       ["name"] = "The People's Militia";
-      ["prev"] = 13;
+      ["objective"] = "Gryan Stoutmantle wants you to kill 15 Defias Highwaymen, 5 Defias Pathstalkers and 5 Defias Knuckledusters then return to him on Sentinel Hill.";
       ["repgain"] = {
          [72] = 350;
       };
+      ["prequests"] = {
+         [1] = 13;
+      };
+      ["prev"] = 13;
       ["reward"] = {
          [1] = 1566;
          [2] = 1480;
          [3] = 12296;
       };
-      ["objective"] = "Gryan Stoutmantle wants you to kill 15 Defias Highwaymen, 5 Defias Pathstalkers and 5 Defias Knuckledusters then return to him on Sentinel Hill.";
       ["req"] = 9;
    };
    [15] = {
-      ["name"] = "Investigate Echo Ridge";
-      ["prev"] = 7;
       ["repgain"] = {
          [72] = 250;
+      };
+      ["name"] = "Investigate Echo Ridge";
+      ["prev"] = 7;
+      ["prequests"] = {
+         [1] = 7;
       };
       ["next"] = 21;
       ["objective"] = "Kill 10 Kobold Workers, then report back to Marshal McBride.";
@@ -148,6 +175,9 @@ addon.questsDB = {
    [17] = {
       ["name"] = "Uldaman Reagent Run";
       ["prev"] = 2500;
+      ["prequests"] = {
+         [1] = 2500;
+      };
       ["repgain"] = {
          [47] = 250;
       };
@@ -156,10 +186,14 @@ addon.questsDB = {
    };
    [18] = {
       ["name"] = "Brotherhood of Thieves";
-      ["prev"] = 783;
+      ["objective"] = "Bring 12 Red Burlap Bandanas to Deputy Willem outside the Northshire Abbey.";
       ["repgain"] = {
          [72] = 250;
       };
+      ["prequests"] = {
+         [1] = 783;
+      };
+      ["prev"] = 783;
       ["reward"] = {
          [1] = 2224;
          [2] = 5580;
@@ -167,20 +201,22 @@ addon.questsDB = {
          [4] = 5579;
          [5] = 1159;
       };
-      ["objective"] = "Bring 12 Red Burlap Bandanas to Deputy Willem outside the Northshire Abbey.";
       ["req"] = 2;
    };
    [19] = {
       ["name"] = "Tharil'zun";
-      ["prev"] = 20;
+      ["objective"] = "Bring Tharil'zun's Head to Marshal Marris in Redridge.";
       ["repgain"] = {
          [72] = 350;
       };
+      ["prequests"] = {
+         [1] = 20;
+      };
+      ["prev"] = 20;
       ["reward"] = {
          [1] = 1276;
          [2] = 6093;
       };
-      ["objective"] = "Bring Tharil'zun's Head to Marshal Marris in Redridge.";
       ["req"] = 18;
    };
    [20] = {
@@ -194,16 +230,19 @@ addon.questsDB = {
    };
    [21] = {
       ["name"] = "Skirmish at Echo Ridge";
-      ["prev"] = 15;
+      ["objective"] = "Kill 12 Kobold Laborers, then return to Marshal McBride at Northshire Abbey.";
       ["repgain"] = {
          [72] = 250;
       };
+      ["prequests"] = {
+         [1] = 15;
+      };
+      ["prev"] = 15;
       ["reward"] = {
          [1] = 2186;
          [2] = 2691;
          [3] = 11192;
       };
-      ["objective"] = "Kill 12 Kobold Laborers, then return to Marshal McBride at Northshire Abbey.";
       ["req"] = 1;
    };
    [22] = {
@@ -215,20 +254,26 @@ addon.questsDB = {
       ["req"] = 9;
    };
    [23] = {
-      ["name"] = "Ursangous's Paw";
-      ["prev"] = 6383;
       ["repgain"] = {
          [81] = 250;
+      };
+      ["name"] = "Ursangous's Paw";
+      ["prev"] = 6383;
+      ["prequests"] = {
+         [1] = 6383;
       };
       ["followup"] = 247;
       ["objective"] = "Bring Ursangous's Paw to Senani Thunderheart at Splintertree Post, Ashenvale.";
       ["req"] = 20;
    };
    [24] = {
-      ["name"] = "Shadumbra's Head";
-      ["prev"] = 6383;
       ["repgain"] = {
          [81] = 250;
+      };
+      ["name"] = "Shadumbra's Head";
+      ["prev"] = 6383;
+      ["prequests"] = {
+         [1] = 6383;
       };
       ["followup"] = 247;
       ["objective"] = "Bring Shadumbra's Head to Senani Thunderheart at Splintertree Post, Ashenvale.";
@@ -257,6 +302,9 @@ addon.questsDB = {
    [28] = {
       ["name"] = "Trial of the Lake";
       ["prev"] = 26;
+      ["prequests"] = {
+         [1] = 26;
+      };
       ["next"] = 30;
       ["objective"] = "Find a Shrine Bauble in Lake Elune'ara, and take it to the Shrine of Remulos in northwestern Moonglade.  Once there, use the Shrine Bauble.$B$BYou must speak with Tajarri at the shrine afterwards in order to complete the trial.";
       ["req"] = 16;
@@ -264,6 +312,9 @@ addon.questsDB = {
    [29] = {
       ["name"] = "Trial of the Lake";
       ["prev"] = 27;
+      ["prequests"] = {
+         [1] = 27;
+      };
       ["next"] = 272;
       ["objective"] = "Find a Shrine Bauble in Lake Elune'ara, and take it to the Shrine of Remulos in northwestern Moonglade.  Once there, use the Shrine Bauble.$B$BYou must speak with Tajarri at the shrine afterwards in order to complete the trial.";
       ["req"] = 16;
@@ -271,6 +322,9 @@ addon.questsDB = {
    [30] = {
       ["name"] = "Trial of the Sea Lion";
       ["prev"] = 28;
+      ["prequests"] = {
+         [1] = 28;
+      };
       ["next"] = 31;
       ["objective"] = "Find the Half Pendant of Aquatic Agility and the Half Pendant of Aquatic Endurance.  Speak with the residents of Moonglade to learn clues as to where these items may be located.$B$BForm the Pendant of the Sea Lion from the two pendant halves.  You need to be in proximity of the Shrine of Remulos to do this.$B$BBring the joined pendant to Dendrite Starblaze in the village of Nighthaven, Moonglade.";
       ["req"] = 16;
@@ -278,6 +332,9 @@ addon.questsDB = {
    [31] = {
       ["name"] = "Aquatic Form";
       ["prev"] = 30;
+      ["prequests"] = {
+         [1] = 30;
+      };
       ["repgain"] = {
          [609] = 100;
       };
@@ -287,6 +344,9 @@ addon.questsDB = {
    [32] = {
       ["name"] = "Rise of the Silithid";
       ["prev"] = 113;
+      ["prequests"] = {
+         [1] = 113;
+      };
       ["repgain"] = {
          [76] = 350;
          [369] = 350;
@@ -298,15 +358,18 @@ addon.questsDB = {
    };
    [33] = {
       ["name"] = "Wolves Across the Border";
-      ["prev"] = 5261;
+      ["objective"] = "Bring 8 pieces of Tough Wolf Meat to Eagan Peltskinner outside Northshire Abbey.";
       ["repgain"] = {
          [72] = 250;
       };
+      ["prequests"] = {
+         [1] = 5261;
+      };
+      ["prev"] = 5261;
       ["reward"] = {
          [1] = 80;
          [2] = 6070;
       };
-      ["objective"] = "Bring 8 pieces of Tough Wolf Meat to Eagan Peltskinner outside Northshire Abbey.";
       ["req"] = 1;
    };
    [34] = {
@@ -318,10 +381,13 @@ addon.questsDB = {
       ["req"] = 18;
    };
    [35] = {
-      ["name"] = "Further Concerns";
-      ["prev"] = 40;
       ["repgain"] = {
          [72] = 75;
+      };
+      ["name"] = "Further Concerns";
+      ["prev"] = 40;
+      ["prequests"] = {
+         [1] = 40;
       };
       ["next"] = 37;
       ["objective"] = "Marshal Dughan wants you to speak with Guard Thomas.";
@@ -337,10 +403,13 @@ addon.questsDB = {
       ["req"] = 9;
    };
    [37] = {
-      ["name"] = "Find the Lost Guards";
-      ["prev"] = 35;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "Find the Lost Guards";
+      ["prev"] = 35;
+      ["prequests"] = {
+         [1] = 35;
       };
       ["next"] = 45;
       ["objective"] = "Guard Thomas wants you to travel north up the river and search for the two lost guards, Rolf and Malakai.";
@@ -349,6 +418,9 @@ addon.questsDB = {
    [38] = {
       ["name"] = "Westfall Stew";
       ["prev"] = 36;
+      ["prequests"] = {
+         [1] = 36;
+      };
       ["repgain"] = {
          [72] = 250;
       };
@@ -356,10 +428,13 @@ addon.questsDB = {
       ["req"] = 9;
    };
    [39] = {
-      ["name"] = "Deliver Thomas' Report";
-      ["prev"] = 71;
       ["repgain"] = {
          [72] = 350;
+      };
+      ["name"] = "Deliver Thomas' Report";
+      ["prev"] = 71;
+      ["prequests"] = {
+         [1] = 71;
       };
       ["next"] = 59;
       ["objective"] = "Report to Marshal Dughan in Goldshire.";
@@ -375,10 +450,13 @@ addon.questsDB = {
       ["req"] = 7;
    };
    [45] = {
-      ["name"] = "Discover Rolf's Fate";
-      ["prev"] = 37;
       ["repgain"] = {
          [72] = 75;
+      };
+      ["name"] = "Discover Rolf's Fate";
+      ["prev"] = 37;
+      ["prequests"] = {
+         [1] = 37;
       };
       ["next"] = 71;
       ["objective"] = "Search the murloc village for Rolf, or signs of his death.";
@@ -414,6 +492,9 @@ addon.questsDB = {
    [49] = {
       ["name"] = "Sweet Amber";
       ["prev"] = 48;
+      ["prequests"] = {
+         [1] = 48;
+      };
       ["next"] = 50;
       ["objective"] = "Grimbooze Thunderbrew wants a Sack of Barley, a Sack of Rye and a Sack of Corn.";
       ["req"] = 40;
@@ -421,6 +502,9 @@ addon.questsDB = {
    [50] = {
       ["name"] = "Sweet Amber";
       ["prev"] = 49;
+      ["prequests"] = {
+         [1] = 49;
+      };
       ["next"] = 51;
       ["objective"] = "Grimbooze Thunderbrew wants Truesilver.";
       ["req"] = 40;
@@ -428,6 +512,9 @@ addon.questsDB = {
    [51] = {
       ["name"] = "Sweet Amber";
       ["prev"] = 50;
+      ["prequests"] = {
+         [1] = 50;
+      };
       ["next"] = 53;
       ["objective"] = "Bring a Sycamore Branch to Grimbooze Thunderbrew.";
       ["req"] = 40;
@@ -443,12 +530,18 @@ addon.questsDB = {
    [53] = {
       ["name"] = "Sweet Amber";
       ["prev"] = 51;
+      ["prequests"] = {
+         [1] = 51;
+      };
       ["objective"] = "Bring Grimbooze Thunderbrew a bundle of Charred Oak.";
       ["req"] = 40;
    };
    [54] = {
       ["name"] = "Report to Goldshire";
       ["prev"] = 21;
+      ["prequests"] = {
+         [1] = 21;
+      };
       ["repgain"] = {
          [72] = 75;
       };
@@ -457,17 +550,20 @@ addon.questsDB = {
    };
    [55] = {
       ["name"] = "Morbent Fel";
-      ["prev"] = 325;
+      ["objective"] = "Use Morbent's Bane on Morbent Fel, kill Morbent Fel, then return Morbent's Bane to Sven at his camp.";
       ["repgain"] = {
          [54] = 150;
          [72] = 500;
       };
+      ["prequests"] = {
+         [1] = 325;
+      };
+      ["prev"] = 325;
       ["reward"] = {
          [1] = 2954;
          [2] = 2953;
          [3] = 1282;
       };
-      ["objective"] = "Use Morbent's Bane on Morbent Fel, kill Morbent Fel, then return Morbent's Bane to Sven at his camp.";
       ["req"] = 20;
    };
    [56] = {
@@ -480,10 +576,13 @@ addon.questsDB = {
       ["req"] = 18;
    };
    [57] = {
-      ["name"] = "The Night Watch";
-      ["prev"] = 56;
       ["repgain"] = {
          [72] = 250;
+      };
+      ["name"] = "The Night Watch";
+      ["prev"] = 56;
+      ["prequests"] = {
+         [1] = 56;
       };
       ["next"] = 58;
       ["objective"] = "Commander Althea Ebonlocke of Darkshire wants you to kill 15 Skeletal Fiends and 15 Skeletal Horrors.";
@@ -491,29 +590,35 @@ addon.questsDB = {
    };
    [58] = {
       ["name"] = "The Night Watch";
-      ["prev"] = 57;
+      ["objective"] = "Commander Althea Ebonlocke of Darkshire wants you to kill 20 Plague Spreaders in the eastern Raven Hill mausoleum.";
       ["repgain"] = {
          [72] = 250;
       };
+      ["prequests"] = {
+         [1] = 57;
+      };
+      ["prev"] = 57;
       ["reward"] = {
          [1] = 3604;
          [2] = 3605;
          [3] = 1729;
       };
-      ["objective"] = "Commander Althea Ebonlocke of Darkshire wants you to kill 20 Plague Spreaders in the eastern Raven Hill mausoleum.";
       ["req"] = 18;
    };
    [59] = {
       ["name"] = "Cloth and Leather Armor";
-      ["prev"] = 39;
+      ["objective"] = "Give Sara Timberlain the Stormwind Armor Marker.";
       ["repgain"] = {
          [72] = 25;
       };
+      ["prequests"] = {
+         [1] = 39;
+      };
+      ["prev"] = 39;
       ["reward"] = {
          [1] = 1171;
          [2] = 2237;
       };
-      ["objective"] = "Give Sara Timberlain the Stormwind Armor Marker.";
       ["req"] = 7;
    };
    [60] = {
@@ -527,16 +632,19 @@ addon.questsDB = {
    };
    [61] = {
       ["name"] = "Shipment to Stormwind";
-      ["prev"] = 60;
+      ["objective"] = "Bring William's Shipment to Morgan Pestle in the Stormwind Trade District.";
       ["repgain"] = {
          [72] = 350;
       };
+      ["prequests"] = {
+         [1] = 60;
+      };
+      ["prev"] = 60;
       ["reward"] = {
          [1] = 1178;
          [2] = 1177;
          [3] = 2454;
       };
-      ["objective"] = "Bring William's Shipment to Morgan Pestle in the Stormwind Trade District.";
       ["req"] = 3;
    };
    [62] = {
@@ -551,6 +659,9 @@ addon.questsDB = {
    [63] = {
       ["name"] = "Call of Water";
       ["prev"] = 220;
+      ["prequests"] = {
+         [1] = 220;
+      };
       ["next"] = 100;
       ["objective"] = "Defeat the Corrupt Manifestation of Water and place the Corrupted Manifestation's Bracers along with the Remaining Drops of Purest Water on the Brazier of Everfount in Silverpine Forest.";
       ["req"] = 20;
@@ -582,50 +693,65 @@ addon.questsDB = {
       ["req"] = 22;
    };
    [67] = {
-      ["name"] = "The Legend of Stalvan";
-      ["prev"] = 66;
       ["repgain"] = {
          [72] = 75;
+      };
+      ["name"] = "The Legend of Stalvan";
+      ["prev"] = 66;
+      ["prequests"] = {
+         [1] = 66;
       };
       ["next"] = 68;
       ["objective"] = "Travel to the Moonbrook Schoolhouse and bring back any updated information about Stalvan to Clerk Daltry.";
       ["req"] = 22;
    };
    [68] = {
-      ["name"] = "The Legend of Stalvan";
-      ["prev"] = 67;
       ["repgain"] = {
          [72] = 150;
+      };
+      ["name"] = "The Legend of Stalvan";
+      ["prev"] = 67;
+      ["prequests"] = {
+         [1] = 67;
       };
       ["next"] = 69;
       ["objective"] = "Take the Dusty Unsent Letter to Clerk Daltry.";
       ["req"] = 22;
    };
    [69] = {
-      ["name"] = "The Legend of Stalvan";
-      ["prev"] = 68;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "The Legend of Stalvan";
+      ["prev"] = 68;
+      ["prequests"] = {
+         [1] = 68;
       };
       ["next"] = 70;
       ["objective"] = "Go to The Lion's Pride Inn to see if anyone there has heard of the name Stalvan.";
       ["req"] = 22;
    };
    [70] = {
-      ["name"] = "The Legend of Stalvan";
-      ["prev"] = 69;
       ["repgain"] = {
          [72] = 150;
+      };
+      ["name"] = "The Legend of Stalvan";
+      ["prev"] = 69;
+      ["prequests"] = {
+         [1] = 69;
       };
       ["next"] = 72;
       ["objective"] = "Retrieve Stalvan's Undelivered Letter from the chest and deliver it to the Canal District in Stormwind.";
       ["req"] = 22;
    };
    [71] = {
-      ["name"] = "Report to Thomas";
-      ["prev"] = 45;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "Report to Thomas";
+      ["prev"] = 45;
+      ["prequests"] = {
+         [1] = 45;
       };
       ["next"] = 39;
       ["objective"] = "Deliver Rolf and Malakai's Medallions to Guard Thomas at the eastern Elwynn bridge.";
@@ -634,25 +760,34 @@ addon.questsDB = {
    [72] = {
       ["name"] = "The Legend of Stalvan";
       ["prev"] = 70;
+      ["prequests"] = {
+         [1] = 70;
+      };
       ["next"] = 74;
       ["objective"] = "Search through the packed up possessions for a clue.";
       ["req"] = 22;
    };
    [74] = {
-      ["name"] = "The Legend of Stalvan";
-      ["prev"] = 72;
       ["repgain"] = {
          [72] = 75;
+      };
+      ["name"] = "The Legend of Stalvan";
+      ["prev"] = 72;
+      ["prequests"] = {
+         [1] = 72;
       };
       ["next"] = 75;
       ["objective"] = "The Torn Journal page you discovered provides your next clue.";
       ["req"] = 22;
    };
    [75] = {
-      ["name"] = "The Legend of Stalvan";
-      ["prev"] = 74;
       ["repgain"] = {
          [72] = 75;
+      };
+      ["name"] = "The Legend of Stalvan";
+      ["prev"] = 74;
+      ["prequests"] = {
+         [1] = 74;
       };
       ["next"] = 78;
       ["objective"] = "Marshal Haggard wants you to check the chest upstairs for the Faded Journal Page.";
@@ -661,6 +796,9 @@ addon.questsDB = {
    [76] = {
       ["name"] = "The Jasperlode Mine";
       ["prev"] = 62;
+      ["prequests"] = {
+         [1] = 62;
+      };
       ["repgain"] = {
          [72] = 250;
       };
@@ -670,6 +808,9 @@ addon.questsDB = {
    [77] = {
       ["name"] = "A Sticky Situation";
       ["prev"] = 650;
+      ["prequests"] = {
+         [1] = 650;
+      };
       ["repgain"] = {
          [76] = 250;
       };
@@ -677,30 +818,39 @@ addon.questsDB = {
       ["req"] = 42;
    };
    [78] = {
-      ["name"] = "The Legend of Stalvan";
-      ["prev"] = 75;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "The Legend of Stalvan";
+      ["prev"] = 75;
+      ["prequests"] = {
+         [1] = 75;
       };
       ["next"] = 79;
       ["objective"] = "Take the Faded Journal Page to Tavernkeep Smitts.";
       ["req"] = 22;
    };
    [79] = {
-      ["name"] = "The Legend of Stalvan";
-      ["prev"] = 78;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "The Legend of Stalvan";
+      ["prev"] = 78;
+      ["prequests"] = {
+         [1] = 78;
       };
       ["next"] = 80;
       ["objective"] = "Take the muddy page to Commander Ebonlocke.";
       ["req"] = 22;
    };
    [80] = {
-      ["name"] = "The Legend of Stalvan";
-      ["prev"] = 79;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "The Legend of Stalvan";
+      ["prev"] = 79;
+      ["prequests"] = {
+         [1] = 79;
       };
       ["next"] = 97;
       ["objective"] = "Show Clerk Daltry the Bloodstained Journal Page.";
@@ -709,6 +859,9 @@ addon.questsDB = {
    [81] = {
       ["name"] = "Ripple Delivery";
       ["prev"] = 77;
+      ["prequests"] = {
+         [1] = 77;
+      };
       ["repgain"] = {
          [76] = 250;
       };
@@ -718,6 +871,9 @@ addon.questsDB = {
    [82] = {
       ["name"] = "Noxious Lair Investigation";
       ["prev"] = 992;
+      ["prequests"] = {
+         [1] = 992;
+      };
       ["repgain"] = {
          [369] = 150;
       };
@@ -733,10 +889,13 @@ addon.questsDB = {
       ["req"] = 4;
    };
    [84] = {
-      ["name"] = "Back to Billy";
-      ["prev"] = 86;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "Back to Billy";
+      ["prev"] = 86;
+      ["prequests"] = {
+         [1] = 86;
       };
       ["next"] = 87;
       ["objective"] = "Bring the Pork Belly Pie to Billy Maclure at the Maclure Vineyards.";
@@ -752,10 +911,13 @@ addon.questsDB = {
       ["req"] = 5;
    };
    [86] = {
-      ["name"] = "Pie for Billy";
-      ["prev"] = 85;
       ["repgain"] = {
          [72] = 150;
+      };
+      ["name"] = "Pie for Billy";
+      ["prev"] = 85;
+      ["prequests"] = {
+         [1] = 85;
       };
       ["next"] = 84;
       ["objective"] = "Bring 4 Chunks of Boar Meat to Auntie Bernice Stonefield at the Stonefield's Farm.";
@@ -764,6 +926,9 @@ addon.questsDB = {
    [87] = {
       ["name"] = "Goldtooth";
       ["prev"] = 84;
+      ["prequests"] = {
+         [1] = 84;
+      };
       ["repgain"] = {
          [72] = 350;
       };
@@ -785,16 +950,19 @@ addon.questsDB = {
    };
    [89] = {
       ["name"] = "The Everstill Bridge";
-      ["prev"] = 125;
+      ["objective"] = "Bring 5 Iron Pikes and 5 Iron Rivets to Foreman Oslow in Lakeshire.";
       ["repgain"] = {
          [72] = 250;
       };
+      ["prequests"] = {
+         [1] = 125;
+      };
+      ["prev"] = 125;
       ["reward"] = {
          [1] = 1310;
          [2] = 1303;
          [3] = 1304;
       };
-      ["objective"] = "Bring 5 Iron Pikes and 5 Iron Rivets to Foreman Oslow in Lakeshire.";
       ["req"] = 15;
    };
    [90] = {
@@ -822,10 +990,13 @@ addon.questsDB = {
       ["req"] = 15;
    };
    [93] = {
-      ["name"] = "Dusky Crab Cakes";
-      ["prev"] = 5;
       ["repgain"] = {
          [72] = 75;
+      };
+      ["name"] = "Dusky Crab Cakes";
+      ["prev"] = 5;
+      ["prequests"] = {
+         [1] = 5;
       };
       ["next"] = 240;
       ["objective"] = " but the cakes have a nice";
@@ -849,14 +1020,20 @@ addon.questsDB = {
    [96] = {
       ["name"] = "Call of Water";
       ["prev"] = 100;
+      ["prequests"] = {
+         [1] = 100;
+      };
       ["objective"] = "Bring the Shard of Water to Islen Waterseer in the Barrens.";
       ["req"] = 20;
    };
    [97] = {
-      ["name"] = "The Legend of Stalvan";
-      ["prev"] = 80;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "The Legend of Stalvan";
+      ["prev"] = 80;
+      ["prequests"] = {
+         [1] = 80;
       };
       ["next"] = 98;
       ["objective"] = "Report the news to Commander Ebonlocke.";
@@ -864,34 +1041,43 @@ addon.questsDB = {
    };
    [98] = {
       ["name"] = "The Legend of Stalvan";
-      ["prev"] = 97;
+      ["objective"] = "Kill Stalvan Mistmantle and show Madame Eva his family ring.";
       ["repgain"] = {
          [72] = 500;
       };
+      ["prequests"] = {
+         [1] = 97;
+      };
+      ["prev"] = 97;
       ["reward"] = {
          [1] = 2044;
          [2] = 2043;
       };
-      ["objective"] = "Kill Stalvan Mistmantle and show Madame Eva his family ring.";
       ["req"] = 22;
    };
    [99] = {
       ["name"] = "Arugal's Folly";
-      ["prev"] = 424;
+      ["objective"] = "Bring 6 Pyrewood Shackles to Dalar Dawnweaver at the Sepulcher.";
       ["repgain"] = {
          [68] = 350;
       };
+      ["prequests"] = {
+         [1] = 424;
+      };
+      ["prev"] = 424;
       ["reward"] = {
          [1] = 3586;
          [2] = 3570;
          [3] = 5242;
       };
-      ["objective"] = "Bring 6 Pyrewood Shackles to Dalar Dawnweaver at the Sepulcher.";
       ["req"] = 9;
    };
    [100] = {
       ["name"] = "Call of Water";
       ["prev"] = 63;
+      ["prequests"] = {
+         [1] = 63;
+      };
       ["next"] = 96;
       ["objective"] = "Speak to the Minor Manifestation of Water in Silverpine Forest.";
       ["req"] = 20;
@@ -938,6 +1124,9 @@ addon.questsDB = {
    [105] = {
       ["name"] = "Alas, Andorhal";
       ["prev"] = 5098;
+      ["prequests"] = {
+         [1] = 5098;
+      };
       ["repgain"] = {
          [67] = 350;
          [529] = 350;
@@ -955,10 +1144,13 @@ addon.questsDB = {
       ["req"] = 5;
    };
    [107] = {
-      ["name"] = "Note to William";
-      ["prev"] = 111;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "Note to William";
+      ["prev"] = 111;
+      ["prequests"] = {
+         [1] = 111;
       };
       ["next"] = 112;
       ["objective"] = "Take Gramma Stonefield's Note to William Pestle.";
@@ -973,30 +1165,39 @@ addon.questsDB = {
       ["req"] = 9;
    };
    [110] = {
-      ["name"] = "Insect Part Analysis";
-      ["prev"] = 10;
       ["repgain"] = {
          [369] = 10;
+      };
+      ["name"] = "Insect Part Analysis";
+      ["prev"] = 10;
+      ["prequests"] = {
+         [1] = 10;
       };
       ["next"] = 113;
       ["objective"] = "Check in Gadgetzan for Alchemist Pestlezugg and his analysis of the insect parts.";
       ["req"] = 39;
    };
    [111] = {
-      ["name"] = "Speak with Gramma";
-      ["prev"] = 106;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "Speak with Gramma";
+      ["prev"] = 106;
+      ["prequests"] = {
+         [1] = 106;
       };
       ["next"] = 107;
       ["objective"] = "Speak with Gramma Stonefield.";
       ["req"] = 5;
    };
    [112] = {
-      ["name"] = "Collecting Kelp";
-      ["prev"] = 107;
       ["repgain"] = {
          [72] = 75;
+      };
+      ["name"] = "Collecting Kelp";
+      ["prev"] = 107;
+      ["prequests"] = {
+         [1] = 107;
       };
       ["followup"] = 114;
       ["objective"] = "Bring 4 Crystal Kelp Fronds to William Pestle in Goldshire.";
@@ -1005,6 +1206,9 @@ addon.questsDB = {
    [113] = {
       ["name"] = "Insect Part Analysis";
       ["prev"] = 110;
+      ["prequests"] = {
+         [1] = 110;
+      };
       ["repgain"] = {
          [369] = 10;
       };
@@ -1014,6 +1218,9 @@ addon.questsDB = {
    [114] = {
       ["name"] = "The Escape";
       ["prev"] = 112;
+      ["prequests"] = {
+         [1] = 112;
+      };
       ["repgain"] = {
          [72] = 350;
       };
@@ -1023,6 +1230,9 @@ addon.questsDB = {
    [115] = {
       ["name"] = "Shadow Magic";
       ["prev"] = 20;
+      ["prequests"] = {
+         [1] = 20;
+      };
       ["repgain"] = {
          [72] = 350;
       };
@@ -1057,6 +1267,9 @@ addon.questsDB = {
    [119] = {
       ["name"] = "Return to Verner";
       ["prev"] = 118;
+      ["prequests"] = {
+         [1] = 118;
+      };
       ["repgain"] = {
          [72] = 75;
       };
@@ -1075,6 +1288,9 @@ addon.questsDB = {
    [121] = {
       ["name"] = "Messenger to Stormwind";
       ["prev"] = 120;
+      ["prequests"] = {
+         [1] = 120;
+      };
       ["repgain"] = {
          [72] = 25;
       };
@@ -1083,15 +1299,18 @@ addon.questsDB = {
    };
    [122] = {
       ["name"] = "Underbelly Scales";
-      ["prev"] = 119;
+      ["objective"] = "Gather 6 Underbelly Whelp Scales from Black Dragon Whelps, and bring them to Verner Osgood in Redridge.";
       ["repgain"] = {
          [72] = 350;
       };
+      ["prequests"] = {
+         [1] = 119;
+      };
+      ["prev"] = 119;
       ["reward"] = {
          [1] = 6092;
          [2] = 1302;
       };
-      ["objective"] = "Gather 6 Underbelly Whelp Scales from Black Dragon Whelps, and bring them to Verner Osgood in Redridge.";
       ["req"] = 14;
    };
    [123] = {
@@ -1104,10 +1323,13 @@ addon.questsDB = {
       ["req"] = 7;
    };
    [124] = {
-      ["name"] = "A Baying of Gnolls";
-      ["prev"] = 119;
       ["repgain"] = {
          [72] = 150;
+      };
+      ["name"] = "A Baying of Gnolls";
+      ["prev"] = 119;
+      ["prequests"] = {
+         [1] = 119;
       };
       ["next"] = 126;
       ["objective"] = "Kill 10 Redridge Brutes and 8 Redridge Mystics, then return to Verner Osgood.";
@@ -1123,15 +1345,18 @@ addon.questsDB = {
    };
    [126] = {
       ["name"] = "Howling in the Hills";
-      ["prev"] = 124;
+      ["objective"] = "Bring Yowler's Paw to Verner Osgood in Lakeshire.";
       ["repgain"] = {
          [72] = 250;
       };
+      ["prequests"] = {
+         [1] = 124;
+      };
+      ["prev"] = 124;
       ["reward"] = {
          [1] = 1319;
          [2] = 2910;
       };
-      ["objective"] = "Bring Yowler's Paw to Verner Osgood in Lakeshire.";
       ["req"] = 15;
    };
    [127] = {
@@ -1160,10 +1385,13 @@ addon.questsDB = {
       ["req"] = 12;
    };
    [130] = {
-      ["name"] = "Visit the Herbalist";
-      ["prev"] = 129;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "Visit the Herbalist";
+      ["prev"] = 129;
+      ["prequests"] = {
+         [1] = 129;
       };
       ["next"] = 131;
       ["objective"] = "Speak with the Redridge Herbalist, Martie Jainrose.";
@@ -1172,6 +1400,9 @@ addon.questsDB = {
    [131] = {
       ["name"] = "Delivering Daffodils";
       ["prev"] = 130;
+      ["prequests"] = {
+         [1] = 130;
+      };
       ["repgain"] = {
          [72] = 25;
       };
@@ -1179,10 +1410,13 @@ addon.questsDB = {
       ["req"] = 12;
    };
    [132] = {
-      ["name"] = "The Defias Brotherhood";
-      ["prev"] = 65;
       ["repgain"] = {
          [72] = 75;
+      };
+      ["name"] = "The Defias Brotherhood";
+      ["prev"] = 65;
+      ["prequests"] = {
+         [1] = 65;
       };
       ["next"] = 135;
       ["objective"] = "Take Wiley's Note to Gryan Stoutmantle in Westfall.";
@@ -1191,6 +1425,9 @@ addon.questsDB = {
    [133] = {
       ["name"] = "Ghoulish Effigy";
       ["prev"] = 159;
+      ["prequests"] = {
+         [1] = 159;
+      };
       ["next"] = 134;
       ["objective"] = " Bone Chewers";
       ["req"] = 20;
@@ -1198,15 +1435,21 @@ addon.questsDB = {
    [134] = {
       ["name"] = "Ogre Thieves";
       ["prev"] = 133;
+      ["prequests"] = {
+         [1] = 133;
+      };
       ["next"] = 160;
       ["objective"] = "Return Abercrombie's Crate to Abercrombie.";
       ["req"] = 20;
    };
    [135] = {
-      ["name"] = "The Defias Brotherhood";
-      ["prev"] = 132;
       ["repgain"] = {
          [72] = 75;
+      };
+      ["name"] = "The Defias Brotherhood";
+      ["prev"] = 132;
+      ["prequests"] = {
+         [1] = 132;
       };
       ["next"] = 141;
       ["objective"] = "Take Wiley's Note to Mathias Shaw in Stormwind.";
@@ -1221,6 +1464,9 @@ addon.questsDB = {
    [138] = {
       ["name"] = "Captain Sander's Hidden Treasure";
       ["prev"] = 136;
+      ["prequests"] = {
+         [1] = 136;
+      };
       ["next"] = 139;
       ["objective"] = "Find the old barrel near the ruined chimney and search it for your next clue.";
       ["req"] = 10;
@@ -1228,6 +1474,9 @@ addon.questsDB = {
    [139] = {
       ["name"] = "Captain Sander's Hidden Treasure";
       ["prev"] = 138;
+      ["prequests"] = {
+         [1] = 138;
+      };
       ["next"] = 140;
       ["objective"] = "Search the empty jug next to the windmill for the next clue.";
       ["req"] = 10;
@@ -1235,14 +1484,20 @@ addon.questsDB = {
    [140] = {
       ["name"] = "Captain Sander's Hidden Treasure";
       ["prev"] = 139;
+      ["prequests"] = {
+         [1] = 139;
+      };
       ["objective"] = "Locate Captain Sanders' chest and open it for your reward.";
       ["req"] = 10;
    };
    [141] = {
-      ["name"] = "The Defias Brotherhood";
-      ["prev"] = 135;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "The Defias Brotherhood";
+      ["prev"] = 135;
+      ["prequests"] = {
+         [1] = 135;
       };
       ["next"] = 142;
       ["objective"] = "Take Shaw's report to Gryan Stoutmantle in Westfall.";
@@ -1251,6 +1506,9 @@ addon.questsDB = {
    [142] = {
       ["name"] = "The Defias Brotherhood";
       ["prev"] = 141;
+      ["prequests"] = {
+         [1] = 141;
+      };
       ["repgain"] = {
          [72] = 250;
       };
@@ -1258,10 +1516,13 @@ addon.questsDB = {
       ["req"] = 14;
    };
    [143] = {
-      ["name"] = "Messenger to Westfall";
-      ["prev"] = 121;
       ["repgain"] = {
          [72] = 75;
+      };
+      ["name"] = "Messenger to Westfall";
+      ["prev"] = 121;
+      ["prequests"] = {
+         [1] = 121;
       };
       ["next"] = 144;
       ["objective"] = "Magistrate Solomon wants you to take his written plea to Gryan Stoutmantle in Westfall.";
@@ -1270,6 +1531,9 @@ addon.questsDB = {
    [144] = {
       ["name"] = "Messenger to Westfall";
       ["prev"] = 143;
+      ["prequests"] = {
+         [1] = 143;
+      };
       ["repgain"] = {
          [72] = 25;
       };
@@ -1277,10 +1541,13 @@ addon.questsDB = {
       ["req"] = 14;
    };
    [145] = {
-      ["name"] = "Messenger to Darkshire";
-      ["prev"] = 144;
       ["repgain"] = {
          [72] = 150;
+      };
+      ["name"] = "Messenger to Darkshire";
+      ["prev"] = 144;
+      ["prequests"] = {
+         [1] = 144;
       };
       ["next"] = 146;
       ["objective"] = "Magistrate Solomon wants you to take a letter to Lord Ebonlocke in Darkshire.";
@@ -1289,6 +1556,9 @@ addon.questsDB = {
    [146] = {
       ["name"] = "Messenger to Darkshire";
       ["prev"] = 145;
+      ["prequests"] = {
+         [1] = 145;
+      };
       ["repgain"] = {
          [72] = 25;
       };
@@ -1297,20 +1567,26 @@ addon.questsDB = {
    };
    [147] = {
       ["name"] = "Manhunt";
-      ["prev"] = 123;
+      ["objective"] = " and bring me the ring mentioned in the pickup schedule you gave me.  It may tell us whom the Collector is working for...$B$BThat Pickup Schedule says the Collector is hiding out at the Brackwell Pumpkin Patch.  You should search for him there.\"";
       ["repgain"] = {
          [72] = 250;
       };
+      ["prequests"] = {
+         [1] = 123;
+      };
+      ["prev"] = 123;
       ["reward"] = {
          [1] = 1360;
          [2] = 1183;
       };
-      ["objective"] = " and bring me the ring mentioned in the pickup schedule you gave me.  It may tell us whom the Collector is working for...$B$BThat Pickup Schedule says the Collector is hiding out at the Brackwell Pumpkin Patch.  You should search for him there.\"";
       ["req"] = 7;
    };
    [148] = {
       ["name"] = "Supplies from Darkshire";
       ["prev"] = 165;
+      ["prequests"] = {
+         [1] = 165;
+      };
       ["next"] = 149;
       ["objective"] = "Speak with Madame Eva.";
       ["req"] = 20;
@@ -1318,6 +1594,9 @@ addon.questsDB = {
    [149] = {
       ["name"] = "Ghost Hair Thread";
       ["prev"] = 148;
+      ["prequests"] = {
+         [1] = 148;
+      };
       ["next"] = 154;
       ["objective"] = "Bring the Spectral Comb to Blind Mary.";
       ["req"] = 20;
@@ -1359,15 +1638,21 @@ addon.questsDB = {
    [154] = {
       ["name"] = "Return the Comb";
       ["prev"] = 149;
+      ["prequests"] = {
+         [1] = 149;
+      };
       ["next"] = 157;
       ["objective"] = "Return the Ghost Hair Comb to Madame Eva in Darkshire.";
       ["req"] = 20;
    };
    [155] = {
-      ["name"] = "The Defias Brotherhood";
-      ["prev"] = 142;
       ["repgain"] = {
          [72] = 350;
+      };
+      ["name"] = "The Defias Brotherhood";
+      ["prev"] = 142;
+      ["prequests"] = {
+         [1] = 142;
       };
       ["next"] = 166;
       ["objective"] = "Escort the Defias Traitor to the secret hideout of the Defias Brotherhood.  Once the Defias Traitor shows you where VanCleef and his men are hiding out, return to Gryan Stoutmantle with the information.";
@@ -1376,6 +1661,9 @@ addon.questsDB = {
    [156] = {
       ["name"] = "Gather Rot Blossoms";
       ["prev"] = 158;
+      ["prequests"] = {
+         [1] = 158;
+      };
       ["next"] = 159;
       ["objective"] = "Gather 8 Rot Blossoms and bring them to Tavernkeep Smitts in Darkshire.";
       ["req"] = 20;
@@ -1383,6 +1671,9 @@ addon.questsDB = {
    [157] = {
       ["name"] = "Deliver the Thread";
       ["prev"] = 154;
+      ["prequests"] = {
+         [1] = 154;
+      };
       ["next"] = 158;
       ["objective"] = "Bring the Ghost Hair Thread to Abercrombie, in his shack north of the Raven Hill Cemetery.";
       ["req"] = 20;
@@ -1390,6 +1681,9 @@ addon.questsDB = {
    [158] = {
       ["name"] = "Zombie Juice";
       ["prev"] = 157;
+      ["prequests"] = {
+         [1] = 157;
+      };
       ["next"] = 156;
       ["objective"] = "Speak with Tavernkeep Smitts.";
       ["req"] = 20;
@@ -1397,6 +1691,9 @@ addon.questsDB = {
    [159] = {
       ["name"] = "Juice Delivery";
       ["prev"] = 156;
+      ["prequests"] = {
+         [1] = 156;
+      };
       ["next"] = 133;
       ["objective"] = "Bring the Zombie Juice to Abercrombie at his shack.";
       ["req"] = 20;
@@ -1404,15 +1701,21 @@ addon.questsDB = {
    [160] = {
       ["name"] = "Note to the Mayor";
       ["prev"] = 134;
+      ["prequests"] = {
+         [1] = 134;
+      };
       ["next"] = 251;
       ["objective"] = "Bring Abercrombie's Letter to Ello Ebonlocke, Mayor of Darkshire.";
       ["req"] = 20;
    };
    [161] = {
-      ["name"] = "A Dark Threat Looms";
-      ["prev"] = 199;
       ["repgain"] = {
          [47] = 250;
+      };
+      ["name"] = "A Dark Threat Looms";
+      ["prev"] = 199;
+      ["prequests"] = {
+         [1] = 199;
       };
       ["next"] = 274;
       ["objective"] = "Chief Engineer Hinderweir wants you to take the strange smelling powder to Ashlan Stonesmirk, the explosives expert in Dun Modr.";
@@ -1421,6 +1724,9 @@ addon.questsDB = {
    [162] = {
       ["name"] = "Rise of the Silithid";
       ["prev"] = 113;
+      ["prequests"] = {
+         [1] = 113;
+      };
       ["repgain"] = {
          [69] = 350;
          [54] = 350;
@@ -1456,16 +1762,19 @@ addon.questsDB = {
    };
    [166] = {
       ["name"] = "The Defias Brotherhood";
-      ["prev"] = 155;
+      ["objective"] = "Kill Edwin VanCleef and bring his head to Gryan Stoutmantle.";
       ["repgain"] = {
          [72] = 500;
       };
+      ["prequests"] = {
+         [1] = 155;
+      };
+      ["prev"] = 155;
       ["reward"] = {
          [1] = 6087;
          [2] = 2041;
          [3] = 2042;
       };
-      ["objective"] = "Kill Edwin VanCleef and bring his head to Gryan Stoutmantle.";
       ["req"] = 14;
    };
    [167] = {
@@ -1498,23 +1807,29 @@ addon.questsDB = {
    };
    [170] = {
       ["name"] = "A New Threat";
-      ["prev"] = 179;
+      ["objective"] = "Balir Frosthammer wants you to kill 6 Rockjaw Troggs and 6 Burly Rockjaw Troggs.";
       ["repgain"] = {
          [54] = 250;
          [47] = 250;
       };
+      ["prequests"] = {
+         [1] = 179;
+      };
+      ["prev"] = 179;
       ["reward"] = {
          [1] = 6185;
          [2] = 2172;
          [3] = 6173;
       };
-      ["objective"] = "Balir Frosthammer wants you to kill 6 Rockjaw Troggs and 6 Burly Rockjaw Troggs.";
       ["req"] = 1;
    };
    [171] = {
       ["name"] = "A Warden of the Alliance";
       ["repgain"] = {
          [469] = 500;
+      };
+      ["prequests"] = {
+         [1] = 558;
       };
       ["reward"] = {
          [1] = 23007;
@@ -1551,6 +1866,9 @@ addon.questsDB = {
    [175] = {
       ["name"] = "Look To The Stars";
       ["prev"] = 174;
+      ["prequests"] = {
+         [1] = 174;
+      };
       ["next"] = 177;
       ["objective"] = "Locate Mary and persuade her to give up a reflective surface for Viktori's project.";
       ["req"] = 20;
@@ -1569,10 +1887,13 @@ addon.questsDB = {
       ["req"] = 5;
    };
    [177] = {
-      ["name"] = "Look To The Stars";
-      ["prev"] = 175;
       ["repgain"] = {
          [72] = 150;
+      };
+      ["name"] = "Look To The Stars";
+      ["prev"] = 175;
+      ["prequests"] = {
+         [1] = 175;
       };
       ["next"] = 181;
       ["objective"] = "Retrieve Blind Mary's Looking Glass from the Insane Ghoul and give it to Viktori in Darkshire.";
@@ -1610,15 +1931,18 @@ addon.questsDB = {
    };
    [181] = {
       ["name"] = "Look To The Stars";
-      ["prev"] = 177;
+      ["objective"] = "Locate Zzarc'Vul in the southern ogre mound in Duskwood and return his monocle to Viktori in Darkshire.";
       ["repgain"] = {
          [72] = 250;
       };
+      ["prequests"] = {
+         [1] = 177;
+      };
+      ["prev"] = 177;
       ["reward"] = {
          [1] = 7106;
          [2] = 7107;
       };
-      ["objective"] = "Locate Zzarc'Vul in the southern ogre mound in Duskwood and return his monocle to Viktori in Darkshire.";
       ["req"] = 20;
    };
    [182] = {
@@ -1661,6 +1985,9 @@ addon.questsDB = {
    [185] = {
       ["name"] = "Tiger Mastery";
       ["prev"] = 583;
+      ["prequests"] = {
+         [1] = 583;
+      };
       ["next"] = 186;
       ["objective"] = "Ajeck Rouack of Nesingwary's Expedition wants you to kill 10 Young Stranglethorn Tigers.";
       ["req"] = 28;
@@ -1668,6 +1995,9 @@ addon.questsDB = {
    [186] = {
       ["name"] = "Tiger Mastery";
       ["prev"] = 185;
+      ["prequests"] = {
+         [1] = 185;
+      };
       ["next"] = 187;
       ["objective"] = "Ajeck Rouack of Nesingwary's Expedition wants you to kill 10 Stranglethorn Tigers.";
       ["req"] = 28;
@@ -1675,6 +2005,9 @@ addon.questsDB = {
    [187] = {
       ["name"] = "Tiger Mastery";
       ["prev"] = 186;
+      ["prequests"] = {
+         [1] = 186;
+      };
       ["next"] = 188;
       ["objective"] = "Ajeck Rouack of Nesingwary's Expedition wants you to kill 10 Elder Stranglethorn Tigers.";
       ["req"] = 28;
@@ -1682,6 +2015,9 @@ addon.questsDB = {
    [188] = {
       ["name"] = "Tiger Mastery";
       ["prev"] = 187;
+      ["prequests"] = {
+         [1] = 187;
+      };
       ["followup"] = 208;
       ["objective"] = "Ajeck Rouack of Nesingwary's Expedition wants you to kill Sin'Dall and return with her paw.";
       ["req"] = 28;
@@ -1697,6 +2033,9 @@ addon.questsDB = {
    [190] = {
       ["name"] = "Panther Mastery";
       ["prev"] = 583;
+      ["prequests"] = {
+         [1] = 583;
+      };
       ["next"] = 191;
       ["objective"] = "Sir S. J. Erlgadin of Nesingwary's Expedition wants you to kill 10 Young Panthers.";
       ["req"] = 28;
@@ -1704,6 +2043,9 @@ addon.questsDB = {
    [191] = {
       ["name"] = "Panther Mastery";
       ["prev"] = 190;
+      ["prequests"] = {
+         [1] = 190;
+      };
       ["next"] = 192;
       ["objective"] = "Sir S. J. Erlgadin of Nesingwary's Expedition wants you to kill 10 Panthers.";
       ["req"] = 28;
@@ -1711,6 +2053,9 @@ addon.questsDB = {
    [192] = {
       ["name"] = "Panther Mastery";
       ["prev"] = 191;
+      ["prequests"] = {
+         [1] = 191;
+      };
       ["next"] = 193;
       ["objective"] = "Sir S. J. Erlgadin of Nesingwary's Expedition wants you to kill 10 Shadowmaw Panthers.";
       ["req"] = 28;
@@ -1718,6 +2063,9 @@ addon.questsDB = {
    [193] = {
       ["name"] = "Panther Mastery";
       ["prev"] = 192;
+      ["prequests"] = {
+         [1] = 192;
+      };
       ["followup"] = 208;
       ["objective"] = "Sir S. J. Erlgadin of Nesingwary's Expedition wants you to bring him the Fang of Bhag'thera.";
       ["req"] = 28;
@@ -1725,6 +2073,9 @@ addon.questsDB = {
    [194] = {
       ["name"] = "Raptor Mastery";
       ["prev"] = 583;
+      ["prequests"] = {
+         [1] = 583;
+      };
       ["next"] = 195;
       ["objective"] = "Hemet Nesingwary wants you to kill 10 Stranglethorn Raptors.";
       ["req"] = 28;
@@ -1732,6 +2083,9 @@ addon.questsDB = {
    [195] = {
       ["name"] = "Raptor Mastery";
       ["prev"] = 194;
+      ["prequests"] = {
+         [1] = 194;
+      };
       ["next"] = 196;
       ["objective"] = "Hemet Nesingwary wants you to kill 10 Lashtail Raptors.";
       ["req"] = 28;
@@ -1739,6 +2093,9 @@ addon.questsDB = {
    [196] = {
       ["name"] = "Raptor Mastery";
       ["prev"] = 195;
+      ["prequests"] = {
+         [1] = 195;
+      };
       ["next"] = 197;
       ["objective"] = "Hemet Nesingwary wants you to kill 10 Jungle Stalkers.";
       ["req"] = 28;
@@ -1746,6 +2103,9 @@ addon.questsDB = {
    [197] = {
       ["name"] = "Raptor Mastery";
       ["prev"] = 196;
+      ["prequests"] = {
+         [1] = 196;
+      };
       ["followup"] = 208;
       ["objective"] = "Hemet Nesingwary wants you to kill Tethis, an elusive, dangerous raptor in Stranglethorn.";
       ["req"] = 28;
@@ -1759,20 +2119,26 @@ addon.questsDB = {
       ["req"] = 30;
    };
    [199] = {
-      ["name"] = "A Dark Threat Looms";
-      ["prev"] = 250;
       ["repgain"] = {
          [47] = 250;
+      };
+      ["name"] = "A Dark Threat Looms";
+      ["prev"] = 250;
+      ["prequests"] = {
+         [1] = 250;
       };
       ["next"] = 161;
       ["objective"] = "Return to Chief Engineer Hinderweir and show him the clue that you discovered.";
       ["req"] = 16;
    };
    [200] = {
-      ["name"] = "Bookie Herod";
-      ["prev"] = 215;
       ["repgain"] = {
          [72] = 150;
+      };
+      ["name"] = "Bookie Herod";
+      ["prev"] = 215;
+      ["prequests"] = {
+         [1] = 215;
       };
       ["next"] = 328;
       ["objective"] = "Find Bookie Herod's Records.";
@@ -1789,6 +2155,9 @@ addon.questsDB = {
    [202] = {
       ["name"] = "Colonel Kurzen";
       ["prev"] = 574;
+      ["prequests"] = {
+         [1] = 574;
+      };
       ["repgain"] = {
          [72] = 250;
       };
@@ -1820,6 +2189,9 @@ addon.questsDB = {
    [205] = {
       ["name"] = "Troll Witchery";
       ["prev"] = 207;
+      ["prequests"] = {
+         [1] = 207;
+      };
       ["repgain"] = {
          [72] = 250;
       };
@@ -1829,6 +2201,9 @@ addon.questsDB = {
    [206] = {
       ["name"] = "Mai'Zoth";
       ["prev"] = 205;
+      ["prequests"] = {
+         [1] = 205;
+      };
       ["repgain"] = {
          [72] = 350;
       };
@@ -1836,10 +2211,13 @@ addon.questsDB = {
       ["req"] = 30;
    };
    [207] = {
-      ["name"] = "Kurzen's Mystery";
-      ["prev"] = 203;
       ["repgain"] = {
          [72] = 350;
+      };
+      ["name"] = "Kurzen's Mystery";
+      ["prev"] = 203;
+      ["prequests"] = {
+         [1] = 203;
       };
       ["next"] = 205;
       ["objective"] = "Find the 4 tablets and bring their legends back to Brother Nimetz.";
@@ -1847,6 +2225,11 @@ addon.questsDB = {
    };
    [208] = {
       ["name"] = "Big Game Hunter";
+      ["prequests"] = {
+         [1] = 188;
+         [2] = 193;
+         [3] = 197;
+      };
       ["reward"] = {
          [1] = 17686;
          [2] = 17687;
@@ -1857,6 +2240,9 @@ addon.questsDB = {
    [209] = {
       ["name"] = "Skullsplitter Tusks";
       ["prev"] = 189;
+      ["prequests"] = {
+         [1] = 189;
+      };
       ["repgain"] = {
          [21] = 250;
       };
@@ -1875,6 +2261,9 @@ addon.questsDB = {
    [211] = {
       ["name"] = "Alas, Andorhal";
       ["prev"] = 5097;
+      ["prequests"] = {
+         [1] = 5097;
+      };
       ["repgain"] = {
          [469] = 350;
          [529] = 350;
@@ -1900,16 +2289,19 @@ addon.questsDB = {
    };
    [214] = {
       ["name"] = "Red Silk Bandanas";
-      ["prev"] = 155;
+      ["objective"] = "Scout Riell at the Sentinel Hill Tower wants you to bring her 10 Red Silk Bandanas.";
       ["repgain"] = {
          [72] = 250;
       };
+      ["prequests"] = {
+         [1] = 155;
+      };
+      ["prev"] = 155;
       ["reward"] = {
          [1] = 2074;
          [2] = 2089;
          [3] = 6094;
       };
-      ["objective"] = "Scout Riell at the Sentinel Hill Tower wants you to bring her 10 Red Silk Bandanas.";
       ["req"] = 14;
    };
    [215] = {
@@ -1931,31 +2323,37 @@ addon.questsDB = {
    };
    [217] = {
       ["name"] = "In Defense of the King's Lands";
-      ["prev"] = 263;
+      ["objective"] = "Kill the Trogg leader, Grawmug, and his two guards, Gnasher and Brawler then report back to Captain Rugelfuss in the southern guard tower.";
       ["repgain"] = {
          [47] = 350;
       };
+      ["prequests"] = {
+         [1] = 263;
+      };
+      ["prev"] = 263;
       ["reward"] = {
          [1] = 1436;
          [2] = 6187;
          [3] = 1832;
       };
-      ["objective"] = "Kill the Trogg leader, Grawmug, and his two guards, Gnasher and Brawler then report back to Captain Rugelfuss in the southern guard tower.";
       ["req"] = 10;
    };
    [218] = {
+      ["name"] = "The Stolen Journal";
       ["repgain"] = {
          [54] = 500;
          [47] = 350;
       };
-      ["name"] = "The Stolen Journal";
+      ["objective"] = "Grelin Whitebeard wants you to kill Grik'nir the Cold, and retrieve his journal.";
+      ["next"] = 282;
+      ["prequests"] = {
+         [1] = 182;
+      };
       ["prev"] = 182;
       ["reward"] = {
          [1] = 6176;
          [2] = 5581;
       };
-      ["next"] = 282;
-      ["objective"] = "Grelin Whitebeard wants you to kill Grik'nir the Cold, and retrieve his journal.";
       ["req"] = 1;
    };
    [219] = {
@@ -1974,24 +2372,33 @@ addon.questsDB = {
    [220] = {
       ["name"] = "Call of Water";
       ["prev"] = 1534;
+      ["prequests"] = {
+         [1] = 1534;
+      };
       ["objective"] = "Bring the Vial of Purest Water to Islen Waterseer in the Barrens.";
       ["req"] = 20;
    };
    [221] = {
-      ["name"] = "Worgen in the Woods";
-      ["prev"] = 173;
       ["repgain"] = {
          [72] = 150;
+      };
+      ["name"] = "Worgen in the Woods";
+      ["prev"] = 173;
+      ["prequests"] = {
+         [1] = 173;
       };
       ["next"] = 222;
       ["objective"] = "Kill 12 Nightbane Dark Runner worgen for Calor in Darkshire.";
       ["req"] = 23;
    };
    [222] = {
-      ["name"] = "Worgen in the Woods";
-      ["prev"] = 221;
       ["repgain"] = {
          [72] = 150;
+      };
+      ["name"] = "Worgen in the Woods";
+      ["prev"] = 221;
+      ["prequests"] = {
+         [1] = 221;
       };
       ["next"] = 223;
       ["objective"] = "Kill 8 Nightbane Vile Fang and 8 Nightbane Tainted One worgen for Calor in Darkshire.";
@@ -1999,15 +2406,18 @@ addon.questsDB = {
    };
    [223] = {
       ["name"] = "Worgen in the Woods";
-      ["prev"] = 222;
+      ["objective"] = "Bring Calor's note to Jonathan Carevin.";
       ["repgain"] = {
          [72] = 350;
       };
+      ["prequests"] = {
+         [1] = 222;
+      };
+      ["prev"] = 222;
       ["reward"] = {
          [1] = 2902;
          [2] = 1547;
       };
-      ["objective"] = "Bring Calor's note to Jonathan Carevin.";
       ["req"] = 23;
    };
    [224] = {
@@ -2036,40 +2446,52 @@ addon.questsDB = {
       ["req"] = 19;
    };
    [227] = {
-      ["name"] = "Morgan Ladimore";
-      ["prev"] = 225;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "Morgan Ladimore";
+      ["prev"] = 225;
+      ["prequests"] = {
+         [1] = 225;
       };
       ["next"] = 228;
       ["objective"] = "Speak with Commander Althea Ebonlocke in Darkshire.";
       ["req"] = 28;
    };
    [228] = {
-      ["name"] = "Mor'Ladim";
-      ["prev"] = 227;
       ["repgain"] = {
          [72] = 150;
+      };
+      ["name"] = "Mor'Ladim";
+      ["prev"] = 227;
+      ["prequests"] = {
+         [1] = 227;
       };
       ["next"] = 229;
       ["objective"] = "Kill Mor'Ladim, then return his skull to Commander Althea Ebonlocke in Darkshire.";
       ["req"] = 28;
    };
    [229] = {
-      ["name"] = "The Daughter Who Lived";
-      ["prev"] = 228;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "The Daughter Who Lived";
+      ["prev"] = 228;
+      ["prequests"] = {
+         [1] = 228;
       };
       ["next"] = 231;
       ["objective"] = "Speak with Watcher Sarah Ladimore in Darkshire.";
       ["req"] = 28;
    };
    [230] = {
-      ["name"] = "Sven's Camp";
-      ["prev"] = 95;
       ["repgain"] = {
          [72] = 75;
+      };
+      ["name"] = "Sven's Camp";
+      ["prev"] = 95;
+      ["prequests"] = {
+         [1] = 95;
       };
       ["next"] = 262;
       ["objective"] = "Bring the Book from Sven's Farm to Sven.";
@@ -2078,6 +2500,9 @@ addon.questsDB = {
    [231] = {
       ["name"] = "A Daughter's Love";
       ["prev"] = 229;
+      ["prequests"] = {
+         [1] = 229;
+      };
       ["objective"] = "Take Sarah Ladimore's ring to Morgan Ladimore's grave.";
       ["req"] = 28;
    };
@@ -2091,11 +2516,14 @@ addon.questsDB = {
       ["req"] = 38;
    };
    [233] = {
-      ["name"] = "Coldridge Valley Mail Delivery";
-      ["prev"] = 179;
       ["repgain"] = {
          [54] = 150;
          [47] = 150;
+      };
+      ["name"] = "Coldridge Valley Mail Delivery";
+      ["prev"] = 179;
+      ["prequests"] = {
+         [1] = 179;
       };
       ["next"] = 234;
       ["objective"] = "Deliver the stack of letters to Talin Keeneye.";
@@ -2104,6 +2532,9 @@ addon.questsDB = {
    [234] = {
       ["name"] = "Coldridge Valley Mail Delivery";
       ["prev"] = 233;
+      ["prequests"] = {
+         [1] = 233;
+      };
       ["repgain"] = {
          [54] = 150;
          [47] = 150;
@@ -2120,6 +2551,9 @@ addon.questsDB = {
    [237] = {
       ["name"] = "In Defense of the King's Lands";
       ["prev"] = 224;
+      ["prequests"] = {
+         [1] = 224;
+      };
       ["repgain"] = {
          [47] = 250;
       };
@@ -2127,20 +2561,26 @@ addon.questsDB = {
       ["req"] = 10;
    };
    [238] = {
-      ["name"] = "Errand for Apothecary Zinge";
-      ["prev"] = 232;
       ["repgain"] = {
          [68] = 10;
+      };
+      ["name"] = "Errand for Apothecary Zinge";
+      ["prev"] = 232;
+      ["prequests"] = {
+         [1] = 232;
       };
       ["next"] = 243;
       ["objective"] = "Bring the Field Sampling Kit to Apothecary Zinge in the Undercity.";
       ["req"] = 38;
    };
    [239] = {
-      ["name"] = "Westbrook Garrison Needs Help!";
-      ["prev"] = 76;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "Westbrook Garrison Needs Help!";
+      ["prev"] = 76;
+      ["prequests"] = {
+         [1] = 76;
       };
       ["next"] = 11;
       ["objective"] = "Go to the Westbrook Garrison and speak with Deputy Rainer.";
@@ -2149,6 +2589,9 @@ addon.questsDB = {
    [240] = {
       ["name"] = "Return to Jitters";
       ["prev"] = 93;
+      ["prequests"] = {
+         [1] = 93;
+      };
       ["repgain"] = {
          [72] = 75;
       };
@@ -2156,10 +2599,13 @@ addon.questsDB = {
       ["req"] = 17;
    };
    [243] = {
-      ["name"] = "Into the Field";
-      ["prev"] = 238;
       ["repgain"] = {
          [68] = 75;
+      };
+      ["name"] = "Into the Field";
+      ["prev"] = 238;
+      ["prequests"] = {
+         [1] = 238;
       };
       ["next"] = 379;
       ["objective"] = "Speak to Chief Engineer Bilgewhizzle in Gadgetzan about getting a power source for the testing kit.";
@@ -2185,6 +2631,9 @@ addon.questsDB = {
    [246] = {
       ["name"] = "Assessing the Threat";
       ["prev"] = 244;
+      ["prequests"] = {
+         [1] = 244;
+      };
       ["repgain"] = {
          [72] = 150;
       };
@@ -2196,12 +2645,20 @@ addon.questsDB = {
       ["repgain"] = {
          [81] = 350;
       };
+      ["prequests"] = {
+         [1] = 2;
+         [2] = 23;
+         [3] = 24;
+      };
       ["objective"] = "";
       ["req"] = 20;
    };
    [248] = {
       ["name"] = "Looking Further";
       ["prev"] = 94;
+      ["prequests"] = {
+         [1] = 94;
+      };
       ["repgain"] = {
          [72] = 150;
       };
@@ -2211,6 +2668,9 @@ addon.questsDB = {
    [249] = {
       ["name"] = "Morganth";
       ["prev"] = 248;
+      ["prequests"] = {
+         [1] = 248;
+      };
       ["repgain"] = {
          [72] = 350;
       };
@@ -2229,18 +2689,27 @@ addon.questsDB = {
    [251] = {
       ["name"] = "Translate Abercrombie's Note";
       ["prev"] = 160;
+      ["prequests"] = {
+         [1] = 160;
+      };
       ["objective"] = "Bring the Letter to Ello to Sirra Von'Indi.";
       ["req"] = 20;
    };
    [252] = {
       ["name"] = "Translation to Ello";
       ["prev"] = 401;
+      ["prequests"] = {
+         [1] = 401;
+      };
       ["objective"] = "Bring the Translated Letter to Lord Ello Ebonlocke";
       ["req"] = 20;
    };
    [253] = {
       ["name"] = "Bride of the Embalmer";
       ["prev"] = 252;
+      ["prequests"] = {
+         [1] = 252;
+      };
       ["repgain"] = {
          [69] = 500;
          [54] = 500;
@@ -2289,6 +2758,9 @@ addon.questsDB = {
    [258] = {
       ["name"] = "A Hunter's Challenge";
       ["prev"] = 257;
+      ["prequests"] = {
+         [1] = 257;
+      };
       ["objective"] = "Kill 5 Elder Mountain Boars and return to Daryl the Youngling in the Farstrider Lodge within 12 minutes.";
       ["req"] = 11;
    };
@@ -2299,10 +2771,13 @@ addon.questsDB = {
       ["req"] = 34;
    };
    [262] = {
-      ["name"] = "The Shadowy Figure";
-      ["prev"] = 230;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "The Shadowy Figure";
+      ["prev"] = 230;
+      ["prequests"] = {
+         [1] = 230;
       };
       ["next"] = 265;
       ["objective"] = "Take the book you found at Sven's farm and show it to townsfolk in Darkshire.";
@@ -2311,6 +2786,9 @@ addon.questsDB = {
    [263] = {
       ["name"] = "In Defense of the King's Lands";
       ["prev"] = 237;
+      ["prequests"] = {
+         [1] = 237;
+      };
       ["repgain"] = {
          [47] = 250;
       };
@@ -2325,6 +2803,9 @@ addon.questsDB = {
    [265] = {
       ["name"] = "The Shadowy Search Continues";
       ["prev"] = 262;
+      ["prequests"] = {
+         [1] = 262;
+      };
       ["next"] = 266;
       ["objective"] = "See if other townsfolk have clues about the shadowy figure.";
       ["req"] = 20;
@@ -2332,6 +2813,9 @@ addon.questsDB = {
    [266] = {
       ["name"] = "Inquire at the Inn";
       ["prev"] = 265;
+      ["prequests"] = {
+         [1] = 265;
+      };
       ["next"] = 453;
       ["objective"] = "Search the inn for clues about the shadowy figure.";
       ["req"] = 20;
@@ -2345,30 +2829,39 @@ addon.questsDB = {
       ["req"] = 10;
    };
    [268] = {
-      ["name"] = "Return to Sven";
-      ["prev"] = 453;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "Return to Sven";
+      ["prev"] = 453;
+      ["prequests"] = {
+         [1] = 453;
       };
       ["next"] = 323;
       ["objective"] = "Return to Sven with Jitters' completed journal.";
       ["req"] = 20;
    };
    [269] = {
-      ["name"] = "Seeking Wisdom";
-      ["prev"] = 323;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "Seeking Wisdom";
+      ["prev"] = 323;
+      ["prequests"] = {
+         [1] = 323;
       };
       ["next"] = 270;
       ["objective"] = "Give Jitters' Completed Journal to Bishop Farthing in Stormwind.";
       ["req"] = 20;
    };
    [270] = {
-      ["name"] = "The Doomed Fleet";
-      ["prev"] = 269;
       ["repgain"] = {
          [72] = 75;
+      };
+      ["name"] = "The Doomed Fleet";
+      ["prev"] = 269;
+      ["prequests"] = {
+         [1] = 269;
       };
       ["next"] = 321;
       ["objective"] = "Go to Menethil Harbor in the Wetlands, and speak with Glorin Steelbrow.";
@@ -2377,6 +2870,9 @@ addon.questsDB = {
    [271] = {
       ["name"] = "Vyrin's Revenge";
       ["prev"] = 258;
+      ["prequests"] = {
+         [1] = 258;
+      };
       ["next"] = 531;
       ["objective"] = "Kill Ol' Sooty then show your handiwork to Daryl the Youngling at the Farstrider Lodge.";
       ["req"] = 15;
@@ -2384,25 +2880,34 @@ addon.questsDB = {
    [272] = {
       ["name"] = "Trial of the Sea Lion";
       ["prev"] = 29;
+      ["prequests"] = {
+         [1] = 29;
+      };
       ["next"] = 5061;
       ["objective"] = "Find the Half Pendant of Aquatic Agility and the Half Pendant of Aquatic Endurance.  Speak with the residents of Moonglade to learn clues as to where these items may be located.$B$BForm the Pendant of the Sea Lion from the two pendant halves.  You need to be in proximity of the Shrine of Remulos to do this.$B$BBring the joined pendant to Dendrite Starblaze in the village of Nighthaven, Moonglade.";
       ["req"] = 16;
    };
    [273] = {
-      ["name"] = "Resupplying the Excavation";
-      ["prev"] = 302;
       ["repgain"] = {
          [47] = 25;
+      };
+      ["name"] = "Resupplying the Excavation";
+      ["prev"] = 302;
+      ["prequests"] = {
+         [1] = 302;
       };
       ["next"] = 454;
       ["objective"] = "Speak with Huldar.";
       ["req"] = 10;
    };
    [274] = {
-      ["name"] = "A Dark Threat Looms";
-      ["prev"] = 161;
       ["repgain"] = {
          [47] = 25;
+      };
+      ["name"] = "A Dark Threat Looms";
+      ["prev"] = 161;
+      ["prequests"] = {
+         [1] = 161;
       };
       ["next"] = 278;
       ["objective"] = "Ashlan Stonesmirk wants you to return to Chief Engineer Hinderweir and inform him of the new discovery.";
@@ -2411,6 +2916,9 @@ addon.questsDB = {
    [275] = {
       ["name"] = "Blisters on The Land";
       ["prev"] = 277;
+      ["prequests"] = {
+         [1] = 277;
+      };
       ["reward"] = {
          [1] = 3558;
          [2] = 1273;
@@ -2428,15 +2936,21 @@ addon.questsDB = {
    [277] = {
       ["name"] = "Fire Taboo";
       ["prev"] = 276;
+      ["prequests"] = {
+         [1] = 276;
+      };
       ["next"] = 275;
       ["objective"] = "Bring Rethiel the Greenwarden 9 Crude Flints.";
       ["req"] = 20;
    };
    [278] = {
-      ["name"] = "A Dark Threat Looms";
-      ["prev"] = 274;
       ["repgain"] = {
          [47] = 250;
+      };
+      ["name"] = "A Dark Threat Looms";
+      ["prev"] = 274;
+      ["prequests"] = {
+         [1] = 274;
       };
       ["next"] = 280;
       ["objective"] = "Chief Engineer Hinderweir wants you to gather Lurker Venom, a Mo'grosh Crystal, and a Crocolisk Tear.";
@@ -2452,33 +2966,42 @@ addon.questsDB = {
       ["req"] = 20;
    };
    [280] = {
-      ["name"] = "A Dark Threat Looms";
-      ["prev"] = 278;
       ["repgain"] = {
          [47] = 75;
+      };
+      ["name"] = "A Dark Threat Looms";
+      ["prev"] = 278;
+      ["prequests"] = {
+         [1] = 278;
       };
       ["next"] = 283;
       ["objective"] = "Chief Engineer Hinderweir wants you to swim down to the base of the dam, locate the powder keg and stir in the Disarming Mixture to prevent an explosion.";
       ["req"] = 16;
    };
    [281] = {
-      ["name"] = "Reclaiming Goods";
-      ["prev"] = 279;
       ["repgain"] = {
          [54] = 10;
          [469] = 10;
          [72] = 25;
+      };
+      ["name"] = "Reclaiming Goods";
+      ["prev"] = 279;
+      ["prequests"] = {
+         [1] = 279;
       };
       ["next"] = 284;
       ["objective"] = "Search the crates and barrels at the coastal Murloc camps.";
       ["req"] = 20;
    };
    [282] = {
-      ["name"] = "Senir's Observations";
-      ["prev"] = 218;
       ["repgain"] = {
          [54] = 150;
          [47] = 150;
+      };
+      ["name"] = "Senir's Observations";
+      ["prev"] = 218;
+      ["prequests"] = {
+         [1] = 218;
       };
       ["next"] = 420;
       ["objective"] = "Speak with Mountaineer Thalos.";
@@ -2486,32 +3009,41 @@ addon.questsDB = {
    };
    [283] = {
       ["name"] = "A Dark Threat Looms";
-      ["prev"] = 280;
+      ["objective"] = "The Disarming Mixture seemed to take effect.  Return to Chief Engineer Hinderweir to report the good news.";
       ["repgain"] = {
          [47] = 350;
       };
+      ["prequests"] = {
+         [1] = 280;
+      };
+      ["prev"] = 280;
       ["reward"] = {
          [1] = 2907;
          [2] = 2908;
       };
-      ["objective"] = "The Disarming Mixture seemed to take effect.  Return to Chief Engineer Hinderweir to report the good news.";
       ["req"] = 16;
    };
    [284] = {
-      ["name"] = "The Search Continues";
-      ["prev"] = 281;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "The Search Continues";
+      ["prev"] = 281;
+      ["prequests"] = {
+         [1] = 281;
       };
       ["next"] = 285;
       ["objective"] = "Search for the Menethil Statuette.";
       ["req"] = 20;
    };
    [285] = {
-      ["name"] = "Search More Hovels";
-      ["prev"] = 284;
       ["repgain"] = {
          [72] = 75;
+      };
+      ["name"] = "Search More Hovels";
+      ["prev"] = 284;
+      ["prequests"] = {
+         [1] = 284;
       };
       ["next"] = 286;
       ["objective"] = "Continue searching the Murloc hovels for the Menethil Statuette.";
@@ -2519,30 +3051,36 @@ addon.questsDB = {
    };
    [286] = {
       ["name"] = "Return the Statuette";
-      ["prev"] = 285;
+      ["objective"] = "Bring Karl Boran the Menethil Statuette.";
       ["repgain"] = {
          [72] = 150;
       };
+      ["prequests"] = {
+         [1] = 285;
+      };
+      ["prev"] = 285;
       ["reward"] = {
          [1] = 2950;
          [2] = 2949;
       };
-      ["objective"] = "Bring Karl Boran the Menethil Statuette.";
       ["req"] = 20;
    };
    [287] = {
+      ["name"] = "Frostmane Hold";
       ["repgain"] = {
          [54] = 150;
          [47] = 150;
       };
-      ["name"] = "Frostmane Hold";
+      ["objective"] = "Explore Frostmane Hold, and kill 5 Frostmane Headhunters for Senir Whitebeard in Kharanos.";
+      ["next"] = 291;
+      ["prequests"] = {
+         [1] = 420;
+      };
       ["prev"] = 420;
       ["reward"] = {
          [1] = 3216;
          [2] = 2900;
       };
-      ["next"] = 291;
-      ["objective"] = "Explore Frostmane Hold, and kill 5 Frostmane Headhunters for Senir Whitebeard in Kharanos.";
       ["req"] = 7;
    };
    [288] = {
@@ -2552,21 +3090,27 @@ addon.questsDB = {
       ["req"] = 22;
    };
    [289] = {
-      ["name"] = "The Cursed Crew";
-      ["prev"] = 288;
       ["repgain"] = {
          [54] = 75;
          [72] = 150;
+      };
+      ["name"] = "The Cursed Crew";
+      ["prev"] = 288;
+      ["prequests"] = {
+         [1] = 288;
       };
       ["next"] = 290;
       ["objective"] = "Kill 13 Cursed Sailors, 5 Cursed Marines and First Mate Snellig.  Bring Snellig's Snuffbox to First Mate Fitzsimmons in Menethil Harbor.";
       ["req"] = 22;
    };
    [290] = {
-      ["name"] = "Lifting the Curse";
-      ["prev"] = 289;
       ["repgain"] = {
          [72] = 75;
+      };
+      ["name"] = "Lifting the Curse";
+      ["prev"] = 289;
+      ["prequests"] = {
+         [1] = 289;
       };
       ["next"] = 292;
       ["objective"] = "Get the Intrepid Strongbox Key from Captain Halyndor.$B$BUse the key to open the Intrepid's Locked Strongbox.";
@@ -2575,6 +3119,9 @@ addon.questsDB = {
    [291] = {
       ["name"] = "The Reports";
       ["prev"] = 287;
+      ["prequests"] = {
+         [1] = 287;
+      };
       ["repgain"] = {
          [54] = 75;
          [47] = 75;
@@ -2583,10 +3130,13 @@ addon.questsDB = {
       ["req"] = 1;
    };
    [292] = {
-      ["name"] = "The Eye of Paleth";
-      ["prev"] = 290;
       ["repgain"] = {
          [72] = 75;
+      };
+      ["name"] = "The Eye of Paleth";
+      ["prev"] = 290;
+      ["prequests"] = {
+         [1] = 290;
       };
       ["next"] = 293;
       ["objective"] = "Bring the Cursed Eye of Paleth to Glorin Steelbrow.";
@@ -2595,6 +3145,9 @@ addon.questsDB = {
    [293] = {
       ["name"] = "Cleansing the Eye";
       ["prev"] = 292;
+      ["prequests"] = {
+         [1] = 292;
+      };
       ["repgain"] = {
          [72] = 250;
       };
@@ -2611,10 +3164,13 @@ addon.questsDB = {
       ["req"] = 22;
    };
    [295] = {
-      ["name"] = "Ormer's Revenge";
-      ["prev"] = 294;
       ["repgain"] = {
          [47] = 250;
+      };
+      ["name"] = "Ormer's Revenge";
+      ["prev"] = 294;
+      ["prequests"] = {
+         [1] = 294;
       };
       ["next"] = 296;
       ["objective"] = "Ormer Ironbraid wants you to kill 10 Mottled Scytheclaw raptors and 10 Mottled Razormaw raptors then return to him at the Whelgar Excavation Site.";
@@ -2622,16 +3178,19 @@ addon.questsDB = {
    };
    [296] = {
       ["name"] = "Ormer's Revenge";
-      ["prev"] = 295;
+      ["objective"] = "Ormer Ironbraid at the Whelgar Excavation Site wants you to kill Sarltooth and return to him with one of his talons once the task is fulfilled.";
       ["repgain"] = {
          [47] = 350;
       };
+      ["prequests"] = {
+         [1] = 295;
+      };
+      ["prev"] = 295;
       ["reward"] = {
          [1] = 3493;
          [2] = 3566;
          [3] = 5246;
       };
-      ["objective"] = "Ormer Ironbraid at the Whelgar Excavation Site wants you to kill Sarltooth and return to him with one of his talons once the task is fulfilled.";
       ["req"] = 22;
    };
    [297] = {
@@ -2665,20 +3224,26 @@ addon.questsDB = {
       ["req"] = 25;
    };
    [301] = {
-      ["name"] = "Report to Ironforge";
-      ["prev"] = 298;
       ["repgain"] = {
          [47] = 75;
+      };
+      ["name"] = "Report to Ironforge";
+      ["prev"] = 298;
+      ["prequests"] = {
+         [1] = 298;
       };
       ["next"] = 302;
       ["objective"] = "Take Ironband's Progress Report to Prospector Stormpike.";
       ["req"] = 10;
    };
    [302] = {
-      ["name"] = "Powder to Ironband";
-      ["prev"] = 301;
       ["repgain"] = {
          [47] = 25;
+      };
+      ["name"] = "Powder to Ironband";
+      ["prev"] = 301;
+      ["prequests"] = {
+         [1] = 301;
       };
       ["next"] = 273;
       ["objective"] = "Speak with Jern Hornhelm in Thelsamar.";
@@ -2717,6 +3282,9 @@ addon.questsDB = {
    [306] = {
       ["name"] = "In Search of The Excavation Team";
       ["prev"] = 305;
+      ["prequests"] = {
+         [1] = 305;
+      };
       ["repgain"] = {
          [47] = 25;
       };
@@ -2739,6 +3307,9 @@ addon.questsDB = {
    [308] = {
       ["name"] = "Distracting Jarven";
       ["prev"] = 403;
+      ["prequests"] = {
+         [1] = 403;
+      };
       ["repgain"] = {
          [54] = 25;
          [47] = 25;
@@ -2748,15 +3319,18 @@ addon.questsDB = {
    };
    [309] = {
       ["name"] = "Protecting the Shipment";
-      ["prev"] = 454;
+      ["objective"] = "Ensure Miran and the shipment arrive at the excavation site, then inform Prospector Ironband.";
       ["repgain"] = {
          [47] = 250;
       };
+      ["prequests"] = {
+         [1] = 454;
+      };
+      ["prev"] = 454;
       ["reward"] = {
          [1] = 3217;
          [2] = 6188;
       };
-      ["objective"] = "Ensure Miran and the shipment arrive at the excavation site, then inform Prospector Ironband.";
       ["req"] = 10;
    };
    [310] = {
@@ -2772,6 +3346,9 @@ addon.questsDB = {
    [311] = {
       ["name"] = "Return to Marleth";
       ["prev"] = 310;
+      ["prequests"] = {
+         [1] = 310;
+      };
       ["repgain"] = {
          [54] = 250;
          [47] = 250;
@@ -2840,22 +3417,28 @@ addon.questsDB = {
       ["req"] = 2;
    };
    [318] = {
-      ["name"] = "Evershine";
-      ["prev"] = 317;
       ["repgain"] = {
          [54] = 25;
          [47] = 25;
+      };
+      ["name"] = "Evershine";
+      ["prev"] = 317;
+      ["prequests"] = {
+         [1] = 317;
       };
       ["next"] = 319;
       ["objective"] = "Get a cask of Evershine from Rejold Barleybrew in Brewnall Village.";
       ["req"] = 2;
    };
    [319] = {
-      ["name"] = "A Favor for Evershine";
-      ["prev"] = 318;
       ["repgain"] = {
          [54] = 150;
          [47] = 150;
+      };
+      ["name"] = "A Favor for Evershine";
+      ["prev"] = 318;
+      ["prequests"] = {
+         [1] = 318;
       };
       ["next"] = 320;
       ["objective"] = "Kill 6 Ice Claw Bears, 8 Elder Crag Boars, and 8 Snow Leopards, and then return to Rejold Barleybrew in Brewnall Village.";
@@ -2863,84 +3446,108 @@ addon.questsDB = {
    };
    [320] = {
       ["name"] = "Return to Bellowfiz";
-      ["prev"] = 319;
+      ["objective"] = "Give the cask of Evershine to Pilot Bellowfiz at Steelgrill's Depot.";
       ["repgain"] = {
          [54] = 350;
          [47] = 350;
       };
+      ["prequests"] = {
+         [1] = 319;
+      };
+      ["prev"] = 319;
       ["reward"] = {
          [1] = 1011;
          [2] = 1010;
          [3] = 10547;
       };
-      ["objective"] = "Give the cask of Evershine to Pilot Bellowfiz at Steelgrill's Depot.";
       ["req"] = 2;
    };
    [321] = {
-      ["name"] = "Lightforge Iron";
-      ["prev"] = 270;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "Lightforge Iron";
+      ["prev"] = 270;
+      ["prequests"] = {
+         [1] = 270;
       };
       ["next"] = 324;
       ["objective"] = "Search the wreckage of The Flying Osprey in the Wetlands.";
       ["req"] = 20;
    };
    [322] = {
-      ["name"] = "Blessed Arm";
-      ["prev"] = 324;
       ["repgain"] = {
          [47] = 75;
+      };
+      ["name"] = "Blessed Arm";
+      ["prev"] = 324;
+      ["prequests"] = {
+         [1] = 324;
       };
       ["next"] = 325;
       ["objective"] = "Take the Crate of Lightforge Ingots to Grimand Elmore in Stormwind.";
       ["req"] = 20;
    };
    [323] = {
-      ["name"] = "Proving Your Worth";
-      ["prev"] = 268;
       ["repgain"] = {
          [72] = 250;
+      };
+      ["name"] = "Proving Your Worth";
+      ["prev"] = 268;
+      ["prequests"] = {
+         [1] = 268;
       };
       ["next"] = 269;
       ["objective"] = "Kill 15 Skeletal Raiders, 3 Skeletal Healers and 3 Skeletal Warders, and then return to Sven.";
       ["req"] = 20;
    };
    [324] = {
-      ["name"] = "The Lost Ingots";
-      ["prev"] = 321;
       ["repgain"] = {
          [47] = 150;
+      };
+      ["name"] = "The Lost Ingots";
+      ["prev"] = 321;
+      ["prequests"] = {
+         [1] = 321;
       };
       ["next"] = 322;
       ["objective"] = "Gather 5 Lightforge Ingots, then return to Glorin Steelbrow in the Wetlands.";
       ["req"] = 20;
    };
    [325] = {
-      ["name"] = "Armed and Ready";
-      ["prev"] = 322;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "Armed and Ready";
+      ["prev"] = 322;
+      ["prequests"] = {
+         [1] = 322;
       };
       ["next"] = 55;
       ["objective"] = "Bring Morbent's Bane to Sven in Duskwood.";
       ["req"] = 20;
    };
    [328] = {
-      ["name"] = "The Hidden Key";
-      ["prev"] = 200;
       ["repgain"] = {
          [72] = 75;
+      };
+      ["name"] = "The Hidden Key";
+      ["prev"] = 200;
+      ["prequests"] = {
+         [1] = 200;
       };
       ["next"] = 329;
       ["objective"] = " and the small brass key can open it";
       ["req"] = 30;
    };
    [329] = {
-      ["name"] = "The Spy Revealed!";
-      ["prev"] = 328;
       ["repgain"] = {
          [72] = 75;
+      };
+      ["name"] = "The Spy Revealed!";
+      ["prev"] = 328;
+      ["prequests"] = {
+         [1] = 328;
       };
       ["next"] = 330;
       ["objective"] = "Take the Muddy Note to Lieutenant Doren at the Rebel Camp.";
@@ -2949,21 +3556,27 @@ addon.questsDB = {
    [330] = {
       ["name"] = "Patrol Schedules";
       ["prev"] = 329;
+      ["prequests"] = {
+         [1] = 329;
+      };
       ["next"] = 331;
       ["objective"] = "Speak with Corporal Sethman.";
       ["req"] = 30;
    };
    [331] = {
       ["name"] = "Report to Doren";
-      ["prev"] = 330;
+      ["objective"] = "Speak with Lieutenant Doren.";
       ["repgain"] = {
          [72] = 250;
       };
+      ["prequests"] = {
+         [1] = 330;
+      };
+      ["prev"] = 330;
       ["reward"] = {
          [1] = 4139;
          [2] = 4123;
       };
-      ["objective"] = "Speak with Lieutenant Doren.";
       ["req"] = 30;
    };
    [332] = {
@@ -2999,6 +3612,9 @@ addon.questsDB = {
    [336] = {
       ["name"] = "A Noble Brew";
       ["prev"] = 335;
+      ["prequests"] = {
+         [1] = 335;
+      };
       ["objective"] = " running up a bill he never pays.  Well";
       ["req"] = 25;
    };
@@ -3014,6 +3630,9 @@ addon.questsDB = {
    [338] = {
       ["name"] = "The Green Hills of Stranglethorn";
       ["prev"] = 583;
+      ["prequests"] = {
+         [1] = 583;
+      };
       ["objective"] = "Collect the missing pages from The Green Hills of Stranglethorn manuscript.  Once all four chapters are complete, return them to Barnil.";
       ["req"] = 30;
    };
@@ -3047,20 +3666,26 @@ addon.questsDB = {
       ["req"] = 20;
    };
    [344] = {
-      ["name"] = "Brother Paxton";
-      ["prev"] = 343;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "Brother Paxton";
+      ["prev"] = 343;
+      ["prequests"] = {
+         [1] = 343;
       };
       ["next"] = 345;
       ["objective"] = "Speak with Brother Paxton in the Northshire Abbey.";
       ["req"] = 20;
    };
    [345] = {
-      ["name"] = "Ink Supplies";
-      ["prev"] = 344;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "Ink Supplies";
+      ["prev"] = 344;
+      ["prequests"] = {
+         [1] = 344;
       };
       ["next"] = 347;
       ["objective"] = "Speak with Foreman Oslow in Lakeshire and ask him for Rethban Iron Ore.";
@@ -3069,6 +3694,9 @@ addon.questsDB = {
    [346] = {
       ["name"] = "Return to Kristoff";
       ["prev"] = 347;
+      ["prequests"] = {
+         [1] = 347;
+      };
       ["repgain"] = {
          [72] = 250;
       };
@@ -3076,10 +3704,13 @@ addon.questsDB = {
       ["req"] = 20;
    };
    [347] = {
-      ["name"] = "Rethban Ore";
-      ["prev"] = 345;
       ["repgain"] = {
          [72] = 75;
+      };
+      ["name"] = "Rethban Ore";
+      ["prev"] = 345;
+      ["prequests"] = {
+         [1] = 345;
       };
       ["next"] = 346;
       ["objective"] = "Gather 5 loads of Rethban Ore and bring it to Brother Paxton in the Northshire Library.";
@@ -3101,6 +3732,9 @@ addon.questsDB = {
    [350] = {
       ["name"] = "Look to an Old Friend";
       ["prev"] = 393;
+      ["prequests"] = {
+         [1] = 393;
+      };
       ["next"] = 2745;
       ["objective"] = "Speak to Elling Trias in Stormwind.";
       ["req"] = 16;
@@ -3117,6 +3751,9 @@ addon.questsDB = {
    [353] = {
       ["name"] = "Stormpike's Delivery";
       ["prev"] = 1097;
+      ["prequests"] = {
+         [1] = 1097;
+      };
       ["repgain"] = {
          [47] = 250;
       };
@@ -3132,10 +3769,13 @@ addon.questsDB = {
       ["req"] = 7;
    };
    [355] = {
-      ["name"] = "Speak with Sevren";
-      ["prev"] = 354;
       ["repgain"] = {
          [68] = 10;
+      };
+      ["name"] = "Speak with Sevren";
+      ["prev"] = 354;
+      ["prequests"] = {
+         [1] = 354;
       };
       ["next"] = 408;
       ["objective"] = "Speak with Magistrate Sevren in Brill.";
@@ -3150,10 +3790,13 @@ addon.questsDB = {
       ["req"] = 6;
    };
    [357] = {
-      ["name"] = "The Lich's Identity";
-      ["prev"] = 405;
       ["repgain"] = {
          [68] = 150;
+      };
+      ["name"] = "The Lich's Identity";
+      ["prev"] = 405;
+      ["prequests"] = {
+         [1] = 405;
       };
       ["next"] = 366;
       ["objective"] = "Bring the Lich's Spellbook to Bethor Iceshard in the Undercity.";
@@ -3172,10 +3815,13 @@ addon.questsDB = {
       ["req"] = 4;
    };
    [359] = {
-      ["name"] = "Forsaken Duties";
-      ["prev"] = 358;
       ["repgain"] = {
          [68] = 25;
+      };
+      ["name"] = "Forsaken Duties";
+      ["prev"] = 358;
+      ["prequests"] = {
+         [1] = 358;
       };
       ["next"] = 360;
       ["objective"] = "Speak with Deathguard Linnea.";
@@ -3184,6 +3830,9 @@ addon.questsDB = {
    [360] = {
       ["name"] = "Return to the Magistrate";
       ["prev"] = 359;
+      ["prequests"] = {
+         [1] = 359;
+      };
       ["repgain"] = {
          [68] = 75;
       };
@@ -3217,15 +3866,18 @@ addon.questsDB = {
    };
    [364] = {
       ["name"] = "The Mindless Ones";
-      ["prev"] = 363;
+      ["objective"] = "Shadow Priest Sarvis wants you to kill 8 Mindless Zombies and 8 Wretched Zombies.";
       ["repgain"] = {
          [68] = 250;
       };
+      ["prequests"] = {
+         [1] = 363;
+      };
+      ["prev"] = 363;
       ["reward"] = {
          [1] = 3275;
          [2] = 11847;
       };
-      ["objective"] = "Shadow Priest Sarvis wants you to kill 8 Mindless Zombies and 8 Wretched Zombies.";
       ["req"] = 1;
    };
    [365] = {
@@ -3238,10 +3890,13 @@ addon.questsDB = {
       ["req"] = 4;
    };
    [366] = {
-      ["name"] = "Return the Book";
-      ["prev"] = 357;
       ["repgain"] = {
          [68] = 75;
+      };
+      ["name"] = "Return the Book";
+      ["prev"] = 357;
+      ["prequests"] = {
+         [1] = 357;
       };
       ["next"] = 409;
       ["objective"] = "Return Gunther's Spellbook to him, on the island of Gunther's Retreat.";
@@ -3257,40 +3912,52 @@ addon.questsDB = {
       ["req"] = 6;
    };
    [368] = {
-      ["name"] = "A New Plague";
-      ["prev"] = 367;
       ["repgain"] = {
          [68] = 250;
+      };
+      ["name"] = "A New Plague";
+      ["prev"] = 367;
+      ["prequests"] = {
+         [1] = 367;
       };
       ["next"] = 369;
       ["objective"] = "Apothecary Johaan of the town of Brill needs 5 Vile Fin Scales from Murlocs in Tirisfal Glades.";
       ["req"] = 6;
    };
    [369] = {
-      ["name"] = "A New Plague";
-      ["prev"] = 368;
       ["repgain"] = {
          [68] = 25;
+      };
+      ["name"] = "A New Plague";
+      ["prev"] = 368;
+      ["prequests"] = {
+         [1] = 368;
       };
       ["next"] = 492;
       ["objective"] = "Apothecary Johaan in the town of Brill wants you to bring him 4 samples of venom from a Vicious Night Web Spider.";
       ["req"] = 6;
    };
    [370] = {
-      ["name"] = "At War With The Scarlet Crusade";
-      ["prev"] = 427;
       ["repgain"] = {
          [68] = 250;
+      };
+      ["name"] = "At War With The Scarlet Crusade";
+      ["prev"] = 427;
+      ["prequests"] = {
+         [1] = 427;
       };
       ["next"] = 371;
       ["objective"] = "Executor Zygand in Brill wants you to kill Captain Perrine, 3 Scarlet Zealots and 3 Scarlet Missionaries.";
       ["req"] = 5;
    };
    [371] = {
-      ["name"] = "At War With The Scarlet Crusade";
-      ["prev"] = 370;
       ["repgain"] = {
          [68] = 250;
+      };
+      ["name"] = "At War With The Scarlet Crusade";
+      ["prev"] = 370;
+      ["prequests"] = {
+         [1] = 370;
       };
       ["next"] = 372;
       ["objective"] = "Executor Zygand in Brill has commissioned you to slay Captain Vachon and 5 Scarlet Friars.";
@@ -3298,15 +3965,18 @@ addon.questsDB = {
    };
    [372] = {
       ["name"] = "At War With The Scarlet Crusade";
-      ["prev"] = 371;
+      ["objective"] = "Executor Zygand in the town of Brill wants you to assassinate Captain Melrache and his two bodyguards.";
       ["repgain"] = {
          [68] = 250;
       };
+      ["prequests"] = {
+         [1] = 371;
+      };
+      ["prev"] = 371;
       ["reward"] = {
          [1] = 3445;
          [2] = 3071;
       };
-      ["objective"] = "Executor Zygand in the town of Brill wants you to assassinate Captain Melrache and his two bodyguards.";
       ["req"] = 5;
    };
    [373] = {
@@ -3369,20 +4039,26 @@ addon.questsDB = {
    };
    [378] = {
       ["name"] = "The Fury Runs Deep";
-      ["prev"] = 303;
+      ["objective"] = "Motley Garmason wants Kam Deepfury's head brought to him at Dun Modr.";
       ["repgain"] = {
          [47] = 500;
       };
+      ["prequests"] = {
+         [1] = 303;
+      };
+      ["prev"] = 303;
       ["reward"] = {
          [1] = 3562;
          [2] = 1264;
       };
-      ["objective"] = "Motley Garmason wants Kam Deepfury's head brought to him at Dun Modr.";
       ["req"] = 22;
    };
    [379] = {
       ["name"] = "Slake That Thirst";
       ["prev"] = 243;
+      ["prequests"] = {
+         [1] = 243;
+      };
       ["repgain"] = {
          [369] = 150;
          [68] = 150;
@@ -3391,25 +4067,33 @@ addon.questsDB = {
       ["req"] = 38;
    };
    [380] = {
+      ["name"] = "Night Web's Hollow";
       ["repgain"] = {
          [68] = 250;
       };
-      ["name"] = "Night Web's Hollow";
+      ["objective"] = "Executor Arren wants you to kill 10 Young Night Web Spiders and 8 Night Web Spiders.";
+      ["next"] = 381;
+      ["prequests"] = {
+         [1] = 376;
+      };
       ["prev"] = 376;
       ["reward"] = {
          [1] = 3270;
          [2] = 3273;
          [3] = 3272;
       };
-      ["next"] = 381;
-      ["objective"] = "Executor Arren wants you to kill 10 Young Night Web Spiders and 8 Night Web Spiders.";
       ["req"] = 2;
    };
    [381] = {
+      ["name"] = "The Scarlet Crusade";
       ["repgain"] = {
          [68] = 250;
       };
-      ["name"] = "The Scarlet Crusade";
+      ["objective"] = "Bring Executor Arren 12 Scarlet Armbands from Scarlet Converts and Scarlet Initiates.";
+      ["next"] = 382;
+      ["prequests"] = {
+         [1] = 380;
+      };
       ["prev"] = 380;
       ["reward"] = {
          [1] = 3268;
@@ -3417,27 +4101,31 @@ addon.questsDB = {
          [3] = 3267;
          [4] = 5779;
       };
-      ["next"] = 382;
-      ["objective"] = "Bring Executor Arren 12 Scarlet Armbands from Scarlet Converts and Scarlet Initiates.";
       ["req"] = 2;
    };
    [382] = {
+      ["name"] = "The Red Messenger";
       ["repgain"] = {
          [68] = 500;
       };
-      ["name"] = "The Red Messenger";
+      ["objective"] = "Kill Meven Korgal, the messenger, at the Crusader camp, then return any information you find to Executor Arren.";
+      ["next"] = 383;
+      ["prequests"] = {
+         [1] = 381;
+      };
       ["prev"] = 381;
       ["reward"] = {
          [1] = 3277;
          [2] = 3276;
       };
-      ["next"] = 383;
-      ["objective"] = "Kill Meven Korgal, the messenger, at the Crusader camp, then return any information you find to Executor Arren.";
       ["req"] = 2;
    };
    [383] = {
       ["name"] = "Vital Intelligence";
       ["prev"] = 382;
+      ["prequests"] = {
+         [1] = 382;
+      };
       ["repgain"] = {
          [68] = 150;
       };
@@ -3492,35 +4180,47 @@ addon.questsDB = {
    [389] = {
       ["name"] = "Bazil Thredd";
       ["prev"] = 373;
+      ["prequests"] = {
+         [1] = 373;
+      };
       ["next"] = 391;
       ["objective"] = "Speak with Warden Thelwater in the Stockade.";
       ["req"] = 16;
    };
    [391] = {
-      ["name"] = "The Stockade Riots";
-      ["prev"] = 389;
       ["repgain"] = {
          [72] = 250;
+      };
+      ["name"] = "The Stockade Riots";
+      ["prev"] = 389;
+      ["prequests"] = {
+         [1] = 389;
       };
       ["next"] = 392;
       ["objective"] = "Kill Bazil Thredd and bring his head back to Warden Thelwater at the Stockade.";
       ["req"] = 16;
    };
    [392] = {
-      ["name"] = "The Curious Visitor";
-      ["prev"] = 391;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "The Curious Visitor";
+      ["prev"] = 391;
+      ["prequests"] = {
+         [1] = 391;
       };
       ["next"] = 393;
       ["objective"] = "Bring the Sealed Description of Thredd's Visitor to Baros Alexston in Stormwind.";
       ["req"] = 16;
    };
    [393] = {
-      ["name"] = "Shadow of the Past";
-      ["prev"] = 392;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "Shadow of the Past";
+      ["prev"] = 392;
+      ["prequests"] = {
+         [1] = 392;
       };
       ["next"] = 350;
       ["objective"] = "Bring the Sealed Description of Thredd's Visitor to Master Mathias Shaw in Stormwind.";
@@ -3529,15 +4229,21 @@ addon.questsDB = {
    [394] = {
       ["name"] = "The Head of the Beast";
       ["prev"] = 434;
+      ["prequests"] = {
+         [1] = 434;
+      };
       ["next"] = 395;
       ["objective"] = "Speak to Mathias Shaw in Stormwind.";
       ["req"] = 16;
    };
    [395] = {
-      ["name"] = "Brotherhood's End";
-      ["prev"] = 394;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "Brotherhood's End";
+      ["prev"] = 394;
+      ["prequests"] = {
+         [1] = 394;
       };
       ["next"] = 396;
       ["objective"] = "Speak with Baros Alexston in Stormwind.";
@@ -3546,6 +4252,9 @@ addon.questsDB = {
    [396] = {
       ["name"] = "An Audience with the King";
       ["prev"] = 395;
+      ["prequests"] = {
+         [1] = 395;
+      };
       ["repgain"] = {
          [72] = 500;
       };
@@ -3555,6 +4264,9 @@ addon.questsDB = {
    [397] = {
       ["name"] = "You Have Served Us Well";
       ["prev"] = 336;
+      ["prequests"] = {
+         [1] = 336;
+      };
       ["objective"] = "Speak with Zggi, the servant of Zardeth the Blackclaw, to claim your reward.";
       ["req"] = 25;
    };
@@ -3590,6 +4302,9 @@ addon.questsDB = {
    [401] = {
       ["name"] = "Wait for Sirra to Finish";
       ["prev"] = 251;
+      ["prequests"] = {
+         [1] = 251;
+      };
       ["next"] = 252;
       ["objective"] = "Wait a moment, then speak with Sirra Von'Indi again.";
       ["req"] = 20;
@@ -3608,10 +4323,13 @@ addon.questsDB = {
       ["req"] = 4;
    };
    [405] = {
-      ["name"] = "The Prodigal Lich";
-      ["prev"] = 358;
       ["repgain"] = {
          [68] = 25;
+      };
+      ["name"] = "The Prodigal Lich";
+      ["prev"] = 358;
+      ["prequests"] = {
+         [1] = 358;
       };
       ["next"] = 357;
       ["objective"] = "Present Sevren's Orders to Bethor Iceshard in the Undercity.";
@@ -3620,6 +4338,9 @@ addon.questsDB = {
    [407] = {
       ["name"] = "Fields of Grief";
       ["prev"] = 365;
+      ["prequests"] = {
+         [1] = 365;
+      };
       ["repgain"] = {
          [68] = 25;
       };
@@ -3628,22 +4349,28 @@ addon.questsDB = {
    };
    [408] = {
       ["name"] = "The Family Crypt";
-      ["prev"] = 355;
+      ["objective"] = "Kill 8 Wailing Ancestors and 8 Rotting Ancestors.$B$BKill Captain Dargol, and bring his skull to Magistrate Sevren in Brill.";
       ["repgain"] = {
          [68] = 250;
       };
+      ["prequests"] = {
+         [1] = 355;
+      };
+      ["prev"] = 355;
       ["reward"] = {
          [1] = 3446;
          [2] = 3440;
       };
-      ["objective"] = "Kill 8 Wailing Ancestors and 8 Rotting Ancestors.$B$BKill Captain Dargol, and bring his skull to Magistrate Sevren in Brill.";
       ["req"] = 7;
    };
    [409] = {
-      ["name"] = "Proving Allegiance";
-      ["prev"] = 366;
       ["repgain"] = {
          [68] = 150;
+      };
+      ["name"] = "Proving Allegiance";
+      ["prev"] = 366;
+      ["prequests"] = {
+         [1] = 366;
       };
       ["next"] = 411;
       ["objective"] = "Obtain a Candle of Beckoning.$B$BSummon Lillith Nefara and kill her.$B$BReturn to Gunther on his island.";
@@ -3657,6 +4384,9 @@ addon.questsDB = {
    [411] = {
       ["name"] = "The Prodigal Lich Returns";
       ["prev"] = 409;
+      ["prequests"] = {
+         [1] = 409;
+      };
       ["repgain"] = {
          [68] = 250;
       };
@@ -3677,11 +4407,14 @@ addon.questsDB = {
       ["req"] = 7;
    };
    [413] = {
-      ["name"] = "Shimmer Stout";
-      ["prev"] = 315;
       ["repgain"] = {
          [54] = 75;
          [47] = 75;
+      };
+      ["name"] = "Shimmer Stout";
+      ["prev"] = 315;
+      ["prequests"] = {
+         [1] = 315;
       };
       ["next"] = 414;
       ["objective"] = "Take the Barrel of Shimmer Stout to Mountaineer Barleybrew.";
@@ -3690,6 +4423,9 @@ addon.questsDB = {
    [414] = {
       ["name"] = "Stout to Kadrell";
       ["prev"] = 413;
+      ["prequests"] = {
+         [1] = 413;
+      };
       ["repgain"] = {
          [54] = 150;
          [47] = 150;
@@ -3698,11 +4434,14 @@ addon.questsDB = {
       ["req"] = 8;
    };
    [415] = {
-      ["name"] = "Rejold's New Brew";
-      ["prev"] = 315;
       ["repgain"] = {
          [54] = 10;
          [47] = 10;
+      };
+      ["name"] = "Rejold's New Brew";
+      ["prev"] = 315;
+      ["prequests"] = {
+         [1] = 315;
       };
       ["next"] = 413;
       ["objective"] = "Speak with Rejold Barleybrew.";
@@ -3722,16 +4461,19 @@ addon.questsDB = {
    };
    [417] = {
       ["name"] = "A Pilot's Revenge";
+      ["objective"] = " but not before it mauled him savagely.$B$BJudging from the state of Hildelve's body";
+      ["repgain"] = {
+         [54] = 150;
+         [0] = 47;
+      };
+      ["prequests"] = {
+         [1] = 419;
+      };
       ["prev"] = 419;
       ["reward"] = {
          [1] = 2218;
          [2] = 1009;
       };
-      ["repgain"] = {
-         [54] = 150;
-         [0] = 47;
-      };
-      ["objective"] = " but not before it mauled him savagely.$B$BJudging from the state of Hildelve's body";
       ["req"] = 8;
    };
    [418] = {
@@ -3755,6 +4497,9 @@ addon.questsDB = {
    [420] = {
       ["name"] = "Senir's Observations";
       ["prev"] = 282;
+      ["prequests"] = {
+         [1] = 282;
+      };
       ["repgain"] = {
          [54] = 150;
          [47] = 150;
@@ -3772,30 +4517,39 @@ addon.questsDB = {
       ["req"] = 9;
    };
    [422] = {
-      ["name"] = "Arugal's Folly";
-      ["prev"] = 421;
       ["repgain"] = {
          [68] = 250;
+      };
+      ["name"] = "Arugal's Folly";
+      ["prev"] = 421;
+      ["prequests"] = {
+         [1] = 421;
       };
       ["next"] = 423;
       ["objective"] = "Retrieve the Remedy of Arugal for Dalar Dawnweaver at the Sepulcher.";
       ["req"] = 9;
    };
    [423] = {
-      ["name"] = "Arugal's Folly";
-      ["prev"] = 422;
       ["repgain"] = {
          [68] = 250;
+      };
+      ["name"] = "Arugal's Folly";
+      ["prev"] = 422;
+      ["prequests"] = {
+         [1] = 422;
       };
       ["next"] = 424;
       ["objective"] = "Bring 6 Glutton Shackles and 3 Darksoul Shackles to Dalar Dawnweaver at the Sepulcher.";
       ["req"] = 9;
    };
    [424] = {
-      ["name"] = "Arugal's Folly";
-      ["prev"] = 423;
       ["repgain"] = {
          [68] = 250;
+      };
+      ["name"] = "Arugal's Folly";
+      ["prev"] = 423;
+      ["prequests"] = {
+         [1] = 423;
       };
       ["next"] = 99;
       ["objective"] = "Kill Grimson the Pale and bring his head to Dalar Dawnweaver at the Sepulcher.";
@@ -3803,35 +4557,44 @@ addon.questsDB = {
    };
    [425] = {
       ["name"] = "Ivar the Foul";
-      ["prev"] = 430;
+      ["objective"] = "Kill Ivar the Foul, and bring Ivar's Head to Rane Yorick at the Ivar Patch.";
       ["repgain"] = {
          [68] = 150;
       };
+      ["prequests"] = {
+         [1] = 430;
+      };
+      ["prev"] = 430;
       ["reward"] = {
          [1] = 3453;
          [2] = 3583;
       };
-      ["objective"] = "Kill Ivar the Foul, and bring Ivar's Head to Rane Yorick at the Ivar Patch.";
       ["req"] = 10;
    };
    [426] = {
       ["name"] = "The Mills Overrun";
-      ["prev"] = 404;
+      ["objective"] = "Gather 5 Notched Ribs and 3 Blackened Skulls, then return to Deathguard Dillinger in Brill.";
       ["repgain"] = {
          [68] = 350;
       };
+      ["prequests"] = {
+         [1] = 404;
+      };
+      ["prev"] = 404;
       ["reward"] = {
          [1] = 3447;
          [2] = 3834;
       };
-      ["objective"] = "Gather 5 Notched Ribs and 3 Blackened Skulls, then return to Deathguard Dillinger in Brill.";
       ["req"] = 6;
    };
    [427] = {
-      ["name"] = "At War With The Scarlet Crusade";
-      ["prev"] = 383;
       ["repgain"] = {
          [68] = 250;
+      };
+      ["name"] = "At War With The Scarlet Crusade";
+      ["prev"] = 383;
+      ["prequests"] = {
+         [1] = 383;
       };
       ["next"] = 370;
       ["objective"] = "Executor Zygand of Brill wants you to kill 10 Scarlet Warriors.";
@@ -3847,10 +4610,13 @@ addon.questsDB = {
       ["req"] = 10;
    };
    [429] = {
-      ["name"] = "Wild Hearts";
-      ["prev"] = 428;
       ["repgain"] = {
          [68] = 75;
+      };
+      ["name"] = "Wild Hearts";
+      ["prev"] = 428;
+      ["prequests"] = {
+         [1] = 428;
       };
       ["next"] = 430;
       ["objective"] = "Gather 6 discolored worg hearts and bring them to Apothecary Renferrel at the Sepulcher.";
@@ -3859,6 +4625,9 @@ addon.questsDB = {
    [430] = {
       ["name"] = "Return to Quinn";
       ["prev"] = 429;
+      ["prequests"] = {
+         [1] = 429;
+      };
       ["repgain"] = {
          [68] = 150;
       };
@@ -3889,10 +4658,13 @@ addon.questsDB = {
       ["req"] = 6;
    };
    [434] = {
-      ["name"] = "The Attack!";
-      ["prev"] = 2746;
       ["repgain"] = {
          [72] = 150;
+      };
+      ["name"] = "The Attack!";
+      ["prev"] = 2746;
+      ["prequests"] = {
+         [1] = 2746;
       };
       ["next"] = 394;
       ["objective"] = "Remain in the garden until Lord Gregor Lescovar and Marzon the Silent Blade have had their conversation. Afterwards, kill them both before returning to Elling Trias in Stormwind.";
@@ -3926,40 +4698,52 @@ addon.questsDB = {
       ["req"] = 10;
    };
    [438] = {
-      ["name"] = "The Decrepit Ferry";
-      ["prev"] = 437;
       ["repgain"] = {
          [68] = 150;
+      };
+      ["name"] = "The Decrepit Ferry";
+      ["prev"] = 437;
+      ["prequests"] = {
+         [1] = 437;
       };
       ["next"] = 439;
       ["objective"] = "Go to the Decrepit Ferry.$B$BSearch for the reason the Scourge are there.";
       ["req"] = 10;
    };
    [439] = {
-      ["name"] = "Rot Hide Clues";
-      ["prev"] = 438;
       ["repgain"] = {
          [68] = 25;
+      };
+      ["name"] = "Rot Hide Clues";
+      ["prev"] = 438;
+      ["prequests"] = {
+         [1] = 438;
       };
       ["next"] = 443;
       ["objective"] = "Bring Deliah's Ring to High Executor Hadrec at the Sepulcher.";
       ["req"] = 10;
    };
    [440] = {
-      ["name"] = "The Engraved Ring";
-      ["prev"] = 439;
       ["repgain"] = {
          [68] = 75;
+      };
+      ["name"] = "The Engraved Ring";
+      ["prev"] = 439;
+      ["prequests"] = {
+         [1] = 439;
       };
       ["next"] = 441;
       ["objective"] = "Bring Deliah's Ring to Magistrate Sevren in Brill.";
       ["req"] = 10;
    };
    [441] = {
-      ["name"] = "Raleigh and the Undercity";
-      ["prev"] = 440;
       ["repgain"] = {
          [68] = 75;
+      };
+      ["name"] = "Raleigh and the Undercity";
+      ["prev"] = 440;
+      ["prequests"] = {
+         [1] = 440;
       };
       ["next"] = 530;
       ["objective"] = "Bring Deliah's Ring to Raleigh.";
@@ -3967,22 +4751,28 @@ addon.questsDB = {
    };
    [442] = {
       ["name"] = "Assault on Fenris Isle";
-      ["prev"] = 448;
+      ["objective"] = "Bring Thule's Head to High Executor Hadrec at the Sepulcher.";
       ["repgain"] = {
          [68] = 250;
       };
+      ["prequests"] = {
+         [1] = 448;
+      };
+      ["prev"] = 448;
       ["reward"] = {
          [1] = 3461;
          [2] = 3462;
       };
-      ["objective"] = "Bring Thule's Head to High Executor Hadrec at the Sepulcher.";
       ["req"] = 10;
    };
    [443] = {
-      ["name"] = "Rot Hide Ichor";
-      ["prev"] = 438;
       ["repgain"] = {
          [68] = 250;
+      };
+      ["name"] = "Rot Hide Ichor";
+      ["prev"] = 438;
+      ["prequests"] = {
+         [1] = 438;
       };
       ["next"] = 444;
       ["objective"] = "Bring 8 bottles of rot hide ichor to Apothecary Renferrel at the Sepulcher.";
@@ -3991,6 +4781,9 @@ addon.questsDB = {
    [444] = {
       ["name"] = "Rot Hide Origins";
       ["prev"] = 443;
+      ["prequests"] = {
+         [1] = 443;
+      };
       ["repgain"] = {
          [68] = 25;
       };
@@ -4006,10 +4799,13 @@ addon.questsDB = {
       ["req"] = 9;
    };
    [446] = {
-      ["name"] = "Thule Ravenclaw";
-      ["prev"] = 444;
       ["repgain"] = {
          [68] = 25;
+      };
+      ["name"] = "Thule Ravenclaw";
+      ["prev"] = 444;
+      ["prequests"] = {
+         [1] = 444;
       };
       ["next"] = 448;
       ["objective"] = "Bring Bethor's Scroll to Apothecary Renferrel at the Silverpine Sepulcher.";
@@ -4025,34 +4821,43 @@ addon.questsDB = {
       ["req"] = 9;
    };
    [448] = {
+      ["name"] = "Report to Hadrec";
       ["repgain"] = {
          [68] = 75;
       };
-      ["name"] = "Report to Hadrec";
+      ["objective"] = "Report to High Executor Hadrec at the Sepulcher.";
+      ["next"] = 442;
+      ["prequests"] = {
+         [1] = 446;
+      };
       ["prev"] = 446;
       ["reward"] = {
          [1] = 3240;
          [2] = 2863;
       };
-      ["next"] = 442;
-      ["objective"] = "Report to High Executor Hadrec at the Sepulcher.";
       ["req"] = 10;
    };
    [449] = {
-      ["name"] = "The Deathstalkers' Report";
-      ["prev"] = 435;
       ["repgain"] = {
          [68] = 75;
+      };
+      ["name"] = "The Deathstalkers' Report";
+      ["prev"] = 435;
+      ["prequests"] = {
+         [1] = 435;
       };
       ["next"] = 3221;
       ["objective"] = "Bring the Deathstalker Report to High Executor Hadrec at the Sepulcher.";
       ["req"] = 10;
    };
    [450] = {
-      ["name"] = "A Recipe For Death";
-      ["prev"] = 447;
       ["repgain"] = {
          [68] = 350;
+      };
+      ["name"] = "A Recipe For Death";
+      ["prev"] = 447;
+      ["prequests"] = {
+         [1] = 447;
       };
       ["next"] = 451;
       ["objective"] = "Retrieve Apothecary Berard's journal from Pyrewood Village and take it to Apothecary Renferrel at the Sepulcher.";
@@ -4060,15 +4865,18 @@ addon.questsDB = {
    };
    [451] = {
       ["name"] = "A Recipe For Death";
-      ["prev"] = 450;
+      ["objective"] = "Bring 6 samples of Lake Creeper Moss, 6 samples of Lake Skulker Moss and a Hardened Tumor to Master Apothecary Faranell in the Undercity.";
       ["repgain"] = {
          [68] = 500;
       };
+      ["prequests"] = {
+         [1] = 450;
+      };
+      ["prev"] = 450;
       ["reward"] = {
          [1] = 3451;
          [2] = 3582;
       };
-      ["objective"] = "Bring 6 samples of Lake Creeper Moss, 6 samples of Lake Skulker Moss and a Hardened Tumor to Master Apothecary Faranell in the Undercity.";
       ["req"] = 9;
    };
    [452] = {
@@ -4085,10 +4893,13 @@ addon.questsDB = {
       ["req"] = 12;
    };
    [453] = {
-      ["name"] = "Finding the Shadowy Figure";
-      ["prev"] = 266;
       ["repgain"] = {
          [72] = 75;
+      };
+      ["name"] = "Finding the Shadowy Figure";
+      ["prev"] = 266;
+      ["prequests"] = {
+         [1] = 266;
       };
       ["next"] = 268;
       ["objective"] = "Find the Shadowy Figure.  Your clues:$B$BHe is not native to Darkshire.$B$BHe is a nervous, jittery person.$B$BHe left Darkshire and headed west.";
@@ -4097,6 +4908,9 @@ addon.questsDB = {
    [454] = {
       ["name"] = "After the Ambush";
       ["prev"] = 273;
+      ["prequests"] = {
+         [1] = 273;
+      };
       ["repgain"] = {
          [47] = 10;
       };
@@ -4106,6 +4920,9 @@ addon.questsDB = {
    [455] = {
       ["name"] = "The Algaz Gauntlet";
       ["prev"] = 468;
+      ["prequests"] = {
+         [1] = 468;
+      };
       ["repgain"] = {
          [54] = 75;
          [47] = 150;
@@ -4129,15 +4946,18 @@ addon.questsDB = {
    };
    [457] = {
       ["name"] = "The Balance of Nature";
-      ["prev"] = 456;
+      ["objective"] = "Conservator Ilthalaine needs you to kill 7 Mangy Nightsabers and 7 Thistle Boars.";
       ["repgain"] = {
          [69] = 250;
       };
+      ["prequests"] = {
+         [1] = 456;
+      };
+      ["prev"] = 456;
       ["reward"] = {
          [1] = 5405;
          [2] = 6058;
       };
-      ["objective"] = "Conservator Ilthalaine needs you to kill 7 Mangy Nightsabers and 7 Thistle Boars.";
       ["req"] = 1;
    };
    [458] = {
@@ -4151,16 +4971,19 @@ addon.questsDB = {
    };
    [459] = {
       ["name"] = "The Woodland Protector";
-      ["prev"] = 458;
+      ["objective"] = "Collect 8 Fel Moss and bring them to Tarindrella.";
       ["repgain"] = {
          [69] = 250;
       };
+      ["prequests"] = {
+         [1] = 458;
+      };
+      ["prev"] = 458;
       ["reward"] = {
          [1] = 5398;
          [2] = 5399;
          [3] = 11190;
       };
-      ["objective"] = "Collect 8 Fel Moss and bring them to Tarindrella.";
       ["req"] = 1;
    };
    [460] = {
@@ -4173,10 +4996,13 @@ addon.questsDB = {
       ["req"] = 12;
    };
    [461] = {
-      ["name"] = "The Hidden Niche";
-      ["prev"] = 460;
       ["repgain"] = {
          [68] = 75;
+      };
+      ["name"] = "The Hidden Niche";
+      ["prev"] = 460;
+      ["prequests"] = {
+         [1] = 460;
       };
       ["next"] = 491;
       ["objective"] = "Take Alaric to the hidden alcove.";
@@ -4189,20 +5015,26 @@ addon.questsDB = {
       ["req"] = 20;
    };
    [464] = {
-      ["name"] = "War Banners";
-      ["prev"] = 473;
       ["repgain"] = {
          [47] = 250;
+      };
+      ["name"] = "War Banners";
+      ["prev"] = 473;
+      ["prequests"] = {
+         [1] = 473;
       };
       ["next"] = 465;
       ["objective"] = "Bring 8 Dragonmaw War Banners to Captain Stoutfist.";
       ["req"] = 23;
    };
    [465] = {
-      ["name"] = "Nek'rosh's Gambit";
-      ["prev"] = 464;
       ["repgain"] = {
          [47] = 150;
+      };
+      ["name"] = "Nek'rosh's Gambit";
+      ["prev"] = 464;
+      ["prequests"] = {
+         [1] = 464;
       };
       ["next"] = 474;
       ["objective"] = "Destroy the Dragonmaw catapults.";
@@ -4211,6 +5043,9 @@ addon.questsDB = {
    [466] = {
       ["name"] = "Search for Incendicite";
       ["prev"] = 467;
+      ["prequests"] = {
+         [1] = 467;
+      };
       ["repgain"] = {
          [47] = 250;
       };
@@ -4250,15 +5085,18 @@ addon.questsDB = {
    };
    [471] = {
       ["name"] = "Apprentice's Duties";
-      ["prev"] = 484;
+      ["objective"] = "Collect 6 Giant Crocolisk Skins and bring them to James Halloran in Menethil Harbor.";
       ["repgain"] = {
          [72] = 250;
       };
+      ["prequests"] = {
+         [1] = 484;
+      };
+      ["prev"] = 484;
       ["reward"] = {
          [1] = 2545;
          [2] = 3561;
       };
-      ["objective"] = "Collect 6 Giant Crocolisk Skins and bring them to James Halloran in Menethil Harbor.";
       ["req"] = 18;
    };
    [472] = {
@@ -4280,15 +5118,18 @@ addon.questsDB = {
    };
    [474] = {
       ["name"] = "Defeat Nek'rosh";
-      ["prev"] = 465;
+      ["objective"] = "Kill Chieftain Nek'rosh$B$BBring Nek'rosh's Head to Captain Stoutfist.";
       ["repgain"] = {
          [47] = 250;
       };
+      ["prequests"] = {
+         [1] = 465;
+      };
+      ["prev"] = 465;
       ["reward"] = {
          [1] = 3209;
          [2] = 6194;
       };
-      ["objective"] = "Kill Chieftain Nek'rosh$B$BBring Nek'rosh's Head to Captain Stoutfist.";
       ["req"] = 23;
    };
    [475] = {
@@ -4301,10 +5142,13 @@ addon.questsDB = {
       ["req"] = 4;
    };
    [476] = {
-      ["name"] = "Gnarlpine Corruption";
-      ["prev"] = 475;
       ["repgain"] = {
          [69] = 100;
+      };
+      ["name"] = "Gnarlpine Corruption";
+      ["prev"] = 475;
+      ["prequests"] = {
+         [1] = 475;
       };
       ["next"] = 483;
       ["objective"] = "Return to Athridas Bearmantle in Dolanaar.";
@@ -4320,20 +5164,26 @@ addon.questsDB = {
       ["req"] = 10;
    };
    [478] = {
-      ["name"] = "Maps and Runes";
-      ["prev"] = 477;
       ["repgain"] = {
          [68] = 150;
+      };
+      ["name"] = "Maps and Runes";
+      ["prev"] = 477;
+      ["prequests"] = {
+         [1] = 477;
       };
       ["next"] = 481;
       ["objective"] = "Bring the strange pendant to Shadow Priest Allister at the Sepulcher.";
       ["req"] = 10;
    };
    [479] = {
-      ["name"] = "Ambermill Investigations";
-      ["prev"] = 482;
       ["repgain"] = {
          [68] = 250;
+      };
+      ["name"] = "Ambermill Investigations";
+      ["prev"] = 482;
+      ["prequests"] = {
+         [1] = 482;
       };
       ["next"] = 480;
       ["objective"] = "Obtain 8 Dalaran Pendants for Shadow Priest Allister at the Sepulcher.";
@@ -4341,49 +5191,61 @@ addon.questsDB = {
    };
    [480] = {
       ["name"] = "The Weaver";
-      ["prev"] = 479;
+      ["objective"] = "Kill the Dalaran archmage, then retrieve his staff for Shadow Priest Allister at the Sepulcher.";
       ["repgain"] = {
          [68] = 250;
       };
+      ["prequests"] = {
+         [1] = 479;
+      };
+      ["prev"] = 479;
       ["reward"] = {
          [1] = 3452;
          [2] = 3585;
       };
-      ["objective"] = "Kill the Dalaran archmage, then retrieve his staff for Shadow Priest Allister at the Sepulcher.";
       ["req"] = 10;
    };
    [481] = {
-      ["name"] = "Dalar's Analysis";
-      ["prev"] = 478;
       ["repgain"] = {
          [68] = 10;
+      };
+      ["name"] = "Dalar's Analysis";
+      ["prev"] = 478;
+      ["prequests"] = {
+         [1] = 478;
       };
       ["next"] = 482;
       ["objective"] = "Take the rune-inscribed pendant to Dalar Dawnweaver at the Sepulcher.";
       ["req"] = 10;
    };
    [482] = {
-      ["name"] = "Dalaran's Intentions";
-      ["prev"] = 481;
       ["repgain"] = {
          [68] = 10;
+      };
+      ["name"] = "Dalaran's Intentions";
+      ["prev"] = 481;
+      ["prequests"] = {
+         [1] = 481;
       };
       ["next"] = 479;
       ["objective"] = "Speak with Shadow Priest Allister at the Sepulcher.";
       ["req"] = 10;
    };
    [483] = {
+      ["name"] = "The Relics of Wakening";
       ["repgain"] = {
          [69] = 100;
       };
-      ["name"] = "The Relics of Wakening";
+      ["objective"] = "Retrieve the Relics of Wakening and bring them to Athridas Bearmantle in Dolanaar.";
+      ["next"] = 486;
+      ["prequests"] = {
+         [1] = 476;
+      };
       ["prev"] = 476;
       ["reward"] = {
          [1] = 9599;
          [2] = 9603;
       };
-      ["next"] = 486;
-      ["objective"] = "Retrieve the Relics of Wakening and bring them to Athridas Bearmantle in Dolanaar.";
       ["req"] = 4;
    };
    [484] = {
@@ -4406,15 +5268,18 @@ addon.questsDB = {
    };
    [486] = {
       ["name"] = "Ursal the Mauler";
-      ["prev"] = 483;
+      ["objective"] = "Kill Ursal the Mauler and return to Athridas Bearmantle in Dolanaar.";
       ["repgain"] = {
          [69] = 350;
       };
+      ["prequests"] = {
+         [1] = 483;
+      };
+      ["prev"] = 483;
       ["reward"] = {
          [1] = 5459;
          [2] = 5587;
       };
-      ["objective"] = "Kill Ursal the Mauler and return to Athridas Bearmantle in Dolanaar.";
       ["req"] = 4;
    };
    [487] = {
@@ -4433,6 +5298,9 @@ addon.questsDB = {
    [489] = {
       ["name"] = "Seek Redemption!";
       ["prev"] = 488;
+      ["prequests"] = {
+         [1] = 488;
+      };
       ["repgain"] = {
          [69] = 500;
       };
@@ -4441,21 +5309,27 @@ addon.questsDB = {
    };
    [491] = {
       ["name"] = "Wand to Bethor";
-      ["prev"] = 461;
+      ["objective"] = "Take the Woven Wand to Bethor Iceshard in the Magic Quarter of the Undercity.";
       ["repgain"] = {
          [68] = 350;
       };
+      ["prequests"] = {
+         [1] = 461;
+      };
+      ["prev"] = 461;
       ["reward"] = {
          [1] = 3457;
          [2] = 3458;
          [3] = 3581;
       };
-      ["objective"] = "Take the Woven Wand to Bethor Iceshard in the Magic Quarter of the Undercity.";
       ["req"] = 12;
    };
    [492] = {
       ["name"] = "A New Plague";
       ["prev"] = 369;
+      ["prequests"] = {
+         [1] = 369;
+      };
       ["repgain"] = {
          [68] = 250;
       };
@@ -4511,6 +5385,9 @@ addon.questsDB = {
    [499] = {
       ["name"] = "Elixir of Suffering";
       ["prev"] = 496;
+      ["prequests"] = {
+         [1] = 496;
+      };
       ["repgain"] = {
          [68] = 250;
       };
@@ -4543,6 +5420,9 @@ addon.questsDB = {
    [502] = {
       ["name"] = "Elixir of Pain";
       ["prev"] = 501;
+      ["prequests"] = {
+         [1] = 501;
+      };
       ["repgain"] = {
          [68] = 150;
       };
@@ -4550,10 +5430,13 @@ addon.questsDB = {
       ["req"] = 21;
    };
    [503] = {
-      ["name"] = "Gol'dir";
-      ["prev"] = 533;
       ["repgain"] = {
          [76] = 250;
+      };
+      ["name"] = "Gol'dir";
+      ["prev"] = 533;
+      ["prequests"] = {
+         [1] = 533;
       };
       ["next"] = 506;
       ["objective"] = "Free Gol'dir then return to Krusk in Tarren Mill.";
@@ -4561,16 +5444,19 @@ addon.questsDB = {
    };
    [504] = {
       ["name"] = "Crushridge Warmongers";
-      ["prev"] = 500;
+      ["objective"] = "Slay 10 Crushridge Warmongers, then return to Marshal Redpath in Southshore.";
       ["repgain"] = {
          [54] = 150;
          [72] = 250;
       };
+      ["prequests"] = {
+         [1] = 500;
+      };
+      ["prev"] = 500;
       ["reward"] = {
          [1] = 5249;
          [2] = 3763;
       };
-      ["objective"] = "Slay 10 Crushridge Warmongers, then return to Marshal Redpath in Southshore.";
       ["req"] = 30;
    };
    [505] = {
@@ -4586,10 +5472,13 @@ addon.questsDB = {
       ["req"] = 26;
    };
    [506] = {
-      ["name"] = "Blackmoore's Legacy";
-      ["prev"] = 503;
       ["repgain"] = {
          [76] = 150;
+      };
+      ["name"] = "Blackmoore's Legacy";
+      ["prev"] = 503;
+      ["prequests"] = {
+         [1] = 503;
       };
       ["next"] = 507;
       ["objective"] = "Return the information gathered by Gol'dir to Krusk in Tarren Mill.";
@@ -4598,21 +5487,27 @@ addon.questsDB = {
    [507] = {
       ["name"] = "Lord Aliden Perenolde";
       ["prev"] = 506;
+      ["prequests"] = {
+         [1] = 506;
+      };
       ["next"] = 508;
       ["objective"] = "Kill Lord Aliden Perenolde and ask his mistress, Elysa, about Taretha's pendant.";
       ["req"] = 29;
    };
    [508] = {
       ["name"] = "Taretha's Gift";
-      ["prev"] = 507;
+      ["objective"] = "Return Taretha's pendant to Krusk in Tarren Mill.";
       ["repgain"] = {
          [76] = 350;
       };
+      ["prequests"] = {
+         [1] = 507;
+      };
+      ["prev"] = 507;
       ["reward"] = {
          [1] = 3764;
          [2] = 3765;
       };
-      ["objective"] = "Return Taretha's pendant to Krusk in Tarren Mill.";
       ["req"] = 29;
    };
    [509] = {
@@ -4645,6 +5540,9 @@ addon.questsDB = {
    [512] = {
       ["name"] = "Noble Deaths";
       ["prev"] = 510;
+      ["prequests"] = {
+         [1] = 510;
+      };
       ["repgain"] = {
          [469] = 250;
       };
@@ -4652,37 +5550,46 @@ addon.questsDB = {
       ["req"] = 26;
    };
    [513] = {
-      ["name"] = "Elixir of Agony";
-      ["prev"] = 509;
       ["repgain"] = {
          [68] = 75;
+      };
+      ["name"] = "Elixir of Agony";
+      ["prev"] = 509;
+      ["prequests"] = {
+         [1] = 509;
       };
       ["next"] = 515;
       ["objective"] = "Take the Mudsnout Composite to Master Apothecary Faranell in the Undercity.";
       ["req"] = 24;
    };
    [514] = {
-      ["name"] = "Letter to Stormpike";
-      ["prev"] = 511;
       ["repgain"] = {
          [47] = 75;
+      };
+      ["name"] = "Letter to Stormpike";
+      ["prev"] = 511;
+      ["prequests"] = {
+         [1] = 511;
       };
       ["next"] = 525;
       ["objective"] = "Take the Cleverly Encrypted Letter to Prospector Stormpike in Ironforge.";
       ["req"] = 30;
    };
    [515] = {
+      ["name"] = "Elixir of Agony";
       ["repgain"] = {
          [68] = 350;
       };
-      ["name"] = "Elixir of Agony";
+      ["objective"] = "Bring the Mudsnout Mixture, a Strong Troll's Blood Potion, 5 Daggerspine Scales and 5 Torn Fin Eyes to Apothecary Lydon in Tarren Mill.";
+      ["next"] = 517;
+      ["prequests"] = {
+         [1] = 513;
+      };
       ["prev"] = 513;
       ["reward"] = {
          [1] = 3749;
          [2] = 3747;
       };
-      ["next"] = 517;
-      ["objective"] = "Bring the Mudsnout Mixture, a Strong Troll's Blood Potion, 5 Daggerspine Scales and 5 Torn Fin Eyes to Apothecary Lydon in Tarren Mill.";
       ["req"] = 24;
    };
    [516] = {
@@ -4694,40 +5601,52 @@ addon.questsDB = {
       ["req"] = 16;
    };
    [517] = {
-      ["name"] = "Elixir of Agony";
-      ["prev"] = 515;
       ["repgain"] = {
          [68] = 75;
+      };
+      ["name"] = "Elixir of Agony";
+      ["prev"] = 515;
+      ["prequests"] = {
+         [1] = 515;
       };
       ["next"] = 524;
       ["objective"] = "Bring a keg of Shindigger Stout to Apothecary Lydon in Tarren Mill.";
       ["req"] = 24;
    };
    [518] = {
-      ["name"] = "The Crown of Will";
-      ["prev"] = 495;
       ["repgain"] = {
          [76] = 250;
+      };
+      ["name"] = "The Crown of Will";
+      ["prev"] = 495;
+      ["prequests"] = {
+         [1] = 495;
       };
       ["next"] = 519;
       ["objective"] = "Kill 10 Crushridge Maulers for Melisara in Tarren Mill.";
       ["req"] = 34;
    };
    [519] = {
-      ["name"] = "The Crown of Will";
-      ["prev"] = 518;
       ["repgain"] = {
          [68] = 250;
+      };
+      ["name"] = "The Crown of Will";
+      ["prev"] = 518;
+      ["prequests"] = {
+         [1] = 518;
       };
       ["next"] = 520;
       ["objective"] = "Kill Targ, Muckrake, and Glommus and bring their heads to Melisara in Tarren Mill.";
       ["req"] = 34;
    };
    [520] = {
-      ["name"] = "The Crown of Will";
-      ["prev"] = 519;
       ["repgain"] = {
          [68] = 350;
+      };
+      ["name"] = "The Crown of Will";
+      ["prev"] = 519;
+      ["prequests"] = {
+         [1] = 519;
       };
       ["next"] = 521;
       ["objective"] = "Kill Mug'Thol, and return his head with the Crown of Will to Melisara in Tarren Mill.";
@@ -4736,6 +5655,9 @@ addon.questsDB = {
    [521] = {
       ["name"] = "The Crown of Will";
       ["prev"] = 520;
+      ["prequests"] = {
+         [1] = 520;
+      };
       ["repgain"] = {
          [68] = 250;
       };
@@ -4754,6 +5676,9 @@ addon.questsDB = {
    [523] = {
       ["name"] = "Baron's Demise";
       ["prev"] = 522;
+      ["prequests"] = {
+         [1] = 522;
+      };
       ["repgain"] = {
          [72] = 250;
       };
@@ -4763,6 +5688,9 @@ addon.questsDB = {
    [524] = {
       ["name"] = "Elixir of Agony";
       ["prev"] = 517;
+      ["prequests"] = {
+         [1] = 517;
+      };
       ["repgain"] = {
          [68] = 500;
       };
@@ -4770,20 +5698,26 @@ addon.questsDB = {
       ["req"] = 24;
    };
    [525] = {
-      ["name"] = "Further Mysteries";
-      ["prev"] = 514;
       ["repgain"] = {
          [72] = 75;
+      };
+      ["name"] = "Further Mysteries";
+      ["prev"] = 514;
+      ["prequests"] = {
+         [1] = 514;
       };
       ["next"] = 537;
       ["objective"] = "Bring the Decrypted Letter to Magistrate Maleb in Southshore.";
       ["req"] = 30;
    };
    [526] = {
-      ["name"] = "Lightforge Ingots";
-      ["prev"] = 324;
       ["repgain"] = {
          [47] = 150;
+      };
+      ["name"] = "Lightforge Ingots";
+      ["prev"] = 324;
+      ["prequests"] = {
+         [1] = 324;
       };
       ["next"] = 322;
       ["objective"] = "Gather 5 lightforge ingots, then return to Glorin Steelbrow in the Wetlands.";
@@ -4799,20 +5733,26 @@ addon.questsDB = {
       ["req"] = 19;
    };
    [528] = {
-      ["name"] = "Battle of Hillsbrad";
-      ["prev"] = 527;
       ["repgain"] = {
          [68] = 250;
+      };
+      ["name"] = "Battle of Hillsbrad";
+      ["prev"] = 527;
+      ["prequests"] = {
+         [1] = 527;
       };
       ["next"] = 529;
       ["objective"] = "Kill 15 Hillsbrad Peasants and report back to Darthalia in Tarren Mill.";
       ["req"] = 19;
    };
    [529] = {
-      ["name"] = "Battle of Hillsbrad";
-      ["prev"] = 528;
       ["repgain"] = {
          [68] = 250;
+      };
+      ["name"] = "Battle of Hillsbrad";
+      ["prev"] = 528;
+      ["prequests"] = {
+         [1] = 528;
       };
       ["next"] = 532;
       ["objective"] = "Kill Blacksmith Verringtan and 4 Hillsbrad Apprentice Blacksmiths.$B$BRetrieve a shipment of iron and report back to Darthalia in Tarren Mill.";
@@ -4821,6 +5761,9 @@ addon.questsDB = {
    [530] = {
       ["name"] = "A Husband's Revenge";
       ["prev"] = 441;
+      ["prequests"] = {
+         [1] = 441;
+      };
       ["repgain"] = {
          [68] = 250;
       };
@@ -4830,6 +5773,9 @@ addon.questsDB = {
    [531] = {
       ["name"] = "Vyrin's Revenge";
       ["prev"] = 271;
+      ["prequests"] = {
+         [1] = 271;
+      };
       ["reward"] = {
          [1] = 3574;
          [2] = 3573;
@@ -4838,20 +5784,26 @@ addon.questsDB = {
       ["req"] = 15;
    };
    [532] = {
-      ["name"] = "Battle of Hillsbrad";
-      ["prev"] = 529;
       ["repgain"] = {
          [68] = 250;
+      };
+      ["name"] = "Battle of Hillsbrad";
+      ["prev"] = 529;
+      ["prequests"] = {
+         [1] = 529;
       };
       ["next"] = 539;
       ["objective"] = "Kill Magistrate Burnside and 4 Hillsbrad Councilmen.  Destroy the Hillsbrad Proclamation.  Steal the Hillsbrad Town Registry.  Report back to Darthalia in Tarren Mill afterwards.";
       ["req"] = 19;
    };
    [533] = {
-      ["name"] = "Infiltration";
-      ["prev"] = 498;
       ["repgain"] = {
          [76] = 250;
+      };
+      ["name"] = "Infiltration";
+      ["prev"] = 498;
+      ["prequests"] = {
+         [1] = 498;
       };
       ["next"] = 503;
       ["objective"] = "Retrieve information about Gol'dir's whereabouts for Krusk in Tarren Mill.";
@@ -4871,6 +5823,9 @@ addon.questsDB = {
    [537] = {
       ["name"] = "Dark Council";
       ["prev"] = 525;
+      ["prequests"] = {
+         [1] = 525;
+      };
       ["repgain"] = {
          [72] = 250;
       };
@@ -4878,40 +5833,52 @@ addon.questsDB = {
       ["req"] = 30;
    };
    [538] = {
-      ["name"] = "Southshore";
-      ["prev"] = 337;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "Southshore";
+      ["prev"] = 337;
+      ["prequests"] = {
+         [1] = 337;
       };
       ["next"] = 540;
       ["objective"] = "Speak with Loremaster Dibbs in Southshore.";
       ["req"] = 20;
    };
    [539] = {
-      ["name"] = "Battle of Hillsbrad";
-      ["prev"] = 532;
       ["repgain"] = {
          [68] = 250;
+      };
+      ["name"] = "Battle of Hillsbrad";
+      ["prev"] = 532;
+      ["prequests"] = {
+         [1] = 532;
       };
       ["next"] = 541;
       ["objective"] = "Kill Foreman Bonds and 10 Hillsbrad Miners and report back to Darthalia in Tarren Mill.";
       ["req"] = 19;
    };
    [540] = {
-      ["name"] = "Preserving Knowledge";
-      ["prev"] = 538;
       ["repgain"] = {
          [72] = 350;
+      };
+      ["name"] = "Preserving Knowledge";
+      ["prev"] = 538;
+      ["prequests"] = {
+         [1] = 538;
       };
       ["next"] = 542;
       ["objective"] = "Bring 5 Recovered Tomes and the Worn Leather Book containing The Arm of Gri'lek to Loremaster Dibbs in Southshore.";
       ["req"] = 20;
    };
    [541] = {
-      ["name"] = "Battle of Hillsbrad";
-      ["prev"] = 539;
       ["repgain"] = {
          [68] = 250;
+      };
+      ["name"] = "Battle of Hillsbrad";
+      ["prev"] = 539;
+      ["prequests"] = {
+         [1] = 539;
       };
       ["next"] = 550;
       ["objective"] = "Travel to Dun Garok and kill 8 Mountaineers, 4 Riflemen, 2 Priests and Captain Ironhill and report back to Darthalia in Tarren Mill.";
@@ -4920,6 +5887,9 @@ addon.questsDB = {
    [542] = {
       ["name"] = "Return to Milton";
       ["prev"] = 540;
+      ["prequests"] = {
+         [1] = 540;
+      };
       ["repgain"] = {
          [469] = 350;
       };
@@ -4946,6 +5916,9 @@ addon.questsDB = {
    [545] = {
       ["name"] = "Dalaran Patrols";
       ["prev"] = 544;
+      ["prequests"] = {
+         [1] = 544;
+      };
       ["repgain"] = {
          [68] = 150;
       };
@@ -4955,6 +5928,9 @@ addon.questsDB = {
    [546] = {
       ["name"] = "Souvenirs of Death";
       ["prev"] = 527;
+      ["prequests"] = {
+         [1] = 527;
+      };
       ["repgain"] = {
          [68] = 350;
       };
@@ -4983,16 +5959,19 @@ addon.questsDB = {
    };
    [550] = {
       ["name"] = "Battle of Hillsbrad";
-      ["prev"] = 541;
+      ["objective"] = "Take Darthalia's Sealed Commendation to Varimathras in the Undercity.";
       ["repgain"] = {
          [68] = 250;
       };
+      ["prequests"] = {
+         [1] = 541;
+      };
+      ["prev"] = 541;
       ["reward"] = {
          [1] = 6282;
          [2] = 3761;
          [3] = 3822;
       };
-      ["objective"] = "Take Darthalia's Sealed Commendation to Varimathras in the Undercity.";
       ["req"] = 19;
    };
    [551] = {
@@ -5013,6 +5992,9 @@ addon.questsDB = {
    [553] = {
       ["name"] = "Helcular's Revenge";
       ["prev"] = 552;
+      ["prequests"] = {
+         [1] = 552;
+      };
       ["repgain"] = {
          [68] = 350;
       };
@@ -5022,6 +6004,9 @@ addon.questsDB = {
    [554] = {
       ["name"] = "Stormpike's Deciphering";
       ["prev"] = 551;
+      ["prequests"] = {
+         [1] = 551;
+      };
       ["repgain"] = {
          [47] = 250;
       };
@@ -5047,6 +6032,9 @@ addon.questsDB = {
    [557] = {
       ["name"] = "Bracers of Binding";
       ["prev"] = 556;
+      ["prequests"] = {
+         [1] = 556;
+      };
       ["repgain"] = {
          [68] = 250;
       };
@@ -5062,15 +6050,21 @@ addon.questsDB = {
    [559] = {
       ["name"] = "Farren's Proof";
       ["prev"] = 536;
+      ["prequests"] = {
+         [1] = 536;
+      };
       ["next"] = 560;
       ["objective"] = "Collect 10 Murloc Heads from the murlocs on the Western Strand for Lieutenant Farren Orinelle in Southshore.";
       ["req"] = 25;
    };
    [560] = {
-      ["name"] = "Farren's Proof";
-      ["prev"] = 559;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "Farren's Proof";
+      ["prev"] = 559;
+      ["prequests"] = {
+         [1] = 559;
       };
       ["next"] = 561;
       ["objective"] = "Deliver the sack of murloc heads to Marshall Redpath in Southshore.";
@@ -5079,6 +6073,9 @@ addon.questsDB = {
    [561] = {
       ["name"] = "Farren's Proof";
       ["prev"] = 560;
+      ["prequests"] = {
+         [1] = 560;
+      };
       ["next"] = 562;
       ["objective"] = "Speak with Lieutenant Farren Orinelle in Southshore.";
       ["req"] = 25;
@@ -5086,6 +6083,9 @@ addon.questsDB = {
    [562] = {
       ["name"] = "Stormwind Ho!";
       ["prev"] = 561;
+      ["prequests"] = {
+         [1] = 561;
+      };
       ["next"] = 563;
       ["objective"] = "Kill 10 Daggerspine Shorehunters and 10 Daggerspine Sirens for Lieutenant Farren Orinelle in Southshore.";
       ["req"] = 25;
@@ -5093,6 +6093,9 @@ addon.questsDB = {
    [563] = {
       ["name"] = "Reassignment";
       ["prev"] = 562;
+      ["prequests"] = {
+         [1] = 562;
+      };
       ["objective"] = "Deliver Farren's report to Major Samuelson in Stormwind Keep.";
       ["req"] = 25;
    };
@@ -5149,6 +6152,9 @@ addon.questsDB = {
    [569] = {
       ["name"] = "The Defense of Grom'gol";
       ["prev"] = 568;
+      ["prequests"] = {
+         [1] = 568;
+      };
       ["repgain"] = {
          [76] = 250;
       };
@@ -5165,20 +6171,26 @@ addon.questsDB = {
       ["req"] = 33;
    };
    [571] = {
-      ["name"] = "Mok'thardin's Enchantment";
-      ["prev"] = 572;
       ["repgain"] = {
          [76] = 250;
+      };
+      ["name"] = "Mok'thardin's Enchantment";
+      ["prev"] = 572;
+      ["prequests"] = {
+         [1] = 572;
       };
       ["next"] = 573;
       ["objective"] = "Bring an Aged Gorilla Sinew to Far Seer Mok'thardin in Grom'gol.";
       ["req"] = 33;
    };
    [572] = {
-      ["name"] = "Mok'thardin's Enchantment";
-      ["prev"] = 570;
       ["repgain"] = {
          [76] = 250;
+      };
+      ["name"] = "Mok'thardin's Enchantment";
+      ["prev"] = 570;
+      ["prequests"] = {
+         [1] = 570;
       };
       ["next"] = 571;
       ["objective"] = "Bring 10 Jungle Stalker Feathers to Far Seer Mok'thardin at the Grom'gol base camp.";
@@ -5187,6 +6199,9 @@ addon.questsDB = {
    [573] = {
       ["name"] = "Mok'thardin's Enchantment";
       ["prev"] = 571;
+      ["prequests"] = {
+         [1] = 571;
+      };
       ["repgain"] = {
          [76] = 350;
       };
@@ -5196,6 +6211,10 @@ addon.questsDB = {
    [574] = {
       ["name"] = "Special Forces";
       ["next"] = 202;
+      ["prequests"] = {
+         [1] = 203;
+         [2] = 204;
+      };
       ["repgain"] = {
          [72] = 250;
       };
@@ -5213,6 +6232,9 @@ addon.questsDB = {
    [576] = {
       ["name"] = "Keep An Eye Out";
       ["prev"] = 595;
+      ["prequests"] = {
+         [1] = 595;
+      };
       ["repgain"] = {
          [21] = 350;
       };
@@ -5220,20 +6242,26 @@ addon.questsDB = {
       ["req"] = 37;
    };
    [577] = {
-      ["name"] = "Some Assembly Required";
-      ["prev"] = 575;
       ["repgain"] = {
          [0] = 21;
+      };
+      ["name"] = "Some Assembly Required";
+      ["prev"] = 575;
+      ["prequests"] = {
+         [1] = 575;
       };
       ["next"] = 628;
       ["objective"] = " Drizzlik?\" No doubt the question on your lips";
       ["req"] = 31;
    };
    [578] = {
-      ["name"] = "The Stone of the Tides";
-      ["prev"] = 616;
       ["repgain"] = {
          [21] = 250;
+      };
+      ["name"] = "The Stone of the Tides";
+      ["prev"] = 616;
+      ["prequests"] = {
+         [1] = 616;
       };
       ["next"] = 601;
       ["objective"] = "Find the haunted island for Baron Revilgaz in Booty Bay.";
@@ -5267,15 +6295,18 @@ addon.questsDB = {
    };
    [582] = {
       ["name"] = "Headhunting";
-      ["prev"] = 581;
+      ["objective"] = "Bring 20 Shrunken Heads to Nimboya at the Grom'gol Base Camp.";
       ["repgain"] = {
          [530] = 250;
       };
+      ["prequests"] = {
+         [1] = 581;
+      };
+      ["prev"] = 581;
       ["reward"] = {
          [1] = 4133;
          [2] = 4132;
       };
-      ["objective"] = "Bring 20 Shrunken Heads to Nimboya at the Grom'gol Base Camp.";
       ["req"] = 30;
    };
    [583] = {
@@ -5286,6 +6317,9 @@ addon.questsDB = {
    [584] = {
       ["name"] = "Bloodscalp Clan Heads";
       ["prev"] = 582;
+      ["prequests"] = {
+         [1] = 582;
+      };
       ["repgain"] = {
          [530] = 250;
       };
@@ -5293,20 +6327,26 @@ addon.questsDB = {
       ["req"] = 30;
    };
    [585] = {
-      ["name"] = "Speaking with Nezzliok";
-      ["prev"] = 584;
       ["repgain"] = {
          [530] = 150;
+      };
+      ["name"] = "Speaking with Nezzliok";
+      ["prev"] = 584;
+      ["prequests"] = {
+         [1] = 584;
       };
       ["followup"] = 588;
       ["objective"] = "Bring a Balia'mah Trophy, a Ziata'jai Trophy and a Zul'Mamwe Trophy to the Bubbling Cauldron at the Grom'gol Base Camp.";
       ["req"] = 30;
    };
    [586] = {
-      ["name"] = "Speaking with Gan'zulah";
-      ["prev"] = 584;
       ["repgain"] = {
          [530] = 250;
+      };
+      ["name"] = "Speaking with Gan'zulah";
+      ["prev"] = 584;
+      ["prequests"] = {
+         [1] = 584;
       };
       ["followup"] = 588;
       ["objective"] = "Kill 8 Skullsplitter Hunters, 6 Skullsplitter Headhunters, and 4 Skullsplitter Berserkers.$B$BBring the Broken Armor of Ana'thek to the Bubbling Cauldron at the Grom'gol Base Camp.";
@@ -5315,6 +6355,9 @@ addon.questsDB = {
    [587] = {
       ["name"] = "Up to Snuff";
       ["prev"] = 595;
+      ["prequests"] = {
+         [1] = 595;
+      };
       ["repgain"] = {
          [21] = 250;
       };
@@ -5324,6 +6367,10 @@ addon.questsDB = {
    [588] = {
       ["name"] = "The Fate of Yenniku";
       ["next"] = 589;
+      ["prequests"] = {
+         [1] = 585;
+         [2] = 586;
+      };
       ["repgain"] = {
          [530] = 25;
       };
@@ -5331,10 +6378,13 @@ addon.questsDB = {
       ["req"] = 30;
    };
    [589] = {
-      ["name"] = "The Singing Crystals";
-      ["prev"] = 588;
       ["repgain"] = {
          [530] = 250;
+      };
+      ["name"] = "The Singing Crystals";
+      ["prev"] = 588;
+      ["prequests"] = {
+         [1] = 588;
       };
       ["next"] = 591;
       ["objective"] = "Bring 3 Pulsing Blue Shards to Kin'weelay at the Grom'gol Base Camp.";
@@ -5343,6 +6393,9 @@ addon.questsDB = {
    [590] = {
       ["name"] = "A Rogue's Deal";
       ["prev"] = 8;
+      ["prequests"] = {
+         [1] = 8;
+      };
       ["repgain"] = {
          [68] = 75;
       };
@@ -5352,6 +6405,9 @@ addon.questsDB = {
    [591] = {
       ["name"] = "The Mind's Eye";
       ["prev"] = 589;
+      ["prequests"] = {
+         [1] = 589;
+      };
       ["repgain"] = {
          [530] = 350;
       };
@@ -5360,15 +6416,18 @@ addon.questsDB = {
    };
    [592] = {
       ["name"] = "Saving Yenniku";
-      ["prev"] = 591;
+      ["objective"] = "Bring the Filled Soul Gem to Nimboya.";
       ["repgain"] = {
          [530] = 350;
       };
+      ["prequests"] = {
+         [1] = 591;
+      };
+      ["prev"] = 591;
       ["reward"] = {
          [1] = 4134;
          [2] = 6723;
       };
-      ["objective"] = "Bring the Filled Soul Gem to Nimboya.";
       ["req"] = 30;
    };
    [593] = {
@@ -5400,10 +6459,13 @@ addon.questsDB = {
       ["req"] = 30;
    };
    [597] = {
-      ["name"] = "The Bloodsail Buccaneers";
-      ["prev"] = 595;
       ["repgain"] = {
          [21] = 150;
+      };
+      ["name"] = "The Bloodsail Buccaneers";
+      ["prev"] = 595;
+      ["prequests"] = {
+         [1] = 595;
       };
       ["next"] = 599;
       ["objective"] = " kill them.\"\"";
@@ -5411,22 +6473,28 @@ addon.questsDB = {
    };
    [598] = {
       ["name"] = "Split Bone Necklace";
-      ["prev"] = 596;
+      ["objective"] = "Bring 25 Split Bone Necklaces to Kin'weelay at the Grom'gol Base camp.";
       ["repgain"] = {
          [530] = 250;
       };
+      ["prequests"] = {
+         [1] = 596;
+      };
+      ["prev"] = 596;
       ["reward"] = {
          [1] = 4137;
          [2] = 4136;
       };
-      ["objective"] = "Bring 25 Split Bone Necklaces to Kin'weelay at the Grom'gol Base camp.";
       ["req"] = 30;
    };
    [599] = {
-      ["name"] = "The Bloodsail Buccaneers";
-      ["prev"] = 597;
       ["repgain"] = {
          [21] = 25;
+      };
+      ["name"] = "The Bloodsail Buccaneers";
+      ["prev"] = 597;
+      ["prequests"] = {
+         [1] = 597;
       };
       ["next"] = 604;
       ["objective"] = "Report the planned Bloodsail attack to Fleet Master Seahorn.";
@@ -5434,22 +6502,28 @@ addon.questsDB = {
    };
    [600] = {
       ["name"] = "Venture Company Mining";
-      ["prev"] = 605;
+      ["objective"] = "Bring 10 Singing Blue Crystals to Crank Fizzlebub in Booty Bay.";
       ["repgain"] = {
          [21] = 250;
       };
+      ["prequests"] = {
+         [1] = 605;
+      };
+      ["prev"] = 605;
       ["reward"] = {
          [1] = 5253;
          [2] = 4128;
       };
-      ["objective"] = "Bring 10 Singing Blue Crystals to Crank Fizzlebub in Booty Bay.";
       ["req"] = 30;
    };
    [601] = {
-      ["name"] = "Water Elementals";
-      ["prev"] = 578;
       ["repgain"] = {
          [21] = 250;
+      };
+      ["name"] = "Water Elementals";
+      ["prev"] = 578;
+      ["prequests"] = {
+         [1] = 578;
       };
       ["next"] = 602;
       ["objective"] = "Acquire 6 Water Elemental Bracers for Baron Revilgaz in Booty Bay.";
@@ -5458,6 +6532,9 @@ addon.questsDB = {
    [602] = {
       ["name"] = "Magical Analysis";
       ["prev"] = 601;
+      ["prequests"] = {
+         [1] = 601;
+      };
       ["repgain"] = {
          [72] = 75;
       };
@@ -5465,20 +6542,26 @@ addon.questsDB = {
       ["req"] = 32;
    };
    [603] = {
-      ["name"] = "Ansirem's Key";
-      ["prev"] = 602;
       ["repgain"] = {
          [21] = 75;
+      };
+      ["name"] = "Ansirem's Key";
+      ["prev"] = 602;
+      ["prequests"] = {
+         [1] = 602;
       };
       ["next"] = 610;
       ["objective"] = "Talk to Catelyn in Booty Bay.";
       ["req"] = 32;
    };
    [604] = {
-      ["name"] = "The Bloodsail Buccaneers";
-      ["prev"] = 599;
       ["repgain"] = {
          [21] = 250;
+      };
+      ["name"] = "The Bloodsail Buccaneers";
+      ["prev"] = 599;
+      ["prequests"] = {
+         [1] = 599;
       };
       ["next"] = 608;
       ["objective"] = "Fleet Master Seahorn in Booty Bay wants you to kill 10 Bloodsail Swashbucklers and bring back the Bloodsail Charts and the Bloodsail Orders.";
@@ -5503,10 +6586,13 @@ addon.questsDB = {
       ["req"] = 30;
    };
    [607] = {
-      ["name"] = "Return to MacKinley";
-      ["prev"] = 606;
       ["repgain"] = {
          [21] = 150;
+      };
+      ["name"] = "Return to MacKinley";
+      ["prev"] = 606;
+      ["prequests"] = {
+         [1] = 606;
       };
       ["next"] = 609;
       ["objective"] = "Bring Shaky's Payment to Sea Wolf\" MacKinley.\"";
@@ -5515,6 +6601,9 @@ addon.questsDB = {
    [608] = {
       ["name"] = "The Bloodsail Buccaneers";
       ["prev"] = 604;
+      ["prequests"] = {
+         [1] = 604;
+      };
       ["repgain"] = {
          [21] = 350;
       };
@@ -5522,20 +6611,26 @@ addon.questsDB = {
       ["req"] = 37;
    };
    [609] = {
-      ["name"] = "Voodoo Dues";
-      ["prev"] = 607;
       ["repgain"] = {
          [0] = 21;
+      };
+      ["name"] = "Voodoo Dues";
+      ["prev"] = 607;
+      ["prequests"] = {
+         [1] = 607;
       };
       ["next"] = 613;
       ["objective"] = " Jon-Jon the Crow";
       ["req"] = 30;
    };
    [610] = {
-      ["name"] = "Pretty Boy\" Duncan\"";
-      ["prev"] = 603;
       ["repgain"] = {
          [21] = 250;
+      };
+      ["name"] = "Pretty Boy\" Duncan\"";
+      ["prev"] = 603;
+      ["prequests"] = {
+         [1] = 603;
       };
       ["next"] = 611;
       ["objective"] = " one of the Bloodsail Buccaneers. Put something 'tween his shoulders and I'm sure he'll give it up.\"";
@@ -5544,6 +6639,9 @@ addon.questsDB = {
    [611] = {
       ["name"] = "The Curse of the Tides";
       ["prev"] = 610;
+      ["prequests"] = {
+         [1] = 610;
+      };
       ["repgain"] = {
          [21] = 350;
       };
@@ -5553,6 +6651,9 @@ addon.questsDB = {
    [613] = {
       ["name"] = "Cracking Maury's Foot";
       ["prev"] = 609;
+      ["prequests"] = {
+         [1] = 609;
+      };
       ["repgain"] = {
          [21] = 350;
       };
@@ -5567,6 +6668,9 @@ addon.questsDB = {
    [615] = {
       ["name"] = "The Captain's Cutlass";
       ["prev"] = 8552;
+      ["prequests"] = {
+         [1] = 8552;
+      };
       ["next"] = 8554;
       ["objective"] = "Speak with Sprogger.";
       ["req"] = 35;
@@ -5588,6 +6692,9 @@ addon.questsDB = {
    [618] = {
       ["name"] = "Facing Negolash";
       ["prev"] = 615;
+      ["prequests"] = {
+         [1] = 615;
+      };
       ["repgain"] = {
          [21] = 500;
       };
@@ -5611,6 +6718,9 @@ addon.questsDB = {
    [622] = {
       ["name"] = "Return to Corporal Kaleb";
       ["prev"] = 627;
+      ["prequests"] = {
+         [1] = 627;
+      };
       ["repgain"] = {
          [72] = 250;
       };
@@ -5620,6 +6730,9 @@ addon.questsDB = {
    [623] = {
       ["name"] = "Akiris by the Bundle";
       ["prev"] = 617;
+      ["prequests"] = {
+         [1] = 617;
+      };
       ["repgain"] = {
          [21] = 350;
       };
@@ -5635,6 +6748,9 @@ addon.questsDB = {
    [625] = {
       ["name"] = "Cortello's Riddle";
       ["prev"] = 624;
+      ["prequests"] = {
+         [1] = 624;
+      };
       ["next"] = 626;
       ["objective"] = "Solve the riddle!";
       ["req"] = 35;
@@ -5642,14 +6758,20 @@ addon.questsDB = {
    [626] = {
       ["name"] = "Cortello's Riddle";
       ["prev"] = 625;
+      ["prequests"] = {
+         [1] = 625;
+      };
       ["objective"] = "Solve the riddle!";
       ["req"] = 35;
    };
    [627] = {
-      ["name"] = "Favor for Krazek";
-      ["prev"] = 210;
       ["repgain"] = {
          [21] = 150;
+      };
+      ["name"] = "Favor for Krazek";
+      ["prev"] = 210;
+      ["prequests"] = {
+         [1] = 210;
       };
       ["next"] = 622;
       ["objective"] = "Bring 4 loads of Lesser Bloodstone Ore to Krazek in Booty Bay.";
@@ -5658,6 +6780,9 @@ addon.questsDB = {
    [628] = {
       ["name"] = "Excelsior";
       ["prev"] = 577;
+      ["prequests"] = {
+         [1] = 577;
+      };
       ["repgain"] = {
          [21] = 250;
       };
@@ -5675,6 +6800,9 @@ addon.questsDB = {
    [630] = {
       ["name"] = "Message in a Bottle";
       ["prev"] = 594;
+      ["prequests"] = {
+         [1] = 594;
+      };
       ["objective"] = "Slay King Mukla and return to Princess Poobah with the Key to free her.";
       ["req"] = 45;
    };
@@ -5688,32 +6816,41 @@ addon.questsDB = {
       ["req"] = 28;
    };
    [632] = {
-      ["name"] = "The Thandol Span";
-      ["prev"] = 631;
       ["repgain"] = {
          [47] = 250;
+      };
+      ["name"] = "The Thandol Span";
+      ["prev"] = 631;
+      ["prequests"] = {
+         [1] = 631;
       };
       ["next"] = 633;
       ["objective"] = "Report back to Rhag Garmason and show him the parchment you found on Rustlocke's corpse.";
       ["req"] = 28;
    };
    [633] = {
+      ["name"] = "The Thandol Span";
       ["repgain"] = {
          [47] = 150;
       };
-      ["name"] = "The Thandol Span";
+      ["objective"] = "Destroy the cache of explosives.";
+      ["next"] = 634;
+      ["prequests"] = {
+         [1] = 632;
+      };
       ["prev"] = 632;
       ["reward"] = {
          [1] = 4504;
          [2] = 4505;
       };
-      ["next"] = 634;
-      ["objective"] = "Destroy the cache of explosives.";
       ["req"] = 28;
    };
    [634] = {
       ["name"] = "Plea To The Alliance";
       ["prev"] = 633;
+      ["prequests"] = {
+         [1] = 633;
+      };
       ["objective"] = "Seek out Captain Nials at Refuge Pointe.";
       ["req"] = 28;
    };
@@ -5745,10 +6882,13 @@ addon.questsDB = {
       ["req"] = 32;
    };
    [639] = {
-      ["name"] = "Sigil of Strom";
-      ["prev"] = 638;
       ["repgain"] = {
          [530] = 250;
+      };
+      ["name"] = "Sigil of Strom";
+      ["prev"] = 638;
+      ["prequests"] = {
+         [1] = 638;
       };
       ["next"] = 640;
       ["objective"] = "Get the Sigil of Strom for Zengu in Hammerfall.";
@@ -5757,6 +6897,9 @@ addon.questsDB = {
    [640] = {
       ["name"] = "The Broken Sigil";
       ["prev"] = 639;
+      ["prequests"] = {
+         [1] = 639;
+      };
       ["repgain"] = {
          [76] = 250;
       };
@@ -5764,10 +6907,13 @@ addon.questsDB = {
       ["req"] = 32;
    };
    [641] = {
-      ["name"] = "Sigil of Thoradin";
-      ["prev"] = 640;
       ["repgain"] = {
          [530] = 25;
+      };
+      ["name"] = "Sigil of Thoradin";
+      ["prev"] = 640;
+      ["prequests"] = {
+         [1] = 640;
       };
       ["next"] = 643;
       ["objective"] = "Bring the restored Sigil of Thoradin to Zengu in Hammerfall.";
@@ -5780,30 +6926,39 @@ addon.questsDB = {
       ["req"] = 30;
    };
    [643] = {
-      ["name"] = "Sigil of Arathor";
-      ["prev"] = 641;
       ["repgain"] = {
          [530] = 250;
+      };
+      ["name"] = "Sigil of Arathor";
+      ["prev"] = 641;
+      ["prequests"] = {
+         [1] = 641;
       };
       ["next"] = 644;
       ["objective"] = "Retrieve the Sigil of Arathor and return it to Zengu in Hammerfall.";
       ["req"] = 32;
    };
    [644] = {
-      ["name"] = "Sigil of Trollbane";
-      ["prev"] = 643;
       ["repgain"] = {
          [530] = 250;
+      };
+      ["name"] = "Sigil of Trollbane";
+      ["prev"] = 643;
+      ["prequests"] = {
+         [1] = 643;
       };
       ["next"] = 645;
       ["objective"] = "Kill Prince Galen Trollbane and bring the Sigil of Trollbane to Zengu in Hammerfall.";
       ["req"] = 32;
    };
    [645] = {
-      ["name"] = "Trol'kalar";
-      ["prev"] = 644;
       ["repgain"] = {
          [530] = 25;
+      };
+      ["name"] = "Trol'kalar";
+      ["prev"] = 644;
+      ["prequests"] = {
+         [1] = 644;
       };
       ["next"] = 646;
       ["objective"] = "Retrieve Trol'kalar from Trollbane's tomb in Stromgarde.";
@@ -5811,15 +6966,18 @@ addon.questsDB = {
    };
    [646] = {
       ["name"] = "Trol'kalar";
-      ["prev"] = 645;
+      ["objective"] = "Deliver Trol'kalar to Zengu in Hammerfall.";
       ["repgain"] = {
          [530] = 350;
       };
+      ["prequests"] = {
+         [1] = 645;
+      };
+      ["prev"] = 645;
       ["reward"] = {
          [1] = 4508;
          [2] = 4507;
       };
-      ["objective"] = "Deliver Trol'kalar to Zengu in Hammerfall.";
       ["req"] = 32;
    };
    [647] = {
@@ -5831,10 +6989,13 @@ addon.questsDB = {
       ["req"] = 28;
    };
    [648] = {
-      ["name"] = "Rescue OOX-17/TN!";
-      ["prev"] = 351;
       ["repgain"] = {
          [0] = 21;
+      };
+      ["name"] = "Rescue OOX-17/TN!";
+      ["prev"] = 351;
+      ["prequests"] = {
+         [1] = 351;
       };
       ["followup"] = 3721;
       ["objective"] = " safe place so it can begin a lengthy take-off procedure.  It has built-in cloaking";
@@ -5847,10 +7008,13 @@ addon.questsDB = {
       ["req"] = 42;
    };
    [650] = {
-      ["name"] = "Ripple Recovery";
-      ["prev"] = 649;
       ["repgain"] = {
          [76] = 250;
+      };
+      ["name"] = "Ripple Recovery";
+      ["prev"] = 649;
+      ["prequests"] = {
+         [1] = 649;
       };
       ["next"] = 77;
       ["objective"] = "Talk to Gilveradin Sunchaser; his camp is located in the Hinterlands.";
@@ -5859,6 +7023,9 @@ addon.questsDB = {
    [651] = {
       ["name"] = "Stones of Binding";
       ["prev"] = 642;
+      ["prequests"] = {
+         [1] = 642;
+      };
       ["next"] = 652;
       ["objective"] = "Gather the Burning Key, the Cresting Key and the Thundering Key from the Stone of West Binding, the Stone of East Binding and the Stone of Outer Binding.$B$BBring them to the Stone of Inner Binding.";
       ["req"] = 30;
@@ -5866,22 +7033,31 @@ addon.questsDB = {
    [652] = {
       ["name"] = "Breaking the Keystone";
       ["prev"] = 651;
+      ["prequests"] = {
+         [1] = 651;
+      };
       ["objective"] = "Find and kill Fozruk.  Bring the Rod of Order to the Keystone in the Arathi Highlands.";
       ["req"] = 30;
    };
    [653] = {
+      ["followup"] = 687;
       ["name"] = "Myzrael's Allies";
       ["prev"] = 652;
-      ["followup"] = 687;
+      ["prequests"] = {
+         [1] = 652;
+      };
       ["next"] = 687;
       ["objective"] = "Speak with Gerrig Bonegrip in the Forlorn Cavern of Ironforge.";
       ["req"] = 30;
    };
    [654] = {
-      ["name"] = "Tanaris Field Sampling";
-      ["prev"] = 379;
       ["repgain"] = {
          [68] = 250;
+      };
+      ["name"] = "Tanaris Field Sampling";
+      ["prev"] = 379;
+      ["prequests"] = {
+         [1] = 379;
       };
       ["next"] = 864;
       ["objective"] = "Acquire acceptable samples for 8 basilisks, 8 hyenas, and 8 scorpions.  Bring the testing kit back to Chief Engineer Bilgewhizzle in Gadgetzan before the power source runs out.";
@@ -5899,20 +7075,29 @@ addon.questsDB = {
    [656] = {
       ["name"] = "Summoning the Princess";
       ["prev"] = 692;
+      ["prequests"] = {
+         [1] = 692;
+      };
       ["objective"] = "Go to the Shards of Myzrael, summon her and defeat her.$B$BGather her Eldritch Shackles and bind them to the Shards of Myzrael.";
       ["req"] = 30;
    };
    [657] = {
       ["name"] = "Hints of a New Plague?";
       ["prev"] = 658;
+      ["prequests"] = {
+         [1] = 658;
+      };
       ["objective"] = "Speak to Kinelory.";
       ["req"] = 30;
    };
    [658] = {
-      ["name"] = "Hints of a New Plague?";
-      ["prev"] = 659;
       ["repgain"] = {
          [72] = 250;
+      };
+      ["name"] = "Hints of a New Plague?";
+      ["prev"] = 659;
+      ["prequests"] = {
+         [1] = 659;
       };
       ["next"] = 657;
       ["objective"] = "Find the Forsaken Courier and bring back her Sealed Folder to Quae near the Go'Shek Farm.";
@@ -5928,10 +7113,13 @@ addon.questsDB = {
       ["req"] = 30;
    };
    [660] = {
-      ["name"] = "Hints of a New Plague?";
-      ["prev"] = 657;
       ["repgain"] = {
          [72] = 250;
+      };
+      ["name"] = "Hints of a New Plague?";
+      ["prev"] = 657;
+      ["prequests"] = {
+         [1] = 657;
       };
       ["next"] = 661;
       ["objective"] = "Protect Kinelory until she returns to Quae.";
@@ -5939,20 +7127,26 @@ addon.questsDB = {
    };
    [661] = {
       ["name"] = "Hints of a New Plague?";
-      ["prev"] = 660;
+      ["objective"] = "Find Phin Odelic in Southshore.";
       ["repgain"] = {
          [72] = 350;
       };
+      ["prequests"] = {
+         [1] = 660;
+      };
+      ["prev"] = 660;
       ["reward"] = {
          [1] = 15455;
          [2] = 15456;
       };
-      ["objective"] = "Find Phin Odelic in Southshore.";
       ["req"] = 30;
    };
    [662] = {
       ["name"] = "Deep Sea Salvage";
       ["prev"] = 663;
+      ["prequests"] = {
+         [1] = 663;
+      };
       ["repgain"] = {
          [21] = 250;
       };
@@ -5985,47 +7179,59 @@ addon.questsDB = {
       ["req"] = 35;
    };
    [666] = {
+      ["name"] = "Sunken Treasure";
       ["repgain"] = {
          [21] = 350;
       };
-      ["name"] = "Sunken Treasure";
+      ["objective"] = "Doctor Draxlegauge in Faldir's Cove wants you to collect 10 Elven Gems and return the Goggles of Gem Hunting once you are done.";
+      ["next"] = 668;
+      ["prequests"] = {
+         [1] = 665;
+      };
       ["prev"] = 665;
       ["reward"] = {
          [1] = 4547;
          [2] = 4548;
       };
-      ["next"] = 668;
-      ["objective"] = "Doctor Draxlegauge in Faldir's Cove wants you to collect 10 Elven Gems and return the Goggles of Gem Hunting once you are done.";
       ["req"] = 35;
    };
    [667] = {
       ["name"] = "Death From Below";
-      ["prev"] = 670;
+      ["objective"] = "Protect Shakes O'Breen during the attack.";
       ["repgain"] = {
          [21] = 350;
       };
+      ["prequests"] = {
+         [1] = 670;
+      };
+      ["prev"] = 670;
       ["reward"] = {
          [1] = 4550;
          [2] = 4549;
       };
-      ["objective"] = "Protect Shakes O'Breen during the attack.";
       ["req"] = 35;
    };
    [668] = {
-      ["name"] = "Sunken Treasure";
-      ["prev"] = 666;
       ["repgain"] = {
          [21] = 75;
+      };
+      ["name"] = "Sunken Treasure";
+      ["prev"] = 666;
+      ["prequests"] = {
+         [1] = 666;
       };
       ["next"] = 669;
       ["objective"] = "Take the Elven Gems to Captain O'Breen.";
       ["req"] = 35;
    };
    [669] = {
-      ["name"] = "Sunken Treasure";
-      ["prev"] = 668;
       ["repgain"] = {
          [21] = 250;
+      };
+      ["name"] = "Sunken Treasure";
+      ["prev"] = 668;
+      ["prequests"] = {
+         [1] = 668;
       };
       ["next"] = 670;
       ["objective"] = "Take the Sample Elven Gem to Fleet Master Seahorn in Booty Bay.";
@@ -6034,6 +7240,9 @@ addon.questsDB = {
    [670] = {
       ["name"] = "Sunken Treasure";
       ["prev"] = 669;
+      ["prequests"] = {
+         [1] = 669;
+      };
       ["repgain"] = {
          [21] = 250;
       };
@@ -6049,10 +7258,13 @@ addon.questsDB = {
       ["req"] = 30;
    };
    [672] = {
-      ["name"] = "Raising Spirits";
-      ["prev"] = 655;
       ["repgain"] = {
          [76] = 250;
+      };
+      ["name"] = "Raising Spirits";
+      ["prev"] = 655;
+      ["prequests"] = {
+         [1] = 655;
       };
       ["next"] = 674;
       ["objective"] = "Acquire 10 Highland Raptor Eyes from Highland Striders and Highland Thrashers for Tor'gan in Hammerfall.";
@@ -6060,32 +7272,41 @@ addon.questsDB = {
    };
    [673] = {
       ["name"] = "Foul Magics";
-      ["prev"] = 671;
+      ["objective"] = "Retrieve Marez Cowl's Bloodstone Orb and bring it to Tor'gan in Hammerfall.";
       ["repgain"] = {
          [530] = 250;
       };
+      ["prequests"] = {
+         [1] = 671;
+      };
+      ["prev"] = 671;
       ["reward"] = {
          [1] = 4543;
          [2] = 4545;
       };
-      ["objective"] = "Retrieve Marez Cowl's Bloodstone Orb and bring it to Tor'gan in Hammerfall.";
       ["req"] = 35;
    };
    [674] = {
-      ["name"] = "Raising Spirits";
-      ["prev"] = 672;
       ["repgain"] = {
          [76] = 25;
+      };
+      ["name"] = "Raising Spirits";
+      ["prev"] = 672;
+      ["prequests"] = {
+         [1] = 672;
       };
       ["next"] = 675;
       ["objective"] = "Give the Raptor Talon Amulet to Gor'mul.";
       ["req"] = 29;
    };
    [675] = {
-      ["name"] = "Raising Spirits";
-      ["prev"] = 674;
       ["repgain"] = {
          [76] = 25;
+      };
+      ["name"] = "Raising Spirits";
+      ["prev"] = 674;
+      ["prequests"] = {
+         [1] = 674;
       };
       ["next"] = 701;
       ["objective"] = "Speak with Tor'gan.";
@@ -6101,20 +7322,26 @@ addon.questsDB = {
       ["req"] = 30;
    };
    [677] = {
-      ["name"] = "Call to Arms";
-      ["prev"] = 676;
       ["repgain"] = {
          [76] = 250;
+      };
+      ["name"] = "Call to Arms";
+      ["prev"] = 676;
+      ["prequests"] = {
+         [1] = 676;
       };
       ["next"] = 678;
       ["objective"] = "Slay 10 Witherbark Axe Throwers, 10 Headhunters and 8 Witch Doctors, and return to Drum Fel in the Hammerfall outpost.";
       ["req"] = 30;
    };
    [678] = {
-      ["name"] = "Call to Arms";
-      ["prev"] = 677;
       ["repgain"] = {
          [76] = 250;
+      };
+      ["name"] = "Call to Arms";
+      ["prev"] = 677;
+      ["prequests"] = {
+         [1] = 677;
       };
       ["next"] = 679;
       ["objective"] = "Kill 10 Boulderfist Brutes and 4 Boulderfist Magi, and return to Drum Fel in the Hammerfall outpost.";
@@ -6122,15 +7349,18 @@ addon.questsDB = {
    };
    [679] = {
       ["name"] = "Call to Arms";
-      ["prev"] = 678;
+      ["objective"] = "Kill 7 Boulderfist Shaman and 3 Boulderfist Lords and return to Drum Fel in the Hammerfall outpost.";
       ["repgain"] = {
          [76] = 250;
       };
+      ["prequests"] = {
+         [1] = 678;
+      };
+      ["prev"] = 678;
       ["reward"] = {
          [1] = 9520;
          [2] = 9521;
       };
-      ["objective"] = "Kill 7 Boulderfist Shaman and 3 Boulderfist Lords and return to Drum Fel in the Hammerfall outpost.";
       ["req"] = 30;
    };
    [680] = {
@@ -6156,6 +7386,9 @@ addon.questsDB = {
    [682] = {
       ["name"] = "Stromgarde Badges";
       ["prev"] = 681;
+      ["prequests"] = {
+         [1] = 681;
+      };
       ["repgain"] = {
          [72] = 350;
       };
@@ -6165,6 +7398,9 @@ addon.questsDB = {
    [683] = {
       ["name"] = "Sara Balloo's Plea";
       ["prev"] = 637;
+      ["prequests"] = {
+         [1] = 637;
+      };
       ["repgain"] = {
          [47] = 75;
       };
@@ -6192,10 +7428,13 @@ addon.questsDB = {
       ["req"] = 30;
    };
    [686] = {
-      ["name"] = "A King's Tribute";
-      ["prev"] = 683;
       ["repgain"] = {
          [47] = 75;
+      };
+      ["name"] = "A King's Tribute";
+      ["prev"] = 683;
+      ["prequests"] = {
+         [1] = 683;
       };
       ["next"] = 689;
       ["objective"] = "King Magni Bronzebeard wants you to speak with Grand Mason Marblesten.";
@@ -6204,13 +7443,20 @@ addon.questsDB = {
    [687] = {
       ["name"] = "Theldurin the Lost";
       ["next"] = 692;
+      ["prequests"] = {
+         [1] = 653;
+         [2] = 688;
+      };
       ["objective"] = "Find Theldurin the Lost.";
       ["req"] = 30;
    };
    [688] = {
+      ["followup"] = 687;
       ["name"] = "Myzrael's Allies";
       ["prev"] = 652;
-      ["followup"] = 687;
+      ["prequests"] = {
+         [1] = 652;
+      };
       ["next"] = 687;
       ["objective"] = "Speak with Zaruk in Hammerfall.";
       ["req"] = 30;
@@ -6218,6 +7464,9 @@ addon.questsDB = {
    [689] = {
       ["name"] = "A King's Tribute";
       ["prev"] = 686;
+      ["prequests"] = {
+         [1] = 686;
+      };
       ["repgain"] = {
          [47] = 250;
       };
@@ -6235,6 +7484,9 @@ addon.questsDB = {
    [691] = {
       ["name"] = "Worth Its Weight in Gold";
       ["prev"] = 690;
+      ["prequests"] = {
+         [1] = 690;
+      };
       ["repgain"] = {
          [72] = 350;
       };
@@ -6244,12 +7496,18 @@ addon.questsDB = {
    [692] = {
       ["name"] = "The Lost Fragments";
       ["prev"] = 687;
+      ["prequests"] = {
+         [1] = 687;
+      };
       ["objective"] = "Bring the Torn Scroll Fragment, the Crumpled Scroll Fragment and the Singed Scroll Fragment to Theldurin the Lost.";
       ["req"] = 30;
    };
    [693] = {
       ["name"] = "Wand over Fist";
       ["prev"] = 691;
+      ["prequests"] = {
+         [1] = 691;
+      };
       ["repgain"] = {
          [47] = 250;
       };
@@ -6257,30 +7515,39 @@ addon.questsDB = {
       ["req"] = 30;
    };
    [694] = {
-      ["name"] = "Trelane's Defenses";
-      ["prev"] = 693;
       ["repgain"] = {
          [72] = 250;
+      };
+      ["name"] = "Trelane's Defenses";
+      ["prev"] = 693;
+      ["prequests"] = {
+         [1] = 693;
       };
       ["next"] = 695;
       ["objective"] = "Find an Azure Agate and bring it to Apprentice Kryten at Refuge Pointe.";
       ["req"] = 30;
    };
    [695] = {
-      ["name"] = "An Apprentice's Enchantment";
-      ["prev"] = 694;
       ["repgain"] = {
          [47] = 25;
+      };
+      ["name"] = "An Apprentice's Enchantment";
+      ["prev"] = 694;
+      ["prequests"] = {
+         [1] = 694;
       };
       ["next"] = 696;
       ["objective"] = "Speak to Skuerto.";
       ["req"] = 30;
    };
    [696] = {
-      ["name"] = "Attack on the Tower";
-      ["prev"] = 695;
       ["repgain"] = {
          [47] = 250;
+      };
+      ["name"] = "Attack on the Tower";
+      ["prev"] = 695;
+      ["prequests"] = {
+         [1] = 695;
       };
       ["next"] = 697;
       ["objective"] = "Find Trelane's Phylactery, Trelane's Orb, and Trelane's Ember Agate, and return them to Skuerto at Refuge Pointe.";
@@ -6288,15 +7555,18 @@ addon.questsDB = {
    };
    [697] = {
       ["name"] = "Malin's Request";
-      ["prev"] = 696;
+      ["objective"] = "Take the Sealed Letter to Archmage Malin in the Mage Quarter of Stormwind.";
       ["repgain"] = {
          [72] = 350;
       };
+      ["prequests"] = {
+         [1] = 696;
+      };
+      ["prev"] = 696;
       ["reward"] = {
          [1] = 4975;
          [2] = 15104;
       };
-      ["objective"] = "Take the Sealed Letter to Archmage Malin in the Mage Quarter of Stormwind.";
       ["req"] = 30;
    };
    [698] = {
@@ -6309,10 +7579,13 @@ addon.questsDB = {
       ["req"] = 35;
    };
    [699] = {
-      ["name"] = "Lack of Surplus";
-      ["prev"] = 698;
       ["repgain"] = {
          [76] = 250;
+      };
+      ["name"] = "Lack of Surplus";
+      ["prev"] = 698;
+      ["prequests"] = {
+         [1] = 698;
       };
       ["next"] = 1422;
       ["objective"] = "Bring 6 Sawtooth Snapper Claws to Tok'Kar in the Swamp of Sorrows.";
@@ -6321,6 +7594,9 @@ addon.questsDB = {
    [700] = {
       ["name"] = "A King's Tribute";
       ["prev"] = 689;
+      ["prequests"] = {
+         [1] = 689;
+      };
       ["repgain"] = {
          [47] = 250;
       };
@@ -6328,10 +7604,13 @@ addon.questsDB = {
       ["req"] = 25;
    };
    [701] = {
-      ["name"] = "Guile of the Raptor";
-      ["prev"] = 675;
       ["repgain"] = {
          [76] = 250;
+      };
+      ["name"] = "Guile of the Raptor";
+      ["prev"] = 675;
+      ["prequests"] = {
+         [1] = 675;
       };
       ["next"] = 702;
       ["objective"] = "Acquire 12 Raptor Hearts from Highland Fleshstalkers for Tor'gan.";
@@ -6340,6 +7619,9 @@ addon.questsDB = {
    [702] = {
       ["name"] = "Guile of the Raptor";
       ["prev"] = 701;
+      ["prequests"] = {
+         [1] = 701;
+      };
       ["repgain"] = {
          [76] = 25;
       };
@@ -6357,6 +7639,9 @@ addon.questsDB = {
    [704] = {
       ["name"] = "Agmond's Fate";
       ["prev"] = 739;
+      ["prequests"] = {
+         [1] = 739;
+      };
       ["repgain"] = {
          [47] = 250;
       };
@@ -6411,6 +7696,9 @@ addon.questsDB = {
    [711] = {
       ["name"] = "Study of the Elements: Rock";
       ["prev"] = 710;
+      ["prequests"] = {
+         [1] = 710;
+      };
       ["next"] = 712;
       ["objective"] = "Bring 3 Large Stone Slabs to Lotwil Veriatus in the Badlands.";
       ["req"] = 35;
@@ -6418,6 +7706,9 @@ addon.questsDB = {
    [712] = {
       ["name"] = "Study of the Elements: Rock";
       ["prev"] = 711;
+      ["prequests"] = {
+         [1] = 711;
+      };
       ["followup"] = 734;
       ["objective"] = "Bring 5 Bracers of Rock Binding to Lotwil Veriatus in the Badlands.";
       ["req"] = 35;
@@ -6431,6 +7722,9 @@ addon.questsDB = {
    [714] = {
       ["name"] = "Gyro... What?";
       ["prev"] = 713;
+      ["prequests"] = {
+         [1] = 713;
+      };
       ["followup"] = 734;
       ["objective"] = "Bring a Gyrochronatom to Lotwil Veriatus in the Badlands.";
       ["req"] = 35;
@@ -6438,28 +7732,37 @@ addon.questsDB = {
    [715] = {
       ["name"] = "Liquid Stone";
       ["prev"] = 714;
+      ["prequests"] = {
+         [1] = 714;
+      };
       ["objective"] = "Bring a Healing Potion and a Lesser Invisibility Potion to Lucien Tosselwrench in the Badlands.";
       ["req"] = 35;
    };
    [716] = {
       ["name"] = "Stone Is Better than Cloth";
       ["prev"] = 712;
+      ["prequests"] = {
+         [1] = 712;
+      };
       ["objective"] = "Bring some Patterned Bronze Bracers to Lucien Tosselwrench in the Badlands.";
       ["req"] = 35;
    };
    [717] = {
       ["name"] = "Tremors of the Earth";
-      ["prev"] = 732;
+      ["objective"] = "Use the Sign of the Earth to activate the Pillars of Amethyst, Opal, and Diamond and obtain the Runestones.$B$BPlace the runestones in the Seal of the Earth to free Blacklash and Hematus.$B$BSlay them and return Blacklash's Bindings, the Chains of Hematus, and the Sign of the Earth to Garek.";
       ["repgain"] = {
          [72] = 350;
       };
+      ["prequests"] = {
+         [1] = 732;
+      };
+      ["prev"] = 732;
       ["reward"] = {
          [1] = 11193;
          [2] = 11194;
          [3] = 11195;
          [4] = 11196;
       };
-      ["objective"] = "Use the Sign of the Earth to activate the Pillars of Amethyst, Opal, and Diamond and obtain the Runestones.$B$BPlace the runestones in the Seal of the Earth to free Blacklash and Hematus.$B$BSlay them and return Blacklash's Bindings, the Chains of Hematus, and the Sign of the Earth to Garek.";
       ["req"] = 40;
    };
    [718] = {
@@ -6489,30 +7792,39 @@ addon.questsDB = {
       ["req"] = 35;
    };
    [721] = {
-      ["name"] = "A Sign of Hope";
-      ["prev"] = 720;
       ["repgain"] = {
          [47] = 250;
+      };
+      ["name"] = "A Sign of Hope";
+      ["prev"] = 720;
+      ["prequests"] = {
+         [1] = 720;
       };
       ["next"] = 722;
       ["objective"] = "Find Hammertoe Grez in Uldaman.";
       ["req"] = 35;
    };
    [722] = {
-      ["name"] = "Amulet of Secrets";
-      ["prev"] = 721;
       ["repgain"] = {
          [47] = 250;
+      };
+      ["name"] = "Amulet of Secrets";
+      ["prev"] = 721;
+      ["prequests"] = {
+         [1] = 721;
       };
       ["next"] = 723;
       ["objective"] = "Find Hammertoe's Amulet and return it to him in Uldaman.";
       ["req"] = 35;
    };
    [723] = {
-      ["name"] = "Prospect of Faith";
-      ["prev"] = 722;
       ["repgain"] = {
          [47] = 150;
+      };
+      ["name"] = "Prospect of Faith";
+      ["prev"] = 722;
+      ["prequests"] = {
+         [1] = 722;
       };
       ["next"] = 724;
       ["objective"] = "Take Hammertoe's Amulet to Prospector Ryedol in the Badlands.";
@@ -6521,6 +7833,9 @@ addon.questsDB = {
    [724] = {
       ["name"] = "Prospect of Faith";
       ["prev"] = 723;
+      ["prequests"] = {
+         [1] = 723;
+      };
       ["repgain"] = {
          [47] = 250;
       };
@@ -6528,20 +7843,26 @@ addon.questsDB = {
       ["req"] = 35;
    };
    [725] = {
-      ["name"] = "Passing Word of a Threat";
-      ["prev"] = 724;
       ["repgain"] = {
          [47] = 75;
+      };
+      ["name"] = "Passing Word of a Threat";
+      ["prev"] = 724;
+      ["prequests"] = {
+         [1] = 724;
       };
       ["next"] = 726;
       ["objective"] = "Find Advisor Belgrum and give him his note.";
       ["req"] = 35;
    };
    [726] = {
-      ["name"] = "Passing Word of a Threat";
-      ["prev"] = 725;
       ["repgain"] = {
          [47] = 150;
+      };
+      ["name"] = "Passing Word of a Threat";
+      ["prev"] = 725;
+      ["prequests"] = {
+         [1] = 725;
       };
       ["next"] = 762;
       ["objective"] = "Speak to Historian Karnik.";
@@ -6550,6 +7871,9 @@ addon.questsDB = {
    [727] = {
       ["name"] = "To Ironforge for Yagyin's Digest";
       ["prev"] = 709;
+      ["prequests"] = {
+         [1] = 709;
+      };
       ["next"] = 735;
       ["objective"] = "Give the Sigil of the Hammer to Gerrig Bonegrip in the Forlorn Cavern of Ironforge.";
       ["req"] = 30;
@@ -6557,6 +7881,9 @@ addon.questsDB = {
    [728] = {
       ["name"] = "To the Undercity for Yagyin's Digest";
       ["prev"] = 709;
+      ["prequests"] = {
+         [1] = 709;
+      };
       ["next"] = 736;
       ["objective"] = "Bring the Sigil of the Hammer to Keeper Bel'dugur in the Undercity.";
       ["req"] = 30;
@@ -6579,20 +7906,26 @@ addon.questsDB = {
       ["req"] = 14;
    };
    [731] = {
-      ["name"] = "The Absent Minded Prospector";
-      ["prev"] = 729;
       ["repgain"] = {
          [69] = 350;
+      };
+      ["name"] = "The Absent Minded Prospector";
+      ["prev"] = 729;
+      ["prequests"] = {
+         [1] = 729;
       };
       ["next"] = 741;
       ["objective"] = "Protect Prospector Remtravel as he searches for the mysterious fossil, then return to Archaeologist Hollee in Auberdine.";
       ["req"] = 15;
    };
    [732] = {
-      ["name"] = "Tremors of the Earth";
-      ["prev"] = 718;
       ["repgain"] = {
          [72] = 250;
+      };
+      ["name"] = "Tremors of the Earth";
+      ["prev"] = 718;
+      ["prequests"] = {
+         [1] = 718;
       };
       ["next"] = 717;
       ["objective"] = "Retrieve the Sign of the Earth for Garek.";
@@ -6600,77 +7933,103 @@ addon.questsDB = {
    };
    [733] = {
       ["name"] = "Scrounging";
-      ["prev"] = 718;
+      ["objective"] = "Get 7 pieces of Scrap Metal for Sigrun.";
       ["repgain"] = {
          [47] = 250;
       };
+      ["prequests"] = {
+         [1] = 718;
+      };
+      ["prev"] = 718;
       ["reward"] = {
          [1] = 4652;
          [2] = 4653;
       };
-      ["objective"] = "Get 7 pieces of Scrap Metal for Sigrun.";
       ["req"] = 35;
    };
    [734] = {
       ["name"] = "This Is Going to Be Hard";
       ["next"] = 777;
+      ["prequests"] = {
+         [1] = 712;
+         [2] = 714;
+      };
       ["objective"] = "Speak to Lucien Tosselwrench in the Badlands.";
       ["req"] = 35;
    };
    [735] = {
+      ["followup"] = 737;
       ["name"] = "The Star, the Hand and the Heart";
       ["prev"] = 727;
-      ["followup"] = 737;
+      ["prequests"] = {
+         [1] = 727;
+      };
       ["next"] = 737;
       ["objective"] = "Return the items on the Bonegrip's Note to Gerrig Bonegrip in Ironforge.";
       ["req"] = 30;
    };
    [736] = {
+      ["followup"] = 737;
       ["name"] = "The Star, the Hand and the Heart";
       ["prev"] = 728;
-      ["followup"] = 737;
+      ["prequests"] = {
+         [1] = 728;
+      };
       ["next"] = 737;
       ["objective"] = "Bring the items on Bel'dugur's Note to Keeper Bel'dugur in the Undercity.";
       ["req"] = 30;
    };
    [737] = {
+      ["prequests"] = {
+         [1] = 735;
+         [2] = 736;
+      };
       ["objective"] = "Bring Yagyin's Digest to Theldurin.";
       ["name"] = "Forbidden Knowledge";
       ["req"] = 30;
    };
    [738] = {
-      ["name"] = "Find Agmond";
-      ["prev"] = 707;
       ["repgain"] = {
          [47] = 75;
+      };
+      ["name"] = "Find Agmond";
+      ["prev"] = 707;
+      ["prequests"] = {
+         [1] = 707;
       };
       ["next"] = 739;
       ["objective"] = " I haven't heard from him in weeks.  I need you to find Agmond so I can get his report.$B$BLast I heard Agmond was at the southernmost dig site in the Badlands--a tiny operation past the Angor Fortress.  I'd start your search for him there.\"";
       ["req"] = 30;
    };
    [739] = {
-      ["name"] = "Murdaloc";
-      ["prev"] = 738;
       ["repgain"] = {
          [47] = 250;
+      };
+      ["name"] = "Murdaloc";
+      ["prev"] = 738;
+      ["prequests"] = {
+         [1] = 738;
       };
       ["next"] = 704;
       ["objective"] = "Slay Agmond's killer, Murdaloc.$B$BSlay 12 Stonevault Bonesnappers.$B$BReport to Prospector Ironband in Loch Modan.";
       ["req"] = 30;
    };
    [741] = {
+      ["name"] = "The Absent Minded Prospector";
       ["repgain"] = {
          [47] = 150;
       };
-      ["name"] = "The Absent Minded Prospector";
+      ["objective"] = "Take the mysterious fossil to Chief Archaeologist Greywhisker in Darnassus.";
+      ["next"] = 942;
+      ["prequests"] = {
+         [1] = 731;
+      };
       ["prev"] = 731;
       ["reward"] = {
          [1] = 5629;
          [2] = 5630;
          [3] = 11936;
       };
-      ["next"] = 942;
-      ["objective"] = "Take the mysterious fossil to Chief Archaeologist Greywhisker in Darnassus.";
       ["req"] = 15;
    };
    [742] = {
@@ -6749,22 +8108,28 @@ addon.questsDB = {
       ["req"] = 5;
    };
    [750] = {
+      ["name"] = "The Hunt Continues";
       ["repgain"] = {
          [81] = 250;
       };
-      ["name"] = "The Hunt Continues";
+      ["objective"] = "Grull Hawkwind in Camp Narache wants you to bring him 10 Mountain Cougar Pelts.";
+      ["next"] = 780;
+      ["prequests"] = {
+         [1] = 747;
+      };
       ["prev"] = 747;
       ["reward"] = {
          [1] = 4908;
          [2] = 4913;
       };
-      ["next"] = 780;
-      ["objective"] = "Grull Hawkwind in Camp Narache wants you to bring him 10 Mountain Cougar Pelts.";
       ["req"] = 1;
    };
    [751] = {
       ["name"] = "The Ravaged Caravan";
       ["prev"] = 749;
+      ["prequests"] = {
+         [1] = 749;
+      };
       ["repgain"] = {
          [81] = 150;
       };
@@ -6781,10 +8146,13 @@ addon.questsDB = {
       ["req"] = 1;
    };
    [753] = {
-      ["name"] = "A Humble Task";
-      ["prev"] = 752;
       ["repgain"] = {
          [81] = 250;
+      };
+      ["name"] = "A Humble Task";
+      ["prev"] = 752;
+      ["prequests"] = {
+         [1] = 752;
       };
       ["next"] = 755;
       ["objective"] = "Take a Water Pitcher from the water well.$B$BReturn the pitcher to Chief Hawkwind in Camp Narache which is northwest from the water well.";
@@ -6793,6 +8161,9 @@ addon.questsDB = {
    [754] = {
       ["name"] = "Winterhoof Cleansing";
       ["prev"] = 748;
+      ["prequests"] = {
+         [1] = 748;
+      };
       ["repgain"] = {
          [81] = 250;
       };
@@ -6800,10 +8171,13 @@ addon.questsDB = {
       ["req"] = 4;
    };
    [755] = {
-      ["name"] = "Rites of the Earthmother";
-      ["prev"] = 753;
       ["repgain"] = {
          [81] = 250;
+      };
+      ["name"] = "Rites of the Earthmother";
+      ["prev"] = 753;
+      ["prequests"] = {
+         [1] = 753;
       };
       ["next"] = 757;
       ["objective"] = "Travel to Seer Graytongue who lives in the hills directly south of Camp Narache.";
@@ -6812,6 +8186,9 @@ addon.questsDB = {
    [756] = {
       ["name"] = "Thunderhorn Totem";
       ["prev"] = 754;
+      ["prequests"] = {
+         [1] = 754;
+      };
       ["repgain"] = {
          [81] = 250;
       };
@@ -6819,10 +8196,15 @@ addon.questsDB = {
       ["req"] = 4;
    };
    [757] = {
+      ["name"] = "Rite of Strength";
       ["repgain"] = {
          [81] = 350;
       };
-      ["name"] = "Rite of Strength";
+      ["objective"] = "Kill Bristlebacks in Brambleblade Ravine and bring 12 Bristleback Belts to Chief Hawkwind in Camp Narache.";
+      ["next"] = 763;
+      ["prequests"] = {
+         [1] = 755;
+      };
       ["prev"] = 755;
       ["reward"] = {
          [1] = 1382;
@@ -6831,13 +8213,14 @@ addon.questsDB = {
          [4] = 5776;
          [5] = 5777;
       };
-      ["next"] = 763;
-      ["objective"] = "Kill Bristlebacks in Brambleblade Ravine and bring 12 Bristleback Belts to Chief Hawkwind in Camp Narache.";
       ["req"] = 1;
    };
    [758] = {
       ["name"] = "Thunderhorn Cleansing";
       ["prev"] = 756;
+      ["prequests"] = {
+         [1] = 756;
+      };
       ["repgain"] = {
          [81] = 250;
       };
@@ -6847,6 +8230,9 @@ addon.questsDB = {
    [759] = {
       ["name"] = "Wildmane Totem";
       ["prev"] = 758;
+      ["prequests"] = {
+         [1] = 758;
+      };
       ["repgain"] = {
          [81] = 250;
       };
@@ -6855,15 +8241,18 @@ addon.questsDB = {
    };
    [760] = {
       ["name"] = "Wildmane Cleansing";
-      ["prev"] = 759;
+      ["objective"] = "Use the Wildmane Cleansing Totem at the Wildmane Water Well, then return to Mull Thunderhorn.";
       ["repgain"] = {
          [81] = 350;
       };
+      ["prequests"] = {
+         [1] = 759;
+      };
+      ["prev"] = 759;
       ["reward"] = {
          [1] = 3443;
          [2] = 4961;
       };
-      ["objective"] = "Use the Wildmane Cleansing Totem at the Wildmane Water Well, then return to Mull Thunderhorn.";
       ["req"] = 4;
    };
    [761] = {
@@ -6875,10 +8264,13 @@ addon.questsDB = {
       ["req"] = 4;
    };
    [762] = {
-      ["name"] = "An Ambassador of Evil";
-      ["prev"] = 726;
       ["repgain"] = {
          [47] = 350;
+      };
+      ["name"] = "An Ambassador of Evil";
+      ["prev"] = 726;
+      ["prequests"] = {
+         [1] = 726;
       };
       ["next"] = 1139;
       ["objective"] = "Kill Ambassador Infernus in Angor Fortress and bring proof of his death to Advisor Belgrum in Ironforge.";
@@ -6887,6 +8279,9 @@ addon.questsDB = {
    [763] = {
       ["name"] = "Rites of the Earthmother";
       ["prev"] = 757;
+      ["prequests"] = {
+         [1] = 757;
+      };
       ["repgain"] = {
          [81] = 150;
       };
@@ -6896,6 +8291,9 @@ addon.questsDB = {
    [764] = {
       ["name"] = "The Venture Co.";
       ["prev"] = 751;
+      ["prequests"] = {
+         [1] = 751;
+      };
       ["repgain"] = {
          [81] = 150;
       };
@@ -6904,15 +8302,18 @@ addon.questsDB = {
    };
    [765] = {
       ["name"] = "Supervisor Fizsprocket";
-      ["prev"] = 751;
+      ["objective"] = "Kill Supervisor Fizsprocket and return his clipboard to Morin Cloudstalker at Bloodhoof Village.";
       ["repgain"] = {
          [81] = 250;
       };
+      ["prequests"] = {
+         [1] = 751;
+      };
+      ["prev"] = 751;
       ["reward"] = {
          [1] = 4974;
          [2] = 4964;
       };
-      ["objective"] = "Kill Supervisor Fizsprocket and return his clipboard to Morin Cloudstalker at Bloodhoof Village.";
       ["req"] = 5;
    };
    [766] = {
@@ -6928,10 +8329,13 @@ addon.questsDB = {
       ["req"] = 5;
    };
    [767] = {
-      ["name"] = "Rite of Vision";
-      ["prev"] = 763;
       ["repgain"] = {
          [81] = 25;
+      };
+      ["name"] = "Rite of Vision";
+      ["prev"] = 763;
+      ["prequests"] = {
+         [1] = 763;
       };
       ["next"] = 771;
       ["objective"] = "Speak with Zarlman Two-Moons in Bloodhoof Village.";
@@ -6952,6 +8356,9 @@ addon.questsDB = {
    [769] = {
       ["name"] = "Kodo Hide Bag";
       ["prev"] = 768;
+      ["prequests"] = {
+         [1] = 768;
+      };
       ["repgain"] = {
          [81] = 75;
       };
@@ -6971,44 +8378,56 @@ addon.questsDB = {
       ["req"] = 6;
    };
    [771] = {
-      ["name"] = "Rite of Vision";
-      ["prev"] = 767;
       ["repgain"] = {
          [81] = 250;
+      };
+      ["name"] = "Rite of Vision";
+      ["prev"] = 767;
+      ["prequests"] = {
+         [1] = 767;
       };
       ["followup"] = 772;
       ["objective"] = "Collect 2 Well Stones and 2 Ambercorn and bring them back to Zarlman Two-Moons in Bloodhoof Village.";
       ["req"] = 3;
    };
    [772] = {
+      ["name"] = "Rite of Vision";
       ["repgain"] = {
          [81] = 150;
       };
-      ["name"] = "Rite of Vision";
+      ["objective"] = "Consume the Water of the Seers in front of the tribal fire in Bloodhoof Village and follow the vision once it appears.";
+      ["next"] = 773;
+      ["prequests"] = {
+         [1] = 771;
+      };
       ["prev"] = 771;
       ["reward"] = {
          [1] = 4906;
          [2] = 4958;
       };
-      ["next"] = 773;
-      ["objective"] = "Consume the Water of the Seers in front of the tribal fire in Bloodhoof Village and follow the vision once it appears.";
       ["req"] = 3;
    };
    [773] = {
-      ["name"] = "Rite of Wisdom";
-      ["prev"] = 772;
       ["repgain"] = {
          [81] = 250;
+      };
+      ["name"] = "Rite of Wisdom";
+      ["prev"] = 772;
+      ["prequests"] = {
+         [1] = 772;
       };
       ["next"] = 775;
       ["objective"] = "Travel to Red Rocks east of Thunder Bluff and speak with the Ancestral Spirit.";
       ["req"] = 3;
    };
    [775] = {
-      ["name"] = "Journey into Thunder Bluff";
-      ["prev"] = 773;
       ["repgain"] = {
          [81] = 75;
+      };
+      ["name"] = "Journey into Thunder Bluff";
+      ["prev"] = 773;
+      ["prequests"] = {
+         [1] = 773;
       };
       ["next"] = 776;
       ["objective"] = "Speak with Cairne Bloodhoof in Thunder Bluff.";
@@ -7017,6 +8436,9 @@ addon.questsDB = {
    [776] = {
       ["name"] = "Rites of the Earthmother";
       ["prev"] = 775;
+      ["prequests"] = {
+         [1] = 775;
+      };
       ["repgain"] = {
          [81] = 350;
       };
@@ -7026,6 +8448,9 @@ addon.questsDB = {
    [777] = {
       ["name"] = "This Is Going to Be Hard";
       ["prev"] = 734;
+      ["prequests"] = {
+         [1] = 734;
+      };
       ["next"] = 778;
       ["objective"] = "Bring Cog #5 to Lotwil Veriatus.";
       ["req"] = 35;
@@ -7033,6 +8458,9 @@ addon.questsDB = {
    [778] = {
       ["name"] = "This Is Going to Be Hard";
       ["prev"] = 777;
+      ["prequests"] = {
+         [1] = 777;
+      };
       ["objective"] = "Defeat the Fam'retor Guardian and bring Lotwil's Shackles of Elemental Binding back to Lotwil Veriatus.";
       ["req"] = 35;
    };
@@ -7044,6 +8472,9 @@ addon.questsDB = {
    [780] = {
       ["name"] = "The Battleboars";
       ["prev"] = 750;
+      ["prequests"] = {
+         [1] = 750;
+      };
       ["repgain"] = {
          [81] = 350;
       };
@@ -7120,16 +8551,19 @@ addon.questsDB = {
    };
    [789] = {
       ["name"] = "Sting of the Scorpid";
-      ["prev"] = 788;
+      ["objective"] = "Get 10 Scorpid Worker Tails for Gornek in the Den.";
       ["repgain"] = {
          [530] = 250;
          [76] = 250;
       };
+      ["prequests"] = {
+         [1] = 788;
+      };
+      ["prev"] = 788;
       ["reward"] = {
          [1] = 4919;
          [2] = 4920;
       };
-      ["objective"] = "Get 10 Scorpid Worker Tails for Gornek in the Den.";
       ["req"] = 1;
    };
    [790] = {
@@ -7170,32 +8604,39 @@ addon.questsDB = {
    };
    [793] = {
       ["name"] = "Broken Alliances";
-      ["prev"] = 782;
+      ["objective"] = "Use the Sign of the Earth to activate the Pillars of Diamond, Opal, and Amethyst and obtain the Runestones.$B$BPlace the runestones in the Seal of the Earth to free Blacklash and Hematus.$B$BSlay them and return Blacklash's Bindings, the Chains of Hematus, and the Sign of the Earth to Gorn.";
       ["repgain"] = {
          [76] = 350;
       };
+      ["prequests"] = {
+         [1] = 782;
+      };
+      ["prev"] = 782;
       ["reward"] = {
          [1] = 11193;
          [2] = 11194;
          [3] = 11195;
          [4] = 11196;
       };
-      ["objective"] = "Use the Sign of the Earth to activate the Pillars of Diamond, Opal, and Amethyst and obtain the Runestones.$B$BPlace the runestones in the Seal of the Earth to free Blacklash and Hematus.$B$BSlay them and return Blacklash's Bindings, the Chains of Hematus, and the Sign of the Earth to Gorn.";
       ["req"] = 40;
    };
    [794] = {
       ["name"] = "Burning Blade Medallion";
-      ["next"] = 805;
+      ["objective"] = "Bring the Burning Blade Medallion to Zureetha Fargaze, outside The Den.";
       ["repgain"] = {
          [530] = 500;
          [76] = 500;
       };
+      ["prequests"] = {
+         [1] = 792;
+         [2] = 1499;
+      };
+      ["next"] = 805;
       ["reward"] = {
          [1] = 4921;
          [2] = 4922;
          [3] = 6713;
       };
-      ["objective"] = "Bring the Burning Blade Medallion to Zureetha Fargaze, outside The Den.";
       ["req"] = 1;
    };
    [795] = {
@@ -7205,21 +8646,27 @@ addon.questsDB = {
    };
    [804] = {
       ["name"] = "Sarkoth";
-      ["prev"] = 790;
+      ["objective"] = "Bring the news of Hana'zua's plight to Gornek at the Den.";
       ["repgain"] = {
          [530] = 25;
          [76] = 25;
       };
+      ["prequests"] = {
+         [1] = 790;
+      };
+      ["prev"] = 790;
       ["reward"] = {
          [1] = 4916;
          [2] = 4917;
       };
-      ["objective"] = "Bring the news of Hana'zua's plight to Gornek at the Den.";
       ["req"] = 1;
    };
    [805] = {
       ["name"] = "Report to Sen'jin Village";
       ["prev"] = 794;
+      ["prequests"] = {
+         [1] = 794;
+      };
       ["repgain"] = {
          [530] = 75;
          [76] = 75;
@@ -7230,6 +8677,9 @@ addon.questsDB = {
    [806] = {
       ["name"] = "Dark Storms";
       ["prev"] = 823;
+      ["prequests"] = {
+         [1] = 823;
+      };
       ["repgain"] = {
          [530] = 250;
          [76] = 250;
@@ -7247,11 +8697,14 @@ addon.questsDB = {
       ["req"] = 4;
    };
    [809] = {
-      ["name"] = "Ak'Zeloth";
-      ["prev"] = 829;
       ["repgain"] = {
          [530] = 75;
          [76] = 75;
+      };
+      ["name"] = "Ak'Zeloth";
+      ["prev"] = 829;
+      ["prequests"] = {
+         [1] = 829;
       };
       ["next"] = 924;
       ["objective"] = "Speak with Ak'Zeloth in the Barrens.";
@@ -7321,10 +8774,13 @@ addon.questsDB = {
       ["req"] = 11;
    };
    [821] = {
-      ["name"] = "Chen's Empty Keg";
-      ["prev"] = 819;
       ["repgain"] = {
          [76] = 350;
+      };
+      ["name"] = "Chen's Empty Keg";
+      ["prev"] = 819;
+      ["prequests"] = {
+         [1] = 819;
       };
       ["next"] = 822;
       ["objective"] = "Bring 5 Savannah Lion Tusks, 5 Plainstrider Kidneys, and 1 Thunder Lizard Horn to Brewmaster Drohn in Ratchet.";
@@ -7333,6 +8789,9 @@ addon.questsDB = {
    [822] = {
       ["name"] = "Chen's Empty Keg";
       ["prev"] = 821;
+      ["prequests"] = {
+         [1] = 821;
+      };
       ["repgain"] = {
          [76] = 75;
       };
@@ -7350,31 +8809,37 @@ addon.questsDB = {
    };
    [824] = {
       ["name"] = "Je'neu of the Earthen Ring";
-      ["prev"] = 1918;
+      ["objective"] = "Bring the Befouled Water Globe to Je'neu Sancrea at Zoram'gar Outpost, Ashenvale.";
       ["repgain"] = {
          [530] = 250;
       };
+      ["prequests"] = {
+         [1] = 1918;
+      };
+      ["prev"] = 1918;
       ["reward"] = {
          [1] = 16659;
          [2] = 16660;
          [3] = 16661;
       };
-      ["objective"] = "Bring the Befouled Water Globe to Je'neu Sancrea at Zoram'gar Outpost, Ashenvale.";
       ["req"] = 23;
    };
    [825] = {
       ["name"] = "From The Wreckage....";
-      ["prev"] = 784;
+      ["objective"] = "Gar'Thok of Razor Hill wants you to retrieve 3 Gnomish Tools from the wreckage off the coast.";
       ["repgain"] = {
          [530] = 250;
          [76] = 250;
       };
+      ["prequests"] = {
+         [1] = 784;
+      };
+      ["prev"] = 784;
       ["reward"] = {
          [1] = 4936;
          [2] = 4928;
          [3] = 4935;
       };
-      ["objective"] = "Gar'Thok of Razor Hill wants you to retrieve 3 Gnomish Tools from the wreckage off the coast.";
       ["req"] = 3;
    };
    [826] = {
@@ -7392,36 +8857,45 @@ addon.questsDB = {
    };
    [827] = {
       ["name"] = "Skull Rock";
-      ["prev"] = 828;
+      ["objective"] = "Gather Searing Collars from the cultists in Skull Rock.$B$BBring them to Margoz at his camp.";
       ["repgain"] = {
          [530] = 250;
          [76] = 250;
       };
+      ["prequests"] = {
+         [1] = 828;
+      };
+      ["prev"] = 828;
       ["reward"] = {
          [1] = 4947;
          [2] = 4939;
          [3] = 4948;
       };
-      ["objective"] = "Gather Searing Collars from the cultists in Skull Rock.$B$BBring them to Margoz at his camp.";
       ["req"] = 4;
    };
    [828] = {
-      ["name"] = "Margoz";
-      ["prev"] = 806;
       ["repgain"] = {
          [530] = 10;
          [76] = 10;
+      };
+      ["name"] = "Margoz";
+      ["prev"] = 806;
+      ["prequests"] = {
+         [1] = 806;
       };
       ["next"] = 827;
       ["objective"] = "Speak with Margoz.";
       ["req"] = 4;
    };
    [829] = {
-      ["name"] = "Neeru Fireblade";
-      ["prev"] = 827;
       ["repgain"] = {
          [530] = 75;
          [76] = 75;
+      };
+      ["name"] = "Neeru Fireblade";
+      ["prev"] = 827;
+      ["prequests"] = {
+         [1] = 827;
       };
       ["next"] = 809;
       ["objective"] = "Bring an Example Collar to Neeru Fireblade in Orgrimmar.";
@@ -7440,6 +8914,9 @@ addon.questsDB = {
    [831] = {
       ["name"] = "The Admiral's Orders";
       ["prev"] = 830;
+      ["prequests"] = {
+         [1] = 830;
+      };
       ["repgain"] = {
          [530] = 250;
          [76] = 250;
@@ -7478,6 +8955,9 @@ addon.questsDB = {
    [835] = {
       ["name"] = "Securing the Lines";
       ["prev"] = 834;
+      ["prequests"] = {
+         [1] = 834;
+      };
       ["reward"] = {
          [1] = 12;
          [2] = 8;
@@ -7486,10 +8966,13 @@ addon.questsDB = {
       ["req"] = 7;
    };
    [836] = {
-      ["name"] = "Rescue OOX-09/HL!";
-      ["prev"] = 485;
       ["repgain"] = {
          [0] = 21;
+      };
+      ["name"] = "Rescue OOX-09/HL!";
+      ["prev"] = 485;
+      ["prequests"] = {
+         [1] = 485;
       };
       ["followup"] = 3721;
       ["objective"] = " safe place so it can begin a lengthy take-off procedure.  It has built-in cloaking";
@@ -7507,6 +8990,9 @@ addon.questsDB = {
    [838] = {
       ["name"] = "Scholomance";
       ["prev"] = 5098;
+      ["prequests"] = {
+         [1] = 5098;
+      };
       ["next"] = 964;
       ["objective"] = "Speak with Apothecary Dithers at the Bulwark, Western Plaguelands.";
       ["req"] = 55;
@@ -7524,12 +9010,18 @@ addon.questsDB = {
    [841] = {
       ["name"] = "Another Power Source?";
       ["prev"] = 379;
+      ["prequests"] = {
+         [1] = 379;
+      };
       ["objective"] = "Bring 10 Wastewander Water Pouches to Chief Engineer Bilgewhizzle in Gadgetzan in exchange for another power source.";
       ["req"] = 38;
    };
    [842] = {
       ["name"] = "Crossroads Conscription";
       ["prev"] = 840;
+      ["prequests"] = {
+         [1] = 840;
+      };
       ["repgain"] = {
          [530] = 250;
          [76] = 250;
@@ -7556,20 +9048,26 @@ addon.questsDB = {
       ["req"] = 10;
    };
    [845] = {
-      ["name"] = "The Zhevra";
-      ["prev"] = 844;
       ["repgain"] = {
          [76] = 250;
+      };
+      ["name"] = "The Zhevra";
+      ["prev"] = 844;
+      ["prequests"] = {
+         [1] = 844;
       };
       ["next"] = 903;
       ["objective"] = "Slay Zhevra Runners to collect 4 Zhevra Hooves for Sergra Darkthorn in the Crossroads.";
       ["req"] = 10;
    };
    [846] = {
-      ["name"] = "Revenge of Gann";
-      ["prev"] = 843;
       ["repgain"] = {
          [81] = 250;
+      };
+      ["name"] = "Revenge of Gann";
+      ["prev"] = 843;
+      ["prequests"] = {
+         [1] = 843;
       };
       ["next"] = 849;
       ["objective"] = "Gann Stonespire wants you to bring him 6 vials of Nitroglycerin, 6 bundles of Wood Pulp, and 6 samples of Sodium Nitrate.";
@@ -7578,6 +9076,9 @@ addon.questsDB = {
    [847] = {
       ["name"] = "Guile of the Raptor";
       ["prev"] = 702;
+      ["prequests"] = {
+         [1] = 702;
+      };
       ["repgain"] = {
          [76] = 250;
       };
@@ -7595,6 +9096,9 @@ addon.questsDB = {
    [849] = {
       ["name"] = "Revenge of Gann";
       ["prev"] = 846;
+      ["prequests"] = {
+         [1] = 846;
+      };
       ["repgain"] = {
          [81] = 250;
       };
@@ -7610,10 +9114,13 @@ addon.questsDB = {
       ["req"] = 11;
    };
    [851] = {
-      ["name"] = "Verog the Dervish";
-      ["prev"] = 850;
       ["repgain"] = {
          [76] = 150;
+      };
+      ["name"] = "Verog the Dervish";
+      ["prev"] = 850;
+      ["prequests"] = {
+         [1] = 850;
       };
       ["next"] = 852;
       ["objective"] = "Bring Verog's Head to Regthar Deathgate, west of the Crossroads.";
@@ -7622,6 +9129,9 @@ addon.questsDB = {
    [852] = {
       ["name"] = "Hezrul Bloodmark";
       ["prev"] = 851;
+      ["prequests"] = {
+         [1] = 851;
+      };
       ["repgain"] = {
          [76] = 150;
       };
@@ -7630,17 +9140,20 @@ addon.questsDB = {
    };
    [853] = {
       ["name"] = "Apothecary Zamah";
-      ["prev"] = 848;
+      ["objective"] = "Bring the Rendered Spores to Apothecary Zamah in Thunder Bluff, before the time limit is up.";
       ["repgain"] = {
          [68] = 150;
       };
+      ["prequests"] = {
+         [1] = 848;
+      };
+      ["prev"] = 848;
       ["reward"] = {
          [1] = 2458;
          [2] = 2457;
          [3] = 2456;
          [4] = 2459;
       };
-      ["objective"] = "Bring the Rendered Spores to Apothecary Zamah in Thunder Bluff, before the time limit is up.";
       ["req"] = 10;
    };
    [854] = {
@@ -7678,10 +9191,13 @@ addon.questsDB = {
       ["req"] = 13;
    };
    [860] = {
-      ["name"] = "Sergra Darkthorn";
-      ["prev"] = 861;
       ["repgain"] = {
          [81] = 10;
+      };
+      ["name"] = "Sergra Darkthorn";
+      ["prev"] = 861;
+      ["prequests"] = {
+         [1] = 861;
       };
       ["next"] = 844;
       ["objective"] = "Speak with Sergra Darkthorn at the Crossroads.";
@@ -7705,29 +9221,35 @@ addon.questsDB = {
    };
    [863] = {
       ["name"] = "The Escape";
-      ["prev"] = 858;
+      ["objective"] = "Protect Wizzlecrank and the stolen goblin shredder on the way to Sputtervalve in Ratchet.";
       ["repgain"] = {
          [470] = 350;
       };
+      ["prequests"] = {
+         [1] = 858;
+      };
+      ["prev"] = 858;
       ["reward"] = {
          [1] = 5326;
          [2] = 5327;
       };
-      ["objective"] = "Protect Wizzlecrank and the stolen goblin shredder on the way to Sputtervalve in Ratchet.";
       ["req"] = 13;
    };
    [864] = {
       ["name"] = "Return to Apothecary Zinge";
-      ["prev"] = 654;
+      ["objective"] = " the power source is safely removed and the data is preserved.  Well";
       ["repgain"] = {
          [68] = 350;
       };
+      ["prequests"] = {
+         [1] = 654;
+      };
+      ["prev"] = 654;
       ["reward"] = {
          [1] = 9634;
          [2] = 9635;
          [3] = 11502;
       };
-      ["objective"] = " the power source is safely removed and the data is preserved.  Well";
       ["req"] = 38;
    };
    [865] = {
@@ -7796,45 +9318,57 @@ addon.questsDB = {
    };
    [872] = {
       ["name"] = "The Disruption Ends";
-      ["prev"] = 871;
+      ["objective"] = "Kill 8 Razormane Geomancers, 8 Razormane Defenders, and Kreenig Snarlsnout.$B$BThen bring Kreenig Snarlsnout's Tusk to Thork at the Crossroads.";
       ["repgain"] = {
          [76] = 250;
       };
+      ["prequests"] = {
+         [1] = 871;
+      };
+      ["prev"] = 871;
       ["reward"] = {
          [1] = 5275;
          [2] = 5328;
       };
-      ["objective"] = "Kill 8 Razormane Geomancers, 8 Razormane Defenders, and Kreenig Snarlsnout.$B$BThen bring Kreenig Snarlsnout's Tusk to Thork at the Crossroads.";
       ["req"] = 9;
    };
    [873] = {
       ["name"] = "Isha Awak";
-      ["prev"] = 874;
+      ["objective"] = "Bring the Heart of Isha Awak to Mahren Skyseer.";
       ["repgain"] = {
          [81] = 350;
       };
+      ["prequests"] = {
+         [1] = 874;
+      };
+      ["prev"] = 874;
       ["reward"] = {
          [1] = 5356;
          [2] = 5357;
       };
-      ["objective"] = "Bring the Heart of Isha Awak to Mahren Skyseer.";
       ["req"] = 10;
    };
    [874] = {
-      ["name"] = "Mahren Skyseer";
-      ["prev"] = 913;
       ["repgain"] = {
          [81] = 25;
+      };
+      ["name"] = "Mahren Skyseer";
+      ["prev"] = 913;
+      ["prequests"] = {
+         [1] = 913;
       };
       ["next"] = 873;
       ["objective"] = "Speak with Mahren Skyseer.";
       ["req"] = 9;
    };
    [875] = {
-      ["name"] = "Harpy Lieutenants";
-      ["prev"] = 867;
       ["repgain"] = {
          [76] = 250;
+      };
+      ["name"] = "Harpy Lieutenants";
+      ["prev"] = 867;
+      ["prequests"] = {
+         [1] = 867;
       };
       ["next"] = 876;
       ["objective"] = "Collect 6 Harpy Lieutenant Rings from Witchwing Slayers and return them to Darsok Swiftdagger at the Crossroads.";
@@ -7842,23 +9376,29 @@ addon.questsDB = {
    };
    [876] = {
       ["name"] = "Serena Bloodfeather";
-      ["prev"] = 875;
+      ["objective"] = "Slay Serena Bloodfeather and return her head to Darsok Swiftdagger at the Crossroads.";
       ["repgain"] = {
          [76] = 350;
       };
+      ["prequests"] = {
+         [1] = 875;
+      };
+      ["prev"] = 875;
       ["reward"] = {
          [1] = 5321;
          [2] = 5279;
          [3] = 5318;
       };
-      ["objective"] = "Slay Serena Bloodfeather and return her head to Darsok Swiftdagger at the Crossroads.";
       ["req"] = 12;
    };
    [877] = {
-      ["name"] = "The Stagnant Oasis";
-      ["prev"] = 870;
       ["repgain"] = {
          [81] = 250;
+      };
+      ["name"] = "The Stagnant Oasis";
+      ["prev"] = 870;
+      ["prequests"] = {
+         [1] = 870;
       };
       ["next"] = 880;
       ["objective"] = "Return to Tonga at The Crossroads, after investigating the Stagnant Oasis.";
@@ -7873,10 +9413,13 @@ addon.questsDB = {
       ["req"] = 14;
    };
    [879] = {
-      ["name"] = "Betrayal from Within";
-      ["prev"] = 5052;
       ["repgain"] = {
          [76] = 150;
+      };
+      ["name"] = "Betrayal from Within";
+      ["prev"] = 5052;
+      ["prequests"] = {
+         [1] = 5052;
       };
       ["next"] = 906;
       ["objective"] = "Kill Nak, Kuz, and Lok Orcbane and bring their skulls to Mangletooth at Camp Taurajo in the Barrens.";
@@ -7885,6 +9428,9 @@ addon.questsDB = {
    [880] = {
       ["name"] = "Altered Beings";
       ["prev"] = 877;
+      ["prequests"] = {
+         [1] = 877;
+      };
       ["repgain"] = {
          [81] = 250;
       };
@@ -7892,20 +9438,26 @@ addon.questsDB = {
       ["req"] = 10;
    };
    [881] = {
-      ["name"] = "Echeyakee";
-      ["prev"] = 903;
       ["repgain"] = {
          [76] = 350;
+      };
+      ["name"] = "Echeyakee";
+      ["prev"] = 903;
+      ["prequests"] = {
+         [1] = 903;
       };
       ["next"] = 905;
       ["objective"] = "Bring Echeyakee's Hide to Sergra Darkthorn at the Crossroads.";
       ["req"] = 10;
    };
    [882] = {
-      ["name"] = "Ishamuhale";
-      ["prev"] = 3261;
       ["repgain"] = {
          [81] = 350;
+      };
+      ["name"] = "Ishamuhale";
+      ["prev"] = 3261;
+      ["prequests"] = {
+         [1] = 3261;
       };
       ["next"] = 907;
       ["objective"] = "Bring Ishamuhale's Fang to Jorn at Camp Taurajo.";
@@ -7955,28 +9507,37 @@ addon.questsDB = {
    };
    [888] = {
       ["name"] = "Stolen Booty";
-      ["prev"] = 892;
+      ["objective"] = "Retrieve the Shipment of Boots and Telescopic Lens for Gazlowe in Ratchet.";
       ["repgain"] = {
          [470] = 250;
       };
+      ["prequests"] = {
+         [1] = 892;
+      };
+      ["prev"] = 892;
       ["reward"] = {
          [1] = 5337;
          [2] = 5320;
       };
-      ["objective"] = "Retrieve the Shipment of Boots and Telescopic Lens for Gazlowe in Ratchet.";
       ["req"] = 9;
    };
    [889] = {
       ["name"] = "Spirit of the Wind";
       ["prev"] = 5052;
+      ["prequests"] = {
+         [1] = 5052;
+      };
       ["objective"] = "";
       ["req"] = 14;
    };
    [890] = {
-      ["name"] = "The Missing Shipment";
-      ["prev"] = 887;
       ["repgain"] = {
          [470] = 10;
+      };
+      ["name"] = "The Missing Shipment";
+      ["prev"] = 887;
+      ["prequests"] = {
+         [1] = 887;
       };
       ["next"] = 892;
       ["objective"] = "Bring Gazlowe's Ledger to Wharfmaster Dizzywig.";
@@ -7998,10 +9559,13 @@ addon.questsDB = {
       ["req"] = 13;
    };
    [892] = {
-      ["name"] = "The Missing Shipment";
-      ["prev"] = 890;
       ["repgain"] = {
          [470] = 10;
+      };
+      ["name"] = "The Missing Shipment";
+      ["prev"] = 890;
+      ["prequests"] = {
+         [1] = 890;
       };
       ["next"] = 888;
       ["objective"] = "Return Gazlowe's Ledger to Gazlowe in Ratchet.";
@@ -8077,20 +9641,26 @@ addon.questsDB = {
       ["req"] = 14;
    };
    [900] = {
-      ["name"] = "Samophlange";
-      ["prev"] = 894;
       ["repgain"] = {
          [470] = 75;
+      };
+      ["name"] = "Samophlange";
+      ["prev"] = 894;
+      ["prequests"] = {
+         [1] = 894;
       };
       ["next"] = 901;
       ["objective"] = "Close off the Fuel Control Valve, the Regulator Valve and the Main Control Valve then use the control console again.";
       ["req"] = 10;
    };
    [901] = {
-      ["name"] = "Samophlange";
-      ["prev"] = 900;
       ["repgain"] = {
          [470] = 150;
+      };
+      ["name"] = "Samophlange";
+      ["prev"] = 900;
+      ["prequests"] = {
+         [1] = 900;
       };
       ["next"] = 902;
       ["objective"] = "Get the Console Key from Tinkerer Sniggles to use on the control console.";
@@ -8098,32 +9668,41 @@ addon.questsDB = {
    };
    [902] = {
       ["name"] = "Samophlange";
-      ["prev"] = 901;
+      ["objective"] = "Return the Samophlange to Sputtervalve in Ratchet.";
       ["repgain"] = {
          [470] = 250;
       };
+      ["prequests"] = {
+         [1] = 901;
+      };
+      ["prev"] = 901;
       ["reward"] = {
          [1] = 5324;
          [2] = 5325;
       };
-      ["objective"] = "Return the Samophlange to Sputtervalve in Ratchet.";
       ["req"] = 10;
    };
    [903] = {
-      ["name"] = "Prowlers of the Barrens";
-      ["prev"] = 845;
       ["repgain"] = {
          [76] = 250;
+      };
+      ["name"] = "Prowlers of the Barrens";
+      ["prev"] = 845;
+      ["prequests"] = {
+         [1] = 845;
       };
       ["next"] = 881;
       ["objective"] = "Collect 7 Prowler Claws from Savannah Prowlers for Sergra Darkthorn in the Crossroads.";
       ["req"] = 10;
    };
    [905] = {
-      ["name"] = "The Angry Scytheclaws";
-      ["prev"] = 881;
       ["repgain"] = {
          [76] = 250;
+      };
+      ["name"] = "The Angry Scytheclaws";
+      ["prev"] = 881;
+      ["prequests"] = {
+         [1] = 881;
       };
       ["next"] = 3261;
       ["objective"] = "Kill Sunscale raptors and collect their feathers. Use the feathers on the 3 Scytheclaw nests. Return to Sergra Darkthorn in the Crossroads.";
@@ -8131,22 +9710,28 @@ addon.questsDB = {
    };
    [906] = {
       ["name"] = "Betrayal from Within";
-      ["prev"] = 879;
+      ["objective"] = "Bring Lok's Skull to Thork at the Crossroads in the Barrens.";
       ["repgain"] = {
          [76] = 500;
       };
+      ["prequests"] = {
+         [1] = 879;
+      };
+      ["prev"] = 879;
       ["reward"] = {
          [1] = 5316;
          [2] = 5317;
       };
-      ["objective"] = "Bring Lok's Skull to Thork at the Crossroads in the Barrens.";
       ["req"] = 17;
    };
    [907] = {
-      ["name"] = "Enraged Thunder Lizards";
-      ["prev"] = 882;
       ["repgain"] = {
          [81] = 350;
+      };
+      ["name"] = "Enraged Thunder Lizards";
+      ["prev"] = 882;
+      ["prequests"] = {
+         [1] = 882;
       };
       ["next"] = 913;
       ["objective"] = "Bring 3 Thunder Lizard Blood to Jorn Skyseer at Camp Taurajo.";
@@ -8155,43 +9740,58 @@ addon.questsDB = {
    [910] = {
       ["name"] = "Down at the Docks";
       ["prev"] = 172;
+      ["prequests"] = {
+         [1] = 172;
+      };
       ["objective"] = "Take your ward to the docks of Ratchet in the Barrens.";
       ["req"] = 10;
    };
    [911] = {
       ["name"] = "Gateway to the Frontier";
       ["prev"] = 172;
+      ["prequests"] = {
+         [1] = 172;
+      };
       ["objective"] = "Take your ward to the Mor'shan Rampart in the northern part of the Barrens, just before entering Ashenvale.";
       ["req"] = 10;
    };
    [913] = {
+      ["name"] = "Cry of the Thunderhawk";
       ["repgain"] = {
          [81] = 350;
       };
-      ["name"] = "Cry of the Thunderhawk";
+      ["objective"] = "Find and slay a Thunderhawk, return its wings to Jorn Skyseer at Camp Taurajo.";
+      ["next"] = 874;
+      ["prequests"] = {
+         [1] = 907;
+      };
       ["prev"] = 907;
       ["reward"] = {
          [1] = 5302;
          [2] = 5306;
       };
-      ["next"] = 874;
-      ["objective"] = "Find and slay a Thunderhawk, return its wings to Jorn Skyseer at Camp Taurajo.";
       ["req"] = 10;
    };
    [914] = {
       ["name"] = "Leaders of the Fang";
-      ["prev"] = 1490;
+      ["objective"] = "Bring the Gems of Cobrahn, Anacondra, Pythas and Serpentis to Nara Wildmane in Thunder Bluff.";
       ["repgain"] = {
          [81] = 350;
       };
+      ["prequests"] = {
+         [1] = 1490;
+      };
+      ["prev"] = 1490;
       ["reward"] = {
          [1] = 6505;
          [2] = 6504;
       };
-      ["objective"] = "Bring the Gems of Cobrahn, Anacondra, Pythas and Serpentis to Nara Wildmane in Thunder Bluff.";
       ["req"] = 11;
    };
    [915] = {
+      ["prequests"] = {
+         [1] = 1800;
+      };
       ["objective"] = "Get some Strawberry Ice Cream for your ward.  The lad seems to prefer Tigule and Foror's brand ice cream.";
       ["name"] = "You Scream, I Scream...";
       ["req"] = 10;
@@ -8212,25 +9812,31 @@ addon.questsDB = {
       ["req"] = 3;
    };
    [917] = {
+      ["name"] = "Webwood Egg";
       ["repgain"] = {
          [69] = 350;
       };
-      ["name"] = "Webwood Egg";
+      ["objective"] = "Bring a Webwood Egg to Gilshalan in Aldrassil.";
       ["prev"] = 916;
+      ["prequests"] = {
+         [1] = 916;
+      };
       ["reward"] = {
          [1] = 5395;
          [2] = 4907;
          [3] = 11189;
       };
       ["followup"] = 920;
-      ["objective"] = "Bring a Webwood Egg to Gilshalan in Aldrassil.";
       ["req"] = 1;
    };
    [918] = {
-      ["name"] = "Timberling Seeds";
-      ["prev"] = 997;
       ["repgain"] = {
          [69] = 250;
+      };
+      ["name"] = "Timberling Seeds";
+      ["prev"] = 997;
+      ["prequests"] = {
+         [1] = 997;
       };
       ["next"] = 922;
       ["objective"] = "Bring 8 Timberling Seeds to Denelan at Lake Al'Ameth.";
@@ -8249,40 +9855,52 @@ addon.questsDB = {
       ["req"] = 4;
    };
    [920] = {
-      ["name"] = "Tenaron's Summons";
-      ["prev"] = 917;
       ["repgain"] = {
          [69] = 10;
+      };
+      ["name"] = "Tenaron's Summons";
+      ["prev"] = 917;
+      ["prequests"] = {
+         [1] = 917;
       };
       ["next"] = 921;
       ["objective"] = "Speak with Tenaron Stormgrip atop Aldrassil in Shadowglen.";
       ["req"] = 1;
    };
    [921] = {
-      ["name"] = "Crown of the Earth";
-      ["prev"] = 920;
       ["repgain"] = {
          [69] = 150;
+      };
+      ["name"] = "Crown of the Earth";
+      ["prev"] = 920;
+      ["prequests"] = {
+         [1] = 920;
       };
       ["next"] = 928;
       ["objective"] = "Fill the Crystal Phial and bring it back to Tenaron Stormgrip atop Aldrassil.";
       ["req"] = 1;
    };
    [922] = {
-      ["name"] = "Rellian Greenspyre";
-      ["prev"] = 918;
       ["repgain"] = {
          [69] = 75;
+      };
+      ["name"] = "Rellian Greenspyre";
+      ["prev"] = 918;
+      ["prequests"] = {
+         [1] = 918;
       };
       ["next"] = 923;
       ["objective"] = "Bring a Timberling Seed to Rellian Greenspyre in Darnassus.";
       ["req"] = 4;
    };
    [923] = {
-      ["name"] = "Tumors";
-      ["prev"] = 922;
       ["repgain"] = {
          [69] = 350;
+      };
+      ["name"] = "Tumors";
+      ["prev"] = 922;
+      ["prequests"] = {
+         [1] = 922;
       };
       ["followup"] = 2498;
       ["objective"] = "Bring 5 Mossy Tumors to Rellian Greenspyre in Darnassus.";
@@ -8291,6 +9909,9 @@ addon.questsDB = {
    [924] = {
       ["name"] = "The Demon Seed";
       ["prev"] = 809;
+      ["prequests"] = {
+         [1] = 809;
+      };
       ["repgain"] = {
          [76] = 350;
       };
@@ -8317,20 +9938,26 @@ addon.questsDB = {
       ["req"] = 5;
    };
    [928] = {
-      ["name"] = "Crown of the Earth";
-      ["prev"] = 921;
       ["repgain"] = {
          [69] = 75;
+      };
+      ["name"] = "Crown of the Earth";
+      ["prev"] = 921;
+      ["prequests"] = {
+         [1] = 921;
       };
       ["next"] = 929;
       ["objective"] = "Bring the Partially Filled Vessel to Corithras Moonrage in Dolanaar.";
       ["req"] = 1;
    };
    [929] = {
-      ["name"] = "Crown of the Earth";
-      ["prev"] = 928;
       ["repgain"] = {
          [69] = 250;
+      };
+      ["name"] = "Crown of the Earth";
+      ["prev"] = 928;
+      ["prequests"] = {
+         [1] = 928;
       };
       ["next"] = 933;
       ["objective"] = "Fill the Jade Phial and bring it back to Corithras Moonrage in Dolanaar.";
@@ -8365,20 +9992,26 @@ addon.questsDB = {
       ["req"] = 4;
    };
    [933] = {
-      ["name"] = "Crown of the Earth";
-      ["prev"] = 929;
       ["repgain"] = {
          [69] = 250;
+      };
+      ["name"] = "Crown of the Earth";
+      ["prev"] = 929;
+      ["prequests"] = {
+         [1] = 929;
       };
       ["next"] = 7383;
       ["objective"] = "Fill the Tourmaline Phial and bring it back to Corithras Moonrage in Dolanaar.";
       ["req"] = 1;
    };
    [934] = {
-      ["name"] = "Crown of the Earth";
-      ["prev"] = 933;
       ["repgain"] = {
          [69] = 250;
+      };
+      ["name"] = "Crown of the Earth";
+      ["prev"] = 933;
+      ["prequests"] = {
+         [1] = 933;
       };
       ["next"] = 935;
       ["objective"] = "Fill the Amethyst Phial and bring it back to Corithras Moonrage in Dolanaar.";
@@ -8386,15 +10019,18 @@ addon.questsDB = {
    };
    [935] = {
       ["name"] = "Crown of the Earth";
-      ["prev"] = 7383;
+      ["objective"] = "Bring the Filled Vessel to Arch Druid Fandral Staghelm in Darnassus.";
       ["repgain"] = {
          [69] = 350;
       };
+      ["prequests"] = {
+         [1] = 7383;
+      };
+      ["prev"] = 7383;
       ["reward"] = {
          [1] = 5596;
          [2] = 5595;
       };
-      ["objective"] = "Bring the Filled Vessel to Arch Druid Fandral Staghelm in Darnassus.";
       ["req"] = 1;
    };
    [936] = {
@@ -8436,10 +10072,13 @@ addon.questsDB = {
       ["req"] = 49;
    };
    [940] = {
-      ["name"] = "Teldrassil";
-      ["prev"] = 937;
       ["repgain"] = {
          [69] = 75;
+      };
+      ["name"] = "Teldrassil";
+      ["prev"] = 937;
+      ["prequests"] = {
+         [1] = 937;
       };
       ["next"] = 952;
       ["objective"] = "Deliver the Oracle Tree's report to Arch Druid Fandral Staghelm in Darnassus.";
@@ -8448,6 +10087,9 @@ addon.questsDB = {
    [941] = {
       ["name"] = "Planting the Heart";
       ["prev"] = 927;
+      ["prequests"] = {
+         [1] = 927;
+      };
       ["repgain"] = {
          [69] = 250;
       };
@@ -8455,10 +10097,13 @@ addon.questsDB = {
       ["req"] = 9;
    };
    [942] = {
-      ["name"] = "The Absent Minded Prospector";
-      ["prev"] = 741;
       ["repgain"] = {
          [47] = 250;
+      };
+      ["name"] = "The Absent Minded Prospector";
+      ["prev"] = 741;
+      ["prequests"] = {
+         [1] = 741;
       };
       ["next"] = 943;
       ["objective"] = "Take the mysterious fossil to Archaeologist Flagongut in Menethil Harbor.";
@@ -8466,22 +10111,28 @@ addon.questsDB = {
    };
    [943] = {
       ["name"] = "The Absent Minded Prospector";
-      ["prev"] = 942;
+      ["objective"] = "Archaeologist Flagongut in Menethil Harbor wants you to bring him the Stone of Relu and Flagongut's Fossil.";
       ["repgain"] = {
          [47] = 350;
       };
+      ["prequests"] = {
+         [1] = 942;
+      };
+      ["prev"] = 942;
       ["reward"] = {
          [1] = 5627;
          [2] = 5626;
       };
-      ["objective"] = "Archaeologist Flagongut in Menethil Harbor wants you to bring him the Stone of Relu and Flagongut's Fossil.";
       ["req"] = 15;
    };
    [944] = {
-      ["name"] = "The Master's Glaive";
-      ["prev"] = 948;
       ["repgain"] = {
          [69] = 75;
+      };
+      ["name"] = "The Master's Glaive";
+      ["prev"] = 948;
+      ["prequests"] = {
+         [1] = 948;
       };
       ["next"] = 949;
       ["objective"] = "Gather information, then use the Phial of Scrying to create a Scrying Bowl.  Use the bowl to speak with Onu.";
@@ -8505,20 +10156,26 @@ addon.questsDB = {
       ["req"] = 12;
    };
    [948] = {
-      ["name"] = "Onu";
-      ["prev"] = 947;
       ["repgain"] = {
          [69] = 75;
+      };
+      ["name"] = "Onu";
+      ["prev"] = 947;
+      ["prequests"] = {
+         [1] = 947;
       };
       ["next"] = 944;
       ["objective"] = "Speak with Onu at the Grove of the Ancients.";
       ["req"] = 12;
    };
    [949] = {
-      ["name"] = "The Twilight Camp";
-      ["prev"] = 944;
       ["repgain"] = {
          [69] = 250;
+      };
+      ["name"] = "The Twilight Camp";
+      ["prev"] = 944;
+      ["prequests"] = {
+         [1] = 944;
       };
       ["next"] = 950;
       ["objective"] = "Find a clue in the Twilight's Hammer camp at the Master's Glaive.";
@@ -8527,6 +10184,9 @@ addon.questsDB = {
    [950] = {
       ["name"] = "Return to Onu";
       ["prev"] = 949;
+      ["prequests"] = {
+         [1] = 949;
+      };
       ["repgain"] = {
          [69] = 150;
       };
@@ -8535,20 +10195,26 @@ addon.questsDB = {
    };
    [951] = {
       ["name"] = "Mathystra Relics";
-      ["prev"] = 950;
+      ["objective"] = "Bring 6 Mathystra Relics to Onu at the Grove of the Ancients.";
       ["repgain"] = {
          [69] = 350;
       };
+      ["prequests"] = {
+         [1] = 950;
+      };
+      ["prev"] = 950;
       ["reward"] = {
          [1] = 5757;
          [2] = 5615;
       };
-      ["objective"] = "Bring 6 Mathystra Relics to Onu at the Grove of the Ancients.";
       ["req"] = 12;
    };
    [952] = {
       ["name"] = "Grove of the Ancients";
       ["prev"] = 940;
+      ["prequests"] = {
+         [1] = 940;
+      };
       ["repgain"] = {
          [69] = 250;
       };
@@ -8573,20 +10239,26 @@ addon.questsDB = {
       ["req"] = 7;
    };
    [955] = {
-      ["name"] = "Bashal'Aran";
-      ["prev"] = 954;
       ["repgain"] = {
          [69] = 250;
+      };
+      ["name"] = "Bashal'Aran";
+      ["prev"] = 954;
+      ["prequests"] = {
+         [1] = 954;
       };
       ["next"] = 956;
       ["objective"] = "Acquire 8 Grell Earrings for Asterion in Bashal'Aran.";
       ["req"] = 7;
    };
    [956] = {
-      ["name"] = "Bashal'Aran";
-      ["prev"] = 955;
       ["repgain"] = {
          [69] = 250;
+      };
+      ["name"] = "Bashal'Aran";
+      ["prev"] = 955;
+      ["prequests"] = {
+         [1] = 955;
       };
       ["next"] = 957;
       ["objective"] = "Obtain the Ancient Moonstone Seal and bring it to Asterion in Bashal'Aran.";
@@ -8594,16 +10266,19 @@ addon.questsDB = {
    };
    [957] = {
       ["name"] = "Bashal'Aran";
-      ["prev"] = 956;
+      ["objective"] = "Destroy the Ancient Moonstone Seal at the ancient flame in Ameth'Aran, then return to Asterion in Bashal'Aran.";
       ["repgain"] = {
          [69] = 150;
       };
+      ["prequests"] = {
+         [1] = 956;
+      };
+      ["prev"] = 956;
       ["reward"] = {
          [1] = 7229;
          [2] = 5617;
          [3] = 5604;
       };
-      ["objective"] = "Destroy the Ancient Moonstone Seal at the ancient flame in Ameth'Aran, then return to Asterion in Bashal'Aran.";
       ["req"] = 7;
    };
    [958] = {
@@ -8646,6 +10321,9 @@ addon.questsDB = {
    [964] = {
       ["name"] = "Skeletal Fragments";
       ["prev"] = 838;
+      ["prequests"] = {
+         [1] = 838;
+      };
       ["next"] = 5514;
       ["objective"] = "Bring 15 Skeletal Fragments to Apothecary Dithers at the Bulwark, Western Plaguelands.";
       ["req"] = 55;
@@ -8660,20 +10338,26 @@ addon.questsDB = {
       ["req"] = 13;
    };
    [966] = {
-      ["name"] = "The Tower of Althalaxx";
-      ["prev"] = 965;
       ["repgain"] = {
          [69] = 250;
+      };
+      ["name"] = "The Tower of Althalaxx";
+      ["prev"] = 965;
+      ["prequests"] = {
+         [1] = 965;
       };
       ["next"] = 967;
       ["objective"] = "Collect 4 Worn Parchments for Balthule Shadowstrike near the Tower of Althalaxx.";
       ["req"] = 13;
    };
    [967] = {
-      ["name"] = "The Tower of Althalaxx";
-      ["prev"] = 966;
       ["repgain"] = {
          [69] = 150;
+      };
+      ["name"] = "The Tower of Althalaxx";
+      ["prev"] = 966;
+      ["prequests"] = {
+         [1] = 966;
       };
       ["next"] = 970;
       ["objective"] = "Deliver Balthule's letter to Delgren the Purifier in Ashenvale Forest.";
@@ -8696,6 +10380,9 @@ addon.questsDB = {
    [970] = {
       ["name"] = "The Tower of Althalaxx";
       ["prev"] = 967;
+      ["prequests"] = {
+         [1] = 967;
+      };
       ["repgain"] = {
          [69] = 250;
       };
@@ -8716,17 +10403,20 @@ addon.questsDB = {
       ["req"] = 20;
    };
    [973] = {
+      ["name"] = "The Tower of Althalaxx";
       ["repgain"] = {
          [69] = 250;
       };
-      ["name"] = "The Tower of Althalaxx";
+      ["objective"] = "Bring Ilkrud Magthrull's Tome to Delgren the Purifier at Maestra's Post.";
+      ["next"] = 1140;
+      ["prequests"] = {
+         [1] = 970;
+      };
       ["prev"] = 970;
       ["reward"] = {
          [1] = 5622;
          [2] = 5613;
       };
-      ["next"] = 1140;
-      ["objective"] = "Bring Ilkrud Magthrull's Tome to Delgren the Purifier at Maestra's Post.";
       ["req"] = 13;
    };
    [974] = {
@@ -8738,37 +10428,49 @@ addon.questsDB = {
    [975] = {
       ["name"] = "Cache of Mau'ari";
       ["prev"] = 969;
+      ["prequests"] = {
+         [1] = 969;
+      };
       ["objective"] = "Speak to Witch Doctor Mau'ari again in a moment to receive the lucky charm.";
       ["req"] = 55;
    };
    [976] = {
       ["name"] = "Supplies to Auberdine";
-      ["prev"] = 973;
+      ["objective"] = "Speak with Delgren the Purifier at Maestra's Post after seeing Feero safely through Ashenvale Forest.";
       ["repgain"] = {
          [69] = 500;
       };
+      ["prequests"] = {
+         [1] = 973;
+      };
+      ["prev"] = 973;
       ["reward"] = {
          [1] = 5323;
          [2] = 6721;
       };
-      ["objective"] = "Speak with Delgren the Purifier at Maestra's Post after seeing Feero safely through Ashenvale Forest.";
       ["req"] = 19;
    };
    [977] = {
-      ["name"] = "Are We There, Yeti?";
-      ["prev"] = 3783;
       ["repgain"] = {
          [577] = 150;
+      };
+      ["name"] = "Are We There, Yeti?";
+      ["prev"] = 3783;
+      ["prequests"] = {
+         [1] = 3783;
       };
       ["next"] = 5163;
       ["objective"] = "Collect 2 Pristine Yeti Horns for Umi Rumplesnicker in Everlook.";
       ["req"] = 52;
    };
    [978] = {
-      ["name"] = "Moontouched Wildkin";
-      ["prev"] = 3661;
       ["repgain"] = {
          [69] = 250;
+      };
+      ["name"] = "Moontouched Wildkin";
+      ["prev"] = 3661;
+      ["prequests"] = {
+         [1] = 3661;
       };
       ["next"] = 979;
       ["objective"] = "Collect 10 Moontouched Feathers from Winterspring, then return to Erelas Ambersky in Rut'theran Village.";
@@ -8777,6 +10479,9 @@ addon.questsDB = {
    [979] = {
       ["name"] = "Find Ranshalla";
       ["prev"] = 978;
+      ["prequests"] = {
+         [1] = 978;
+      };
       ["repgain"] = {
          [69] = 75;
       };
@@ -8786,21 +10491,27 @@ addon.questsDB = {
    [980] = {
       ["name"] = "The New Springs";
       ["prev"] = 974;
+      ["prequests"] = {
+         [1] = 974;
+      };
       ["next"] = 4842;
       ["objective"] = "Travel to Winterspring and speak with Donova Snowden.";
       ["req"] = 51;
    };
    [981] = {
       ["name"] = "The Tower of Althalaxx";
-      ["prev"] = 1143;
+      ["objective"] = "Talk to Delgren the Purifier at Maestra's Post.";
       ["repgain"] = {
          [69] = 250;
       };
+      ["prequests"] = {
+         [1] = 1143;
+      };
+      ["prev"] = 1143;
       ["reward"] = {
          [1] = 10043;
          [2] = 5614;
       };
-      ["objective"] = "Talk to Delgren the Purifier at Maestra's Post.";
       ["req"] = 13;
    };
    [982] = {
@@ -8836,6 +10547,9 @@ addon.questsDB = {
    [985] = {
       ["name"] = "How Big a Threat?";
       ["prev"] = 984;
+      ["prequests"] = {
+         [1] = 984;
+      };
       ["repgain"] = {
          [69] = 250;
       };
@@ -8845,6 +10559,9 @@ addon.questsDB = {
    [986] = {
       ["name"] = "A Lost Master";
       ["prev"] = 985;
+      ["prequests"] = {
+         [1] = 985;
+      };
       ["repgain"] = {
          [69] = 250;
       };
@@ -8855,6 +10572,10 @@ addon.questsDB = {
       ["name"] = "Trek to Ashenvale";
       ["repgain"] = {
          [69] = 25;
+      };
+      ["prequests"] = {
+         [1] = 994;
+         [2] = 995;
       };
       ["objective"] = "Find Raene Wolfrunner in Ashenvale.";
       ["req"] = 15;
@@ -8880,6 +10601,9 @@ addon.questsDB = {
    [993] = {
       ["name"] = "A Lost Master";
       ["prev"] = 986;
+      ["prequests"] = {
+         [1] = 986;
+      };
       ["repgain"] = {
          [69] = 75;
       };
@@ -8887,20 +10611,26 @@ addon.questsDB = {
       ["req"] = 10;
    };
    [994] = {
-      ["name"] = "Escape Through Force";
-      ["prev"] = 993;
       ["repgain"] = {
          [69] = 250;
+      };
+      ["name"] = "Escape Through Force";
+      ["prev"] = 993;
+      ["prequests"] = {
+         [1] = 993;
       };
       ["followup"] = 990;
       ["objective"] = "Protect Volcor until you reach the road, then speak to Terenthis in Auberdine.";
       ["req"] = 10;
    };
    [995] = {
-      ["name"] = "Escape Through Stealth";
-      ["prev"] = 993;
       ["repgain"] = {
          [69] = 75;
+      };
+      ["name"] = "Escape Through Stealth";
+      ["prev"] = 993;
+      ["prequests"] = {
+         [1] = 993;
       };
       ["followup"] = 990;
       ["objective"] = "Escape the Furbolg cave and meet Terenthis in Auberdine.";
@@ -8931,20 +10661,26 @@ addon.questsDB = {
       ["req"] = 54;
    };
    [1001] = {
-      ["name"] = "Buzzbox 411";
-      ["prev"] = 983;
       ["repgain"] = {
          [0] = 54;
+      };
+      ["name"] = "Buzzbox 411";
+      ["prev"] = 983;
+      ["prequests"] = {
+         [1] = 983;
       };
       ["next"] = 1002;
       ["objective"] = " on the beach$B$BSo";
       ["req"] = 7;
    };
    [1002] = {
-      ["name"] = "Buzzbox 323";
-      ["prev"] = 1001;
       ["repgain"] = {
          [54] = 250;
+      };
+      ["name"] = "Buzzbox 323";
+      ["prev"] = 1001;
+      ["prequests"] = {
+         [1] = 1001;
       };
       ["next"] = 1003;
       ["objective"] = " ish on the road sho ya shouldn't have trouble finding it near the bridge.\"$B$BWizbang mumbles something incoherent before you hear a loud gulping sound.$B$B\"Thish one needs Moonstalker Fangs... 6 of 'em.\"\"";
@@ -8953,6 +10689,9 @@ addon.questsDB = {
    [1003] = {
       ["name"] = "Buzzbox 525";
       ["prev"] = 1002;
+      ["prequests"] = {
+         [1] = 1002;
+      };
       ["repgain"] = {
          [2082] = 5;
          [0] = 1;
@@ -8985,6 +10724,9 @@ addon.questsDB = {
    [1009] = {
       ["name"] = "Ruuzel";
       ["prev"] = 1007;
+      ["prequests"] = {
+         [1] = 1007;
+      };
       ["repgain"] = {
          [69] = 350;
       };
@@ -9002,6 +10744,9 @@ addon.questsDB = {
    [1011] = {
       ["name"] = "Forsaken Diseases";
       ["prev"] = 4581;
+      ["prequests"] = {
+         [1] = 4581;
+      };
       ["repgain"] = {
          [69] = 250;
       };
@@ -9011,6 +10756,9 @@ addon.questsDB = {
    [1012] = {
       ["name"] = "Insane Druids";
       ["prev"] = 1011;
+      ["prequests"] = {
+         [1] = 1011;
+      };
       ["repgain"] = {
          [69] = 350;
       };
@@ -9055,6 +10803,9 @@ addon.questsDB = {
    [1017] = {
       ["name"] = "Mage Summoner";
       ["prev"] = 1016;
+      ["prequests"] = {
+         [1] = 1016;
+      };
       ["repgain"] = {
          [69] = 350;
       };
@@ -9076,6 +10827,9 @@ addon.questsDB = {
    [1020] = {
       ["name"] = "Orendil's Cure";
       ["prev"] = 1010;
+      ["prequests"] = {
+         [1] = 1010;
+      };
       ["repgain"] = {
          [69] = 350;
       };
@@ -9103,6 +10857,9 @@ addon.questsDB = {
    [1023] = {
       ["name"] = "Raene's Cleansing";
       ["prev"] = 991;
+      ["prequests"] = {
+         [1] = 991;
+      };
       ["repgain"] = {
          [69] = 150;
       };
@@ -9110,10 +10867,13 @@ addon.questsDB = {
       ["req"] = 18;
    };
    [1024] = {
-      ["name"] = "Raene's Cleansing";
-      ["prev"] = 1023;
       ["repgain"] = {
          [69] = 75;
+      };
+      ["name"] = "Raene's Cleansing";
+      ["prev"] = 1023;
+      ["prequests"] = {
+         [1] = 1023;
       };
       ["next"] = 1026;
       ["objective"] = "Find Shael'dryn at the moonwell to the northeast.";
@@ -9122,6 +10882,9 @@ addon.questsDB = {
    [7172] = {
       ["name"] = "The Eye of Command";
       ["prev"] = 7171;
+      ["prequests"] = {
+         [1] = 7171;
+      };
       ["objective"] = "";
       ["req"] = 51;
    };
@@ -9133,6 +10896,9 @@ addon.questsDB = {
    [7428] = {
       ["name"] = "Wanted: MORE ORCS!";
       ["prev"] = 7402;
+      ["prequests"] = {
+         [1] = 7402;
+      };
       ["objective"] = "";
       ["req"] = 55;
    };
@@ -9145,6 +10911,9 @@ addon.questsDB = {
    [7508] = {
       ["name"] = "The Forging of Quel'Serrar";
       ["prev"] = 7507;
+      ["prequests"] = {
+         [1] = 7507;
+      };
       ["next"] = 7509;
       ["objective"] = "Give the Dull and Flat Elven Blade to Lorekeeper Lydros.";
       ["req"] = 60;
@@ -9160,6 +10929,9 @@ addon.questsDB = {
    [7636] = {
       ["name"] = "Stave of the Ancients";
       ["prev"] = 7632;
+      ["prequests"] = {
+         [1] = 7632;
+      };
       ["objective"] = "You must find and destroy these four demonic corrupters:$B$BSimone the Seductress.$B$BKlinfran the Crazed.$B$BSolenor the Slayer.$B$BArtorius the Doombringer.$B$BDestroy these creatures and return to Vartrus the Ancient in Felwood with their heads.$B$BRefer to the Petrified Bark in your inventory for clues as to their whereabouts.$B$BYou MUST complete this task by yourself.";
       ["req"] = 60;
    };
@@ -9179,6 +10951,10 @@ addon.questsDB = {
          [81] = 75;
          [530] = 75;
       };
+      ["prequests"] = {
+         [1] = 7730;
+         [2] = 7731;
+      };
       ["reward"] = {
          [1] = 19038;
          [2] = 19037;
@@ -9189,6 +10965,9 @@ addon.questsDB = {
    [7796] = {
       ["name"] = "Additional Runecloth";
       ["prev"] = 7795;
+      ["prequests"] = {
+         [1] = 7795;
+      };
       ["repgain"] = {
          [72] = 50;
       };
@@ -9198,6 +10977,9 @@ addon.questsDB = {
    [7812] = {
       ["name"] = "Additional Runecloth";
       ["prev"] = 7811;
+      ["prequests"] = {
+         [1] = 7811;
+      };
       ["repgain"] = {
          [54] = 50;
       };
@@ -9230,6 +11012,9 @@ addon.questsDB = {
    [7924] = {
       ["name"] = "Mark of Honor";
       ["prev"] = 7874;
+      ["prequests"] = {
+         [1] = 7874;
+      };
       ["objective"] = "You obtained a Warsong Mark of Honor for your last task, talk to me again, and you gain your reward.";
       ["req"] = 30;
    };
@@ -9241,6 +11026,9 @@ addon.questsDB = {
    [8052] = {
       ["name"] = "The All-Seeing Eye of Zuldazar";
       ["prev"] = 8051;
+      ["prequests"] = {
+         [1] = 8051;
+      };
       ["repgain"] = {
          [270] = 100;
       };
@@ -9260,6 +11048,9 @@ addon.questsDB = {
    [8148] = {
       ["name"] = "The Maelstrom's Wrath";
       ["prev"] = 8147;
+      ["prequests"] = {
+         [1] = 8147;
+      };
       ["repgain"] = {
          [270] = 100;
       };
@@ -9269,6 +11060,9 @@ addon.questsDB = {
    [8164] = {
       ["name"] = "More Resource Crates";
       ["prev"] = 8161;
+      ["prequests"] = {
+         [1] = 8161;
+      };
       ["objective"] = "Win the battle for Arathi Basin, get an Arathi Resource Crate, and return it to Deathstalker Mortis at Hammerfall.";
       ["req"] = 30;
    };
@@ -9280,6 +11074,9 @@ addon.questsDB = {
    [8232] = {
       ["name"] = "The Green Drake";
       ["prev"] = 8231;
+      ["prequests"] = {
+         [1] = 8231;
+      };
       ["reward"] = {
          [1] = 20083;
          [2] = 19991;
@@ -9313,6 +11110,9 @@ addon.questsDB = {
    [8392] = {
       ["name"] = "Claiming Arathi Basin";
       ["prev"] = 8394;
+      ["prequests"] = {
+         [1] = 8394;
+      };
       ["repgain"] = {
          [509] = 50;
       };
@@ -9322,6 +11122,9 @@ addon.questsDB = {
    [8424] = {
       ["name"] = "War on the Shadowsworn";
       ["prev"] = 8423;
+      ["prequests"] = {
+         [1] = 8423;
+      };
       ["next"] = 8425;
       ["objective"] = "Slaughter the Shadowsworn in the Blasted Lands and return to the Fallen Hero of the Horde.";
       ["req"] = 50;
@@ -9329,39 +11132,51 @@ addon.questsDB = {
    [4245] = {
       ["name"] = "Chasing A-Me 01";
       ["prev"] = 4244;
+      ["prequests"] = {
+         [1] = 4244;
+      };
       ["objective"] = " you prepare to see what happens when you flip the switch back to the \"On\" position.$B$BThis is your last chance... are you sure this is what you want to do?\"";
       ["req"] = 48;
    };
    [4261] = {
       ["name"] = "Ancient Spirit";
-      ["prev"] = 4442;
+      ["objective"] = "Escort Arei to safety, then speak with Kayneth Stillwind in Forest Song, in eastern Ashenvale.";
       ["repgain"] = {
          [47] = 150;
          [69] = 350;
       };
+      ["prequests"] = {
+         [1] = 4442;
+      };
+      ["prev"] = 4442;
       ["reward"] = {
          [1] = 11873;
          [2] = 11874;
       };
-      ["objective"] = "Escort Arei to safety, then speak with Kayneth Stillwind in Forest Song, in eastern Ashenvale.";
       ["req"] = 49;
    };
    [2139] = {
       ["name"] = "Tharnariun's Hope";
-      ["prev"] = 2138;
+      ["objective"] = "Find and kill the Den Mother.";
       ["repgain"] = {
          [69] = 250;
       };
+      ["prequests"] = {
+         [1] = 2138;
+      };
+      ["prev"] = 2138;
       ["reward"] = {
          [1] = 7738;
          [2] = 7739;
       };
-      ["objective"] = "Find and kill the Den Mother.";
       ["req"] = 10;
    };
    [8584] = {
       ["name"] = "Never Ask Me About My Business";
       ["prev"] = 8576;
+      ["prequests"] = {
+         [1] = 8576;
+      };
       ["next"] = 8585;
       ["objective"] = "Narain Soothfancy in Tanaris wants you to speak with Dirge Quikcleave in Gadgetzan.";
       ["req"] = 60;
@@ -9369,6 +11184,9 @@ addon.questsDB = {
    [8616] = {
       ["name"] = "The Horde Needs More Baked Salmon!";
       ["prev"] = 8615;
+      ["prequests"] = {
+         [1] = 8615;
+      };
       ["objective"] = "Bring 20 Baked Salmon to Chief Sharpclaw at the Valley of Spirits in Orgrimmar.";
       ["req"] = 1;
    };
@@ -9384,6 +11202,9 @@ addon.questsDB = {
    [4341] = {
       ["name"] = "Kharan Mighthammer";
       ["prev"] = 3701;
+      ["prequests"] = {
+         [1] = 3701;
+      };
       ["repgain"] = {
          [47] = 250;
       };
@@ -9416,6 +11237,9 @@ addon.questsDB = {
    [8840] = {
       ["name"] = "One Commendation Signet";
       ["prev"] = 8816;
+      ["prequests"] = {
+         [1] = 8816;
+      };
       ["objective"] = "";
       ["req"] = 1;
    };
@@ -9435,17 +11259,23 @@ addon.questsDB = {
       ["req"] = 1;
    };
    [8936] = {
+      ["followup"] = 8929;
       ["name"] = "Just Compensation";
       ["prev"] = 8977;
-      ["followup"] = 8929;
+      ["prequests"] = {
+         [1] = 8977;
+      };
       ["next"] = 8929;
       ["objective"] = "Bring a Dreadmist Belt and a set of Dreadmist Wraps to Deliana in Ironforge.";
       ["req"] = 58;
    };
    [8968] = {
+      ["followup"] = 8970;
       ["name"] = "The Left Piece of Lord Valthalak's Amulet";
       ["prev"] = 8964;
-      ["followup"] = 8970;
+      ["prequests"] = {
+         [1] = 8964;
+      };
       ["next"] = 8970;
       ["objective"] = "Use the Brazier of Beckoning to summon forth Jarien and Sothos and slay them. Return to Bodley inside Blackrock Mountain with the Left Piece of Lord Valthalak's Amulet and the Brazier of Beckoning.";
       ["req"] = 58;
@@ -9462,6 +11292,9 @@ addon.questsDB = {
    [2259] = {
       ["name"] = "Erion Shadewhisper";
       ["prev"] = 2241;
+      ["prequests"] = {
+         [1] = 2241;
+      };
       ["next"] = 2260;
       ["objective"] = "Contact Erion Shadewhisper in Darnassus.$B";
       ["req"] = 16;
@@ -9469,6 +11302,9 @@ addon.questsDB = {
    [9096] = {
       ["name"] = "Frostfire Leggings";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Archmage Angela Dosantos at Light's Hope Chapel in the Eastern Plaguelands will make Frostfire Leggings if you bring her the following: 1 Desecrated Leggings, 20 Wartorn Cloth Scraps, 4 Mooncloth and 2 Nexus Crystals.";
       ["req"] = 60;
    };
@@ -9491,6 +11327,9 @@ addon.questsDB = {
    [2299] = {
       ["name"] = "To Hulfdan!";
       ["prev"] = 2218;
+      ["prequests"] = {
+         [1] = 2218;
+      };
       ["next"] = 2298;
       ["objective"] = "Travel to Ironforge and speak with Hulfdan Blackbeard.";
       ["req"] = 16;
@@ -9516,6 +11355,9 @@ addon.questsDB = {
    [2339] = {
       ["name"] = "Find the Gems and Power Source";
       ["prev"] = 2338;
+      ["prequests"] = {
+         [1] = 2338;
+      };
       ["repgain"] = {
          [530] = 250;
       };
@@ -9531,6 +11373,9 @@ addon.questsDB = {
    [4725] = {
       ["name"] = "Beached Sea Turtle";
       ["prev"] = 4681;
+      ["prequests"] = {
+         [1] = 4681;
+      };
       ["repgain"] = {
          [69] = 75;
       };
@@ -9538,10 +11383,13 @@ addon.questsDB = {
       ["req"] = 12;
    };
    [4741] = {
-      ["name"] = "Wild Guardians";
-      ["prev"] = 4521;
       ["repgain"] = {
          [76] = 250;
+      };
+      ["name"] = "Wild Guardians";
+      ["prev"] = 4521;
+      ["prequests"] = {
+         [1] = 4521;
       };
       ["next"] = 4721;
       ["objective"] = "Trull Failbane in Felwood wants you to hunt 13 Moontouched Owlbeasts.";
@@ -9550,12 +11398,19 @@ addon.questsDB = {
    [2379] = {
       ["name"] = "Zando'zan";
       ["next"] = 2382;
+      ["prequests"] = {
+         [1] = 2380;
+         [2] = 2378;
+      };
       ["objective"] = "Speak with Zando'zan at the Cleft of Shadow.";
       ["req"] = 16;
    };
    [4805] = {
       ["name"] = "Ice Thistle E'ko";
       ["prev"] = 975;
+      ["prequests"] = {
+         [1] = 975;
+      };
       ["objective"] = "";
       ["req"] = 55;
    };
@@ -9570,6 +11425,9 @@ addon.questsDB = {
    [4901] = {
       ["name"] = "Guardians of the Altar";
       ["prev"] = 979;
+      ["prequests"] = {
+         [1] = 979;
+      };
       ["repgain"] = {
          [69] = 150;
       };
@@ -9579,6 +11437,9 @@ addon.questsDB = {
    [2459] = {
       ["name"] = "Ferocitas the Dream Eater";
       ["prev"] = 2438;
+      ["prequests"] = {
+         [1] = 2438;
+      };
       ["repgain"] = {
          [69] = 350;
       };
@@ -9602,26 +11463,35 @@ addon.questsDB = {
    };
    [2499] = {
       ["name"] = "Oakenscowl";
-      ["prev"] = 2498;
+      ["objective"] = "Denalan at Lake Al'Ameth wants you to collect the Gargantuan Tumor from Oakenscowl.";
       ["repgain"] = {
          [69] = 350;
       };
+      ["prequests"] = {
+         [1] = 2498;
+      };
+      ["prev"] = 2498;
       ["reward"] = {
          [1] = 5458;
          [2] = 5589;
       };
-      ["objective"] = "Denalan at Lake Al'Ameth wants you to collect the Gargantuan Tumor from Oakenscowl.";
       ["req"] = 4;
    };
    [5045] = {
       ["name"] = "Rising Spirit";
       ["prev"] = 5052;
+      ["prequests"] = {
+         [1] = 5052;
+      };
       ["objective"] = "";
       ["req"] = 14;
    };
    [5061] = {
       ["name"] = "Aquatic Form";
       ["prev"] = 272;
+      ["prequests"] = {
+         [1] = 272;
+      };
       ["repgain"] = {
          [609] = 250;
       };
@@ -9638,6 +11508,9 @@ addon.questsDB = {
    [5125] = {
       ["name"] = "Aurius' Reckoning";
       ["prev"] = 5122;
+      ["prequests"] = {
+         [1] = 5122;
+      };
       ["reward"] = {
          [1] = 17044;
          [2] = 17045;
@@ -9653,6 +11526,9 @@ addon.questsDB = {
    [5157] = {
       ["name"] = "Collection of the Corrupt Water";
       ["prev"] = 5155;
+      ["prequests"] = {
+         [1] = 5155;
+      };
       ["next"] = 5158;
       ["objective"] = "Take the Empty Canteen to the Moon Well in the center of Jaedenar and fill it before returning to Greta Mosshoof in Felwood.";
       ["req"] = 48;
@@ -9665,6 +11541,9 @@ addon.questsDB = {
    [5221] = {
       ["name"] = "Dalson's Tears Cauldron";
       ["prev"] = 5237;
+      ["prequests"] = {
+         [1] = 5237;
+      };
       ["repgain"] = {
          [529] = 25;
       };
@@ -9673,33 +11552,39 @@ addon.questsDB = {
    };
    [5237] = {
       ["name"] = "Mission Accomplished!";
-      ["prev"] = 5236;
+      ["objective"] = "";
       ["repgain"] = {
          [67] = 500;
          [529] = 500;
       };
+      ["prequests"] = {
+         [1] = 5236;
+      };
+      ["prev"] = 5236;
       ["reward"] = {
          [1] = 15801;
          [2] = 15800;
       };
-      ["objective"] = "";
       ["req"] = 50;
    };
    [5253] = {
       ["name"] = "The Crystal of Zin-Malor";
-      ["prev"] = 5252;
+      ["objective"] = "Deliver the Crystal of Zin-Malor to Arch Druid Fandral Staghelm in Darnassus.";
       ["repgain"] = {
          [69] = 250;
          [54] = 250;
          [72] = 250;
          [47] = 250;
       };
+      ["prequests"] = {
+         [1] = 5252;
+      };
+      ["prev"] = 5252;
       ["reward"] = {
          [1] = 15791;
          [2] = 15792;
          [3] = 15795;
       };
-      ["objective"] = "Deliver the Crystal of Zin-Malor to Arch Druid Fandral Staghelm in Darnassus.";
       ["req"] = 53;
    };
    [5301] = {
@@ -9719,6 +11604,9 @@ addon.questsDB = {
    [5461] = {
       ["name"] = "The Human, Ras Frostwhisper";
       ["prev"] = 5384;
+      ["prequests"] = {
+         [1] = 5384;
+      };
       ["next"] = 5462;
       ["objective"] = "Travel to the Arathi Highlands, to the ruins of Stromgarde. Search Stromgarde for a Keepsake of Remembrance. If you find such an item, return with it to Magistrate Marduke.";
       ["req"] = 57;
@@ -9726,6 +11614,9 @@ addon.questsDB = {
    [2747] = {
       ["name"] = "An Extraordinary Egg";
       ["prev"] = 2741;
+      ["prequests"] = {
+         [1] = 2741;
+      };
       ["repgain"] = {
          [81] = 10;
          [69] = 10;
@@ -9736,12 +11627,18 @@ addon.questsDB = {
    [2755] = {
       ["name"] = "Joys of Omosh";
       ["prev"] = 2754;
+      ["prequests"] = {
+         [1] = 2754;
+      };
       ["objective"] = "Watch and learn the Omosh Dance of Joy.";
       ["req"] = 32;
    };
    [2763] = {
       ["name"] = "The Art of the Imbue";
       ["prev"] = 2760;
+      ["prequests"] = {
+         [1] = 2760;
+      };
       ["followup"] = 2765;
       ["objective"] = "Bring forty Mithril Bars and four Citrines to Galvan the Ancient in Stranglethorn.";
       ["req"] = 40;
@@ -9758,6 +11655,9 @@ addon.questsDB = {
    [5621] = {
       ["name"] = "Garments of the Moon";
       ["prev"] = 5622;
+      ["prequests"] = {
+         [1] = 5622;
+      };
       ["objective"] = "Find Sentinel Shaya and heal her wounds using Lesser Heal (Rank 2). Afterwards, grant her Power Word: Fortitude and then return to Laurna Morninglight in Dolanaar.";
       ["req"] = 5;
    };
@@ -9769,12 +11669,18 @@ addon.questsDB = {
    [2843] = {
       ["name"] = "Gnomer-gooooone!";
       ["prev"] = 2842;
+      ["prequests"] = {
+         [1] = 2842;
+      };
       ["objective"] = "Wait for Scooty to calibrate the Goblin Transponder.";
       ["req"] = 20;
    };
    [2851] = {
       ["name"] = "Wild Leather Boots";
       ["prev"] = 2847;
+      ["prequests"] = {
+         [1] = 2847;
+      };
       ["followup"] = 2853;
       ["objective"] = "Bring 2 Nightscape Pants, 2 Nightscape Boots, and 2 Wildvines to Pratt McGrubben in Feathermoon Stronghold.";
       ["req"] = 30;
@@ -9782,6 +11688,9 @@ addon.questsDB = {
    [2859] = {
       ["name"] = "Wild Leather Leggings";
       ["prev"] = 2854;
+      ["prequests"] = {
+         [1] = 2854;
+      };
       ["followup"] = 2860;
       ["objective"] = "Bring 2 Turtle Scale Helms, 2 Turtle Scale Bracers, and 2 Wildvines to Jangdor Swiftstrider in Camp Mojache.";
       ["req"] = 30;
@@ -9789,6 +11698,9 @@ addon.questsDB = {
    [2867] = {
       ["name"] = "Return to Feathermoon Stronghold";
       ["prev"] = 2866;
+      ["prequests"] = {
+         [1] = 2866;
+      };
       ["repgain"] = {
          [69] = 75;
       };
@@ -9806,6 +11718,9 @@ addon.questsDB = {
    [5781] = {
       ["name"] = "Of Forgotten Memories";
       ["prev"] = 5742;
+      ["prequests"] = {
+         [1] = 5742;
+      };
       ["next"] = 5845;
       ["objective"] = "Travel to the Undercroft - at the southernmost section of the Eastern Plaguelands - and recover Taelan's Hammer. Return to Tirion Fordring upon completion of your objective.";
       ["req"] = 52;
@@ -9813,6 +11728,9 @@ addon.questsDB = {
    [5845] = {
       ["name"] = "Of Lost Honor";
       ["prev"] = 5781;
+      ["prequests"] = {
+         [1] = 5781;
+      };
       ["next"] = 5846;
       ["objective"] = "Travel to Northdale, in the northeastern region of the Eastern Plaguelands, and recover the Symbol of Lost Honor. Return to Tirion Fordring upon completion of your objective.";
       ["req"] = 52;
@@ -9820,6 +11738,9 @@ addon.questsDB = {
    [5861] = {
       ["name"] = "Find Myranda";
       ["prev"] = 5848;
+      ["prequests"] = {
+         [1] = 5848;
+      };
       ["next"] = 5862;
       ["objective"] = "Travel to Uther's Tomb, located in the southern Plaguelands. Show Myranda the Hag Tirion's Gift.";
       ["req"] = 52;
@@ -9842,10 +11763,13 @@ addon.questsDB = {
       ["req"] = 51;
    };
    [2963] = {
-      ["name"] = "Portents of Uldum";
-      ["prev"] = 2439;
       ["repgain"] = {
          [47] = 10;
+      };
+      ["name"] = "Portents of Uldum";
+      ["prev"] = 2439;
+      ["prequests"] = {
+         [1] = 2439;
       };
       ["next"] = 2946;
       ["objective"] = "Speak with Historian Karnik in the Hall of Explorers within Ironforge.";
@@ -9854,15 +11778,21 @@ addon.questsDB = {
    [5941] = {
       ["name"] = "Return to Chromie";
       ["prev"] = 5206;
+      ["prequests"] = {
+         [1] = 5206;
+      };
       ["next"] = 5721;
       ["objective"] = "Take the Bundle of Relics to Chromie in Andorhal.";
       ["req"] = 50;
    };
    [2979] = {
-      ["name"] = "Dark Ceremony";
-      ["prev"] = 2978;
       ["repgain"] = {
          [76] = 250;
+      };
+      ["name"] = "Dark Ceremony";
+      ["prev"] = 2978;
+      ["prequests"] = {
+         [1] = 2978;
       };
       ["next"] = 3002;
       ["objective"] = "Rok Orhan in Camp Mojache wants you to find a Gordunni Orb.";
@@ -9905,6 +11835,9 @@ addon.questsDB = {
    [6085] = {
       ["name"] = "Taming the Beast";
       ["prev"] = 6084;
+      ["prequests"] = {
+         [1] = 6084;
+      };
       ["next"] = 6086;
       ["objective"] = "Use the Taming Rod to tame an Ice Claw Bear. Practice your skills, then return the Taming Rod to Grif Wildheart in Kharanos.";
       ["req"] = 10;
@@ -9912,6 +11845,9 @@ addon.questsDB = {
    [6101] = {
       ["name"] = "Taming the Beast";
       ["prev"] = 6063;
+      ["prequests"] = {
+         [1] = 6063;
+      };
       ["next"] = 6102;
       ["objective"] = "Use the Taming Rod to tame a Nightsaber Stalker. Practice your skills, then return the Taming Rod to Dazalar in Dolanaar.";
       ["req"] = 10;
@@ -9938,6 +11874,9 @@ addon.questsDB = {
    [3083] = {
       ["name"] = "Encrypted Tablet";
       ["prev"] = 788;
+      ["prequests"] = {
+         [1] = 788;
+      };
       ["repgain"] = {
          [530] = 75;
       };
@@ -9947,6 +11886,9 @@ addon.questsDB = {
    [3091] = {
       ["name"] = "Simple Note";
       ["prev"] = 747;
+      ["prequests"] = {
+         [1] = 747;
+      };
       ["repgain"] = {
          [81] = 75;
       };
@@ -9956,6 +11898,9 @@ addon.questsDB = {
    [3099] = {
       ["name"] = "Tainted Scroll";
       ["prev"] = 364;
+      ["prequests"] = {
+         [1] = 364;
+      };
       ["repgain"] = {
          [68] = 75;
       };
@@ -9965,6 +11910,9 @@ addon.questsDB = {
    [3107] = {
       ["name"] = "Consecrated Rune";
       ["prev"] = 179;
+      ["prequests"] = {
+         [1] = 179;
+      };
       ["repgain"] = {
          [47] = 50;
       };
@@ -9980,10 +11928,13 @@ addon.questsDB = {
       ["req"] = 60;
    };
    [3123] = {
-      ["name"] = "Testing the Vessel";
-      ["prev"] = 3122;
       ["repgain"] = {
          [530] = 250;
+      };
+      ["name"] = "Testing the Vessel";
+      ["prev"] = 3122;
+      ["prequests"] = {
+         [1] = 3122;
       };
       ["next"] = 3124;
       ["objective"] = "Travel to the Hinterlands, and locate the Wildkin. Kill 10, and use the Muisek Vessel to shrink and capture the fallen Wildkin.$B$BBring 10 Wildkin Muiseks and the Muisek Vessel to Witch Doctor Uzer'i in Feralas.";
@@ -9992,6 +11943,9 @@ addon.questsDB = {
    [8425] = {
       ["name"] = "Voodoo Feathers";
       ["prev"] = 8424;
+      ["prequests"] = {
+         [1] = 8424;
+      };
       ["reward"] = {
          [1] = 20521;
          [2] = 20130;
@@ -10003,21 +11957,30 @@ addon.questsDB = {
    [8521] = {
       ["name"] = "The Alliance Needs More Silk Bandages!";
       ["prev"] = 8520;
+      ["prequests"] = {
+         [1] = 8520;
+      };
       ["objective"] = "Bring 20 silk bandages to Nurse Stonefield at the airfield in Dun Morogh.";
       ["req"] = 1;
    };
    [8553] = {
       ["name"] = "The Captain's Cutlass";
       ["prev"] = 8552;
+      ["prequests"] = {
+         [1] = 8552;
+      };
       ["next"] = 8554;
       ["objective"] = "Speak with Sprogger.";
       ["req"] = 40;
    };
    [8585] = {
-      ["name"] = "The Isle of Dread!";
-      ["prev"] = 8584;
       ["repgain"] = {
          [910] = 500;
+      };
+      ["name"] = "The Isle of Dread!";
+      ["prev"] = 8584;
+      ["prequests"] = {
+         [1] = 8584;
       };
       ["next"] = 8586;
       ["objective"] = "Recover Lakmaeran's Carcass and 20 Chimaerok Tenderloins for Dirge Quikcleave in Tanaris.";
@@ -10074,6 +12037,9 @@ addon.questsDB = {
    [8841] = {
       ["name"] = "Ten Commendation Signets";
       ["prev"] = 8824;
+      ["prequests"] = {
+         [1] = 8824;
+      };
       ["objective"] = "";
       ["req"] = 1;
    };
@@ -10093,17 +12059,23 @@ addon.questsDB = {
       ["req"] = 58;
    };
    [8937] = {
+      ["followup"] = 8929;
       ["name"] = "Just Compensation";
       ["prev"] = 8977;
-      ["followup"] = 8929;
+      ["prequests"] = {
+         [1] = 8977;
+      };
       ["next"] = 8929;
       ["objective"] = "Bring a Belt of Valor and a set of Gauntlets of Valor to Deliana in Ironforge.";
       ["req"] = 58;
    };
    [8969] = {
+      ["followup"] = 8970;
       ["name"] = "The Left Piece of Lord Valthalak's Amulet";
       ["prev"] = 8965;
-      ["followup"] = 8970;
+      ["prequests"] = {
+         [1] = 8965;
+      };
       ["next"] = 8970;
       ["objective"] = "Use the Brazier of Beckoning to summon forth the spirit of Kormok and slay him. Return to Bodley inside Blackrock Mountain with the Left Piece of Lord Valthalak's Amulet and the Brazier of Beckoning.";
       ["req"] = 58;
@@ -10111,20 +12083,26 @@ addon.questsDB = {
    [9001] = {
       ["name"] = "Saving the Best for Last";
       ["prev"] = 8997;
+      ["prequests"] = {
+         [1] = 8997;
+      };
       ["objective"] = "Give Deliana your Magister's Crown and Magister's Robes.";
       ["req"] = 58;
    };
    [6565] = {
       ["name"] = "Allegiance to the Old Gods";
-      ["prev"] = 6564;
+      ["objective"] = "Kill Lorgus Jett in Blackfathom Deeps and then return to Je'neu Sancrea in Ashenvale.";
       ["repgain"] = {
          [530] = 350;
       };
+      ["prequests"] = {
+         [1] = 6564;
+      };
+      ["prev"] = 6564;
       ["reward"] = {
          [1] = 17694;
          [2] = 17695;
       };
-      ["objective"] = "Kill Lorgus Jett in Blackfathom Deeps and then return to Je'neu Sancrea in Ashenvale.";
       ["req"] = 17;
    };
    [6581] = {
@@ -10135,12 +12113,18 @@ addon.questsDB = {
    [9097] = {
       ["name"] = "Frostfire Circlet";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Archmage Angela Dosantos at Light's Hope Chapel in the Eastern Plaguelands will make a Frostfire Circlet if you bring her the following: 1 Desecrated Circlet, 15 Wartorn Cloth Scraps, 3 Mooncloth and 3 Nexus Crystals.";
       ["req"] = 60;
    };
    [9129] = {
       ["name"] = "Core of Elements";
       ["prev"] = 9128;
+      ["prequests"] = {
+         [1] = 9128;
+      };
       ["repgain"] = {
          [529] = 10;
       };
@@ -10150,6 +12134,9 @@ addon.questsDB = {
    [6629] = {
       ["name"] = "Kill Grundig Darkcloud";
       ["prev"] = 6548;
+      ["prequests"] = {
+         [1] = 6548;
+      };
       ["objective"] = "Kill Grundig Darkcloud and 6 Grimtotem Brutes, and return to Makaba Flathoof near the southeastern edge of Stonetalon.$B";
       ["req"] = 12;
    };
@@ -10177,6 +12164,9 @@ addon.questsDB = {
    [9257] = {
       ["name"] = "Atiesh, Greatstaff of the Guardian";
       ["prev"] = 9251;
+      ["prequests"] = {
+         [1] = 9251;
+      };
       ["repgain"] = {
          [910] = 500;
          [529] = 500;
@@ -10192,6 +12182,9 @@ addon.questsDB = {
    [6741] = {
       ["name"] = "More Booty!";
       ["prev"] = 7224;
+      ["prequests"] = {
+         [1] = 7224;
+      };
       ["repgain"] = {
          [76] = 10;
          [729] = 1;
@@ -10214,12 +12207,19 @@ addon.questsDB = {
    [6821] = {
       ["name"] = "Eye of the Emberseer";
       ["next"] = 6822;
+      ["prequests"] = {
+         [1] = 6805;
+         [2] = 6804;
+      };
       ["objective"] = "Bring the Eye of the Emberseer to Duke Hydraxis in Azshara.";
       ["req"] = 56;
    };
    [3443] = {
       ["name"] = "Forging the Shaft";
       ["prev"] = 3442;
+      ["prequests"] = {
+         [1] = 3442;
+      };
       ["next"] = 3452;
       ["objective"] = "Bring 8 Thorium Plated Daggers to Kalaran Windblade.";
       ["req"] = 40;
@@ -10232,6 +12232,9 @@ addon.questsDB = {
    [3483] = {
       ["name"] = "Signal for Pickup";
       ["prev"] = 3451;
+      ["prequests"] = {
+         [1] = 3451;
+      };
       ["objective"] = "";
       ["req"] = 45;
    };
@@ -10242,15 +12245,18 @@ addon.questsDB = {
    };
    [3507] = {
       ["name"] = "Betrayed";
-      ["prev"] = 3506;
+      ["objective"] = "Speak to Belgrom Rockmaul in Orgrimmar.";
       ["repgain"] = {
          [76] = 350;
       };
+      ["prequests"] = {
+         [1] = 3506;
+      };
+      ["prev"] = 3506;
       ["reward"] = {
          [1] = 10709;
          [2] = 11120;
       };
-      ["objective"] = "Speak to Belgrom Rockmaul in Orgrimmar.";
       ["req"] = 44;
    };
    [7029] = {
@@ -10266,12 +12272,18 @@ addon.questsDB = {
    [7045] = {
       ["name"] = "A Smokywood Pastures Thank You!";
       ["prev"] = 7043;
+      ["prequests"] = {
+         [1] = 7043;
+      };
       ["objective"] = "Speak with Greatfather Winter in Ironforge.";
       ["req"] = 30;
    };
    [7061] = {
       ["name"] = "The Feast of Winter Veil";
       ["prev"] = 6964;
+      ["prequests"] = {
+         [1] = 6964;
+      };
       ["repgain"] = {
          [81] = 500;
       };
@@ -10281,6 +12293,9 @@ addon.questsDB = {
    [3563] = {
       ["name"] = "Jes'rimon's Payment to Jediga";
       ["prev"] = 3541;
+      ["prequests"] = {
+         [1] = 3541;
+      };
       ["objective"] = "Deliver Jes'rimon's Note to Jediga in Azshara.";
       ["req"] = 45;
    };
@@ -10289,6 +12304,9 @@ addon.questsDB = {
       ["repgain"] = {
          [47] = 500;
          [730] = 500;
+      };
+      ["prequests"] = {
+         [1] = 7221;
       };
       ["objective"] = "Enter Alterac Valley, defeat the Horde general Drek'thar, and then return to Prospector Stonehewer in the Alterac Mountains.";
       ["req"] = 51;
@@ -10303,6 +12321,9 @@ addon.questsDB = {
    [3627] = {
       ["name"] = "Uniting the Shattered Amulet";
       ["prev"] = 3626;
+      ["prequests"] = {
+         [1] = 3626;
+      };
       ["next"] = 3628;
       ["objective"] = "Slay Grol the Destroyer, Lady Sevine, and Archmage Allistarj. From their corpses take the Amulet of Grol, the Amulet of Sevine, and the Amulet of Allistarj.$B$BRemember to USE your Enchanted Azsharite Fel Weaponry to weaken the triad. They cannot be killed otherwise - but use them wisely...$B";
       ["req"] = 45;
@@ -10316,6 +12337,9 @@ addon.questsDB = {
    [3643] = {
       ["name"] = "Show Your Work";
       ["prev"] = 3642;
+      ["prequests"] = {
+         [1] = 3642;
+      };
       ["objective"] = "Bring 6 Mithril Tubes, an Accurate Scope, and a 2 Advanced Target Dummies to Oglethorpe Obnoticus in Booty Bay.";
       ["req"] = 30;
    };
@@ -10341,6 +12365,9 @@ addon.questsDB = {
    [7429] = {
       ["name"] = "Free Knot!";
       ["prev"] = 5525;
+      ["prequests"] = {
+         [1] = 5525;
+      };
       ["repgain"] = {
          [169] = 350;
       };
@@ -10356,12 +12383,18 @@ addon.questsDB = {
    [7493] = {
       ["name"] = "The Journey Has Just Begun";
       ["prev"] = 7491;
+      ["prequests"] = {
+         [1] = 7491;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
    [7509] = {
       ["name"] = "The Forging of Quel'Serrar";
       ["prev"] = 7508;
+      ["prequests"] = {
+         [1] = 7508;
+      };
       ["repgain"] = {
          [809] = 200;
       };
@@ -10376,22 +12409,28 @@ addon.questsDB = {
    };
    [7541] = {
       ["name"] = "Service to the Horde";
-      ["prev"] = 1262;
+      ["objective"] = "";
       ["repgain"] = {
          [76] = 350;
       };
+      ["prequests"] = {
+         [1] = 1262;
+      };
+      ["prev"] = 1262;
       ["reward"] = {
          [1] = 18585;
          [2] = 18586;
       };
-      ["objective"] = "";
       ["req"] = 30;
    };
    [3787] = {
-      ["name"] = "Jonespyre's Request";
-      ["prev"] = 3785;
       ["repgain"] = {
          [69] = 25;
+      };
+      ["name"] = "Jonespyre's Request";
+      ["prev"] = 3785;
+      ["prequests"] = {
+         [1] = 3785;
       };
       ["next"] = 3791;
       ["objective"] = "Speak with Quintis Jonespyre in Feathermoon Stronghold.";
@@ -10400,6 +12439,9 @@ addon.questsDB = {
    [3803] = {
       ["name"] = "Morrowgrain to Darnassus";
       ["prev"] = 3785;
+      ["prequests"] = {
+         [1] = 3785;
+      };
       ["repgain"] = {
          [69] = 50;
       };
@@ -10412,11 +12454,14 @@ addon.questsDB = {
       ["req"] = 60;
    };
    [7637] = {
-      ["name"] = "Emphasis on Sacrifice";
-      ["next"] = 7639;
       ["repgain"] = {
          [47] = 350;
          [69] = 150;
+      };
+      ["name"] = "Emphasis on Sacrifice";
+      ["next"] = 7639;
+      ["prequests"] = {
+         [1] = 7638;
       };
       ["followup"] = 7639;
       ["objective"] = "Travel to Ironforge and get High Priest Rohan's Exorcism Censer.  You will need to make a donation of 150 gold in order to secure it.";
@@ -10425,6 +12470,9 @@ addon.questsDB = {
    [7653] = {
       ["name"] = "Imperial Plate Belt";
       ["prev"] = 7652;
+      ["prequests"] = {
+         [1] = 7652;
+      };
       ["repgain"] = {
          [59] = 200;
       };
@@ -10432,10 +12480,13 @@ addon.questsDB = {
       ["req"] = 50;
    };
    [3843] = {
-      ["name"] = "The Newest Member of the Family";
-      ["prev"] = 3842;
       ["repgain"] = {
          [69] = 250;
+      };
+      ["name"] = "The Newest Member of the Family";
+      ["prev"] = 3842;
+      ["prequests"] = {
+         [1] = 3842;
       };
       ["next"] = 4297;
       ["objective"] = "Take your Fragile Sprite Darter Egg to the Hinterlands and speak to Agnar Beastamer, but hurry, you only have 1 hour to find him before the hatchling within the egg dies.";
@@ -10456,6 +12507,9 @@ addon.questsDB = {
    [7733] = {
       ["name"] = "Improved Quality";
       ["prev"] = 2821;
+      ["prequests"] = {
+         [1] = 2821;
+      };
       ["repgain"] = {
          [69] = 250;
       };
@@ -10511,6 +12565,9 @@ addon.questsDB = {
    [7877] = {
       ["name"] = "The Treasure of the Shen'dralar";
       ["prev"] = 7461;
+      ["prequests"] = {
+         [1] = 7461;
+      };
       ["reward"] = {
          [1] = 18420;
          [2] = 18421;
@@ -10530,6 +12587,9 @@ addon.questsDB = {
    [7925] = {
       ["name"] = "Mark of Honor";
       ["prev"] = 7789;
+      ["prequests"] = {
+         [1] = 7789;
+      };
       ["objective"] = "You obtained a Warsong Mark of Honor for your last task, talk to me again, and you gain your reward.";
       ["req"] = 20;
    };
@@ -10541,6 +12601,9 @@ addon.questsDB = {
    [4003] = {
       ["name"] = "The Royal Rescue";
       ["prev"] = 4002;
+      ["prequests"] = {
+         [1] = 4002;
+      };
       ["next"] = 4004;
       ["objective"] = "Slay Emperor Dagran Thaurissan and free Princess Moira Bronzebeard from his evil spell. $B";
       ["req"] = 48;
@@ -10563,6 +12626,9 @@ addon.questsDB = {
    [8117] = {
       ["name"] = "Vision of Voodress";
       ["prev"] = 8116;
+      ["prequests"] = {
+         [1] = 8116;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
@@ -10585,6 +12651,9 @@ addon.questsDB = {
    [8181] = {
       ["name"] = "Confront Yeh'kinya";
       ["prev"] = 4788;
+      ["prequests"] = {
+         [1] = 4788;
+      };
       ["reward"] = {
          [1] = 20218;
          [2] = 20219;
@@ -10598,10 +12667,13 @@ addon.questsDB = {
       ["req"] = 48;
    };
    [8234] = {
-      ["name"] = "Sealed Azure Bag";
-      ["prev"] = 8233;
       ["repgain"] = {
          [349] = 250;
+      };
+      ["name"] = "Sealed Azure Bag";
+      ["prev"] = 8233;
+      ["prequests"] = {
+         [1] = 8233;
       };
       ["next"] = 8235;
       ["objective"] = "Retrieve the Sealed Azure Bag from the Timbermaw Shaman in Azshara.  Then take the bag to Archmage Xylem, also found in Azshara.";
@@ -10610,6 +12682,9 @@ addon.questsDB = {
    [4134] = {
       ["name"] = "Lost Thunderbrew Recipe";
       ["prev"] = 4133;
+      ["prequests"] = {
+         [1] = 4133;
+      };
       ["reward"] = {
          [1] = 11964;
          [2] = 12000;
@@ -10618,10 +12693,13 @@ addon.questsDB = {
       ["req"] = 50;
    };
    [1038] = {
-      ["name"] = "Velinde's Effects";
-      ["prev"] = 1037;
       ["repgain"] = {
          [69] = 25;
+      };
+      ["name"] = "Velinde's Effects";
+      ["prev"] = 1037;
+      ["prequests"] = {
+         [1] = 1037;
       };
       ["next"] = 1039;
       ["objective"] = "Search through Velinde's chest for her journal, then return it along with the key to Thyn'tel Bladeweaver in Darnassus.";
@@ -10630,6 +12708,9 @@ addon.questsDB = {
    [1042] = {
       ["name"] = "The Carevin Family";
       ["prev"] = 1041;
+      ["prequests"] = {
+         [1] = 1041;
+      };
       ["next"] = 1043;
       ["objective"] = "Speak with Jonathan Carevin in Darkshire.";
       ["req"] = 25;
@@ -10682,6 +12763,9 @@ addon.questsDB = {
    [1066] = {
       ["name"] = "Blood of Innocents";
       ["prev"] = 1065;
+      ["prequests"] = {
+         [1] = 1065;
+      };
       ["repgain"] = {
          [68] = 250;
       };
@@ -10698,10 +12782,13 @@ addon.questsDB = {
       ["req"] = 17;
    };
    [8586] = {
-      ["name"] = "Dirge's Kickin' Chimaerok Chops";
-      ["prev"] = 8585;
       ["repgain"] = {
          [910] = 500;
+      };
+      ["name"] = "Dirge's Kickin' Chimaerok Chops";
+      ["prev"] = 8585;
+      ["prequests"] = {
+         [1] = 8585;
       };
       ["next"] = 8587;
       ["objective"] = "Dirge Quikcleave in Gadgetzan wants you to bring him 20 Goblin Rocket Fuel and 20 Deeprock Salt.";
@@ -10741,10 +12828,13 @@ addon.questsDB = {
       ["req"] = 1;
    };
    [1094] = {
-      ["name"] = "Further Instructions";
-      ["prev"] = 1093;
       ["repgain"] = {
          [470] = 75;
+      };
+      ["name"] = "Further Instructions";
+      ["prev"] = 1093;
+      ["prequests"] = {
+         [1] = 1093;
       };
       ["next"] = 1095;
       ["objective"] = "Deliver the Sealed Envelope to Sputtervalve in the Barrens.";
@@ -10785,13 +12875,19 @@ addon.questsDB = {
    [1114] = {
       ["name"] = "Delivery to the Gnomes";
       ["prev"] = 1112;
+      ["prequests"] = {
+         [1] = 1112;
+      };
       ["objective"] = "Bring the Delicate Car Parts to Fizzle Brassbolts in Shimmering Flats.";
       ["req"] = 30;
    };
    [8938] = {
+      ["followup"] = 8930;
       ["name"] = "Just Compensation";
       ["prev"] = 8978;
-      ["followup"] = 8930;
+      ["prequests"] = {
+         [1] = 8978;
+      };
       ["next"] = 8930;
       ["objective"] = "Bring a Beaststalker's Belt and a set of Beaststalker's Gloves to Mokvar in Orgrimmar.";
       ["req"] = 58;
@@ -10818,6 +12914,9 @@ addon.questsDB = {
    [1134] = {
       ["name"] = "Pridewings of Stonetalon";
       ["prev"] = 1008;
+      ["prequests"] = {
+         [1] = 1008;
+      };
       ["repgain"] = {
          [69] = 250;
       };
@@ -10827,6 +12926,9 @@ addon.questsDB = {
    [9098] = {
       ["name"] = "Frostfire Shoulderpads";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Archmage Angela Dosantos at Light's Hope Chapel in the Eastern Plaguelands will make Frostfire Shoulderpads if you bring her the following: 1 Desecrated Shoulderpads, 12 Wartorn Cloth Scraps, 2 Mooncloth and 3 Cured Rugged Hides.$B";
       ["req"] = 60;
    };
@@ -10843,10 +12945,13 @@ addon.questsDB = {
       ["req"] = 25;
    };
    [1146] = {
-      ["name"] = "The Swarm Grows";
-      ["prev"] = 1145;
       ["repgain"] = {
          [76] = 150;
+      };
+      ["name"] = "The Swarm Grows";
+      ["prev"] = 1145;
+      ["prequests"] = {
+         [1] = 1145;
       };
       ["next"] = 1147;
       ["objective"] = "Deliver Belgrom's Sealed Note to Moktar Krin in Thousand Needles.";
@@ -10885,6 +12990,9 @@ addon.questsDB = {
    [1170] = {
       ["name"] = "The Brood of Onyxia";
       ["prev"] = 1169;
+      ["prequests"] = {
+         [1] = 1169;
+      };
       ["next"] = 1171;
       ["objective"] = "Speak with Overlord Mok'Morokk in Brackenwall Village.";
       ["req"] = 38;
@@ -10895,20 +13003,26 @@ addon.questsDB = {
       ["req"] = 50;
    };
    [1178] = {
-      ["name"] = "Goblin Sponsorship";
-      ["prev"] = 1176;
       ["repgain"] = {
          [470] = 25;
+      };
+      ["name"] = "Goblin Sponsorship";
+      ["prev"] = 1176;
+      ["prequests"] = {
+         [1] = 1176;
       };
       ["next"] = 1180;
       ["objective"] = "Speak to Gazlowe in Ratchet.";
       ["req"] = 29;
    };
    [1182] = {
-      ["name"] = "Goblin Sponsorship";
-      ["prev"] = 1181;
       ["repgain"] = {
          [21] = 250;
+      };
+      ["name"] = "Goblin Sponsorship";
+      ["prev"] = 1181;
+      ["prequests"] = {
+         [1] = 1181;
       };
       ["next"] = 1183;
       ["objective"] = "Bring the Fuel Regulator Blueprints to Baron Revilgaz in Booty Bay.";
@@ -10917,15 +13031,21 @@ addon.questsDB = {
    [1186] = {
       ["name"] = "The Eighteenth Pilot";
       ["prev"] = 1183;
+      ["prequests"] = {
+         [1] = 1183;
+      };
       ["next"] = 1187;
       ["objective"] = "Speak with Razzeric on the Shimmering Flats.";
       ["req"] = 29;
    };
    [1190] = {
-      ["name"] = "Keeping Pace";
-      ["prev"] = 1137;
       ["repgain"] = {
          [470] = 75;
+      };
+      ["name"] = "Keeping Pace";
+      ["prev"] = 1137;
+      ["prequests"] = {
+         [1] = 1137;
       };
       ["next"] = 1194;
       ["objective"] = "Have Zamek create a diversion, then steal Rizzle's plans for Pozzik on the Shimmering Flats.";
@@ -10934,6 +13054,9 @@ addon.questsDB = {
    [1194] = {
       ["name"] = "Rizzle's Schematics";
       ["prev"] = 1190;
+      ["prequests"] = {
+         [1] = 1190;
+      };
       ["repgain"] = {
          [470] = 75;
       };
@@ -10953,10 +13076,16 @@ addon.questsDB = {
    [4806] = {
       ["name"] = "Frostmaul E'ko";
       ["prev"] = 975;
+      ["prequests"] = {
+         [1] = 975;
+      };
       ["objective"] = "";
       ["req"] = 55;
    };
    [4822] = {
+      ["prequests"] = {
+         [1] = 1687;
+      };
       ["objective"] = "Get some Strawberry Ice Cream for your ward.  The lad seems to prefer Tigule and Foror's brand ice cream.";
       ["name"] = "You Scream, I Scream...";
       ["req"] = 10;
@@ -10979,18 +13108,21 @@ addon.questsDB = {
    };
    [4902] = {
       ["name"] = "Wildkin of Elune";
-      ["prev"] = 4901;
+      ["objective"] = "Speak with Arch Druid Fandral Staghelm in Darnassus.";
       ["repgain"] = {
          [69] = 250;
          [54] = 250;
          [72] = 250;
          [47] = 250;
       };
+      ["prequests"] = {
+         [1] = 4901;
+      };
+      ["prev"] = 4901;
       ["reward"] = {
          [1] = 16622;
          [2] = 16623;
       };
-      ["objective"] = "Speak with Arch Druid Fandral Staghelm in Darnassus.";
       ["req"] = 52;
    };
    [1238] = {
@@ -11003,40 +13135,52 @@ addon.questsDB = {
    };
    [4966] = {
       ["name"] = "Protect Kanati Greycloud";
-      ["prev"] = 4881;
+      ["objective"] = "Protect Kanati Greycloud from the centaur attack.";
       ["repgain"] = {
          [81] = 250;
       };
+      ["prequests"] = {
+         [1] = 4881;
+      };
+      ["prev"] = 4881;
       ["reward"] = {
          [1] = 15461;
          [2] = 15462;
          [3] = 15463;
       };
-      ["objective"] = "Protect Kanati Greycloud from the centaur attack.";
       ["req"] = 23;
    };
    [4982] = {
       ["name"] = "Bijou's Belongings";
       ["prev"] = 4981;
+      ["prequests"] = {
+         [1] = 4981;
+      };
       ["next"] = 4983;
       ["objective"] = "Find Bijou's Belongings and return them to her. You recall her mentioning that she stashed them on the bottom floor of the city.$B";
       ["req"] = 55;
    };
    [1250] = {
-      ["name"] = "The Missing Diplomat";
-      ["prev"] = 1249;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "The Missing Diplomat";
+      ["prev"] = 1249;
+      ["prequests"] = {
+         [1] = 1249;
       };
       ["next"] = 1264;
       ["objective"] = "Speak to Mikhail in the Wetlands.";
       ["req"] = 28;
    };
    [1258] = {
-      ["name"] = "... and Bugs";
-      ["prev"] = 1204;
       ["repgain"] = {
          [72] = 250;
+      };
+      ["name"] = "... and Bugs";
+      ["prev"] = 1204;
+      ["prequests"] = {
+         [1] = 1204;
       };
       ["followup"] = 1271;
       ["objective"] = "Bring 12 Pristine Crawler Legs to Morgan Stern in Theramore.";
@@ -11045,6 +13189,9 @@ addon.questsDB = {
    [1262] = {
       ["name"] = "Report to Zor";
       ["prev"] = 1261;
+      ["prequests"] = {
+         [1] = 1261;
+      };
       ["repgain"] = {
          [76] = 250;
       };
@@ -11052,10 +13199,13 @@ addon.questsDB = {
       ["req"] = 30;
    };
    [1266] = {
-      ["name"] = "The Missing Diplomat";
-      ["prev"] = 1265;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "The Missing Diplomat";
+      ["prev"] = 1265;
+      ["prequests"] = {
+         [1] = 1265;
       };
       ["next"] = 1324;
       ["objective"] = "Find Private Hendel in Dustwallow Marsh.";
@@ -11084,6 +13234,9 @@ addon.questsDB = {
    [1286] = {
       ["name"] = "The Deserters";
       ["prev"] = 1285;
+      ["prequests"] = {
+         [1] = 1285;
+      };
       ["next"] = 1287;
       ["objective"] = "Get information about Reethe from Balos Jacken and the deserters in Dustwallow Marsh.";
       ["req"] = 30;
@@ -11091,12 +13244,19 @@ addon.questsDB = {
    [5158] = {
       ["name"] = "Seeking Spiritual Aid";
       ["prev"] = 5157;
+      ["prequests"] = {
+         [1] = 5157;
+      };
       ["objective"] = "Take the Corrupt Moon Well Water to Islen Waterseer in the Barrens.";
       ["req"] = 48;
    };
    [5206] = {
       ["name"] = "Marauders of Darrowshire";
       ["next"] = 5941;
+      ["prequests"] = {
+         [1] = 5181;
+         [2] = 5168;
+      };
       ["repgain"] = {
          [529] = 100;
       };
@@ -11104,29 +13264,35 @@ addon.questsDB = {
       ["req"] = 50;
    };
    [5222] = {
+      ["followup"] = 5223;
       ["repgain"] = {
          [469] = 250;
          [529] = 250;
       };
       ["name"] = "Target: Writhing Haunt";
       ["prev"] = 5220;
-      ["followup"] = 5223;
+      ["prequests"] = {
+         [1] = 5220;
+      };
       ["next"] = 5223;
       ["objective"] = "Go to the Writhing Haunt in Western Plaguelands to locate and defeat the Cauldron Lord present there, and use its key to gain access to the cauldron.  You must have the Empty Writhing Haunt Bottle with you to secure a sample of the poisons used inside the cauldron.";
       ["req"] = 50;
    };
    [5238] = {
       ["name"] = "Mission Accomplished!";
-      ["prev"] = 5226;
+      ["objective"] = "";
       ["repgain"] = {
          [469] = 500;
          [529] = 500;
       };
+      ["prequests"] = {
+         [1] = 5226;
+      };
+      ["prev"] = 5226;
       ["reward"] = {
          [1] = 15801;
          [2] = 15800;
       };
-      ["objective"] = "";
       ["req"] = 50;
    };
    [1318] = {
@@ -11143,6 +13309,9 @@ addon.questsDB = {
    [1322] = {
       ["name"] = "The Black Shield";
       ["prev"] = 1321;
+      ["prequests"] = {
+         [1] = 1321;
+      };
       ["next"] = 1323;
       ["objective"] = "Acquire 5 Acidic Venom Sacs for Do'gol in Brackenwall Village.";
       ["req"] = 30;
@@ -11168,15 +13337,18 @@ addon.questsDB = {
    };
    [1358] = {
       ["name"] = "Sample for Helbrim";
-      ["prev"] = 1359;
+      ["objective"] = "Bring the Wolf Heart Sample to Apothecary Helbrim in the Barrens.";
       ["repgain"] = {
          [68] = 250;
       };
+      ["prequests"] = {
+         [1] = 1359;
+      };
+      ["prev"] = 1359;
       ["reward"] = {
          [1] = 10637;
          [2] = 10638;
       };
-      ["objective"] = "Bring the Wolf Heart Sample to Apothecary Helbrim in the Barrens.";
       ["req"] = 10;
    };
    [1362] = {
@@ -11189,20 +13361,27 @@ addon.questsDB = {
    };
    [1366] = {
       ["name"] = "Centaur Bounty";
-      ["prev"] = 1365;
+      ["objective"] = "Bring 15 Centaur Ears to Felgur Twocuts in Desolace.";
       ["repgain"] = {
          [76] = 350;
       };
+      ["prequests"] = {
+         [1] = 1365;
+      };
+      ["prev"] = 1365;
       ["reward"] = {
          [1] = 6780;
          [2] = 6784;
       };
-      ["objective"] = "Bring 15 Centaur Ears to Felgur Twocuts in Desolace.";
       ["req"] = 30;
    };
    [1370] = {
       ["name"] = "Stealing Supplies";
       ["next"] = 1373;
+      ["prequests"] = {
+         [1] = 1368;
+         [2] = 1384;
+      };
       ["reward"] = {
          [1] = 3463;
          [2] = 3464;
@@ -11214,6 +13393,9 @@ addon.questsDB = {
    [1374] = {
       ["name"] = "Khan Jehn";
       ["prev"] = 1373;
+      ["prequests"] = {
+         [1] = 1373;
+      };
       ["next"] = 1380;
       ["objective"] = "Bring the Khan Jehn's Head to Uthek the Wise in the Gelkis Village in Desolace.";
       ["req"] = 30;
@@ -11228,15 +13410,18 @@ addon.questsDB = {
    };
    [5526] = {
       ["name"] = "Shards of the Felvine";
-      ["prev"] = 5527;
+      ["objective"] = "Find the Felvine in Dire Maul and acquire a shard from it.  Chances are you'll only be able to procure one with the demise of Alzzin the Wildshaper.  Use the Reliquary of Purity to securely seal the shard inside, and return it to Rabine Saturna in Nighthaven, Moonglade.";
       ["repgain"] = {
          [609] = 150;
       };
+      ["prequests"] = {
+         [1] = 5527;
+      };
+      ["prev"] = 5527;
       ["reward"] = {
          [1] = 18535;
          [2] = 18536;
       };
-      ["objective"] = "Find the Felvine in Dire Maul and acquire a shard from it.  Chances are you'll only be able to procure one with the demise of Alzzin the Wildshaper.  Use the Reliquary of Purity to securely seal the shard inside, and return it to Rabine Saturna in Nighthaven, Moonglade.";
       ["req"] = 56;
    };
    [5542] = {
@@ -11248,25 +13433,31 @@ addon.questsDB = {
    };
    [1394] = {
       ["name"] = "Final Passage";
-      ["prev"] = 6628;
+      ["objective"] = "Speak to Dorn Plainstalker in Thousand Needles.";
       ["repgain"] = {
          [76] = 500;
          [68] = 500;
          [81] = 500;
          [530] = 500;
       };
+      ["prequests"] = {
+         [1] = 6628;
+      };
+      ["prev"] = 6628;
       ["reward"] = {
          [1] = 6804;
          [2] = 6806;
       };
-      ["objective"] = "Speak to Dorn Plainstalker in Thousand Needles.";
       ["req"] = 25;
    };
    [1398] = {
-      ["name"] = "Driftwood";
-      ["prev"] = 1421;
       ["repgain"] = {
          [72] = 250;
+      };
+      ["name"] = "Driftwood";
+      ["prev"] = 1421;
+      ["prequests"] = {
+         [1] = 1421;
       };
       ["next"] = 1425;
       ["objective"] = "Bring 8 pieces of Sundried Driftwood to Watcher Biggs in the Swamp of Sorrows.";
@@ -11300,15 +13491,21 @@ addon.questsDB = {
    [1422] = {
       ["name"] = "Threat From the Sea";
       ["prev"] = 699;
+      ["prequests"] = {
+         [1] = 699;
+      };
       ["next"] = 1426;
       ["objective"] = "Speak to Katar in the Swamp of Sorrows.";
       ["req"] = 35;
    };
    [1426] = {
-      ["name"] = "Threat From the Sea";
-      ["prev"] = 1422;
       ["repgain"] = {
          [76] = 350;
+      };
+      ["name"] = "Threat From the Sea";
+      ["prev"] = 1422;
+      ["prequests"] = {
+         [1] = 1422;
       };
       ["next"] = 1427;
       ["objective"] = "Kill 10 Marsh Murlocs, 10 Marsh Inkspewer, and 10 Marsh Flesheater, then return to Katar in the Swamp of Sorrows.";
@@ -11331,10 +13528,13 @@ addon.questsDB = {
       ["req"] = 25;
    };
    [1438] = {
-      ["name"] = "Vahlarriel's Search";
-      ["prev"] = 1465;
       ["repgain"] = {
          [69] = 250;
+      };
+      ["name"] = "Vahlarriel's Search";
+      ["prev"] = 1465;
+      ["prequests"] = {
+         [1] = 1465;
       };
       ["next"] = 1439;
       ["objective"] = "Find Dalinda Malem in Desolace.";
@@ -11343,6 +13543,9 @@ addon.questsDB = {
    [1442] = {
       ["name"] = "Seeking the Kor Gem";
       ["prev"] = 1653;
+      ["prequests"] = {
+         [1] = 1653;
+      };
       ["objective"] = "Bring a Kor Gem to Thundris Windweaver in Darkshore.";
       ["req"] = 20;
    };
@@ -11358,25 +13561,34 @@ addon.questsDB = {
    [1450] = {
       ["name"] = "Gryphon Master Talonaxe";
       ["prev"] = 1449;
+      ["prequests"] = {
+         [1] = 1449;
+      };
       ["next"] = 1451;
       ["objective"] = "Speak with Gryphon Master Talonaxe inside the Aerie Peak Aviary.";
       ["req"] = 38;
    };
    [1454] = {
-      ["name"] = "The Karnitol Shipwreck";
-      ["prev"] = 1453;
       ["repgain"] = {
          [47] = 250;
+      };
+      ["name"] = "The Karnitol Shipwreck";
+      ["prev"] = 1453;
+      ["prequests"] = {
+         [1] = 1453;
       };
       ["next"] = 1455;
       ["objective"] = "Find Karnitol's Chest in Desolace.";
       ["req"] = 30;
    };
    [1458] = {
-      ["name"] = "Reagents for Reclaimers Inc.";
-      ["prev"] = 1453;
       ["repgain"] = {
          [47] = 250;
+      };
+      ["name"] = "Reagents for Reclaimers Inc.";
+      ["prev"] = 1453;
+      ["prequests"] = {
+         [1] = 1453;
       };
       ["next"] = 1459;
       ["objective"] = "Bring 10 Hatefury Claws, and 10 Hatefury Horns to Kreldig Ungor in Desolace.";
@@ -11388,10 +13600,13 @@ addon.questsDB = {
       ["req"] = 4;
    };
    [1466] = {
-      ["name"] = "Reagents for Reclaimers Inc.";
-      ["prev"] = 1459;
       ["repgain"] = {
          [47] = 250;
+      };
+      ["name"] = "Reagents for Reclaimers Inc.";
+      ["prev"] = 1459;
+      ["prequests"] = {
+         [1] = 1459;
       };
       ["next"] = 1467;
       ["objective"] = "Bring 10 Felhound Brains, 10 Nether Wings, and 10 vials of Doomwarder Blood to Kreldig Ungor in Desolace.";
@@ -11408,6 +13623,9 @@ addon.questsDB = {
    [1474] = {
       ["name"] = "The Binding";
       ["prev"] = 1476;
+      ["prequests"] = {
+         [1] = 1476;
+      };
       ["objective"] = "Using the Pure Hearts, summon and subdue a succubus, then return the Pure Hearts to Carendin Halgar in the Magic Quarter of the Undercity.";
       ["req"] = 20;
    };
@@ -11427,6 +13645,9 @@ addon.questsDB = {
    [5942] = {
       ["name"] = "Hidden Treasures";
       ["prev"] = 5721;
+      ["prequests"] = {
+         [1] = 5721;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -11434,10 +13655,13 @@ addon.questsDB = {
       ["req"] = 50;
    };
    [1490] = {
-      ["name"] = "Nara Wildmane";
-      ["prev"] = 1489;
       ["repgain"] = {
          [81] = 10;
+      };
+      ["name"] = "Nara Wildmane";
+      ["prev"] = 1489;
+      ["prequests"] = {
+         [1] = 1489;
       };
       ["next"] = 914;
       ["objective"] = "Speak with Nara Wildmane.";
@@ -11446,6 +13670,9 @@ addon.questsDB = {
    [1498] = {
       ["name"] = "Path of Defense";
       ["prev"] = 1505;
+      ["prequests"] = {
+         [1] = 1505;
+      };
       ["next"] = 1502;
       ["objective"] = "Bring 5 Singed Scales to Uzzek at Far Watch Post in the Barrens.";
       ["req"] = 10;
@@ -11453,6 +13680,9 @@ addon.questsDB = {
    [1502] = {
       ["name"] = "Thun'grim Firegaze";
       ["prev"] = 1498;
+      ["prequests"] = {
+         [1] = 1498;
+      };
       ["next"] = 1503;
       ["objective"] = "Speak with Thun'grim Firegaze in the Barrens.";
       ["req"] = 10;
@@ -11467,6 +13697,9 @@ addon.questsDB = {
    [1510] = {
       ["name"] = "News of Dogran";
       ["prev"] = 1509;
+      ["prequests"] = {
+         [1] = 1509;
+      };
       ["next"] = 1511;
       ["objective"] = "Speak with Ken'zigla at the Malaka'jin.";
       ["req"] = 20;
@@ -11485,12 +13718,18 @@ addon.questsDB = {
    [6086] = {
       ["name"] = "Training the Beast";
       ["prev"] = 6085;
+      ["prequests"] = {
+         [1] = 6085;
+      };
       ["objective"] = "Speak with Belia Thundergranite in Ironforge.";
       ["req"] = 10;
    };
    [6102] = {
       ["name"] = "Taming the Beast";
       ["prev"] = 6101;
+      ["prequests"] = {
+         [1] = 6101;
+      };
       ["next"] = 6103;
       ["objective"] = "Use the Taming Rod to tame a Strigid Screecher. Practice your skills, then return the Taming Rod to Dazalar in Dolanaar.";
       ["req"] = 10;
@@ -11498,6 +13737,12 @@ addon.questsDB = {
    [1530] = {
       ["name"] = "Call of Water";
       ["next"] = 1535;
+      ["prequests"] = {
+         [1] = 1528;
+         [2] = 2985;
+         [3] = 1529;
+         [4] = 2986;
+      };
       ["objective"] = "Find Brine in Southern Barrens.";
       ["req"] = 20;
    };
@@ -11511,10 +13756,13 @@ addon.questsDB = {
       ["req"] = 34;
    };
    [8235] = {
-      ["name"] = "Encoded Fragments";
-      ["prev"] = 8234;
       ["repgain"] = {
          [349] = 250;
+      };
+      ["name"] = "Encoded Fragments";
+      ["prev"] = 8234;
+      ["prequests"] = {
+         [1] = 8234;
       };
       ["next"] = 8236;
       ["objective"] = "Bring 10 Encoded Fragments to Archmage Xylem in Azshara.";
@@ -11542,6 +13790,9 @@ addon.questsDB = {
    [8363] = {
       ["name"] = "Abyssal Signets";
       ["prev"] = 8348;
+      ["prequests"] = {
+         [1] = 8348;
+      };
       ["repgain"] = {
          [609] = 100;
       };
@@ -11581,10 +13832,13 @@ addon.questsDB = {
       ["req"] = 8;
    };
    [6342] = {
-      ["name"] = "Flight to Auberdine";
-      ["prev"] = 6341;
       ["repgain"] = {
          [69] = 75;
+      };
+      ["name"] = "Flight to Auberdine";
+      ["prev"] = 6341;
+      ["prequests"] = {
+         [1] = 6341;
       };
       ["next"] = 6343;
       ["objective"] = "Ride a hippogryph to Auberdine from the hippogryph master Vesprystus, then bring Nessa's Collection to Laird.";
@@ -11644,6 +13898,9 @@ addon.questsDB = {
    [8843] = {
       ["name"] = "Ten Commendation Signets";
       ["prev"] = 8825;
+      ["prequests"] = {
+         [1] = 8825;
+      };
       ["objective"] = "";
       ["req"] = 1;
    };
@@ -11659,13 +13916,19 @@ addon.questsDB = {
    [6502] = {
       ["name"] = "Drakefire Amulet";
       ["prev"] = 6501;
+      ["prequests"] = {
+         [1] = 6501;
+      };
       ["objective"] = "You must retrieve the Blood of the Black Dragon Champion from General Drakkisath. Drakkisath can be found in his throne room behind the Halls of Ascension in Blackrock Spire.";
       ["req"] = 50;
    };
    [8939] = {
+      ["followup"] = 8930;
       ["name"] = "Just Compensation";
       ["prev"] = 8978;
-      ["followup"] = 8930;
+      ["prequests"] = {
+         [1] = 8978;
+      };
       ["next"] = 8930;
       ["objective"] = "Bring a Magister's Belt and a set of Magister's Gloves to Mokvar in Orgrimmar.";
       ["req"] = 58;
@@ -11679,6 +13942,9 @@ addon.questsDB = {
    [6566] = {
       ["name"] = "What the Wind Carries";
       ["prev"] = 4974;
+      ["prequests"] = {
+         [1] = 4974;
+      };
       ["next"] = 6567;
       ["objective"] = "Listen to Thrall.";
       ["req"] = 55;
@@ -11686,6 +13952,9 @@ addon.questsDB = {
    [6582] = {
       ["name"] = "The Test of Skulls, Scryer";
       ["prev"] = 6570;
+      ["prequests"] = {
+         [1] = 6570;
+      };
       ["followup"] = 6585;
       ["objective"] = "You must find the blue dragonflight drake champion, Scryer, and slay him. Pry his skull from his corpse and return it to Emberstrife.$B$BYou know that Scryer can be found in Winterspring.";
       ["req"] = 55;
@@ -11693,6 +13962,9 @@ addon.questsDB = {
    [9099] = {
       ["name"] = "Frostfire Sandals";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -11702,6 +13974,9 @@ addon.questsDB = {
    [1654] = {
       ["name"] = "The Test of Righteousness";
       ["prev"] = 1653;
+      ["prequests"] = {
+         [1] = 1653;
+      };
       ["next"] = 1806;
       ["objective"] = "Using Jordan's Weapon Notes, find some Whitestone Oak Lumber, Bailor's Refined Ore Shipment, Jordan's Smithing Hammer, and a Kor Gem, and return them to Jordan Stilwell in Ironforge.";
       ["req"] = 20;
@@ -11730,10 +14005,13 @@ addon.questsDB = {
       ["req"] = 55;
    };
    [1666] = {
-      ["name"] = "Marshal Haggard";
-      ["prev"] = 1665;
       ["repgain"] = {
          [72] = 1;
+      };
+      ["name"] = "Marshal Haggard";
+      ["prev"] = 1665;
+      ["prequests"] = {
+         [1] = 1665;
       };
       ["next"] = 1667;
       ["objective"] = "Speak with Marshal Haggard.";
@@ -11755,6 +14033,9 @@ addon.questsDB = {
    [1682] = {
       ["name"] = "Grey Iron Weapons";
       ["prev"] = 1681;
+      ["prequests"] = {
+         [1] = 1681;
+      };
       ["reward"] = {
          [1] = 6978;
          [2] = 6982;
@@ -11767,21 +14048,27 @@ addon.questsDB = {
    [1686] = {
       ["name"] = "The Shade of Elura";
       ["prev"] = 1683;
+      ["prequests"] = {
+         [1] = 1683;
+      };
       ["next"] = 1692;
       ["objective"] = "Bring 8 loads of Elunite Ore and the Medallion of Elura to Elanaria in Darnassus.";
       ["req"] = 10;
    };
    [9419] = {
       ["name"] = "Scouring the Desert";
-      ["prev"] = 9415;
+      ["objective"] = "Find and deliver Silithyst to the Silithyst Extractor, then speak with Marshal Bluewall at the Alliance encampment near Hive'Zora.";
       ["repgain"] = {
          [609] = 250;
       };
+      ["prequests"] = {
+         [1] = 9415;
+      };
+      ["prev"] = 9415;
       ["reward"] = {
          [1] = 13446;
          [2] = 13444;
       };
-      ["objective"] = "Find and deliver Silithyst to the Silithyst Extractor, then speak with Marshal Bluewall at the Alliance encampment near Hive'Zora.";
       ["req"] = 55;
    };
    [1698] = {
@@ -11793,6 +14080,9 @@ addon.questsDB = {
    [1702] = {
       ["name"] = "The Shieldsmith";
       ["prev"] = 1699;
+      ["prequests"] = {
+         [1] = 1699;
+      };
       ["next"] = 1701;
       ["objective"] = "Bring the Cask of Scalder to Furen Longbeard.";
       ["req"] = 20;
@@ -11800,6 +14090,9 @@ addon.questsDB = {
    [6822] = {
       ["name"] = "The Molten Core";
       ["prev"] = 6821;
+      ["prequests"] = {
+         [1] = 6821;
+      };
       ["next"] = 6823;
       ["objective"] = "Kill 1 Fire Lord, 1 Molten Giant, 1 Ancient Core Hound and 1 Lava Surger, then return to Duke Hydraxis in Azshara.";
       ["req"] = 57;
@@ -11807,6 +14100,9 @@ addon.questsDB = {
    [1710] = {
       ["name"] = "Sunscorched Shells";
       ["prev"] = 1703;
+      ["prequests"] = {
+         [1] = 1703;
+      };
       ["objective"] = "Bring 20 Sunscorched Shells to Mathiel in Darnassus.";
       ["req"] = 20;
    };
@@ -11824,6 +14120,9 @@ addon.questsDB = {
    [1738] = {
       ["name"] = "Heartswood";
       ["prev"] = 1716;
+      ["prequests"] = {
+         [1] = 1716;
+      };
       ["next"] = 1739;
       ["objective"] = "Retrieve the Heartswood from Ashenvale and bring it to Gakin the Darkbinder in the Mage Quarter of Stormwind.";
       ["req"] = 20;
@@ -11840,6 +14139,9 @@ addon.questsDB = {
    [1758] = {
       ["name"] = "Tome of the Cabal";
       ["prev"] = 1798;
+      ["prequests"] = {
+         [1] = 1798;
+      };
       ["next"] = 1802;
       ["objective"] = "Speak with Krom Stoutarm in Ironforge.";
       ["req"] = 30;
@@ -11847,6 +14149,9 @@ addon.questsDB = {
    [7046] = {
       ["name"] = "The Scepter of Celebras";
       ["prev"] = 7044;
+      ["prequests"] = {
+         [1] = 7044;
+      };
       ["objective"] = "Assist Celebras the Redeemed while he creates the Scepter of Celebras.$B$BSpeak with him when the ritual is complete.";
       ["req"] = 41;
    };
@@ -11859,6 +14164,9 @@ addon.questsDB = {
    [1778] = {
       ["name"] = "The Tome of Divinity";
       ["prev"] = 1648;
+      ["prequests"] = {
+         [1] = 1648;
+      };
       ["next"] = 1779;
       ["objective"] = "Speak to Tiza Battleforge in Ironforge.";
       ["req"] = 12;
@@ -11866,10 +14174,16 @@ addon.questsDB = {
    [1782] = {
       ["name"] = "Furen's Armor";
       ["prev"] = 1701;
+      ["prequests"] = {
+         [1] = 1701;
+      };
       ["objective"] = "";
       ["req"] = 20;
    };
    [7142] = {
+      ["prequests"] = {
+         [1] = 7222;
+      };
       ["objective"] = "Enter Alterac Valley and defeat the dwarven general, Vanndar Stormpike.  Then, return to Voggah Deathgrip in the Alterac Mountains.";
       ["name"] = "The Battle for Alterac";
       ["req"] = 51;
@@ -11893,6 +14207,9 @@ addon.questsDB = {
    [1802] = {
       ["name"] = "Tome of the Cabal";
       ["prev"] = 1758;
+      ["prequests"] = {
+         [1] = 1758;
+      };
       ["next"] = 1804;
       ["objective"] = "Retrieve the Moldy Tome and Tattered Manuscript for Krom Stoutarm in Ironforge.";
       ["req"] = 30;
@@ -11900,6 +14217,9 @@ addon.questsDB = {
    [1806] = {
       ["name"] = "The Test of Righteousness";
       ["prev"] = 1654;
+      ["prequests"] = {
+         [1] = 1654;
+      };
       ["objective"] = "Wait for Jordan Stilwell to finish forging a weapon for you.";
       ["req"] = 20;
    };
@@ -11912,6 +14232,9 @@ addon.questsDB = {
    [1822] = {
       ["name"] = "Heirloom Weapon";
       ["prev"] = 1821;
+      ["prequests"] = {
+         [1] = 1821;
+      };
       ["reward"] = {
          [1] = 7115;
          [2] = 7117;
@@ -11933,6 +14256,9 @@ addon.questsDB = {
    [1838] = {
       ["name"] = "Brutal Armor";
       ["prev"] = 1825;
+      ["prequests"] = {
+         [1] = 1825;
+      };
       ["objective"] = "Bring to Thun'grim Firegaze 15 Smoky Iron Ingots, 10 Powdered Azurite, 10 Iron Bars and a Vial of Phlogiston.";
       ["req"] = 20;
    };
@@ -11949,12 +14275,18 @@ addon.questsDB = {
    [1858] = {
       ["name"] = "The Shattered Hand";
       ["prev"] = 1963;
+      ["prequests"] = {
+         [1] = 1963;
+      };
       ["objective"] = "Steal Tazan's key, then use it to open his Satchel and deliver its contents to Therzok in the Cleft of Shadow in Orgrimmar.";
       ["req"] = 10;
    };
    [7462] = {
       ["name"] = "The Treasure of the Shen'dralar";
       ["prev"] = 7461;
+      ["prequests"] = {
+         [1] = 7461;
+      };
       ["reward"] = {
          [1] = 18420;
          [2] = 18421;
@@ -11972,6 +14304,9 @@ addon.questsDB = {
    [1878] = {
       ["name"] = "Water Pouch Bounty";
       ["prev"] = 1707;
+      ["prequests"] = {
+         [1] = 1707;
+      };
       ["repgain"] = {
          [369] = 10;
       };
@@ -11981,6 +14316,9 @@ addon.questsDB = {
    [1882] = {
       ["name"] = "The Balnir Farmstead";
       ["prev"] = 1881;
+      ["prequests"] = {
+         [1] = 1881;
+      };
       ["reward"] = {
          [1] = 7507;
          [2] = 9514;
@@ -11991,6 +14329,9 @@ addon.questsDB = {
    [1886] = {
       ["name"] = "The Deathstalkers";
       ["prev"] = 1885;
+      ["prequests"] = {
+         [1] = 1885;
+      };
       ["next"] = 1898;
       ["objective"] = "Get Astor's Letter of Introduction and return it to Mennet Carkad in the Rogues' Quarter.";
       ["req"] = 10;
@@ -11998,6 +14339,9 @@ addon.questsDB = {
    [1898] = {
       ["name"] = "The Deathstalkers";
       ["prev"] = 1886;
+      ["prequests"] = {
+         [1] = 1886;
+      };
       ["next"] = 1899;
       ["objective"] = "Speak with Andron Gant in the Undercity.";
       ["req"] = 10;
@@ -12016,6 +14360,9 @@ addon.questsDB = {
    [7654] = {
       ["name"] = "Imperial Plate Boots";
       ["prev"] = 7652;
+      ["prequests"] = {
+         [1] = 7652;
+      };
       ["repgain"] = {
          [59] = 200;
       };
@@ -12034,6 +14381,9 @@ addon.questsDB = {
    [7734] = {
       ["name"] = "Improved Quality";
       ["prev"] = 2822;
+      ["prequests"] = {
+         [1] = 2822;
+      };
       ["repgain"] = {
          [81] = 250;
       };
@@ -12043,6 +14393,9 @@ addon.questsDB = {
    [1938] = {
       ["name"] = "Ur's Treatise on Shadow Magic";
       ["prev"] = 1939;
+      ["prequests"] = {
+         [1] = 1939;
+      };
       ["next"] = 1940;
       ["objective"] = "Bring Ur's Treatise on Shadow Magic to High Sorcerer Andromath in Stormwind.";
       ["req"] = 26;
@@ -12050,6 +14403,9 @@ addon.questsDB = {
    [1942] = {
       ["name"] = "Astral Knot Garment";
       ["prev"] = 1940;
+      ["prequests"] = {
+         [1] = 1940;
+      };
       ["reward"] = {
          [1] = 7511;
          [2] = 9516;
@@ -12060,6 +14416,9 @@ addon.questsDB = {
    [1946] = {
       ["name"] = "Nether-lace Garment";
       ["prev"] = 1945;
+      ["prequests"] = {
+         [1] = 1945;
+      };
       ["reward"] = {
          [1] = 7512;
          [2] = 9515;
@@ -12093,6 +14452,9 @@ addon.questsDB = {
    [7846] = {
       ["name"] = "Recover the Key!";
       ["prev"] = 7845;
+      ["prequests"] = {
+         [1] = 7845;
+      };
       ["next"] = 7847;
       ["objective"] = "Elder Torntusk at Jintha'alor wants you to kill Hitah'ya the Keeper to get the Shackle Key to his bindings. Return to Elder Torntusk when you have recovered the key.";
       ["req"] = 46;
@@ -12113,6 +14475,9 @@ addon.questsDB = {
    [1978] = {
       ["name"] = "The Deathstalkers";
       ["prev"] = 1899;
+      ["prequests"] = {
+         [1] = 1899;
+      };
       ["objective"] = "Deliver Andron's Ledger to Varimathras in the Hall of the Dark Lady in the Undercity.";
       ["req"] = 10;
    };
@@ -12151,12 +14516,18 @@ addon.questsDB = {
    [8102] = {
       ["name"] = "The Pebble of Kajaro";
       ["prev"] = 8101;
+      ["prequests"] = {
+         [1] = 8101;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
    [8118] = {
       ["name"] = "Vision of Voodress";
       ["prev"] = 8117;
+      ["prequests"] = {
+         [1] = 8117;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
@@ -12176,12 +14547,18 @@ addon.questsDB = {
    [8182] = {
       ["name"] = "The Hand of Rastakhan";
       ["prev"] = 8181;
+      ["prequests"] = {
+         [1] = 8181;
+      };
       ["objective"] = "Speak with Molthor in Stranglethorn.";
       ["req"] = 40;
    };
    [4103] = {
       ["name"] = "Salve via Hunting";
       ["prev"] = 4101;
+      ["prequests"] = {
+         [1] = 4101;
+      };
       ["objective"] = "";
       ["req"] = 48;
    };
@@ -12191,10 +14568,13 @@ addon.questsDB = {
       ["req"] = 48;
    };
    [4135] = {
-      ["name"] = "The Writhing Deep";
-      ["prev"] = 4131;
       ["repgain"] = {
          [69] = 150;
+      };
+      ["name"] = "The Writhing Deep";
+      ["prev"] = 4131;
+      ["prequests"] = {
+         [1] = 4131;
       };
       ["next"] = 4265;
       ["objective"] = "Now that Raschal's last known whereabouts have been discovered, continue your search for him or his remains in the Writhing Deep.  According to the note, it is located to the south of the Woodpaw gnoll camps.";
@@ -12203,14 +14583,20 @@ addon.questsDB = {
    [8300] = {
       ["name"] = "More Resource Crates";
       ["prev"] = 8299;
+      ["prequests"] = {
+         [1] = 8299;
+      };
       ["objective"] = "Win the battle for Arathi Basin, get an Arathi Resource Crate, and return it to Deathstalker Mortis at Hammerfall.";
       ["req"] = 60;
    };
    [8332] = {
-      ["name"] = "Dukes of the Council";
-      ["prev"] = 8331;
       ["repgain"] = {
          [609] = 75;
+      };
+      ["name"] = "Dukes of the Council";
+      ["prev"] = 8331;
+      ["prequests"] = {
+         [1] = 8331;
       };
       ["next"] = 8349;
       ["objective"] = "Bring 1 Large Brilliant Shard and 3 Abyssal Crests to Aurel Goldleaf in Cenarion Hold.";
@@ -12219,6 +14605,9 @@ addon.questsDB = {
    [8364] = {
       ["name"] = "Abyssal Scepters";
       ["prev"] = 8352;
+      ["prequests"] = {
+         [1] = 8352;
+      };
       ["repgain"] = {
          [609] = 500;
       };
@@ -12260,17 +14649,20 @@ addon.questsDB = {
    };
    [4263] = {
       ["name"] = "Incendius!";
-      ["prev"] = 4262;
+      ["objective"] = "Find Lord Incendius in Blackrock Depths and destroy him!";
       ["repgain"] = {
          [54] = 250;
       };
+      ["prequests"] = {
+         [1] = 4262;
+      };
+      ["prev"] = 4262;
       ["reward"] = {
          [1] = 12113;
          [2] = 12114;
          [3] = 12112;
          [4] = 12115;
       };
-      ["objective"] = "Find Lord Incendius in Blackrock Depths and destroy him!";
       ["req"] = 48;
    };
    [8556] = {
@@ -12286,6 +14678,9 @@ addon.questsDB = {
    [8620] = {
       ["name"] = "The Only Prescription";
       ["prev"] = 8606;
+      ["prequests"] = {
+         [1] = 8606;
+      };
       ["repgain"] = {
          [910] = 150;
       };
@@ -12318,6 +14713,9 @@ addon.questsDB = {
    [8748] = {
       ["name"] = "The Path of the Protector";
       ["prev"] = 8747;
+      ["prequests"] = {
+         [1] = 8747;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
@@ -12337,6 +14735,9 @@ addon.questsDB = {
    [8844] = {
       ["name"] = "One Commendation Signet";
       ["prev"] = 8818;
+      ["prequests"] = {
+         [1] = 8818;
+      };
       ["objective"] = "";
       ["req"] = 1;
    };
@@ -12352,9 +14753,12 @@ addon.questsDB = {
       ["req"] = 58;
    };
    [8940] = {
+      ["followup"] = 8930;
       ["name"] = "Just Compensation";
       ["prev"] = 8978;
-      ["followup"] = 8930;
+      ["prequests"] = {
+         [1] = 8978;
+      };
       ["next"] = 8930;
       ["objective"] = "Bring a Devout Belt and a set of Devout Gloves to Mokvar in Orgrimmar.";
       ["req"] = 58;
@@ -12368,12 +14772,18 @@ addon.questsDB = {
    [9004] = {
       ["name"] = "Saving the Best for Last";
       ["prev"] = 8997;
+      ["prequests"] = {
+         [1] = 8997;
+      };
       ["objective"] = "Give Deliana your Shadowcraft Cap and Shadowcraft Tunic.";
       ["req"] = 58;
    };
    [9036] = {
       ["name"] = "Dreadnaught Legplates";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 100;
       };
@@ -12383,12 +14793,18 @@ addon.questsDB = {
    [9068] = {
       ["name"] = "Earthshatter Tunic";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Rimblat Earthshatter at Light's Hope Chapel in the Eastern Plaguelands will make an Earthshatter Tunic if you bring him the following: 1 Desecrated Tunic, 25 Wartorn Chain Scraps, 4 Arcanite Bars and 3 Cured Rugged Hides.";
       ["req"] = 60;
    };
    [9100] = {
       ["name"] = "Frostfire Gloves";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -12398,6 +14814,9 @@ addon.questsDB = {
    [9132] = {
       ["name"] = "Dark Iron Scraps";
       ["prev"] = 9131;
+      ["prequests"] = {
+         [1] = 9131;
+      };
       ["repgain"] = {
          [529] = 10;
       };
@@ -12456,10 +14875,13 @@ addon.questsDB = {
       ["req"] = 50;
    };
    [2340] = {
-      ["name"] = "Deliver the Gems";
-      ["prev"] = 2339;
       ["repgain"] = {
          [76] = 75;
+      };
+      ["name"] = "Deliver the Gems";
+      ["prev"] = 2339;
+      ["prequests"] = {
+         [1] = 2339;
       };
       ["next"] = 2341;
       ["objective"] = "Deliver the Necklace and Gem Salvage to Dran Droffers in Orgrimmar.";
@@ -12479,6 +14901,9 @@ addon.questsDB = {
    [4727] = {
       ["name"] = "Beached Sea Turtle";
       ["prev"] = 4681;
+      ["prequests"] = {
+         [1] = 4681;
+      };
       ["repgain"] = {
          [69] = 75;
       };
@@ -12488,6 +14913,9 @@ addon.questsDB = {
    [4743] = {
       ["name"] = "Seal of Ascension";
       ["prev"] = 4742;
+      ["prequests"] = {
+         [1] = 4742;
+      };
       ["objective"] = "Travel to the Wyrmbog in Dustwallow Marsh. Find the ancient drake, Emberstrife and beat him without mercy until his will is broken.$B$BIt is at that moment which you must place the Unforged Seal of Ascension before the great beast. You must then be quick to use the Orb of Draconic Energy on his weakened form and claim dominion over his mental faculties. Control the beast and force the Flames of the Black Dragonflight upon the Unforged Seal of Ascension!";
       ["req"] = 57;
    };
@@ -12501,6 +14929,9 @@ addon.questsDB = {
    [4807] = {
       ["name"] = "Wildkin E'ko";
       ["prev"] = 975;
+      ["prequests"] = {
+         [1] = 975;
+      };
       ["objective"] = "";
       ["req"] = 55;
    };
@@ -12531,15 +14962,18 @@ addon.questsDB = {
    };
    [4983] = {
       ["name"] = "Bijou's Reconnaissance Report";
-      ["prev"] = 4982;
+      ["objective"] = "Take Bijou's Reconnaissance Report back to Grandmaster Lexlort in Kargath.$B";
       ["repgain"] = {
          [76] = 250;
       };
+      ["prequests"] = {
+         [1] = 4982;
+      };
+      ["prev"] = 4982;
       ["reward"] = {
          [1] = 15858;
          [2] = 15859;
       };
-      ["objective"] = "Take Bijou's Reconnaissance Report back to Grandmaster Lexlort in Kargath.$B";
       ["req"] = 55;
    };
    [2500] = {
@@ -12558,6 +14992,9 @@ addon.questsDB = {
    [5063] = {
       ["name"] = "Cap of the Scarlet Savant";
       ["prev"] = 5047;
+      ["prequests"] = {
+         [1] = 5047;
+      };
       ["objective"] = "In order to create the Cap of the Scarlet Savant, you will be required to bring the following items back to Malyfous Darkhammer: 1 Pristine Hide of the Beast; 5 Frayed Abomination Stitchings; 8 Arcane Crystals; 5 Enchanted Scarlet Thread. $B$BYou will also be required to pay 50 gold pieces for the crafting of the item.";
       ["req"] = 57;
    };
@@ -12574,6 +15011,9 @@ addon.questsDB = {
    [5127] = {
       ["name"] = "The Demon Forge";
       ["prev"] = 5126;
+      ["prequests"] = {
+         [1] = 5126;
+      };
       ["objective"] = "Travel to Blackrock Spire and find Goraluk Anvilcrack. Slay him and then use the Blood Stained Pike upon his corpse. After his soul has been siphoned, the pike will be Soul Stained.$B$BYou must also find the Unforged Rune Covered Breastplate.$B$BReturn both the Soul Stained Pike and the Unforged Rune Covered Breastplate to Lorax in Winterspring.";
       ["req"] = 55;
    };
@@ -12585,6 +15025,9 @@ addon.questsDB = {
    [5159] = {
       ["name"] = "Cleansed Water Returns to Felwood";
       ["prev"] = 5158;
+      ["prequests"] = {
+         [1] = 5158;
+      };
       ["next"] = 5165;
       ["objective"] = "Take the Purified Moon Well Water to Greta Mosshoof in Felwood.";
       ["req"] = 48;
@@ -12592,15 +15035,21 @@ addon.questsDB = {
    [2604] = {
       ["name"] = "Spiritual Domination";
       ["prev"] = 2603;
+      ["prequests"] = {
+         [1] = 2603;
+      };
       ["objective"] = "Bring ten Vulture Gizzards and two Snickerfang Jowls to Bloodmage Lynnore.$B";
       ["req"] = 45;
    };
    [5223] = {
-      ["name"] = "Return to Chillwind Camp";
-      ["prev"] = 5222;
       ["repgain"] = {
          [469] = 75;
          [529] = 75;
+      };
+      ["name"] = "Return to Chillwind Camp";
+      ["prev"] = 5222;
+      ["prequests"] = {
+         [1] = 5222;
       };
       ["next"] = 5225;
       ["objective"] = "Bring the Filled Writhing Haunt Bottle to High Priestess MacDonnell at Chillwind Camp, Western Plaguelands.";
@@ -12609,6 +15058,9 @@ addon.questsDB = {
    [5463] = {
       ["name"] = "Menethil's Gift";
       ["prev"] = 5462;
+      ["prequests"] = {
+         [1] = 5462;
+      };
       ["next"] = 5464;
       ["objective"] = "Travel to Stratholme and find Menethil's Gift. Place the Keepsake of Remembrance upon the unholy ground. ";
       ["req"] = 57;
@@ -12616,6 +15068,9 @@ addon.questsDB = {
    [2748] = {
       ["name"] = "A Fine Egg";
       ["prev"] = 2741;
+      ["prequests"] = {
+         [1] = 2741;
+      };
       ["repgain"] = {
          [530] = 10;
          [69] = 10;
@@ -12632,6 +15087,9 @@ addon.questsDB = {
    [2764] = {
       ["name"] = "Galvan's Finest Pupil";
       ["prev"] = 2761;
+      ["prequests"] = {
+         [1] = 2761;
+      };
       ["objective"] = "Speak with Trenton Lighthammer in Gadgetzan.";
       ["req"] = 40;
    };
@@ -12667,11 +15125,21 @@ addon.questsDB = {
    [2852] = {
       ["name"] = "Wild Leather Leggings";
       ["prev"] = 2847;
+      ["prequests"] = {
+         [1] = 2847;
+      };
       ["followup"] = 2853;
       ["objective"] = "Bring 2 Turtle Scale Helms, 2 Turtle Scale Bracers, and 2 Wildvines to Pratt McGrubben in Feathermoon Stronghold.";
       ["req"] = 30;
    };
    [2860] = {
+      ["prequests"] = {
+         [1] = 2859;
+         [2] = 2855;
+         [3] = 2856;
+         [4] = 2857;
+         [5] = 2858;
+      };
       ["objective"] = "Give Jangdor's Letter to Una, the master leatherworker of Thunder Bluff.";
       ["name"] = "Master of the Wild Leather";
       ["req"] = 30;
@@ -12707,10 +15175,13 @@ addon.questsDB = {
       ["req"] = 44;
    };
    [2940] = {
-      ["name"] = "Feralas: A History";
-      ["prev"] = 2939;
       ["repgain"] = {
          [69] = 25;
+      };
+      ["name"] = "Feralas: A History";
+      ["prev"] = 2939;
+      ["prequests"] = {
+         [1] = 2939;
       };
       ["next"] = 2941;
       ["objective"] = "Ask Daryn Lightwind if you may borrow her book.";
@@ -12719,6 +15190,9 @@ addon.questsDB = {
    [2948] = {
       ["name"] = "Gnome Improvement";
       ["prev"] = 2947;
+      ["prequests"] = {
+         [1] = 2947;
+      };
       ["repgain"] = {
          [54] = 250;
          [47] = 250;
@@ -12734,20 +15208,26 @@ addon.questsDB = {
    };
    [2972] = {
       ["name"] = "Doling Justice";
-      ["prev"] = 2970;
+      ["objective"] = "Take Jer'kai's Signet Ring to High Priestess Tyrande Whisperwind in Darnassus.";
       ["repgain"] = {
          [69] = 350;
       };
+      ["prequests"] = {
+         [1] = 2970;
+      };
+      ["prev"] = 2970;
       ["reward"] = {
          [1] = 10705;
          [2] = 10706;
       };
-      ["objective"] = "Take Jer'kai's Signet Ring to High Priestess Tyrande Whisperwind in Darnassus.";
       ["req"] = 38;
    };
    [2980] = {
       ["name"] = "The Ogres of Feralas";
       ["prev"] = 2975;
+      ["prequests"] = {
+         [1] = 2975;
+      };
       ["repgain"] = {
          [76] = 250;
       };
@@ -12768,6 +15248,9 @@ addon.questsDB = {
    [6023] = {
       ["name"] = "Unfinished Business";
       ["prev"] = 6004;
+      ["prequests"] = {
+         [1] = 6004;
+      };
       ["next"] = 6025;
       ["objective"] = "Kill Huntsman Radley and Cavalier Durgen before returning to Kirsta Deepshadow in Western Plaguelands.";
       ["req"] = 50;
@@ -12781,6 +15264,9 @@ addon.questsDB = {
    [6087] = {
       ["name"] = "Taming the Beast";
       ["prev"] = 6061;
+      ["prequests"] = {
+         [1] = 6061;
+      };
       ["next"] = 6088;
       ["objective"] = "Use the Taming Rod to tame a Prairie Stalker. Practice your skills, then return the Taming Rod to Yaw Sharpmane in Bloodhoof Village.";
       ["req"] = 10;
@@ -12788,25 +15274,34 @@ addon.questsDB = {
    [6103] = {
       ["name"] = "Training the Beast";
       ["prev"] = 6102;
+      ["prequests"] = {
+         [1] = 6102;
+      };
       ["objective"] = "Speak to Jocaste in the Cenarion Enclave, in Darnassus.";
       ["req"] = 10;
    };
    [6135] = {
       ["name"] = "Duskwing, Oh How I Hate Thee...";
-      ["prev"] = 6133;
+      ["objective"] = "Find Duskwing and slay him. From the corpse, recover a Patch of Duskwing's Fur and return it to Nathanos Blightcaller.$B$BIt is said that Duskwing roams the countryside to the north of Marris Stead.";
       ["repgain"] = {
          [68] = 250;
       };
+      ["prequests"] = {
+         [1] = 6133;
+      };
+      ["prev"] = 6133;
       ["reward"] = {
          [1] = 16994;
          [2] = 16995;
       };
-      ["objective"] = "Find Duskwing and slay him. From the corpse, recover a Patch of Duskwing's Fur and return it to Nathanos Blightcaller.$B$BIt is said that Duskwing roams the countryside to the north of Marris Stead.";
       ["req"] = 56;
    };
    [3084] = {
       ["name"] = "Rune-Inscribed Tablet";
       ["prev"] = 788;
+      ["prequests"] = {
+         [1] = 788;
+      };
       ["repgain"] = {
          [530] = 75;
       };
@@ -12821,6 +15316,9 @@ addon.questsDB = {
    [8301] = {
       ["name"] = "The Path of the Righteous";
       ["prev"] = 8288;
+      ["prequests"] = {
+         [1] = 8288;
+      };
       ["repgain"] = {
          [910] = 500;
       };
@@ -12830,12 +15328,18 @@ addon.questsDB = {
    [8333] = {
       ["name"] = "Medallion of Station";
       ["prev"] = 8332;
+      ["prequests"] = {
+         [1] = 8332;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
    [3116] = {
       ["name"] = "Simple Sigil";
       ["prev"] = 457;
+      ["prequests"] = {
+         [1] = 457;
+      };
       ["repgain"] = {
          [69] = 75;
       };
@@ -12845,6 +15349,9 @@ addon.questsDB = {
    [8397] = {
       ["name"] = "Claiming Arathi Basin";
       ["prev"] = 8395;
+      ["prequests"] = {
+         [1] = 8395;
+      };
       ["repgain"] = {
          [509] = 50;
       };
@@ -12874,12 +15381,18 @@ addon.questsDB = {
    [8493] = {
       ["name"] = "The Alliance Needs More Copper Bars!";
       ["prev"] = 8492;
+      ["prequests"] = {
+         [1] = 8492;
+      };
       ["objective"] = "Bring 20 copper bars to Sergeant Stonebrow at the airfield in Dun Morogh.";
       ["req"] = 1;
    };
    [8525] = {
       ["name"] = "The Alliance Needs More Rainbow Fin Albacore!";
       ["prev"] = 8524;
+      ["prequests"] = {
+         [1] = 8524;
+      };
       ["objective"] = "Bring 20 rainbow fin albacore to Slicky Gastronome at the airfield in Dun Morogh.";
       ["req"] = 1;
    };
@@ -12891,6 +15404,9 @@ addon.questsDB = {
    [6343] = {
       ["name"] = "Return to Nessa";
       ["prev"] = 6342;
+      ["prequests"] = {
+         [1] = 6342;
+      };
       ["repgain"] = {
          [69] = 350;
       };
@@ -12900,6 +15416,9 @@ addon.questsDB = {
    [8621] = {
       ["name"] = "Stormcaller's Footguards";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -12916,11 +15435,14 @@ addon.questsDB = {
       ["req"] = 1;
    };
    [6391] = {
-      ["name"] = "Ride to Ironforge";
-      ["prev"] = 6387;
       ["repgain"] = {
          [54] = 75;
          [47] = 75;
+      };
+      ["name"] = "Ride to Ironforge";
+      ["prev"] = 6387;
+      ["prequests"] = {
+         [1] = 6387;
       };
       ["next"] = 6388;
       ["objective"] = "Buy a gryphon to Ironforge from the gryphon master Thorgrum Borrelson, then bring Brock's List to Golnir Bouldertoe in Ironforge.";
@@ -12938,6 +15460,9 @@ addon.questsDB = {
    [8749] = {
       ["name"] = "The Path of the Protector";
       ["prev"] = 8748;
+      ["prequests"] = {
+         [1] = 8748;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
@@ -12957,6 +15482,9 @@ addon.questsDB = {
    [8845] = {
       ["name"] = "Ten Commendation Signets";
       ["prev"] = 8826;
+      ["prequests"] = {
+         [1] = 8826;
+      };
       ["objective"] = "";
       ["req"] = 1;
    };
@@ -12974,9 +15502,12 @@ addon.questsDB = {
       ["req"] = 19;
    };
    [8941] = {
+      ["followup"] = 8930;
       ["name"] = "Just Compensation";
       ["prev"] = 8978;
-      ["followup"] = 8930;
+      ["prequests"] = {
+         [1] = 8978;
+      };
       ["next"] = 8930;
       ["objective"] = "Bring a Shadowcraft Belt and a set of Shadowcraft Gloves to Mokvar in Orgrimmar.";
       ["req"] = 58;
@@ -12984,12 +15515,18 @@ addon.questsDB = {
    [9005] = {
       ["name"] = "Saving the Best for Last";
       ["prev"] = 8997;
+      ["prequests"] = {
+         [1] = 8997;
+      };
       ["objective"] = "Give Deliana your Dreadmist Mask and Dreadmist Robe.";
       ["req"] = 58;
    };
    [6567] = {
       ["name"] = "The Champion of the Horde";
       ["prev"] = 6566;
+      ["prequests"] = {
+         [1] = 6566;
+      };
       ["next"] = 6568;
       ["objective"] = "Seek out Rexxar. The Warchief has instructed you as to his whereabouts. Search the paths of Desolace, between the Stonetalon Mountains and Feralas.";
       ["req"] = 55;
@@ -12997,6 +15534,9 @@ addon.questsDB = {
    [9069] = {
       ["name"] = "Earthshatter Legguards";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -13006,6 +15546,9 @@ addon.questsDB = {
    [9101] = {
       ["name"] = "Frostfire Belt";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -13068,6 +15611,9 @@ addon.questsDB = {
    [3372] = {
       ["name"] = "Release Them";
       ["prev"] = 3371;
+      ["prequests"] = {
+         [1] = 3371;
+      };
       ["repgain"] = {
          [47] = 250;
       };
@@ -13084,11 +15630,18 @@ addon.questsDB = {
    [6823] = {
       ["name"] = "Agent of Hydraxis";
       ["prev"] = 6822;
+      ["prequests"] = {
+         [1] = 6822;
+      };
       ["next"] = 6824;
       ["objective"] = "Earn an Honored faction with the Hydraxian Waterlords, then talk to Duke Hydraxis in Azshara.";
       ["req"] = 60;
    };
    [3444] = {
+      ["prequests"] = {
+         [1] = 3380;
+         [2] = 3445;
+      };
       ["objective"] = "Retrieve the Stone Circle from Marvon Rivetseeker's workshop in Ratchet.";
       ["name"] = "The Stone Circle";
       ["req"] = 46;
@@ -13096,6 +15649,9 @@ addon.questsDB = {
    [3452] = {
       ["name"] = "The Flame's Casing";
       ["prev"] = 3443;
+      ["prequests"] = {
+         [1] = 3443;
+      };
       ["next"] = 3453;
       ["objective"] = "Find and return a Symbol of Ragnaros to Kalaran Windblade.";
       ["req"] = 40;
@@ -13103,6 +15659,9 @@ addon.questsDB = {
    [6983] = {
       ["name"] = "You're a Mean One...";
       ["prev"] = 6963;
+      ["prequests"] = {
+         [1] = 6963;
+      };
       ["next"] = 6984;
       ["objective"] = " $N.  Be c-c-careful though!  He is t-t-the one who turned me into this s-s-snowy mess!$B$BYou're g-g-gonna need some help in f-f-facing him.  I've seen him w-w-wander all around where the y-y-yeti are; he's s-s-surely here s-s-somewhere!  F-f-find the treats $N";
       ["req"] = 30;
@@ -13110,6 +15669,9 @@ addon.questsDB = {
    [3508] = {
       ["name"] = "Breaking the Ward";
       ["prev"] = 3141;
+      ["prequests"] = {
+         [1] = 3141;
+      };
       ["next"] = 3509;
       ["objective"] = "Wait for Loramus to complete the enlightenment spell.";
       ["req"] = 45;
@@ -13126,6 +15688,9 @@ addon.questsDB = {
    [7063] = {
       ["name"] = "The Feast of Winter Veil";
       ["prev"] = 7062;
+      ["prequests"] = {
+         [1] = 7062;
+      };
       ["repgain"] = {
          [47] = 500;
       };
@@ -13135,6 +15700,9 @@ addon.questsDB = {
    [3564] = {
       ["name"] = "Andron's Payment to Jediga";
       ["prev"] = 3542;
+      ["prequests"] = {
+         [1] = 3542;
+      };
       ["objective"] = "Deliver Andron's Note to Jediga in Azshara.";
       ["req"] = 45;
    };
@@ -13150,6 +15718,9 @@ addon.questsDB = {
    [3628] = {
       ["name"] = "You Are Rakh'likh, Demon";
       ["prev"] = 3627;
+      ["prequests"] = {
+         [1] = 3627;
+      };
       ["objective"] = "Destroy Razelikh the Defiler and return the Severed Horn of the Defiler to the Fallen Hero of the Horde. You will also need to return the Ward of the Defiler so that the Fallen Hero can destroy it, preventing it from ever falling into the wrong hands.$B";
       ["req"] = 45;
    };
@@ -13164,6 +15735,9 @@ addon.questsDB = {
    [3644] = {
       ["name"] = "Membership Card Renewal";
       ["prev"] = 3639;
+      ["prequests"] = {
+         [1] = 3639;
+      };
       ["objective"] = "";
       ["req"] = 30;
    };
@@ -13173,10 +15747,13 @@ addon.questsDB = {
       ["req"] = 51;
    };
    [7383] = {
-      ["name"] = "Crown of the Earth";
-      ["prev"] = 933;
       ["repgain"] = {
          [69] = 150;
+      };
+      ["name"] = "Crown of the Earth";
+      ["prev"] = 933;
+      ["prequests"] = {
+         [1] = 933;
       };
       ["next"] = 935;
       ["objective"] = "Fill the Amethyst Phial and bring it back to Corithras Moonrage in Dolanaar.";
@@ -13208,10 +15785,13 @@ addon.questsDB = {
       ["req"] = 47;
    };
    [3788] = {
-      ["name"] = "Jonespyre's Request";
-      ["prev"] = 3785;
       ["repgain"] = {
          [69] = 25;
+      };
+      ["name"] = "Jonespyre's Request";
+      ["prev"] = 3785;
+      ["prequests"] = {
+         [1] = 3785;
       };
       ["next"] = 3791;
       ["objective"] = "Speak with Quintis Jonespyre in Feathermoon Stronghold.";
@@ -13220,6 +15800,9 @@ addon.questsDB = {
    [3804] = {
       ["name"] = "Morrowgrain to Thunder Bluff";
       ["prev"] = 3786;
+      ["prequests"] = {
+         [1] = 3786;
+      };
       ["repgain"] = {
          [81] = 50;
       };
@@ -13233,6 +15816,7 @@ addon.questsDB = {
       ["req"] = 60;
    };
    [7639] = {
+      ["followup"] = 7640;
       ["repgain"] = {
          [72] = 75;
          [69] = 25;
@@ -13240,7 +15824,9 @@ addon.questsDB = {
       };
       ["name"] = "To Show Due Judgment";
       ["prev"] = 7637;
-      ["followup"] = 7640;
+      ["prequests"] = {
+         [1] = 7637;
+      };
       ["next"] = 7640;
       ["objective"] = "Return the Exorcism Censer to Lord Grayson Shadowbreaker in the Cathedral District of Stormwind.";
       ["req"] = 60;
@@ -13248,6 +15834,9 @@ addon.questsDB = {
    [7655] = {
       ["name"] = "Imperial Plate Bracer";
       ["prev"] = 7652;
+      ["prequests"] = {
+         [1] = 7652;
+      };
       ["repgain"] = {
          [59] = 150;
       };
@@ -13315,6 +15904,9 @@ addon.questsDB = {
    [3908] = {
       ["name"] = "It's a Secret to Everybody";
       ["prev"] = 3845;
+      ["prequests"] = {
+         [1] = 3845;
+      };
       ["next"] = 3909;
       ["objective"] = "Take Linken's Sword to Donova Snowden in Winterspring.";
       ["req"] = 47;
@@ -13330,18 +15922,21 @@ addon.questsDB = {
    };
    [3924] = {
       ["name"] = "Samophlange Manual";
-      ["prev"] = 3923;
+      ["objective"] = "Bring the Samophlange Manual to Rilli Greasygob in Orgrimmar.";
       ["repgain"] = {
          [470] = 350;
          [530] = 150;
          [81] = 150;
          [76] = 150;
       };
+      ["prequests"] = {
+         [1] = 3923;
+      };
+      ["prev"] = 3923;
       ["reward"] = {
          [1] = 11855;
          [2] = 11854;
       };
-      ["objective"] = "Bring the Samophlange Manual to Rilli Greasygob in Orgrimmar.";
       ["req"] = 10;
    };
    [7863] = {
@@ -13375,18 +15970,21 @@ addon.questsDB = {
    };
    [4004] = {
       ["name"] = "The Princess Saved?";
-      ["prev"] = 4003;
+      ["objective"] = "Return to Thrall!$B";
       ["repgain"] = {
          [76] = 500;
          [68] = 500;
          [81] = 500;
          [530] = 500;
       };
+      ["prequests"] = {
+         [1] = 4003;
+      };
+      ["prev"] = 4003;
       ["reward"] = {
          [1] = 12544;
          [2] = 12545;
       };
-      ["objective"] = "Return to Thrall!$B";
       ["req"] = 48;
    };
    [8055] = {
@@ -13402,12 +16000,18 @@ addon.questsDB = {
    [8103] = {
       ["name"] = "The Pebble of Kajaro";
       ["prev"] = 8102;
+      ["prequests"] = {
+         [1] = 8102;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
    [8119] = {
       ["name"] = "The Unmarred Vision of Voodress";
       ["prev"] = 8118;
+      ["prequests"] = {
+         [1] = 8118;
+      };
       ["repgain"] = {
          [270] = 100;
       };
@@ -13423,6 +16027,9 @@ addon.questsDB = {
    [4084] = {
       ["name"] = "Silver Heart";
       ["prev"] = 3942;
+      ["prequests"] = {
+         [1] = 3942;
+      };
       ["next"] = 4005;
       ["objective"] = "Collect 11 Silvery Claws and 1 Irontree Heart for Eridan Bluewind in Felwood.";
       ["req"] = 47;
@@ -13443,6 +16050,9 @@ addon.questsDB = {
    [4104] = {
       ["name"] = "Salve via Mining";
       ["prev"] = 4101;
+      ["prequests"] = {
+         [1] = 4101;
+      };
       ["objective"] = "";
       ["req"] = 48;
    };
@@ -13457,6 +16067,9 @@ addon.questsDB = {
    [4136] = {
       ["name"] = "Ribbly Screwspigot";
       ["prev"] = 4324;
+      ["prequests"] = {
+         [1] = 4324;
+      };
       ["reward"] = {
          [1] = 11865;
          [2] = 11963;
@@ -13468,6 +16081,9 @@ addon.questsDB = {
    [8302] = {
       ["name"] = "The Hand of the Righteous";
       ["prev"] = 8301;
+      ["prequests"] = {
+         [1] = 8301;
+      };
       ["repgain"] = {
          [910] = 500;
       };
@@ -13489,6 +16105,9 @@ addon.questsDB = {
    [8398] = {
       ["name"] = "Claiming Arathi Basin";
       ["prev"] = 8396;
+      ["prequests"] = {
+         [1] = 8396;
+      };
       ["repgain"] = {
          [509] = 50;
       };
@@ -13506,6 +16125,9 @@ addon.questsDB = {
    [8462] = {
       ["name"] = "Speak to Nafien";
       ["prev"] = 8460;
+      ["prequests"] = {
+         [1] = 8460;
+      };
       ["repgain"] = {
          [576] = 25;
       };
@@ -13518,10 +16140,13 @@ addon.questsDB = {
       ["req"] = 40;
    };
    [4264] = {
-      ["name"] = "A Crumpled Up Note";
-      ["prev"] = 4242;
       ["repgain"] = {
          [72] = 250;
+      };
+      ["name"] = "A Crumpled Up Note";
+      ["prev"] = 4242;
+      ["prequests"] = {
+         [1] = 4242;
       };
       ["next"] = 4282;
       ["objective"] = "You may have just stumbled on to something that Marshal Windsor would be interested in seeing. There may be hope, after all.";
@@ -13540,6 +16165,9 @@ addon.questsDB = {
    [8622] = {
       ["name"] = "Stormcaller's Hauberk";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -13576,6 +16204,9 @@ addon.questsDB = {
    [8750] = {
       ["name"] = "The Path of the Protector";
       ["prev"] = 8749;
+      ["prequests"] = {
+         [1] = 8749;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
@@ -13610,9 +16241,12 @@ addon.questsDB = {
       ["req"] = 58;
    };
    [8942] = {
+      ["followup"] = 8930;
       ["name"] = "Just Compensation";
       ["prev"] = 8978;
-      ["followup"] = 8930;
+      ["prequests"] = {
+         [1] = 8978;
+      };
       ["next"] = 8930;
       ["objective"] = "Bring a Cord of Elements and a set of Gauntlets of Elements to Mokvar in Orgrimmar.$B";
       ["req"] = 58;
@@ -13634,6 +16268,9 @@ addon.questsDB = {
    [9038] = {
       ["name"] = "Dreadnaught Pauldrons";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 250;
       };
@@ -13643,12 +16280,18 @@ addon.questsDB = {
    [9070] = {
       ["name"] = "Earthshatter Headpiece";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Rimblat Earthshatter at Light's Hope Chapel in the Eastern Plaguelands will make an Earthshatter Headpiece if you bring him the following: 1 Desecrated Headpiece, 15 Wartorn Chain Scraps, 4 Arcanite Bars and 2 Nexus Crystals.";
       ["req"] = 60;
    };
    [9102] = {
       ["name"] = "Frostfire Bindings";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -13670,6 +16313,9 @@ addon.questsDB = {
    [9230] = {
       ["name"] = "Ramaladni's Icy Grasp";
       ["prev"] = 9229;
+      ["prequests"] = {
+         [1] = 9229;
+      };
       ["objective"] = "Korfax at Light's Hope Chapel in the Eastern Plaguelands wants you to bring him 1 Frozen Rune, 1 Blue Sapphire and 1 Arcanite Bar.$B";
       ["req"] = 60;
    };
@@ -13705,6 +16351,9 @@ addon.questsDB = {
    [4728] = {
       ["name"] = "Beached Sea Creature";
       ["prev"] = 4681;
+      ["prequests"] = {
+         [1] = 4681;
+      };
       ["repgain"] = {
          [69] = 75;
       };
@@ -13712,10 +16361,13 @@ addon.questsDB = {
       ["req"] = 12;
    };
    [4808] = {
-      ["name"] = "Felnok Steelspring";
-      ["prev"] = 4726;
       ["repgain"] = {
          [577] = 75;
+      };
+      ["name"] = "Felnok Steelspring";
+      ["prev"] = 4726;
+      ["prequests"] = {
+         [1] = 4726;
       };
       ["next"] = 4809;
       ["objective"] = "Give Tinkee's Letter to Felnok Steelspring.";
@@ -13749,28 +16401,34 @@ addon.questsDB = {
       ["req"] = 51;
    };
    [5048] = {
+      ["followup"] = 5050;
       ["repgain"] = {
          [72] = 250;
       };
       ["name"] = "Good Natured Emma";
       ["prev"] = 5022;
-      ["followup"] = 5050;
+      ["prequests"] = {
+         [1] = 5022;
+      };
       ["next"] = 5050;
       ["objective"] = "Find Ol' Emma in Stormwind and see if she is in fact Emma Felstone.  If she is, then perhaps she'd like the package Janice Felstone made for her.";
       ["req"] = 50;
    };
    [5064] = {
       ["name"] = "Grimtotem Spying";
-      ["prev"] = 4841;
+      ["objective"] = "Locate and retrieve the three Secret Notes in Darkcloud Pinnacle.";
       ["repgain"] = {
          [81] = 250;
       };
+      ["prequests"] = {
+         [1] = 4841;
+      };
+      ["prev"] = 4841;
       ["reward"] = {
          [1] = 15457;
          [2] = 15458;
          [3] = 15459;
       };
-      ["objective"] = "Locate and retrieve the three Secret Notes in Darkcloud Pinnacle.";
       ["req"] = 24;
    };
    [5096] = {
@@ -13781,12 +16439,20 @@ addon.questsDB = {
          [81] = 75;
          [76] = 75;
       };
+      ["prequests"] = {
+         [1] = 5093;
+         [2] = 5094;
+         [3] = 5095;
+      };
       ["objective"] = "Proceed to the Scarlet Crusade's base camp between Felstone Field and Dalson's Tears and destroy their command tent.$B$BPlace the Scourge banner at the camp, and then return to High Executor Derrington at the Bulwark, Western Plaguelands.";
       ["req"] = 50;
    };
    [5128] = {
       ["name"] = "Words of the High Chief";
       ["prev"] = 5123;
+      ["prequests"] = {
+         [1] = 5123;
+      };
       ["repgain"] = {
          [577] = 250;
       };
@@ -13807,6 +16473,9 @@ addon.questsDB = {
    [5224] = {
       ["name"] = "Writhing Haunt Cauldron";
       ["prev"] = 5237;
+      ["prequests"] = {
+         [1] = 5237;
+      };
       ["repgain"] = {
          [529] = 25;
       };
@@ -13816,6 +16485,9 @@ addon.questsDB = {
    [5384] = {
       ["name"] = "Kirtonos the Herald";
       ["prev"] = 5515;
+      ["prequests"] = {
+         [1] = 5515;
+      };
       ["reward"] = {
          [1] = 15805;
          [2] = 15806;
@@ -13824,10 +16496,13 @@ addon.questsDB = {
       ["req"] = 55;
    };
    [5464] = {
-      ["name"] = "Menethil's Gift";
-      ["prev"] = 5463;
       ["repgain"] = {
          [529] = 100;
+      };
+      ["name"] = "Menethil's Gift";
+      ["prev"] = 5463;
+      ["prequests"] = {
+         [1] = 5463;
       };
       ["next"] = 5465;
       ["objective"] = "Take the Soulbound Keepsake to Leonid Barthalomew in Eastern Plaguelands.";
@@ -13848,6 +16523,9 @@ addon.questsDB = {
    [5624] = {
       ["name"] = "Garments of the Light";
       ["prev"] = 5623;
+      ["prequests"] = {
+         [1] = 5623;
+      };
       ["objective"] = "Find Guard Roberts and heal his wounds using Lesser Heal (Rank 2). Afterwards, grant him Power Word: Fortitude and then return to Priestess Josetta in Goldshire.";
       ["req"] = 5;
    };
@@ -13864,6 +16542,9 @@ addon.questsDB = {
    [5848] = {
       ["name"] = "Of Love and Family";
       ["prev"] = 5846;
+      ["prequests"] = {
+         [1] = 5846;
+      };
       ["next"] = 5861;
       ["objective"] = "Travel to Stratholme, in the northern part of the Plaguelands. It is in the Scarlet Bastion that you will find the painting 'Of Love and Family,' hidden behind another painting depicting the twin moons of our world.$B$BReturn the painting to Tirion Fordring.";
       ["req"] = 52;
@@ -13877,6 +16558,9 @@ addon.questsDB = {
    [5944] = {
       ["name"] = "In Dreams";
       ["prev"] = 5862;
+      ["prequests"] = {
+         [1] = 5862;
+      };
       ["reward"] = {
          [1] = 15411;
          [2] = 15413;
@@ -13901,6 +16585,9 @@ addon.questsDB = {
    [6088] = {
       ["name"] = "Taming the Beast";
       ["prev"] = 6087;
+      ["prequests"] = {
+         [1] = 6087;
+      };
       ["next"] = 6089;
       ["objective"] = "Use the Taming Rod to tame a Swoop. Practice your skills, then return the Taming Rod to Yaw Sharpmane in Bloodhoof Village.";
       ["req"] = 10;
@@ -13925,25 +16612,31 @@ addon.questsDB = {
    };
    [8271] = {
       ["name"] = "Hero of the Stormpike";
-      ["prev"] = 7141;
+      ["objective"] = "";
       ["repgain"] = {
          [47] = 10;
          [730] = 10;
       };
+      ["prequests"] = {
+         [1] = 7141;
+      };
+      ["prev"] = 7141;
       ["reward"] = {
          [1] = 19107;
          [2] = 19106;
          [3] = 19108;
          [4] = 20648;
       };
-      ["objective"] = "";
       ["req"] = 51;
    };
    [8303] = {
-      ["name"] = "Anachronos";
-      ["prev"] = 8301;
       ["repgain"] = {
          [910] = 200;
+      };
+      ["name"] = "Anachronos";
+      ["prev"] = 8301;
+      ["prequests"] = {
+         [1] = 8301;
       };
       ["next"] = 8305;
       ["objective"] = "Seek out Anachronos at the Caverns of Time in Tanaris.";
@@ -13970,6 +16663,9 @@ addon.questsDB = {
    [8431] = {
       ["name"] = "Battle of Warsong Gulch";
       ["prev"] = 8426;
+      ["prequests"] = {
+         [1] = 8426;
+      };
       ["repgain"] = {
          [889] = 50;
       };
@@ -13979,18 +16675,27 @@ addon.questsDB = {
    [8495] = {
       ["name"] = "The Alliance Needs More Iron Bars!";
       ["prev"] = 8494;
+      ["prequests"] = {
+         [1] = 8494;
+      };
       ["objective"] = "Bring 20 iron bars to Corporal Carnes at the airfield in Dun Morogh.";
       ["req"] = 1;
    };
    [8527] = {
       ["name"] = "The Alliance Needs More Roast Raptor!";
       ["prev"] = 8526;
+      ["prequests"] = {
+         [1] = 8526;
+      };
       ["objective"] = "Bring 20 roast raptor to Sarah Sadwhistle at the airfield in Dun Morogh.";
       ["req"] = 1;
    };
    [8559] = {
       ["name"] = "Conqueror's Greaves";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -14000,12 +16705,18 @@ addon.questsDB = {
    [8591] = {
       ["name"] = "The Horde Needs More Thick Leather!";
       ["prev"] = 8590;
+      ["prequests"] = {
+         [1] = 8590;
+      };
       ["objective"] = "Bring 10 Thick Leather to Sergeant Umala at the Valley of Spirits in Orgrimmar.";
       ["req"] = 1;
    };
    [8623] = {
       ["name"] = "Stormcaller's Diadem";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -14015,6 +16726,9 @@ addon.questsDB = {
    [8655] = {
       ["name"] = "Avenger's Greaves";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -14024,6 +16738,9 @@ addon.questsDB = {
    [6392] = {
       ["name"] = "Return to Brock";
       ["prev"] = 6388;
+      ["prequests"] = {
+         [1] = 6388;
+      };
       ["repgain"] = {
          [54] = 350;
          [47] = 350;
@@ -14043,6 +16760,9 @@ addon.questsDB = {
    [8751] = {
       ["name"] = "The Protector of Kalimdor";
       ["prev"] = 8750;
+      ["prequests"] = {
+         [1] = 8750;
+      };
       ["repgain"] = {
          [910] = 100;
       };
@@ -14076,9 +16796,12 @@ addon.questsDB = {
       ["req"] = 58;
    };
    [8943] = {
+      ["followup"] = 8930;
       ["name"] = "Just Compensation";
       ["prev"] = 8978;
-      ["followup"] = 8930;
+      ["prequests"] = {
+         [1] = 8978;
+      };
       ["next"] = 8930;
       ["objective"] = "Bring a Dreadmist Belt and a set of Dreadmist Wraps to Mokvar in Orgrimmar.$B";
       ["req"] = 58;
@@ -14086,12 +16809,18 @@ addon.questsDB = {
    [9007] = {
       ["name"] = "Saving the Best for Last";
       ["prev"] = 8998;
+      ["prequests"] = {
+         [1] = 8998;
+      };
       ["objective"] = "Give Mokvar your Wildheart Cowl and Wildheart Vest.";
       ["req"] = 58;
    };
    [9039] = {
       ["name"] = "Dreadnaught Sabatons";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [890] = 250;
          [730] = 250;
@@ -14103,6 +16832,9 @@ addon.questsDB = {
    [9071] = {
       ["name"] = "Earthshatter Spaulders";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -14112,6 +16844,9 @@ addon.questsDB = {
    [9103] = {
       ["name"] = "Plagueheart Robe";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Mataus the Wrathcaster at Light's Hope Chapel in the Eastern Plaguelands will make a Plagueheart Robe if you bring him the following: 1 Desecrated Robe, 25 Wartorn Cloth Scraps, 4 Mooncloth and 2 Nexus Crystals.";
       ["req"] = 60;
    };
@@ -14128,12 +16863,18 @@ addon.questsDB = {
    [6824] = {
       ["name"] = "Hands of the Enemy";
       ["prev"] = 6823;
+      ["prequests"] = {
+         [1] = 6823;
+      };
       ["objective"] = "Bring the Hands of Lucifron, Sulfuron, Gehennas and Shazzrah to Duke Hydraxis in Azshara.";
       ["req"] = 60;
    };
    [6984] = {
       ["name"] = "A Smokywood Pastures Thank You!";
       ["prev"] = 6983;
+      ["prequests"] = {
+         [1] = 6983;
+      };
       ["objective"] = "Speak with Great-father Winter in Orgrimmar.";
       ["req"] = 30;
    };
@@ -14166,33 +16907,42 @@ addon.questsDB = {
    };
    [7496] = {
       ["name"] = "Celebrating Good Times";
-      ["prev"] = 7495;
+      ["objective"] = "Seek out Major Mattingly in the Valley of Heroes.";
       ["repgain"] = {
          [72] = 500;
       };
+      ["prequests"] = {
+         [1] = 7495;
+      };
+      ["prev"] = 7495;
       ["reward"] = {
          [1] = 18406;
          [2] = 18403;
          [3] = 18404;
       };
-      ["objective"] = "Seek out Major Mattingly in the Valley of Heroes.";
       ["req"] = 60;
    };
    [7624] = {
+      ["followup"] = 7625;
       ["name"] = "Ulathek the Traitor";
       ["prev"] = 7623;
-      ["followup"] = 7625;
+      ["prequests"] = {
+         [1] = 7623;
+      };
       ["next"] = 7625;
       ["objective"] = "Confront Ulathek, then bring The Traitor's Heart to Lord Banehollow in Jaedenar.";
       ["req"] = 60;
    };
    [7640] = {
-      ["name"] = "Exorcising Terrordale";
-      ["prev"] = 7639;
       ["repgain"] = {
          [69] = 75;
          [72] = 250;
          [47] = 75;
+      };
+      ["name"] = "Exorcising Terrordale";
+      ["prev"] = 7639;
+      ["prequests"] = {
+         [1] = 7639;
       };
       ["followup"] = 7641;
       ["objective"] = "Use the Exorcism Censer to drive out the spirits that torment Terrordale.  When you have slain 25 Terrordale Spirits, return to Lord Grayson Shadowbreaker in the Cathedral District of Stormwind.";
@@ -14201,6 +16951,9 @@ addon.questsDB = {
    [7656] = {
       ["name"] = "Imperial Plate Chest";
       ["prev"] = 7652;
+      ["prequests"] = {
+         [1] = 7652;
+      };
       ["repgain"] = {
          [59] = 200;
       };
@@ -14228,6 +16981,9 @@ addon.questsDB = {
    [7736] = {
       ["name"] = "Restoring Fiery Flux Supplies via Kingsblood";
       ["prev"] = 7722;
+      ["prequests"] = {
+         [1] = 7722;
+      };
       ["repgain"] = {
          [59] = 25;
       };
@@ -14236,16 +16992,19 @@ addon.questsDB = {
    };
    [7784] = {
       ["name"] = "The Lord of Blackrock";
-      ["prev"] = 7783;
+      ["objective"] = "Speak with High Overlord Saurfang in Orgrimmar. He stands waiting for you in the Valley of Strength.";
       ["repgain"] = {
          [68] = 200;
       };
+      ["prequests"] = {
+         [1] = 7783;
+      };
+      ["prev"] = 7783;
       ["reward"] = {
          [1] = 19383;
          [2] = 19366;
          [3] = 19384;
       };
-      ["objective"] = "Speak with High Overlord Saurfang in Orgrimmar. He stands waiting for you in the Valley of Strength.";
       ["req"] = 60;
    };
    [7800] = {
@@ -14253,18 +17012,29 @@ addon.questsDB = {
       ["repgain"] = {
          [69] = 150;
       };
+      ["prequests"] = {
+         [1] = 7798;
+         [2] = 7799;
+         [3] = 7792;
+      };
       ["objective"] = "";
       ["req"] = 50;
    };
    [7816] = {
       ["name"] = "Gammerita, Mon!";
       ["prev"] = 7815;
+      ["prequests"] = {
+         [1] = 7815;
+      };
       ["objective"] = "Katoom the Angler at Revantusk Village in the Hinterlands wants you to kill Gammerita and retrieve Katoom's Best Lure from her corpse.$B$BKatoom mentioned that Gammerita hangs out on the coast with the other turtles.";
       ["req"] = 44;
    };
    [7832] = {
       ["name"] = "Additional Runecloth";
       ["prev"] = 7824;
+      ["prequests"] = {
+         [1] = 7824;
+      };
       ["repgain"] = {
          [76] = 50;
       };
@@ -14321,6 +17091,9 @@ addon.questsDB = {
    [8104] = {
       ["name"] = "The Jewel of Kajaro";
       ["prev"] = 8103;
+      ["prequests"] = {
+         [1] = 8103;
+      };
       ["repgain"] = {
          [270] = 100;
       };
@@ -14348,6 +17121,9 @@ addon.questsDB = {
    [4105] = {
       ["name"] = "Salve via Gathering";
       ["prev"] = 4101;
+      ["prequests"] = {
+         [1] = 4101;
+      };
       ["objective"] = "";
       ["req"] = 48;
    };
@@ -14361,18 +17137,21 @@ addon.questsDB = {
    };
    [8272] = {
       ["name"] = "Hero of the Frostwolf";
-      ["prev"] = 7142;
+      ["objective"] = "";
       ["repgain"] = {
          [76] = 10;
          [729] = 10;
       };
+      ["prequests"] = {
+         [1] = 7142;
+      };
+      ["prev"] = 7142;
       ["reward"] = {
          [1] = 19107;
          [2] = 19106;
          [3] = 19108;
          [4] = 20648;
       };
-      ["objective"] = "";
       ["req"] = 51;
    };
    [8304] = {
@@ -14403,6 +17182,9 @@ addon.questsDB = {
    [8432] = {
       ["name"] = "Battle of Warsong Gulch";
       ["prev"] = 8427;
+      ["prequests"] = {
+         [1] = 8427;
+      };
       ["repgain"] = {
          [889] = 50;
       };
@@ -14429,10 +17211,13 @@ addon.questsDB = {
       ["req"] = 60;
    };
    [4265] = {
-      ["name"] = "Freed from the Hive";
-      ["prev"] = 4135;
       ["repgain"] = {
          [69] = 250;
+      };
+      ["name"] = "Freed from the Hive";
+      ["prev"] = 4135;
+      ["prequests"] = {
+         [1] = 4135;
       };
       ["next"] = 4266;
       ["objective"] = " friend!  I... I'm Raschal";
@@ -14441,6 +17226,9 @@ addon.questsDB = {
    [8560] = {
       ["name"] = "Conqueror's Legguards";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -14448,10 +17236,13 @@ addon.questsDB = {
       ["req"] = 60;
    };
    [4297] = {
-      ["name"] = "Food for Baby";
-      ["prev"] = 3843;
       ["repgain"] = {
          [69] = 250;
+      };
+      ["name"] = "Food for Baby";
+      ["prev"] = 3843;
+      ["prequests"] = {
+         [1] = 3843;
       };
       ["next"] = 4298;
       ["objective"] = "Bring 5 Silvermane Stalker Flanks to Agnar Beastamer in Hinterlands.";
@@ -14460,6 +17251,9 @@ addon.questsDB = {
    [8624] = {
       ["name"] = "Stormcaller's Leggings";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -14469,6 +17263,9 @@ addon.questsDB = {
    [8656] = {
       ["name"] = "Striker's Hauberk";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -14519,6 +17316,9 @@ addon.questsDB = {
    [4441] = {
       ["name"] = "Felbound Ancients";
       ["prev"] = 939;
+      ["prequests"] = {
+         [1] = 939;
+      };
       ["objective"] = "Travel to Darnassus and use Eridan's Vial to collect a Vial of Blessed Water from the Temple of the Moon. Return to Eridan with the filled vial.";
       ["req"] = 49;
    };
@@ -14529,9 +17329,12 @@ addon.questsDB = {
       ["req"] = 58;
    };
    [8944] = {
+      ["followup"] = 8930;
       ["name"] = "Just Compensation";
       ["prev"] = 8978;
-      ["followup"] = 8930;
+      ["prequests"] = {
+         [1] = 8978;
+      };
       ["next"] = 8930;
       ["objective"] = "Bring a Belt of Valor and a set of Gauntlets of Valor to Mokvar in Orgrimmar.$B";
       ["req"] = 58;
@@ -14545,12 +17348,18 @@ addon.questsDB = {
    [9008] = {
       ["name"] = "Saving the Best for Last";
       ["prev"] = 8998;
+      ["prequests"] = {
+         [1] = 8998;
+      };
       ["objective"] = "Give Mokvar your Beaststalker's Cap and Beaststalker's Tunic.";
       ["req"] = 58;
    };
    [9040] = {
       ["name"] = "Dreadnaught Gauntlets";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -14560,6 +17369,9 @@ addon.questsDB = {
    [9072] = {
       ["name"] = "Earthshatter Boots";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -14569,6 +17381,9 @@ addon.questsDB = {
    [9104] = {
       ["name"] = "Plagueheart Leggings";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -14611,6 +17426,9 @@ addon.questsDB = {
    [2341] = {
       ["name"] = "Necklace Recovery, Take 3";
       ["prev"] = 2340;
+      ["prequests"] = {
+         [1] = 2340;
+      };
       ["repgain"] = {
          [530] = 250;
       };
@@ -14623,30 +17441,39 @@ addon.questsDB = {
       ["req"] = 55;
    };
    [4761] = {
-      ["name"] = "Thundris Windweaver";
-      ["prev"] = 984;
       ["repgain"] = {
          [69] = 10;
+      };
+      ["name"] = "Thundris Windweaver";
+      ["prev"] = 984;
+      ["prequests"] = {
+         [1] = 984;
       };
       ["next"] = 4762;
       ["objective"] = "Speak with Thundris Windweaver in Auberdine.";
       ["req"] = 11;
    };
    [4809] = {
-      ["name"] = "Chillwind Horns";
-      ["prev"] = 4808;
       ["repgain"] = {
          [577] = 250;
+      };
+      ["name"] = "Chillwind Horns";
+      ["prev"] = 4808;
+      ["prequests"] = {
+         [1] = 4808;
       };
       ["next"] = 4810;
       ["objective"] = "Bring 8 Uncracked Chillwind Horns to Felnok Steelspring.";
       ["req"] = 50;
    };
    [4841] = {
-      ["name"] = "Pacify the Centaur";
-      ["prev"] = 4542;
       ["repgain"] = {
          [81] = 250;
+      };
+      ["name"] = "Pacify the Centaur";
+      ["prev"] = 4542;
+      ["prequests"] = {
+         [1] = 4542;
       };
       ["next"] = 5064;
       ["objective"] = "Kill 12 Galak Scouts, 10 Galak Wranglers, and 6 Galak Windchasers, and then return to Cliffwatcher Longhorn in Freewind Post.";
@@ -14669,6 +17496,9 @@ addon.questsDB = {
    [4985] = {
       ["name"] = "The Wildlife Suffers Too";
       ["prev"] = 4984;
+      ["prequests"] = {
+         [1] = 4984;
+      };
       ["repgain"] = {
          [609] = 75;
       };
@@ -14678,6 +17508,9 @@ addon.questsDB = {
    [2501] = {
       ["name"] = "Badlands Reagent Run II";
       ["prev"] = 2500;
+      ["prequests"] = {
+         [1] = 2500;
+      };
       ["repgain"] = {
          [47] = 250;
       };
@@ -14685,12 +17518,15 @@ addon.questsDB = {
       ["req"] = 40;
    };
    [5049] = {
+      ["followup"] = 5050;
       ["repgain"] = {
          [68] = 250;
       };
       ["name"] = "The Jeremiah Blues";
       ["prev"] = 5023;
-      ["followup"] = 5050;
+      ["prequests"] = {
+         [1] = 5023;
+      };
       ["next"] = 5050;
       ["objective"] = "Find Jeremiah Payson in the Undercity and see if he is in fact Jeremiah Felstone.  If he is, then perhaps he'd like the package Janice Felstone made for him.";
       ["req"] = 50;
@@ -14698,6 +17534,9 @@ addon.questsDB = {
    [5065] = {
       ["name"] = "The Lost Tablets of Mosh'aru";
       ["prev"] = 3528;
+      ["prequests"] = {
+         [1] = 3528;
+      };
       ["next"] = 4788;
       ["objective"] = "Bring the Third and Fourth Mosh'aru Tablets to Prospector Ironboot in Tanaris.";
       ["req"] = 40;
@@ -14714,6 +17553,9 @@ addon.questsDB = {
    [5097] = {
       ["name"] = "All Along the Watchtowers";
       ["prev"] = 5092;
+      ["prequests"] = {
+         [1] = 5092;
+      };
       ["repgain"] = {
          [469] = 250;
       };
@@ -14740,13 +17582,16 @@ addon.questsDB = {
       ["req"] = 44;
    };
    [5225] = {
+      ["followup"] = 5227;
       ["repgain"] = {
          [469] = 250;
          [529] = 250;
       };
       ["name"] = "Target: Gahrron's Withering";
       ["prev"] = 5223;
-      ["followup"] = 5227;
+      ["prequests"] = {
+         [1] = 5223;
+      };
       ["next"] = 5226;
       ["objective"] = "Go to Gahrron's Withering in Western Plaguelands to locate and defeat the Cauldron Lord present there, and use its key to gain access to the cauldron.  You must have the Empty Gahrron's Withering Bottle with you to secure a sample of the poisons used inside the cauldron.";
       ["req"] = 50;
@@ -14754,6 +17599,9 @@ addon.questsDB = {
    [2621] = {
       ["name"] = "The Disgraced One";
       ["prev"] = 2784;
+      ["prequests"] = {
+         [1] = 2784;
+      };
       ["next"] = 2622;
       ["objective"] = "Speak to Dispatch Commander Ruag in Stonard.";
       ["req"] = 45;
@@ -14764,10 +17612,13 @@ addon.questsDB = {
       ["req"] = 50;
    };
    [2661] = {
-      ["name"] = "Delivery for Marin";
-      ["prev"] = 2641;
       ["repgain"] = {
          [369] = 25;
+      };
+      ["name"] = "Delivery for Marin";
+      ["prev"] = 2641;
+      ["prequests"] = {
+         [1] = 2641;
       };
       ["next"] = 2662;
       ["objective"] = "Sprinkle wants to you take the Violet Powder to Marin Noggenfogger in Gadgetzan.";
@@ -14776,6 +17627,9 @@ addon.questsDB = {
    [5385] = {
       ["name"] = "The Remains of Trey Lightforge";
       ["prev"] = 5204;
+      ["prequests"] = {
+         [1] = 5204;
+      };
       ["reward"] = {
          [1] = 15706;
          [2] = 15705;
@@ -14786,12 +17640,18 @@ addon.questsDB = {
    [2701] = {
       ["name"] = "Heroes of Old";
       ["prev"] = 2702;
+      ["prequests"] = {
+         [1] = 2702;
+      };
       ["objective"] = "Open the chest and claim your reward.";
       ["req"] = 45;
    };
    [5465] = {
       ["name"] = "Soulbound Keepsake";
       ["prev"] = 5464;
+      ["prequests"] = {
+         [1] = 5464;
+      };
       ["next"] = 5466;
       ["objective"] = "Return to Magistrate Marduke in Caer Darrow. Show him the Soulbound Keepsake.";
       ["req"] = 57;
@@ -14804,6 +17664,9 @@ addon.questsDB = {
    [2749] = {
       ["name"] = "An Ordinary Egg";
       ["prev"] = 2741;
+      ["prequests"] = {
+         [1] = 2741;
+      };
       ["repgain"] = {
          [81] = 10;
          [69] = 10;
@@ -14817,6 +17680,11 @@ addon.questsDB = {
       ["req"] = 55;
    };
    [2765] = {
+      ["prequests"] = {
+         [1] = 2763;
+         [2] = 2761;
+         [3] = 2762;
+      };
       ["objective"] = "Claim your reward from Galvan the Ancient!";
       ["name"] = "Expert Blacksmith!";
       ["req"] = 40;
@@ -14824,6 +17692,9 @@ addon.questsDB = {
    [2773] = {
       ["name"] = "The Mithril Kid";
       ["prev"] = 2760;
+      ["prequests"] = {
+         [1] = 2760;
+      };
       ["followup"] = 3321;
       ["objective"] = "Bring two Heavy Mithril Breastplates and one Ornate Mithril Gloves to Trenton Lighthammer.";
       ["req"] = 40;
@@ -14839,6 +17710,9 @@ addon.questsDB = {
    [5625] = {
       ["name"] = "Garments of the Light";
       ["prev"] = 5626;
+      ["prequests"] = {
+         [1] = 5626;
+      };
       ["objective"] = "Find Mountaineer Dolf and heal his wounds using Lesser Heal (Rank 2). Afterwards, grant him Power Word: Fortitude and then return to Maxan Anvol in Kharanos.";
       ["req"] = 5;
    };
@@ -14867,6 +17741,9 @@ addon.questsDB = {
    [2845] = {
       ["name"] = "Wandering Shay";
       ["prev"] = 2844;
+      ["prequests"] = {
+         [1] = 2844;
+      };
       ["reward"] = {
          [1] = 9656;
          [2] = 9657;
@@ -14875,6 +17752,13 @@ addon.questsDB = {
       ["req"] = 44;
    };
    [2853] = {
+      ["prequests"] = {
+         [1] = 2851;
+         [2] = 2852;
+         [3] = 2848;
+         [4] = 2849;
+         [5] = 2850;
+      };
       ["objective"] = "Give Pratt's Letter to Telonis, the master leatherworker of Darnassus.";
       ["name"] = "Master of the Wild Leather";
       ["req"] = 30;
@@ -14882,15 +17766,21 @@ addon.questsDB = {
    [5721] = {
       ["name"] = "The Battle of Darrowshire";
       ["prev"] = 5941;
+      ["prequests"] = {
+         [1] = 5941;
+      };
       ["next"] = 5942;
       ["objective"] = "Place the Relic Bundle at the Darrowshire town square.$B$BPrevent Davil Lightfire's death until the death of Horgus.$B$BPrevent Captain Redpath's death until Redpath the Corrupted appears.$B$BDefeat Redpath the Corrupted.$B$BSpeak with the spirit of Joseph Redpath when he appears at the town square, then speak with Pamela at her home.";
       ["req"] = 55;
    };
    [2869] = {
-      ["name"] = "Against the Hatecrest";
-      ["prev"] = 3130;
       ["repgain"] = {
          [69] = 150;
+      };
+      ["name"] = "Against the Hatecrest";
+      ["prev"] = 3130;
+      ["prequests"] = {
+         [1] = 3130;
       };
       ["next"] = 2870;
       ["objective"] = "Bring 10 Hatecrest Naga Scales to Latronicus Moonspear in Feathermoon Stronghold.";
@@ -14904,6 +17794,9 @@ addon.questsDB = {
    [5801] = {
       ["name"] = "Fire Plume Forged";
       ["prev"] = 5538;
+      ["prequests"] = {
+         [1] = 5538;
+      };
       ["next"] = 5803;
       ["objective"] = "Take the Skeleton Key Mold and 2 Thorium Bars to the top of Fire Plume Ridge in Un'Goro Crater.  Use the Skeleton Key Mold by the lava lake to forge the Unfinished Skeleton Key.$B$BBring the Unfinished Skeleton Key to Alchemist Arbington at Chillwind Point, Western Plaguelands.";
       ["req"] = 55;
@@ -14929,6 +17822,9 @@ addon.questsDB = {
    [2941] = {
       ["name"] = "The Borrower";
       ["prev"] = 2940;
+      ["prequests"] = {
+         [1] = 2940;
+      };
       ["next"] = 2944;
       ["objective"] = " I think...\"";
       ["req"] = 42;
@@ -14936,15 +17832,21 @@ addon.questsDB = {
    [2949] = {
       ["name"] = "Return of the Ring";
       ["prev"] = 2945;
+      ["prequests"] = {
+         [1] = 2945;
+      };
       ["next"] = 2950;
       ["objective"] = " or perhaps the initials of the ring's crafter.  Keep the ring... or find \"NOG\" - decisions";
       ["req"] = 28;
    };
    [2965] = {
-      ["name"] = "Portents of Uldum";
-      ["prev"] = 2440;
       ["repgain"] = {
          [81] = 10;
+      };
+      ["name"] = "Portents of Uldum";
+      ["prev"] = 2440;
+      ["prequests"] = {
+         [1] = 2440;
       };
       ["next"] = 2966;
       ["objective"] = "Speak with Nara Wildmane on the Elder Rise in Thunder Bluff.";
@@ -14970,6 +17872,9 @@ addon.questsDB = {
    [2989] = {
       ["name"] = "The Altar of Zul";
       ["prev"] = 2988;
+      ["prequests"] = {
+         [1] = 2988;
+      };
       ["next"] = 2990;
       ["objective"] = "Check the top of the Altar of Zul, then return to Gryphon Master Talonaxe.";
       ["req"] = 40;
@@ -14983,12 +17888,18 @@ addon.questsDB = {
    [6025] = {
       ["name"] = "Unfinished Business";
       ["prev"] = 6023;
+      ["prequests"] = {
+         [1] = 6023;
+      };
       ["objective"] = "Enter Hearthglen and find a high vantage point from which you can see the town and gauge the Scarlet Crusade's forces, then return to Kirsta Deepshadow in Western Plaguelands.";
       ["req"] = 50;
    };
    [6041] = {
       ["name"] = "When Smokey Sings, I Get Violent";
       ["prev"] = 6026;
+      ["prequests"] = {
+         [1] = 6026;
+      };
       ["reward"] = {
          [1] = 16992;
          [2] = 16993;
@@ -15005,6 +17916,9 @@ addon.questsDB = {
    [6089] = {
       ["name"] = "Training the Beast";
       ["prev"] = 6088;
+      ["prequests"] = {
+         [1] = 6088;
+      };
       ["objective"] = "Speak with Holt Thunderhorn on Hunter Rise in Thunder Bluff.";
       ["req"] = 10;
    };
@@ -15017,6 +17931,9 @@ addon.questsDB = {
    [8241] = {
       ["name"] = "Restoring Fiery Flux Supplies via Iron";
       ["prev"] = 7722;
+      ["prequests"] = {
+         [1] = 7722;
+      };
       ["repgain"] = {
          [59] = 25;
       };
@@ -15025,20 +17942,26 @@ addon.questsDB = {
    };
    [8273] = {
       ["name"] = "Oran's Gratitude";
-      ["prev"] = 2782;
+      ["objective"] = "";
       ["repgain"] = {
          [68] = 75;
       };
+      ["prequests"] = {
+         [1] = 2782;
+      };
+      ["prev"] = 2782;
       ["reward"] = {
          [1] = 20643;
          [2] = 20642;
       };
-      ["objective"] = "";
       ["req"] = 42;
    };
    [3101] = {
       ["name"] = "Consecrated Letter";
       ["prev"] = 7;
+      ["prequests"] = {
+         [1] = 7;
+      };
       ["repgain"] = {
          [72] = 75;
       };
@@ -15048,6 +17971,9 @@ addon.questsDB = {
    [3109] = {
       ["name"] = "Encrypted Rune";
       ["prev"] = 179;
+      ["prequests"] = {
+         [1] = 179;
+      };
       ["repgain"] = {
          [47] = 50;
       };
@@ -15063,10 +17989,13 @@ addon.questsDB = {
       ["req"] = 51;
    };
    [3125] = {
-      ["name"] = "Faerie Dragon Muisek";
-      ["prev"] = 3124;
       ["repgain"] = {
          [530] = 250;
+      };
+      ["name"] = "Faerie Dragon Muisek";
+      ["prev"] = 3124;
+      ["prequests"] = {
+         [1] = 3124;
       };
       ["next"] = 3126;
       ["objective"] = "Kill 8 Sprite Darters or Sprite Dragons. Use the Muisek Vessel to shrink and capture the fallen Faerie Dragons.";
@@ -15075,6 +18004,9 @@ addon.questsDB = {
    [8433] = {
       ["name"] = "Battle of Warsong Gulch";
       ["prev"] = 8428;
+      ["prequests"] = {
+         [1] = 8428;
+      };
       ["repgain"] = {
          [889] = 50;
       };
@@ -15082,10 +18014,13 @@ addon.questsDB = {
       ["req"] = 40;
    };
    [6281] = {
-      ["name"] = "Continue to Stormwind";
-      ["prev"] = 6181;
       ["repgain"] = {
          [72] = 75;
+      };
+      ["name"] = "Continue to Stormwind";
+      ["prev"] = 6181;
+      ["prequests"] = {
+         [1] = 6181;
       };
       ["next"] = 6261;
       ["objective"] = "Buy a gryphon ride from the gryphon master Thor, then bring Lewis' Note to Osric Strang, in the shop Limited Immunity, in the Old Town of Stormwind.";
@@ -15099,12 +18034,18 @@ addon.questsDB = {
    [8529] = {
       ["name"] = "The Alliance Needs More Spotted Yellowtail!";
       ["prev"] = 8528;
+      ["prequests"] = {
+         [1] = 8528;
+      };
       ["objective"] = "Bring 20 spotted yellowtail to Huntress Swiftriver at the airfield in Dun Morogh.";
       ["req"] = 1;
    };
    [8561] = {
       ["name"] = "Conqueror's Crown";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -15114,6 +18055,9 @@ addon.questsDB = {
    [8593] = {
       ["name"] = "Trousers of the Oracle";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -15123,6 +18067,9 @@ addon.questsDB = {
    [8625] = {
       ["name"] = "Enigma Shoulderpads";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -15132,6 +18079,9 @@ addon.questsDB = {
    [8657] = {
       ["name"] = "Striker's Diadem";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -15155,6 +18105,9 @@ addon.questsDB = {
    [8753] = {
       ["name"] = "The Path of the Conqueror";
       ["prev"] = 8752;
+      ["prequests"] = {
+         [1] = 8752;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
@@ -15190,6 +18143,10 @@ addon.questsDB = {
    [8945] = {
       ["name"] = "Dead Man's Plea";
       ["next"] = 8946;
+      ["prequests"] = {
+         [1] = 8929;
+         [2] = 8930;
+      };
       ["repgain"] = {
          [529] = 500;
       };
@@ -15199,18 +18156,27 @@ addon.questsDB = {
    [8977] = {
       ["name"] = "Return to Deliana";
       ["prev"] = 8928;
+      ["prequests"] = {
+         [1] = 8928;
+      };
       ["objective"] = "Bring the Extra-Dimensional Ghost Revealer  to Deliana in Ironforge.";
       ["req"] = 58;
    };
    [9009] = {
       ["name"] = "Saving the Best for Last";
       ["prev"] = 8998;
+      ["prequests"] = {
+         [1] = 8998;
+      };
       ["objective"] = "Give Mokvar your Devout Crown and Devout Robe.";
       ["req"] = 58;
    };
    [9041] = {
       ["name"] = "Dreadnaught Waistguard";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -15220,33 +18186,42 @@ addon.questsDB = {
    [9073] = {
       ["name"] = "Earthshatter Handguards";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Rimblat Earthshatter at Light's Hope Chapel in the Eastern Plaguelands will make Earthshatter Handguards if you bring him the following: 1 Desecrated Handguards, 8 Wartorn Chain Scraps, 1 Arcanite Bar and 5 Cured Rugged Hides.";
       ["req"] = 60;
    };
    [3301] = {
       ["name"] = "Mura Runetotem";
-      ["prev"] = 880;
+      ["objective"] = "Speak with Mura Runetotem in the Sepulcher.";
       ["repgain"] = {
          [81] = 250;
       };
+      ["prequests"] = {
+         [1] = 880;
+      };
+      ["prev"] = 880;
       ["reward"] = {
          [1] = 10820;
          [2] = 10821;
       };
-      ["objective"] = "Speak with Mura Runetotem in the Sepulcher.";
       ["req"] = 10;
    };
    [9137] = {
       ["name"] = "Savage Fronds";
-      ["prev"] = 9136;
+      ["objective"] = "";
       ["repgain"] = {
          [529] = 10;
       };
+      ["prequests"] = {
+         [1] = 9136;
+      };
+      ["prev"] = 9136;
       ["reward"] = {
          [1] = 22523;
          [2] = 22524;
       };
-      ["objective"] = "";
       ["req"] = 55;
    };
    [9201] = {
@@ -15274,6 +18249,9 @@ addon.questsDB = {
    [3365] = {
       ["name"] = "Bring Back the Mug";
       ["prev"] = 3364;
+      ["prequests"] = {
+         [1] = 3364;
+      };
       ["repgain"] = {
          [54] = 250;
          [47] = 250;
@@ -15290,10 +18268,13 @@ addon.questsDB = {
       ["req"] = 48;
    };
    [6761] = {
-      ["name"] = "The New Frontier";
-      ["prev"] = 1015;
       ["repgain"] = {
          [69] = 10;
+      };
+      ["name"] = "The New Frontier";
+      ["prev"] = 1015;
+      ["prequests"] = {
+         [1] = 1015;
       };
       ["next"] = 6762;
       ["objective"] = "Speak with Mathrengyl Bearwalker at the Cenarion Enclave of Darnassus.";
@@ -15323,6 +18304,9 @@ addon.questsDB = {
    [3453] = {
       ["name"] = "The Torch of Retribution";
       ["prev"] = 3452;
+      ["prequests"] = {
+         [1] = 3452;
+      };
       ["next"] = 3454;
       ["objective"] = "Wait for Kalaran Windblade to complete the Torch of Retribution.$B";
       ["req"] = 40;
@@ -15352,6 +18336,9 @@ addon.questsDB = {
    [3509] = {
       ["name"] = "The Name of the Beast";
       ["prev"] = 3508;
+      ["prequests"] = {
+         [1] = 3508;
+      };
       ["next"] = 3510;
       ["objective"] = "Speak with Lord Arkkoroc in Azshara. Begin your search at the waters edge to find the Temple of Arkkoran.";
       ["req"] = 45;
@@ -15364,6 +18351,9 @@ addon.questsDB = {
    [3525] = {
       ["name"] = "Extinguishing the Idol";
       ["prev"] = 3523;
+      ["prequests"] = {
+         [1] = 3523;
+      };
       ["objective"] = "Escort Belnistrasz to the Quilboar's idol in Razorfen Downs.$B$BProtect Belnistrasz while he performs the ritual to shut down the idol.";
       ["req"] = 32;
    };
@@ -15392,6 +18382,9 @@ addon.questsDB = {
    [3565] = {
       ["name"] = "Xylem's Payment to Jediga";
       ["prev"] = 3561;
+      ["prequests"] = {
+         [1] = 3561;
+      };
       ["objective"] = "Deliver Xylem's Note to Jediga in Azshara.";
       ["req"] = 45;
    };
@@ -15428,6 +18421,9 @@ addon.questsDB = {
    [3645] = {
       ["name"] = "Membership Card Renewal";
       ["prev"] = 3641;
+      ["prequests"] = {
+         [1] = 3641;
+      };
       ["objective"] = "";
       ["req"] = 30;
    };
@@ -15451,6 +18447,9 @@ addon.questsDB = {
    [3701] = {
       ["name"] = "The Smoldering Ruins of Thaurissan";
       ["prev"] = 3702;
+      ["prequests"] = {
+         [1] = 3702;
+      };
       ["repgain"] = {
          [47] = 250;
       };
@@ -15465,6 +18464,9 @@ addon.questsDB = {
    [7497] = {
       ["name"] = "The Journey Has Just Begun";
       ["prev"] = 7496;
+      ["prequests"] = {
+         [1] = 7496;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
@@ -15478,10 +18480,13 @@ addon.questsDB = {
       ["req"] = 18;
    };
    [3781] = {
-      ["name"] = "Morrowgrain Research";
-      ["prev"] = 3764;
       ["repgain"] = {
          [69] = 10;
+      };
+      ["name"] = "Morrowgrain Research";
+      ["prev"] = 3764;
+      ["prequests"] = {
+         [1] = 3764;
       };
       ["next"] = 3785;
       ["objective"] = "Take the Arch Druid's Seed Voucher to Mathrengyl Bearwalker in the Cenarion Enclave of Darnassus.";
@@ -15496,6 +18501,9 @@ addon.questsDB = {
    [7625] = {
       ["name"] = "Xorothian Stardust";
       ["prev"] = 7624;
+      ["prequests"] = {
+         [1] = 7624;
+      };
       ["followup"] = 7629;
       ["objective"] = "Purchase Xorothian Stardust from Ur'dan.  Bring it to Gorzeeki Wildeyes in the Burning Steppes.";
       ["req"] = 60;
@@ -15512,6 +18520,9 @@ addon.questsDB = {
    [7657] = {
       ["name"] = "Imperial Plate Helm";
       ["prev"] = 7652;
+      ["prequests"] = {
+         [1] = 7652;
+      };
       ["repgain"] = {
          [59] = 200;
       };
@@ -15531,6 +18542,9 @@ addon.questsDB = {
    [3845] = {
       ["name"] = "It's a Secret to Everybody";
       ["prev"] = 3844;
+      ["prequests"] = {
+         [1] = 3844;
+      };
       ["next"] = 3908;
       ["objective"] = "Examine the items inside the pack and bring them to their owner.";
       ["req"] = 47;
@@ -15543,6 +18557,9 @@ addon.questsDB = {
    [7737] = {
       ["name"] = "Gaining Acceptance";
       ["prev"] = 7722;
+      ["prequests"] = {
+         [1] = 7722;
+      };
       ["repgain"] = {
          [59] = 25;
       };
@@ -15557,16 +18574,19 @@ addon.questsDB = {
    };
    [3901] = {
       ["name"] = "Rattling the Rattlecages";
-      ["prev"] = 364;
+      ["objective"] = "Kill 12 Rattlecage Skeletons, and then return to Shadow Priest Sarvis in Deathknell when you are done.";
       ["repgain"] = {
          [68] = 250;
       };
+      ["prequests"] = {
+         [1] = 364;
+      };
+      ["prev"] = 364;
       ["reward"] = {
          [1] = 3274;
          [2] = 11851;
          [3] = 11852;
       };
-      ["objective"] = "Kill 12 Rattlecage Skeletons, and then return to Shadow Priest Sarvis in Deathknell when you are done.";
       ["req"] = 1;
    };
    [7817] = {
@@ -15637,10 +18657,13 @@ addon.questsDB = {
       ["req"] = 10;
    };
    [3981] = {
-      ["name"] = "Commander Gor'shak";
-      ["prev"] = 3906;
       ["repgain"] = {
          [76] = 250;
+      };
+      ["name"] = "Commander Gor'shak";
+      ["prev"] = 3906;
+      ["prequests"] = {
+         [1] = 3906;
       };
       ["next"] = 3982;
       ["objective"] = "Find Commander Gor'shak in Blackrock Depths.$B$BYou recall that the crudely drawn picture of the orc included bars drawn over the portrait. Perhaps you should search for a prison of some sort.";
@@ -15649,6 +18672,9 @@ addon.questsDB = {
    [4005] = {
       ["name"] = "Aquementas";
       ["prev"] = 4084;
+      ["prequests"] = {
+         [1] = 4084;
+      };
       ["next"] = 3961;
       ["objective"] = "Take the Book of Aquor, the Silvery Claws, and the Irontree Heart to Tanaris.$B$BUse the Book of Aquor to summon Aquementas.$B$BAfter you have the completed totem, take it to J.D. Collie in Marshal's Refuge.";
       ["req"] = 47;
@@ -15681,6 +18707,9 @@ addon.questsDB = {
    [8153] = {
       ["name"] = "Courser Antlers";
       ["prev"] = 8151;
+      ["prequests"] = {
+         [1] = 8151;
+      };
       ["next"] = 8231;
       ["objective"] = "Bring a pair of Perfect Courser Antlers to Ogtinc in Azshara.  Ogtinc resides atop the cliffs northeast of the Ruins of Eldarath.";
       ["req"] = 50;
@@ -15701,6 +18730,9 @@ addon.questsDB = {
    [4106] = {
       ["name"] = "Salve via Skinning";
       ["prev"] = 4101;
+      ["prequests"] = {
+         [1] = 4101;
+      };
       ["objective"] = "";
       ["req"] = 48;
    };
@@ -15711,33 +18743,42 @@ addon.questsDB = {
    };
    [1035] = {
       ["name"] = "Fallen Sky Lake";
-      ["prev"] = 1034;
+      ["objective"] = "Retrieve a Fallen Moonstone from the Shadethicket Oracle, then bring it to Pelturas in Astranaar.";
       ["repgain"] = {
          [69] = 350;
       };
+      ["prequests"] = {
+         [1] = 1034;
+      };
+      ["prev"] = 1034;
       ["reward"] = {
          [1] = 5814;
          [2] = 6722;
          [3] = 17047;
       };
-      ["objective"] = "Retrieve a Fallen Moonstone from the Shadethicket Oracle, then bring it to Pelturas in Astranaar.";
       ["req"] = 20;
    };
    [1039] = {
-      ["name"] = "The Barrens Port";
-      ["prev"] = 1038;
       ["repgain"] = {
          [69] = 75;
+      };
+      ["name"] = "The Barrens Port";
+      ["prev"] = 1038;
+      ["prequests"] = {
+         [1] = 1038;
       };
       ["next"] = 1040;
       ["objective"] = "Speak with Wharfmaster Dizzywig in Ratchet.";
       ["req"] = 25;
    };
    [1043] = {
-      ["name"] = "The Scythe of Elune";
-      ["prev"] = 1042;
       ["repgain"] = {
          [72] = 250;
+      };
+      ["name"] = "The Scythe of Elune";
+      ["prev"] = 1042;
+      ["prequests"] = {
+         [1] = 1042;
       };
       ["next"] = 1044;
       ["objective"] = "Look for signs of the Scythe of Elune then return to Jonathan Carevin in Darkshire.";
@@ -15764,6 +18805,9 @@ addon.questsDB = {
    [8434] = {
       ["name"] = "Battle of Warsong Gulch";
       ["prev"] = 8429;
+      ["prequests"] = {
+         [1] = 8429;
+      };
       ["repgain"] = {
          [889] = 50;
       };
@@ -15772,43 +18816,55 @@ addon.questsDB = {
    };
    [1059] = {
       ["name"] = "Reclaiming the Charred Vale";
-      ["prev"] = 1057;
+      ["objective"] = "Travel to Falfindel Waywarder on the border of Thousand Needles and Feralas.";
       ["repgain"] = {
          [69] = 250;
       };
+      ["prequests"] = {
+         [1] = 1057;
+      };
+      ["prev"] = 1057;
       ["reward"] = {
          [1] = 6675;
          [2] = 6676;
       };
-      ["objective"] = "Travel to Falfindel Waywarder on the border of Thousand Needles and Feralas.";
       ["req"] = 20;
    };
    [1063] = {
       ["name"] = "The Elder Crone";
       ["prev"] = 1062;
+      ["prequests"] = {
+         [1] = 1062;
+      };
       ["objective"] = "Speak with Magatha in Thunder Bluff.";
       ["req"] = 13;
    };
    [4266] = {
+      ["name"] = "A Hero's Welcome";
       ["repgain"] = {
          [69] = 500;
          [54] = 500;
          [72] = 500;
          [47] = 500;
       };
-      ["name"] = "A Hero's Welcome";
+      ["objective"] = "Speak with Shandris Feathermoon in Feathermoon Stronghold.";
+      ["next"] = 4267;
+      ["prequests"] = {
+         [1] = 4265;
+      };
       ["prev"] = 4265;
       ["reward"] = {
          [1] = 11856;
          [2] = 11857;
       };
-      ["next"] = 4267;
-      ["objective"] = "Speak with Shandris Feathermoon in Feathermoon Stronghold.";
       ["req"] = 40;
    };
    [4282] = {
       ["name"] = "A Shred of Hope";
       ["prev"] = 4264;
+      ["prequests"] = {
+         [1] = 4264;
+      };
       ["repgain"] = {
          [72] = 250;
       };
@@ -15818,6 +18874,9 @@ addon.questsDB = {
    [4298] = {
       ["name"] = "Becoming a Parent";
       ["prev"] = 4297;
+      ["prequests"] = {
+         [1] = 4297;
+      };
       ["repgain"] = {
          [69] = 25;
       };
@@ -15827,6 +18886,9 @@ addon.questsDB = {
    [8626] = {
       ["name"] = "Striker's Footguards";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -15834,10 +18896,13 @@ addon.questsDB = {
       ["req"] = 60;
    };
    [1083] = {
-      ["name"] = "Enraged Spirits";
-      ["prev"] = 1091;
       ["repgain"] = {
          [69] = 250;
+      };
+      ["name"] = "Enraged Spirits";
+      ["prev"] = 1091;
+      ["prequests"] = {
+         [1] = 1091;
       };
       ["followup"] = 1082;
       ["objective"] = "Bring 8 Smoldering Embers from any of the fire elementals in the Charred Vale to Kaela Shadowspear in Stonetalon.";
@@ -15859,10 +18924,13 @@ addon.questsDB = {
       ["req"] = 1;
    };
    [1095] = {
-      ["name"] = "Further Instructions";
-      ["prev"] = 1094;
       ["repgain"] = {
          [470] = 75;
+      };
+      ["name"] = "Further Instructions";
+      ["prev"] = 1094;
+      ["prequests"] = {
+         [1] = 1094;
       };
       ["next"] = 1096;
       ["objective"] = "Bring the new orders to Ziz Fizziks in the Stonetalon Mountains.";
@@ -15879,6 +18947,9 @@ addon.questsDB = {
    [1103] = {
       ["name"] = "Call of Water";
       ["prev"] = 100;
+      ["prequests"] = {
+         [1] = 100;
+      };
       ["objective"] = "Bring a Water Sapta to Tiev Mordune in Silverpine Forest if you failed to speak to the Minor Manifestation of Water.";
       ["req"] = 20;
    };
@@ -15890,12 +18961,18 @@ addon.questsDB = {
    [4442] = {
       ["name"] = "Purified!";
       ["prev"] = 4441;
+      ["prequests"] = {
+         [1] = 4441;
+      };
       ["objective"] = "Speak to Eridan again in a moment.";
       ["req"] = 49;
    };
    [1115] = {
       ["name"] = "The Rumormonger";
       ["prev"] = 1114;
+      ["prequests"] = {
+         [1] = 1114;
+      };
       ["next"] = 1116;
       ["objective"] = "Talk to Krazek in Booty Bay.";
       ["req"] = 30;
@@ -15903,6 +18980,9 @@ addon.questsDB = {
    [8946] = {
       ["name"] = "Proof of Life";
       ["prev"] = 8945;
+      ["prequests"] = {
+         [1] = 8945;
+      };
       ["next"] = 8947;
       ["objective"] = "Bring Ysida's Locket to Anthion Harmon in Eastern Plaguelands.";
       ["req"] = 58;
@@ -15910,12 +18990,18 @@ addon.questsDB = {
    [8978] = {
       ["name"] = "Return to Mokvar";
       ["prev"] = 8928;
+      ["prequests"] = {
+         [1] = 8928;
+      };
       ["objective"] = "Return to Mokvar in Orgrimmar with the Extra-Dimensional Ghost Revealer.";
       ["req"] = 58;
    };
    [4506] = {
       ["name"] = "Corrupted Sabers";
       ["prev"] = 4505;
+      ["prequests"] = {
+         [1] = 4505;
+      };
       ["repgain"] = {
          [68] = 250;
       };
@@ -15925,6 +19011,9 @@ addon.questsDB = {
    [1131] = {
       ["name"] = "Steelsnap";
       ["prev"] = 1130;
+      ["prequests"] = {
+         [1] = 1130;
+      };
       ["repgain"] = {
          [81] = 250;
       };
@@ -15939,6 +19028,9 @@ addon.questsDB = {
    [1139] = {
       ["name"] = "The Lost Tablets of Will";
       ["prev"] = 762;
+      ["prequests"] = {
+         [1] = 762;
+      };
       ["repgain"] = {
          [47] = 500;
       };
@@ -15946,10 +19038,13 @@ addon.questsDB = {
       ["req"] = 35;
    };
    [1143] = {
-      ["name"] = "The Tower of Althalaxx";
-      ["prev"] = 1167;
       ["repgain"] = {
          [69] = 250;
+      };
+      ["name"] = "The Tower of Althalaxx";
+      ["prev"] = 1167;
+      ["prequests"] = {
+         [1] = 1167;
       };
       ["next"] = 981;
       ["objective"] = "Kill Athrikus Narassin and bring his head to Balthule Shadowstrike near the Tower of Althalaxx.";
@@ -15958,6 +19053,9 @@ addon.questsDB = {
    [1147] = {
       ["name"] = "The Swarm Grows";
       ["prev"] = 1146;
+      ["prequests"] = {
+         [1] = 1146;
+      };
       ["repgain"] = {
          [76] = 250;
       };
@@ -15979,14 +19077,20 @@ addon.questsDB = {
    [9234] = {
       ["name"] = "Icebane Gauntlets";
       ["prev"] = 9233;
+      ["prequests"] = {
+         [1] = 9233;
+      };
       ["objective"] = "Craftsman Wilhelm at Light's Hope Chapel in the Eastern Plaguelands wants 5 Frozen Runes, 12 Thorium Bars, 2 Arcanite Bars, 2 Essences of Water and 200 gold.";
       ["req"] = 60;
    };
    [1159] = {
-      ["name"] = "Test of Lore";
-      ["prev"] = 6627;
       ["repgain"] = {
          [68] = 75;
+      };
+      ["name"] = "Test of Lore";
+      ["prev"] = 6627;
+      ["prequests"] = {
+         [1] = 6627;
       };
       ["next"] = 1160;
       ["objective"] = "Find Parqual Fintallas in Undercity.";
@@ -16007,6 +19111,9 @@ addon.questsDB = {
    [1171] = {
       ["name"] = "The Brood of Onyxia";
       ["prev"] = 1170;
+      ["prequests"] = {
+         [1] = 1170;
+      };
       ["next"] = 1172;
       ["objective"] = "Speak with Draz'Zilb in Brackenwall Village.";
       ["req"] = 38;
@@ -16027,6 +19134,9 @@ addon.questsDB = {
    [4730] = {
       ["name"] = "Beached Sea Creature";
       ["prev"] = 4681;
+      ["prequests"] = {
+         [1] = 4681;
+      };
       ["repgain"] = {
          [69] = 75;
       };
@@ -16034,10 +19144,13 @@ addon.questsDB = {
       ["req"] = 12;
    };
    [1187] = {
-      ["name"] = "Razzeric's Tweaking";
-      ["prev"] = 1186;
       ["repgain"] = {
          [470] = 250;
+      };
+      ["name"] = "Razzeric's Tweaking";
+      ["prev"] = 1186;
+      ["prequests"] = {
+         [1] = 1186;
       };
       ["next"] = 1188;
       ["objective"] = "Retrieve the Seaforium Booster for Razzeric in the Shimmering Flats.";
@@ -16068,20 +19181,26 @@ addon.questsDB = {
    };
    [4810] = {
       ["name"] = "Return to Tinkee";
-      ["prev"] = 4809;
+      ["objective"] = "Bring Felnok's Package to Tinkee Steamboil in the Burning Steppes.";
       ["repgain"] = {
          [169] = 75;
       };
+      ["prequests"] = {
+         [1] = 4809;
+      };
+      ["prev"] = 4809;
       ["reward"] = {
          [1] = 15862;
          [2] = 15863;
       };
-      ["objective"] = "Bring Felnok's Package to Tinkee Steamboil in the Burning Steppes.";
       ["req"] = 50;
    };
    [4842] = {
       ["name"] = "Strange Sources";
       ["prev"] = 980;
+      ["prequests"] = {
+         [1] = 980;
+      };
       ["repgain"] = {
          [577] = 250;
       };
@@ -16100,14 +19219,20 @@ addon.questsDB = {
    [4906] = {
       ["name"] = "Further Corruption";
       ["prev"] = 4421;
+      ["prequests"] = {
+         [1] = 4421;
+      };
       ["objective"] = "Eridan Bluewind in Felwood wants you to kill 8 Jadefire Hellcallers, 8 Jadefire Betrayers, 8 Jadefire Tricksters, and Xavaric. Return to Eridan when the task is completed.";
       ["req"] = 49;
    };
    [1239] = {
-      ["name"] = "The Severed Head";
-      ["prev"] = 1238;
       ["repgain"] = {
          [76] = 150;
+      };
+      ["name"] = "The Severed Head";
+      ["prev"] = 1238;
+      ["prequests"] = {
+         [1] = 1238;
       };
       ["next"] = 1240;
       ["objective"] = "Bring the Defiant Orc Head to Nazeer Bloodpike in Brackenwall Village.";
@@ -16116,6 +19241,9 @@ addon.questsDB = {
    [1243] = {
       ["name"] = "The Missing Diplomat";
       ["prev"] = 1242;
+      ["prequests"] = {
+         [1] = 1242;
+      };
       ["next"] = 1244;
       ["objective"] = "Give the Sealed Note to Watcher Backus in Duskwood.";
       ["req"] = 28;
@@ -16123,6 +19251,9 @@ addon.questsDB = {
    [4986] = {
       ["name"] = "Glyphed Oaken Branch";
       ["prev"] = 4985;
+      ["prequests"] = {
+         [1] = 4985;
+      };
       ["repgain"] = {
          [69] = 250;
       };
@@ -16130,10 +19261,13 @@ addon.questsDB = {
       ["req"] = 51;
    };
    [5002] = {
-      ["name"] = "Message to Maxwell";
-      ["prev"] = 5001;
       ["repgain"] = {
          [72] = 250;
+      };
+      ["name"] = "Message to Maxwell";
+      ["prev"] = 5001;
+      ["prequests"] = {
+         [1] = 5001;
       };
       ["next"] = 5081;
       ["objective"] = "Travel to the Burning Steppes and give Bijou's Information to Marshal Maxwell.";
@@ -16142,6 +19276,9 @@ addon.questsDB = {
    [1259] = {
       ["name"] = "Lieutenant Paval Reethe";
       ["prev"] = 1252;
+      ["prequests"] = {
+         [1] = 1252;
+      };
       ["next"] = 1285;
       ["objective"] = "Find out more about Reethe from Adjutant Tesoran in Theramore.";
       ["req"] = 30;
@@ -16149,6 +19286,10 @@ addon.questsDB = {
    [5050] = {
       ["name"] = "Good Luck Charm";
       ["next"] = 5051;
+      ["prequests"] = {
+         [1] = 5048;
+         [2] = 5049;
+      };
       ["objective"] = "Return to Janice Felstone in Western Plaguelands her Good Luck Half-Charm.";
       ["req"] = 50;
    };
@@ -16162,6 +19303,9 @@ addon.questsDB = {
    [5082] = {
       ["name"] = "Threat of the Winterfall";
       ["prev"] = 6603;
+      ["prequests"] = {
+         [1] = 6603;
+      };
       ["repgain"] = {
          [577] = 250;
       };
@@ -16171,6 +19315,9 @@ addon.questsDB = {
    [5098] = {
       ["name"] = "All Along the Watchtowers";
       ["prev"] = 5096;
+      ["prequests"] = {
+         [1] = 5096;
+      };
       ["repgain"] = {
          [67] = 250;
       };
@@ -16180,21 +19327,30 @@ addon.questsDB = {
    [1287] = {
       ["name"] = "The Deserters";
       ["prev"] = 1286;
+      ["prequests"] = {
+         [1] = 1286;
+      };
       ["objective"] = "Speak with Captain Garran Vimes in Theramore about Reethe.";
       ["req"] = 30;
    };
    [5162] = {
       ["name"] = "Wrath of the Blue Flight";
       ["prev"] = 5161;
+      ["prequests"] = {
+         [1] = 5161;
+      };
       ["next"] = 5164;
       ["objective"] = "Speak with Jeziba in the Plaguelands. He resides in Andorhal.";
       ["req"] = 57;
    };
    [5210] = {
-      ["name"] = "Brother Carlin";
-      ["prev"] = 5154;
       ["repgain"] = {
          [529] = 75;
+      };
+      ["name"] = "Brother Carlin";
+      ["prev"] = 5154;
+      ["prequests"] = {
+         [1] = 5154;
       };
       ["next"] = 5181;
       ["objective"] = "Bring the Extended Annals of Darrowshire to Carlin Redpath in Eastern Plaguelands.";
@@ -16203,6 +19359,9 @@ addon.questsDB = {
    [5226] = {
       ["name"] = "Return to Chillwind Point";
       ["prev"] = 5225;
+      ["prequests"] = {
+         [1] = 5225;
+      };
       ["repgain"] = {
          [469] = 75;
          [529] = 75;
@@ -16213,6 +19372,9 @@ addon.questsDB = {
    [5242] = {
       ["name"] = "A Final Blow";
       ["prev"] = 5165;
+      ["prequests"] = {
+         [1] = 5165;
+      };
       ["reward"] = {
          [1] = 15707;
          [2] = 15708;
@@ -16224,6 +19386,9 @@ addon.questsDB = {
    [1319] = {
       ["name"] = "The Black Shield";
       ["prev"] = 1253;
+      ["prequests"] = {
+         [1] = 1253;
+      };
       ["next"] = 1320;
       ["objective"] = "Show the Blackened Iron Shield to Caz Twosprocket in Theramore.";
       ["req"] = 30;
@@ -16231,6 +19396,9 @@ addon.questsDB = {
    [1323] = {
       ["name"] = "The Black Shield";
       ["prev"] = 1322;
+      ["prequests"] = {
+         [1] = 1322;
+      };
       ["objective"] = "Talk with Krog in Brackenwall Village.";
       ["req"] = 30;
    };
@@ -16270,10 +19438,13 @@ addon.questsDB = {
       ["req"] = 50;
    };
    [1359] = {
-      ["name"] = "Zinge's Delivery";
-      ["prev"] = 3221;
       ["repgain"] = {
          [68] = 10;
+      };
+      ["name"] = "Zinge's Delivery";
+      ["prev"] = 3221;
+      ["prequests"] = {
+         [1] = 3221;
       };
       ["next"] = 1358;
       ["objective"] = "Bring the Wolf Heart Samples to Apothecary Zinge in the Undercity.";
@@ -16301,6 +19472,9 @@ addon.questsDB = {
    [5482] = {
       ["name"] = "Doom Weed";
       ["prev"] = 5481;
+      ["prequests"] = {
+         [1] = 5481;
+      };
       ["repgain"] = {
          [68] = 250;
       };
@@ -16310,6 +19484,9 @@ addon.questsDB = {
    [1375] = {
       ["name"] = "Khan Shaka";
       ["prev"] = 1371;
+      ["prequests"] = {
+         [1] = 1371;
+      };
       ["next"] = 1381;
       ["objective"] = "Maintain your reputation with the Magram, and bring the Head of Khan Shaka to Warug in the Magram Village in Desolace.";
       ["req"] = 30;
@@ -16317,21 +19494,27 @@ addon.questsDB = {
    [5514] = {
       ["name"] = "Mold Rhymes With...";
       ["prev"] = 964;
+      ["prequests"] = {
+         [1] = 964;
+      };
       ["next"] = 5802;
       ["objective"] = "Bring the Imbued Skeletal Fragments and 15 gold coins to Krinkle Goodsteel in Gadgetzan.";
       ["req"] = 55;
    };
    [1383] = {
       ["name"] = "Nothing But The Truth";
-      ["prev"] = 1372;
+      ["objective"] = "Apothecary Faustin at Beggar's Haunt needs 5 Shadow Panther Hearts, Mire Lord Fungus and a Deep Strider Tumor.";
       ["repgain"] = {
          [68] = 350;
       };
+      ["prequests"] = {
+         [1] = 1372;
+      };
+      ["prev"] = 1372;
       ["reward"] = {
          [1] = 6832;
          [2] = 11265;
       };
-      ["objective"] = "Apothecary Faustin at Beggar's Haunt needs 5 Shadow Panther Hearts, Mire Lord Fungus and a Deep Strider Tumor.";
       ["req"] = 37;
    };
    [1387] = {
@@ -16345,6 +19528,9 @@ addon.questsDB = {
    [1391] = {
       ["name"] = "Nothing But The Truth";
       ["prev"] = 1388;
+      ["prequests"] = {
+         [1] = 1388;
+      };
       ["repgain"] = {
          [68] = 150;
       };
@@ -16354,6 +19540,9 @@ addon.questsDB = {
    [1395] = {
       ["name"] = "Supplies for Nethergarde";
       ["prev"] = 1477;
+      ["prequests"] = {
+         [1] = 1477;
+      };
       ["repgain"] = {
          [72] = 150;
       };
@@ -16394,16 +19583,19 @@ addon.questsDB = {
    };
    [1427] = {
       ["name"] = "Threat From the Sea";
-      ["prev"] = 1426;
+      ["objective"] = "Speak with Tok'Kar in the Swamp of Sorrows.";
       ["repgain"] = {
          [76] = 250;
       };
+      ["prequests"] = {
+         [1] = 1426;
+      };
+      ["prev"] = 1426;
       ["reward"] = {
          [1] = 9680;
          [2] = 9678;
          [3] = 9679;
       };
-      ["objective"] = "Speak with Tok'Kar in the Swamp of Sorrows.";
       ["req"] = 35;
    };
    [1431] = {
@@ -16418,6 +19610,9 @@ addon.questsDB = {
    [1435] = {
       ["name"] = "The Burning of Spirits";
       ["prev"] = 1433;
+      ["prequests"] = {
+         [1] = 1433;
+      };
       ["repgain"] = {
          [68] = 250;
       };
@@ -16427,6 +19622,9 @@ addon.questsDB = {
    [1439] = {
       ["name"] = "Search for Tyranis";
       ["prev"] = 1438;
+      ["prequests"] = {
+         [1] = 1438;
+      };
       ["repgain"] = {
          [69] = 250;
       };
@@ -16434,10 +19632,13 @@ addon.questsDB = {
       ["req"] = 30;
    };
    [1447] = {
-      ["name"] = "The Missing Diplomat";
-      ["prev"] = 1246;
       ["repgain"] = {
          [72] = 75;
+      };
+      ["name"] = "The Missing Diplomat";
+      ["prev"] = 1246;
+      ["prequests"] = {
+         [1] = 1246;
       };
       ["next"] = 1247;
       ["objective"] = "Defeat Dashel Stonefist in Stormwind.";
@@ -16446,25 +19647,34 @@ addon.questsDB = {
    [1451] = {
       ["name"] = "Rhapsody Shindigger";
       ["prev"] = 1450;
+      ["prequests"] = {
+         [1] = 1450;
+      };
       ["next"] = 1452;
       ["objective"] = "Seek out Rhapsody Shindigger in The Hinterlands.";
       ["req"] = 38;
    };
    [1455] = {
-      ["name"] = "The Karnitol Shipwreck";
-      ["prev"] = 1454;
       ["repgain"] = {
          [47] = 75;
+      };
+      ["name"] = "The Karnitol Shipwreck";
+      ["prev"] = 1454;
+      ["prequests"] = {
+         [1] = 1454;
       };
       ["next"] = 1456;
       ["objective"] = "Return to Kreldig Ungor in Desolace.";
       ["req"] = 30;
    };
    [1459] = {
-      ["name"] = "Reagents for Reclaimers Inc.";
-      ["prev"] = 1458;
       ["repgain"] = {
          [47] = 250;
+      };
+      ["name"] = "Reagents for Reclaimers Inc.";
+      ["prev"] = 1458;
+      ["prequests"] = {
+         [1] = 1458;
       };
       ["next"] = 1466;
       ["objective"] = "Bring 7 vials of Scorpashi Venom and 3 Aged Kodo Hides to Kreldig Ungor in Desolace.";
@@ -16477,26 +19687,35 @@ addon.questsDB = {
    };
    [1467] = {
       ["name"] = "Reagents for Reclaimers Inc.";
-      ["prev"] = 1466;
+      ["objective"] = "Bring Leftwitch's Package back to Roetten Stonehammer in Ironforge.";
       ["repgain"] = {
          [47] = 250;
       };
+      ["prequests"] = {
+         [1] = 1466;
+      };
+      ["prev"] = 1466;
       ["reward"] = {
          [1] = 6793;
          [2] = 6794;
       };
-      ["objective"] = "Bring Leftwitch's Package back to Roetten Stonehammer in Ironforge.";
       ["req"] = 30;
    };
    [5882] = {
       ["name"] = "Salve via Hunting";
       ["prev"] = 4102;
+      ["prequests"] = {
+         [1] = 4102;
+      };
       ["objective"] = "";
       ["req"] = 48;
    };
    [1475] = {
       ["name"] = "Into The Temple of Atal'Hakkar";
       ["prev"] = 1469;
+      ["prequests"] = {
+         [1] = 1469;
+      };
       ["repgain"] = {
          [47] = 500;
       };
@@ -16506,6 +19725,9 @@ addon.questsDB = {
    [1479] = {
       ["name"] = "The Bough of the Eternals";
       ["prev"] = 1468;
+      ["prequests"] = {
+         [1] = 1468;
+      };
       ["repgain"] = {
          [469] = 75;
       };
@@ -16534,6 +19756,9 @@ addon.questsDB = {
    [1491] = {
       ["name"] = "Smart Drinks";
       ["prev"] = 865;
+      ["prequests"] = {
+         [1] = 865;
+      };
       ["repgain"] = {
          [470] = 250;
       };
@@ -16541,24 +19766,30 @@ addon.questsDB = {
       ["req"] = 13;
    };
    [1499] = {
+      ["objective"] = "Speak with Zureetha Fargaze.";
+      ["next"] = 794;
       ["repgain"] = {
          [530] = 10;
          [76] = 10;
+      };
+      ["followup"] = 794;
+      ["prev"] = 1485;
+      ["prequests"] = {
+         [1] = 1485;
       };
       ["reward"] = {
          [1] = 4925;
          [2] = 5778;
       };
       ["name"] = "Vile Familiars";
-      ["prev"] = 1485;
-      ["followup"] = 794;
-      ["next"] = 794;
-      ["objective"] = "Speak with Zureetha Fargaze.";
       ["req"] = 1;
    };
    [1503] = {
       ["name"] = "Forged Steel";
       ["prev"] = 1502;
+      ["prequests"] = {
+         [1] = 1502;
+      };
       ["reward"] = {
          [1] = 7326;
          [2] = 7328;
@@ -16585,6 +19816,9 @@ addon.questsDB = {
    [1515] = {
       ["name"] = "Dogran's Captivity";
       ["prev"] = 1511;
+      ["prequests"] = {
+         [1] = 1511;
+      };
       ["next"] = 1512;
       ["objective"] = "Bring Ken'zigla's Draught to Dogran in the Barrens.";
       ["req"] = 20;
@@ -16605,6 +19839,9 @@ addon.questsDB = {
    [1527] = {
       ["name"] = "Call of Fire";
       ["prev"] = 1526;
+      ["prequests"] = {
+         [1] = 1526;
+      };
       ["objective"] = "Bring the Torch of Eternal Flame to Kranal Fiss in the Barrens.";
       ["req"] = 10;
    };
@@ -16616,6 +19853,9 @@ addon.questsDB = {
    [1535] = {
       ["name"] = "Call of Water";
       ["prev"] = 1530;
+      ["prequests"] = {
+         [1] = 1530;
+      };
       ["next"] = 1536;
       ["objective"] = "Fill the Empty Brown Waterskin at the watering hole below Brine's hut and return it to her in the Barrens.";
       ["req"] = 20;
@@ -16636,6 +19876,9 @@ addon.questsDB = {
    [6186] = {
       ["name"] = "The Blightcaller Cometh";
       ["prev"] = 6185;
+      ["prequests"] = {
+         [1] = 6185;
+      };
       ["next"] = 6187;
       ["objective"] = "Return to Stormwind and inform Highlord Bolvar Fordragon of the fate of Nathanos Marris.";
       ["req"] = 56;
@@ -16665,6 +19908,9 @@ addon.questsDB = {
    [8435] = {
       ["name"] = "Battle of Warsong Gulch";
       ["prev"] = 8430;
+      ["prequests"] = {
+         [1] = 8430;
+      };
       ["repgain"] = {
          [889] = 50;
       };
@@ -16674,6 +19920,9 @@ addon.questsDB = {
    [8467] = {
       ["name"] = "Feathers for Nafien";
       ["prev"] = 8461;
+      ["prequests"] = {
+         [1] = 8461;
+      };
       ["repgain"] = {
          [576] = 75;
       };
@@ -16697,6 +19946,9 @@ addon.questsDB = {
    [8595] = {
       ["name"] = "Mortal Champions";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 500;
          [609] = 100;
@@ -16707,6 +19959,9 @@ addon.questsDB = {
    [8627] = {
       ["name"] = "Avenger's Breastplate";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -16716,6 +19971,9 @@ addon.questsDB = {
    [8659] = {
       ["name"] = "Striker's Pauldrons";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -16739,6 +19997,9 @@ addon.questsDB = {
    [8755] = {
       ["name"] = "The Path of the Conqueror";
       ["prev"] = 8754;
+      ["prequests"] = {
+         [1] = 8754;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
@@ -16763,6 +20024,9 @@ addon.questsDB = {
    [8883] = {
       ["name"] = "Valadar Starsong";
       ["prev"] = 8867;
+      ["prequests"] = {
+         [1] = 8867;
+      };
       ["objective"] = "Use your Lunar Festival Invitation in the moonlight to travel to Moonglade. Speak with Valadar Starsong in Nighthaven when you arrive.";
       ["req"] = 1;
    };
@@ -16786,6 +20050,9 @@ addon.questsDB = {
    [1639] = {
       ["name"] = "Bartleby the Drunk";
       ["prev"] = 1638;
+      ["prequests"] = {
+         [1] = 1638;
+      };
       ["next"] = 1640;
       ["objective"] = "Speak with Bartleby.";
       ["req"] = 10;
@@ -16793,12 +20060,18 @@ addon.questsDB = {
    [9043] = {
       ["name"] = "Redemption Tunic";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Commander Eligor Dawnbringer at Light's Hope Chapel in the Eastern Plaguelands will make a Redemption Tunic if you bring him the following: 1 Desecrated Tunic, 25 Wartorn Plate Scraps, 4 Arcanite Bars and 3 Cured Rugged Hides.";
       ["req"] = 60;
    };
    [1647] = {
       ["name"] = "The Tome of Divinity";
       ["prev"] = 1646;
+      ["prequests"] = {
+         [1] = 1646;
+      };
       ["next"] = 1648;
       ["objective"] = "Search the outer ring of Ironforge for John Turner.";
       ["req"] = 12;
@@ -16806,6 +20079,9 @@ addon.questsDB = {
    [6602] = {
       ["name"] = "Blood of the Black Dragon Champion";
       ["prev"] = 6601;
+      ["prequests"] = {
+         [1] = 6601;
+      };
       ["objective"] = "Travel to Blackrock Spire and slay General Drakkisath. Gather his blood and return it to Rexxar.";
       ["req"] = 55;
    };
@@ -16829,6 +20105,9 @@ addon.questsDB = {
    [9235] = {
       ["name"] = "Icebane Bracers";
       ["prev"] = 9233;
+      ["prequests"] = {
+         [1] = 9233;
+      };
       ["objective"] = "Craftsman Wilhelm at Light's Hope Chapel in the Eastern Plaguelands wants 4 Frozen Runes, 12 Thorium Bars, 2 Arcanite Bars, 2 Essence of Water and 200 gold.";
       ["req"] = 60;
    };
@@ -16860,14 +20139,20 @@ addon.questsDB = {
    [1683] = {
       ["name"] = "Vorlus Vilehoof";
       ["prev"] = 1684;
+      ["prequests"] = {
+         [1] = 1684;
+      };
       ["objective"] = "Bring the Horn of Vorlus to Elanaria in Darnassus.";
       ["req"] = 10;
    };
    [1687] = {
-      ["name"] = "Spooky Lighthouse";
-      ["prev"] = 1468;
       ["repgain"] = {
          [469] = 75;
+      };
+      ["name"] = "Spooky Lighthouse";
+      ["prev"] = 1468;
+      ["prequests"] = {
+         [1] = 1468;
       };
       ["followup"] = 4822;
       ["objective"] = "Take the orphan to see the lighthouse off the coast of Westfall.$B";
@@ -16876,6 +20161,9 @@ addon.questsDB = {
    [1691] = {
       ["name"] = "More Wastewander Justice";
       ["prev"] = 1690;
+      ["prequests"] = {
+         [1] = 1690;
+      };
       ["repgain"] = {
          [369] = 250;
       };
@@ -16885,12 +20173,18 @@ addon.questsDB = {
    [1699] = {
       ["name"] = "The Rethban Gauntlet";
       ["prev"] = 1698;
+      ["prequests"] = {
+         [1] = 1698;
+      };
       ["objective"] = "Enter the Rethban Caverns, reach the first fork, and return to Yorus Barleybrew within the time allowed.$B$BYou must not die and release your spirit.";
       ["req"] = 20;
    };
    [1703] = {
       ["name"] = "Mathiel";
       ["prev"] = 1701;
+      ["prequests"] = {
+         [1] = 1701;
+      };
       ["next"] = 1710;
       ["objective"] = "Bring Furen's Notes to Mathiel.";
       ["req"] = 20;
@@ -16907,6 +20201,9 @@ addon.questsDB = {
    [1711] = {
       ["name"] = "Mathiel's Armor";
       ["prev"] = 1710;
+      ["prequests"] = {
+         [1] = 1710;
+      };
       ["objective"] = "";
       ["req"] = 20;
    };
@@ -16918,6 +20215,9 @@ addon.questsDB = {
    [1719] = {
       ["name"] = "The Affray";
       ["prev"] = 1718;
+      ["prequests"] = {
+         [1] = 1718;
+      };
       ["objective"] = "Kill Big Will, then speak to Klannoc Macleod on Fray Island.";
       ["req"] = 30;
    };
@@ -16936,6 +20236,9 @@ addon.questsDB = {
    [1739] = {
       ["name"] = "The Binding";
       ["prev"] = 1738;
+      ["prequests"] = {
+         [1] = 1738;
+      };
       ["objective"] = "Using the Heartswood Core, summon and subdue a succubus, then return the Heartswood Core to Gakin the Darkbinder in the Slaughtered Lamb.";
       ["req"] = 20;
    };
@@ -16964,6 +20267,9 @@ addon.questsDB = {
    [1779] = {
       ["name"] = "The Tome of Divinity";
       ["prev"] = 1778;
+      ["prequests"] = {
+         [1] = 1778;
+      };
       ["next"] = 1783;
       ["objective"] = "Take the Symbol of Life and speak to Muiredon Battleforge in Ironforge.";
       ["req"] = 12;
@@ -16971,6 +20277,9 @@ addon.questsDB = {
    [1783] = {
       ["name"] = "The Tome of Divinity";
       ["prev"] = 1779;
+      ["prequests"] = {
+         [1] = 1779;
+      };
       ["next"] = 1784;
       ["objective"] = "Take the Symbol of Life and resurrect Narm Faulk in Dun Morogh.";
       ["req"] = 12;
@@ -16978,6 +20287,9 @@ addon.questsDB = {
    [1787] = {
       ["name"] = "The Tome of Divinity";
       ["prev"] = 1786;
+      ["prequests"] = {
+         [1] = 1786;
+      };
       ["next"] = 1788;
       ["objective"] = "Retrieve a Defias Script from the Defias Rogue Wizards in Elwynn, and return to Gazin Tenorm in Stormwind.";
       ["req"] = 12;
@@ -16994,6 +20306,10 @@ addon.questsDB = {
    [1795] = {
       ["name"] = "The Binding";
       ["prev"] = 1805;
+      ["prequests"] = {
+         [1] = 1805;
+         [2] = 1804;
+      };
       ["objective"] = "Using the Tome of the Cabal, summon and subdue a felhunter, then return the Tome of the Cabal to Strahad Farsan in Ratchet.";
       ["req"] = 30;
    };
@@ -17006,6 +20322,9 @@ addon.questsDB = {
    [1803] = {
       ["name"] = "Tome of the Cabal";
       ["prev"] = 1801;
+      ["prequests"] = {
+         [1] = 1801;
+      };
       ["next"] = 1805;
       ["objective"] = "Retrieve the Moldy Tome and Tattered Manuscript for Jorah Annison in the Undercity.";
       ["req"] = 30;
@@ -17013,6 +20332,9 @@ addon.questsDB = {
    [1819] = {
       ["name"] = "Ulag the Cleaver";
       ["prev"] = 1818;
+      ["prequests"] = {
+         [1] = 1818;
+      };
       ["next"] = 1820;
       ["objective"] = "Kill Ulag the Cleaver, then speak with Deathguard Dillinger.";
       ["req"] = 10;
@@ -17026,6 +20348,9 @@ addon.questsDB = {
    [1839] = {
       ["name"] = "Ula'elek and the Brutal Gauntlets";
       ["prev"] = 1838;
+      ["prequests"] = {
+         [1] = 1838;
+      };
       ["next"] = 1842;
       ["objective"] = "Speak with Ula'elek in Durotar.";
       ["req"] = 20;
@@ -17033,6 +20358,9 @@ addon.questsDB = {
    [1843] = {
       ["name"] = "Brutal Gauntlets";
       ["prev"] = 1842;
+      ["prequests"] = {
+         [1] = 1842;
+      };
       ["objective"] = "";
       ["req"] = 20;
    };
@@ -17091,6 +20419,9 @@ addon.questsDB = {
    [1899] = {
       ["name"] = "The Deathstalkers";
       ["prev"] = 1898;
+      ["prequests"] = {
+         [1] = 1898;
+      };
       ["next"] = 1978;
       ["objective"] = "Bring Andron's Ledger to Mennet Carkad in the Rogues' Quarter of Undercity.";
       ["req"] = 10;
@@ -17098,17 +20429,23 @@ addon.questsDB = {
    [7626] = {
       ["name"] = "Bell of Dethmoora";
       ["prev"] = 7564;
+      ["prequests"] = {
+         [1] = 7564;
+      };
       ["followup"] = 7630;
       ["objective"] = "Bring 10 Elixirs of Shadow Power to Gorzeeki Wildeyes in the Burning Steppes.";
       ["req"] = 60;
    };
    [7642] = {
-      ["name"] = "Collection of Goods";
-      ["prev"] = 7641;
       ["repgain"] = {
          [69] = 75;
          [469] = 75;
          [47] = 250;
+      };
+      ["name"] = "Collection of Goods";
+      ["prev"] = 7641;
+      ["prequests"] = {
+         [1] = 7641;
       };
       ["followup"] = 7643;
       ["objective"] = "Bring 40 Runecloth, 6 Arcanite Bars, 10 Arthas' Tears, 5 Stratholme Holy Water vials, and 150 gold to Grimand Elmore in the Dwarven District of Stormwind.";
@@ -17117,6 +20454,9 @@ addon.questsDB = {
    [7658] = {
       ["name"] = "Imperial Plate Leggings";
       ["prev"] = 7652;
+      ["prequests"] = {
+         [1] = 7652;
+      };
       ["repgain"] = {
          [59] = 200;
       };
@@ -17164,6 +20504,9 @@ addon.questsDB = {
    [7786] = {
       ["name"] = "Thunderaan the Windseeker";
       ["prev"] = 7785;
+      ["prequests"] = {
+         [1] = 7785;
+      };
       ["objective"] = "To free Thunderaan the Windseeker from his prison, you must present the right and left halves of the Bindings of the Windseeker, 10 bars of Elementium, and the Essence of the Firelord to Highlord Demitrian in Silithus.";
       ["req"] = 60;
    };
@@ -17179,6 +20522,9 @@ addon.questsDB = {
    [1955] = {
       ["name"] = "The Exorcism";
       ["prev"] = 1954;
+      ["prequests"] = {
+         [1] = 1954;
+      };
       ["next"] = 1956;
       ["objective"] = "Kill the Demon of the Orb, then speak with Tabetha.";
       ["req"] = 35;
@@ -17195,6 +20541,9 @@ addon.questsDB = {
    [1963] = {
       ["name"] = "The Shattered Hand";
       ["prev"] = 1859;
+      ["prequests"] = {
+         [1] = 1859;
+      };
       ["next"] = 1858;
       ["objective"] = "Kill Tazan and bring his Satchel to Therzok in the Cleft of Shadow in Orgrimmar.";
       ["req"] = 10;
@@ -17236,12 +20585,18 @@ addon.questsDB = {
    [1999] = {
       ["name"] = "Tools of the Trade";
       ["prev"] = 1998;
+      ["prequests"] = {
+         [1] = 1998;
+      };
       ["objective"] = "Find the Dalaran Status Report and return it to Mennet Carkad in the Rogues' Quarter of the Undercity.";
       ["req"] = 16;
    };
    [8042] = {
       ["name"] = "Strength of Mount Mugamba";
       ["prev"] = 8041;
+      ["prequests"] = {
+         [1] = 8041;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
@@ -17286,6 +20641,9 @@ addon.questsDB = {
    [4107] = {
       ["name"] = "Salve via Disenchanting";
       ["prev"] = 4101;
+      ["prequests"] = {
+         [1] = 4101;
+      };
       ["objective"] = "";
       ["req"] = 48;
    };
@@ -17322,6 +20680,9 @@ addon.questsDB = {
    [8404] = {
       ["name"] = "Fight for Warsong Gulch";
       ["prev"] = 8399;
+      ["prequests"] = {
+         [1] = 8399;
+      };
       ["repgain"] = {
          [890] = 50;
       };
@@ -17348,6 +20709,9 @@ addon.questsDB = {
    [8500] = {
       ["name"] = "The Alliance Needs More Thorium Bars!";
       ["prev"] = 8499;
+      ["prequests"] = {
+         [1] = 8499;
+      };
       ["objective"] = "Bring 20 thorium bars to Dame Twinbraid at the airfield in Dun Morogh.";
       ["req"] = 1;
    };
@@ -17367,6 +20731,9 @@ addon.questsDB = {
    [8596] = {
       ["name"] = "Footwraps of the Oracle";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -17376,6 +20743,9 @@ addon.questsDB = {
    [8628] = {
       ["name"] = "Avenger's Crown";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -17385,6 +20755,9 @@ addon.questsDB = {
    [8660] = {
       ["name"] = "Doomcaller's Footwraps";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -17399,6 +20772,9 @@ addon.questsDB = {
    [4363] = {
       ["name"] = "The Princess's Surprise";
       ["prev"] = 4362;
+      ["prequests"] = {
+         [1] = 4362;
+      };
       ["reward"] = {
          [1] = 12548;
          [2] = 12543;
@@ -17409,6 +20785,9 @@ addon.questsDB = {
    [8756] = {
       ["name"] = "The Qiraji Conqueror";
       ["prev"] = 8755;
+      ["prequests"] = {
+         [1] = 8755;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -17444,6 +20823,9 @@ addon.questsDB = {
    [2238] = {
       ["name"] = "Simple Subterfugin'";
       ["prev"] = 2218;
+      ["prequests"] = {
+         [1] = 2218;
+      };
       ["next"] = 2239;
       ["objective"] = "Find Onin MacHammar by Gnomeregan.";
       ["req"] = 10;
@@ -17457,12 +20839,18 @@ addon.questsDB = {
    [9012] = {
       ["name"] = "Saving the Best for Last";
       ["prev"] = 8998;
+      ["prequests"] = {
+         [1] = 8998;
+      };
       ["objective"] = "Give Mokvar your Dreadmist Mask and Dreadmist Robe.";
       ["req"] = 58;
    };
    [9044] = {
       ["name"] = "Redemption Legguards";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Commander Eligor Dawnbringer at Light's Hope Chapel in the Eastern Plaguelands will make a pair of Redemption Legguards if you bring him the following: 1 Desecrated Legguards, 20 Wartorn Plate Scraps, 4 Arcanite Bars and 2 Nexus Crystals.";
       ["req"] = 60;
    };
@@ -17474,12 +20862,18 @@ addon.questsDB = {
    [4603] = {
       ["name"] = "More Sparklematic Action";
       ["prev"] = 4605;
+      ["prequests"] = {
+         [1] = 4605;
+      };
       ["objective"] = "";
       ["req"] = 25;
    };
    [9236] = {
       ["name"] = "Icebane Breastplate";
       ["prev"] = 9233;
+      ["prequests"] = {
+         [1] = 9233;
+      };
       ["objective"] = "Craftsman Wilhelm at Light's Hope Chapel in the Eastern Plaguelands wants 8 Frozen Runes, 16 Thorium Bars, 2 Arcanite Bars, 4 Essence of Water and 300 gold. You will also need to be of Exalted reputation with the Argent Dawn.$B";
       ["req"] = 60;
    };
@@ -17514,6 +20908,9 @@ addon.questsDB = {
    [9364] = {
       ["name"] = "Fragmented Magic";
       ["prev"] = 9362;
+      ["prequests"] = {
+         [1] = 9362;
+      };
       ["objective"] = "Polymorph the Spitelash of Azshara and kill the clones that appear several seconds later.  When you have slain 50 Polymorph Clones, return to Archmage Xylem in Azshara.";
       ["req"] = 60;
    };
@@ -17525,6 +20922,9 @@ addon.questsDB = {
    [4731] = {
       ["name"] = "Beached Sea Turtle";
       ["prev"] = 4681;
+      ["prequests"] = {
+         [1] = 4681;
+      };
       ["repgain"] = {
          [69] = 75;
       };
@@ -17533,16 +20933,19 @@ addon.questsDB = {
    };
    [4763] = {
       ["name"] = "The Blackwood Corrupted";
-      ["prev"] = 4762;
+      ["objective"] = "Fill the Empty Cleansing Bowl at the Auberdine Moonwell.$B$BGather a sample of fruit, nut, and grain from the northern Blackwood furbolg camps.$B$BMix the bowl and place it near the bonfire closest to the Cliffspring River at the northern camp, thus summoning the satyr corruptor.$B$BTake the Talisman of Corruption and bring it to Thundris Windweaver in Auberdine.";
       ["repgain"] = {
          [69] = 350;
       };
+      ["prequests"] = {
+         [1] = 4762;
+      };
+      ["prev"] = 4762;
       ["reward"] = {
          [1] = 15204;
          [2] = 15202;
          [3] = 15203;
       };
-      ["objective"] = "Fill the Empty Cleansing Bowl at the Auberdine Moonwell.$B$BGather a sample of fruit, nut, and grain from the northern Blackwood furbolg camps.$B$BMix the bowl and place it near the bonfire closest to the Cliffspring River at the northern camp, thus summoning the satyr corruptor.$B$BTake the Talisman of Corruption and bring it to Thundris Windweaver in Auberdine.";
       ["req"] = 15;
    };
    [2398] = {
@@ -17572,6 +20975,9 @@ addon.questsDB = {
    [4907] = {
       ["name"] = "Tinkee Steamboil";
       ["prev"] = 4810;
+      ["prequests"] = {
+         [1] = 4810;
+      };
       ["next"] = 4734;
       ["objective"] = "Speak with Tinkee Steamboil.";
       ["req"] = 57;
@@ -17579,6 +20985,9 @@ addon.questsDB = {
    [2478] = {
       ["name"] = "Mission: Possible But Not Probable";
       ["prev"] = 2458;
+      ["prequests"] = {
+         [1] = 2458;
+      };
       ["next"] = 2479;
       ["objective"] = "Steal Silixiz's Tower Key from Foreman Silixiz, then kill two Mutated Venture Co. Drones, two Venture Co. Patrollers, and two Venture Co. Lookouts.$B$BAssassinate Grand Foreman Gallywix and take his head, then pick the lock on Gallywix's lockbox and steal the Cache of Zanzil's Altered Mixture. Take the Cache and Gallywix's Head back to Shenthul in Orgrimmar for further instruction.$B";
       ["req"] = 20;
@@ -17595,6 +21004,9 @@ addon.questsDB = {
    [4987] = {
       ["name"] = "Glyphed Oaken Branch";
       ["prev"] = 4985;
+      ["prequests"] = {
+         [1] = 4985;
+      };
       ["repgain"] = {
          [81] = 250;
       };
@@ -17613,12 +21025,18 @@ addon.questsDB = {
    [5051] = {
       ["name"] = "Two Halves Become One";
       ["prev"] = 5050;
+      ["prequests"] = {
+         [1] = 5050;
+      };
       ["objective"] = " John.  Bring me your charm";
       ["req"] = 50;
    };
    [5067] = {
       ["name"] = "Leggings of Arcana";
       ["prev"] = 5047;
+      ["prequests"] = {
+         [1] = 5047;
+      };
       ["objective"] = "In order to create the Leggings of Arcana, you will be required to bring the following items back to Malyfous Darkhammer: 1 Pristine Hide of the Beast; 5 Frayed Abomination Stitchings; 5 Arcanite Bars; 5 Frostwhisper's Embalming Fluid.$B$BYou will also be required to pay 50 gold pieces for the crafting of the item.";
       ["req"] = 57;
    };
@@ -17646,12 +21064,18 @@ addon.questsDB = {
    [2582] = {
       ["name"] = "Rage of Ages";
       ["prev"] = 2581;
+      ["prequests"] = {
+         [1] = 2581;
+      };
       ["objective"] = "Bring three Snickerfang Jowls, two Blasted Boar Lungs, and one Scorpok Pincer to Bloodmage Drazial.";
       ["req"] = 45;
    };
    [2606] = {
       ["name"] = "In Good Taste";
       ["prev"] = 2605;
+      ["prequests"] = {
+         [1] = 2605;
+      };
       ["next"] = 2641;
       ["objective"] = "Marin Noggenfogger wants you to speak with Sprinkle in Gadgetzan.";
       ["req"] = 44;
@@ -17659,6 +21083,11 @@ addon.questsDB = {
    [5227] = {
       ["name"] = "Gahrron's Withering Cauldron";
       ["prev"] = 5237;
+      ["prequests"] = {
+         [1] = 5237;
+         [2] = 5225;
+         [3] = 5235;
+      };
       ["repgain"] = {
          [529] = 25;
       };
@@ -17668,6 +21097,9 @@ addon.questsDB = {
    [2622] = {
       ["name"] = "The Missing Orders";
       ["prev"] = 2621;
+      ["prequests"] = {
+         [1] = 2621;
+      };
       ["next"] = 2623;
       ["objective"] = "Speak to Bengor.";
       ["req"] = 45;
@@ -17680,12 +21112,18 @@ addon.questsDB = {
    [2662] = {
       ["name"] = "Noggenfogger Elixir";
       ["prev"] = 2661;
+      ["prequests"] = {
+         [1] = 2661;
+      };
       ["objective"] = "Marin Noggenfogger wants you to speak to him again after he creates his elixir.";
       ["req"] = 44;
    };
    [2702] = {
       ["name"] = "Heroes of Old";
       ["prev"] = 2681;
+      ["prequests"] = {
+         [1] = 2681;
+      };
       ["next"] = 2701;
       ["objective"] = "Speak to Corporal Thund Splithoof.";
       ["req"] = 45;
@@ -17702,6 +21140,9 @@ addon.questsDB = {
    [2750] = {
       ["name"] = "A Bad Egg";
       ["prev"] = 2741;
+      ["prequests"] = {
+         [1] = 2741;
+      };
       ["repgain"] = {
          [81] = 10;
          [69] = 10;
@@ -17712,6 +21153,9 @@ addon.questsDB = {
    [5515] = {
       ["name"] = "Krastinov's Bag of Horrors";
       ["prev"] = 5382;
+      ["prequests"] = {
+         [1] = 5382;
+      };
       ["next"] = 5384;
       ["objective"] = "Locate Jandice Barov in the Scholomance and destroy her. From her corpse recover Krastinov's Bag of Horrors. Return the bag to Eva Sarkhoff.";
       ["req"] = 55;
@@ -17719,6 +21163,9 @@ addon.questsDB = {
    [5531] = {
       ["name"] = "Betina Bigglezink";
       ["prev"] = 5522;
+      ["prequests"] = {
+         [1] = 5522;
+      };
       ["next"] = 4771;
       ["objective"] = "Bring the Frozen Eggs to Betina Bigglezink.";
       ["req"] = 57;
@@ -17726,6 +21173,9 @@ addon.questsDB = {
    [2782] = {
       ["name"] = "Rin'ji's Secret";
       ["prev"] = 2742;
+      ["prequests"] = {
+         [1] = 2742;
+      };
       ["repgain"] = {
          [68] = 75;
       };
@@ -17733,6 +21183,14 @@ addon.questsDB = {
       ["req"] = 42;
    };
    [5627] = {
+      ["prequests"] = {
+         [1] = 5628;
+         [2] = 5629;
+         [3] = 5630;
+         [4] = 5631;
+         [5] = 5632;
+         [6] = 5633;
+      };
       ["objective"] = "";
       ["name"] = "Stars of Elune";
       ["req"] = 10;
@@ -17766,10 +21224,13 @@ addon.questsDB = {
       ["req"] = 9;
    };
    [2870] = {
-      ["name"] = "Against Lord Shalzaru";
-      ["prev"] = 2869;
       ["repgain"] = {
          [69] = 150;
+      };
+      ["name"] = "Against Lord Shalzaru";
+      ["prev"] = 2869;
+      ["prequests"] = {
+         [1] = 2869;
       };
       ["next"] = 2871;
       ["objective"] = "Eliminate Lord Shalzaru, and then bring the Mysterious Relic he uncovered to Latronicus Moonspear in Feathermoon Stronghold.";
@@ -17783,24 +21244,33 @@ addon.questsDB = {
    [5803] = {
       ["name"] = "Araj's Scarab";
       ["prev"] = 5801;
+      ["prequests"] = {
+         [1] = 5801;
+      };
       ["objective"] = "Destroy Araj the Summoner and bring Araj's Scarab to Alchemist Arbington at Chillwind Point, Western Plaguelands.";
       ["req"] = 55;
    };
    [2926] = {
-      ["name"] = "Gnogaine";
-      ["prev"] = 2927;
       ["repgain"] = {
          [54] = 250;
+      };
+      ["name"] = "Gnogaine";
+      ["prev"] = 2927;
+      ["prequests"] = {
+         [1] = 2927;
       };
       ["next"] = 2962;
       ["objective"] = "Use the Empty Leaden Collection Phial on Irradiated Invaders or Irradiated Pillagers to collect radioactive fallout. Once it is full, take it back to Ozzie Togglevolt in Kharanos.";
       ["req"] = 20;
    };
    [2934] = {
-      ["name"] = "Undamaged Venom Sac";
-      ["prev"] = 2933;
       ["repgain"] = {
          [68] = 250;
+      };
+      ["name"] = "Undamaged Venom Sac";
+      ["prev"] = 2933;
+      ["prequests"] = {
+         [1] = 2933;
       };
       ["next"] = 2935;
       ["objective"] = "Bring an Undamaged Venom Sac to Apothecary Lydon in Tarren Mill.";
@@ -17809,12 +21279,18 @@ addon.questsDB = {
    [5883] = {
       ["name"] = "Salve via Mining";
       ["prev"] = 4102;
+      ["prequests"] = {
+         [1] = 4102;
+      };
       ["objective"] = "";
       ["req"] = 48;
    };
    [2950] = {
       ["name"] = "Nogg's Ring Redo";
       ["prev"] = 2949;
+      ["prequests"] = {
+         [1] = 2949;
+      };
       ["repgain"] = {
          [76] = 250;
       };
@@ -17822,18 +21298,24 @@ addon.questsDB = {
       ["req"] = 28;
    };
    [5931] = {
+      ["followup"] = 6001;
       ["name"] = "Back to Darnassus";
       ["prev"] = 5929;
-      ["followup"] = 6001;
+      ["prequests"] = {
+         [1] = 5929;
+      };
       ["next"] = 6001;
       ["objective"] = "Return to Darnassus and speak with Mathrengyl Bearwalker in the Cenarion Enclave.";
       ["req"] = 10;
    };
    [2974] = {
-      ["name"] = "A Grim Discovery";
-      ["prev"] = 2973;
       ["repgain"] = {
          [76] = 250;
+      };
+      ["name"] = "A Grim Discovery";
+      ["prev"] = 2973;
+      ["prequests"] = {
+         [1] = 2973;
       };
       ["next"] = 2976;
       ["objective"] = "Bring 20 Grimtotem Horns to Krueg Skullsplitter in Camp Mojache.";
@@ -17848,10 +21330,13 @@ addon.questsDB = {
       ["req"] = 39;
    };
    [2990] = {
-      ["name"] = "Thadius Grimshade";
-      ["prev"] = 2989;
       ["repgain"] = {
          [47] = 75;
+      };
+      ["name"] = "Thadius Grimshade";
+      ["prev"] = 2989;
+      ["prequests"] = {
+         [1] = 2989;
       };
       ["next"] = 2991;
       ["objective"] = "Bring Sharpbeak's Feather to Thadius Grimshade in the Blasted Lands.";
@@ -17865,15 +21350,18 @@ addon.questsDB = {
    };
    [6027] = {
       ["name"] = "Book of the Ancients";
-      ["prev"] = 5741;
+      ["objective"] = "Get the Book of the Ancients and return it to Azore Aldamort at the tower in Ethel Rethor.$B";
       ["repgain"] = {
          [529] = 350;
       };
+      ["prequests"] = {
+         [1] = 5741;
+      };
+      ["prev"] = 5741;
       ["reward"] = {
          [1] = 16791;
          [2] = 16793;
       };
-      ["objective"] = "Get the Book of the Ancients and return it to Azore Aldamort at the tower in Ethel Rethor.$B";
       ["req"] = 30;
    };
    [3022] = {
@@ -17888,10 +21376,13 @@ addon.questsDB = {
       ["req"] = 10;
    };
    [6123] = {
-      ["name"] = "Gathering the Cure";
-      ["prev"] = 6122;
       ["repgain"] = {
          [609] = 150;
+      };
+      ["name"] = "Gathering the Cure";
+      ["prev"] = 6122;
+      ["prequests"] = {
+         [1] = 6122;
       };
       ["next"] = 6124;
       ["objective"] = "Bring 5 Earthroot and 12 Lunar Funguses to Alanndarian Nightsong in Auberdine so she may make a curative salve.";
@@ -17900,6 +21391,9 @@ addon.questsDB = {
    [3086] = {
       ["name"] = "Glyphic Tablet";
       ["prev"] = 788;
+      ["prequests"] = {
+         [1] = 788;
+      };
       ["repgain"] = {
          [530] = 75;
       };
@@ -17909,6 +21403,9 @@ addon.questsDB = {
    [3094] = {
       ["name"] = "Verdant Note";
       ["prev"] = 747;
+      ["prequests"] = {
+         [1] = 747;
+      };
       ["repgain"] = {
          [81] = 75;
       };
@@ -17918,6 +21415,9 @@ addon.questsDB = {
    [3102] = {
       ["name"] = "Encrypted Letter";
       ["prev"] = 7;
+      ["prequests"] = {
+         [1] = 7;
+      };
       ["repgain"] = {
          [72] = 75;
       };
@@ -17927,6 +21427,9 @@ addon.questsDB = {
    [8341] = {
       ["name"] = "Lords of the Council";
       ["prev"] = 8343;
+      ["prequests"] = {
+         [1] = 8343;
+      };
       ["next"] = 8351;
       ["objective"] = "Bring 5 Large Brilliant Shards and 3 Abyssal Signets to Aurel Goldleaf in Cenarion Hold.";
       ["req"] = 60;
@@ -17939,6 +21442,9 @@ addon.questsDB = {
    [8405] = {
       ["name"] = "Fight for Warsong Gulch";
       ["prev"] = 8400;
+      ["prequests"] = {
+         [1] = 8400;
+      };
       ["repgain"] = {
          [890] = 50;
       };
@@ -17955,15 +21461,18 @@ addon.questsDB = {
    };
    [6283] = {
       ["name"] = "Bloodfury Bloodline";
-      ["prev"] = 6282;
+      ["objective"] = "Maggran at Sun Rock Retreat wishes you to slay Bloodfury Ripper and bring her remains as proof of your deed.";
       ["repgain"] = {
          [81] = 250;
       };
+      ["prequests"] = {
+         [1] = 6282;
+      };
+      ["prev"] = 6282;
       ["reward"] = {
          [1] = 16990;
          [2] = 16987;
       };
-      ["objective"] = "Maggran at Sun Rock Retreat wishes you to slay Bloodfury Ripper and bring her remains as proof of your deed.";
       ["req"] = 18;
    };
    [8501] = {
@@ -17977,6 +21486,9 @@ addon.questsDB = {
    [8533] = {
       ["name"] = "The Horde Needs More Copper Bars!";
       ["prev"] = 8532;
+      ["prequests"] = {
+         [1] = 8532;
+      };
       ["objective"] = "Bring 20 copper bars to Miner Cromwell in Durotar.";
       ["req"] = 1;
    };
@@ -17986,20 +21498,26 @@ addon.questsDB = {
       ["req"] = 1;
    };
    [8597] = {
-      ["name"] = "Draconic for Dummies";
-      ["prev"] = 8576;
       ["repgain"] = {
          [910] = 10;
+      };
+      ["name"] = "Draconic for Dummies";
+      ["prev"] = 8576;
+      ["prequests"] = {
+         [1] = 8576;
       };
       ["next"] = 8598;
       ["objective"] = "Find Narain Soothfancy's book, buried on an island in the South Seas.";
       ["req"] = 60;
    };
    [6363] = {
-      ["name"] = "Tal the Wind Rider Master";
-      ["prev"] = 6362;
       ["repgain"] = {
          [81] = 25;
+      };
+      ["name"] = "Tal the Wind Rider Master";
+      ["prev"] = 6362;
+      ["prequests"] = {
+         [1] = 6362;
       };
       ["next"] = 6364;
       ["objective"] = "Bring Ahanu's Leather Goods to Tal in Thunder Bluff.";
@@ -18008,6 +21526,9 @@ addon.questsDB = {
    [8661] = {
       ["name"] = "Doomcaller's Robes";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -18017,6 +21538,9 @@ addon.questsDB = {
    [6395] = {
       ["name"] = "Marla's Last Wish";
       ["prev"] = 376;
+      ["prequests"] = {
+         [1] = 376;
+      };
       ["repgain"] = {
          [68] = 250;
       };
@@ -18065,11 +21589,14 @@ addon.questsDB = {
       ["req"] = 58;
    };
    [8949] = {
-      ["name"] = "Falrin's Vendetta";
-      ["prev"] = 8948;
       ["reward"] = {
          [1] = 22150;
          [2] = 22149;
+      };
+      ["name"] = "Falrin's Vendetta";
+      ["prev"] = 8948;
+      ["prequests"] = {
+         [1] = 8948;
       };
       ["next"] = 8950;
       ["objective"] = "Collect 25 Ogre Warbeads from Ogres inside Dire Maul or Blackrock Spire and return to Falrin Treeshaper inside the Athenaeum in Dire Maul.";
@@ -18087,18 +21614,27 @@ addon.questsDB = {
    [9013] = {
       ["name"] = "Saving the Best for Last";
       ["prev"] = 8998;
+      ["prequests"] = {
+         [1] = 8998;
+      };
       ["objective"] = "Give Mokvar your Helm of Valor and Breastplate of Valor.";
       ["req"] = 58;
    };
    [9045] = {
       ["name"] = "Redemption Headpiece";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Commander Eligor Dawnbringer at Light's Hope Chapel in the Eastern Plaguelands will make a Redemption Headpiece if you bring him the following: 1 Desecrated Headpiece, 15 Wartorn Plate Scraps, 5 Arcanite Bars and 2 Cured Rugged Hides.";
       ["req"] = 60;
    };
    [9077] = {
       ["name"] = "Bonescythe Breastplate";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Rohan the Assassin at Light's Hope Chapel in the Eastern Plaguelands will make a Bonescythe Breastplate if you bring him the following: 1 Desecrated Breastplate, 25 Wartorn Leather Scraps, 2 Arcanite Bars and 6 Cured Rugged Hides.";
       ["req"] = 60;
    };
@@ -18131,12 +21667,18 @@ addon.questsDB = {
    [9237] = {
       ["name"] = "Glacial Cloak";
       ["prev"] = 9233;
+      ["prequests"] = {
+         [1] = 9233;
+      };
       ["objective"] = "Craftsman Wilhelm at Light's Hope Chapel in the Eastern Plaguelands wants 5 Frozen Runes, 4 Bolts of Runecloth, 2 Essences of Water, 4 Ironweb Spider Silks and 200 gold. You must also be of Exalted reputation with the Argent Dawn.";
       ["req"] = 60;
    };
    [9269] = {
       ["name"] = "Atiesh, Greatstaff of the Guardian";
       ["prev"] = 9251;
+      ["prequests"] = {
+         [1] = 9251;
+      };
       ["objective"] = "Anachronos at the Caverns of Time in Tanaris wants you to take Atiesh, Greatstaff of the Guardian to Stratholme and use it on Consecrated Earth. Defeat the entity that is exorcised from the staff and return to him.";
       ["req"] = 60;
    };
@@ -18157,6 +21699,11 @@ addon.questsDB = {
       ["req"] = 55;
    };
    [9365] = {
+      ["prequests"] = {
+         [1] = 9324;
+         [2] = 9325;
+         [3] = 9326;
+      };
       ["objective"] = "";
       ["name"] = "A Thief's Reward";
       ["req"] = 50;
@@ -18164,6 +21711,9 @@ addon.questsDB = {
    [3374] = {
       ["name"] = "The Essence of Eranikus";
       ["prev"] = 3373;
+      ["prequests"] = {
+         [1] = 3373;
+      };
       ["objective"] = " you agree to aid my cause and the cause of Ysera's Dragonflight in redeeming the corrupted soul of Eranikus.  The first sacrifice";
       ["req"] = 48;
    };
@@ -18184,18 +21734,27 @@ addon.questsDB = {
    [3446] = {
       ["name"] = "Into the Depths";
       ["prev"] = 3444;
+      ["prequests"] = {
+         [1] = 3444;
+      };
       ["objective"] = "Find the Altar of Hakkar in the Sunken Temple in Swamp of Sorrows.";
       ["req"] = 46;
    };
    [3454] = {
       ["name"] = "The Torch of Retribution";
       ["prev"] = 3453;
+      ["prequests"] = {
+         [1] = 3453;
+      };
       ["objective"] = "Take the Torch of Retribution.";
       ["req"] = 40;
    };
    [3462] = {
       ["name"] = "Squire Maltrake";
       ["prev"] = 3454;
+      ["prequests"] = {
+         [1] = 3454;
+      };
       ["next"] = 3463;
       ["objective"] = "Speak with Squire Maltrake.";
       ["req"] = 40;
@@ -18203,12 +21762,18 @@ addon.questsDB = {
    [3502] = {
       ["name"] = "One Draenei's Junk...";
       ["prev"] = 3501;
+      ["prequests"] = {
+         [1] = 3501;
+      };
       ["objective"] = "Bring Kum'isha Imperfect Draenethyst Fragments. Any form of monster in the Blasted Lands could be carrying a fragment.$B";
       ["req"] = 45;
    };
    [3510] = {
       ["name"] = "The Name of the Beast";
       ["prev"] = 3509;
+      ["prequests"] = {
+         [1] = 3509;
+      };
       ["next"] = 3511;
       ["objective"] = "Slay Hetaera and bring back Hetaera's Bloodied Head, Hetaera's Beaten Head, and Hetaera's Bruised Head to Lord Arkkoroc.";
       ["req"] = 45;
@@ -18216,6 +21781,9 @@ addon.questsDB = {
    [3518] = {
       ["name"] = "Delivery to Magatha";
       ["prev"] = 3517;
+      ["prequests"] = {
+         [1] = 3517;
+      };
       ["next"] = 3562;
       ["objective"] = "Bring the Tablet of Beth'Amara to Magatha in Thunder Bluff.";
       ["req"] = 45;
@@ -18234,27 +21802,36 @@ addon.questsDB = {
    [3542] = {
       ["name"] = "Delivery to Andron Gant";
       ["prev"] = 3517;
+      ["prequests"] = {
+         [1] = 3517;
+      };
       ["next"] = 3564;
       ["objective"] = "Bring the Tablet of Markri to Andron Gant in Undercity.";
       ["req"] = 45;
    };
    [3566] = {
       ["name"] = "Rise, Obsidion!";
-      ["prev"] = 3372;
+      ["objective"] = "Slay Lathoric the Black and Obsidion, and return to Thorius in Ironforge with the Head of Lathoric the Black and the Heart of Obsidion. ";
       ["repgain"] = {
          [47] = 500;
       };
+      ["prequests"] = {
+         [1] = 3372;
+      };
+      ["prev"] = 3372;
       ["reward"] = {
          [1] = 10740;
          [2] = 10741;
          [3] = 10739;
       };
-      ["objective"] = "Slay Lathoric the Black and Obsidion, and return to Thorius in Ironforge with the Head of Lathoric the Black and the Heart of Obsidion. ";
       ["req"] = 45;
    };
    [7163] = {
       ["name"] = "Rise and Be Recognized";
       ["prev"] = 7161;
+      ["prequests"] = {
+         [1] = 7161;
+      };
       ["objective"] = "";
       ["req"] = 51;
    };
@@ -18267,12 +21844,21 @@ addon.questsDB = {
    [3638] = {
       ["name"] = "The Pledge of Secrecy";
       ["next"] = 3639;
+      ["prequests"] = {
+         [1] = 4181;
+         [2] = 3629;
+         [3] = 3526;
+         [4] = 3633;
+      };
       ["objective"] = "If you agree to become a Goblin Engineer, then right-click on the Pledge of Secrecy and speak once more with Nixx Sprocketspring in Gadgetzan.";
       ["req"] = 30;
    };
    [3646] = {
       ["name"] = "Membership Card Renewal";
       ["prev"] = 3639;
+      ["prequests"] = {
+         [1] = 3639;
+      };
       ["objective"] = "";
       ["req"] = 30;
    };
@@ -18299,9 +21885,12 @@ addon.questsDB = {
       ["req"] = 54;
    };
    [7563] = {
+      ["followup"] = 7564;
       ["name"] = "Rage of Blood";
       ["prev"] = 7562;
-      ["followup"] = 7564;
+      ["prequests"] = {
+         [1] = 7562;
+      };
       ["next"] = 7564;
       ["objective"] = "Bring 30 bottles of Raging Beast's Blood to Mor'zul Bloodbringer in the Burning Steppes.";
       ["req"] = 60;
@@ -18315,14 +21904,20 @@ addon.questsDB = {
    [7627] = {
       ["name"] = "Wheel of the Black March";
       ["prev"] = 7564;
+      ["prequests"] = {
+         [1] = 7564;
+      };
       ["followup"] = 7630;
       ["objective"] = "Bring 6 Large Brilliant Shards and 25 Dark Iron Ore to Gorzeeki in the Burning Steppes.";
       ["req"] = 60;
    };
    [7643] = {
+      ["followup"] = 7644;
       ["name"] = "Ancient Equine Spirit";
       ["prev"] = 7642;
-      ["followup"] = 7644;
+      ["prequests"] = {
+         [1] = 7642;
+      };
       ["next"] = 7644;
       ["objective"] = "Acquire special horse feed used for feeding a spirit horse.  Merideth Carlson in Southshore apparently is the source for such food.$B$BTravel to the Dire Maul dungeon in Feralas and slay Tendris Warpwood.  Doing so will free the Ancient Equine Spirit.  Feed it the special horse feed, thereby soothing the spirit.  Finally, give it the Arcanite Barding so it may bless it.";
       ["req"] = 60;
@@ -18330,6 +21925,9 @@ addon.questsDB = {
    [7659] = {
       ["name"] = "Imperial Plate Shoulders";
       ["prev"] = 7652;
+      ["prequests"] = {
+         [1] = 7652;
+      };
       ["repgain"] = {
          [59] = 150;
       };
@@ -18357,6 +21955,9 @@ addon.questsDB = {
    [7787] = {
       ["name"] = "Rise, Thunderfury!";
       ["prev"] = 7786;
+      ["prequests"] = {
+         [1] = 7786;
+      };
       ["objective"] = "Present the Dormant Wind Kissed Blade to Highlord Demitrian.";
       ["req"] = 60;
    };
@@ -18372,6 +21973,9 @@ addon.questsDB = {
    [7819] = {
       ["name"] = "Additional Runecloth";
       ["prev"] = 7818;
+      ["prequests"] = {
+         [1] = 7818;
+      };
       ["repgain"] = {
          [68] = 50;
       };
@@ -18417,10 +22021,13 @@ addon.questsDB = {
       ["req"] = 15;
    };
    [3982] = {
-      ["name"] = "What Is Going On?";
-      ["prev"] = 3981;
       ["repgain"] = {
          [76] = 250;
+      };
+      ["name"] = "What Is Going On?";
+      ["prev"] = 3981;
+      ["prequests"] = {
+         [1] = 3981;
       };
       ["next"] = 4001;
       ["objective"] = "Defend Gor'shak.";
@@ -18429,6 +22036,9 @@ addon.questsDB = {
    [8043] = {
       ["name"] = "Strength of Mount Mugamba";
       ["prev"] = 8042;
+      ["prequests"] = {
+         [1] = 8042;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
@@ -18445,6 +22055,9 @@ addon.questsDB = {
    [8107] = {
       ["name"] = "Kezan's Taint";
       ["prev"] = 8106;
+      ["prequests"] = {
+         [1] = 8106;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
@@ -18474,6 +22087,9 @@ addon.questsDB = {
    [4108] = {
       ["name"] = "Salve via Hunting";
       ["prev"] = 4103;
+      ["prequests"] = {
+         [1] = 4103;
+      };
       ["objective"] = "";
       ["req"] = 48;
    };
@@ -18485,22 +22101,28 @@ addon.questsDB = {
    };
    [8278] = {
       ["name"] = "Noggle's Last Hope";
-      ["prev"] = 8277;
+      ["objective"] = "Beetix Ficklespragg at Cenarion Hold in Silithus wants you to gather 3 Stonelash Pincer Stingers, 3 Stonelash Flayer Stingers and 3 Rock Stalker Fangs.";
       ["repgain"] = {
          [609] = 250;
       };
+      ["prequests"] = {
+         [1] = 8277;
+      };
+      ["prev"] = 8277;
       ["reward"] = {
          [1] = 13446;
          [2] = 13444;
       };
-      ["objective"] = "Beetix Ficklespragg at Cenarion Hold in Silithus wants you to gather 3 Stonelash Pincer Stingers, 3 Stonelash Flayer Stingers and 3 Rock Stalker Fangs.";
       ["req"] = 54;
    };
    [8310] = {
-      ["name"] = "Breaking the Code";
-      ["prev"] = 8304;
       ["repgain"] = {
          [609] = 100;
+      };
+      ["name"] = "Breaking the Code";
+      ["prev"] = 8304;
+      ["prequests"] = {
+         [1] = 8304;
       };
       ["followup"] = 8314;
       ["objective"] = "Frankal Stonebridge at Bronzebeard's Encampment in Silithus wants you to recover a Hive'Zora Silithid Brain, Hive'Ashi Silithid Brain, and a Hive'Regal Silithid Brain. Return to Frankal when you have completed this task.";
@@ -18509,6 +22131,9 @@ addon.questsDB = {
    [8342] = {
       ["name"] = "Twilight Ring of Lordship";
       ["prev"] = 8341;
+      ["prequests"] = {
+         [1] = 8341;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
@@ -18523,6 +22148,9 @@ addon.questsDB = {
    [8406] = {
       ["name"] = "Fight for Warsong Gulch";
       ["prev"] = 8401;
+      ["prequests"] = {
+         [1] = 8401;
+      };
       ["repgain"] = {
          [890] = 50;
       };
@@ -18567,10 +22195,13 @@ addon.questsDB = {
       ["req"] = 1;
    };
    [8598] = {
-      ["name"] = "rAnS0m";
-      ["prev"] = 8597;
       ["repgain"] = {
          [910] = 10;
+      };
+      ["name"] = "rAnS0m";
+      ["prev"] = 8597;
+      ["prequests"] = {
+         [1] = 8597;
       };
       ["next"] = 8606;
       ["objective"] = "Return the Ransom Letter to Narain Soothfancy in Tanaris.$B";
@@ -18579,6 +22210,9 @@ addon.questsDB = {
    [8630] = {
       ["name"] = "Avenger's Pauldrons";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -18588,6 +22222,9 @@ addon.questsDB = {
    [8662] = {
       ["name"] = "Doomcaller's Circlet";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -18611,6 +22248,9 @@ addon.questsDB = {
    [8758] = {
       ["name"] = "The Path of the Invoker";
       ["prev"] = 8757;
+      ["prequests"] = {
+         [1] = 8757;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
@@ -18648,6 +22288,9 @@ addon.questsDB = {
    [8950] = {
       ["name"] = "The Instigator's Enchantment";
       ["prev"] = 8949;
+      ["prequests"] = {
+         [1] = 8949;
+      };
       ["objective"] = "Bring the following to Falrin Treeshaper inside Dire Maul: 1 Jeering Spectre's Essence, 4 Dark Runes and 8 Large Brilliant Shards.";
       ["req"] = 58;
    };
@@ -18660,30 +22303,45 @@ addon.questsDB = {
    [9014] = {
       ["name"] = "Saving the Best for Last";
       ["prev"] = 8998;
+      ["prequests"] = {
+         [1] = 8998;
+      };
       ["objective"] = "Give Mokvar your Magister's Crown and Magister's Robes.";
       ["req"] = 58;
    };
    [9046] = {
       ["name"] = "Redemption Spaulders";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Commander Eligor Dawnbringer at Light's Hope Chapel in the Eastern Plaguelands will make a pair of Redemption Spaulders if you bring him the following: 1 Desecrated Spaulders, 12 Wartorn Plate Scraps, 2 Arcanite Bars and 2 Nexus Crystals.";
       ["req"] = 60;
    };
    [9078] = {
       ["name"] = "Bonescythe Legplates";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Rohan the Assassin at Light's Hope Chapel in the Eastern Plaguelands will make Bonescythe Legplates if you bring him the following: 1 Desecrated Legplates, 20 Wartorn Leather Scraps, 1 Arcanite Bar, 8 Cured Rugged Hides and 100 gold pieces.";
       ["req"] = 60;
    };
    [9110] = {
       ["name"] = "Plagueheart Bindings";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Mataus the Wrathcaster at Light's Hope Chapel in the Eastern Plaguelands will make Plagueheart Bindings if you bring him the following: 1 Desecrated Bindings, 6 Wartorn Cloth Scraps, 1 Arcane Crystal and 1 Nexus Crystal.";
       ["req"] = 60;
    };
    [9142] = {
       ["name"] = "Craftsman's Writ";
       ["prev"] = 9141;
+      ["prequests"] = {
+         [1] = 9141;
+      };
       ["repgain"] = {
          [529] = 10;
       };
@@ -18705,12 +22363,18 @@ addon.questsDB = {
    [9238] = {
       ["name"] = "Glacial Wrists";
       ["prev"] = 9233;
+      ["prequests"] = {
+         [1] = 9233;
+      };
       ["objective"] = "Craftsman Wilhelm at Light's Hope Chapel in the Eastern Plaguelands wants 4 Frozen Runes, 2 Bolts of Runecloth, 2 Essences of Water, 2 Ironweb Spider Silks and 200 gold.";
       ["req"] = 60;
    };
    [9270] = {
       ["name"] = "Atiesh, Greatstaff of the Guardian";
       ["prev"] = 9251;
+      ["prequests"] = {
+         [1] = 9251;
+      };
       ["objective"] = "Anachronos at the Caverns of Time in Tanaris wants you to take Atiesh, Greatstaff of the Guardian to Stratholme and use it on Consecrated Earth. Defeat the entity that is exorcised from the staff and return to him.";
       ["req"] = 60;
    };
@@ -18727,6 +22391,9 @@ addon.questsDB = {
    [4732] = {
       ["name"] = "Beached Sea Turtle";
       ["prev"] = 4681;
+      ["prequests"] = {
+         [1] = 4681;
+      };
       ["repgain"] = {
          [69] = 75;
       };
@@ -18734,20 +22401,26 @@ addon.questsDB = {
       ["req"] = 13;
    };
    [4764] = {
-      ["name"] = "Doomrigger's Clasp";
-      ["prev"] = 4766;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "Doomrigger's Clasp";
+      ["prev"] = 4766;
+      ["prequests"] = {
+         [1] = 4766;
       };
       ["next"] = 4765;
       ["objective"] = "Bring Doomrigger's Clasp to Mayara Brightwing in the Burning Steppes.";
       ["req"] = 57;
    };
    [4812] = {
-      ["name"] = "As Water Cascades";
-      ["prev"] = 4811;
       ["repgain"] = {
          [69] = 75;
+      };
+      ["name"] = "As Water Cascades";
+      ["prev"] = 4811;
+      ["prequests"] = {
+         [1] = 4811;
       };
       ["next"] = 4813;
       ["objective"] = "Fill the Empty Water Tube at the Auberdine moonwell, and then investigate the red crystal along Darkshore's eastern mountain wall.";
@@ -18756,12 +22429,18 @@ addon.questsDB = {
    [4972] = {
       ["name"] = "Counting Out Time";
       ["prev"] = 4971;
+      ["prequests"] = {
+         [1] = 4971;
+      };
       ["objective"] = "Locate 5 Andorhal Watches, found in lockboxes amongst the rubble of the city.  Return with them to Chromie in the Andorhal Inn, Western Plaguelands.";
       ["req"] = 53;
    };
    [5052] = {
       ["name"] = "Blood Shards of Agamaggan";
       ["prev"] = 878;
+      ["prequests"] = {
+         [1] = 878;
+      };
       ["repgain"] = {
          [76] = 150;
       };
@@ -18771,14 +22450,20 @@ addon.questsDB = {
    [5068] = {
       ["name"] = "Breastplate of Bloodthirst";
       ["prev"] = 5047;
+      ["prequests"] = {
+         [1] = 5047;
+      };
       ["objective"] = "In order to create the Breastplate of Bloodthirst, you will be required to bring the following items back to Malyfous Darkhammer: 1 Pristine Hide of the Beast; 10 Frayed Abomination Stitchings; 5 Arcanite Bars; 5 Skin of Shadow.$B$BYou will also be required to pay 50 gold pieces for the crafting of the item.";
       ["req"] = 57;
    };
    [5084] = {
-      ["name"] = "Falling to Corruption";
-      ["prev"] = 5083;
       ["repgain"] = {
          [577] = 150;
+      };
+      ["name"] = "Falling to Corruption";
+      ["prev"] = 5083;
+      ["prequests"] = {
+         [1] = 5083;
       };
       ["next"] = 5085;
       ["objective"] = "Search the Deadwood furbolg camp in northern Felwood for a clue.";
@@ -18792,6 +22477,9 @@ addon.questsDB = {
    [5164] = {
       ["name"] = "Catalogue of the Wayward";
       ["prev"] = 5162;
+      ["prequests"] = {
+         [1] = 5162;
+      };
       ["objective"] = "Read from the Catalogue of the Wayward.$B";
       ["req"] = 57;
    };
@@ -18805,10 +22493,13 @@ addon.questsDB = {
       ["req"] = 55;
    };
    [5228] = {
-      ["name"] = "The Scourge Cauldrons";
-      ["prev"] = 5096;
       ["repgain"] = {
          [68] = 10;
+      };
+      ["name"] = "The Scourge Cauldrons";
+      ["prev"] = 5096;
+      ["prequests"] = {
+         [1] = 5096;
       };
       ["next"] = 5229;
       ["objective"] = "Speak with Shadow Priestess Vandis at the Bulwark, Western Plaguelands.";
@@ -18855,33 +22546,45 @@ addon.questsDB = {
    };
    [5724] = {
       ["name"] = "Returning the Lost Satchel";
-      ["prev"] = 5722;
+      ["objective"] = "Take the Grimtotem Satchel to Rahauro in Thunder Bluff.";
       ["repgain"] = {
          [81] = 500;
       };
+      ["prequests"] = {
+         [1] = 5722;
+      };
+      ["prev"] = 5722;
       ["reward"] = {
          [1] = 15452;
          [2] = 15453;
       };
-      ["objective"] = "Take the Grimtotem Satchel to Rahauro in Thunder Bluff.";
       ["req"] = 9;
    };
    [5804] = {
       ["name"] = "Araj's Scarab";
       ["prev"] = 5802;
+      ["prequests"] = {
+         [1] = 5802;
+      };
       ["objective"] = "Destroy Araj the Summoner and bring Araj's Scarab to Apothecary Dithers at the Bulwark, Western Plaguelands.";
       ["req"] = 55;
    };
    [5884] = {
       ["name"] = "Salve via Gathering";
       ["prev"] = 4102;
+      ["prequests"] = {
+         [1] = 4102;
+      };
       ["objective"] = "";
       ["req"] = 48;
    };
    [5932] = {
+      ["followup"] = 6002;
       ["name"] = "Back to Thunder Bluff";
       ["prev"] = 5930;
-      ["followup"] = 6002;
+      ["prequests"] = {
+         [1] = 5930;
+      };
       ["next"] = 6002;
       ["objective"] = "Return to Thunder Bluff and speak with Turak Runetotem on the Elder Rise.";
       ["req"] = 10;
@@ -18902,20 +22605,26 @@ addon.questsDB = {
       ["req"] = 10;
    };
    [6124] = {
-      ["name"] = "Curing the Sick";
-      ["prev"] = 6123;
       ["repgain"] = {
          [609] = 150;
+      };
+      ["name"] = "Curing the Sick";
+      ["prev"] = 6123;
+      ["prequests"] = {
+         [1] = 6123;
       };
       ["next"] = 6125;
       ["objective"] = "Use the Curative Animal Salve on 10 Sickly Deer that are located throughout Darkshore; doing so should cure them.  Sickly Deer have been reported starting south of the Cliffspring River to the north of Auberdine and extending all the way into southern Darkshore where the edge of Ashenvale begins.";
       ["req"] = 14;
    };
    [8279] = {
-      ["name"] = "The Twilight Lexicon";
-      ["prev"] = 8285;
       ["repgain"] = {
          [609] = 250;
+      };
+      ["name"] = "The Twilight Lexicon";
+      ["prev"] = 8285;
+      ["prequests"] = {
+         [1] = 8285;
       };
       ["next"] = 8287;
       ["objective"] = "Bring the three chapters of the Twilight Lexicon to Hermit Ortell in Silithus.  ";
@@ -18949,6 +22658,9 @@ addon.questsDB = {
    [8407] = {
       ["name"] = "Fight for Warsong Gulch";
       ["prev"] = 8402;
+      ["prequests"] = {
+         [1] = 8402;
+      };
       ["repgain"] = {
          [890] = 50;
       };
@@ -18997,6 +22709,9 @@ addon.questsDB = {
    [8631] = {
       ["name"] = "Enigma Leggings";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -19006,6 +22721,9 @@ addon.questsDB = {
    [8663] = {
       ["name"] = "Doomcaller's Trousers";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -19029,6 +22747,9 @@ addon.questsDB = {
    [8759] = {
       ["name"] = "The Path of the Invoker";
       ["prev"] = 8758;
+      ["prequests"] = {
+         [1] = 8758;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
@@ -19064,9 +22785,12 @@ addon.questsDB = {
       ["req"] = 58;
    };
    [8951] = {
+      ["followup"] = 8960;
       ["name"] = "Anthion's Parting Words";
       ["prev"] = 9015;
-      ["followup"] = 8960;
+      ["prequests"] = {
+         [1] = 9015;
+      };
       ["next"] = 8960;
       ["objective"] = "Return to Deliana in Ironforge with a set of Wildheart Boots, a Wildheart Kilt and Wildheart Spaulders.";
       ["req"] = 58;
@@ -19080,12 +22804,18 @@ addon.questsDB = {
    [9015] = {
       ["name"] = "The Challenge";
       ["prev"] = 8950;
+      ["prequests"] = {
+         [1] = 8950;
+      };
       ["objective"] = "Travel to the Ring of the Law in Blackrock Depths and place the Banner of Provocation in its center as you are sentenced by High Justice Grimstone.  Slay Theldren and his gladiators and return to Anthion Harmon in the Eastern Plaguelands with the first piece of Lord Valthalak's amulet.";
       ["req"] = 58;
    };
    [9047] = {
       ["name"] = "Redemption Boots";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -19095,6 +22825,9 @@ addon.questsDB = {
    [9079] = {
       ["name"] = "Bonescythe Helmet";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Rohan the Assassin at Light's Hope Chapel in the Eastern Plaguelands will make a Bonescythe Helmet if you bring him the following: 1 Desecrated Helmet, 15 Wartorn Leather Scraps, 8 Cured Rugged Hides, 1 Nexus Crystal and 75 gold pieces.$B";
       ["req"] = 60;
    };
@@ -19107,12 +22840,18 @@ addon.questsDB = {
    [9239] = {
       ["name"] = "Glacial Gloves";
       ["prev"] = 9233;
+      ["prequests"] = {
+         [1] = 9233;
+      };
       ["objective"] = "Craftsman Wilhelm at Light's Hope Chapel in the Eastern Plaguelands wants 5 Frozen Runes, 4 Bolts of Runecloth, 4 Essences of Water, 2 Ironweb Spider Silks and 200 gold.";
       ["req"] = 60;
    };
    [9271] = {
       ["name"] = "Atiesh, Greatstaff of the Guardian";
       ["prev"] = 9251;
+      ["prequests"] = {
+         [1] = 9251;
+      };
       ["objective"] = "Anachronos at the Caverns of Time in Tanaris wants you to take Atiesh, Greatstaff of the Guardian to Stratholme and use it on Consecrated Earth. Defeat the entity that is exorcised from the staff and return to him.";
       ["req"] = 60;
    };
@@ -19127,10 +22866,13 @@ addon.questsDB = {
       ["req"] = 1;
    };
    [6844] = {
-      ["name"] = "Umber, Archivist";
-      ["prev"] = 1126;
       ["repgain"] = {
          [609] = 50;
+      };
+      ["name"] = "Umber, Archivist";
+      ["prev"] = 1126;
+      ["prequests"] = {
+         [1] = 1126;
       };
       ["next"] = 6845;
       ["objective"] = "Take the Encrusted Silithid Object to Umber - the Cenarion Circle's archivist - in the village of Nighthaven, Moonglade.";
@@ -19176,6 +22918,9 @@ addon.questsDB = {
    [7564] = {
       ["name"] = "Wildeyes";
       ["prev"] = 7563;
+      ["prequests"] = {
+         [1] = 7563;
+      };
       ["followup"] = 7629;
       ["objective"] = "Bring the Case of Blood to Gorzeeki Wildeyes in the Burning Steppes.";
       ["req"] = 60;
@@ -19183,17 +22928,23 @@ addon.questsDB = {
    [7628] = {
       ["name"] = "Doomsday Candle";
       ["prev"] = 7564;
+      ["prequests"] = {
+         [1] = 7564;
+      };
       ["followup"] = 7630;
       ["objective"] = "Bring 35 Black Dragonscales to Gorzeeki Wildeyes in the Burning Steppes.";
       ["req"] = 60;
    };
    [7644] = {
+      ["followup"] = 7646;
       ["repgain"] = {
          [72] = 350;
       };
       ["name"] = "Blessed Arcanite Barding";
       ["prev"] = 7643;
-      ["followup"] = 7646;
+      ["prequests"] = {
+         [1] = 7643;
+      };
       ["next"] = 7646;
       ["objective"] = "Return with the Blessed Arcanite Barding to Lord Grayson Shadowbreaker in the Cathedral District of Stormwind.";
       ["req"] = 60;
@@ -19254,6 +23005,11 @@ addon.questsDB = {
       ["repgain"] = {
          [530] = 150;
       };
+      ["prequests"] = {
+         [1] = 7833;
+         [2] = 7834;
+         [3] = 7835;
+      };
       ["objective"] = "";
       ["req"] = 50;
    };
@@ -19289,6 +23045,9 @@ addon.questsDB = {
    [8044] = {
       ["name"] = "The Rage of Mount Mugamba";
       ["prev"] = 8043;
+      ["prequests"] = {
+         [1] = 8043;
+      };
       ["repgain"] = {
          [270] = 100;
       };
@@ -19308,12 +23067,18 @@ addon.questsDB = {
    [8108] = {
       ["name"] = "Kezan's Taint";
       ["prev"] = 8107;
+      ["prequests"] = {
+         [1] = 8107;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
    [8124] = {
       ["name"] = "More Resource Crates";
       ["prev"] = 8123;
+      ["prequests"] = {
+         [1] = 8123;
+      };
       ["objective"] = "Win the battle for Arathi Basin, get an Arathi Resource Crate, and return it to Deathstalker Mortis at Hammerfall.";
       ["req"] = 50;
    };
@@ -19333,14 +23098,20 @@ addon.questsDB = {
    [4109] = {
       ["name"] = "Salve via Mining";
       ["prev"] = 4104;
+      ["prequests"] = {
+         [1] = 4104;
+      };
       ["objective"] = "";
       ["req"] = 48;
    };
    [4125] = {
-      ["name"] = "The Missing Courier";
-      ["prev"] = 4124;
       ["repgain"] = {
          [69] = 150;
+      };
+      ["name"] = "The Missing Courier";
+      ["prev"] = 4124;
+      ["prequests"] = {
+         [1] = 4124;
       };
       ["next"] = 4127;
       ["objective"] = "Locate the courier's boat somewhere along the coast of Feralas.";
@@ -19366,6 +23137,9 @@ addon.questsDB = {
    [8376] = {
       ["name"] = "Armaments of War";
       ["prev"] = 8315;
+      ["prequests"] = {
+         [1] = 8315;
+      };
       ["repgain"] = {
          [609] = 250;
       };
@@ -19375,6 +23149,9 @@ addon.questsDB = {
    [8408] = {
       ["name"] = "Fight for Warsong Gulch";
       ["prev"] = 8403;
+      ["prequests"] = {
+         [1] = 8403;
+      };
       ["repgain"] = {
          [890] = 50;
       };
@@ -19389,6 +23166,9 @@ addon.questsDB = {
    [8504] = {
       ["name"] = "The Alliance Needs More Stranglekelp!";
       ["prev"] = 8503;
+      ["prequests"] = {
+         [1] = 8503;
+      };
       ["objective"] = "Bring 20 stranglekelp to Private Draxlegauge at the airfield in Dun Morogh.";
       ["req"] = 1;
    };
@@ -19405,6 +23185,9 @@ addon.questsDB = {
    [4301] = {
       ["name"] = "The Mighty U'cha";
       ["prev"] = 4289;
+      ["prequests"] = {
+         [1] = 4289;
+      };
       ["reward"] = {
          [1] = 11906;
          [2] = 11907;
@@ -19415,6 +23198,9 @@ addon.questsDB = {
    [8632] = {
       ["name"] = "Enigma Circlet";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -19424,6 +23210,9 @@ addon.questsDB = {
    [8664] = {
       ["name"] = "Doomcaller's Mantle";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -19436,10 +23225,13 @@ addon.questsDB = {
       ["req"] = 60;
    };
    [8728] = {
-      ["name"] = "The Good News and The Bad News";
-      ["prev"] = 8620;
       ["repgain"] = {
          [910] = 250;
+      };
+      ["name"] = "The Good News and The Bad News";
+      ["prev"] = 8620;
+      ["prequests"] = {
+         [1] = 8620;
       };
       ["next"] = 8729;
       ["objective"] = "Narain Soothfancy in Tanaris wants you to bring him 20 Arcanite Bars, 10 Elementium Ore, 10 Azerothian Diamonds, and 10 Blue Sapphires.";
@@ -19448,14 +23240,20 @@ addon.questsDB = {
    [8760] = {
       ["name"] = "The Path of the Invoker";
       ["prev"] = 8759;
+      ["prequests"] = {
+         [1] = 8759;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
    [2199] = {
-      ["name"] = "Lore for a Price";
-      ["prev"] = 2198;
       ["repgain"] = {
          [54] = 150;
+      };
+      ["name"] = "Lore for a Price";
+      ["prev"] = 2198;
+      ["prequests"] = {
+         [1] = 2198;
       };
       ["next"] = 2200;
       ["objective"] = "Bring five silver bars to Talvash del Kissel in Ironforge.";
@@ -19488,19 +23286,28 @@ addon.questsDB = {
    [2239] = {
       ["name"] = "Onin's Report";
       ["prev"] = 2238;
+      ["prequests"] = {
+         [1] = 2238;
+      };
       ["objective"] = "Take Onin's Report back to Hulfdan in Ironforge.";
       ["req"] = 10;
    };
    [8984] = {
       ["name"] = "The Source Revealed";
       ["prev"] = 8983;
+      ["prequests"] = {
+         [1] = 8983;
+      };
       ["objective"] = "Find Apothecary Staffron Lerent in the Hillsbrad Foothills past Ravenholdt Manor.";
       ["req"] = 58;
    };
    [9016] = {
+      ["followup"] = 9032;
       ["name"] = "Anthion's Parting Words";
       ["prev"] = 9015;
-      ["followup"] = 9032;
+      ["prequests"] = {
+         [1] = 9015;
+      };
       ["next"] = 9032;
       ["objective"] = "Return to Mokvar in Orgimmar with a set of Wildheart Boots, a Wildheart Kilt and Wildheart Spaulders.$B";
       ["req"] = 58;
@@ -19508,12 +23315,18 @@ addon.questsDB = {
    [9048] = {
       ["name"] = "Redemption Handguards";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Commander Eligor Dawnbringer at Light's Hope Chapel in the Eastern Plaguelands will make Redemption Handguards if you bring him the following: 1 Desecrated Handguards, 8 Wartorn Plate Scraps, 1 Arcanite Bar and 5 Cured Rugged Hides.";
       ["req"] = 60;
    };
    [9080] = {
       ["name"] = "Bonescythe Pauldrons";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -19521,12 +23334,15 @@ addon.questsDB = {
       ["req"] = 60;
    };
    [2279] = {
+      ["followup"] = 2439;
       ["repgain"] = {
          [47] = 350;
       };
       ["name"] = "The Platinum Discs";
       ["prev"] = 2278;
-      ["followup"] = 2439;
+      ["prequests"] = {
+         [1] = 2278;
+      };
       ["next"] = 2439;
       ["objective"] = "Take the miniature version of the Discs of Norgannon to the Explorers' League in Ironforge.";
       ["req"] = 40;
@@ -19534,12 +23350,18 @@ addon.questsDB = {
    [4605] = {
       ["name"] = "The Sparklematic 5200!";
       ["prev"] = 4601;
+      ["prequests"] = {
+         [1] = 4601;
+      };
       ["objective"] = "";
       ["req"] = 25;
    };
    [9240] = {
       ["name"] = "Glacial Vest";
       ["prev"] = 9233;
+      ["prequests"] = {
+         [1] = 9233;
+      };
       ["objective"] = "Craftsman Wilhelm at Light's Hope Chapel in the Eastern Plaguelands wants 8 Frozen Runes, 8 Bolts of Runecloth, 6 Essences of Water, 4 Ironweb Spider Silks and 300 gold. You must also be of Exalted reputation with the Argent Dawn.";
       ["req"] = 60;
    };
@@ -19582,6 +23404,9 @@ addon.questsDB = {
    [2359] = {
       ["name"] = "Klaven's Tower";
       ["prev"] = 2360;
+      ["prequests"] = {
+         [1] = 2360;
+      };
       ["next"] = 2607;
       ["objective"] = "Steal the Defias Tower Key, break into the Defias Tower and uncover the contents of the Duskwood Chest. Take whatever information you find back to Mathias Shaw in Stormwind. Read Kearnen's Journal to gain insight about the tower.$B";
       ["req"] = 20;
@@ -19589,6 +23414,9 @@ addon.questsDB = {
    [4733] = {
       ["name"] = "Beached Sea Creature";
       ["prev"] = 4681;
+      ["prequests"] = {
+         [1] = 4681;
+      };
       ["repgain"] = {
          [69] = 75;
       };
@@ -19598,6 +23426,9 @@ addon.questsDB = {
    [2383] = {
       ["name"] = "Simple Parchment";
       ["prev"] = 788;
+      ["prequests"] = {
+         [1] = 788;
+      };
       ["repgain"] = {
          [76] = 75;
       };
@@ -19607,6 +23438,9 @@ addon.questsDB = {
    [4781] = {
       ["name"] = "Components for the Enchanted Gold Bloodrobe";
       ["prev"] = 1796;
+      ["prequests"] = {
+         [1] = 1796;
+      };
       ["next"] = 4782;
       ["objective"] = "Bring a Gold Bar to Xizk Goodstitch in Stranglethorn Vale.";
       ["req"] = 31;
@@ -19614,6 +23448,9 @@ addon.questsDB = {
    [2399] = {
       ["name"] = "The Sprouted Fronds";
       ["prev"] = 931;
+      ["prequests"] = {
+         [1] = 931;
+      };
       ["repgain"] = {
          [69] = 10;
       };
@@ -19622,16 +23459,19 @@ addon.questsDB = {
    };
    [4813] = {
       ["name"] = "The Fragments Within";
-      ["prev"] = 4812;
+      ["objective"] = "Report back what you have found to Sentinel Glynda Nal'Shea in Auberdine.";
       ["repgain"] = {
          [69] = 250;
       };
+      ["prequests"] = {
+         [1] = 4812;
+      };
+      ["prev"] = 4812;
       ["reward"] = {
          [1] = 15335;
          [2] = 15396;
          [3] = 15397;
       };
-      ["objective"] = "Report back what you have found to Sentinel Glynda Nal'Shea in Auberdine.";
       ["req"] = 12;
    };
    [4861] = {
@@ -19643,6 +23483,10 @@ addon.questsDB = {
    [2439] = {
       ["name"] = "The Platinum Discs";
       ["prev"] = 2279;
+      ["prequests"] = {
+         [1] = 2279;
+         [2] = 2280;
+      };
       ["reward"] = {
          [1] = 3928;
          [2] = 6149;
@@ -19653,6 +23497,9 @@ addon.questsDB = {
    [4941] = {
       ["name"] = "Eitrigg's Wisdom";
       ["prev"] = 4903;
+      ["prequests"] = {
+         [1] = 4903;
+      };
       ["next"] = 4974;
       ["objective"] = "Speak with Eitrigg in Orgrimmar. When you have discussed matters with Eitrigg, seek council from Thrall.$B$BYou recall having seen Eitrigg in Thrall's chamber.";
       ["req"] = 55;
@@ -19660,6 +23507,9 @@ addon.questsDB = {
    [2479] = {
       ["name"] = "Hinott's Assistance";
       ["prev"] = 2478;
+      ["prequests"] = {
+         [1] = 2478;
+      };
       ["next"] = 2480;
       ["objective"] = "Travel to Tarren Mill in Hillsbrad Foothills and deliver the Sample of Zanzil's Mixture to Serge Hinott.$B$BTo get to Tarren Mill, take the Zeppelin to the Undercity and follow the road south through Silverpine and towards Hillsbrad. Follow the signs!$B$B";
       ["req"] = 20;
@@ -19667,6 +23517,9 @@ addon.questsDB = {
    [4973] = {
       ["name"] = "Counting Out Time";
       ["prev"] = 4972;
+      ["prequests"] = {
+         [1] = 4972;
+      };
       ["objective"] = "Locate 5 Andorhal Watches amongst the rubble of the city, and return with them to Chromie in the Andorhal Inn, Western Plaguelands.";
       ["req"] = 53;
    };
@@ -19687,6 +23540,9 @@ addon.questsDB = {
    [1067] = {
       ["name"] = "Return to Thunder Bluff";
       ["prev"] = 1066;
+      ["prequests"] = {
+         [1] = 1066;
+      };
       ["repgain"] = {
          [68] = 150;
       };
@@ -19694,10 +23550,13 @@ addon.questsDB = {
       ["req"] = 13;
    };
    [5085] = {
-      ["name"] = "Mystery Goo";
-      ["prev"] = 5084;
       ["repgain"] = {
          [577] = 150;
+      };
+      ["name"] = "Mystery Goo";
+      ["prev"] = 5084;
+      ["prequests"] = {
+         [1] = 5084;
       };
       ["next"] = 5086;
       ["objective"] = "Report back to Donova Snowden with your findings.";
@@ -19706,6 +23565,9 @@ addon.questsDB = {
    [3112] = {
       ["name"] = "Simple Memorandum";
       ["prev"] = 179;
+      ["prequests"] = {
+         [1] = 179;
+      };
       ["repgain"] = {
          [54] = 75;
          [47] = 100;
@@ -19727,6 +23589,10 @@ addon.questsDB = {
       ["req"] = 60;
    };
    [5149] = {
+      ["prequests"] = {
+         [1] = 5142;
+         [2] = 5601;
+      };
       ["objective"] = "Find Pamela's doll.";
       ["name"] = "Pamela's Doll";
       ["req"] = 50;
@@ -19737,10 +23603,13 @@ addon.questsDB = {
       ["req"] = 45;
    };
    [5181] = {
-      ["name"] = "Villains of Darrowshire";
-      ["prev"] = 5210;
       ["repgain"] = {
          [529] = 250;
+      };
+      ["name"] = "Villains of Darrowshire";
+      ["prev"] = 5210;
+      ["prequests"] = {
+         [1] = 5210;
       };
       ["followup"] = 5206;
       ["objective"] = "Bring the Skull of Horgus and the Shattered Sword of Marduk to Carlin Redpath at Light's Hope Chapel.";
@@ -19760,47 +23629,59 @@ addon.questsDB = {
    };
    [5213] = {
       ["name"] = "The Active Agent";
-      ["prev"] = 5212;
+      ["objective"] = "Travel to Stratholme and search the ziggurats. Find and return new Scourge Data to Betina Bigglezink.$B";
       ["repgain"] = {
          [529] = 250;
       };
+      ["prequests"] = {
+         [1] = 5212;
+      };
+      ["prev"] = 5212;
       ["reward"] = {
          [1] = 13209;
          [2] = 19812;
       };
-      ["objective"] = "Travel to Stratholme and search the ziggurats. Find and return new Scourge Data to Betina Bigglezink.$B";
       ["req"] = 55;
    };
    [5229] = {
+      ["followup"] = 5218;
       ["repgain"] = {
          [67] = 250;
          [529] = 250;
       };
       ["name"] = "Target: Felstone Field";
       ["prev"] = 5228;
-      ["followup"] = 5218;
+      ["prequests"] = {
+         [1] = 5228;
+      };
       ["next"] = 5230;
       ["objective"] = "Go to Felstone Field in Western Plaguelands to locate and defeat the Cauldron Lord present there.  It may have a key that will allow access to the cauldron.  You must have the Empty Felstone Field Bottle with you to secure a sample of the poisons used inside the cauldron.";
       ["req"] = 50;
    };
    [5245] = {
-      ["name"] = "Troubled Spirits of Kel'Theril";
-      ["prev"] = 5244;
       ["repgain"] = {
          [69] = 25;
          [54] = 25;
          [72] = 25;
          [47] = 25;
       };
+      ["name"] = "Troubled Spirits of Kel'Theril";
+      ["prev"] = 5244;
+      ["prequests"] = {
+         [1] = 5244;
+      };
       ["next"] = 5246;
       ["objective"] = "Use Jaron's Pick to find the four Highborne Relic Fragments. Bring them to Aurora Skycaller in Eastern Plaguelands.";
       ["req"] = 53;
    };
    [5261] = {
-      ["name"] = "Eagan Peltskinner";
-      ["prev"] = 783;
       ["repgain"] = {
          [72] = 75;
+      };
+      ["name"] = "Eagan Peltskinner";
+      ["prev"] = 783;
+      ["prequests"] = {
+         [1] = 783;
       };
       ["next"] = 33;
       ["objective"] = "Speak with Eagan Peltskinner.";
@@ -19817,6 +23698,9 @@ addon.questsDB = {
    [2753] = {
       ["name"] = "Trampled Under Foot";
       ["prev"] = 2752;
+      ["prequests"] = {
+         [1] = 2752;
+      };
       ["objective"] = "Bring four Green Iron Helms, four Green Iron Bracers, and two Green Iron Leggings to Orokk Omosh in Orgrimmar.";
       ["req"] = 32;
    };
@@ -19849,6 +23733,9 @@ addon.questsDB = {
    [4127] = {
       ["name"] = "Boat Wreckage";
       ["prev"] = 4125;
+      ["prequests"] = {
+         [1] = 4125;
+      };
       ["next"] = 4129;
       ["objective"] = "Return to Feathermoon Stronghold and show Ginro Hearthkindle the Discarded Knife you have found.";
       ["req"] = 40;
@@ -19856,6 +23743,9 @@ addon.questsDB = {
    [1518] = {
       ["name"] = "Call of Earth";
       ["prev"] = 1517;
+      ["prequests"] = {
+         [1] = 1517;
+      };
       ["objective"] = "Bring the Rough Quartz to Canaga Earthcaller in the Valley of Trials.";
       ["req"] = 4;
    };
@@ -19873,10 +23763,13 @@ addon.questsDB = {
       ["req"] = 25;
    };
    [1027] = {
-      ["name"] = "Raene's Cleansing";
-      ["prev"] = 1026;
       ["repgain"] = {
          [69] = 250;
+      };
+      ["name"] = "Raene's Cleansing";
+      ["prev"] = 1026;
+      ["prequests"] = {
+         [1] = 1026;
       };
       ["next"] = 1028;
       ["objective"] = "Find the final piece of Dartol's Rod and return to Shael'dryn at the moonwell.";
@@ -19885,6 +23778,9 @@ addon.questsDB = {
    [3511] = {
       ["name"] = "The Name of the Beast";
       ["prev"] = 3510;
+      ["prequests"] = {
+         [1] = 3510;
+      };
       ["next"] = 3602;
       ["objective"] = "Take the temper back to Loramus Thalipedes.$B";
       ["req"] = 45;
@@ -19892,6 +23788,9 @@ addon.questsDB = {
    [8594] = {
       ["name"] = "Mantle of the Oracle";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -19901,6 +23800,9 @@ addon.questsDB = {
    [2743] = {
       ["name"] = "The Cover of Darkness";
       ["prev"] = 2721;
+      ["prequests"] = {
+         [1] = 2721;
+      };
       ["next"] = 2744;
       ["objective"] = "Return to the Fallen Hero of the Horde with your findings.";
       ["req"] = 45;
@@ -19921,6 +23823,9 @@ addon.questsDB = {
    [5533] = {
       ["name"] = "Scholomance";
       ["prev"] = 5097;
+      ["prequests"] = {
+         [1] = 5097;
+      };
       ["next"] = 5537;
       ["objective"] = "Speak with Alchemist Arbington at Chillwind Point, Western Plaguelands.";
       ["req"] = 55;
@@ -19946,20 +23851,26 @@ addon.questsDB = {
    };
    [5581] = {
       ["name"] = "Portals of the Legion";
-      ["prev"] = 5381;
+      ["objective"] = "Banish 6 Portals at Mannoroc Coven and return to Taiga Wisemane at Shadowprey Village.";
       ["repgain"] = {
          [81] = 350;
       };
+      ["prequests"] = {
+         [1] = 5381;
+      };
+      ["prev"] = 5381;
       ["reward"] = {
          [1] = 16794;
          [2] = 16873;
       };
-      ["objective"] = "Banish 6 Portals at Mannoroc Coven and return to Taiga Wisemane at Shadowprey Village.";
       ["req"] = 32;
    };
    [3113] = {
       ["name"] = "Encrypted Memorandum";
       ["prev"] = 179;
+      ["prequests"] = {
+         [1] = 179;
+      };
       ["repgain"] = {
          [54] = 75;
       };
@@ -20002,15 +23913,21 @@ addon.questsDB = {
    [2855] = {
       ["name"] = "Wild Leather Shoulders";
       ["prev"] = 2854;
+      ["prequests"] = {
+         [1] = 2854;
+      };
       ["followup"] = 2860;
       ["objective"] = "Bring 6 Thick Armor Kits and a Wildvine to Jangdor Swiftstrider in Camp Mojache.";
       ["req"] = 30;
    };
    [2863] = {
-      ["name"] = "Alpha Strike";
-      ["prev"] = 2862;
       ["repgain"] = {
          [81] = 150;
+      };
+      ["name"] = "Alpha Strike";
+      ["prev"] = 2862;
+      ["prequests"] = {
+         [1] = 2862;
       };
       ["next"] = 2902;
       ["objective"] = "Kill 5 Woodpaw Alphas and return to Hadoken Swiftstrider within one hour.";
@@ -20026,10 +23943,13 @@ addon.questsDB = {
       ["req"] = 30;
    };
    [2879] = {
-      ["name"] = "The Stave of Equinex";
-      ["prev"] = 2943;
       ["repgain"] = {
          [69] = 250;
+      };
+      ["name"] = "The Stave of Equinex";
+      ["prev"] = 2943;
+      ["prequests"] = {
+         [1] = 2943;
       };
       ["next"] = 2942;
       ["objective"] = "Energize Troyas' Stave and find the Equinex Monolith.";
@@ -20047,10 +23967,13 @@ addon.questsDB = {
       ["req"] = 45;
    };
    [1167] = {
-      ["name"] = "The Tower of Althalaxx";
-      ["prev"] = 1140;
       ["repgain"] = {
          [69] = 25;
+      };
+      ["name"] = "The Tower of Althalaxx";
+      ["prev"] = 1140;
+      ["prequests"] = {
+         [1] = 1140;
       };
       ["next"] = 1143;
       ["objective"] = "Speak with Balthule Shadowstrike near the Tower of Althalaxx.";
@@ -20090,10 +24013,13 @@ addon.questsDB = {
       ["req"] = 20;
    };
    [2935] = {
-      ["name"] = "Consult Master Gadrin";
-      ["prev"] = 2934;
       ["repgain"] = {
          [530] = 150;
+      };
+      ["name"] = "Consult Master Gadrin";
+      ["prev"] = 2934;
+      ["prequests"] = {
+         [1] = 2934;
       };
       ["next"] = 2936;
       ["objective"] = "Speak with Master Gadrin in Sen'jin Village.";
@@ -20102,6 +24028,9 @@ addon.questsDB = {
    [2943] = {
       ["name"] = "Return to Troyas";
       ["prev"] = 2944;
+      ["prequests"] = {
+         [1] = 2944;
+      };
       ["repgain"] = {
          [69] = 150;
       };
@@ -20119,10 +24048,13 @@ addon.questsDB = {
       ["req"] = 50;
    };
    [2967] = {
-      ["name"] = "Return to Thunder Bluff";
-      ["prev"] = 2954;
       ["repgain"] = {
          [81] = 10;
+      };
+      ["name"] = "Return to Thunder Bluff";
+      ["prev"] = 2954;
+      ["prequests"] = {
+         [1] = 2954;
       };
       ["next"] = 2968;
       ["objective"] = "Speak with Nara Wildmane in Thunder Bluff.";
@@ -20178,6 +24110,9 @@ addon.questsDB = {
    [3942] = {
       ["name"] = "Linken's Memory";
       ["prev"] = 3941;
+      ["prequests"] = {
+         [1] = 3941;
+      };
       ["next"] = 4084;
       ["objective"] = "Find Eridan Bluewind in southern Felwood.";
       ["req"] = 47;
@@ -20205,6 +24140,9 @@ addon.questsDB = {
    [1956] = {
       ["name"] = "Power in Uldaman";
       ["prev"] = 1955;
+      ["prequests"] = {
+         [1] = 1955;
+      };
       ["next"] = 1957;
       ["objective"] = "Retrieve an Obsidian Power Source and bring it to Tabetha in Dustwallow Marsh.";
       ["req"] = 35;
@@ -20212,6 +24150,9 @@ addon.questsDB = {
    [6125] = {
       ["name"] = "Power over Poison";
       ["prev"] = 6124;
+      ["prequests"] = {
+         [1] = 6124;
+      };
       ["repgain"] = {
          [609] = 250;
       };
@@ -20227,6 +24168,9 @@ addon.questsDB = {
    [1952] = {
       ["name"] = "Mage's Wand";
       ["prev"] = 1951;
+      ["prequests"] = {
+         [1] = 1951;
+      };
       ["reward"] = {
          [1] = 7514;
          [2] = 11263;
@@ -20238,6 +24182,9 @@ addon.questsDB = {
    [3087] = {
       ["name"] = "Etched Parchment";
       ["prev"] = 788;
+      ["prequests"] = {
+         [1] = 788;
+      };
       ["repgain"] = {
          [76] = 75;
       };
@@ -20247,6 +24194,9 @@ addon.questsDB = {
    [3095] = {
       ["name"] = "Simple Scroll";
       ["prev"] = 364;
+      ["prequests"] = {
+         [1] = 364;
+      };
       ["repgain"] = {
          [68] = 75;
       };
@@ -20256,6 +24206,9 @@ addon.questsDB = {
    [3103] = {
       ["name"] = "Hallowed Letter";
       ["prev"] = 7;
+      ["prequests"] = {
+         [1] = 7;
+      };
       ["repgain"] = {
          [72] = 75;
       };
@@ -20265,6 +24218,9 @@ addon.questsDB = {
    [4126] = {
       ["name"] = "Hurley Blackbreath";
       ["prev"] = 4128;
+      ["prequests"] = {
+         [1] = 4128;
+      };
       ["reward"] = {
          [1] = 11964;
          [2] = 12000;
@@ -20275,6 +24231,9 @@ addon.questsDB = {
    [3119] = {
       ["name"] = "Hallowed Sigil";
       ["prev"] = 456;
+      ["prequests"] = {
+         [1] = 456;
+      };
       ["repgain"] = {
          [69] = 75;
       };
@@ -20284,6 +24243,9 @@ addon.questsDB = {
    [8409] = {
       ["name"] = "Ruined Kegs";
       ["prev"] = 8322;
+      ["prequests"] = {
+         [1] = 8322;
+      };
       ["repgain"] = {
          [76] = 150;
          [68] = 150;
@@ -20296,6 +24258,9 @@ addon.questsDB = {
    [8441] = {
       ["name"] = "Conquering Arathi Basin";
       ["prev"] = 8437;
+      ["prequests"] = {
+         [1] = 8437;
+      };
       ["repgain"] = {
          [510] = 50;
       };
@@ -20305,6 +24270,9 @@ addon.questsDB = {
    [6285] = {
       ["name"] = "Return to Lewis";
       ["prev"] = 6261;
+      ["prequests"] = {
+         [1] = 6261;
+      };
       ["repgain"] = {
          [72] = 350;
       };
@@ -20329,12 +24297,18 @@ addon.questsDB = {
    [8601] = {
       ["name"] = "The Horde Needs More Rugged Leather!";
       ["prev"] = 8600;
+      ["prequests"] = {
+         [1] = 8600;
+      };
       ["objective"] = "Bring 10 Rugged Leather to Doctor Serratus at the Valley of Spirits in Orgrimmar.";
       ["req"] = 1;
    };
    [8633] = {
       ["name"] = "Enigma Robes";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -20344,6 +24318,9 @@ addon.questsDB = {
    [8665] = {
       ["name"] = "Genesis Boots";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -20356,22 +24333,28 @@ addon.questsDB = {
       ["req"] = 60;
    };
    [8729] = {
+      ["name"] = "The Wrath of Neptulon";
       ["repgain"] = {
          [910] = 500;
       };
-      ["name"] = "The Wrath of Neptulon";
+      ["objective"] = "Use the Arcanite Buoy at the Swirling Maelstrom at the Bay of Storms in Azshara.";
       ["prev"] = 8728;
+      ["prequests"] = {
+         [1] = 8728;
+      };
       ["reward"] = {
          [1] = 21526;
          [2] = 21527;
       };
       ["followup"] = 8742;
-      ["objective"] = "Use the Arcanite Buoy at the Swirling Maelstrom at the Bay of Storms in Azshara.";
       ["req"] = 60;
    };
    [8761] = {
       ["name"] = "The Grand Invoker";
       ["prev"] = 8760;
+      ["prequests"] = {
+         [1] = 8760;
+      };
       ["repgain"] = {
          [910] = 100;
       };
@@ -20404,13 +24387,20 @@ addon.questsDB = {
    [8921] = {
       ["name"] = "The Ectoplasmic Distiller";
       ["next"] = 8924;
+      ["prequests"] = {
+         [1] = 8922;
+         [2] = 8923;
+      };
       ["objective"] = "Return to Mux Manascrambler in Gadgetzan with 1 Delicate Arcanite Converter, 4 Greater Eternal Essence, 10 Stonescale Oil, 25 Volcanic Ash and 40 gold.";
       ["req"] = 58;
    };
    [8953] = {
+      ["followup"] = 8960;
       ["name"] = "Anthion's Parting Words";
       ["prev"] = 9015;
-      ["followup"] = 8960;
+      ["prequests"] = {
+         [1] = 9015;
+      };
       ["next"] = 8960;
       ["objective"] = "Return to Deliana in Ironforge with a set of Magister's Boots, Magister's Leggings and Magister's Mantle.";
       ["req"] = 58;
@@ -20422,9 +24412,12 @@ addon.questsDB = {
       ["req"] = 17;
    };
    [9017] = {
+      ["followup"] = 9032;
       ["name"] = "Anthion's Parting Words";
       ["prev"] = 9015;
-      ["followup"] = 9032;
+      ["prequests"] = {
+         [1] = 9015;
+      };
       ["next"] = 9032;
       ["objective"] = "Return to Mokvar in Orgimmar with a set of Beaststalker's Boots, Beaststalker's Pants and Beaststalker's Mantle.";
       ["req"] = 58;
@@ -20432,6 +24425,9 @@ addon.questsDB = {
    [9049] = {
       ["name"] = "Redemption Girdle";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -20441,6 +24437,9 @@ addon.questsDB = {
    [9081] = {
       ["name"] = "Bonescythe Sabatons";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -20459,6 +24458,9 @@ addon.questsDB = {
    [6621] = {
       ["name"] = "King of the Foulweald";
       ["prev"] = 216;
+      ["prequests"] = {
+         [1] = 216;
+      };
       ["reward"] = {
          [1] = 17005;
          [2] = 17006;
@@ -20468,15 +24470,18 @@ addon.questsDB = {
    };
    [2942] = {
       ["name"] = "The Morrow Stone";
-      ["prev"] = 2879;
+      ["objective"] = "Return the Sparkling Stone and the Stave of Equinex to Troyas Moonbreeze in Feathermoon Stronghold. ";
       ["repgain"] = {
          [69] = 250;
       };
+      ["prequests"] = {
+         [1] = 2879;
+      };
+      ["prev"] = 2879;
       ["reward"] = {
          [1] = 9654;
          [2] = 9655;
       };
-      ["objective"] = "Return the Sparkling Stone and the Stave of Equinex to Troyas Moonbreeze in Feathermoon Stronghold. ";
       ["req"] = 42;
    };
    [9209] = {
@@ -20490,6 +24495,9 @@ addon.questsDB = {
    [9241] = {
       ["name"] = "Polar Bracers";
       ["prev"] = 9233;
+      ["prequests"] = {
+         [1] = 9233;
+      };
       ["objective"] = "Craftsman Wilhelm at Light's Hope Chapel in the Eastern Plaguelands wants 4 Frozen Runes, 12 Enchanted Leather, 3 Essence of Water, 3 Cured Rugged Hides and 200 gold. $B";
       ["req"] = 60;
    };
@@ -20502,6 +24510,9 @@ addon.questsDB = {
    [6701] = {
       ["name"] = "Syndicate Emblems";
       ["prev"] = 6681;
+      ["prequests"] = {
+         [1] = 6681;
+      };
       ["repgain"] = {
          [349] = 100;
       };
@@ -20528,10 +24539,13 @@ addon.questsDB = {
       ["req"] = 37;
    };
    [4361] = {
-      ["name"] = "The Bearer of Bad News";
-      ["prev"] = 4341;
       ["repgain"] = {
          [47] = 20;
+      };
+      ["name"] = "The Bearer of Bad News";
+      ["prev"] = 4341;
+      ["prequests"] = {
+         [1] = 4341;
       };
       ["next"] = 4362;
       ["objective"] = "Return to Ironforge and deliver the bad news to King Magni Bronzebeard.";
@@ -20540,6 +24554,9 @@ addon.questsDB = {
    [6781] = {
       ["name"] = "More Armor Scraps";
       ["prev"] = 7223;
+      ["prequests"] = {
+         [1] = 7223;
+      };
       ["repgain"] = {
          [47] = 10;
          [730] = 1;
@@ -20562,10 +24579,13 @@ addon.questsDB = {
       ["req"] = 48;
    };
    [4508] = {
-      ["name"] = "Calm Before the Storm";
-      ["prev"] = 4507;
       ["repgain"] = {
          [69] = 25;
+      };
+      ["name"] = "Calm Before the Storm";
+      ["prev"] = 4507;
+      ["prequests"] = {
+         [1] = 4507;
       };
       ["next"] = 4510;
       ["objective"] = "Bring Pestlezugg's Un'Goro Report to Gracina Spiritmight in Darnassus.";
@@ -20573,15 +24593,18 @@ addon.questsDB = {
    };
    [6845] = {
       ["name"] = "Uncovering Past Secrets";
-      ["prev"] = 6844;
+      ["objective"] = "Speak with Rabine Saturna in the village of Nighthaven, Moonglade.";
       ["repgain"] = {
          [609] = 150;
       };
+      ["prequests"] = {
+         [1] = 6844;
+      };
+      ["prev"] = 6844;
       ["reward"] = {
          [1] = 18400;
          [2] = 18402;
       };
-      ["objective"] = "Speak with Rabine Saturna in the village of Nighthaven, Moonglade.";
       ["req"] = 54;
    };
    [6861] = {
@@ -20603,18 +24626,27 @@ addon.questsDB = {
    [3447] = {
       ["name"] = "Secret of the Circle";
       ["prev"] = 3444;
+      ["prequests"] = {
+         [1] = 3444;
+      };
       ["objective"] = "Travel into the Sunken Temple and discover the secret hidden in the circle of statues.";
       ["req"] = 46;
    };
    [1107] = {
       ["name"] = "Encrusted Tail Fins";
       ["prev"] = 1105;
+      ["prequests"] = {
+         [1] = 1105;
+      };
       ["objective"] = "Bring 10 Encrusted Tail Fins to Wizzle Brassbolts in the Shimmering Flats.";
       ["req"] = 28;
    };
    [3463] = {
       ["name"] = "Set Them Ablaze!";
       ["prev"] = 3462;
+      ["prequests"] = {
+         [1] = 3462;
+      };
       ["reward"] = {
          [1] = 10742;
          [2] = 10743;
@@ -20654,6 +24686,9 @@ addon.questsDB = {
    [9107] = {
       ["name"] = "Plagueheart Sandals";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -20671,10 +24706,13 @@ addon.questsDB = {
       ["req"] = 10;
    };
    [3519] = {
-      ["name"] = "A Friend in Need";
-      ["prev"] = 4495;
       ["repgain"] = {
          [69] = 25;
+      };
+      ["name"] = "A Friend in Need";
+      ["prev"] = 4495;
+      ["prequests"] = {
+         [1] = 4495;
       };
       ["next"] = 3521;
       ["objective"] = "Speak to Dirania Silvershine in Shadowglen.";
@@ -20683,6 +24721,9 @@ addon.questsDB = {
    [3527] = {
       ["name"] = "The Prophecy of Mosh'aru";
       ["prev"] = 3520;
+      ["prequests"] = {
+         [1] = 3520;
+      };
       ["next"] = 4787;
       ["objective"] = "Bring the First and Second Mosh'aru Tablets to Yeh'kinya in Tanaris.";
       ["req"] = 40;
@@ -20690,6 +24731,9 @@ addon.questsDB = {
    [9058] = {
       ["name"] = "Cryptstalker Boots";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -20721,6 +24765,9 @@ addon.questsDB = {
    [4381] = {
       ["name"] = "Crystal Restore";
       ["prev"] = 4321;
+      ["prequests"] = {
+         [1] = 4321;
+      };
       ["objective"] = "";
       ["req"] = 47;
    };
@@ -20744,12 +24791,20 @@ addon.questsDB = {
       ["repgain"] = {
          [68] = 150;
       };
+      ["prequests"] = {
+         [1] = 7813;
+         [2] = 7814;
+         [3] = 7817;
+      };
       ["objective"] = "";
       ["req"] = 50;
    };
    [5862] = {
       ["name"] = "Scarlet Subterfuge";
       ["prev"] = 5861;
+      ["prequests"] = {
+         [1] = 5861;
+      };
       ["objective"] = "Speak to Myranda to gain the Scarlet Illusion. Travel to Hearthglen while under the Scarlet Illusion and deliver Tirion's Gift to Highlord Taelan Fordring.$B$BHearthglen is to the north, Taelan should be inside of Mardenholde Keep.";
       ["req"] = 52;
    };
@@ -20761,6 +24816,9 @@ addon.questsDB = {
    [2584] = {
       ["name"] = "Spirit of the Boar";
       ["prev"] = 2583;
+      ["prequests"] = {
+         [1] = 2583;
+      };
       ["objective"] = "Bring three Blasted Boar Lungs, two Scorpok Pincers, and one Basilisk Brain to Bloodmage Drazial.$B";
       ["req"] = 45;
    };
@@ -20776,18 +24834,27 @@ addon.questsDB = {
    [3639] = {
       ["name"] = "Show Your Work";
       ["prev"] = 3638;
+      ["prequests"] = {
+         [1] = 3638;
+      };
       ["objective"] = "Bring 20 Big Iron Bombs, 20 Solid Dynamite, and 5 Explosive Sheep to Nixx Sprocketspring in Gadgetzan.";
       ["req"] = 30;
    };
    [3647] = {
       ["name"] = "Membership Card Renewal";
       ["prev"] = 3643;
+      ["prequests"] = {
+         [1] = 3643;
+      };
       ["objective"] = "";
       ["req"] = 30;
    };
    [1118] = {
       ["name"] = "Back to Booty Bay";
       ["prev"] = 1117;
+      ["prequests"] = {
+         [1] = 1117;
+      };
       ["followup"] = 1119;
       ["objective"] = "Bring Kravel's Scheme to Crank Fizzlebub in Booty Bay.";
       ["req"] = 35;
@@ -20863,6 +24930,10 @@ addon.questsDB = {
       ["req"] = 10;
    };
    [1271] = {
+      ["prequests"] = {
+         [1] = 1222;
+         [2] = 1258;
+      };
       ["objective"] = "";
       ["name"] = "Feast at the Blue Recluse";
       ["req"] = 30;
@@ -20892,10 +24963,13 @@ addon.questsDB = {
       ["req"] = 54;
    };
    [2318] = {
-      ["name"] = "Translating the Journal";
-      ["prev"] = 2284;
       ["repgain"] = {
          [530] = 250;
+      };
+      ["name"] = "Translating the Journal";
+      ["prev"] = 2284;
+      ["prequests"] = {
+         [1] = 2284;
       };
       ["next"] = 2338;
       ["objective"] = "Find someone who can translate the paladin's journal.  The closest location that might have someone is Kargath, in the Badlands.";
@@ -20952,6 +25026,9 @@ addon.questsDB = {
    [1202] = {
       ["name"] = "The Theramore Docks";
       ["prev"] = 1201;
+      ["prequests"] = {
+         [1] = 1201;
+      };
       ["repgain"] = {
          [76] = 250;
       };
@@ -20960,6 +25037,10 @@ addon.questsDB = {
    };
    [7629] = {
       ["name"] = "Imp Delivery";
+      ["prequests"] = {
+         [1] = 7625;
+         [2] = 7564;
+      };
       ["followup"] = 7631;
       ["objective"] = "Bring the Imp in a Jar to the alchemy lab in the Scholomance.  After the parchment is created, return the jar to Gorzeeki Wildeyes.";
       ["req"] = 60;
@@ -20996,6 +25077,9 @@ addon.questsDB = {
    [2300] = {
       ["name"] = "SI:7";
       ["prev"] = 2205;
+      ["prequests"] = {
+         [1] = 2205;
+      };
       ["next"] = 2281;
       ["objective"] = "Travel to Stormwind and seek out Renzik The Shiv.\"$B\"";
       ["req"] = 16;
@@ -21003,6 +25087,9 @@ addon.questsDB = {
    [1653] = {
       ["name"] = "The Test of Righteousness";
       ["prev"] = 1652;
+      ["prequests"] = {
+         [1] = 1652;
+      };
       ["next"] = 1654;
       ["objective"] = "Speak to Jordan Stilwell in Ironforge";
       ["req"] = 20;
@@ -21010,6 +25097,9 @@ addon.questsDB = {
    [7725] = {
       ["name"] = "Again With the Zapped Giants";
       ["prev"] = 7003;
+      ["prequests"] = {
+         [1] = 7003;
+      };
       ["repgain"] = {
          [21] = 25;
          [369] = 25;
@@ -21031,6 +25121,9 @@ addon.questsDB = {
    [2865] = {
       ["name"] = "Scarab Shells";
       ["prev"] = 2864;
+      ["prequests"] = {
+         [1] = 2864;
+      };
       ["repgain"] = {
          [369] = 500;
       };
@@ -21038,6 +25131,10 @@ addon.questsDB = {
       ["req"] = 40;
    };
    [1122] = {
+      ["prequests"] = {
+         [1] = 1121;
+         [2] = 1120;
+      };
       ["objective"] = "Bring the Fool's Stout report to Crank Fizzlebub in Booty Bay.";
       ["name"] = "Report Back to Fizzlebub";
       ["req"] = 35;
@@ -21051,6 +25148,11 @@ addon.questsDB = {
       ["name"] = "A Donation of Runecloth";
       ["repgain"] = {
          [47] = 150;
+      };
+      ["prequests"] = {
+         [1] = 7802;
+         [2] = 7803;
+         [3] = 7804;
       };
       ["objective"] = "";
       ["req"] = 50;
@@ -21067,6 +25169,9 @@ addon.questsDB = {
    [7837] = {
       ["name"] = "Additional Runecloth";
       ["prev"] = 7836;
+      ["prequests"] = {
+         [1] = 7836;
+      };
       ["repgain"] = {
          [530] = 50;
       };
@@ -21075,20 +25180,26 @@ addon.questsDB = {
    };
    [1031] = {
       ["name"] = "The Branch of Cenarius";
-      ["prev"] = 1021;
+      ["objective"] = "Kill Geltharis and return the Branch of Cenarius to Illiyana at Forest Song.";
       ["repgain"] = {
          [69] = 250;
       };
+      ["prequests"] = {
+         [1] = 1021;
+      };
+      ["prev"] = 1021;
       ["reward"] = {
          [1] = 5820;
          [2] = 11229;
       };
-      ["objective"] = "Kill Geltharis and return the Branch of Cenarius to Illiyana at Forest Song.";
       ["req"] = 26;
    };
    [2282] = {
       ["name"] = "Alther's Mill";
       ["prev"] = 2281;
+      ["prequests"] = {
+         [1] = 2281;
+      };
       ["objective"] = "Open Lucius's Lockbox, recover the Token of Thievery and return it to Lucius in Lakeshire.";
       ["req"] = 16;
    };
@@ -21111,6 +25222,9 @@ addon.questsDB = {
    [2242] = {
       ["name"] = "Destiny Calls";
       ["prev"] = 2241;
+      ["prequests"] = {
+         [1] = 2241;
+      };
       ["objective"] = "Find Sethir the Ancient and bring back any clues that you may discover to Syurna.$B";
       ["req"] = 10;
    };
@@ -21122,12 +25236,18 @@ addon.questsDB = {
    [1089] = {
       ["name"] = "The Den";
       ["prev"] = 1088;
+      ["prequests"] = {
+         [1] = 1088;
+      };
       ["objective"] = "Travel to the Den on Stonetalon Peak. Using the Gatekeeper's Key, obtain the druids' hidden items. Use these items to open the Talon Den Hoard. ";
       ["req"] = 20;
    };
    [3089] = {
       ["name"] = "Rune-Inscribed Parchment";
       ["prev"] = 788;
+      ["prequests"] = {
+         [1] = 788;
+      };
       ["repgain"] = {
          [76] = 75;
       };
@@ -21155,10 +25275,13 @@ addon.questsDB = {
       ["req"] = 40;
    };
    [2200] = {
-      ["name"] = "Back to Uldaman";
-      ["prev"] = 2199;
       ["repgain"] = {
          [54] = 150;
+      };
+      ["name"] = "Back to Uldaman";
+      ["prev"] = 2199;
+      ["prequests"] = {
+         [1] = 2199;
       };
       ["next"] = 2201;
       ["objective"] = "Search for clues as to the current disposition of Talvash's necklace within Uldaman.  The slain paladin he mentioned was the person who had it last.";
@@ -21183,12 +25306,18 @@ addon.questsDB = {
    [5889] = {
       ["name"] = "Salve via Gathering";
       ["prev"] = 5884;
+      ["prequests"] = {
+         [1] = 5884;
+      };
       ["objective"] = "";
       ["req"] = 48;
    };
    [8109] = {
       ["name"] = "Kezan's Unstoppable Taint";
       ["prev"] = 8108;
+      ["prequests"] = {
+         [1] = 8108;
+      };
       ["repgain"] = {
          [270] = 100;
       };
@@ -21198,6 +25327,9 @@ addon.questsDB = {
    [4063] = {
       ["name"] = "The Rise of the Machines";
       ["prev"] = 4062;
+      ["prequests"] = {
+         [1] = 4062;
+      };
       ["reward"] = {
          [1] = 12109;
          [2] = 12110;
@@ -21215,12 +25347,18 @@ addon.questsDB = {
    [8157] = {
       ["name"] = "More Resource Crates";
       ["prev"] = 8154;
+      ["prequests"] = {
+         [1] = 8154;
+      };
       ["objective"] = "Win the battle for Arathi Basin, get an Arathi Resource Crate, and return it to Sergeant Maclear at Refuge Pointe.";
       ["req"] = 40;
    };
    [5846] = {
       ["name"] = "Of Love and Family";
       ["prev"] = 5845;
+      ["prequests"] = {
+         [1] = 5845;
+      };
       ["next"] = 5848;
       ["objective"] = "Travel to island of Caer Darrow, in the south-central region of the Plaguelands, and look for any clues as to the whereabouts of the painting.";
       ["req"] = 52;
@@ -21234,10 +25372,13 @@ addon.questsDB = {
       ["req"] = 58;
    };
    [1028] = {
-      ["name"] = "Raene's Cleansing";
-      ["prev"] = 1027;
       ["repgain"] = {
          [69] = 150;
+      };
+      ["name"] = "Raene's Cleansing";
+      ["prev"] = 1027;
+      ["prequests"] = {
+         [1] = 1027;
       };
       ["next"] = 1055;
       ["objective"] = "Find the hidden shrine and re-enchant Dartol's Rod.";
@@ -21246,6 +25387,9 @@ addon.questsDB = {
    [1032] = {
       ["name"] = "Satyr Slaying!";
       ["prev"] = 1031;
+      ["prequests"] = {
+         [1] = 1031;
+      };
       ["repgain"] = {
          [69] = 250;
       };
@@ -21261,25 +25405,35 @@ addon.questsDB = {
    [8314] = {
       ["name"] = "Unraveling the Mystery";
       ["next"] = 8315;
+      ["prequests"] = {
+         [1] = 8310;
+         [2] = 8309;
+      };
       ["objective"] = "Rutgar Glyphshaper at Bronzebeard's Encampment wants you to deliver the Glyphed Crystal Prism to Geologist Larksbane at the Cenarion Hold in Silithus.";
       ["req"] = 58;
    };
    [1044] = {
       ["name"] = "Answered Questions";
-      ["prev"] = 1043;
+      ["objective"] = "Return to Thyn'tel Bladeweaver in Darnassus.";
       ["repgain"] = {
          [69] = 350;
       };
+      ["prequests"] = {
+         [1] = 1043;
+      };
+      ["prev"] = 1043;
       ["reward"] = {
          [1] = 5817;
          [2] = 5818;
       };
-      ["objective"] = "Return to Thyn'tel Bladeweaver in Darnassus.";
       ["req"] = 25;
    };
    [8378] = {
       ["name"] = "Armaments of War";
       ["prev"] = 8315;
+      ["prequests"] = {
+         [1] = 8315;
+      };
       ["repgain"] = {
          [609] = 250;
       };
@@ -21289,6 +25443,9 @@ addon.questsDB = {
    [1052] = {
       ["name"] = "Down the Scarlet Path";
       ["prev"] = 261;
+      ["prequests"] = {
+         [1] = 261;
+      };
       ["repgain"] = {
          [72] = 75;
       };
@@ -21303,6 +25460,9 @@ addon.questsDB = {
    [1060] = {
       ["name"] = "Letter to Jin'Zil";
       ["prev"] = 876;
+      ["prequests"] = {
+         [1] = 876;
+      };
       ["repgain"] = {
          [530] = 250;
       };
@@ -21310,10 +25470,13 @@ addon.questsDB = {
       ["req"] = 15;
    };
    [1064] = {
-      ["name"] = "Forsaken Aid";
-      ["prev"] = 1063;
       ["repgain"] = {
          [81] = 25;
+      };
+      ["name"] = "Forsaken Aid";
+      ["prev"] = 1063;
+      ["prequests"] = {
+         [1] = 1063;
       };
       ["next"] = 1065;
       ["objective"] = "Speak with Apothecary Zamah in the Pools of Vision in Thunder Bluff.";
@@ -21332,6 +25495,9 @@ addon.questsDB = {
    [8602] = {
       ["name"] = "Stormcaller's Pauldrons";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -21339,10 +25505,14 @@ addon.questsDB = {
       ["req"] = 60;
    };
    [1080] = {
-      ["name"] = "Covert Ops - Beta";
-      ["prev"] = 1077;
       ["repgain"] = {
          [54] = 350;
+      };
+      ["name"] = "Covert Ops - Beta";
+      ["prev"] = 1077;
+      ["prequests"] = {
+         [1] = 1077;
+         [2] = 1074;
       };
       ["followup"] = 1091;
       ["objective"] = "Retrieve the Venture Co. Letters from Windshear Mine at the east end of Windshear Crag.";
@@ -21351,6 +25521,9 @@ addon.questsDB = {
    [8666] = {
       ["name"] = "Genesis Vest";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -21360,27 +25533,36 @@ addon.questsDB = {
    [1088] = {
       ["name"] = "Ordanus";
       ["prev"] = 1087;
+      ["prequests"] = {
+         [1] = 1087;
+      };
       ["next"] = 1089;
       ["objective"] = "Bring Ordanus' head to Braelyn Firehand near Sun Rock Retreat.";
       ["req"] = 20;
    };
    [8730] = {
+      ["name"] = "Nefarius's Corruption";
       ["repgain"] = {
          [910] = 500;
       };
-      ["name"] = "Nefarius's Corruption";
+      ["objective"] = "Slay Nefarian and recover the Red Scepter Shard. Return the Red Scepter Shard to Anachronos at the Caverns of Time in Tanaris. You have 5 hours to complete this task.";
       ["prev"] = 8555;
+      ["prequests"] = {
+         [1] = 8555;
+      };
       ["reward"] = {
          [1] = 21530;
          [2] = 21529;
       };
       ["followup"] = 8742;
-      ["objective"] = "Slay Nefarian and recover the Red Scepter Shard. Return the Red Scepter Shard to Anachronos at the Caverns of Time in Tanaris. You have 5 hours to complete this task.";
       ["req"] = 60;
    };
    [4382] = {
       ["name"] = "Crystal Force";
       ["prev"] = 4321;
+      ["prequests"] = {
+         [1] = 4321;
+      };
       ["objective"] = "";
       ["req"] = 47;
    };
@@ -21405,39 +25587,62 @@ addon.questsDB = {
    [1112] = {
       ["name"] = "Parts for Kravel";
       ["prev"] = 1111;
+      ["prequests"] = {
+         [1] = 1111;
+      };
       ["objective"] = "Bring Kravel's Parts to Kravel Koalbeard in the Shimmering Flats.";
       ["req"] = 30;
    };
    [8922] = {
       ["name"] = "A Supernatural Device";
       ["next"] = 8921;
+      ["prequests"] = {
+         [1] = 8905;
+         [2] = 8908;
+         [3] = 8910;
+         [4] = 8911;
+         [5] = 8912;
+         [6] = 8906;
+         [7] = 8909;
+         [8] = 8907;
+      };
       ["followup"] = 8921;
       ["objective"] = "Bring the Sealed Blood Container to Mux Manascrambler inside Gadgetzan in Tanaris.";
       ["req"] = 58;
    };
    [8954] = {
+      ["followup"] = 8960;
       ["name"] = "Anthion's Parting Words";
       ["prev"] = 9015;
-      ["followup"] = 8960;
+      ["prequests"] = {
+         [1] = 9015;
+      };
       ["next"] = 8960;
       ["objective"] = "Return to Deliana in Ironforge with a set of Lightforge Boots, Lightforge Legplates and Lightforge Spaulders.";
       ["req"] = 58;
    };
    [8986] = {
-      ["name"] = "More Components of Importance";
-      ["prev"] = 8970;
       ["reward"] = {
          [1] = 22192;
          [2] = 22193;
+      };
+      ["name"] = "More Components of Importance";
+      ["prev"] = 8970;
+      ["prequests"] = {
+         [1] = 8970;
+         [2] = 8965;
       };
       ["next"] = 8989;
       ["objective"] = "Acquire Druidical Remains and return them to Bodley inside Blackrock Mountain.";
       ["req"] = 58;
    };
    [9018] = {
+      ["followup"] = 9032;
       ["name"] = "Anthion's Parting Words";
       ["prev"] = 9015;
-      ["followup"] = 9032;
+      ["prequests"] = {
+         [1] = 9015;
+      };
       ["next"] = 9032;
       ["objective"] = "Return to Mokvar in Orgimmar with a set of Magister's Boots, Magister's Leggings and Magister's Mantle.";
       ["req"] = 58;
@@ -21451,6 +25656,9 @@ addon.questsDB = {
    [9082] = {
       ["name"] = "Bonescythe Gauntlets";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -21458,10 +25666,13 @@ addon.questsDB = {
       ["req"] = 60;
    };
    [1140] = {
-      ["name"] = "The Tower of Althalaxx";
-      ["prev"] = 973;
       ["repgain"] = {
          [69] = 250;
+      };
+      ["name"] = "The Tower of Althalaxx";
+      ["prev"] = 973;
+      ["prequests"] = {
+         [1] = 973;
       };
       ["next"] = 1167;
       ["objective"] = "Free the trapped Highborne souls in Night Run and Satyrnaar, then return to Delgren the Purifier at Maestra's Post.";
@@ -21495,20 +25706,29 @@ addon.questsDB = {
    [4606] = {
       ["name"] = "The Sparklematic 5200!";
       ["prev"] = 4602;
+      ["prequests"] = {
+         [1] = 4602;
+      };
       ["objective"] = "";
       ["req"] = 25;
    };
    [9242] = {
       ["name"] = "Polar Gloves";
       ["prev"] = 9233;
+      ["prequests"] = {
+         [1] = 9233;
+      };
       ["objective"] = "Craftsman Wilhelm at Light's Hope Chapel in the Eastern Plaguelands wants 5 Frozen Runes, 12 Enchanted Leather, 3 Essence of Water, 3 Cured Rugged Hides and 200 gold.";
       ["req"] = 60;
    };
    [1160] = {
-      ["name"] = "Test of Lore";
-      ["prev"] = 1159;
       ["repgain"] = {
          [68] = 150;
+      };
+      ["name"] = "Test of Lore";
+      ["prev"] = 1159;
+      ["prequests"] = {
+         [1] = 1159;
       };
       ["next"] = 6628;
       ["objective"] = "Find The Beginnings of the Undead Threat, and return it to Parqual Fintallas in Undercity.";
@@ -21537,6 +25757,9 @@ addon.questsDB = {
    [1172] = {
       ["name"] = "The Brood of Onyxia";
       ["prev"] = 1171;
+      ["prequests"] = {
+         [1] = 1171;
+      };
       ["reward"] = {
          [1] = 10700;
          [2] = 10701;
@@ -21554,11 +25777,14 @@ addon.questsDB = {
       ["req"] = 29;
    };
    [1180] = {
-      ["name"] = "Goblin Sponsorship";
-      ["prev"] = 1178;
       ["repgain"] = {
          [470] = 25;
          [21] = 25;
+      };
+      ["name"] = "Goblin Sponsorship";
+      ["prev"] = 1178;
+      ["prequests"] = {
+         [1] = 1178;
       };
       ["next"] = 1181;
       ["objective"] = "Speak with Wharfmaster Lozgil in Booty Bay.";
@@ -21567,14 +25793,20 @@ addon.questsDB = {
    [4734] = {
       ["name"] = "Egg Freezing";
       ["prev"] = 4907;
+      ["prequests"] = {
+         [1] = 4907;
+      };
       ["objective"] = "Use the Eggscilloscope Prototype on an egg in the Rookery.";
       ["req"] = 57;
    };
    [1188] = {
-      ["name"] = "Safety First";
-      ["prev"] = 1187;
       ["repgain"] = {
          [369] = 25;
+      };
+      ["name"] = "Safety First";
+      ["prev"] = 1187;
+      ["prequests"] = {
+         [1] = 1187;
       };
       ["next"] = 1189;
       ["objective"] = "Bring the Seaforium Booster to Shreev in Gadgetzan.";
@@ -21583,35 +25815,47 @@ addon.questsDB = {
    [1192] = {
       ["name"] = "Indurium Ore";
       ["prev"] = 1194;
+      ["prequests"] = {
+         [1] = 1194;
+      };
       ["objective"] = "";
       ["req"] = 29;
    };
    [4782] = {
       ["name"] = "Components for the Enchanted Gold Bloodrobe";
       ["prev"] = 4781;
+      ["prequests"] = {
+         [1] = 4781;
+      };
       ["next"] = 4783;
       ["objective"] = "Return to Menara Voidrender in the Barrens.";
       ["req"] = 31;
    };
    [1200] = {
       ["name"] = "Blackfathom Villainy";
-      ["prev"] = 1198;
+      ["objective"] = "Bring the head of Twilight Lord Kelris to Dawnwatcher Selgorm in Darnassus.";
       ["repgain"] = {
          [69] = 500;
          [529] = 500;
       };
+      ["prequests"] = {
+         [1] = 1198;
+      };
+      ["prev"] = 1198;
       ["reward"] = {
          [1] = 7001;
          [2] = 7002;
       };
-      ["objective"] = "Bring the head of Twilight Lord Kelris to Dawnwatcher Selgorm in Darnassus.";
       ["req"] = 18;
    };
    [1204] = {
-      ["name"] = "Mudrock Soup and Bugs";
-      ["prev"] = 1260;
       ["repgain"] = {
          [0] = 72;
+      };
+      ["name"] = "Mudrock Soup and Bugs";
+      ["prev"] = 1260;
+      ["prequests"] = {
+         [1] = 1260;
       };
       ["next"] = 1258;
       ["objective"] = " and... well";
@@ -21630,12 +25874,15 @@ addon.questsDB = {
       ["req"] = 55;
    };
    [5929] = {
+      ["followup"] = 5931;
       ["repgain"] = {
          [609] = 50;
       };
       ["name"] = "Great Bear Spirit";
       ["prev"] = 5921;
-      ["followup"] = 5931;
+      ["prequests"] = {
+         [1] = 5921;
+      };
       ["next"] = 5931;
       ["objective"] = "Seek out the Great Bear Spirit in northwestern Moonglade and learn what it has to share with you about the nature of the bear.  When finished, return to Dendrite Starblaze in Nighthaven, Moonglade.";
       ["req"] = 10;
@@ -21648,6 +25895,9 @@ addon.questsDB = {
    [1220] = {
       ["name"] = "Captain Vimes";
       ["prev"] = 1219;
+      ["prequests"] = {
+         [1] = 1219;
+      };
       ["repgain"] = {
          [72] = 250;
       };
@@ -21657,6 +25907,9 @@ addon.questsDB = {
    [1136] = {
       ["name"] = "Frostmaw";
       ["prev"] = 1131;
+      ["prequests"] = {
+         [1] = 1131;
+      };
       ["repgain"] = {
          [81] = 500;
       };
@@ -21666,18 +25919,27 @@ addon.questsDB = {
    [2752] = {
       ["name"] = "On Iron Pauldrons";
       ["prev"] = 2751;
+      ["prequests"] = {
+         [1] = 2751;
+      };
       ["objective"] = "Bring four Bronze Battleaxes and four Bronze Warhammers to Orokk Omosh in Orgrimmar.";
       ["req"] = 32;
    };
    [8293] = {
       ["name"] = "Mark of Honor";
       ["prev"] = 8294;
+      ["prequests"] = {
+         [1] = 8294;
+      };
       ["objective"] = "You obtained a Warsong Mark of Honor for your last task, talk to me again, and you gain your reward.";
       ["req"] = 60;
    };
    [3118] = {
       ["name"] = "Encrypted Sigil";
       ["prev"] = 457;
+      ["prequests"] = {
+         [1] = 457;
+      };
       ["repgain"] = {
          [69] = 75;
       };
@@ -21687,6 +25949,9 @@ addon.questsDB = {
    [1240] = {
       ["name"] = "The Troll Witchdoctor";
       ["prev"] = 1239;
+      ["prequests"] = {
+         [1] = 1239;
+      };
       ["repgain"] = {
          [530] = 250;
       };
@@ -21695,26 +25960,32 @@ addon.questsDB = {
    };
    [4974] = {
       ["name"] = "For The Horde!";
-      ["prev"] = 4941;
+      ["objective"] = "Travel to Blackrock Spire and slay Warchief Rend Blackhand. Take his head and return to Orgrimmar.";
       ["repgain"] = {
          [76] = 500;
          [68] = 500;
          [81] = 500;
          [530] = 500;
       };
+      ["prequests"] = {
+         [1] = 4941;
+      };
+      ["prev"] = 4941;
       ["reward"] = {
          [1] = 13966;
          [2] = 13968;
          [3] = 13965;
       };
-      ["objective"] = "Travel to Blackrock Spire and slay Warchief Rend Blackhand. Take his head and return to Orgrimmar.";
       ["req"] = 55;
    };
    [1248] = {
-      ["name"] = "The Missing Diplomat";
-      ["prev"] = 1247;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "The Missing Diplomat";
+      ["prev"] = 1247;
+      ["prequests"] = {
+         [1] = 1247;
       };
       ["next"] = 1249;
       ["objective"] = "Speak to Mikhail in the Wetlands.";
@@ -21727,10 +25998,13 @@ addon.questsDB = {
       ["req"] = 30;
    };
    [5022] = {
-      ["name"] = "Better Late Than Never";
-      ["prev"] = 5021;
       ["repgain"] = {
          [72] = 75;
+      };
+      ["name"] = "Better Late Than Never";
+      ["prev"] = 5021;
+      ["prequests"] = {
+         [1] = 5021;
       };
       ["next"] = 5048;
       ["objective"] = "Check with the Royal Factors of Stormwind to learn the whereabouts of an Emma Felstone.  There is usually a census officer located in City Hall.";
@@ -21760,10 +26034,13 @@ addon.questsDB = {
       ["req"] = 30;
    };
    [5086] = {
-      ["name"] = "Toxic Horrors";
-      ["prev"] = 5085;
       ["repgain"] = {
          [577] = 250;
+      };
+      ["name"] = "Toxic Horrors";
+      ["prev"] = 5085;
+      ["prequests"] = {
+         [1] = 5085;
       };
       ["next"] = 5087;
       ["objective"] = "Collect 3 Toxic Horror Droplets for Donova Snowden in Winterspring.";
@@ -21771,21 +26048,27 @@ addon.questsDB = {
    };
    [5102] = {
       ["name"] = "General Drakkisath's Demise";
-      ["prev"] = 5089;
+      ["objective"] = "Travel to Blackrock Spire and destroy General Drakkisath. Return to Marshal Maxwell when the job is done.$B";
       ["repgain"] = {
          [469] = 500;
       };
+      ["prequests"] = {
+         [1] = 5089;
+      };
+      ["prev"] = 5089;
       ["reward"] = {
          [1] = 13966;
          [2] = 13968;
          [3] = 13965;
       };
-      ["objective"] = "Travel to Blackrock Spire and destroy General Drakkisath. Return to Marshal Maxwell when the job is done.$B";
       ["req"] = 55;
    };
    [3100] = {
       ["name"] = "Simple Letter";
       ["prev"] = 7;
+      ["prequests"] = {
+         [1] = 7;
+      };
       ["repgain"] = {
          [72] = 75;
       };
@@ -21805,6 +26088,9 @@ addon.questsDB = {
    [5166] = {
       ["name"] = "Breastplate of the Chromatic Flight";
       ["prev"] = 5164;
+      ["prequests"] = {
+         [1] = 5164;
+      };
       ["objective"] = "To forge the Breastplate of the Chromatic Flight, you will be required to bring the following items to Jeziba the 'Sculptor':$B$B1 Chromatic Carapace.$B$B10 Brilliant Chromatic Scales.$B$B10 Blood of Heroes.$B$B10 Frayed Abomination Stitchings.";
       ["req"] = 57;
    };
@@ -21826,34 +26112,43 @@ addon.questsDB = {
       ["req"] = 55;
    };
    [5230] = {
-      ["name"] = "Return to the Bulwark";
-      ["prev"] = 5229;
       ["repgain"] = {
          [67] = 75;
          [529] = 75;
+      };
+      ["name"] = "Return to the Bulwark";
+      ["prev"] = 5229;
+      ["prequests"] = {
+         [1] = 5229;
       };
       ["next"] = 5231;
       ["objective"] = "Bring the Filled Felstone Field Bottle to Shadow Priestess Vandis at the Bulwark, Western Plaguelands.";
       ["req"] = 50;
    };
    [5246] = {
-      ["name"] = "Fragments of the Past";
-      ["prev"] = 5245;
       ["repgain"] = {
          [69] = 25;
          [54] = 25;
          [72] = 25;
          [47] = 25;
       };
+      ["name"] = "Fragments of the Past";
+      ["prev"] = 5245;
+      ["prequests"] = {
+         [1] = 5245;
+      };
       ["next"] = 5247;
       ["objective"] = "Find the Sacred Highborne Writings in the Temple of Zin-Malor in Azshara, and bring them to Aurora Skycaller near the Northpass Tower in Eastern Plaguelands.";
       ["req"] = 53;
    };
    [5262] = {
-      ["name"] = "The Truth Comes Crashing Down";
-      ["prev"] = 5251;
       ["repgain"] = {
          [529] = 150;
+      };
+      ["name"] = "The Truth Comes Crashing Down";
+      ["prev"] = 5251;
+      ["prequests"] = {
+         [1] = 5251;
       };
       ["next"] = 5263;
       ["objective"] = "Take the Head of Balnazzar to Duke Nicholas Zverenhoff in the Eastern Plaguelands.";
@@ -21862,14 +26157,20 @@ addon.questsDB = {
    [1320] = {
       ["name"] = "The Black Shield";
       ["prev"] = 1319;
+      ["prequests"] = {
+         [1] = 1319;
+      };
       ["objective"] = "Speak with Captain Garran Vimes in Theramore.";
       ["req"] = 30;
    };
    [1324] = {
-      ["name"] = "The Missing Diplomat";
-      ["prev"] = 1266;
       ["repgain"] = {
          [72] = 150;
+      };
+      ["name"] = "The Missing Diplomat";
+      ["prev"] = 1266;
+      ["prequests"] = {
+         [1] = 1266;
       };
       ["next"] = 1267;
       ["objective"] = "Defeat Private Hendel in Dustwallow Marsh.";
@@ -21877,22 +26178,28 @@ addon.questsDB = {
    };
    [6163] = {
       ["name"] = "Ramstein";
-      ["prev"] = 6135;
+      ["objective"] = "Travel to Stratholme and slay Ramstein the Gorger. Take his head as a souvenir for Nathanos.";
       ["repgain"] = {
          [68] = 250;
       };
+      ["prequests"] = {
+         [1] = 6135;
+      };
+      ["prev"] = 6135;
       ["reward"] = {
          [1] = 18022;
          [2] = 17001;
       };
-      ["objective"] = "Travel to Stratholme and slay Ramstein the Gorger. Take his head as a souvenir for Nathanos.";
       ["req"] = 56;
    };
    [6261] = {
-      ["name"] = "Dungar Longdrink";
-      ["prev"] = 6281;
       ["repgain"] = {
          [72] = 25;
+      };
+      ["name"] = "Dungar Longdrink";
+      ["prev"] = 6281;
+      ["prequests"] = {
+         [1] = 6281;
       };
       ["next"] = 6285;
       ["objective"] = "Bring Osric's Crate to Dungar Longdrink the gryphon master.";
@@ -21901,12 +26208,18 @@ addon.questsDB = {
    [5342] = {
       ["name"] = "The Last Barov";
       ["prev"] = 5341;
+      ["prequests"] = {
+         [1] = 5341;
+      };
       ["objective"] = "Travel to Chillwind Camp - Alliance territory - and assassinate Weldon Barov. Take his head and return to Alexi Barov.$B$BBe warned, Weldon will probably be well protected by Alliance scum.";
       ["req"] = 52;
    };
    [2771] = {
       ["name"] = "A Good Head On Your Shoulders";
       ["prev"] = 2760;
+      ["prequests"] = {
+         [1] = 2760;
+      };
       ["followup"] = 3321;
       ["objective"] = "Bring two Mithril Coifs and one Ornate Mithril Shoulder to Trenton Lighthammer.";
       ["req"] = 40;
@@ -21985,6 +26298,9 @@ addon.questsDB = {
    };
    [5502] = {
       ["name"] = "A Warden of the Horde";
+      ["prequests"] = {
+         [1] = 925;
+      };
       ["reward"] = {
          [1] = 23007;
          [2] = 23015;
@@ -21997,6 +26313,9 @@ addon.questsDB = {
    [1380] = {
       ["name"] = "Khan Hratha";
       ["prev"] = 1374;
+      ["prequests"] = {
+         [1] = 1374;
+      };
       ["reward"] = {
          [1] = 6773;
          [2] = 6774;
@@ -22007,6 +26326,9 @@ addon.questsDB = {
    [5534] = {
       ["name"] = "Kim'jael's Missing\" Equipment\"";
       ["prev"] = 3601;
+      ["prequests"] = {
+         [1] = 3601;
+      };
       ["repgain"] = {
          [21] = 350;
       };
@@ -22014,10 +26336,13 @@ addon.questsDB = {
       ["req"] = 47;
    };
    [1388] = {
-      ["name"] = "Nothing But The Truth";
-      ["prev"] = 1383;
       ["repgain"] = {
          [68] = 25;
+      };
+      ["name"] = "Nothing But The Truth";
+      ["prev"] = 1383;
+      ["prequests"] = {
+         [1] = 1383;
       };
       ["next"] = 1391;
       ["objective"] = "Give Faustin's Truth Serum to Deathstalker Zraedus at Beggar's Haunt.";
@@ -22031,6 +26356,9 @@ addon.questsDB = {
    [5582] = {
       ["name"] = "Healthy Dragon Scale";
       ["prev"] = 5529;
+      ["prequests"] = {
+         [1] = 5529;
+      };
       ["repgain"] = {
          [529] = 75;
       };
@@ -22043,10 +26371,13 @@ addon.questsDB = {
       ["req"] = 19;
    };
    [6323] = {
-      ["name"] = "Ride to the Undercity";
-      ["prev"] = 6321;
       ["repgain"] = {
          [68] = 75;
+      };
+      ["name"] = "Ride to the Undercity";
+      ["prev"] = 6321;
+      ["prequests"] = {
+         [1] = 6321;
       };
       ["next"] = 6322;
       ["objective"] = "Buy a bat ride to the Undercity from the bat master Karos Razok, then take Podrig's Order to Gordon Wendham in the Undercity.";
@@ -22089,6 +26420,9 @@ addon.questsDB = {
    [1428] = {
       ["name"] = "Continued Threat";
       ["prev"] = 1426;
+      ["prequests"] = {
+         [1] = 1426;
+      };
       ["repgain"] = {
          [76] = 250;
       };
@@ -22098,6 +26432,9 @@ addon.questsDB = {
    [1432] = {
       ["name"] = "Alliance Relations";
       ["prev"] = 1431;
+      ["prequests"] = {
+         [1] = 1431;
+      };
       ["repgain"] = {
          [76] = 75;
       };
@@ -22107,29 +26444,40 @@ addon.questsDB = {
    [5742] = {
       ["name"] = "Redemption";
       ["next"] = 5781;
+      ["prequests"] = {
+         [1] = 5542;
+         [2] = 5543;
+         [3] = 5544;
+      };
       ["objective"] = "Listen to what Tirion Fordring has to say.";
       ["req"] = 52;
    };
    [1440] = {
       ["name"] = "Return to Vahlarriel";
-      ["prev"] = 1439;
+      ["objective"] = "Escort Dalinda Malem from Thunder Axe Fortress and then return to Vahlarriel Demonslayer in Desolace.";
       ["repgain"] = {
          [69] = 350;
       };
+      ["prequests"] = {
+         [1] = 1439;
+      };
+      ["prev"] = 1439;
       ["reward"] = {
          [1] = 9687;
          [2] = 9698;
          [3] = 9699;
          [4] = 11884;
       };
-      ["objective"] = "Escort Dalinda Malem from Thunder Axe Fortress and then return to Vahlarriel Demonslayer in Desolace.";
       ["req"] = 30;
    };
    [1444] = {
-      ["name"] = "Return to Fel'Zerul";
-      ["prev"] = 1429;
       ["repgain"] = {
          [76] = 350;
+      };
+      ["name"] = "Return to Fel'Zerul";
+      ["prev"] = 1429;
+      ["prequests"] = {
+         [1] = 1429;
       };
       ["next"] = 1445;
       ["objective"] = "Return to Fel'Zerul in Stonard.";
@@ -22148,14 +26496,20 @@ addon.questsDB = {
    [1452] = {
       ["name"] = "Rhapsody's Kalimdor Kocktail";
       ["prev"] = 1451;
+      ["prequests"] = {
+         [1] = 1451;
+      };
       ["objective"] = "Rhapsody Shindigger in The Hinterlands wants you to bring him 3 Roc Gizzards, 3 Groddoc Livers and 3 Ironfur Livers.";
       ["req"] = 38;
    };
    [1456] = {
-      ["name"] = "The Karnitol Shipwreck";
-      ["prev"] = 1455;
       ["repgain"] = {
          [47] = 250;
+      };
+      ["name"] = "The Karnitol Shipwreck";
+      ["prev"] = 1455;
+      ["prequests"] = {
+         [1] = 1455;
       };
       ["next"] = 1457;
       ["objective"] = "Find Karnitol's Satchel and return it to Kreldig Ungor in Desolace.";
@@ -22164,6 +26518,9 @@ addon.questsDB = {
    [6324] = {
       ["name"] = "Return to Podrig";
       ["prev"] = 6322;
+      ["prequests"] = {
+         [1] = 6322;
+      };
       ["repgain"] = {
          [68] = 350;
       };
@@ -22189,12 +26546,18 @@ addon.questsDB = {
    [5886] = {
       ["name"] = "Salve via Disenchanting";
       ["prev"] = 4102;
+      ["prequests"] = {
+         [1] = 4102;
+      };
       ["objective"] = "";
       ["req"] = 48;
    };
    [5902] = {
       ["name"] = "A Plague Upon Thee";
       ["prev"] = 5901;
+      ["prequests"] = {
+         [1] = 5901;
+      };
       ["next"] = 6390;
       ["objective"] = "Find someplace suitable in the center of the Northridge Lumber Mill in Western Plaguelands to place the Barrel of Plagueland Termites.";
       ["req"] = 48;
@@ -22211,12 +26574,18 @@ addon.questsDB = {
    [1484] = {
       ["name"] = "The Corrupter";
       ["prev"] = 1482;
+      ["prequests"] = {
+         [1] = 1482;
+      };
       ["objective"] = "Speak to Takata Steelblade in Desolace.";
       ["req"] = 25;
    };
    [1488] = {
       ["name"] = "The Corrupter";
       ["prev"] = 1484;
+      ["prequests"] = {
+         [1] = 1484;
+      };
       ["reward"] = {
          [1] = 6746;
          [2] = 6747;
@@ -22235,12 +26604,18 @@ addon.questsDB = {
    [6390] = {
       ["name"] = "A Plague Upon Thee";
       ["prev"] = 5902;
+      ["prequests"] = {
+         [1] = 5902;
+      };
       ["objective"] = "Release the Plagueland Termites in the Northridge Lumber Mill, then return with the Barrel of Plagueland Termites to Mickey Levine at the Bulwark in Tirisfal Glades.";
       ["req"] = 48;
    };
    [6394] = {
       ["name"] = "Thazz'ril's Pick";
       ["prev"] = 5441;
+      ["prequests"] = {
+         [1] = 5441;
+      };
       ["repgain"] = {
          [530] = 350;
          [76] = 350;
@@ -22251,6 +26626,9 @@ addon.questsDB = {
    [1504] = {
       ["name"] = "The Binding";
       ["prev"] = 1501;
+      ["prequests"] = {
+         [1] = 1501;
+      };
       ["objective"] = "Using the Glyphs of Summoning, summon and subdue a voidwalker, then return the Glyphs of Summoning to Gan'rul Bloodeye in Orgrimmar.";
       ["req"] = 10;
    };
@@ -22265,6 +26643,9 @@ addon.questsDB = {
    [1512] = {
       ["name"] = "Love's Gift";
       ["prev"] = 1515;
+      ["prequests"] = {
+         [1] = 1515;
+      };
       ["next"] = 1513;
       ["objective"] = "Bring the Dirt-caked Pendant to Gan'rul Bloodeye in Orgrimmar.";
       ["req"] = 20;
@@ -22278,6 +26659,9 @@ addon.questsDB = {
    [1520] = {
       ["name"] = "Call of Earth";
       ["prev"] = 1519;
+      ["prequests"] = {
+         [1] = 1519;
+      };
       ["next"] = 1521;
       ["objective"] = "Find Kodo Rock and drink the Earth Sapta.";
       ["req"] = 4;
@@ -22285,6 +26669,12 @@ addon.questsDB = {
    [1524] = {
       ["name"] = "Call of Fire";
       ["next"] = 1525;
+      ["prequests"] = {
+         [1] = 1523;
+         [2] = 2983;
+         [3] = 1522;
+         [4] = 2984;
+      };
       ["objective"] = "Bring the Torch of the Dormant Flame to Telf Joolam in Durotar.";
       ["req"] = 10;
    };
@@ -22317,6 +26707,9 @@ addon.questsDB = {
    [6401] = {
       ["name"] = "Kaya's Alive";
       ["prev"] = 6523;
+      ["prequests"] = {
+         [1] = 6523;
+      };
       ["repgain"] = {
          [81] = 150;
       };
@@ -22326,6 +26719,9 @@ addon.questsDB = {
    [8251] = {
       ["name"] = "Magic Dust";
       ["prev"] = 8250;
+      ["prequests"] = {
+         [1] = 8250;
+      };
       ["next"] = 8252;
       ["objective"] = "Bring 10 Glittering Dust to Archmage Xylem.";
       ["req"] = 50;
@@ -22345,6 +26741,9 @@ addon.questsDB = {
    [8315] = {
       ["name"] = "The Calling";
       ["prev"] = 8314;
+      ["prequests"] = {
+         [1] = 8314;
+      };
       ["repgain"] = {
          [609] = 200;
       };
@@ -22374,6 +26773,9 @@ addon.questsDB = {
    [8443] = {
       ["name"] = "Conquering Arathi Basin";
       ["prev"] = 8439;
+      ["prequests"] = {
+         [1] = 8439;
+      };
       ["repgain"] = {
          [510] = 50;
       };
@@ -22409,6 +26811,9 @@ addon.questsDB = {
    [1580] = {
       ["name"] = "Electropellers";
       ["prev"] = 1579;
+      ["prequests"] = {
+         [1] = 1579;
+      };
       ["repgain"] = {
          [54] = 250;
       };
@@ -22418,6 +26823,9 @@ addon.questsDB = {
    [3913] = {
       ["name"] = "A Grave Situation";
       ["prev"] = 3912;
+      ["prequests"] = {
+         [1] = 3912;
+      };
       ["next"] = 3914;
       ["objective"] = "Resurrect, then look for the gravestone that Gaeriyan told you to find.";
       ["req"] = 47;
@@ -22425,6 +26833,9 @@ addon.questsDB = {
    [8603] = {
       ["name"] = "Vestments of the Oracle";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -22443,6 +26854,9 @@ addon.questsDB = {
    [8667] = {
       ["name"] = "Genesis Helm";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -22470,6 +26884,9 @@ addon.questsDB = {
    [8763] = {
       ["name"] = "The Hero of the Day";
       ["prev"] = 8762;
+      ["prequests"] = {
+         [1] = 8762;
+      };
       ["objective"] = "Bring 1 Deeprock Salt and 5 gold coins to any Holly Preserver machine, upon which you will receive 5 Preserved Holly.";
       ["req"] = 40;
    };
@@ -22494,20 +26911,36 @@ addon.questsDB = {
    [2381] = {
       ["name"] = "Plundering the Plunderers";
       ["prev"] = 2382;
+      ["prequests"] = {
+         [1] = 2382;
+      };
       ["objective"] = "Bring the Southsea Treasure back to Wrenix the Wretched in Ratchet. Do not forget to get an E.C.A.C. and Thieves' Tools from Wrenix's Gizmotronic Apparatus. You will need both of these items to complete your mission.$B$BShould you be attacked by any unusually hostile parrots, use your E.C.A.C.!$B$B";
       ["req"] = 16;
    };
    [8923] = {
       ["name"] = "A Supernatural Device";
       ["next"] = 8921;
+      ["prequests"] = {
+         [1] = 8913;
+         [2] = 8915;
+         [3] = 8916;
+         [4] = 8917;
+         [5] = 8918;
+         [6] = 8919;
+         [7] = 8920;
+         [8] = 8914;
+      };
       ["followup"] = 8921;
       ["objective"] = "Take the Sealed Venom Container to Mux Manascrambler in Gadgetzan.";
       ["req"] = 58;
    };
    [8955] = {
+      ["followup"] = 8960;
       ["name"] = "Anthion's Parting Words";
       ["prev"] = 9015;
-      ["followup"] = 8960;
+      ["prequests"] = {
+         [1] = 9015;
+      };
       ["next"] = 8960;
       ["objective"] = "Return to Deliana in Ironforge with a set of Devout Sandals, Devout Skirt and Devout Mantle.";
       ["req"] = 58;
@@ -22519,9 +26952,12 @@ addon.questsDB = {
       ["req"] = 17;
    };
    [9019] = {
+      ["followup"] = 9032;
       ["name"] = "Anthion's Parting Words";
       ["prev"] = 9015;
-      ["followup"] = 9032;
+      ["prequests"] = {
+         [1] = 9015;
+      };
       ["next"] = 9032;
       ["objective"] = "Return to Mokvar in Orgimmar with a set of Devout Sandals, Devout Skirt and Devout Mantle.";
       ["req"] = 58;
@@ -22529,6 +26965,9 @@ addon.questsDB = {
    [1644] = {
       ["name"] = "The Tome of Divinity";
       ["prev"] = 1643;
+      ["prequests"] = {
+         [1] = 1643;
+      };
       ["next"] = 1780;
       ["objective"] = "Bring 10 Linen Cloth to Stephanie Turner in Stormwind.";
       ["req"] = 12;
@@ -22536,6 +26975,9 @@ addon.questsDB = {
    [9083] = {
       ["name"] = "Bonescythe Waistguard";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -22573,6 +27015,9 @@ addon.questsDB = {
    [9243] = {
       ["name"] = "Polar Tunic";
       ["prev"] = 9233;
+      ["prequests"] = {
+         [1] = 9233;
+      };
       ["objective"] = "Craftsman Wilhelm at Light's Hope Chapel in the Eastern Plaguelands wants 8 Frozen Runes, 16 Enchanted Leathers, 5 Essences of Water, 5 Cured Rugged Hides and 300 gold. You must also be of Exalted reputation with the Argent Dawn.";
       ["req"] = 60;
    };
@@ -22587,11 +27032,19 @@ addon.questsDB = {
    [6601] = {
       ["name"] = "Ascension...";
       ["prev"] = 6585;
+      ["prequests"] = {
+         [1] = 6585;
+      };
       ["next"] = 6602;
       ["objective"] = "It would appear as if the charade is over. You know that the Amulet of Draconic Subversion that Myranda the Hag created for you will not function inside Blackrock Spire. Perhaps you should find Rexxar and explain your predicament. Show him the Dull Drakefire Amulet. Hopefully he will know what to do next.";
       ["req"] = 55;
    };
    [9339] = {
+      ["prequests"] = {
+         [1] = 9330;
+         [2] = 9331;
+         [3] = 9332;
+      };
       ["objective"] = "";
       ["name"] = "A Thief's Reward";
       ["req"] = 50;
@@ -22611,6 +27064,9 @@ addon.questsDB = {
    [1692] = {
       ["name"] = "Smith Mathiel";
       ["prev"] = 1686;
+      ["prequests"] = {
+         [1] = 1686;
+      };
       ["objective"] = "Bring the Case of Elunite to Smith Mathiel. ";
       ["req"] = 10;
    };
@@ -22622,6 +27078,9 @@ addon.questsDB = {
    [1700] = {
       ["name"] = "Grimand Elmore";
       ["prev"] = 1701;
+      ["prequests"] = {
+         [1] = 1701;
+      };
       ["next"] = 1705;
       ["objective"] = "Bring Furen's Notes to Grimand Elmore.";
       ["req"] = 20;
@@ -22629,6 +27088,9 @@ addon.questsDB = {
    [1704] = {
       ["name"] = "Klockmort Spannerspan";
       ["prev"] = 1701;
+      ["prequests"] = {
+         [1] = 1701;
+      };
       ["next"] = 1708;
       ["objective"] = "Bring Furen's Notes to Klockmort Spannerspan.";
       ["req"] = 20;
@@ -22636,12 +27098,18 @@ addon.questsDB = {
    [1708] = {
       ["name"] = "Iron Coral";
       ["prev"] = 1704;
+      ["prequests"] = {
+         [1] = 1704;
+      };
       ["objective"] = "Bring 20 loads of Searing Coral to Klockmort Spannerspan in Ironforge.";
       ["req"] = 20;
    };
    [1712] = {
       ["name"] = "Cyclonian";
       ["prev"] = 1791;
+      ["prequests"] = {
+         [1] = 1791;
+      };
       ["next"] = 1713;
       ["objective"] = "Bring the items on Bath'rah's Parchment to Bath'rah the Windwatcher in Alterac.";
       ["req"] = 30;
@@ -22655,6 +27123,9 @@ addon.questsDB = {
    [1847] = {
       ["name"] = "Brutal Legguards";
       ["prev"] = 1846;
+      ["prequests"] = {
+         [1] = 1846;
+      };
       ["objective"] = "";
       ["req"] = 20;
    };
@@ -22696,6 +27167,9 @@ addon.questsDB = {
    [9000] = {
       ["name"] = "Saving the Best for Last";
       ["prev"] = 8997;
+      ["prequests"] = {
+         [1] = 8997;
+      };
       ["objective"] = "Give Deliana your Beaststalker's Cap and Beaststalker's Tunic.";
       ["req"] = 58;
    };
@@ -22759,6 +27233,9 @@ addon.questsDB = {
    [1780] = {
       ["name"] = "The Tome of Divinity";
       ["prev"] = 1644;
+      ["prequests"] = {
+         [1] = 1644;
+      };
       ["next"] = 1781;
       ["objective"] = "Speak to Duthorian Rall in Stormwind.";
       ["req"] = 12;
@@ -22766,6 +27243,9 @@ addon.questsDB = {
    [1784] = {
       ["name"] = "The Tome of Divinity";
       ["prev"] = 1783;
+      ["prequests"] = {
+         [1] = 1783;
+      };
       ["next"] = 1785;
       ["objective"] = "Retrieve a Dark Iron Script from the Dark Iron dwarves near Helm's Bed, and return to Muiredon Battleforge in Ironforge.";
       ["req"] = 12;
@@ -22773,12 +27253,18 @@ addon.questsDB = {
    [1788] = {
       ["name"] = "The Tome of Divinity";
       ["prev"] = 1787;
+      ["prequests"] = {
+         [1] = 1787;
+      };
       ["objective"] = "Speak to Duthorian Rall in Stormwind.";
       ["req"] = 12;
    };
    [7166] = {
       ["name"] = "Legendary Heroes";
       ["prev"] = 7165;
+      ["prequests"] = {
+         [1] = 7165;
+      };
       ["objective"] = "";
       ["req"] = 51;
    };
@@ -22791,25 +27277,34 @@ addon.questsDB = {
    [1800] = {
       ["name"] = "Lordaeron Throne Room";
       ["prev"] = 172;
+      ["prequests"] = {
+         [1] = 172;
+      };
       ["followup"] = 915;
       ["objective"] = "Take your ward to the old Lordaeron Throne Room that lies just before descending into the Undercity.$B";
       ["req"] = 10;
    };
    [1804] = {
+      ["followup"] = 1795;
       ["name"] = "Tome of the Cabal";
       ["prev"] = 1802;
-      ["followup"] = 1795;
+      ["prequests"] = {
+         [1] = 1802;
+      };
       ["next"] = 1795;
       ["objective"] = "Bring the Reconstructed Tome and 3 Rods of Channeling to Strahad Farsan in Ratchet.";
       ["req"] = 30;
    };
    [6762] = {
+      ["followup"] = 1124;
       ["repgain"] = {
          [609] = 25;
       };
       ["name"] = "Rabine Saturna";
       ["prev"] = 6761;
-      ["followup"] = 1124;
+      ["prequests"] = {
+         [1] = 6761;
+      };
       ["next"] = 1124;
       ["objective"] = "Speak with Rabine Saturna in the village of Nighthaven, Moonglade.  Moonglade lies between Felwood and Winterspring, accessible through a path out of Timbermaw Hold.";
       ["req"] = 54;
@@ -22831,6 +27326,9 @@ addon.questsDB = {
    [1820] = {
       ["name"] = "Speak with Coleman";
       ["prev"] = 1819;
+      ["prequests"] = {
+         [1] = 1819;
+      };
       ["next"] = 1821;
       ["objective"] = "Speak with Coleman Farthing.";
       ["req"] = 10;
@@ -22838,6 +27336,9 @@ addon.questsDB = {
    [1824] = {
       ["name"] = "Trial at the Field of Giants";
       ["prev"] = 1823;
+      ["prequests"] = {
+         [1] = 1823;
+      };
       ["next"] = 1825;
       ["objective"] = "Bring 5 twitching antennae to Ruga Ragetotem at Camp Taurajo";
       ["req"] = 20;
@@ -22845,6 +27346,9 @@ addon.questsDB = {
    [3085] = {
       ["name"] = "Hallowed Tablet";
       ["prev"] = 788;
+      ["prequests"] = {
+         [1] = 788;
+      };
       ["repgain"] = {
          [530] = 75;
       };
@@ -22871,6 +27375,9 @@ addon.questsDB = {
    [1840] = {
       ["name"] = "Orm Stonehoof and the Brutal Helm";
       ["prev"] = 1838;
+      ["prequests"] = {
+         [1] = 1838;
+      };
       ["next"] = 1844;
       ["objective"] = "Speak with Orm Stonehoof in Thunder Bluff.";
       ["req"] = 20;
@@ -22878,12 +27385,18 @@ addon.questsDB = {
    [1844] = {
       ["name"] = "Chimaeric Horn";
       ["prev"] = 1840;
+      ["prequests"] = {
+         [1] = 1840;
+      };
       ["objective"] = "Bring a Galvanized Horn to Orm Stonehoof in Thunder Bluff.";
       ["req"] = 20;
    };
    [1848] = {
       ["name"] = "Brutal Hauberk";
       ["prev"] = 1838;
+      ["prequests"] = {
+         [1] = 1838;
+      };
       ["objective"] = "";
       ["req"] = 20;
    };
@@ -22914,28 +27427,34 @@ addon.questsDB = {
    };
    [1046] = {
       ["name"] = "Raene's Cleansing";
-      ["prev"] = 1045;
+      ["objective"] = "Bring Ran Bloodtooth's Skull and Dartol's Rod of Transformation to Raene Wolfrunner in Astranaar.";
       ["repgain"] = {
          [69] = 350;
       };
+      ["prequests"] = {
+         [1] = 1045;
+      };
+      ["prev"] = 1045;
       ["reward"] = {
          [1] = 5815;
          [2] = 17046;
       };
-      ["objective"] = "Bring Ran Bloodtooth's Skull and Dartol's Rod of Transformation to Raene Wolfrunner in Astranaar.";
       ["req"] = 18;
    };
    [7486] = {
       ["name"] = "A Hero's Reward";
-      ["prev"] = 6824;
+      ["objective"] = "Claim your reward from Hydraxis' Coffer.";
       ["repgain"] = {
          [749] = 200;
       };
+      ["prequests"] = {
+         [1] = 6824;
+      };
+      ["prev"] = 6824;
       ["reward"] = {
          [1] = 18399;
          [2] = 18398;
       };
-      ["objective"] = "Claim your reward from Hydraxis' Coffer.";
       ["req"] = 60;
    };
    [7502] = {
@@ -22949,6 +27468,9 @@ addon.questsDB = {
    [1880] = {
       ["name"] = "Mage-tastic Gizmonitor";
       ["prev"] = 1879;
+      ["prequests"] = {
+         [1] = 1879;
+      };
       ["reward"] = {
          [1] = 7507;
          [2] = 9514;
@@ -22959,6 +27481,9 @@ addon.questsDB = {
    [1884] = {
       ["name"] = "Ju-Ju Heaps";
       ["prev"] = 1883;
+      ["prequests"] = {
+         [1] = 1883;
+      };
       ["reward"] = {
          [1] = 7508;
          [2] = 9513;
@@ -22968,24 +27493,30 @@ addon.questsDB = {
    };
    [4511] = {
       ["name"] = "Calm Before the Storm";
-      ["prev"] = 4509;
+      ["objective"] = "Bring the Bank Voucher to Karus in the bank of Orgrimmar.";
       ["repgain"] = {
          [76] = 500;
          [68] = 500;
          [81] = 500;
          [530] = 500;
       };
+      ["prequests"] = {
+         [1] = 4509;
+      };
+      ["prev"] = 4509;
       ["reward"] = {
          [1] = 11870;
          [2] = 11871;
          [3] = 11872;
       };
-      ["objective"] = "Bring the Bank Voucher to Karus in the bank of Orgrimmar.";
       ["req"] = 50;
    };
    [5511] = {
       ["name"] = "The Key to Scholomance";
       ["prev"] = 5804;
+      ["prequests"] = {
+         [1] = 5804;
+      };
       ["objective"] = "";
       ["req"] = 55;
    };
@@ -22997,10 +27528,13 @@ addon.questsDB = {
       ["req"] = 60;
    };
    [8309] = {
-      ["name"] = "Glyph Chasing";
-      ["prev"] = 8304;
       ["repgain"] = {
          [609] = 100;
+      };
+      ["name"] = "Glyph Chasing";
+      ["prev"] = 8304;
+      ["prequests"] = {
+         [1] = 8304;
       };
       ["followup"] = 8314;
       ["objective"] = "Rutgar Glyphshaper at Bronzebeard's Encampment in Silithus wants you to venture to Hive'Ashi, Hive'Zora, and Hive'Regal and recover Glyphed Rubbings from the Glyphed Crystals of each hive.$B$BUse the Geologist's Transcription Kit to make a reasonable facsimile of the ancient glyphs. Return to Rutgar Glyphshaper when you complete this task.";
@@ -23009,22 +27543,33 @@ addon.questsDB = {
    [5046] = {
       ["name"] = "Razorhide";
       ["prev"] = 5052;
+      ["prequests"] = {
+         [1] = 5052;
+      };
       ["objective"] = "";
       ["req"] = 14;
    };
    [7630] = {
       ["name"] = "Arcanite";
+      ["prequests"] = {
+         [1] = 7626;
+         [2] = 7627;
+         [3] = 7628;
+      };
       ["followup"] = 7631;
       ["objective"] = "Bring 3 Arcanite Bar to Gorzeeki in the Burning Steppes.";
       ["req"] = 60;
    };
    [7646] = {
+      ["followup"] = 7647;
       ["repgain"] = {
          [72] = 75;
       };
       ["name"] = "The Divination Scryer";
       ["prev"] = 7644;
-      ["followup"] = 7647;
+      ["prequests"] = {
+         [1] = 7644;
+      };
       ["next"] = 7647;
       ["objective"] = "Bring an Azerothian Diamond and a Pristine Black Diamond to Lord Grayson Shadowbreaker in the Cathedral District of Stormwind.";
       ["req"] = 60;
@@ -23052,12 +27597,18 @@ addon.questsDB = {
    [8589] = {
       ["name"] = "The Horde Needs More Heavy Leather!";
       ["prev"] = 8588;
+      ["prequests"] = {
+         [1] = 8588;
+      };
       ["objective"] = "Bring 10 Heavy Leather to Skinner Jamani at the Valley of Spirits in Orgrimmar.";
       ["req"] = 1;
    };
    [2947] = {
       ["name"] = "Return of the Ring";
       ["prev"] = 2945;
+      ["prequests"] = {
+         [1] = 2945;
+      };
       ["next"] = 2948;
       ["objective"] = " or perhaps the initials of the ring's crafter.  Keep the ring... or return it to this person.  Decisions";
       ["req"] = 28;
@@ -23065,6 +27616,9 @@ addon.questsDB = {
    [7726] = {
       ["name"] = "Refuel for the Zapping";
       ["prev"] = 7721;
+      ["prequests"] = {
+         [1] = 7721;
+      };
       ["repgain"] = {
          [21] = 25;
          [369] = 25;
@@ -23086,6 +27640,9 @@ addon.questsDB = {
    [1940] = {
       ["name"] = "Pristine Spider Silk";
       ["prev"] = 1938;
+      ["prequests"] = {
+         [1] = 1938;
+      };
       ["followup"] = 1942;
       ["objective"] = "Bring 8 Pristine Spider Silk to Wynne Larson in Stormwind.";
       ["req"] = 26;
@@ -23093,6 +27650,9 @@ addon.questsDB = {
    [1944] = {
       ["name"] = "Waters of Xavian";
       ["prev"] = 1943;
+      ["prequests"] = {
+         [1] = 1943;
+      };
       ["next"] = 1945;
       ["objective"] = "Bring the Xavian Water Sample to Deino in Orgrimmar.";
       ["req"] = 26;
@@ -23105,6 +27665,9 @@ addon.questsDB = {
    [7806] = {
       ["name"] = "Additional Runecloth";
       ["prev"] = 7805;
+      ["prequests"] = {
+         [1] = 7805;
+      };
       ["repgain"] = {
          [47] = 50;
       };
@@ -23123,6 +27686,9 @@ addon.questsDB = {
    [7838] = {
       ["name"] = "Arena Grandmaster";
       ["prev"] = 7810;
+      ["prequests"] = {
+         [1] = 7810;
+      };
       ["objective"] = "";
       ["req"] = 1;
    };
@@ -23139,11 +27705,14 @@ addon.questsDB = {
       ["req"] = 55;
    };
    [6384] = {
-      ["name"] = "Ride to Orgrimmar";
-      ["prev"] = 6365;
       ["repgain"] = {
          [530] = 75;
          [76] = 75;
+      };
+      ["name"] = "Ride to Orgrimmar";
+      ["prev"] = 6365;
+      ["prequests"] = {
+         [1] = 6365;
       };
       ["next"] = 6385;
       ["objective"] = "Buy a wind rider to Orgrimmar from the wind rider master Devrak, then bring Zargh's Meats to Gryshka in Orgrimmar.";
@@ -23152,6 +27721,9 @@ addon.questsDB = {
    [7886] = {
       ["name"] = "Talismans of Merit";
       ["prev"] = 7873;
+      ["prequests"] = {
+         [1] = 7873;
+      };
       ["objective"] = "You obtained a Silverwing Talisman of Merit for your last task, talk to me again, and you gain your reward.";
       ["req"] = 50;
    };
@@ -23178,6 +27750,9 @@ addon.questsDB = {
    [5462] = {
       ["name"] = "The Dying, Ras Frostwhisper";
       ["prev"] = 5461;
+      ["prequests"] = {
+         [1] = 5461;
+      };
       ["next"] = 5463;
       ["objective"] = "Travel to Light's Hope in Eastern Plaguelands and seek out Leonid Barthalomew the Revered. Show him the Keepsake of Remembrance and tell him all that you have discovered.";
       ["req"] = 57;
@@ -23206,12 +27781,15 @@ addon.questsDB = {
       ["req"] = 12;
    };
    [5930] = {
+      ["followup"] = 5932;
       ["repgain"] = {
          [609] = 50;
       };
       ["name"] = "Great Bear Spirit";
       ["prev"] = 5922;
-      ["followup"] = 5932;
+      ["prequests"] = {
+         [1] = 5922;
+      };
       ["next"] = 5932;
       ["objective"] = "Seek out the Great Bear Spirit in northwestern Moonglade and learn what it has to share with you about the nature of the bear.  When finished, return to Dendrite Starblaze in Nighthaven, Moonglade.";
       ["req"] = 10;
@@ -23231,6 +27809,9 @@ addon.questsDB = {
    [8046] = {
       ["name"] = "The Heathen's Brand";
       ["prev"] = 8045;
+      ["prequests"] = {
+         [1] = 8045;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
@@ -23257,12 +27838,18 @@ addon.questsDB = {
    [4146] = {
       ["name"] = "Zapper Fuel";
       ["prev"] = 4147;
+      ["prequests"] = {
+         [1] = 4147;
+      };
       ["objective"] = "Deliver the Unloaded Zapper and 5 samples of Atal'ai Haze to Larion in Marshal's Refuge.";
       ["req"] = 47;
    };
    [8142] = {
       ["name"] = "Zandalrian Shadow Talisman";
       ["prev"] = 8141;
+      ["prequests"] = {
+         [1] = 8141;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
@@ -23281,6 +27868,9 @@ addon.questsDB = {
    [6146] = {
       ["name"] = "Nathanos' Ruse";
       ["prev"] = 6145;
+      ["prequests"] = {
+         [1] = 6145;
+      };
       ["next"] = 6147;
       ["objective"] = "Travel to Tyr's Hand, southeast of the Marris Stead. Once there, take a bite of the Rotten Apple. While under the guise of the Scarlet Crusade, deliver the Grand Crusader's Command to Crusader Lord Valdelmar.";
       ["req"] = 56;
@@ -23296,12 +27886,18 @@ addon.questsDB = {
    [4111] = {
       ["name"] = "Salve via Skinning";
       ["prev"] = 4106;
+      ["prequests"] = {
+         [1] = 4106;
+      };
       ["objective"] = "";
       ["req"] = 48;
    };
    [8252] = {
       ["name"] = "The Siren's Coral";
       ["prev"] = 8251;
+      ["prequests"] = {
+         [1] = 8251;
+      };
       ["next"] = 8253;
       ["objective"] = "Collect 6 Enchanted Coral and return them to Archmage Xylem.";
       ["req"] = 50;
@@ -23309,12 +27905,18 @@ addon.questsDB = {
    [4143] = {
       ["name"] = "Haze of Evil";
       ["prev"] = 4142;
+      ["prequests"] = {
+         [1] = 4142;
+      };
       ["objective"] = "Collect 5 samples of Atal'ai Haze, then return to Muigin in Un'Goro Crater.";
       ["req"] = 47;
    };
    [8316] = {
       ["name"] = "Armaments of War";
       ["prev"] = 8315;
+      ["prequests"] = {
+         [1] = 8315;
+      };
       ["repgain"] = {
          [609] = 250;
       };
@@ -23324,6 +27926,9 @@ addon.questsDB = {
    [8348] = {
       ["name"] = "Signet of the Dukes";
       ["prev"] = 8349;
+      ["prequests"] = {
+         [1] = 8349;
+      };
       ["repgain"] = {
          [609] = 150;
       };
@@ -23333,6 +27938,9 @@ addon.questsDB = {
    [8380] = {
       ["name"] = "Armaments of War";
       ["prev"] = 8315;
+      ["prequests"] = {
+         [1] = 8315;
+      };
       ["repgain"] = {
          [609] = 250;
       };
@@ -23342,20 +27950,29 @@ addon.questsDB = {
    [8412] = {
       ["name"] = "Spirit Totem";
       ["prev"] = 8410;
+      ["prequests"] = {
+         [1] = 8410;
+      };
       ["objective"] = "Bring the pieces for the spirit totem to Bath'rah the Windwatcher.";
       ["req"] = 50;
    };
    [4223] = {
       ["name"] = "The True Masters";
       ["prev"] = 4186;
+      ["prequests"] = {
+         [1] = 4186;
+      };
       ["next"] = 4224;
       ["objective"] = "Speak with Marshal Maxwell in the Burning Steppes.";
       ["req"] = 48;
    };
    [8926] = {
+      ["followup"] = 8929;
       ["name"] = "Just Compensation";
       ["prev"] = 8977;
-      ["followup"] = 8929;
+      ["prequests"] = {
+         [1] = 8977;
+      };
       ["next"] = 8929;
       ["objective"] = "Bring a Wildheart Belt and a set of Wildheart Gloves Deliana in Ironforge.";
       ["req"] = 58;
@@ -23373,6 +27990,9 @@ addon.questsDB = {
    [4287] = {
       ["name"] = "The Eastern Pylon";
       ["prev"] = 4284;
+      ["prequests"] = {
+         [1] = 4284;
+      };
       ["followup"] = 4321;
       ["objective"] = "Discover the location of the Eastern Crystal Pylon in Un'Goro Crater.";
       ["req"] = 47;
@@ -23394,6 +28014,9 @@ addon.questsDB = {
    [8668] = {
       ["name"] = "Genesis Trousers";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -23413,6 +28036,9 @@ addon.questsDB = {
    [4383] = {
       ["name"] = "Crystal Ward";
       ["prev"] = 4321;
+      ["prequests"] = {
+         [1] = 4321;
+      };
       ["objective"] = "";
       ["req"] = 47;
    };
@@ -23446,32 +28072,42 @@ addon.questsDB = {
    };
    [2240] = {
       ["name"] = "The Hidden Chamber";
-      ["prev"] = 2398;
+      ["objective"] = "Read Baelog's Journal, explore the hidden chamber, then report to Prospector Stormpike.";
       ["repgain"] = {
          [47] = 350;
       };
+      ["prequests"] = {
+         [1] = 2398;
+      };
+      ["prev"] = 2398;
       ["reward"] = {
          [1] = 9626;
          [2] = 9627;
       };
-      ["objective"] = "Read Baelog's Journal, explore the hidden chamber, then report to Prospector Stormpike.";
       ["req"] = 35;
    };
    [8988] = {
-      ["name"] = "More Components of Importance";
-      ["prev"] = 8970;
       ["reward"] = {
          [1] = 22192;
          [2] = 22193;
+      };
+      ["name"] = "More Components of Importance";
+      ["prev"] = 8970;
+      ["prequests"] = {
+         [1] = 8970;
+         [2] = 8963;
       };
       ["next"] = 8992;
       ["objective"] = "Obtain Soul Ashes of the Banished and return them to Bodley inside Blackrock Mountain.";
       ["req"] = 58;
    };
    [9020] = {
+      ["followup"] = 9032;
       ["name"] = "Anthion's Parting Words";
       ["prev"] = 9015;
-      ["followup"] = 9032;
+      ["prequests"] = {
+         [1] = 9015;
+      };
       ["next"] = 9032;
       ["objective"] = "Return to Mokvar in Orgimmar with a set of  Shadowcraft Boots, Shadowcraft Pants and Shadowcraft Spaulders.";
       ["req"] = 58;
@@ -23479,6 +28115,9 @@ addon.questsDB = {
    [9052] = {
       ["name"] = "Bloodpetal Poison";
       ["prev"] = 9063;
+      ["prequests"] = {
+         [1] = 9063;
+      };
       ["next"] = 9051;
       ["objective"] = "Collect 8 Bloodcap and 8 Gorishi Stings, and return to Torwa Pathfinder in Un'Goro Crater.";
       ["req"] = 50;
@@ -23486,6 +28125,9 @@ addon.questsDB = {
    [9084] = {
       ["name"] = "Bonescythe Bracers";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -23495,6 +28137,9 @@ addon.questsDB = {
    [9116] = {
       ["name"] = "Gloves of Faith";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -23519,6 +28164,9 @@ addon.questsDB = {
    [8362] = {
       ["name"] = "Abyssal Crests";
       ["prev"] = 8361;
+      ["prequests"] = {
+         [1] = 8361;
+      };
       ["repgain"] = {
          [609] = 75;
       };
@@ -23528,6 +28176,9 @@ addon.questsDB = {
    [9244] = {
       ["name"] = "Icy Scale Bracers";
       ["prev"] = 9233;
+      ["prequests"] = {
+         [1] = 9233;
+      };
       ["objective"] = "Craftsman Wilhelm at Light's Hope Chapel in the Eastern Plaguelands wants 4 Frozen Runes, 16 Heavy Scorpid Scales, 5 Essences of Water, 3 Cured Rugged Hides and 200 gold.";
       ["req"] = 60;
    };
@@ -23547,6 +28198,9 @@ addon.questsDB = {
    [3090] = {
       ["name"] = "Tainted Parchment";
       ["prev"] = 788;
+      ["prequests"] = {
+         [1] = 788;
+      };
       ["repgain"] = {
          [76] = 75;
       };
@@ -23578,6 +28232,9 @@ addon.questsDB = {
    [4735] = {
       ["name"] = "Egg Collection";
       ["prev"] = 4734;
+      ["prequests"] = {
+         [1] = 4734;
+      };
       ["repgain"] = {
          [21] = 350;
          [369] = 350;
@@ -23588,10 +28245,13 @@ addon.questsDB = {
       ["req"] = 57;
    };
    [6362] = {
-      ["name"] = "Ride to Thunder Bluff";
-      ["prev"] = 6361;
       ["repgain"] = {
          [81] = 75;
+      };
+      ["name"] = "Ride to Thunder Bluff";
+      ["prev"] = 6361;
+      ["prequests"] = {
+         [1] = 6361;
       };
       ["next"] = 6363;
       ["objective"] = "Buy a wind rider to Thunder Bluff from the wind rider master Devrak, then bring the Bundle of Hides to Ahanu in Thunder Bluff.";
@@ -23608,6 +28268,9 @@ addon.questsDB = {
    [4783] = {
       ["name"] = "Components for the Enchanted Gold Bloodrobe";
       ["prev"] = 4782;
+      ["prequests"] = {
+         [1] = 4782;
+      };
       ["next"] = 4784;
       ["objective"] = "Bring 10 Vials of Hatefury Blood and 1 Lesser Infernal Stone to Menara Voidrender in the Barrens.";
       ["req"] = 31;
@@ -23618,10 +28281,13 @@ addon.questsDB = {
       ["req"] = 20;
    };
    [4362] = {
-      ["name"] = "The Fate of the Kingdom";
-      ["prev"] = 4361;
       ["repgain"] = {
          [47] = 350;
+      };
+      ["name"] = "The Fate of the Kingdom";
+      ["prev"] = 4361;
+      ["prequests"] = {
+         [1] = 4361;
       };
       ["next"] = 4363;
       ["objective"] = "Return to Blackrock Depths and rescue Princess Moira Bronzebeard from the evil clutches of Emperor Dagran Thaurissan.$B";
@@ -23643,26 +28309,35 @@ addon.questsDB = {
    [4863] = {
       ["name"] = "Enraged Wildkin";
       ["prev"] = 4861;
+      ["prequests"] = {
+         [1] = 4861;
+      };
       ["next"] = 4864;
       ["objective"] = "Find Jaron Stoneshaper's wrecked wagon.";
       ["req"] = 53;
    };
    [2440] = {
       ["name"] = "The Platinum Discs";
-      ["prev"] = 2280;
+      ["objective"] = "Take the reward voucher to Bena Winterhoof in Thunder Bluff.";
       ["repgain"] = {
          [81] = 10;
       };
+      ["prequests"] = {
+         [1] = 2280;
+      };
+      ["prev"] = 2280;
       ["reward"] = {
          [1] = 3928;
          [2] = 6149;
       };
-      ["objective"] = "Take the reward voucher to Bena Winterhoof in Thunder Bluff.";
       ["req"] = 40;
    };
    [1950] = {
       ["name"] = "Get the Scoop";
       ["prev"] = 1949;
+      ["prequests"] = {
+         [1] = 1949;
+      };
       ["next"] = 1951;
       ["objective"] = "Find the phrase to Tirth's strongbox, then return to Tirth.";
       ["req"] = 30;
@@ -23673,19 +28348,25 @@ addon.questsDB = {
       ["req"] = 60;
    };
    [4509] = {
-      ["name"] = "Calm Before the Storm";
-      ["prev"] = 4507;
       ["repgain"] = {
          [530] = 10;
+      };
+      ["name"] = "Calm Before the Storm";
+      ["prev"] = 4507;
+      ["prequests"] = {
+         [1] = 4507;
       };
       ["next"] = 4511;
       ["objective"] = "Bring Pestlezugg's Un'Goro Report to Zilzibin Drumlore in Orgrimmar.";
       ["req"] = 50;
    };
    [9022] = {
+      ["followup"] = 9032;
       ["name"] = "Anthion's Parting Words";
       ["prev"] = 9015;
-      ["followup"] = 9032;
+      ["prequests"] = {
+         [1] = 9015;
+      };
       ["next"] = 9032;
       ["objective"] = "Return to Mokvar in Orgimmar with a set of Boots of Valor, Legplates of Valor and Spaulders of Valor.";
       ["req"] = 58;
@@ -23693,12 +28374,18 @@ addon.questsDB = {
    [2480] = {
       ["name"] = "Hinott's Assistance";
       ["prev"] = 2479;
+      ["prequests"] = {
+         [1] = 2479;
+      };
       ["objective"] = "Wait for Serge Hinott to complete the cure.";
       ["req"] = 20;
    };
    [4975] = {
       ["name"] = "The Completed Orb of Noh'Orahil";
       ["prev"] = 4976;
+      ["prequests"] = {
+         [1] = 4976;
+      };
       ["reward"] = {
          [1] = 15107;
          [2] = 15105;
@@ -23729,50 +28416,65 @@ addon.questsDB = {
    [5023] = {
       ["name"] = "Better Late Than Never";
       ["prev"] = 5021;
+      ["prequests"] = {
+         [1] = 5021;
+      };
       ["next"] = 5049;
       ["objective"] = "Check with the Royal Overseers of the Undercity to learn the whereabouts of a Jeremiah Felstone.  There is usually a census officer located near guild and tabard registration.";
       ["req"] = 50;
    };
    [2520] = {
       ["name"] = "Sathrah's Sacrifice";
-      ["prev"] = 2518;
+      ["objective"] = "Priestess A'moora wants you to place Lady Sathrah's silvery spinnerets at the fountain inside the temple, and then return to her.";
       ["repgain"] = {
          [69] = 250;
       };
+      ["prequests"] = {
+         [1] = 2518;
+      };
+      ["prev"] = 2518;
       ["reward"] = {
          [1] = 9600;
          [2] = 9601;
       };
-      ["objective"] = "Priestess A'moora wants you to place Lady Sathrah's silvery spinnerets at the fountain inside the temple, and then return to her.";
       ["req"] = 5;
    };
    [5055] = {
       ["name"] = "Brumeran of the Chillwind";
       ["prev"] = 5054;
+      ["prequests"] = {
+         [1] = 5054;
+      };
       ["next"] = 5056;
       ["objective"] = "Storm Shadowhoof at Everlook in Winterspring wants you to kill Brumeran.";
       ["req"] = 53;
    };
    [3907] = {
       ["name"] = "Disharmony of Fire";
-      ["prev"] = 3906;
+      ["objective"] = "Enter Blackrock Depths and track down Lord Incendius. Slay him and return any source of information you may find to Thunderheart.$B";
       ["repgain"] = {
          [81] = 350;
       };
+      ["prequests"] = {
+         [1] = 3906;
+      };
+      ["prev"] = 3906;
       ["reward"] = {
          [1] = 12113;
          [2] = 12114;
          [3] = 12112;
          [4] = 12115;
       };
-      ["objective"] = "Enter Blackrock Depths and track down Lord Incendius. Slay him and return any source of information you may find to Thunderheart.$B";
       ["req"] = 48;
    };
    [5087] = {
-      ["name"] = "Winterfall Runners";
-      ["prev"] = 5086;
       ["repgain"] = {
          [577] = 250;
+      };
+      ["name"] = "Winterfall Runners";
+      ["prev"] = 5086;
+      ["prequests"] = {
+         [1] = 5086;
       };
       ["next"] = 5121;
       ["objective"] = "Find the Winterfall Runners and stop them from delivering their shipment to Winterfall Village.";
@@ -23785,10 +28487,13 @@ addon.questsDB = {
       ["req"] = 60;
    };
    [5727] = {
-      ["name"] = "Hidden Enemies";
-      ["prev"] = 5726;
       ["repgain"] = {
          [76] = 75;
+      };
+      ["name"] = "Hidden Enemies";
+      ["prev"] = 5726;
+      ["prequests"] = {
+         [1] = 5726;
       };
       ["next"] = 5728;
       ["objective"] = "Take the Lieutenant's Insignia to Neeru Fireblade and speak to him. Gauge if he believes you are a member of the Burning Blade and then return to Thrall in Orgrimmar.";
@@ -23797,6 +28502,9 @@ addon.questsDB = {
    [1071] = {
       ["name"] = "A Gnome's Respite";
       ["prev"] = 1085;
+      ["prequests"] = {
+         [1] = 1085;
+      };
       ["repgain"] = {
          [54] = 250;
       };
@@ -23811,6 +28519,9 @@ addon.questsDB = {
    [5167] = {
       ["name"] = "Legplates of the Chromatic Defier";
       ["prev"] = 5164;
+      ["prequests"] = {
+         [1] = 5164;
+      };
       ["reward"] = {
          [1] = 12903;
          [2] = 12945;
@@ -23821,6 +28532,9 @@ addon.questsDB = {
    [1247] = {
       ["name"] = "The Missing Diplomat";
       ["prev"] = 1447;
+      ["prequests"] = {
+         [1] = 1447;
+      };
       ["next"] = 1248;
       ["objective"] = "Speak to Elling Trias in Stormwind.";
       ["req"] = 28;
@@ -23828,27 +28542,36 @@ addon.questsDB = {
    [5885] = {
       ["name"] = "Salve via Skinning";
       ["prev"] = 4102;
+      ["prequests"] = {
+         [1] = 4102;
+      };
       ["objective"] = "";
       ["req"] = 48;
    };
    [5215] = {
-      ["name"] = "The Scourge Cauldrons";
-      ["prev"] = 5092;
       ["repgain"] = {
          [72] = 10;
+      };
+      ["name"] = "The Scourge Cauldrons";
+      ["prev"] = 5092;
+      ["prequests"] = {
+         [1] = 5092;
       };
       ["next"] = 5216;
       ["objective"] = "Speak with High Priestess MacDonnell at Chillwind Point, Western Plaguelands.";
       ["req"] = 50;
    };
    [5231] = {
+      ["followup"] = 5232;
       ["repgain"] = {
          [67] = 250;
          [529] = 250;
       };
       ["name"] = "Target: Dalson's Tears";
       ["prev"] = 5230;
-      ["followup"] = 5232;
+      ["prequests"] = {
+         [1] = 5230;
+      };
       ["next"] = 5232;
       ["objective"] = "Go to Dalson's Tears in Western Plaguelands to locate and defeat the Cauldron Lord present there, and use its key to gain access to the cauldron.  You must have the Empty Dalson's Tears Bottle with you to secure a sample of the poisons used inside the cauldron.";
       ["req"] = 50;
@@ -23856,6 +28579,9 @@ addon.questsDB = {
    [5247] = {
       ["name"] = "Fragments of the Past";
       ["prev"] = 5246;
+      ["prequests"] = {
+         [1] = 5246;
+      };
       ["repgain"] = {
          [69] = 25;
          [54] = 25;
@@ -23868,6 +28594,9 @@ addon.questsDB = {
    [5263] = {
       ["name"] = "Above and Beyond";
       ["prev"] = 5262;
+      ["prequests"] = {
+         [1] = 5262;
+      };
       ["repgain"] = {
          [529] = 150;
       };
@@ -23875,10 +28604,13 @@ addon.questsDB = {
       ["req"] = 55;
    };
    [4184] = {
-      ["name"] = "The True Masters";
-      ["prev"] = 4183;
       ["repgain"] = {
          [72] = 150;
+      };
+      ["name"] = "The True Masters";
+      ["prev"] = 4183;
+      ["prequests"] = {
+         [1] = 4183;
       };
       ["next"] = 4185;
       ["objective"] = "Travel to Stormwind and deliver Solomon's Plea to Highlord Bolvar Fordragon.$B$BBolvar resides in Stormwind Keep. ";
@@ -23887,6 +28619,9 @@ addon.questsDB = {
    [8562] = {
       ["name"] = "Conqueror's Breastplate";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -23896,6 +28631,9 @@ addon.questsDB = {
    [1511] = {
       ["name"] = "Ken'zigla's Draught";
       ["prev"] = 1510;
+      ["prequests"] = {
+         [1] = 1510;
+      };
       ["next"] = 1515;
       ["objective"] = "Bring Ken'zigla's Draught to Grunt Logmar at Camp Taurajo.";
       ["req"] = 20;
@@ -23918,6 +28656,9 @@ addon.questsDB = {
    [3562] = {
       ["name"] = "Magatha's Payment to Jediga";
       ["prev"] = 3518;
+      ["prequests"] = {
+         [1] = 3518;
+      };
       ["objective"] = "Deliver Magatha's Note to Jediga in Azshara.";
       ["req"] = 45;
    };
@@ -23933,6 +28674,9 @@ addon.questsDB = {
    [7801] = {
       ["name"] = "Additional Runecloth";
       ["prev"] = 7800;
+      ["prequests"] = {
+         [1] = 7800;
+      };
       ["repgain"] = {
          [69] = 50;
       };
@@ -23985,6 +28729,9 @@ addon.questsDB = {
    [2744] = {
       ["name"] = "The Demon Hunter";
       ["prev"] = 2743;
+      ["prequests"] = {
+         [1] = 2743;
+      };
       ["next"] = 3141;
       ["objective"] = "Speak with Loramus Thalipedes in Azshara.";
       ["req"] = 45;
@@ -23998,6 +28745,10 @@ addon.questsDB = {
       ["req"] = 50;
    };
    [2760] = {
+      ["prequests"] = {
+         [1] = 2757;
+         [2] = 2759;
+      };
       ["objective"] = "Speak with Galvan the Ancient in Stranglethorn Vale.$B";
       ["name"] = "The Mithril Order";
       ["req"] = 40;
@@ -24030,15 +28781,18 @@ addon.questsDB = {
    };
    [2871] = {
       ["name"] = "Delivering the Relic";
-      ["prev"] = 2870;
+      ["objective"] = "Deliver the Mysterious Relic to Vestia Moonspear in Feathermoon Stronghold.";
       ["repgain"] = {
          [69] = 250;
       };
+      ["prequests"] = {
+         [1] = 2870;
+      };
+      ["prev"] = 2870;
       ["reward"] = {
          [1] = 9663;
          [2] = 9664;
       };
-      ["objective"] = "Deliver the Mysterious Relic to Vestia Moonspear in Feathermoon Stronghold.";
       ["req"] = 40;
    };
    [8709] = {
@@ -24080,6 +28834,9 @@ addon.questsDB = {
    [2848] = {
       ["name"] = "Wild Leather Shoulders";
       ["prev"] = 2847;
+      ["prequests"] = {
+         [1] = 2847;
+      };
       ["followup"] = 2853;
       ["objective"] = "Bring 6 Thick Armor Kits and a Wildvine to Pratt McGrubben in Feathermoon Stronghold.";
       ["req"] = 30;
@@ -24087,6 +28844,9 @@ addon.questsDB = {
    [2856] = {
       ["name"] = "Wild Leather Vest";
       ["prev"] = 2854;
+      ["prequests"] = {
+         [1] = 2854;
+      };
       ["followup"] = 2860;
       ["objective"] = "Bring 2 Turtle Scale Breastplates, 2 Turtle Scale Gloves, and a Wildvine to Jangdor Swiftstrider in Camp Mojache.";
       ["req"] = 30;
@@ -24114,6 +28874,9 @@ addon.questsDB = {
    [7847] = {
       ["name"] = "Return to Primal Torntusk";
       ["prev"] = 7846;
+      ["prequests"] = {
+         [1] = 7846;
+      };
       ["reward"] = {
          [1] = 19114;
          [2] = 19115;
@@ -24144,10 +28907,13 @@ addon.questsDB = {
       ["req"] = 1;
    };
    [2284] = {
-      ["name"] = "Necklace Recovery, Take 2";
-      ["prev"] = 2283;
       ["repgain"] = {
          [76] = 150;
+      };
+      ["name"] = "Necklace Recovery, Take 2";
+      ["prev"] = 2283;
+      ["prequests"] = {
+         [1] = 2283;
       };
       ["next"] = 2318;
       ["objective"] = "Find a clue as to the gems' whereabouts in the depths of Uldaman.";
@@ -24167,10 +28933,13 @@ addon.questsDB = {
       ["req"] = 20;
    };
    [2936] = {
-      ["name"] = "The Spider God";
-      ["prev"] = 2935;
       ["repgain"] = {
          [530] = 350;
+      };
+      ["name"] = "The Spider God";
+      ["prev"] = 2935;
+      ["prequests"] = {
+         [1] = 2935;
       };
       ["next"] = 2937;
       ["objective"] = "Read from the Tablet of Theka to learn the name of the Witherbark spider god, then return to Master Gadrin.";
@@ -24179,6 +28948,9 @@ addon.questsDB = {
    [5887] = {
       ["name"] = "Salve via Hunting";
       ["prev"] = 5882;
+      ["prequests"] = {
+         [1] = 5882;
+      };
       ["objective"] = "";
       ["req"] = 48;
    };
@@ -24189,10 +28961,13 @@ addon.questsDB = {
       ["req"] = 48;
    };
    [3127] = {
-      ["name"] = "Mountain Giant Muisek";
-      ["prev"] = 3126;
       ["repgain"] = {
          [530] = 250;
+      };
+      ["name"] = "Mountain Giant Muisek";
+      ["prev"] = 3126;
+      ["prequests"] = {
+         [1] = 3126;
       };
       ["followup"] = 3129;
       ["objective"] = "Kill 7 Land Walkers or Cliff Giants. Use the Muisek Vessel to shrink and capture the fallen Mountain Giants.";
@@ -24201,6 +28976,9 @@ addon.questsDB = {
    [2968] = {
       ["name"] = "A Future Task";
       ["prev"] = 2967;
+      ["prequests"] = {
+         [1] = 2967;
+      };
       ["repgain"] = {
          [81] = 250;
       };
@@ -24209,15 +28987,18 @@ addon.questsDB = {
    };
    [2976] = {
       ["name"] = "A Grim Discovery";
-      ["prev"] = 2974;
+      ["objective"] = "Bring the Crate of Grimtotem Horns to Belgrom Rockmaul in Orgrimmar.";
       ["repgain"] = {
          [76] = 350;
       };
+      ["prequests"] = {
+         [1] = 2974;
+      };
+      ["prev"] = 2974;
       ["reward"] = {
          [1] = 11858;
          [2] = 11859;
       };
-      ["objective"] = "Bring the Crate of Grimtotem Horns to Belgrom Rockmaul in Orgrimmar.";
       ["req"] = 37;
    };
    [2984] = {
@@ -24228,10 +29009,13 @@ addon.questsDB = {
       ["req"] = 10;
    };
    [2992] = {
-      ["name"] = "The Divination";
-      ["prev"] = 2991;
       ["repgain"] = {
          [47] = 25;
+      };
+      ["name"] = "The Divination";
+      ["prev"] = 2991;
+      ["prequests"] = {
+         [1] = 2991;
       };
       ["next"] = 2993;
       ["objective"] = "Wait until Grimshade performs the ritual of divination.";
@@ -24266,16 +29050,19 @@ addon.questsDB = {
    };
    [4242] = {
       ["name"] = "Abandoned Hope";
-      ["prev"] = 4241;
+      ["objective"] = "Give Marshal Maxwell the bad news.";
       ["repgain"] = {
          [72] = 250;
       };
+      ["prequests"] = {
+         [1] = 4241;
+      };
+      ["prev"] = 4241;
       ["reward"] = {
          [1] = 12018;
          [2] = 12021;
          [3] = 12041;
       };
-      ["objective"] = "Give Marshal Maxwell the bad news.";
       ["req"] = 48;
    };
    [6063] = {
@@ -24287,6 +29074,9 @@ addon.questsDB = {
    [6184] = {
       ["name"] = "Flint Shadowmore";
       ["prev"] = 6183;
+      ["prequests"] = {
+         [1] = 6183;
+      };
       ["next"] = 6185;
       ["objective"] = "Travel to Chillwind Camp in the Western Plaguelands and meet up with your contact, Flint Shadowmore.$B";
       ["req"] = 56;
@@ -24302,23 +29092,29 @@ addon.questsDB = {
    };
    [4681] = {
       ["name"] = "Washed Ashore";
-      ["prev"] = 3524;
+      ["objective"] = "Recover the Sea Turtle Remains from the Skeletal Sea Turtle in the waters west of Auberdine, and then speak with Gwennyth Bly'Leggonde back in Auberdine.";
       ["repgain"] = {
          [69] = 250;
       };
+      ["prequests"] = {
+         [1] = 3524;
+      };
+      ["prev"] = 3524;
       ["reward"] = {
          [1] = 15398;
          [2] = 15399;
          [3] = 15400;
       };
-      ["objective"] = "Recover the Sea Turtle Remains from the Skeletal Sea Turtle in the waters west of Auberdine, and then speak with Gwennyth Bly'Leggonde back in Auberdine.";
       ["req"] = 11;
    };
    [6127] = {
-      ["name"] = "The Principal Source";
-      ["prev"] = 6126;
       ["repgain"] = {
          [609] = 75;
+      };
+      ["name"] = "The Principal Source";
+      ["prev"] = 6126;
+      ["prequests"] = {
+         [1] = 6126;
       };
       ["next"] = 6128;
       ["objective"] = "Use the Empty Dreadmist Peak Sampler to draw a sample of water from a pool at the top of the peak.$B$BDeliver the Filled Dreadmist Peak Sampler to Tonga Runetotem at the Crossroads, Barrens.";
@@ -24340,6 +29136,9 @@ addon.questsDB = {
    [8253] = {
       ["name"] = "Destroy Morphaz";
       ["prev"] = 8252;
+      ["prequests"] = {
+         [1] = 8252;
+      };
       ["reward"] = {
          [1] = 20035;
          [2] = 20037;
@@ -24351,6 +29150,9 @@ addon.questsDB = {
    [3096] = {
       ["name"] = "Encrypted Scroll";
       ["prev"] = 364;
+      ["prequests"] = {
+         [1] = 364;
+      };
       ["repgain"] = {
          [68] = 75;
       };
@@ -24360,6 +29162,9 @@ addon.questsDB = {
    [8317] = {
       ["name"] = "Kitchen Assistance";
       ["prev"] = 8313;
+      ["prequests"] = {
+         [1] = 8313;
+      };
       ["repgain"] = {
          [609] = 75;
       };
@@ -24369,6 +29174,9 @@ addon.questsDB = {
    [8349] = {
       ["name"] = "Bor Wildmane";
       ["prev"] = 8332;
+      ["prequests"] = {
+         [1] = 8332;
+      };
       ["next"] = 8348;
       ["objective"] = "Speak with Bor Wildmane in Cenarion Hold.";
       ["req"] = 60;
@@ -24376,6 +29184,9 @@ addon.questsDB = {
    [3120] = {
       ["name"] = "Verdant Sigil";
       ["prev"] = 456;
+      ["prequests"] = {
+         [1] = 456;
+      };
       ["repgain"] = {
          [69] = 75;
       };
@@ -24394,6 +29205,9 @@ addon.questsDB = {
    [3141] = {
       ["name"] = "Loramus";
       ["prev"] = 2744;
+      ["prequests"] = {
+         [1] = 2744;
+      };
       ["next"] = 3508;
       ["objective"] = "Listen to Loramus Thalipedes tell his story.";
       ["req"] = 45;
@@ -24429,12 +29243,18 @@ addon.questsDB = {
    [8605] = {
       ["name"] = "The Horde Needs More Wool Bandages!";
       ["prev"] = 8604;
+      ["prequests"] = {
+         [1] = 8604;
+      };
       ["objective"] = "Bring 20 Wool Bandages to Healer Longrunner at the Valley of Spirits in Orgrimmar.";
       ["req"] = 1;
    };
    [8637] = {
       ["name"] = "Deathdealer's Boots";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -24444,6 +29264,9 @@ addon.questsDB = {
    [8669] = {
       ["name"] = "Genesis Shoulderpads";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -24498,36 +29321,51 @@ addon.questsDB = {
    [8893] = {
       ["name"] = "The Super Egg-O-Matic";
       ["prev"] = 2741;
+      ["prequests"] = {
+         [1] = 2741;
+      };
       ["objective"] = "";
       ["req"] = 42;
    };
    [8925] = {
       ["name"] = "A Portable Power Source";
       ["prev"] = 8924;
+      ["prequests"] = {
+         [1] = 8924;
+      };
       ["next"] = 8928;
       ["objective"] = "Find Magma Lord Bokk in the Burning Steppes, obtain his Magma Core and bring it to Mux Manascrambler in Gadgetzan.";
       ["req"] = 58;
    };
    [8957] = {
+      ["followup"] = 9032;
       ["name"] = "Anthion's Parting Words";
       ["prev"] = 9015;
-      ["followup"] = 9032;
+      ["prequests"] = {
+         [1] = 9015;
+      };
       ["next"] = 9032;
       ["objective"] = "Return to Mokvar in Orgimmar with a set of Boots of Elements, Kilt of Elements and Pauldrons of Elements.";
       ["req"] = 58;
    };
    [8989] = {
+      ["followup"] = 8994;
       ["name"] = "The Right Piece of Lord Valthalak's Amulet";
       ["prev"] = 8986;
-      ["followup"] = 8994;
+      ["prequests"] = {
+         [1] = 8986;
+      };
       ["next"] = 8994;
       ["objective"] = "Use the Brazier of Beckoning to summon forth the spirit of Mor Grayhoof and slay him. Return to Bodley inside Blackrock Mountain with the recombined Lord Valthalak's Amulet and the Brazier of Beckoning.";
       ["req"] = 58;
    };
    [9021] = {
+      ["followup"] = 9032;
       ["name"] = "Anthion's Parting Words";
       ["prev"] = 9015;
-      ["followup"] = 9032;
+      ["prequests"] = {
+         [1] = 9015;
+      };
       ["next"] = 9032;
       ["objective"] = "Return to Mokvar in Orgimmar with a set of Dreadmist Sandals, Dreadmist Leggings and Dreadmist Mantle.";
       ["req"] = 58;
@@ -24535,6 +29373,9 @@ addon.questsDB = {
    [9053] = {
       ["name"] = "A Better Ingredient";
       ["prev"] = 9051;
+      ["prequests"] = {
+         [1] = 9051;
+      };
       ["reward"] = {
          [1] = 22274;
          [2] = 22272;
@@ -24555,6 +29396,9 @@ addon.questsDB = {
    [9117] = {
       ["name"] = "Belt of Faith";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Father Inigo Montoy at Light's Hope Chapel in the Eastern Plaguelands will make a Belt of Faith if you bring him the following: 1 Desecrated Belt, 8 Wartorn Cloth Scraps, 2 Arcane Crystals and 2 Mooncloth.";
       ["req"] = 60;
    };
@@ -24584,12 +29428,18 @@ addon.questsDB = {
    [9245] = {
       ["name"] = "Icy Scale Gauntlets";
       ["prev"] = 9233;
+      ["prequests"] = {
+         [1] = 9233;
+      };
       ["objective"] = "Craftsman Wilhelm at Light's Hope Chapel in the Eastern Plaguelands wants 5 Frozen Runes, 16 Heavy Scorpid Scale, 5 Essence of Water, 3 Cured Rugged Hides and 200 gold.";
       ["req"] = 60;
    };
    [4762] = {
       ["name"] = "The Cliffspring River";
       ["prev"] = 4761;
+      ["prequests"] = {
+         [1] = 4761;
+      };
       ["repgain"] = {
          [69] = 150;
       };
@@ -24607,10 +29457,13 @@ addon.questsDB = {
       ["req"] = 50;
    };
    [3368] = {
-      ["name"] = "Suntara Stones";
-      ["prev"] = 3367;
       ["repgain"] = {
          [47] = 250;
+      };
+      ["name"] = "Suntara Stones";
+      ["prev"] = 3367;
+      ["prequests"] = {
+         [1] = 3367;
       };
       ["next"] = 3371;
       ["objective"] = "Take the Singed Letter to Thorius in Ironforge. He is in the Hall of Explorers.";
@@ -24631,20 +29484,26 @@ addon.questsDB = {
    [1951] = {
       ["name"] = "Rituals of Power";
       ["prev"] = 1950;
+      ["prequests"] = {
+         [1] = 1950;
+      };
       ["objective"] = "Bring the book Rituals of Power to Tabetha in Dustwallow Marsh.";
       ["req"] = 30;
    };
    [1184] = {
       ["name"] = "Parts of the Swarm";
-      ["prev"] = 1148;
+      ["objective"] = "Return to Belgrom Rockmaul in Orgrimmar.";
       ["repgain"] = {
          [76] = 75;
       };
+      ["prequests"] = {
+         [1] = 1148;
+      };
+      ["prev"] = 1148;
       ["reward"] = {
          [1] = 6737;
          [2] = 6738;
       };
-      ["objective"] = "Return to Belgrom Rockmaul in Orgrimmar.";
       ["req"] = 28;
    };
    [8900] = {
@@ -24661,6 +29520,9 @@ addon.questsDB = {
    [4507] = {
       ["name"] = "Pawn Captures Queen";
       ["prev"] = 4496;
+      ["prequests"] = {
+         [1] = 4496;
+      };
       ["objective"] = "Defeat the Gorishi Hive Queen once she is summoned.$B$BBring the Gorishi Queen's Brain to Alchemist Pestlezugg in Gadgetzan.";
       ["req"] = 50;
    };
@@ -24677,6 +29539,9 @@ addon.questsDB = {
    [1246] = {
       ["name"] = "The Missing Diplomat";
       ["prev"] = 1245;
+      ["prequests"] = {
+         [1] = 1245;
+      };
       ["next"] = 1447;
       ["objective"] = "Speak to Dashel Stonefist in Stormwind.";
       ["req"] = 28;
@@ -24688,10 +29553,13 @@ addon.questsDB = {
       ["req"] = 45;
    };
    [4131] = {
-      ["name"] = "The Woodpaw Gnolls";
-      ["prev"] = 4130;
       ["repgain"] = {
          [69] = 150;
+      };
+      ["name"] = "The Woodpaw Gnolls";
+      ["prev"] = 4130;
+      ["prequests"] = {
+         [1] = 4130;
       };
       ["next"] = 4135;
       ["objective"] = " but something tells me that's not what occurred.  Still";
@@ -24724,6 +29592,9 @@ addon.questsDB = {
    [2078] = {
       ["name"] = "Gyromast's Revenge";
       ["prev"] = 2098;
+      ["prequests"] = {
+         [1] = 2098;
+      };
       ["repgain"] = {
          [47] = 250;
       };
@@ -24766,6 +29637,9 @@ addon.questsDB = {
    [3528] = {
       ["name"] = "The God Hakkar";
       ["prev"] = 4787;
+      ["prequests"] = {
+         [1] = 4787;
+      };
       ["reward"] = {
          [1] = 10749;
          [2] = 10750;
@@ -24784,33 +29658,43 @@ addon.questsDB = {
       ["req"] = 30;
    };
    [7641] = {
+      ["followup"] = 7642;
       ["name"] = "The Work of Grimand Elmore";
       ["prev"] = 7640;
-      ["followup"] = 7642;
+      ["prequests"] = {
+         [1] = 7640;
+      };
       ["next"] = 7642;
       ["objective"] = "Speak with Grimand Elmore in Stormwind's Dwarven District.";
       ["req"] = 60;
    };
    [7583] = {
+      ["prequests"] = {
+         [1] = 7582;
+         [2] = 7581;
+      };
       ["objective"] = "Venture forth into the Tainted Scar and locate a Doomguard Commander.$B$BUse the Glowing Crystal Prison on the Doomguard Commander. Be prepared for a ferocious onslaught of attacks, as the demon attempts to escape capture.$B$BShould you succeed, return the Imprisoned Doomguard to Daio in the Tainted Scar.";
       ["name"] = "Suppression";
       ["req"] = 60;
    };
    [1081] = {
       ["name"] = "Reception from Tyrande";
-      ["prev"] = 1082;
+      ["objective"] = "Find Tyrande Whisperwind in Darnassus.";
       ["repgain"] = {
          [69] = 500;
          [54] = 500;
          [72] = 500;
          [47] = 500;
       };
+      ["prequests"] = {
+         [1] = 1082;
+      };
+      ["prev"] = 1082;
       ["reward"] = {
          [1] = 7334;
          [2] = 7335;
          [3] = 7336;
       };
-      ["objective"] = "Find Tyrande Whisperwind in Darnassus.";
       ["req"] = 17;
    };
    [3568] = {
@@ -24824,12 +29708,18 @@ addon.questsDB = {
    [4132] = {
       ["name"] = "Operation: Death to Angerforge";
       ["prev"] = 4121;
+      ["prequests"] = {
+         [1] = 4121;
+      };
       ["objective"] = "Travel to Blackrock Depths and slay General Angerforge! Return to Warlord Goretooth when the task is complete.";
       ["req"] = 52;
    };
    [7167] = {
       ["name"] = "The Eye of Command";
       ["prev"] = 7166;
+      ["prequests"] = {
+         [1] = 7166;
+      };
       ["objective"] = "";
       ["req"] = 51;
    };
@@ -24852,15 +29742,21 @@ addon.questsDB = {
    [2607] = {
       ["name"] = "The Touch of Zanzil";
       ["prev"] = 2359;
+      ["prequests"] = {
+         [1] = 2359;
+      };
       ["followup"] = 2608;
       ["objective"] = "Speak with Doc Mixilpixil in the cellar of the Barracks.";
       ["req"] = 20;
    };
    [3782] = {
-      ["name"] = "Morrowgrain Research";
-      ["prev"] = 3761;
       ["repgain"] = {
          [81] = 10;
+      };
+      ["name"] = "Morrowgrain Research";
+      ["prev"] = 3761;
+      ["prequests"] = {
+         [1] = 3761;
       };
       ["next"] = 3786;
       ["objective"] = "Take the Seed Voucher to Bashana Runetotem in Thunder Bluff.";
@@ -24880,6 +29776,11 @@ addon.questsDB = {
    [3640] = {
       ["name"] = "The Pledge of Secrecy";
       ["next"] = 3641;
+      ["prequests"] = {
+         [1] = 3630;
+         [2] = 3632;
+         [3] = 3634;
+      };
       ["objective"] = "If you agree to become a Gnome Engineer, then right-click on the Pledge of Secrecy and speak once more with Tinkmaster Overspark in Ironforge.";
       ["req"] = 30;
    };
@@ -24894,9 +29795,12 @@ addon.questsDB = {
       ["req"] = 60;
    };
    [8962] = {
+      ["followup"] = 8987;
       ["name"] = "Components of Importance";
       ["prev"] = 8961;
-      ["followup"] = 8987;
+      ["prequests"] = {
+         [1] = 8961;
+      };
       ["next"] = 8966;
       ["objective"] = "Acquire Druidical Remains and return them to Bodley inside Blackrock Mountain.";
       ["req"] = 58;
@@ -24909,6 +29813,9 @@ addon.questsDB = {
    [1643] = {
       ["name"] = "The Tome of Divinity";
       ["prev"] = 1642;
+      ["prequests"] = {
+         [1] = 1642;
+      };
       ["next"] = 1644;
       ["objective"] = "Search the Trade District of Stormwind for Stephanie Turner.";
       ["req"] = 12;
@@ -24916,12 +29823,18 @@ addon.questsDB = {
    [1962] = {
       ["name"] = "Spellfire Robes";
       ["prev"] = 1961;
+      ["prequests"] = {
+         [1] = 1961;
+      };
       ["objective"] = "";
       ["req"] = 15;
    };
    [3962] = {
       ["name"] = "It's Dangerous to Go Alone";
       ["prev"] = 3961;
+      ["prequests"] = {
+         [1] = 3961;
+      };
       ["reward"] = {
          [1] = 11902;
          [2] = 11904;
@@ -24932,6 +29845,9 @@ addon.questsDB = {
    [2962] = {
       ["name"] = "The Only Cure is More Green Glow";
       ["prev"] = 2926;
+      ["prequests"] = {
+         [1] = 2926;
+      };
       ["objective"] = "Travel to Gnomeregan and bring back High Potency Radioactive Fallout. Be warned, the fallout is unstable and will collapse rather quickly.$B$BOzzie will also require your Heavy Leaden Collection Phial when the task is complete.$B";
       ["req"] = 20;
    };
@@ -24941,20 +29857,26 @@ addon.questsDB = {
       ["req"] = 55;
    };
    [6341] = {
-      ["name"] = "The Bounty of Teldrassil";
-      ["prev"] = 6344;
       ["repgain"] = {
          [69] = 25;
+      };
+      ["name"] = "The Bounty of Teldrassil";
+      ["prev"] = 6344;
+      ["prequests"] = {
+         [1] = 6344;
       };
       ["next"] = 6342;
       ["objective"] = "Bring Nessa's Collection to Vesprystus.";
       ["req"] = 10;
    };
    [1055] = {
-      ["name"] = "Raene's Cleansing";
-      ["prev"] = 1028;
       ["repgain"] = {
          [69] = 25;
+      };
+      ["name"] = "Raene's Cleansing";
+      ["prev"] = 1028;
+      ["prequests"] = {
+         [1] = 1028;
       };
       ["next"] = 1029;
       ["objective"] = "Return to Shael'dryn at the moonwell.";
@@ -24963,12 +29885,18 @@ addon.questsDB = {
    [3641] = {
       ["name"] = "Show Your Work";
       ["prev"] = 3640;
+      ["prequests"] = {
+         [1] = 3640;
+      };
       ["objective"] = "Bring 6 Mithril Tubes, an Accurate Scope, and 2 Advanced Target Dummies to Tinkmaster Overspark in Ironforge.";
       ["req"] = 30;
    };
    [2202] = {
       ["name"] = "Uldaman Reagent Run";
       ["prev"] = 2258;
+      ["prequests"] = {
+         [1] = 2258;
+      };
       ["repgain"] = {
          [530] = 250;
       };
@@ -25014,6 +29942,9 @@ addon.questsDB = {
    [3792] = {
       ["name"] = "Morrowgrain to Feathermoon Stronghold";
       ["prev"] = 3791;
+      ["prequests"] = {
+         [1] = 3791;
+      };
       ["repgain"] = {
          [69] = 25;
       };
@@ -25026,25 +29957,35 @@ addon.questsDB = {
       ["req"] = 48;
    };
    [4186] = {
-      ["name"] = "The True Masters";
-      ["prev"] = 4185;
       ["repgain"] = {
          [72] = 250;
+      };
+      ["name"] = "The True Masters";
+      ["prev"] = 4185;
+      ["prequests"] = {
+         [1] = 4185;
       };
       ["next"] = 4223;
       ["objective"] = "Take Bolvar's Decree to Magistrate Solomon in Lakeshire.$B";
       ["req"] = 48;
    };
    [7631] = {
+      ["prequests"] = {
+         [1] = 7629;
+         [2] = 7630;
+      };
       ["objective"] = "Read Mor'zul's Instructions.  Summon a Xorothian Dreadsteed, defeat it, then bind its spirit to you.";
       ["name"] = "Dreadsteed of Xoroth";
       ["req"] = 60;
    };
    [3824] = {
-      ["name"] = "Gor'tesh the Brute Lord";
-      ["prev"] = 3823;
       ["repgain"] = {
          [47] = 250;
+      };
+      ["name"] = "Gor'tesh the Brute Lord";
+      ["prev"] = 3823;
+      ["prequests"] = {
+         [1] = 3823;
       };
       ["next"] = 3825;
       ["objective"] = "Find Gor'tesh, somewhere to the west of Dreadmaul Rock. Kill Gor'tesh and then take Gor'tesh's Lopped Off Head back to Oralius in Burning Steppes.$B";
@@ -25072,6 +30013,9 @@ addon.questsDB = {
    [8163] = {
       ["name"] = "More Resource Crates";
       ["prev"] = 8160;
+      ["prequests"] = {
+         [1] = 8160;
+      };
       ["objective"] = "Win the battle for Arathi Basin, get an Arathi Resource Crate, and return it to Deathstalker Mortis at Hammerfall.";
       ["req"] = 40;
    };
@@ -25092,10 +30036,13 @@ addon.questsDB = {
       ["req"] = 45;
    };
    [1073] = {
-      ["name"] = "Ineptitude + Chemicals = Fun";
-      ["prev"] = 1072;
       ["repgain"] = {
          [54] = 250;
+      };
+      ["name"] = "Ineptitude + Chemicals = Fun";
+      ["prev"] = 1072;
+      ["prequests"] = {
+         [1] = 1072;
       };
       ["next"] = 1074;
       ["objective"] = "Bring 4 Minor Mana Potions and 2 Elixirs of Minor Fortitude to Lomac Gearstrip in Ironforge.";
@@ -25104,6 +30051,9 @@ addon.questsDB = {
    [8158] = {
       ["name"] = "More Resource Crates";
       ["prev"] = 8155;
+      ["prequests"] = {
+         [1] = 8155;
+      };
       ["objective"] = "Win the battle for Arathi Basin, get an Arathi Resource Crate, and return it to Sergeant Maclear at Refuge Pointe.";
       ["req"] = 20;
    };
@@ -25122,10 +30072,13 @@ addon.questsDB = {
       ["req"] = 12;
    };
    [3904] = {
-      ["name"] = "Milly's Harvest";
-      ["prev"] = 3903;
       ["repgain"] = {
          [72] = 75;
+      };
+      ["name"] = "Milly's Harvest";
+      ["prev"] = 3903;
+      ["prequests"] = {
+         [1] = 3903;
       };
       ["next"] = 3905;
       ["objective"] = "Bring 8 crates of Milly's Harvest to Milly Osworth at Northshire Abbey.";
@@ -25134,6 +30087,9 @@ addon.questsDB = {
    [3912] = {
       ["name"] = "Meet at the Grave";
       ["prev"] = 3909;
+      ["prequests"] = {
+         [1] = 3909;
+      };
       ["next"] = 3913;
       ["objective"] = " head due north until you reach the mountains. You'll find the one you need to speak with in one of the rocky crevices. His name is Gaeriyan.$B$BRemember";
       ["req"] = 47;
@@ -25156,6 +30112,9 @@ addon.questsDB = {
    [7887] = {
       ["name"] = "Talismans of Merit";
       ["prev"] = 7871;
+      ["prequests"] = {
+         [1] = 7871;
+      };
       ["objective"] = "You obtained a Silverwing Talisman of Merit for your last task, talk to me again, and you gain your reward.";
       ["req"] = 30;
    };
@@ -25180,12 +30139,18 @@ addon.questsDB = {
    [5282] = {
       ["name"] = "The Restless Souls";
       ["prev"] = 5281;
+      ["prequests"] = {
+         [1] = 5281;
+      };
       ["objective"] = "Use Egan's Blaster on the ghostly and spectral citizens of Stratholme. When the restless souls break free from their ghostly shells, use the blaster again - freedom will be theirs!$B$BFree 15 Restless Souls and return to Egan.";
       ["req"] = 55;
    };
    [1501] = {
       ["name"] = "Creature of the Void";
       ["next"] = 1504;
+      ["prequests"] = {
+         [1] = 1506;
+      };
       ["objective"] = "Retrieve the Tablet of Verga for Gan'rul Bloodeye in Orgrimmar.";
       ["req"] = 10;
    };
@@ -25199,15 +30164,18 @@ addon.questsDB = {
    };
    [3461] = {
       ["name"] = "Return to Tymor";
-      ["prev"] = 3449;
+      ["objective"] = "Return Tymor's Drawing Kit to him in Ironforge.";
       ["repgain"] = {
          [47] = 500;
       };
+      ["prequests"] = {
+         [1] = 3449;
+      };
+      ["prev"] = 3449;
       ["reward"] = {
          [1] = 10707;
          [2] = 10708;
       };
-      ["objective"] = "Return Tymor's Drawing Kit to him in Ironforge.";
       ["req"] = 45;
    };
    [2751] = {
@@ -25218,12 +30186,18 @@ addon.questsDB = {
    [8520] = {
       ["name"] = "The Alliance Needs Silk Bandages!";
       ["prev"] = 2847;
+      ["prequests"] = {
+         [1] = 2847;
+      };
       ["objective"] = "Bring 20 Silk Bandages to Nurse Stonefield at the Military Ward in Ironforge.";
       ["req"] = 43;
    };
    [8047] = {
       ["name"] = "The Heathen's Brand";
       ["prev"] = 8046;
+      ["prequests"] = {
+         [1] = 8046;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
@@ -25248,39 +30222,54 @@ addon.questsDB = {
    [8111] = {
       ["name"] = "Enchanted South Seas Kelp";
       ["prev"] = 8110;
+      ["prequests"] = {
+         [1] = 8110;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
    [1203] = {
       ["name"] = "Jarl Needs a Blade";
       ["prev"] = 1206;
+      ["prequests"] = {
+         [1] = 1206;
+      };
       ["objective"] = "Bring a Moonsteel Broadsword to Jarl in Dustwallow Marsh.";
       ["req"] = 30;
    };
    [8143] = {
       ["name"] = "Zandalrian Shadow Talisman";
       ["prev"] = 8142;
+      ["prequests"] = {
+         [1] = 8142;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
    [8159] = {
       ["name"] = "More Resource Crates";
       ["prev"] = 8156;
+      ["prequests"] = {
+         [1] = 8156;
+      };
       ["objective"] = "Win the battle for Arathi Basin, get an Arathi Resource Crate, and return it to Sergeant Maclear at Refuge Pointe.";
       ["req"] = 30;
    };
    [8236] = {
       ["name"] = "The Azure Key";
-      ["prev"] = 8235;
+      ["objective"] = "Return the Azure Key to Lord Jorach Ravenholdt.";
       ["repgain"] = {
          [349] = 350;
       };
+      ["prequests"] = {
+         [1] = 8235;
+      };
+      ["prev"] = 8235;
       ["reward"] = {
          [1] = 19984;
          [2] = 20255;
          [3] = 19982;
       };
-      ["objective"] = "Return the Azure Key to Lord Jorach Ravenholdt.";
       ["req"] = 50;
    };
    [8191] = {
@@ -25294,6 +30283,9 @@ addon.questsDB = {
    [4112] = {
       ["name"] = "Salve via Disenchanting";
       ["prev"] = 4107;
+      ["prequests"] = {
+         [1] = 4107;
+      };
       ["objective"] = "";
       ["req"] = 48;
    };
@@ -25306,6 +30298,9 @@ addon.questsDB = {
    [4144] = {
       ["name"] = "Bloodpetal Sprouts";
       ["prev"] = 4143;
+      ["prequests"] = {
+         [1] = 4143;
+      };
       ["objective"] = "";
       ["req"] = 47;
    };
@@ -25328,6 +30323,9 @@ addon.questsDB = {
    [8382] = {
       ["name"] = "Armaments of War";
       ["prev"] = 8315;
+      ["prequests"] = {
+         [1] = 8315;
+      };
       ["repgain"] = {
          [609] = 250;
       };
@@ -25337,6 +30335,9 @@ addon.questsDB = {
    [8414] = {
       ["name"] = "Dispelling Evil";
       ["prev"] = 8415;
+      ["prequests"] = {
+         [1] = 8415;
+      };
       ["repgain"] = {
          [529] = 250;
       };
@@ -25346,6 +30347,9 @@ addon.questsDB = {
    [4224] = {
       ["name"] = "The True Masters";
       ["prev"] = 4223;
+      ["prequests"] = {
+         [1] = 4223;
+      };
       ["next"] = 4241;
       ["objective"] = "Speak with Ragged John to learn of Marshal Windsor's fate and return to Marshal Maxwell when you have completed this task.$B$BYou recall Marshal Maxwell telling you to search for him in a cave to the north.";
       ["req"] = 48;
@@ -25353,6 +30357,9 @@ addon.questsDB = {
    [3822] = {
       ["name"] = "Krom'Grul";
       ["prev"] = 3821;
+      ["prequests"] = {
+         [1] = 3821;
+      };
       ["repgain"] = {
          [76] = 250;
       };
@@ -25362,6 +30369,9 @@ addon.questsDB = {
    [8510] = {
       ["name"] = "The Alliance Needs More Arthas' Tears!";
       ["prev"] = 8509;
+      ["prequests"] = {
+         [1] = 8509;
+      };
       ["objective"] = "Bring 20 Arthas' Tears to Sergeant Major Germaine at the airfield in Dun Morogh.";
       ["req"] = 1;
    };
@@ -25373,15 +30383,21 @@ addon.questsDB = {
    [4288] = {
       ["name"] = "The Western Pylon";
       ["prev"] = 4284;
+      ["prequests"] = {
+         [1] = 4284;
+      };
       ["followup"] = 4321;
       ["objective"] = "Discover the location of the Western Crystal Pylon.";
       ["req"] = 47;
    };
    [8606] = {
-      ["name"] = "Decoy!";
-      ["prev"] = 8598;
       ["repgain"] = {
          [910] = 25;
+      };
+      ["name"] = "Decoy!";
+      ["prev"] = 8598;
+      ["prequests"] = {
+         [1] = 8598;
       };
       ["next"] = 8620;
       ["objective"] = "Narain Soothfancy in Tanaris wants you to travel to Winterspring and place the Bag of Gold at the drop off point documented by the booknappers.";
@@ -25390,6 +30406,9 @@ addon.questsDB = {
    [8638] = {
       ["name"] = "Deathdealer's Vest";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -25411,11 +30430,14 @@ addon.questsDB = {
       ["req"] = 60;
    };
    [8734] = {
-      ["name"] = "Tyrande and Remulos";
-      ["prev"] = 8733;
       ["repgain"] = {
          [910] = 10;
          [609] = 150;
+      };
+      ["name"] = "Tyrande and Remulos";
+      ["prev"] = 8733;
+      ["prequests"] = {
+         [1] = 8733;
       };
       ["next"] = 8735;
       ["objective"] = "Travel to the Moonglade and speak to Keeper Remulos. ";
@@ -25433,12 +30455,18 @@ addon.questsDB = {
    [8798] = {
       ["name"] = "A Yeti of Your Own";
       ["prev"] = 5163;
+      ["prequests"] = {
+         [1] = 5163;
+      };
       ["objective"] = "";
       ["req"] = 55;
    };
    [8830] = {
       ["name"] = "One Commendation Signet";
       ["prev"] = 8811;
+      ["prequests"] = {
+         [1] = 8811;
+      };
       ["objective"] = "";
       ["req"] = 1;
    };
@@ -25458,9 +30486,12 @@ addon.questsDB = {
       ["req"] = 48;
    };
    [8958] = {
+      ["followup"] = 8960;
       ["name"] = "Anthion's Parting Words";
       ["prev"] = 9015;
-      ["followup"] = 8960;
+      ["prequests"] = {
+         [1] = 9015;
+      };
       ["next"] = 8960;
       ["objective"] = "Return to Deliana in Ironforge with a set of Dreadmist Sandals, Dreadmist Leggings and Dreadmist Mantle.";
       ["req"] = 58;
@@ -25484,18 +30515,27 @@ addon.questsDB = {
    [9054] = {
       ["name"] = "Cryptstalker Tunic";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Huntsman Leopold at Light's Hope Chapel in the Eastern Plaguelands will make a Cryptstalker Tunic if you bring him the following: 1 Desecrated Tunic, 25 Wartorn Chain Scraps, 4 Arcanite Bars and 3 Cured Rugged Hides.";
       ["req"] = 60;
    };
    [9086] = {
       ["name"] = "Dreamwalker Tunic";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Rayne at Light's Hope Chapel in the Eastern Plaguelands will make a Dreamwalker Tunic if you bring her the following: 1 Desecrated Tunic, 25 Wartorn Leather Scraps, 6 Cured Rugged Hides and 2 Nexus Crystals.";
       ["req"] = 60;
    };
    [9118] = {
       ["name"] = "Bindings of Faith";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -25505,6 +30545,9 @@ addon.questsDB = {
    [8242] = {
       ["name"] = "Restoring Fiery Flux Supplies via Heavy Leather";
       ["prev"] = 7722;
+      ["prequests"] = {
+         [1] = 7722;
+      };
       ["repgain"] = {
          [59] = 25;
       };
@@ -25534,6 +30577,9 @@ addon.questsDB = {
    [9246] = {
       ["name"] = "Icy Scale Breastplate";
       ["prev"] = 9233;
+      ["prequests"] = {
+         [1] = 9233;
+      };
       ["objective"] = "Craftsman Wilhelm at Light's Hope Chapel in the Eastern Plaguelands wants 8 Frozen Runes, 24 Heavy Scorpid Scale, 7 Essence of Water, 5 Cured Rugged Hides and 300 gold. You must also be of Exalted reputation with the Argent Dawn.";
       ["req"] = 60;
    };
@@ -25561,6 +30607,9 @@ addon.questsDB = {
    [6185] = {
       ["name"] = "The Eastern Plagues";
       ["prev"] = 6184;
+      ["prequests"] = {
+         [1] = 6184;
+      };
       ["next"] = 6186;
       ["objective"] = "Scour the Eastern Plaguelands for clues as to the Blightcaller\" and the missing SI:7 agents. If you find any SI:7 Insignias";
       ["req"] = 56;
@@ -25568,6 +30617,9 @@ addon.questsDB = {
    [6521] = {
       ["name"] = "An Unholy Alliance";
       ["prev"] = 6522;
+      ["prequests"] = {
+         [1] = 6522;
+      };
       ["reward"] = {
          [1] = 17039;
          [2] = 17042;
@@ -25579,6 +30631,9 @@ addon.questsDB = {
    [4185] = {
       ["name"] = "The True Masters";
       ["prev"] = 4184;
+      ["prequests"] = {
+         [1] = 4184;
+      };
       ["next"] = 4186;
       ["objective"] = "Speak with Highlord Bolvar Fordragon after speaking with Lady Katrana Prestor.";
       ["req"] = 48;
@@ -25600,6 +30655,9 @@ addon.questsDB = {
    [1185] = {
       ["name"] = "Under the Chitin Was...";
       ["prev"] = 6845;
+      ["prequests"] = {
+         [1] = 6845;
+      };
       ["repgain"] = {
          [609] = 75;
       };
@@ -25608,20 +30666,26 @@ addon.questsDB = {
    };
    [4768] = {
       ["name"] = "The Darkstone Tablet";
-      ["prev"] = 4769;
+      ["objective"] = "Bring the Darkstone Tablet to Shadow Mage Vivian Lagrave in Kargath.";
       ["repgain"] = {
          [68] = 350;
       };
+      ["prequests"] = {
+         [1] = 4769;
+      };
+      ["prev"] = 4769;
       ["reward"] = {
          [1] = 15861;
          [2] = 15860;
       };
-      ["objective"] = "Bring the Darkstone Tablet to Shadow Mage Vivian Lagrave in Kargath.";
       ["req"] = 57;
    };
    [4784] = {
       ["name"] = "Components for the Enchanted Gold Bloodrobe";
       ["prev"] = 4783;
+      ["prequests"] = {
+         [1] = 4783;
+      };
       ["next"] = 4786;
       ["objective"] = "Bring some Fine Gold Thread, 2 Smoldering Coals, and a Soul Shard to Menara Voidrender in the Barrens.";
       ["req"] = 31;
@@ -25629,6 +30693,9 @@ addon.questsDB = {
    [9003] = {
       ["name"] = "Saving the Best for Last";
       ["prev"] = 8997;
+      ["prequests"] = {
+         [1] = 8997;
+      };
       ["objective"] = "Give Deliana your Devout Crown and Devout Robe.";
       ["req"] = 58;
    };
@@ -25652,20 +30719,26 @@ addon.questsDB = {
    };
    [8282] = {
       ["name"] = "Noggle's Lost Satchel";
-      ["prev"] = 8278;
+      ["objective"] = "Retrieve Noggle's Satchel from the mountains in the south of Silithus and return it to him at Cenarion Hold.";
       ["repgain"] = {
          [609] = 500;
       };
+      ["prequests"] = {
+         [1] = 8278;
+      };
+      ["prev"] = 8278;
       ["reward"] = {
          [1] = 13452;
          [2] = 13447;
       };
-      ["objective"] = "Retrieve Noggle's Satchel from the mountains in the south of Silithus and return it to him at Cenarion Hold.";
       ["req"] = 54;
    };
    [4864] = {
       ["name"] = "Enraged Wildkin";
       ["prev"] = 4863;
+      ["prequests"] = {
+         [1] = 4863;
+      };
       ["repgain"] = {
          [47] = 250;
       };
@@ -25673,10 +30746,13 @@ addon.questsDB = {
       ["req"] = 53;
    };
    [8285] = {
-      ["name"] = "The Deserter";
-      ["prev"] = 8284;
       ["repgain"] = {
          [609] = 75;
+      };
+      ["name"] = "The Deserter";
+      ["prev"] = 8284;
+      ["prequests"] = {
+         [1] = 8284;
       };
       ["next"] = 8279;
       ["objective"] = "Take the restored tablet to Hermit Ortell in Silithus.$B";
@@ -25693,6 +30769,9 @@ addon.questsDB = {
    [3182] = {
       ["name"] = "Proof of Deed";
       ["prev"] = 3181;
+      ["prequests"] = {
+         [1] = 3181;
+      };
       ["repgain"] = {
          [47] = 250;
       };
@@ -25702,12 +30781,18 @@ addon.questsDB = {
    [8298] = {
       ["name"] = "More Resource Crates";
       ["prev"] = 8297;
+      ["prequests"] = {
+         [1] = 8297;
+      };
       ["objective"] = "Win the battle for Arathi Basin, get an Arathi Resource Crate, and return it to Sergeant Maclear at Refuge Pointe.";
       ["req"] = 60;
    };
    [1642] = {
       ["name"] = "The Tome of Divinity";
       ["prev"] = 1641;
+      ["prequests"] = {
+         [1] = 1641;
+      };
       ["next"] = 1643;
       ["objective"] = "Speak to Duthorian Rall in Stormwind.";
       ["req"] = 12;
@@ -25720,17 +30805,23 @@ addon.questsDB = {
    [4976] = {
       ["name"] = "Returning the Cleansed Orb";
       ["prev"] = 4961;
+      ["prequests"] = {
+         [1] = 4961;
+      };
       ["objective"] = "Return the Cleansed Infernal Orb to Menara Voidrender in the Barrens.";
       ["req"] = 35;
    };
    [3923] = {
-      ["name"] = "Rilli Greasygob";
-      ["prev"] = 3922;
       ["repgain"] = {
          [470] = 25;
          [530] = 10;
          [81] = 10;
          [76] = 10;
+      };
+      ["name"] = "Rilli Greasygob";
+      ["prev"] = 3922;
+      ["prequests"] = {
+         [1] = 3922;
       };
       ["next"] = 3924;
       ["objective"] = "Bring the Broken and Battered Samophlange to Rilli Greasygob in Orgrimmar.";
@@ -25757,6 +30848,9 @@ addon.questsDB = {
    [8306] = {
       ["name"] = "Into The Maw of Madness";
       ["prev"] = 8304;
+      ["prequests"] = {
+         [1] = 8304;
+      };
       ["repgain"] = {
          [609] = 200;
       };
@@ -25766,6 +30860,9 @@ addon.questsDB = {
    [5056] = {
       ["name"] = "Shy-Rotam";
       ["prev"] = 5055;
+      ["prequests"] = {
+         [1] = 5055;
+      };
       ["reward"] = {
          [1] = 15783;
          [2] = 15782;
@@ -25776,22 +30873,28 @@ addon.questsDB = {
    [4285] = {
       ["name"] = "The Northern Pylon";
       ["prev"] = 4284;
+      ["prequests"] = {
+         [1] = 4284;
+      };
       ["followup"] = 4321;
       ["objective"] = "Discover the location of the Northern Crystal Pylon in Un'Goro Crater.";
       ["req"] = 47;
    };
    [5088] = {
       ["name"] = "Arikara";
-      ["prev"] = 5062;
+      ["objective"] = "Slay Arikara. Bring her remains and the Incendia powder to Motega Firemane in Whitereach Post as proof of your deed.";
       ["repgain"] = {
          [81] = 250;
       };
+      ["prequests"] = {
+         [1] = 5062;
+      };
+      ["prev"] = 5062;
       ["reward"] = {
          [1] = 15464;
          [2] = 15465;
          [3] = 15466;
       };
-      ["objective"] = "Slay Arikara. Bring her remains and the Incendia powder to Motega Firemane in Whitereach Post as proof of your deed.";
       ["req"] = 24;
    };
    [6641] = {
@@ -25819,6 +30922,9 @@ addon.questsDB = {
    [5152] = {
       ["name"] = "Auntie Marlene";
       ["prev"] = 5149;
+      ["prequests"] = {
+         [1] = 5149;
+      };
       ["next"] = 5153;
       ["objective"] = "Speak with Marlene, south of the Ruins of Andorhal.";
       ["req"] = 50;
@@ -25826,6 +30932,9 @@ addon.questsDB = {
    [5168] = {
       ["name"] = "Heroes of Darrowshire";
       ["prev"] = 5210;
+      ["prequests"] = {
+         [1] = 5210;
+      };
       ["followup"] = 5206;
       ["objective"] = "Bring Davil's Libram and Redpath's Shield to Carlin Redpath.";
       ["req"] = 50;
@@ -25833,57 +30942,72 @@ addon.questsDB = {
    [9111] = {
       ["name"] = "Robe of Faith";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Father Inigo Montoy at Light's Hope Chapel in the Eastern Plaguelands will make a Robe of Faith if you bring him the following: 1 Desecrated Robe, 25 Wartorn Cloth Scraps, 4 Mooncloth and 2 Nexus Crystals.";
       ["req"] = 60;
    };
    [4510] = {
       ["name"] = "Calm Before the Storm";
-      ["prev"] = 4508;
+      ["objective"] = "Bring the Bank Voucher to Idriana in the bank of Darnassus.";
       ["repgain"] = {
          [69] = 500;
          [54] = 500;
          [72] = 500;
          [47] = 500;
       };
+      ["prequests"] = {
+         [1] = 4508;
+      };
+      ["prev"] = 4508;
       ["reward"] = {
          [1] = 11870;
          [2] = 11871;
          [3] = 11872;
       };
-      ["objective"] = "Bring the Bank Voucher to Idriana in the bank of Darnassus.";
       ["req"] = 50;
    };
    [5216] = {
+      ["followup"] = 5218;
       ["repgain"] = {
          [469] = 250;
          [529] = 250;
       };
       ["name"] = "Target: Felstone Field";
       ["prev"] = 5215;
-      ["followup"] = 5218;
+      ["prequests"] = {
+         [1] = 5215;
+      };
       ["next"] = 5217;
       ["objective"] = "Go to Felstone Field in Western Plaguelands to locate and defeat the Cauldron Lord present there.  It may have a key that will allow access to the cauldron.  You must have the Empty Felstone Field Bottle with you to secure a sample of the poisons used inside the cauldron.";
       ["req"] = 50;
    };
    [5232] = {
-      ["name"] = "Return to the Bulwark";
-      ["prev"] = 5231;
       ["repgain"] = {
          [67] = 75;
          [529] = 75;
+      };
+      ["name"] = "Return to the Bulwark";
+      ["prev"] = 5231;
+      ["prequests"] = {
+         [1] = 5231;
       };
       ["next"] = 5233;
       ["objective"] = "Bring the Filled Dalson's Tears Bottle to Shadow Priestess Vandis at the Bulwark, Western Plaguelands.";
       ["req"] = 50;
    };
    [5248] = {
-      ["name"] = "Tormented By the Past";
-      ["prev"] = 5247;
       ["repgain"] = {
          [69] = 25;
          [54] = 25;
          [72] = 25;
          [47] = 25;
+      };
+      ["name"] = "Tormented By the Past";
+      ["prev"] = 5247;
+      ["prequests"] = {
+         [1] = 5247;
       };
       ["next"] = 5252;
       ["objective"] = "Take the Crystal of Zin-Malor to Lake Kel'Theril in Winterspring and find a highborne spirit that will speak to you.";
@@ -25892,6 +31016,9 @@ addon.questsDB = {
    [5264] = {
       ["name"] = "Lord Maxwell Tyrosus";
       ["prev"] = 5263;
+      ["prequests"] = {
+         [1] = 5263;
+      };
       ["next"] = 5265;
       ["objective"] = "Speak with Lord Maxwell Tyrosus. He is inside the church.";
       ["req"] = 55;
@@ -25911,10 +31038,13 @@ addon.questsDB = {
       ["req"] = 10;
    };
    [1074] = {
-      ["name"] = "Ineptitude + Chemicals = Fun";
-      ["prev"] = 1073;
       ["repgain"] = {
          [54] = 75;
+      };
+      ["name"] = "Ineptitude + Chemicals = Fun";
+      ["prev"] = 1073;
+      ["prequests"] = {
+         [1] = 1073;
       };
       ["followup"] = 1080;
       ["objective"] = "Bring the Nitromirglyceronium back to Gaxim Rustfizzle in Stonetalon.";
@@ -25932,22 +31062,28 @@ addon.questsDB = {
    [5344] = {
       ["name"] = "The Last Barov";
       ["prev"] = 5343;
+      ["prequests"] = {
+         [1] = 5343;
+      };
       ["objective"] = "Travel to the Bulwark - Horde territory - and assassinate Alexi Barov. Take his head and return to Weldon Barov.$B$BBe warned, Alexi will probably be well protected by Horde filth.";
       ["req"] = 52;
    };
    [8745] = {
       ["name"] = "Treasure of the Timeless One";
-      ["prev"] = 8742;
+      ["objective"] = "";
       ["repgain"] = {
          [910] = 500;
       };
+      ["prequests"] = {
+         [1] = 8742;
+      };
+      ["prev"] = 8742;
       ["reward"] = {
          [1] = 21523;
          [2] = 21522;
          [3] = 21521;
          [4] = 21520;
       };
-      ["objective"] = "";
       ["req"] = 60;
    };
    [4114] = {
@@ -25991,6 +31127,9 @@ addon.questsDB = {
    [8948] = {
       ["name"] = "Anthion's Old Friend";
       ["prev"] = 8947;
+      ["prequests"] = {
+         [1] = 8947;
+      };
       ["next"] = 8949;
       ["objective"] = "Take the incomplete Banner of Provocation to Falrin Treeshaper at the library in Dire Maul.";
       ["req"] = 58;
@@ -26014,6 +31153,9 @@ addon.questsDB = {
    [5211] = {
       ["name"] = "Defenders of Darrowshire";
       ["prev"] = 5241;
+      ["prequests"] = {
+         [1] = 5241;
+      };
       ["objective"] = "Free 15 Darrowshire Spirits and return to Carlin Redpath.";
       ["req"] = 50;
    };
@@ -26036,6 +31178,9 @@ addon.questsDB = {
    [8389] = {
       ["name"] = "Battle of Warsong Gulch";
       ["prev"] = 8368;
+      ["prequests"] = {
+         [1] = 8368;
+      };
       ["repgain"] = {
          [889] = 50;
       };
@@ -26044,27 +31189,36 @@ addon.questsDB = {
    };
    [8418] = {
       ["name"] = "Forging the Mightstone";
-      ["prev"] = 8416;
+      ["objective"] = "Bring the voodoo feathers to Ashlam Valorfist.";
       ["repgain"] = {
          [529] = 150;
       };
+      ["prequests"] = {
+         [1] = 8416;
+      };
+      ["prev"] = 8416;
       ["reward"] = {
          [1] = 20504;
          [2] = 20512;
          [3] = 20505;
       };
-      ["objective"] = "Bring the voodoo feathers to Ashlam Valorfist.";
       ["req"] = 50;
    };
    [6389] = {
       ["name"] = "A Plague Upon Thee";
       ["prev"] = 5904;
+      ["prequests"] = {
+         [1] = 5904;
+      };
       ["objective"] = "Release the Plagueland Termites in the Northridge Lumber Mill, then return with the Barrel of Plagueland Termites to Nathaniel Dumah at Chillwind Camp in Western Plaguelands.";
       ["req"] = 48;
    };
    [6662] = {
       ["name"] = "Me Brother, Nipsy";
       ["prev"] = 6661;
+      ["prequests"] = {
+         [1] = 6661;
+      };
       ["objective"] = "Take the Carton of Mystery Meat to Nipsy at the Stormwind Deeprun Tram Depot.";
       ["req"] = 10;
    };
@@ -26078,12 +31232,18 @@ addon.questsDB = {
    [5648] = {
       ["name"] = "Garments of Spirituality";
       ["prev"] = 5649;
+      ["prequests"] = {
+         [1] = 5649;
+      };
       ["objective"] = "Find Grunt Kor'ja and heal her wounds using Lesser Heal (Rank 2). Afterwards, grant her Power Word: Fortitude and then return to Tai'jin at Razor Hill.";
       ["req"] = 5;
    };
    [5163] = {
       ["name"] = "Are We There, Yeti?";
       ["prev"] = 977;
+      ["prequests"] = {
+         [1] = 977;
+      };
       ["repgain"] = {
          [577] = 350;
       };
@@ -26098,6 +31258,9 @@ addon.questsDB = {
    [4142] = {
       ["name"] = "A Visit to Gregan";
       ["prev"] = 4141;
+      ["prequests"] = {
+         [1] = 4141;
+      };
       ["next"] = 4143;
       ["objective"] = "Take a Bloodpetal to Gregan Brewspewer in Feralas.";
       ["req"] = 47;
@@ -26105,14 +31268,23 @@ addon.questsDB = {
    [8994] = {
       ["name"] = "Final Preparations";
       ["next"] = 8995;
+      ["prequests"] = {
+         [1] = 8989;
+         [2] = 8991;
+         [3] = 8992;
+         [4] = 8990;
+      };
       ["objective"] = "Gather 40 Blackrock Bracers and acquire a Flask of Supreme Power. Return them to Bodley inside Blackrock Mountain.";
       ["req"] = 58;
    };
    [5728] = {
-      ["name"] = "Hidden Enemies";
-      ["prev"] = 5727;
       ["repgain"] = {
          [76] = 250;
+      };
+      ["name"] = "Hidden Enemies";
+      ["prev"] = 5727;
+      ["prequests"] = {
+         [1] = 5727;
       };
       ["next"] = 5729;
       ["objective"] = "Kill Bazzalan and Jergosh the Invoker before returning to Thrall in Orgrimmar.";
@@ -26121,6 +31293,9 @@ addon.questsDB = {
    [8440] = {
       ["name"] = "Conquering Arathi Basin";
       ["prev"] = 8436;
+      ["prequests"] = {
+         [1] = 8436;
+      };
       ["repgain"] = {
          [510] = 50;
       };
@@ -26130,6 +31305,9 @@ addon.questsDB = {
    [8442] = {
       ["name"] = "Conquering Arathi Basin";
       ["prev"] = 8438;
+      ["prequests"] = {
+         [1] = 8438;
+      };
       ["repgain"] = {
          [510] = 50;
       };
@@ -26139,6 +31317,9 @@ addon.questsDB = {
    [9002] = {
       ["name"] = "Saving the Best for Last";
       ["prev"] = 8997;
+      ["prequests"] = {
+         [1] = 8997;
+      };
       ["objective"] = "Give Deliana your Lightforge Helm and Lightforge Breastplate.";
       ["req"] = 58;
    };
@@ -26156,10 +31337,13 @@ addon.questsDB = {
       ["req"] = 45;
    };
    [1154] = {
-      ["name"] = "Test of Lore";
-      ["prev"] = 1152;
       ["repgain"] = {
          [81] = 150;
+      };
+      ["name"] = "Test of Lore";
+      ["prev"] = 1152;
+      ["prequests"] = {
+         [1] = 1152;
       };
       ["next"] = 6627;
       ["objective"] = "Find the Legacy of the Aspects and return it to Braug Dimspirit near the entrance to Talondeep Path in Stonetalon Mountains.";
@@ -26189,12 +31373,18 @@ addon.questsDB = {
    [5888] = {
       ["name"] = "Salve via Mining";
       ["prev"] = 5883;
+      ["prequests"] = {
+         [1] = 5883;
+      };
       ["objective"] = "";
       ["req"] = 48;
    };
    [5904] = {
       ["name"] = "A Plague Upon Thee";
       ["prev"] = 5903;
+      ["prequests"] = {
+         [1] = 5903;
+      };
       ["next"] = 6389;
       ["objective"] = "Find someplace suitable in the center of the Northridge Lumber Mill in Western Plaguelands to place the Barrel of Plagueland Termites.";
       ["req"] = 48;
@@ -26208,10 +31398,13 @@ addon.questsDB = {
       ["req"] = 60;
    };
    [6122] = {
-      ["name"] = "The Principal Source";
-      ["prev"] = 6121;
       ["repgain"] = {
          [609] = 150;
+      };
+      ["name"] = "The Principal Source";
+      ["prev"] = 6121;
+      ["prequests"] = {
+         [1] = 6121;
       };
       ["next"] = 6123;
       ["objective"] = "Use the Empty Cliffspring Falls Sampler to draw a sample of water from the mouth of the cave by the falls.$B$BDeliver the Filled Cliffspring Falls Sampler to Alanndarian Nightsong in Auberdine, Darkshore.";
@@ -26225,6 +31418,9 @@ addon.questsDB = {
    [8506] = {
       ["name"] = "The Alliance Needs More Purple Lotus!";
       ["prev"] = 8505;
+      ["prequests"] = {
+         [1] = 8505;
+      };
       ["objective"] = "Bring 20 purple lotus to Master Nightsong at the airfield in Dun Morogh.";
       ["req"] = 1;
    };
@@ -26232,6 +31428,10 @@ addon.questsDB = {
       ["name"] = "Weapons of Spirit";
       ["repgain"] = {
          [530] = 250;
+      };
+      ["prequests"] = {
+         [1] = 3127;
+         [2] = 3128;
       };
       ["reward"] = {
          [1] = 9684;
@@ -26291,6 +31491,9 @@ addon.questsDB = {
    [1302] = {
       ["name"] = "James Hyal";
       ["prev"] = 1301;
+      ["prequests"] = {
+         [1] = 1301;
+      };
       ["objective"] = "Speak with Clerk Lendry at Foothold Citadel in Theramore.";
       ["req"] = 30;
    };
@@ -26305,10 +31508,13 @@ addon.questsDB = {
       ["req"] = 52;
    };
    [6128] = {
-      ["name"] = "Gathering the Cure";
-      ["prev"] = 6127;
       ["repgain"] = {
          [609] = 75;
+      };
+      ["name"] = "Gathering the Cure";
+      ["prev"] = 6127;
+      ["prequests"] = {
+         [1] = 6127;
       };
       ["next"] = 6129;
       ["objective"] = "Bring 5 Earthroot and 5 Kodo Horns to Tonga Runetotem at the Crossroads so he may make a curative salve.";
@@ -26331,6 +31537,9 @@ addon.questsDB = {
    [8255] = {
       ["name"] = "Of Coursers We Know";
       ["prev"] = 8254;
+      ["prequests"] = {
+         [1] = 8254;
+      };
       ["next"] = 8256;
       ["objective"] = "Acquire 4 Healthy Courser Glands and bring them to Ogtinc in Azshara.  Ogtinc resides atop the cliffs northeast the Ruins of Eldarath.";
       ["req"] = 50;
@@ -26338,6 +31547,9 @@ addon.questsDB = {
    [8287] = {
       ["name"] = "A Terrible Purpose";
       ["prev"] = 8279;
+      ["prequests"] = {
+         [1] = 8279;
+      };
       ["repgain"] = {
          [609] = 250;
       };
@@ -26347,6 +31559,9 @@ addon.questsDB = {
    [8319] = {
       ["name"] = "Encrypted Twilight Texts";
       ["prev"] = 8318;
+      ["prequests"] = {
+         [1] = 8318;
+      };
       ["repgain"] = {
          [609] = 250;
       };
@@ -26356,6 +31571,9 @@ addon.questsDB = {
    [8351] = {
       ["name"] = "Bor Wishes to Speak";
       ["prev"] = 8341;
+      ["prequests"] = {
+         [1] = 8341;
+      };
       ["next"] = 8352;
       ["objective"] = "Speak with Bor Wildmane in Cenarion Hold.";
       ["req"] = 60;
@@ -26363,6 +31581,9 @@ addon.questsDB = {
    [8383] = {
       ["name"] = "Remember Alterac Valley!";
       ["prev"] = 8375;
+      ["prequests"] = {
+         [1] = 8375;
+      };
       ["repgain"] = {
          [730] = 100;
       };
@@ -26378,12 +31599,18 @@ addon.questsDB = {
    [8447] = {
       ["name"] = "Waking Legends";
       ["prev"] = 8446;
+      ["prequests"] = {
+         [1] = 8446;
+      };
       ["objective"] = "Wait for Keeper Remulos at the Moonglade to cleanse the Nightmare Engulfed Object.";
       ["req"] = 60;
    };
    [9011] = {
       ["name"] = "Saving the Best for Last";
       ["prev"] = 8998;
+      ["prequests"] = {
+         [1] = 8998;
+      };
       ["objective"] = "Give Mokvar your Coif of Elements and Vest of Elements.";
       ["req"] = 58;
    };
@@ -26395,6 +31622,9 @@ addon.questsDB = {
    [8543] = {
       ["name"] = "The Horde Needs More Tin Bars!";
       ["prev"] = 8542;
+      ["prequests"] = {
+         [1] = 8542;
+      };
       ["objective"] = "Bring 20 tin bars to Grunt Maug in Durotar.";
       ["req"] = 1;
    };
@@ -26414,6 +31644,9 @@ addon.questsDB = {
    [8639] = {
       ["name"] = "Deathdealer's Helm";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -26437,6 +31670,9 @@ addon.questsDB = {
    [8735] = {
       ["name"] = "The Nightmare's Corruption";
       ["prev"] = 8734;
+      ["prequests"] = {
+         [1] = 8734;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -26451,12 +31687,18 @@ addon.questsDB = {
    [8799] = {
       ["name"] = "The Hero of the Day";
       ["prev"] = 8746;
+      ["prequests"] = {
+         [1] = 8746;
+      };
       ["objective"] = "Bring 1 Deeprock Salt and 5 gold coins to the Holly Preserver machine, upon which you will receive 5 Preserved Holly.";
       ["req"] = 40;
    };
    [8831] = {
       ["name"] = "Ten Commendation Signets";
       ["prev"] = 8819;
+      ["prequests"] = {
+         [1] = 8819;
+      };
       ["objective"] = "";
       ["req"] = 1;
    };
@@ -26472,25 +31714,34 @@ addon.questsDB = {
       ["req"] = 57;
    };
    [8927] = {
+      ["followup"] = 8930;
       ["name"] = "Just Compensation";
       ["prev"] = 8978;
-      ["followup"] = 8930;
+      ["prequests"] = {
+         [1] = 8978;
+      };
       ["next"] = 8930;
       ["objective"] = "Bring a Wildheart Belt and a set of Wildheart Gloves to Mokvar in Orgrimmar.";
       ["req"] = 58;
    };
    [8959] = {
+      ["followup"] = 8960;
       ["name"] = "Anthion's Parting Words";
       ["prev"] = 9015;
-      ["followup"] = 8960;
+      ["prequests"] = {
+         [1] = 9015;
+      };
       ["next"] = 8960;
       ["objective"] = "Return to Deliana in Ironforge with a set of Boots of Valor, Legplates of Valor and Spaulders of Valor.";
       ["req"] = 58;
    };
    [8991] = {
+      ["followup"] = 8994;
       ["name"] = "The Right Piece of Lord Valthalak's Amulet";
       ["prev"] = 8987;
-      ["followup"] = 8994;
+      ["prequests"] = {
+         [1] = 8987;
+      };
       ["next"] = 8994;
       ["objective"] = "Use the Brazier of Beckoning to summon forth Jarien and Sothos and slay them. Return to Bodley inside Blackrock Mountain with the recombined Lord Valthalak's Amulet and the Brazier of Beckoning.";
       ["req"] = 58;
@@ -26514,12 +31765,18 @@ addon.questsDB = {
    [9055] = {
       ["name"] = "Cryptstalker Legguards";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Huntsman Leopold at Light's Hope Chapel in the Eastern Plaguelands will make Cryptstalker Legguards if you bring him the following: 1 Desecrated Legguards, 20 Wartorn Chain Scraps, 3 Arcanite Bars and 5 Cured Rugged Hides.";
       ["req"] = 60;
    };
    [9087] = {
       ["name"] = "Dreamwalker Legguards";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Rayne at Light's Hope Chapel in the Eastern Plaguelands will make Dreamwalker Legguards if you bring her the following: 1 Desecrated Legguards, 20 Wartorn Leather Scraps, 8 Cured Rugged Hides and 1 Nexus Crystal.";
       ["req"] = 60;
    };
@@ -26546,10 +31803,13 @@ addon.questsDB = {
       ["req"] = 55;
    };
    [3903] = {
-      ["name"] = "Milly Osworth";
-      ["prev"] = 33;
       ["repgain"] = {
          [72] = 10;
+      };
+      ["name"] = "Milly Osworth";
+      ["prev"] = 33;
+      ["prequests"] = {
+         [1] = 33;
       };
       ["next"] = 3904;
       ["objective"] = "Speak with Milly Osworth.";
@@ -26573,6 +31833,9 @@ addon.questsDB = {
    [8554] = {
       ["name"] = "Facing Negolash";
       ["prev"] = 8553;
+      ["prequests"] = {
+         [1] = 8553;
+      };
       ["repgain"] = {
          [21] = 500;
       };
@@ -26587,6 +31850,9 @@ addon.questsDB = {
    [8555] = {
       ["name"] = "The Charge of the Dragonflights";
       ["prev"] = 8519;
+      ["prequests"] = {
+         [1] = 8519;
+      };
       ["repgain"] = {
          [910] = 10;
       };
@@ -26596,6 +31862,9 @@ addon.questsDB = {
    [1792] = {
       ["name"] = "Whirlwind Weapon";
       ["prev"] = 1713;
+      ["prequests"] = {
+         [1] = 1713;
+      };
       ["reward"] = {
          [1] = 6975;
          [2] = 6977;
@@ -26605,10 +31874,13 @@ addon.questsDB = {
       ["req"] = 30;
    };
    [3126] = {
-      ["name"] = "Treant Muisek";
-      ["prev"] = 3125;
       ["repgain"] = {
          [530] = 250;
+      };
+      ["name"] = "Treant Muisek";
+      ["prev"] = 3125;
+      ["prequests"] = {
+         [1] = 3125;
       };
       ["next"] = 3127;
       ["objective"] = "Kill 3 Wandering Forest Walkers. Use the Muisek Vessel to shrink and capture the fallen Treants.";
@@ -26626,6 +31898,9 @@ addon.questsDB = {
    [8574] = {
       ["name"] = "Stalwart's Battlegear";
       ["prev"] = 8800;
+      ["prequests"] = {
+         [1] = 8800;
+      };
       ["reward"] = {
          [1] = 21184;
          [2] = 21185;
@@ -26638,6 +31913,10 @@ addon.questsDB = {
    [1082] = {
       ["name"] = "Update for Sentinel Thenysil";
       ["next"] = 1081;
+      ["prequests"] = {
+         [1] = 1083;
+         [2] = 1084;
+      };
       ["repgain"] = {
          [69] = 75;
       };
@@ -26667,6 +31946,9 @@ addon.questsDB = {
    [1954] = {
       ["name"] = "The Infernal Orb";
       ["prev"] = 1953;
+      ["prequests"] = {
+         [1] = 1953;
+      };
       ["next"] = 1955;
       ["objective"] = "Bring an Infernal Orb to Tabetha in Dustwallow Marsh.";
       ["req"] = 35;
@@ -26674,6 +31956,9 @@ addon.questsDB = {
    [8592] = {
       ["name"] = "Tiara of the Oracle";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -26692,12 +31977,18 @@ addon.questsDB = {
    [8514] = {
       ["name"] = "The Alliance Needs More Medium Leather!";
       ["prev"] = 8513;
+      ["prequests"] = {
+         [1] = 8513;
+      };
       ["objective"] = "Bring 10 medium leather to Private Porter at the airfield in Dun Morogh.";
       ["req"] = 1;
    };
    [8610] = {
       ["name"] = "The Horde Needs More Runecloth Bandages!";
       ["prev"] = 8609;
+      ["prequests"] = {
+         [1] = 8609;
+      };
       ["objective"] = "Bring 20 Runecloth Bandages to Stoneguard Clayhoof at the Valley of Spirits in Orgrimmar.";
       ["req"] = 1;
    };
@@ -26713,6 +32004,9 @@ addon.questsDB = {
    [1958] = {
       ["name"] = "Celestial Power";
       ["prev"] = 1957;
+      ["prequests"] = {
+         [1] = 1957;
+      };
       ["reward"] = {
          [1] = 7515;
          [2] = 9517;
@@ -26723,6 +32017,9 @@ addon.questsDB = {
    [3110] = {
       ["name"] = "Hallowed Rune";
       ["prev"] = 179;
+      ["prequests"] = {
+         [1] = 179;
+      };
       ["repgain"] = {
          [47] = 75;
       };
@@ -26737,12 +32034,18 @@ addon.questsDB = {
    [2952] = {
       ["name"] = "The Sparklematic 5200!";
       ["prev"] = 2951;
+      ["prequests"] = {
+         [1] = 2951;
+      };
       ["objective"] = "";
       ["req"] = 25;
    };
    [7647] = {
       ["name"] = "Judgment and Redemption";
       ["prev"] = 7646;
+      ["prequests"] = {
+         [1] = 7646;
+      };
       ["repgain"] = {
          [72] = 500;
       };
@@ -26750,10 +32053,13 @@ addon.questsDB = {
       ["req"] = 60;
    };
    [8305] = {
-      ["name"] = "Long Forgotten Memories";
-      ["prev"] = 8303;
       ["repgain"] = {
          [910] = 50;
+      };
+      ["name"] = "Long Forgotten Memories";
+      ["prev"] = 8303;
+      ["prequests"] = {
+         [1] = 8303;
       };
       ["next"] = 8519;
       ["objective"] = "Locate the Crystalline Tear in Silithus and gaze into its depths.";
@@ -26762,6 +32068,9 @@ addon.questsDB = {
    [8634] = {
       ["name"] = "Enigma Boots";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -26794,6 +32103,9 @@ addon.questsDB = {
    [1960] = {
       ["name"] = "Investigate the Alchemist Shop";
       ["prev"] = 1959;
+      ["prequests"] = {
+         [1] = 1959;
+      };
       ["next"] = 1961;
       ["objective"] = "Obtain a Cantation of Manifestation and a Chest of Containment Coffers from behind Anastasia Hartwell.  Bring 3 Filled Containment Coffers, the Chest of Containment Coffers and the Cantation of Manifestation to Anastasia in the Undercity.";
       ["req"] = 15;
@@ -26801,6 +32113,9 @@ addon.questsDB = {
    [7168] = {
       ["name"] = "Rise and Be Recognized";
       ["prev"] = 7162;
+      ["prequests"] = {
+         [1] = 7162;
+      };
       ["objective"] = "";
       ["req"] = 51;
    };
@@ -26815,12 +32130,18 @@ addon.questsDB = {
    [9113] = {
       ["name"] = "Circlet of Faith";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Father Inigo Montoy at Light's Hope Chapel in the Eastern Plaguelands will make a Circlet of Faith if you bring him the following: 1 Desecrated Circlet, 15 Wartorn Cloth Scraps, 3 Mooncloth and 3 Nexus Crystals.";
       ["req"] = 60;
    };
    [8587] = {
       ["name"] = "Return to Narain";
       ["prev"] = 8586;
+      ["prequests"] = {
+         [1] = 8586;
+      };
       ["repgain"] = {
          [910] = 500;
       };
@@ -26835,6 +32156,9 @@ addon.questsDB = {
    [1113] = {
       ["name"] = "Hearts of Zeal";
       ["prev"] = 1109;
+      ["prequests"] = {
+         [1] = 1109;
+      };
       ["repgain"] = {
          [68] = 350;
       };
@@ -26843,32 +32167,38 @@ addon.questsDB = {
    };
    [7782] = {
       ["name"] = "The Lord of Blackrock";
-      ["prev"] = 7781;
+      ["objective"] = "Venture to the Valley of Heroes in Stormwind City and speak with Field Marshal Afrasiabi.";
       ["repgain"] = {
          [69] = 500;
          [54] = 500;
          [72] = 500;
          [47] = 250;
       };
+      ["prequests"] = {
+         [1] = 7781;
+      };
+      ["prev"] = 7781;
       ["reward"] = {
          [1] = 19383;
          [2] = 19366;
          [3] = 19384;
       };
-      ["objective"] = "Venture to the Valley of Heroes in Stormwind City and speak with Field Marshal Afrasiabi.";
       ["req"] = 60;
    };
    [1197] = {
       ["name"] = "The Sacred Flame";
-      ["prev"] = 1196;
+      ["objective"] = "Retrieve the Cloven Hoof for Rau Cliffrunner at the Freewind Post.";
       ["repgain"] = {
          [81] = 250;
       };
+      ["prequests"] = {
+         [1] = 1196;
+      };
+      ["prev"] = 1196;
       ["reward"] = {
          [1] = 6739;
          [2] = 6740;
       };
-      ["objective"] = "Retrieve the Cloven Hoof for Rau Cliffrunner at the Freewind Post.";
       ["req"] = 20;
    };
    [4115] = {
@@ -26879,6 +32209,9 @@ addon.questsDB = {
    [2922] = {
       ["name"] = "Save Techbot's Brain!";
       ["prev"] = 2923;
+      ["prequests"] = {
+         [1] = 2923;
+      };
       ["repgain"] = {
          [54] = 350;
       };
@@ -26888,6 +32221,9 @@ addon.questsDB = {
    [1648] = {
       ["name"] = "The Tome of Divinity";
       ["prev"] = 1647;
+      ["prequests"] = {
+         [1] = 1647;
+      };
       ["next"] = 1778;
       ["objective"] = "Bring 10 Linen Cloth to John Turner in Ironforge.";
       ["req"] = 12;
@@ -26895,6 +32231,9 @@ addon.questsDB = {
    [9010] = {
       ["name"] = "Saving the Best for Last";
       ["prev"] = 8998;
+      ["prequests"] = {
+         [1] = 8998;
+      };
       ["objective"] = "Give Mokvar your Shadowcraft Cap and Shadowcraft Tunic.";
       ["req"] = 58;
    };
@@ -26907,6 +32246,9 @@ addon.questsDB = {
    [8413] = {
       ["name"] = "Da Voodoo";
       ["prev"] = 8412;
+      ["prequests"] = {
+         [1] = 8412;
+      };
       ["reward"] = {
          [1] = 20369;
          [2] = 20503;
@@ -26962,6 +32304,9 @@ addon.questsDB = {
    [7488] = {
       ["name"] = "Lethtendris's Web";
       ["prev"] = 7494;
+      ["prequests"] = {
+         [1] = 7494;
+      };
       ["repgain"] = {
          [69] = 350;
          [54] = 350;
@@ -26991,6 +32336,9 @@ addon.questsDB = {
    [9105] = {
       ["name"] = "Plagueheart Circlet";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Mataus the Wrathcaster at Light's Hope Chapel in the Eastern Plaguelands will make a Plagueheart Circlet if you bring him the following: 1 Desecrated Circlet, 15 Wartorn Cloth Scraps, 3 Mooncloth and 3 Nexus Crystals.";
       ["req"] = 60;
    };
@@ -27014,6 +32362,9 @@ addon.questsDB = {
    [3105] = {
       ["name"] = "Tainted Letter";
       ["prev"] = 7;
+      ["prequests"] = {
+         [1] = 7;
+      };
       ["repgain"] = {
          [72] = 50;
       };
@@ -27029,10 +32380,13 @@ addon.questsDB = {
       ["req"] = 4;
    };
    [8313] = {
-      ["name"] = "Sharing the Knowledge";
-      ["prev"] = 8307;
       ["repgain"] = {
          [609] = 75;
+      };
+      ["name"] = "Sharing the Knowledge";
+      ["prev"] = 8307;
+      ["prequests"] = {
+         [1] = 8307;
       };
       ["next"] = 8317;
       ["objective"] = "Bring the Torn Recipe Page to Calandrath at the inn in Cenarion Hold.";
@@ -27046,6 +32400,9 @@ addon.questsDB = {
    [7648] = {
       ["name"] = "Grimand's Finest Work";
       ["prev"] = 7642;
+      ["prequests"] = {
+         [1] = 7642;
+      };
       ["repgain"] = {
          [72] = 250;
       };
@@ -27074,6 +32431,9 @@ addon.questsDB = {
    [9075] = {
       ["name"] = "Earthshatter Wristguards";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -27108,11 +32468,14 @@ addon.questsDB = {
       ["req"] = 1;
    };
    [1075] = {
-      ["name"] = "A Scroll from Mauren";
-      ["prev"] = 1071;
       ["repgain"] = {
          [54] = 75;
          [72] = 75;
+      };
+      ["name"] = "A Scroll from Mauren";
+      ["prev"] = 1071;
+      ["prequests"] = {
+         [1] = 1071;
       };
       ["next"] = 1076;
       ["objective"] = "Find Collin Mauren in Stormwind.";
@@ -27150,6 +32513,11 @@ addon.questsDB = {
       ["repgain"] = {
          [76] = 150;
       };
+      ["prequests"] = {
+         [1] = 7831;
+         [2] = 7827;
+         [3] = 7826;
+      };
       ["objective"] = "";
       ["req"] = 50;
    };
@@ -27171,18 +32539,27 @@ addon.questsDB = {
    [7888] = {
       ["name"] = "Talismans of Merit";
       ["prev"] = 7872;
+      ["prequests"] = {
+         [1] = 7872;
+      };
       ["objective"] = "You obtained a Silverwing Talisman of Merit for your last task, talk to me again, and you gain your reward.";
       ["req"] = 40;
    };
    [7843] = {
       ["name"] = "The Final Message to the Wildhammer";
       ["prev"] = 7842;
+      ["prequests"] = {
+         [1] = 7842;
+      };
       ["objective"] = "Otho Moji'ko at Revantusk Village in the Hinterlands wants you to travel to Aerie Peak in the western region of the Hinterlands and place the Final Message to the Wildhammer by the well in the center of town. Return to him once this task is complete.$B$BBeware of angry Wildhammer dwarves and unruly members of the Alliance.";
       ["req"] = 44;
    };
    [1086] = {
       ["name"] = "The Flying Machine Airport";
       ["prev"] = 1067;
+      ["prequests"] = {
+         [1] = 1067;
+      };
       ["repgain"] = {
          [68] = 350;
       };
@@ -27195,10 +32572,13 @@ addon.questsDB = {
       ["req"] = 45;
    };
    [1151] = {
-      ["name"] = "Test of Strength";
-      ["prev"] = 1150;
       ["repgain"] = {
          [81] = 350;
+      };
+      ["name"] = "Test of Strength";
+      ["prev"] = 1150;
+      ["prequests"] = {
+         [1] = 1150;
       };
       ["next"] = 1152;
       ["objective"] = "Bring Fragments of Rok'Alim to Dorn Plainstalker in Thousand Needles.";
@@ -27209,6 +32589,11 @@ addon.questsDB = {
       ["repgain"] = {
          [81] = 150;
       };
+      ["prequests"] = {
+         [1] = 7820;
+         [2] = 7821;
+         [3] = 7822;
+      };
       ["objective"] = "";
       ["req"] = 50;
    };
@@ -27217,10 +32602,18 @@ addon.questsDB = {
       ["repgain"] = {
          [69] = 25;
       };
+      ["prequests"] = {
+         [1] = 1080;
+         [2] = 1079;
+      };
       ["objective"] = "Bring the Venture Co. Letters to Kaela Shadowspear.";
       ["req"] = 17;
    };
    [1119] = {
+      ["prequests"] = {
+         [1] = 621;
+         [2] = 1118;
+      };
       ["objective"] = "Bring the Fool's Stout back to Kravel in the Shimmering Flats.";
       ["name"] = "Zanzil's Mixture and a Fool's Stout";
       ["req"] = 35;
@@ -27233,6 +32626,9 @@ addon.questsDB = {
    [5203] = {
       ["name"] = "Rescue From Jaedenar";
       ["prev"] = 5202;
+      ["prequests"] = {
+         [1] = 5202;
+      };
       ["next"] = 5204;
       ["objective"] = "Escort Arko'narin to where Lightforge and her equipment are being held, and then protect her as you escape Shadow Hold. Afterwards, seek out Jessir Moonbow in Felwood to let her know what's happened to her friends.";
       ["req"] = 49;
@@ -27240,6 +32636,9 @@ addon.questsDB = {
    [8048] = {
       ["name"] = "The Hero's Brand";
       ["prev"] = 8047;
+      ["prequests"] = {
+         [1] = 8047;
+      };
       ["repgain"] = {
          [270] = 100;
       };
@@ -27264,14 +32663,20 @@ addon.questsDB = {
    [8112] = {
       ["name"] = "Enchanted South Seas Kelp";
       ["prev"] = 8111;
+      ["prequests"] = {
+         [1] = 8111;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
    [1084] = {
-      ["name"] = "Wounded Ancients";
-      ["prev"] = 1091;
       ["repgain"] = {
          [69] = 250;
+      };
+      ["name"] = "Wounded Ancients";
+      ["prev"] = 1091;
+      ["prequests"] = {
+         [1] = 1091;
       };
       ["followup"] = 1082;
       ["objective"] = "Bring a piece of Corroded Shrapnel to Kaela Shadowspear in Stonetalon.";
@@ -27280,6 +32685,9 @@ addon.questsDB = {
    [8144] = {
       ["name"] = "Zandalrian Shadow Mastery Talisman";
       ["prev"] = 8143;
+      ["prequests"] = {
+         [1] = 8143;
+      };
       ["repgain"] = {
          [270] = 100;
       };
@@ -27294,6 +32702,9 @@ addon.questsDB = {
    [1957] = {
       ["name"] = "Mana Surges";
       ["prev"] = 1956;
+      ["prequests"] = {
+         [1] = 1956;
+      };
       ["objective"] = "Kill 12 Mana Surges in the allowed time limit.";
       ["req"] = 35;
    };
@@ -27313,6 +32724,9 @@ addon.questsDB = {
    [8256] = {
       ["name"] = "The Ichor of Undeath";
       ["prev"] = 8255;
+      ["prequests"] = {
+         [1] = 8255;
+      };
       ["next"] = 8257;
       ["objective"] = "Acquire an Ichor of Undeath for Ogtinc in Azshara.  Ogtinc resides atop the cliffs northeast the Ruins of Eldarath.";
       ["req"] = 50;
@@ -27335,6 +32749,9 @@ addon.questsDB = {
    [8352] = {
       ["name"] = "Scepter of the Council";
       ["prev"] = 8351;
+      ["prequests"] = {
+         [1] = 8351;
+      };
       ["repgain"] = {
          [609] = 200;
       };
@@ -27344,6 +32761,9 @@ addon.questsDB = {
    [8384] = {
       ["name"] = "Claiming Arathi Basin";
       ["prev"] = 8374;
+      ["prequests"] = {
+         [1] = 8374;
+      };
       ["repgain"] = {
          [509] = 50;
       };
@@ -27351,10 +32771,13 @@ addon.questsDB = {
       ["req"] = 20;
    };
    [8416] = {
-      ["name"] = "Inert Scourgestones";
-      ["prev"] = 8414;
       ["repgain"] = {
          [529] = 75;
+      };
+      ["name"] = "Inert Scourgestones";
+      ["prev"] = 8414;
+      ["prequests"] = {
+         [1] = 8414;
       };
       ["next"] = 8418;
       ["objective"] = "Bring the Inert Scourgestone to Commander Ashlan Valorfist in Chillwind Point.";
@@ -27370,10 +32793,13 @@ addon.questsDB = {
       ["req"] = 30;
    };
    [4241] = {
-      ["name"] = "Marshal Windsor";
-      ["prev"] = 4224;
       ["repgain"] = {
          [72] = 250;
+      };
+      ["name"] = "Marshal Windsor";
+      ["prev"] = 4224;
+      ["prequests"] = {
+         [1] = 4224;
       };
       ["next"] = 4242;
       ["objective"] = "Travel to Blackrock Mountain in the northwest and enter Blackrock Depths. Find out what became of Marshal Windsor.$B$BYou recall Ragged John talking about Windsor being dragged off to a prison.";
@@ -27382,12 +32808,18 @@ addon.questsDB = {
    [8512] = {
       ["name"] = "The Alliance Needs Light Leather!";
       ["prev"] = 8511;
+      ["prequests"] = {
+         [1] = 8511;
+      };
       ["objective"] = "Bring 10 light leather to Bonnie Stoneflayer at the airfield in Dun Morogh.";
       ["req"] = 1;
    };
    [8544] = {
       ["name"] = "Conqueror's Spaulders";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -27397,6 +32829,9 @@ addon.questsDB = {
    [8576] = {
       ["name"] = "Translating the Ledger";
       ["prev"] = 8575;
+      ["prequests"] = {
+         [1] = 8575;
+      };
       ["repgain"] = {
          [910] = 10;
       };
@@ -27406,12 +32841,18 @@ addon.questsDB = {
    [8608] = {
       ["name"] = "The Horde Needs More Mageweave Bandages!";
       ["prev"] = 8607;
+      ["prequests"] = {
+         [1] = 8607;
+      };
       ["objective"] = "Bring 20 Mageweave Bandages to Lady Callow at the Valley of Spirits in Orgrimmar.";
       ["req"] = 1;
    };
    [8640] = {
       ["name"] = "Deathdealer's Leggings";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -27434,15 +32875,18 @@ addon.questsDB = {
    };
    [8736] = {
       ["name"] = "The Nightmare Manifests";
-      ["prev"] = 8735;
+      ["objective"] = "Defend Nighthaven from Eranikus. Do not let Keeper Remulos perish. Do not slay Eranikus. Defend yourself. Await Tyrande.$B";
       ["repgain"] = {
          [910] = 500;
       };
+      ["prequests"] = {
+         [1] = 8735;
+      };
+      ["prev"] = 8735;
       ["reward"] = {
          [1] = 21531;
          [2] = 21532;
       };
-      ["objective"] = "Defend Nighthaven from Eranikus. Do not let Keeper Remulos perish. Do not slay Eranikus. Defend yourself. Await Tyrande.$B";
       ["req"] = 60;
    };
    [8768] = {
@@ -27453,6 +32897,9 @@ addon.questsDB = {
    [2201] = {
       ["name"] = "Find the Gems";
       ["prev"] = 2200;
+      ["prequests"] = {
+         [1] = 2200;
+      };
       ["next"] = 2204;
       ["objective"] = "Find the ruby, sapphire, and topaz that are scattered throughout Uldaman.  Once acquired, contact Talvash del Kissel remotely by using the Phial of Scrying he previously gave you.$B$BFrom the journal, you know...$B* The ruby has been stashed in a barricaded Shadowforge area.$B* The topaz has been hidden in an urn in one of the Trogg areas, near some Alliance dwarves.$B$B* The sapphire has been claimed by Grimlok, the trogg leader.";
       ["req"] = 40;
@@ -27460,6 +32907,9 @@ addon.questsDB = {
    [8832] = {
       ["name"] = "One Commendation Signet";
       ["prev"] = 8815;
+      ["prequests"] = {
+         [1] = 8815;
+      };
       ["objective"] = "";
       ["req"] = 1;
    };
@@ -27491,35 +32941,47 @@ addon.questsDB = {
       ["req"] = 10;
    };
    [8992] = {
+      ["followup"] = 8994;
       ["name"] = "The Right Piece of Lord Valthalak's Amulet";
       ["prev"] = 8988;
-      ["followup"] = 8994;
+      ["prequests"] = {
+         [1] = 8988;
+      };
       ["next"] = 8994;
       ["objective"] = "Use the Brazier of Beckoning to summon forth the spirit of Kormok and slay him. Return to Bodley inside Blackrock Mountain with the recombined Lord Valthalak's Amulet and the Brazier of Beckoning.";
       ["req"] = 58;
    };
    [4513] = {
       ["name"] = "A Little Slime Goes a Long Way";
-      ["prev"] = 4512;
+      ["objective"] = " Laris?\" I'm not sure. I do know that these are corrupt... just like Felwood. Which is what makes my realization so important. The oozes seem to adapt... to take on the aspects of the area they're in. I'll need to find samples that haven't been polluted. But where? Where?!$B$BBah! $N";
       ["repgain"] = {
          [54] = 350;
       };
+      ["prequests"] = {
+         [1] = 4512;
+      };
+      ["prev"] = 4512;
       ["reward"] = {
          [1] = 12050;
          [2] = 12051;
       };
-      ["objective"] = " Laris?\" I'm not sure. I do know that these are corrupt... just like Felwood. Which is what makes my realization so important. The oozes seem to adapt... to take on the aspects of the area they're in. I'll need to find samples that haven't been polluted. But where? Where?!$B$BBah! $N";
       ["req"] = 48;
    };
    [9056] = {
       ["name"] = "Cryptstalker Headpiece";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Huntsman Leopold at Light's Hope Chapel in the Eastern Plaguelands will make a Cryptstalker Headpiece if you bring him the following: 1 Desecrated Headpiece, 15 Wartorn Chain Scraps, 4 Arcanite Bars and 2 Nexus Crystals.";
       ["req"] = 60;
    };
    [9088] = {
       ["name"] = "Dreamwalker Headpiece";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Rayne at Light's Hope Chapel in the Eastern Plaguelands will make a Dreamwalker Headpiece if you bring her the following: 1 Desecrated Headpiece, 15 Wartorn Leather Scraps, 6 Cured Rugged Hides and 2 Nexus Crystals.";
       ["req"] = 60;
    };
@@ -27532,6 +32994,9 @@ addon.questsDB = {
    [4267] = {
       ["name"] = "Rise of the Silithid";
       ["prev"] = 4266;
+      ["prequests"] = {
+         [1] = 4266;
+      };
       ["repgain"] = {
          [69] = 350;
          [54] = 350;
@@ -27555,15 +33020,18 @@ addon.questsDB = {
    };
    [1275] = {
       ["name"] = "Researching the Corruption";
-      ["prev"] = 3765;
+      ["objective"] = "Gershala Nightwhisper in Auberdine wants 8 Corrupt Brain stems.";
       ["repgain"] = {
          [69] = 350;
       };
+      ["prequests"] = {
+         [1] = 3765;
+      };
+      ["prev"] = 3765;
       ["reward"] = {
          [1] = 7003;
          [2] = 7004;
       };
-      ["objective"] = "Gershala Nightwhisper in Auberdine wants 8 Corrupt Brain stems.";
       ["req"] = 18;
    };
    [9248] = {
@@ -27589,6 +33057,9 @@ addon.questsDB = {
    [4021] = {
       ["name"] = "Counterattack!";
       ["prev"] = 852;
+      ["prequests"] = {
+         [1] = 852;
+      };
       ["repgain"] = {
          [76] = 350;
       };
@@ -27596,10 +33067,13 @@ addon.questsDB = {
       ["req"] = 11;
    };
    [1196] = {
-      ["name"] = "The Sacred Flame";
-      ["prev"] = 1195;
       ["repgain"] = {
          [81] = 25;
+      };
+      ["name"] = "The Sacred Flame";
+      ["prev"] = 1195;
+      ["prequests"] = {
+         [1] = 1195;
       };
       ["next"] = 1197;
       ["objective"] = "Deliver the Filled Etched Phial to Rau Cliffrunner at the Freewind Post.";
@@ -27626,6 +33100,9 @@ addon.questsDB = {
    [2361] = {
       ["name"] = "Restoring the Necklace";
       ["prev"] = 2204;
+      ["prequests"] = {
+         [1] = 2204;
+      };
       ["repgain"] = {
          [54] = 500;
       };
@@ -27655,18 +33132,27 @@ addon.questsDB = {
    [4785] = {
       ["name"] = "Fine Gold Thread";
       ["prev"] = 4783;
+      ["prequests"] = {
+         [1] = 4783;
+      };
       ["objective"] = "";
       ["req"] = 31;
    };
    [4801] = {
       ["name"] = "Frostsaber E'ko";
       ["prev"] = 975;
+      ["prequests"] = {
+         [1] = 975;
+      };
       ["objective"] = "";
       ["req"] = 55;
    };
    [2623] = {
       ["name"] = "The Swamp Talker";
       ["prev"] = 2622;
+      ["prequests"] = {
+         [1] = 2622;
+      };
       ["followup"] = 2801;
       ["objective"] = "Retrieve the Warchief's Orders and return them to the Fallen Hero of the Horde.";
       ["req"] = 45;
@@ -27683,10 +33169,13 @@ addon.questsDB = {
       ["req"] = 48;
    };
    [4865] = {
-      ["name"] = "Serpent Wild";
-      ["prev"] = 4821;
       ["repgain"] = {
          [81] = 75;
+      };
+      ["name"] = "Serpent Wild";
+      ["prev"] = 4821;
+      ["prequests"] = {
+         [1] = 4821;
       };
       ["next"] = 5062;
       ["objective"] = "Report your findings to Motega Firemane.";
@@ -27704,6 +33193,9 @@ addon.questsDB = {
    [5802] = {
       ["name"] = "Fire Plume Forged";
       ["prev"] = 5514;
+      ["prequests"] = {
+         [1] = 5514;
+      };
       ["next"] = 5804;
       ["objective"] = "Take the Skeleton Key Mold and 2 Thorium Bars to the top of Fire Plume Ridge in Un'Goro Crater.  Use the Skeleton Key Mold by the lava lake to forge the Unfinished Skeleton Key.$B$BBring the Unfinished Skeleton Key to Apothecary Dithers at the Bulwark, Western Plaguelands.";
       ["req"] = 55;
@@ -27711,6 +33203,9 @@ addon.questsDB = {
    [6083] = {
       ["name"] = "Taming the Beast";
       ["prev"] = 6062;
+      ["prequests"] = {
+         [1] = 6062;
+      };
       ["next"] = 6082;
       ["objective"] = "Use the Taming Rod to tame a Surf Crawler. Practice your skills, then return the Taming Rod to Thotar at Razor Hill.";
       ["req"] = 10;
@@ -27718,6 +33213,9 @@ addon.questsDB = {
    [1117] = {
       ["name"] = "Rumors for Kravel";
       ["prev"] = 1116;
+      ["prequests"] = {
+         [1] = 1116;
+      };
       ["objective"] = "Bring the Goblin Rumors to Kravel Koalbeard in the Shimmering Flats.";
       ["req"] = 30;
    };
@@ -27732,6 +33230,9 @@ addon.questsDB = {
    [4961] = {
       ["name"] = "Cleansing of the Orb of Orahil";
       ["prev"] = 1799;
+      ["prequests"] = {
+         [1] = 1799;
+      };
       ["next"] = 4976;
       ["objective"] = "Kill the Demon of the Orb, then speak with Tabetha.";
       ["req"] = 35;
@@ -27739,6 +33240,9 @@ addon.questsDB = {
    [1183] = {
       ["name"] = "Goblin Sponsorship";
       ["prev"] = 1182;
+      ["prequests"] = {
+         [1] = 1182;
+      };
       ["next"] = 1186;
       ["objective"] = "Deliver the Fuel Regulator Blueprints to Pozzik on the Shimmering Flats.";
       ["req"] = 29;
@@ -27770,6 +33274,9 @@ addon.questsDB = {
    [5057] = {
       ["name"] = "Past Endeavors";
       ["prev"] = 5056;
+      ["prequests"] = {
+         [1] = 5056;
+      };
       ["repgain"] = {
          [81] = 75;
       };
@@ -27794,31 +33301,43 @@ addon.questsDB = {
    [8523] = {
       ["name"] = "The Alliance Needs More Runecloth Bandages!";
       ["prev"] = 8522;
+      ["prequests"] = {
+         [1] = 8522;
+      };
       ["objective"] = "Bring 20 runecloth bandages to Keeper Moonshade at the airfield in Dun Morogh.";
       ["req"] = 1;
    };
    [2561] = {
       ["name"] = "Druid of the Claw";
-      ["prev"] = 2541;
+      ["objective"] = "Oben Rageclaw wants you to kill his soulless body, and then use the Voodoo Charm.";
       ["repgain"] = {
          [69] = 350;
       };
+      ["prequests"] = {
+         [1] = 2541;
+      };
+      ["prev"] = 2541;
       ["reward"] = {
          [1] = 9598;
          [2] = 18957;
       };
-      ["objective"] = "Oben Rageclaw wants you to kill his soulless body, and then use the Voodoo Charm.";
       ["req"] = 3;
    };
    [8754] = {
       ["name"] = "The Path of the Conqueror";
       ["prev"] = 8753;
+      ["prequests"] = {
+         [1] = 8753;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
    [5153] = {
       ["name"] = "A Strange Historian";
       ["prev"] = 5152;
+      ["prequests"] = {
+         [1] = 5152;
+      };
       ["next"] = 5154;
       ["objective"] = "Bring Joseph's Wedding Ring to Chromie.";
       ["req"] = 50;
@@ -27829,11 +33348,14 @@ addon.questsDB = {
       ["req"] = 45;
    };
    [6385] = {
-      ["name"] = "Doras the Wind Rider Master";
-      ["prev"] = 6384;
       ["repgain"] = {
          [530] = 25;
          [76] = 25;
+      };
+      ["name"] = "Doras the Wind Rider Master";
+      ["prev"] = 6384;
+      ["prequests"] = {
+         [1] = 6384;
       };
       ["next"] = 6386;
       ["objective"] = "Bring Gryshka's Letter to Doras in Orgrimmar.";
@@ -27845,24 +33367,30 @@ addon.questsDB = {
       ["req"] = 45;
    };
    [5217] = {
-      ["name"] = "Return to Chillwind Camp";
-      ["prev"] = 5216;
       ["repgain"] = {
          [469] = 75;
          [529] = 75;
+      };
+      ["name"] = "Return to Chillwind Camp";
+      ["prev"] = 5216;
+      ["prequests"] = {
+         [1] = 5216;
       };
       ["next"] = 5219;
       ["objective"] = "Bring the Filled Felstone Field Bottle to High Priestess MacDonnell at Chillwind Camp, Western Plaguelands.";
       ["req"] = 50;
    };
    [5233] = {
+      ["followup"] = 5234;
       ["repgain"] = {
          [67] = 250;
          [529] = 250;
       };
       ["name"] = "Target: Writhing Haunt";
       ["prev"] = 5232;
-      ["followup"] = 5234;
+      ["prequests"] = {
+         [1] = 5232;
+      };
       ["next"] = 5234;
       ["objective"] = "Go to the Writhing Haunt in Western Plaguelands to locate and defeat the Cauldron Lord present there, and use its key to gain access to the cauldron.  You must have the Empty Writhing Haunt Bottle with you to secure a sample of the poisons used inside the cauldron.";
       ["req"] = 50;
@@ -27878,21 +33406,27 @@ addon.questsDB = {
    };
    [5265] = {
       ["name"] = "The Argent Hold";
-      ["prev"] = 5264;
+      ["objective"] = "Open the Argent Hold and claim your reward.";
       ["repgain"] = {
          [529] = 200;
       };
+      ["prequests"] = {
+         [1] = 5264;
+      };
+      ["prev"] = 5264;
       ["reward"] = {
          [1] = 13246;
          [2] = 13243;
          [3] = 13249;
       };
-      ["objective"] = "Open the Argent Hold and claim your reward.";
       ["req"] = 55;
    };
    [2641] = {
       ["name"] = "Sprinkle's Secret Ingredient";
       ["prev"] = 2606;
+      ["prequests"] = {
+         [1] = 2606;
+      };
       ["repgain"] = {
          [0] = 369;
       };
@@ -27902,6 +33436,9 @@ addon.questsDB = {
    [8385] = {
       ["name"] = "Concerted Efforts";
       ["prev"] = 8371;
+      ["prequests"] = {
+         [1] = 8371;
+      };
       ["repgain"] = {
          [890] = 100;
          [730] = 150;
@@ -27913,6 +33450,9 @@ addon.questsDB = {
    [6584] = {
       ["name"] = "The Test of Skulls, Chronalis";
       ["prev"] = 6570;
+      ["prequests"] = {
+         [1] = 6570;
+      };
       ["followup"] = 6585;
       ["objective"] = "Guarding the Caverns of Time in the Tanaris Desert is Chronalis, child of Nozdormu. Destroy him and return his skull to Emberstrife.";
       ["req"] = 55;
@@ -27929,12 +33469,18 @@ addon.questsDB = {
    [1650] = {
       ["name"] = "The Tome of Valor";
       ["prev"] = 1649;
+      ["prequests"] = {
+         [1] = 1649;
+      };
       ["objective"] = "Find Daphne Stilwell in Westfall.";
       ["req"] = 20;
    };
    [2681] = {
       ["name"] = "The Stones That Bind Us";
       ["prev"] = 2801;
+      ["prequests"] = {
+         [1] = 2801;
+      };
       ["next"] = 2702;
       ["objective"] = "Free nine Servants of Razelikh, three Servants of Sevine, three Servants of Allistarj, and three Servants of Grol. Return to the Fallen Hero when your task is complete. You must remain within close proximity of the stones or the process will fail.";
       ["req"] = 45;
@@ -27948,6 +33494,9 @@ addon.questsDB = {
    [1846] = {
       ["name"] = "Dragonmaw Shinbones";
       ["prev"] = 1841;
+      ["prequests"] = {
+         [1] = 1841;
+      };
       ["objective"] = "Bring 8 Sturdy Dragonmaw Shinbones to Velora Nitely in the Undercity.";
       ["req"] = 20;
    };
@@ -27963,23 +33512,32 @@ addon.questsDB = {
    [4385] = {
       ["name"] = "Crystal Charge";
       ["prev"] = 4321;
+      ["prequests"] = {
+         [1] = 4321;
+      };
       ["objective"] = "";
       ["req"] = 47;
    };
    [2721] = {
       ["name"] = "Kirith";
       ["prev"] = 2701;
+      ["prequests"] = {
+         [1] = 2701;
+      };
       ["next"] = 2743;
       ["objective"] = "Find out what became of Lieutenant Kirith.";
       ["req"] = 45;
    };
    [2280] = {
+      ["followup"] = 2439;
       ["repgain"] = {
          [81] = 350;
       };
       ["name"] = "The Platinum Discs";
       ["prev"] = 2278;
-      ["followup"] = 2439;
+      ["prequests"] = {
+         [1] = 2278;
+      };
       ["next"] = 2440;
       ["objective"] = "Take the miniature version of the Discs of Norgannon to the one of the sages in Thunder Bluff.";
       ["req"] = 40;
@@ -27987,6 +33545,9 @@ addon.questsDB = {
    [6569] = {
       ["name"] = "Oculus Illusions";
       ["prev"] = 6568;
+      ["prequests"] = {
+         [1] = 6568;
+      };
       ["next"] = 6570;
       ["objective"] = "Travel to Blackrock Spire and collect 20 Black Dragonspawn Eyes. Return to Myranda the Hag when the task is complete.";
       ["req"] = 55;
@@ -27994,6 +33555,9 @@ addon.questsDB = {
    [2745] = {
       ["name"] = "Infiltrating the Castle";
       ["prev"] = 350;
+      ["prequests"] = {
+         [1] = 350;
+      };
       ["next"] = 2746;
       ["objective"] = "Speak to Tyrion in Stormwind Castle.";
       ["req"] = 16;
@@ -28001,12 +33565,18 @@ addon.questsDB = {
    [5505] = {
       ["name"] = "The Key to Scholomance";
       ["prev"] = 5803;
+      ["prequests"] = {
+         [1] = 5803;
+      };
       ["objective"] = "";
       ["req"] = 55;
    };
    [2761] = {
       ["name"] = "Smelt On, Smelt Off";
       ["prev"] = 2760;
+      ["prequests"] = {
+         [1] = 2760;
+      };
       ["followup"] = 2765;
       ["objective"] = "Bring forty Mithril Bars and forty Iron Bars to Galvan the Ancient in Stranglethorn.";
       ["req"] = 40;
@@ -28020,6 +33590,9 @@ addon.questsDB = {
    [3802] = {
       ["name"] = "Dark Iron Legacy";
       ["prev"] = 3801;
+      ["prequests"] = {
+         [1] = 3801;
+      };
       ["objective"] = "Slay Fineous Darkvire and recover the great hammer, Ironfel. Take Ironfel to the Shrine of Thaurissan and place it on the statue of Franclorn Forgewright.";
       ["req"] = 48;
    };
@@ -28030,10 +33603,13 @@ addon.questsDB = {
       ["req"] = 1;
    };
    [2946] = {
-      ["name"] = "Seeing What Happens";
-      ["prev"] = 2963;
       ["repgain"] = {
          [47] = 250;
+      };
+      ["name"] = "Seeing What Happens";
+      ["prev"] = 2963;
+      ["prequests"] = {
+         [1] = 2963;
       };
       ["followup"] = 2954;
       ["objective"] = "Bring the miniature platinum discs to the gates of Uldum in Tanaris and look for clues as to the connection between the two.";
@@ -28042,12 +33618,19 @@ addon.questsDB = {
    [2801] = {
       ["name"] = "A Tale of Sorrow";
       ["next"] = 2681;
+      ["prequests"] = {
+         [1] = 2783;
+         [2] = 2623;
+      };
       ["objective"] = "Listen to the Fallen Hero of the Horde tell his story.";
       ["req"] = 45;
    };
    [9006] = {
       ["name"] = "Saving the Best for Last";
       ["prev"] = 8997;
+      ["prequests"] = {
+         [1] = 8997;
+      };
       ["objective"] = "Give Deliana your Helm of Valor and Breastplate of Valor.";
       ["req"] = 58;
    };
@@ -28085,6 +33668,9 @@ addon.questsDB = {
    [2849] = {
       ["name"] = "Wild Leather Vest";
       ["prev"] = 2847;
+      ["prequests"] = {
+         [1] = 2847;
+      };
       ["followup"] = 2853;
       ["objective"] = "Bring 2 Turtle Scale Breastplates, 2 Turtle Scale Gloves, and a Wildvine to Pratt McGrubben in Feathermoon Stronghold.";
       ["req"] = 30;
@@ -28092,6 +33678,9 @@ addon.questsDB = {
    [2857] = {
       ["name"] = "Wild Leather Helmet";
       ["prev"] = 2854;
+      ["prequests"] = {
+         [1] = 2854;
+      };
       ["followup"] = 2860;
       ["objective"] = "Bring 2 Nightscape Tunics, 2 Nightscape Headbands, and a Wildvine to Jangdor Swiftstrider in Camp Mojache.";
       ["req"] = 30;
@@ -28099,6 +33688,9 @@ addon.questsDB = {
    [5729] = {
       ["name"] = "Hidden Enemies";
       ["prev"] = 5728;
+      ["prequests"] = {
+         [1] = 5728;
+      };
       ["next"] = 5730;
       ["objective"] = "Speak to Neeru Fireblade in Orgrimmar.";
       ["req"] = 9;
@@ -28106,6 +33698,9 @@ addon.questsDB = {
    [2873] = {
       ["name"] = "Stoley's Shipment";
       ["prev"] = 2872;
+      ["prequests"] = {
+         [1] = 2872;
+      };
       ["next"] = 2874;
       ["objective"] = " to settle a bet";
       ["req"] = 40;
@@ -28113,6 +33708,9 @@ addon.questsDB = {
    [2881] = {
       ["name"] = "Troll Necklace Bounty";
       ["prev"] = 2880;
+      ["prequests"] = {
+         [1] = 2880;
+      };
       ["repgain"] = {
          [471] = 25;
       };
@@ -28122,6 +33720,9 @@ addon.questsDB = {
    [4604] = {
       ["name"] = "More Sparklematic Action";
       ["prev"] = 4606;
+      ["prequests"] = {
+         [1] = 4606;
+      };
       ["objective"] = "";
       ["req"] = 25;
    };
@@ -28136,6 +33737,9 @@ addon.questsDB = {
    [2203] = {
       ["name"] = "Badlands Reagent Run II";
       ["prev"] = 2202;
+      ["prequests"] = {
+         [1] = 2202;
+      };
       ["repgain"] = {
          [530] = 250;
       };
@@ -28176,6 +33780,9 @@ addon.questsDB = {
    [2937] = {
       ["name"] = "Summoning Shadra";
       ["prev"] = 2936;
+      ["prequests"] = {
+         [1] = 2936;
+      };
       ["repgain"] = {
          [68] = 500;
       };
@@ -28190,6 +33797,9 @@ addon.questsDB = {
    [2953] = {
       ["name"] = "More Sparklematic Action";
       ["prev"] = 2952;
+      ["prequests"] = {
+         [1] = 2952;
+      };
       ["objective"] = "";
       ["req"] = 25;
    };
@@ -28209,10 +33819,13 @@ addon.questsDB = {
       ["req"] = 38;
    };
    [2977] = {
-      ["name"] = "Return to Ironforge";
-      ["prev"] = 2954;
       ["repgain"] = {
          [47] = 10;
+      };
+      ["name"] = "Return to Ironforge";
+      ["prev"] = 2954;
+      ["prequests"] = {
+         [1] = 2954;
       };
       ["next"] = 2964;
       ["objective"] = "Speak with Historian Karnik in Ironforge.";
@@ -28228,6 +33841,9 @@ addon.questsDB = {
    [2993] = {
       ["name"] = "Return to the Hinterlands";
       ["prev"] = 2992;
+      ["prequests"] = {
+         [1] = 2992;
+      };
       ["next"] = 2994;
       ["objective"] = "Speak with Gryphon Master Talonaxe.";
       ["req"] = 40;
@@ -28243,9 +33859,12 @@ addon.questsDB = {
       ["req"] = 10;
    };
    [2757] = {
+      ["followup"] = 2760;
       ["name"] = "Booty Bay or Bust!";
       ["prev"] = 2756;
-      ["followup"] = 2760;
+      ["prequests"] = {
+         [1] = 2756;
+      };
       ["next"] = 2760;
       ["objective"] = "Speak with McGavan in Booty Bay.";
       ["req"] = 40;
@@ -28268,14 +33887,21 @@ addon.questsDB = {
    [6081] = {
       ["name"] = "Training the Beast";
       ["prev"] = 6082;
+      ["prequests"] = {
+         [1] = 6082;
+      };
       ["objective"] = "Speak with Ormak Grimshot in Orgrimmar.";
       ["req"] = 10;
    };
    [1079] = {
-      ["name"] = "Covert Ops - Alpha";
-      ["prev"] = 1074;
       ["repgain"] = {
          [54] = 350;
+      };
+      ["name"] = "Covert Ops - Alpha";
+      ["prev"] = 1074;
+      ["prequests"] = {
+         [1] = 1074;
+         [2] = 1077;
       };
       ["followup"] = 1091;
       ["objective"] = "Retrieve the Venture Co.'s Engineering Plans from the lumber mill in Windshear Crag.";
@@ -28289,6 +33915,9 @@ addon.questsDB = {
    [3065] = {
       ["name"] = "Simple Tablet";
       ["prev"] = 788;
+      ["prequests"] = {
+         [1] = 788;
+      };
       ["repgain"] = {
          [530] = 75;
       };
@@ -28296,10 +33925,13 @@ addon.questsDB = {
       ["req"] = 1;
    };
    [6145] = {
-      ["name"] = "The Crimson Courier";
-      ["prev"] = 6144;
       ["repgain"] = {
          [68] = 250;
+      };
+      ["name"] = "The Crimson Courier";
+      ["prev"] = 6144;
+      ["prequests"] = {
+         [1] = 6144;
       };
       ["next"] = 6146;
       ["objective"] = "Return to Eastern Plaguelands and track down the Crimson Courier. Kill the Courier and recover the Grand Crusader's Command.$B$BTake the command to Nathanos Blightcaller for further instruction.";
@@ -28313,6 +33945,9 @@ addon.questsDB = {
    [8257] = {
       ["name"] = "Blood of Morphaz";
       ["prev"] = 8256;
+      ["prequests"] = {
+         [1] = 8256;
+      };
       ["reward"] = {
          [1] = 19990;
          [2] = 20082;
@@ -28324,6 +33959,9 @@ addon.questsDB = {
    [3097] = {
       ["name"] = "Hallowed Scroll";
       ["prev"] = 364;
+      ["prequests"] = {
+         [1] = 364;
+      };
       ["repgain"] = {
          [68] = 75;
       };
@@ -28332,15 +33970,18 @@ addon.questsDB = {
    };
    [8321] = {
       ["name"] = "Vyral the Vile";
-      ["prev"] = 8320;
+      ["objective"] = "Bring Vyral's Signet Ring to Huum Wildmane in Cenarion Hold.";
       ["repgain"] = {
          [609] = 150;
       };
+      ["prequests"] = {
+         [1] = 8320;
+      };
+      ["prev"] = 8320;
       ["reward"] = {
          [1] = 20650;
          [2] = 20649;
       };
-      ["objective"] = "Bring Vyral's Signet Ring to Huum Wildmane in Cenarion Hold.";
       ["req"] = 60;
    };
    [8353] = {
@@ -28365,16 +34006,19 @@ addon.questsDB = {
    };
    [8802] = {
       ["name"] = "The Savior of Kalimdor";
-      ["prev"] = 8801;
+      ["objective"] = "Take the Eye of C'Thun to Anachronos at the Caverns of Time.";
       ["repgain"] = {
          [609] = 200;
       };
+      ["prequests"] = {
+         [1] = 8801;
+      };
+      ["prev"] = 8801;
       ["reward"] = {
          [1] = 21712;
          [2] = 21710;
          [3] = 21709;
       };
-      ["objective"] = "Take the Eye of C'Thun to Anachronos at the Caverns of Time.";
       ["req"] = 60;
    };
    [8481] = {
@@ -28400,10 +34044,13 @@ addon.questsDB = {
       ["req"] = 10;
    };
    [8577] = {
-      ["name"] = "Stewvul, Ex-B.F.F.";
-      ["prev"] = 8576;
       ["repgain"] = {
          [910] = 10;
+      };
+      ["name"] = "Stewvul, Ex-B.F.F.";
+      ["prev"] = 8576;
+      ["prequests"] = {
+         [1] = 8576;
       };
       ["next"] = 8578;
       ["objective"] = "Narain Soothfancy wants you to find his ex-best friend forever (BFF), Stewvul, and take back the scrying goggles that Stewvul stole from him.";
@@ -28417,6 +34064,9 @@ addon.questsDB = {
    [8641] = {
       ["name"] = "Deathdealer's Spaulders";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -28459,20 +34109,26 @@ addon.questsDB = {
    [8833] = {
       ["name"] = "Ten Commendation Signets";
       ["prev"] = 8823;
+      ["prequests"] = {
+         [1] = 8823;
+      };
       ["objective"] = "";
       ["req"] = 1;
    };
    [6481] = {
       ["name"] = "Earthen Arise";
-      ["prev"] = 6421;
+      ["objective"] = "Open the Resonite cask with the Enchanted Resonite Crystal, and then slay Goggeroc. Return to Mor'rogal with the news and Enchanted Resonite Crystal.";
       ["repgain"] = {
          [81] = 250;
       };
+      ["prequests"] = {
+         [1] = 6421;
+      };
+      ["prev"] = 6421;
       ["reward"] = {
          [1] = 16981;
          [2] = 1306;
       };
-      ["objective"] = "Open the Resonite cask with the Enchanted Resonite Crystal, and then slay Goggeroc. Return to Mor'rogal with the news and Enchanted Resonite Crystal.";
       ["req"] = 14;
    };
    [8897] = {
@@ -28483,11 +34139,25 @@ addon.questsDB = {
    [8929] = {
       ["name"] = "In Search of Anthion";
       ["next"] = 8945;
+      ["prequests"] = {
+         [1] = 8936;
+         [2] = 8937;
+         [3] = 8926;
+         [4] = 8931;
+         [5] = 8932;
+         [6] = 8933;
+         [7] = 8934;
+         [8] = 8935;
+      };
       ["followup"] = 8945;
       ["objective"] = "Use the Extra-Dimensional Ghost Revealer at the entrance to Stratholme and speak with the ghost of Anthion Harmon.";
       ["req"] = 58;
    };
    [8961] = {
+      ["prequests"] = {
+         [1] = 9032;
+         [2] = 8960;
+      };
       ["objective"] = "Gather the Incendicite of Incendius, the Ember of Emberseer and the Cinder of Cynders, along with a Hallowed Brazier, and return them to Bodley inside Blackrock Mountain.";
       ["name"] = "Three Kings of Flame";
       ["req"] = 58;
@@ -28499,26 +34169,35 @@ addon.questsDB = {
    };
    [3281] = {
       ["name"] = "Stolen Silver";
-      ["prev"] = 869;
+      ["objective"] = "Bring the Stolen Silver to Gazrog in the Crossroads.";
       ["repgain"] = {
          [76] = 250;
       };
+      ["prequests"] = {
+         [1] = 869;
+      };
+      ["prev"] = 869;
       ["reward"] = {
          [1] = 11853;
          [2] = 2694;
       };
-      ["objective"] = "Bring the Stolen Silver to Gazrog in the Crossroads.";
       ["req"] = 9;
    };
    [9057] = {
       ["name"] = "Cryptstalker Spaulders";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Huntsman Leopold at Light's Hope Chapel in the Eastern Plaguelands will make Cryptstalker Spaulders if you bring him the following: 1 Desecrated Spaulders, 12 Wartorn Chain Scraps, 2 Arcanite Bars and 3 Cured Rugged Hides.";
       ["req"] = 60;
    };
    [9089] = {
       ["name"] = "Dreamwalker Spaulders";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -28541,6 +34220,11 @@ addon.questsDB = {
       ["req"] = 35;
    };
    [3321] = {
+      ["prequests"] = {
+         [1] = 2773;
+         [2] = 2771;
+         [3] = 2772;
+      };
       ["objective"] = "Wait for Trenton to finish his work.";
       ["name"] = "Did You Lose This?";
       ["req"] = 40;
@@ -28558,6 +34242,9 @@ addon.questsDB = {
    [1068] = {
       ["name"] = "Shredding Machines";
       ["prev"] = 1062;
+      ["prequests"] = {
+         [1] = 1062;
+      };
       ["repgain"] = {
          [76] = 250;
       };
@@ -28593,15 +34280,18 @@ addon.questsDB = {
    };
    [3369] = {
       ["name"] = "In Nightmares";
-      ["prev"] = 6981;
+      ["objective"] = "Bring the Nightmare Shard to Hamuul Runetotem on Elder Rise.";
       ["repgain"] = {
          [81] = 250;
       };
+      ["prequests"] = {
+         [1] = 6981;
+      };
+      ["prev"] = 6981;
       ["reward"] = {
          [1] = 10657;
          [2] = 10658;
       };
-      ["objective"] = "Bring the Nightmare Shard to Hamuul Runetotem on Elder Rise.";
       ["req"] = 15;
    };
    [3377] = {
@@ -28613,6 +34303,9 @@ addon.questsDB = {
    [3385] = {
       ["name"] = "The Undermarket";
       ["prev"] = 3379;
+      ["prequests"] = {
+         [1] = 3379;
+      };
       ["next"] = 3402;
       ["objective"] = "Slay Trade Master Kovic and his minion Clunk. Retrieve the Trader's Satchel from his corpse and return it to Nilith.$B";
       ["req"] = 46;
@@ -28620,6 +34313,9 @@ addon.questsDB = {
    [8947] = {
       ["name"] = "Anthion's Strange Request";
       ["prev"] = 8946;
+      ["prequests"] = {
+         [1] = 8946;
+      };
       ["next"] = 8948;
       ["objective"] = "Bring 3 Dark Iron Bars, 20 Enchanted Leather, 3 Mooncloth and 4 Cured Rugged Hides to Anthion Harmon in the Eastern Plaguelands.";
       ["req"] = 58;
@@ -28667,6 +34363,9 @@ addon.questsDB = {
    [8842] = {
       ["name"] = "One Commendation Signet";
       ["prev"] = 8817;
+      ["prequests"] = {
+         [1] = 8817;
+      };
       ["objective"] = "";
       ["req"] = 1;
    };
@@ -28680,10 +34379,13 @@ addon.questsDB = {
       ["req"] = 51;
    };
    [3449] = {
-      ["name"] = "Arcane Runes";
-      ["prev"] = 3448;
       ["repgain"] = {
          [47] = 75;
+      };
+      ["name"] = "Arcane Runes";
+      ["prev"] = 3448;
+      ["prequests"] = {
+         [1] = 3448;
       };
       ["next"] = 3461;
       ["objective"] = "Using the Drawing Kit, make rubbings of the Rune of Beth'Amara, the Rune of Jin'yael, the Rune of Markri, and the Rune of Sael'hai before heading to the small island off of the southern peninsula of Azshara and signaling Pilot Xiggs Fuselighter to pick them up.";
@@ -28703,10 +34405,13 @@ addon.questsDB = {
       ["req"] = 55;
    };
    [1152] = {
-      ["name"] = "Test of Lore";
-      ["prev"] = 1151;
       ["repgain"] = {
          [81] = 75;
+      };
+      ["name"] = "Test of Lore";
+      ["prev"] = 1151;
+      ["prequests"] = {
+         [1] = 1151;
       };
       ["next"] = 1154;
       ["objective"] = "Find Braug Dimspirit near the entrance to Talondeep Path in Stonetalon Mountains.";
@@ -28727,14 +34432,20 @@ addon.questsDB = {
    [8546] = {
       ["name"] = "The Horde Needs More Mithril Bars!";
       ["prev"] = 8545;
+      ["prequests"] = {
+         [1] = 8545;
+      };
       ["objective"] = "Bring 20 Mithril Bars to Senior Sergeant T'kelah at the Valley of Spirits in Orgrimmar.";
       ["req"] = 1;
    };
    [3505] = {
-      ["name"] = "Betrayed";
-      ["prev"] = 3504;
       ["repgain"] = {
          [76] = 150;
+      };
+      ["name"] = "Betrayed";
+      ["prev"] = 3504;
+      ["prequests"] = {
+         [1] = 3504;
       };
       ["next"] = 3506;
       ["objective"] = "Kill 10 Blood Elf Reclaimers, and 10 Blood Elf Surveyors before seeking out Magus Rimtori's camp. Once you've found it, look for something that might be important to her that can be used to draw her into a fight.";
@@ -28764,6 +34475,9 @@ addon.questsDB = {
    [3082] = {
       ["name"] = "Etched Tablet";
       ["prev"] = 788;
+      ["prequests"] = {
+         [1] = 788;
+      };
       ["repgain"] = {
          [530] = 75;
       };
@@ -28781,6 +34495,9 @@ addon.questsDB = {
       ["req"] = 17;
    };
    [2206] = {
+      ["prequests"] = {
+         [1] = 2205;
+      };
       ["objective"] = "Find the Defias Dockmaster and recover the Shipping Schedule for Master Mathias Shaw.$B";
       ["name"] = "Snatch and Grab";
       ["req"] = 10;
@@ -28788,6 +34505,9 @@ addon.questsDB = {
    [3561] = {
       ["name"] = "Delivery to Archmage Xylem";
       ["prev"] = 3517;
+      ["prequests"] = {
+         [1] = 3517;
+      };
       ["next"] = 3565;
       ["objective"] = "Bring the Tablet of Sael'hai to Archmage Xylem in Azshara.";
       ["req"] = 45;
@@ -28795,12 +34515,18 @@ addon.questsDB = {
    [3569] = {
       ["name"] = "Seeping Corruption";
       ["prev"] = 3568;
+      ["prequests"] = {
+         [1] = 3568;
+      };
       ["objective"] = "Give Cuely's Elixir to Thersa Windsong in Undercity.";
       ["req"] = 45;
    };
    [3093] = {
       ["name"] = "Rune-Inscribed Note";
       ["prev"] = 747;
+      ["prequests"] = {
+         [1] = 747;
+      };
       ["repgain"] = {
          [81] = 75;
       };
@@ -28810,6 +34536,9 @@ addon.questsDB = {
    [7169] = {
       ["name"] = "Honored Amongst the Guard";
       ["prev"] = 7168;
+      ["prequests"] = {
+         [1] = 7168;
+      };
       ["repgain"] = {
          [47] = 250;
          [730] = 250;
@@ -28820,6 +34549,11 @@ addon.questsDB = {
    [6585] = {
       ["name"] = "The Test of Skulls, Axtroz";
       ["next"] = 6601;
+      ["prequests"] = {
+         [1] = 6582;
+         [2] = 6584;
+         [3] = 6583;
+      };
       ["objective"] = "Travel to Grim Batol and track down Axtroz, drake champion of the Red Flight. Destroy him and take his skull. Return the skull to Emberstrife.";
       ["req"] = 55;
    };
@@ -28834,23 +34568,32 @@ addon.questsDB = {
    [4384] = {
       ["name"] = "Crystal Yield";
       ["prev"] = 4321;
+      ["prequests"] = {
+         [1] = 4321;
+      };
       ["objective"] = "";
       ["req"] = 47;
    };
    [5241] = {
       ["name"] = "Uncle Carlin";
       ["prev"] = 5149;
+      ["prequests"] = {
+         [1] = 5149;
+      };
       ["next"] = 5211;
       ["objective"] = "Find Carlin Redpath.";
       ["req"] = 50;
    };
    [3625] = {
-      ["name"] = "Enchanted Azsharite Fel Weaponry";
-      ["prev"] = 3621;
       ["reward"] = {
          [1] = 10697;
          [2] = 10698;
          [3] = 10696;
+      };
+      ["name"] = "Enchanted Azsharite Fel Weaponry";
+      ["prev"] = 3621;
+      ["prequests"] = {
+         [1] = 3621;
       };
       ["next"] = 3626;
       ["objective"] = "Wait for Galvan to finish forging the weaponry.";
@@ -28889,13 +34632,19 @@ addon.questsDB = {
    [8081] = {
       ["name"] = "More Resource Crates";
       ["prev"] = 8080;
+      ["prequests"] = {
+         [1] = 8080;
+      };
       ["objective"] = "Win the battle for Arathi Basin, get an Arathi Resource Crate, and return it to Sergeant Maclear at Refuge Pointe.";
       ["req"] = 50;
    };
    [1384] = {
+      ["followup"] = 1370;
       ["name"] = "Raid on the Kolkar";
       ["prev"] = 1382;
-      ["followup"] = 1370;
+      ["prequests"] = {
+         [1] = 1382;
+      };
       ["next"] = 1370;
       ["objective"] = "Maintain your reputation with the Gelkis, and bring 10 Crude Charms to Uthek the Wise in the Gelkis Village in Desolace.";
       ["req"] = 30;
@@ -28917,6 +34666,9 @@ addon.questsDB = {
    [1508] = {
       ["name"] = "Blind Cazul";
       ["prev"] = 1507;
+      ["prequests"] = {
+         [1] = 1507;
+      };
       ["next"] = 1509;
       ["objective"] = "Speak with Zankaja in Orgrimmar.";
       ["req"] = 20;
@@ -28935,6 +34687,11 @@ addon.questsDB = {
       ["name"] = "An OOX of Your Own";
       ["repgain"] = {
          [21] = 500;
+      };
+      ["prequests"] = {
+         [1] = 648;
+         [2] = 836;
+         [3] = 2767;
       };
       ["objective"] = "";
       ["req"] = 45;
@@ -28956,6 +34713,9 @@ addon.questsDB = {
    [7489] = {
       ["name"] = "Lethtendris's Web";
       ["prev"] = 7492;
+      ["prequests"] = {
+         [1] = 7492;
+      };
       ["repgain"] = {
          [76] = 350;
          [68] = 350;
@@ -29000,10 +34760,13 @@ addon.questsDB = {
       ["req"] = 50;
    };
    [3785] = {
-      ["name"] = "Morrowgrain Research";
-      ["prev"] = 3781;
       ["repgain"] = {
          [69] = 250;
+      };
+      ["name"] = "Morrowgrain Research";
+      ["prev"] = 3781;
+      ["prequests"] = {
+         [1] = 3781;
       };
       ["followup"] = 3803;
       ["objective"] = "Use an Evergreen Pouch with a Packet of Tharlendis Seeds and two Un'Goro Soil samples to try and cultivate samples of Morrowgrain.$B$BBring 10 Morrowgrain to Mathrengyl Bearwalker in Darnassus.";
@@ -29012,6 +34775,9 @@ addon.questsDB = {
    [6501] = {
       ["name"] = "The Dragon's Eye";
       ["prev"] = 6403;
+      ["prequests"] = {
+         [1] = 6403;
+      };
       ["next"] = 6502;
       ["objective"] = "You must search the world for a being capable of restoring the power to the Fragment of the Dragon's Eye. The only information you possess about such a being is that they exist.";
       ["req"] = 50;
@@ -29035,15 +34801,18 @@ addon.questsDB = {
    };
    [3825] = {
       ["name"] = "Ogre Head On A Stick = Party";
-      ["prev"] = 3824;
+      ["objective"] = "Take Gor'tesh's Lopped Off Head and place it at the top of Dreadmaul Rock. Look for a soft dirt mound to plant the pike.";
       ["repgain"] = {
          [47] = 250;
       };
+      ["prequests"] = {
+         [1] = 3824;
+      };
+      ["prev"] = 3824;
       ["reward"] = {
          [1] = 11867;
          [2] = 11868;
       };
-      ["objective"] = "Take Gor'tesh's Lopped Off Head and place it at the top of Dreadmaul Rock. Look for a soft dirt mound to plant the pike.";
       ["req"] = 48;
    };
    [7665] = {
@@ -29057,10 +34826,13 @@ addon.questsDB = {
       ["req"] = 60;
    };
    [3841] = {
-      ["name"] = "An Orphan Looking For a Home";
-      ["prev"] = 2972;
       ["repgain"] = {
          [69] = 25;
+      };
+      ["name"] = "An Orphan Looking For a Home";
+      ["prev"] = 2972;
+      ["prequests"] = {
+         [1] = 2972;
       };
       ["next"] = 3842;
       ["objective"] = "Speak to Quentin in Thousand Needles.";
@@ -29069,6 +34841,9 @@ addon.questsDB = {
    [1242] = {
       ["name"] = "The Missing Diplomat";
       ["prev"] = 1241;
+      ["prequests"] = {
+         [1] = 1241;
+      };
       ["next"] = 1243;
       ["objective"] = "Delivery Jorgen's Sealed Note to Elling Trias in Stormwind City.";
       ["req"] = 28;
@@ -29104,6 +34879,9 @@ addon.questsDB = {
    [1371] = {
       ["name"] = "Gizmo for Warug";
       ["prev"] = 1369;
+      ["prequests"] = {
+         [1] = 1369;
+      };
       ["objective"] = "Maintain your reputation with the Magram, and bring an Advanced Target Dummy to Warug in the Magram Village in Desolace.";
       ["req"] = 30;
    };
@@ -29128,6 +34906,9 @@ addon.questsDB = {
    [7825] = {
       ["name"] = "Additional Runecloth";
       ["prev"] = 7823;
+      ["prequests"] = {
+         [1] = 7823;
+      };
       ["repgain"] = {
          [81] = 50;
       };
@@ -29135,13 +34916,16 @@ addon.questsDB = {
       ["req"] = 50;
    };
    [3921] = {
-      ["name"] = "Wenikee Boltbucket";
-      ["prev"] = 902;
       ["repgain"] = {
          [470] = 75;
          [530] = 25;
          [81] = 25;
          [76] = 25;
+      };
+      ["name"] = "Wenikee Boltbucket";
+      ["prev"] = 902;
+      ["prequests"] = {
+         [1] = 902;
       };
       ["next"] = 3922;
       ["objective"] = "Bring the Broken Samophlange to Wenikee Boltbucket.";
@@ -29177,6 +34961,9 @@ addon.questsDB = {
    [7921] = {
       ["name"] = "Talismans of Merit";
       ["prev"] = 7788;
+      ["prequests"] = {
+         [1] = 7788;
+      };
       ["objective"] = "You obtained a Silverwing Talisman of Merit for your last task, talk to me again, and you gain your reward.";
       ["req"] = 20;
    };
@@ -29189,10 +34976,13 @@ addon.questsDB = {
       ["req"] = 10;
    };
    [3371] = {
-      ["name"] = "Dwarven Justice";
-      ["prev"] = 3368;
       ["repgain"] = {
          [47] = 250;
+      };
+      ["name"] = "Dwarven Justice";
+      ["prev"] = 3368;
+      ["prequests"] = {
+         [1] = 3368;
       };
       ["next"] = 3372;
       ["objective"] = "Return to the Searing Gorge and find Dorius's archaeology unit. ";
@@ -29201,6 +34991,9 @@ addon.questsDB = {
    [8924] = {
       ["name"] = "Hunting for Ectoplasm";
       ["prev"] = 8921;
+      ["prequests"] = {
+         [1] = 8921;
+      };
       ["next"] = 8925;
       ["objective"] = "Use the Ectoplasmic Distiller near incorporeal undead to collect 12 Scorched Ectoplasms in Silithus, 12 Frozen Ectoplasms in Winterspring and 12 Stable Ectoplasms in the Eastern Plaguelands.  Bring them along with the Ectoplasmic Distiller back to Mux Manascrambler in Gadgetzan.";
       ["req"] = 58;
@@ -29208,6 +35001,10 @@ addon.questsDB = {
    [4024] = {
       ["name"] = "A Taste of Flame";
       ["prev"] = 4023;
+      ["prequests"] = {
+         [1] = 4023;
+         [2] = 4022;
+      };
       ["reward"] = {
          [1] = 12066;
          [2] = 12082;
@@ -29217,10 +35014,13 @@ addon.questsDB = {
       ["req"] = 52;
    };
    [4001] = {
-      ["name"] = "What Is Going On?";
-      ["prev"] = 3982;
       ["repgain"] = {
          [76] = 350;
+      };
+      ["name"] = "What Is Going On?";
+      ["prev"] = 3982;
+      ["prequests"] = {
+         [1] = 3982;
       };
       ["next"] = 4002;
       ["objective"] = "Speak with Kharan Mighthammer and gather information about Princess Moira Bronzebeard's kidnapping. Take that information to Thrall in Orgrimmar.$B$BYou recall Gor'shak mentioning that Kharan is being held in a cell nearby.$B";
@@ -29229,6 +35029,16 @@ addon.questsDB = {
    [9032] = {
       ["name"] = "Bodley's Unfortunate Fate";
       ["next"] = 8961;
+      ["prequests"] = {
+         [1] = 9016;
+         [2] = 9017;
+         [3] = 9018;
+         [4] = 9019;
+         [5] = 9020;
+         [6] = 9022;
+         [7] = 8957;
+         [8] = 9021;
+      };
       ["followup"] = 8961;
       ["objective"] = "Travel to Blackrock Mountain and use the Extra-Dimensional Ghost Revealer to find Bodley near Blackrock Spire.";
       ["req"] = 58;
@@ -29236,6 +35046,9 @@ addon.questsDB = {
    [4130] = {
       ["name"] = "Psychometric Reading";
       ["prev"] = 4129;
+      ["prequests"] = {
+         [1] = 4129;
+      };
       ["next"] = 4131;
       ["objective"] = "Speak with Ginro Hearthkindle in Feathermoon Stronghold.";
       ["req"] = 40;
@@ -29264,6 +35077,9 @@ addon.questsDB = {
    [8113] = {
       ["name"] = "Pristine Enchanted South Seas Kelp";
       ["prev"] = 8112;
+      ["prequests"] = {
+         [1] = 8112;
+      };
       ["repgain"] = {
          [270] = 100;
       };
@@ -29273,6 +35089,9 @@ addon.questsDB = {
    [5042] = {
       ["name"] = "Agamaggan's Strength";
       ["prev"] = 5052;
+      ["prequests"] = {
+         [1] = 5052;
+      };
       ["objective"] = "";
       ["req"] = 14;
    };
@@ -29292,12 +35111,18 @@ addon.questsDB = {
    [4110] = {
       ["name"] = "Salve via Gathering";
       ["prev"] = 4105;
+      ["prequests"] = {
+         [1] = 4105;
+      };
       ["objective"] = "";
       ["req"] = 48;
    };
    [1025] = {
       ["name"] = "An Aggressive Defense";
       ["prev"] = 1023;
+      ["prequests"] = {
+         [1] = 1023;
+      };
       ["repgain"] = {
          [69] = 250;
       };
@@ -29305,10 +35130,13 @@ addon.questsDB = {
       ["req"] = 18;
    };
    [1029] = {
-      ["name"] = "Raene's Cleansing";
-      ["prev"] = 1055;
       ["repgain"] = {
          [69] = 25;
+      };
+      ["name"] = "Raene's Cleansing";
+      ["prev"] = 1055;
+      ["prequests"] = {
+         [1] = 1055;
       };
       ["next"] = 1030;
       ["objective"] = "Return to Raene Wolfrunner in Astranaar.";
@@ -29317,6 +35145,9 @@ addon.questsDB = {
    [1033] = {
       ["name"] = "Elune's Tear";
       ["prev"] = 1020;
+      ["prequests"] = {
+         [1] = 1020;
+      };
       ["repgain"] = {
          [69] = 250;
       };
@@ -29324,30 +35155,39 @@ addon.questsDB = {
       ["req"] = 20;
    };
    [1037] = {
-      ["name"] = "Velinde Starsong";
-      ["prev"] = 1022;
       ["repgain"] = {
          [69] = 25;
+      };
+      ["name"] = "Velinde Starsong";
+      ["prev"] = 1022;
+      ["prequests"] = {
+         [1] = 1022;
       };
       ["next"] = 1038;
       ["objective"] = "Speak with Thyn'tel Bladeweaver at the Warrior's Terrace in Darnassus.";
       ["req"] = 25;
    };
    [1041] = {
-      ["name"] = "The Caravan Road";
-      ["prev"] = 1040;
       ["repgain"] = {
          [72] = 75;
+      };
+      ["name"] = "The Caravan Road";
+      ["prev"] = 1040;
+      ["prequests"] = {
+         [1] = 1040;
       };
       ["next"] = 1042;
       ["objective"] = "Speak with Clerk Daltry in Darkshire.";
       ["req"] = 25;
    };
    [1045] = {
-      ["name"] = "Raene's Cleansing";
-      ["prev"] = 1030;
       ["repgain"] = {
          [69] = 250;
+      };
+      ["name"] = "Raene's Cleansing";
+      ["prev"] = 1030;
+      ["prequests"] = {
+         [1] = 1030;
       };
       ["next"] = 1046;
       ["objective"] = "Kill Ran Bloodtooth and 4 Bloodtooth Guards and return to Krolg near Lake Mystral.";
@@ -29368,17 +35208,20 @@ addon.questsDB = {
    };
    [1053] = {
       ["name"] = "In the Name of the Light";
-      ["prev"] = 1052;
+      ["objective"] = "Kill High Inquisitor Whitemane, Scarlet Commander Mograine,  Herod, the Scarlet Champion and Houndmaster Loksey and then report back to Raleigh the Devout in Southshore.";
       ["repgain"] = {
          [72] = 500;
       };
+      ["prequests"] = {
+         [1] = 1052;
+      };
+      ["prev"] = 1052;
       ["reward"] = {
          [1] = 6829;
          [2] = 6830;
          [3] = 6831;
          [4] = 11262;
       };
-      ["objective"] = "Kill High Inquisitor Whitemane, Scarlet Commander Mograine,  Herod, the Scarlet Champion and Houndmaster Loksey and then report back to Raleigh the Devout in Southshore.";
       ["req"] = 34;
    };
    [1057] = {
@@ -29399,10 +35242,13 @@ addon.questsDB = {
       ["req"] = 13;
    };
    [1065] = {
-      ["name"] = "Journey to Tarren Mill";
-      ["prev"] = 1064;
       ["repgain"] = {
          [81] = 250;
+      };
+      ["name"] = "Journey to Tarren Mill";
+      ["prev"] = 1064;
+      ["prequests"] = {
+         [1] = 1064;
       };
       ["next"] = 1066;
       ["objective"] = "Bring Zamah's Note to Apothecary Lydon in Tarren Mill.";
@@ -29419,6 +35265,9 @@ addon.questsDB = {
    [8578] = {
       ["name"] = "Scrying Goggles? No Problem!";
       ["prev"] = 8577;
+      ["prequests"] = {
+         [1] = 8577;
+      };
       ["repgain"] = {
          [910] = 10;
       };
@@ -29426,27 +35275,33 @@ addon.questsDB = {
       ["req"] = 60;
    };
    [1077] = {
-      ["name"] = "Special Delivery for Gaxim";
-      ["prev"] = 1076;
       ["repgain"] = {
          [54] = 75;
+      };
+      ["name"] = "Special Delivery for Gaxim";
+      ["prev"] = 1076;
+      ["prequests"] = {
+         [1] = 1076;
       };
       ["followup"] = 1079;
       ["objective"] = "Bring the Scroll of Messaging to Gaxim Rustfizzle in Stonetalon.";
       ["req"] = 17;
    };
    [4322] = {
+      ["name"] = "Jail Break!";
       ["repgain"] = {
          [72] = 350;
       };
-      ["name"] = "Jail Break!";
+      ["objective"] = "Help Marshal Windsor get his gear back and free his friends. Return to Marshal Maxwell if you succeed.";
+      ["next"] = 6402;
+      ["prequests"] = {
+         [1] = 4282;
+      };
       ["prev"] = 4282;
       ["reward"] = {
          [1] = 12061;
          [2] = 12062;
       };
-      ["next"] = 6402;
-      ["objective"] = "Help Marshal Windsor get his gear back and free his friends. Return to Marshal Maxwell if you succeed.";
       ["req"] = 50;
    };
    [1085] = {
@@ -29483,6 +35338,9 @@ addon.questsDB = {
    [4402] = {
       ["name"] = "Galgar's Cactus Apple Surprise";
       ["prev"] = 788;
+      ["prequests"] = {
+         [1] = 788;
+      };
       ["repgain"] = {
          [530] = 500;
          [76] = 500;
@@ -29493,6 +35351,9 @@ addon.questsDB = {
    [8834] = {
       ["name"] = "One Commendation Signet";
       ["prev"] = 8812;
+      ["prequests"] = {
+         [1] = 8812;
+      };
       ["objective"] = "";
       ["req"] = 1;
    };
@@ -29507,15 +35368,18 @@ addon.questsDB = {
    };
    [4450] = {
       ["name"] = "Ledger from Tanaris";
-      ["prev"] = 4449;
+      ["objective"] = "Take the copy of Goodsteel's Ledger and then find the items listed in it before seeking Krinkle Goodsteel in Tanaris.";
       ["repgain"] = {
          [369] = 350;
       };
+      ["prequests"] = {
+         [1] = 4449;
+      };
+      ["prev"] = 4449;
       ["reward"] = {
          [1] = 11860;
          [2] = 11861;
       };
-      ["objective"] = "Take the copy of Goodsteel's Ledger and then find the items listed in it before seeking Krinkle Goodsteel in Tanaris.";
       ["req"] = 43;
    };
    [4466] = {
@@ -29526,15 +35390,21 @@ addon.questsDB = {
    [1121] = {
       ["name"] = "Get the Goblins Drunk";
       ["prev"] = 1119;
+      ["prequests"] = {
+         [1] = 1119;
+      };
       ["followup"] = 1122;
       ["objective"] = "Bring the Fool's Stout to the Goblin Pit Boss.";
       ["req"] = 35;
    };
    [1125] = {
-      ["name"] = "The Spirits of Southwind";
-      ["prev"] = 1124;
       ["repgain"] = {
          [609] = 100;
+      };
+      ["name"] = "The Spirits of Southwind";
+      ["prev"] = 1124;
+      ["prequests"] = {
+         [1] = 1124;
       };
       ["next"] = 1126;
       ["objective"] = "Free the spirits of 8 Tortured Druids and 8 Tortured Sentinels in Southwind Village, and then return to Layo Starstrike at the Valor's Rest graveyard of Silithus.";
@@ -29549,12 +35419,18 @@ addon.questsDB = {
    [1133] = {
       ["name"] = "Journey to Astranaar";
       ["prev"] = 1132;
+      ["prequests"] = {
+         [1] = 1132;
+      };
       ["objective"] = "Speak with Shindrell Swiftfire in Astranaar.";
       ["req"] = 18;
    };
    [1137] = {
       ["name"] = "News for Fizzle";
       ["prev"] = 1108;
+      ["prequests"] = {
+         [1] = 1108;
+      };
       ["reward"] = {
          [1] = 6729;
          [2] = 6732;
@@ -29591,6 +35467,9 @@ addon.questsDB = {
    [1153] = {
       ["name"] = "A New Ore Sample";
       ["prev"] = 893;
+      ["prequests"] = {
+         [1] = 893;
+      };
       ["repgain"] = {
          [76] = 250;
       };
@@ -29608,6 +35487,10 @@ addon.questsDB = {
       ["repgain"] = {
          [68] = 350;
       };
+      ["prequests"] = {
+         [1] = 4293;
+         [2] = 4294;
+      };
       ["reward"] = {
          [1] = 15702;
          [2] = 15703;
@@ -29616,10 +35499,13 @@ addon.questsDB = {
       ["req"] = 48;
    };
    [3124] = {
-      ["name"] = "Hippogryph Muisek";
-      ["prev"] = 3123;
       ["repgain"] = {
          [530] = 250;
+      };
+      ["name"] = "Hippogryph Muisek";
+      ["prev"] = 3123;
+      ["prequests"] = {
+         [1] = 3123;
       };
       ["next"] = 3125;
       ["objective"] = "Kill 10 Frayfeather Hippogryphs of any type, then use the Muisek Vessel to shrink and capture them.";
@@ -29638,6 +35524,9 @@ addon.questsDB = {
    [1173] = {
       ["name"] = "Challenge Overlord Mok'Morokk";
       ["prev"] = 1172;
+      ["prequests"] = {
+         [1] = 1172;
+      };
       ["reward"] = {
          [1] = 10703;
          [2] = 10704;
@@ -29657,6 +35546,9 @@ addon.questsDB = {
    [1181] = {
       ["name"] = "Goblin Sponsorship";
       ["prev"] = 1180;
+      ["prequests"] = {
+         [1] = 1180;
+      };
       ["next"] = 1182;
       ["objective"] = "Speak with Baron Revilgaz in Booty Bay.";
       ["req"] = 29;
@@ -29669,15 +35561,18 @@ addon.questsDB = {
    };
    [1189] = {
       ["name"] = "Safety First";
-      ["prev"] = 1188;
+      ["objective"] = "Return the Modified Seaforium Booster to Razzeric on the Shimmering Flats.";
       ["repgain"] = {
          [470] = 25;
       };
+      ["prequests"] = {
+         [1] = 1188;
+      };
+      ["prev"] = 1188;
       ["reward"] = {
          [1] = 6726;
          [2] = 6727;
       };
-      ["objective"] = "Return the Modified Seaforium Booster to Razzeric on the Shimmering Flats.";
       ["req"] = 29;
    };
    [4770] = {
@@ -29691,12 +35586,18 @@ addon.questsDB = {
    [4786] = {
       ["name"] = "The Completed Robe";
       ["prev"] = 4784;
+      ["prequests"] = {
+         [1] = 4784;
+      };
       ["objective"] = "Wait for Menara Voidrender to complete your robe and then speak to her again.";
       ["req"] = 31;
    };
    [4802] = {
       ["name"] = "Winterfall E'ko";
       ["prev"] = 975;
+      ["prequests"] = {
+         [1] = 975;
+      };
       ["objective"] = "";
       ["req"] = 55;
    };
@@ -29719,6 +35620,10 @@ addon.questsDB = {
    [1124] = {
       ["name"] = "Wasteland";
       ["next"] = 1125;
+      ["prequests"] = {
+         [1] = 6762;
+         [2] = 1123;
+      };
       ["repgain"] = {
          [609] = 75;
       };
@@ -29739,18 +35644,24 @@ addon.questsDB = {
       ["req"] = 20;
    };
    [8952] = {
+      ["followup"] = 8960;
       ["name"] = "Anthion's Parting Words";
       ["prev"] = 9015;
-      ["followup"] = 8960;
+      ["prequests"] = {
+         [1] = 9015;
+      };
       ["next"] = 8960;
       ["objective"] = "Return to Deliana in Ironforge with a set of Beaststalker's Boots, Beaststalker's Pants and Beaststalker's Mantle.";
       ["req"] = 58;
    };
    [6183] = {
-      ["name"] = "Honor the Dead";
-      ["prev"] = 6182;
       ["repgain"] = {
          [72] = 1;
+      };
+      ["name"] = "Honor the Dead";
+      ["prev"] = 6182;
+      ["prequests"] = {
+         [1] = 6182;
       };
       ["next"] = 6184;
       ["objective"] = " and \"Blightcaller.\"$B$BI do not have the available manpower to continue this investigation and Ravenholdt will not assist us. We must get to the bottom of this; if only to provide closure to the families of the deceased. Will you help?\"";
@@ -29774,6 +35685,9 @@ addon.questsDB = {
    [1241] = {
       ["name"] = "The Missing Diplomat";
       ["prev"] = 1274;
+      ["prequests"] = {
+         [1] = 1274;
+      };
       ["next"] = 1242;
       ["objective"] = "Find Jorgen in Stormwind City.";
       ["req"] = 28;
@@ -29781,6 +35695,9 @@ addon.questsDB = {
    [1245] = {
       ["name"] = "The Missing Diplomat";
       ["prev"] = 1244;
+      ["prequests"] = {
+         [1] = 1244;
+      };
       ["next"] = 1246;
       ["objective"] = "Bring the Defias Docket to Elling Trias in Stormwind.";
       ["req"] = 28;
@@ -29788,6 +35705,9 @@ addon.questsDB = {
    [1249] = {
       ["name"] = "The Missing Diplomat";
       ["prev"] = 1248;
+      ["prequests"] = {
+         [1] = 1248;
+      };
       ["repgain"] = {
          [72] = 75;
       };
@@ -29803,15 +35723,28 @@ addon.questsDB = {
    [8960] = {
       ["name"] = "Bodley's Unfortunate Fate";
       ["next"] = 8961;
+      ["prequests"] = {
+         [1] = 8951;
+         [2] = 8953;
+         [3] = 8954;
+         [4] = 8955;
+         [5] = 8958;
+         [6] = 8959;
+         [7] = 8952;
+         [8] = 8956;
+      };
       ["followup"] = 8961;
       ["objective"] = "Travel to Blackrock Mountain and use the Extra-Dimensional Ghost Revealer to find Bodley near Blackrock Spire.";
       ["req"] = 58;
    };
    [1261] = {
-      ["name"] = "Marg Speaks";
-      ["prev"] = 1240;
       ["repgain"] = {
          [76] = 250;
+      };
+      ["name"] = "Marg Speaks";
+      ["prev"] = 1240;
+      ["prequests"] = {
+         [1] = 1240;
       };
       ["next"] = 1262;
       ["objective"] = "Bring the Jeweled Pendant to Nazeer in Brackenwall Village.";
@@ -29820,6 +35753,9 @@ addon.questsDB = {
    [1265] = {
       ["name"] = "The Missing Diplomat";
       ["prev"] = 1264;
+      ["prequests"] = {
+         [1] = 1264;
+      };
       ["next"] = 1266;
       ["objective"] = "Search Sentry Point for any sign of Private Hendel.";
       ["req"] = 28;
@@ -29832,6 +35768,9 @@ addon.questsDB = {
    [1273] = {
       ["name"] = "Questioning Reethe";
       ["prev"] = 1269;
+      ["prequests"] = {
+         [1] = 1269;
+      };
       ["reward"] = {
          [1] = 6797;
          [2] = 6798;
@@ -29840,9 +35779,12 @@ addon.questsDB = {
       ["req"] = 30;
    };
    [8964] = {
+      ["followup"] = 8985;
       ["name"] = "Components of Importance";
       ["prev"] = 8961;
-      ["followup"] = 8985;
+      ["prequests"] = {
+         [1] = 8961;
+      };
       ["next"] = 8968;
       ["objective"] = "Retrieve a Brilliant Sword of Zealotry and return it to Bodley inside Blackrock Mountain.";
       ["req"] = 58;
@@ -29856,6 +35798,9 @@ addon.questsDB = {
    [1285] = {
       ["name"] = "Daelin's Men";
       ["prev"] = 1259;
+      ["prequests"] = {
+         [1] = 1259;
+      };
       ["next"] = 1286;
       ["objective"] = "Return the information about Reethe to Captain Garran Vimes in Theramore.";
       ["req"] = 30;
@@ -29863,6 +35808,9 @@ addon.questsDB = {
    [5154] = {
       ["name"] = "The Annals of Darrowshire";
       ["prev"] = 5153;
+      ["prequests"] = {
+         [1] = 5153;
+      };
       ["followup"] = 5210;
       ["objective"] = "Bring the Annals of Darrowshire to Chromie in Andorhal.";
       ["req"] = 50;
@@ -29876,6 +35824,12 @@ addon.questsDB = {
       ["req"] = 50;
    };
    [8970] = {
+      ["prequests"] = {
+         [1] = 8968;
+         [2] = 8969;
+         [3] = 8966;
+         [4] = 8967;
+      };
       ["objective"] = "Gather 20 Bloodkelp from the Strashaz naga and then return to Bodley inside Blackrock Mountain.";
       ["name"] = "I See Alcaz Island In Your Future...";
       ["req"] = 58;
@@ -29888,6 +35842,11 @@ addon.questsDB = {
    [5218] = {
       ["name"] = "Felstone Field Cauldron";
       ["prev"] = 5237;
+      ["prequests"] = {
+         [1] = 5237;
+         [2] = 5229;
+         [3] = 5216;
+      };
       ["repgain"] = {
          [529] = 25;
       };
@@ -29895,11 +35854,14 @@ addon.questsDB = {
       ["req"] = 50;
    };
    [5234] = {
-      ["name"] = "Return to the Bulwark";
-      ["prev"] = 5233;
       ["repgain"] = {
          [67] = 75;
          [529] = 75;
+      };
+      ["name"] = "Return to the Bulwark";
+      ["prev"] = 5233;
+      ["prequests"] = {
+         [1] = 5233;
       };
       ["next"] = 5235;
       ["objective"] = "Bring the Filled Writhing Haunt Bottle to Shadow Priestess Vandis at The Bulwark, Western Plaguelands.";
@@ -29915,11 +35877,15 @@ addon.questsDB = {
       ["req"] = 53;
    };
    [8985] = {
-      ["name"] = "More Components of Importance";
-      ["prev"] = 8970;
       ["reward"] = {
          [1] = 22192;
          [2] = 22193;
+      };
+      ["name"] = "More Components of Importance";
+      ["prev"] = 8970;
+      ["prequests"] = {
+         [1] = 8970;
+         [2] = 8964;
       };
       ["next"] = 8990;
       ["objective"] = "Acquire a Starbreeze Village Relic and return it to Bodley inside Blackrock Mountain.";
@@ -29928,6 +35894,9 @@ addon.questsDB = {
    [1321] = {
       ["name"] = "The Black Shield";
       ["prev"] = 1251;
+      ["prequests"] = {
+         [1] = 1251;
+      };
       ["next"] = 1322;
       ["objective"] = "Show the Blackened Iron Shield to Do'gol in Brackenwall Village.";
       ["req"] = 30;
@@ -29935,6 +35904,9 @@ addon.questsDB = {
    [1471] = {
       ["name"] = "The Binding";
       ["prev"] = 1473;
+      ["prequests"] = {
+         [1] = 1473;
+      };
       ["objective"] = "Using the Runes of Summoning, summon and subdue a voidwalker, then return the Runes of Summoning to Carendin Halgar in the Magic Quarter of the Undercity.";
       ["req"] = 10;
    };
@@ -29947,11 +35919,15 @@ addon.questsDB = {
       ["req"] = 60;
    };
    [8987] = {
-      ["name"] = "More Components of Importance";
-      ["prev"] = 8970;
       ["reward"] = {
          [1] = 22192;
          [2] = 22193;
+      };
+      ["name"] = "More Components of Importance";
+      ["prev"] = 8970;
+      ["prequests"] = {
+         [1] = 8970;
+         [2] = 8962;
       };
       ["next"] = 8991;
       ["objective"] = "Retrieve a Brilliant Sword of Zealotry and return it to Bodley inside Blackrock Mountain.";
@@ -29960,6 +35936,9 @@ addon.questsDB = {
    [1646] = {
       ["name"] = "The Tome of Divinity";
       ["prev"] = 1645;
+      ["prequests"] = {
+         [1] = 1645;
+      };
       ["next"] = 1647;
       ["objective"] = "Speak to Tiza Battleforge in Ironforge.";
       ["req"] = 12;
@@ -29967,6 +35946,9 @@ addon.questsDB = {
    [3201] = {
       ["name"] = "At Last!";
       ["prev"] = 3182;
+      ["prequests"] = {
+         [1] = 3182;
+      };
       ["repgain"] = {
          [47] = 250;
       };
@@ -30027,12 +36009,19 @@ addon.questsDB = {
    [1369] = {
       ["name"] = "Broken Tears";
       ["next"] = 1371;
+      ["prequests"] = {
+         [1] = 1367;
+         [2] = 1386;
+      };
       ["objective"] = "Maintain your reputation with the Magram, and bring 3 Broken Tears to Warug in the Magram Village.";
       ["req"] = 30;
    };
    [1373] = {
       ["name"] = "Ongeku";
       ["prev"] = 1370;
+      ["prequests"] = {
+         [1] = 1370;
+      };
       ["next"] = 1374;
       ["objective"] = "Maintain your reputation with the Gelkis, and bring a Draenethyst Shard to Uthek the Wise in the Gelkis Village in Desolace.";
       ["req"] = 30;
@@ -30040,6 +36029,9 @@ addon.questsDB = {
    [1101] = {
       ["name"] = "The Crone of the Kraul";
       ["prev"] = 1100;
+      ["prequests"] = {
+         [1] = 1100;
+      };
       ["reward"] = {
          [1] = 4197;
          [2] = 6742;
@@ -30051,6 +36043,9 @@ addon.questsDB = {
    [1381] = {
       ["name"] = "Khan Hratha";
       ["prev"] = 1375;
+      ["prequests"] = {
+         [1] = 1375;
+      };
       ["reward"] = {
          [1] = 6788;
          [2] = 6789;
@@ -30061,6 +36056,9 @@ addon.questsDB = {
    [5538] = {
       ["name"] = "Mold Rhymes With...";
       ["prev"] = 5537;
+      ["prequests"] = {
+         [1] = 5537;
+      };
       ["next"] = 5801;
       ["objective"] = "Bring the Imbued Skeletal Fragments and 15 gold coins to Krinkle Goodsteel in Gadgetzan.";
       ["req"] = 55;
@@ -30078,18 +36076,27 @@ addon.questsDB = {
    [9034] = {
       ["name"] = "Dreadnaught Breastplate";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Korfax at Light's Hope Chapel in the Eastern Plaguelands will make a Dreadnaught Breastplate if you bring him the following items: 1 Desecrated Breastplate, 25 Wartorn Plate Scraps, 4 Arcanite Bars and 2 Nexus Crystals.$B";
       ["req"] = 60;
    };
    [8997] = {
       ["name"] = "Back to the Beginning";
       ["prev"] = 8996;
+      ["prequests"] = {
+         [1] = 8996;
+      };
       ["objective"] = "Speak with Deliana at The High Seat in Ironforge.";
       ["req"] = 58;
    };
    [1842] = {
       ["name"] = "Satyr Hooves";
       ["prev"] = 1839;
+      ["prequests"] = {
+         [1] = 1839;
+      };
       ["objective"] = "Bring 7 Uncloven Satyr Hooves to Ula'elek at Sen'jin Village in Durotar.";
       ["req"] = 20;
    };
@@ -30101,6 +36108,9 @@ addon.questsDB = {
    [5650] = {
       ["name"] = "Garments of Darkness";
       ["prev"] = 5651;
+      ["prequests"] = {
+         [1] = 5651;
+      };
       ["objective"] = "Find Deathguard Kel and heal his wounds using Lesser Heal (Rank 2). Afterwards, grant him Power Word: Fortitude and then return to Dark Cleric Beryl in Brill.";
       ["req"] = 5;
    };
@@ -30113,10 +36123,13 @@ addon.questsDB = {
       ["req"] = 60;
    };
    [1421] = {
-      ["name"] = "The Lost Caravan";
-      ["prev"] = 1396;
       ["repgain"] = {
          [72] = 250;
+      };
+      ["name"] = "The Lost Caravan";
+      ["prev"] = 1396;
+      ["prequests"] = {
+         [1] = 1396;
       };
       ["next"] = 1398;
       ["objective"] = "Find the Caravan Chest in the Fallow Sanctuary, obtain the Wizards' Reagents and bring to Watcher Biggs.";
@@ -30125,6 +36138,9 @@ addon.questsDB = {
    [1425] = {
       ["name"] = "Deliver the Shipment";
       ["prev"] = 1398;
+      ["prequests"] = {
+         [1] = 1398;
+      };
       ["repgain"] = {
          [72] = 150;
       };
@@ -30134,6 +36150,9 @@ addon.questsDB = {
    [1429] = {
       ["name"] = "The Atal'ai Exile";
       ["prev"] = 1424;
+      ["prequests"] = {
+         [1] = 1424;
+      };
       ["next"] = 1444;
       ["objective"] = "Bring the Bundle of Atal'ai Artifacts to the Atal'ai Exile in the Hinterlands.";
       ["req"] = 38;
@@ -30141,6 +36160,9 @@ addon.questsDB = {
    [1433] = {
       ["name"] = "Alliance Relations";
       ["prev"] = 1432;
+      ["prequests"] = {
+         [1] = 1432;
+      };
       ["next"] = 1435;
       ["objective"] = "Speak to Maurin Bonesplitter in Desolace.";
       ["req"] = 30;
@@ -30162,6 +36184,9 @@ addon.questsDB = {
    [1445] = {
       ["name"] = "The Temple of Atal'Hakkar";
       ["prev"] = 1444;
+      ["prequests"] = {
+         [1] = 1444;
+      };
       ["repgain"] = {
          [76] = 350;
       };
@@ -30171,6 +36196,9 @@ addon.questsDB = {
    [1449] = {
       ["name"] = "To The Hinterlands";
       ["prev"] = 1448;
+      ["prequests"] = {
+         [1] = 1448;
+      };
       ["next"] = 1450;
       ["objective"] = "Speak with High Thane Falstad Wildhammer at Aerie Peak in the Hinterlands.";
       ["req"] = 38;
@@ -30185,15 +36213,18 @@ addon.questsDB = {
    };
    [1457] = {
       ["name"] = "The Karnitol Shipwreck";
-      ["prev"] = 1456;
+      ["objective"] = "Bring Karnitol's Satchel to Roetten Stonehammer in Ironforge.";
       ["repgain"] = {
          [47] = 150;
       };
+      ["prequests"] = {
+         [1] = 1456;
+      };
+      ["prev"] = 1456;
       ["reward"] = {
          [1] = 6791;
          [2] = 6792;
       };
-      ["objective"] = "Bring Karnitol's Satchel to Roetten Stonehammer in Ironforge.";
       ["req"] = 30;
    };
    [5842] = {
@@ -30207,20 +36238,26 @@ addon.questsDB = {
       ["req"] = 1;
    };
    [1465] = {
-      ["name"] = "Vahlarriel's Search";
-      ["prev"] = 1437;
       ["repgain"] = {
          [69] = 150;
+      };
+      ["name"] = "Vahlarriel's Search";
+      ["prev"] = 1437;
+      ["prequests"] = {
+         [1] = 1437;
       };
       ["next"] = 1438;
       ["objective"] = "Return the Malem Pendant to Vahlarriel Demonslayer in Desolace.";
       ["req"] = 30;
    };
    [1469] = {
-      ["name"] = "Rhapsody's Tale";
-      ["prev"] = 1452;
       ["repgain"] = {
          [47] = 150;
+      };
+      ["name"] = "Rhapsody's Tale";
+      ["prev"] = 1452;
+      ["prequests"] = {
+         [1] = 1452;
       };
       ["next"] = 1475;
       ["objective"] = "Bring the Atal'ai Tablet Fragment to Brohann Caskbelly in Stormwind.";
@@ -30229,6 +36266,9 @@ addon.questsDB = {
    [5890] = {
       ["name"] = "Salve via Skinning";
       ["prev"] = 5885;
+      ["prequests"] = {
+         [1] = 5885;
+      };
       ["objective"] = "";
       ["req"] = 48;
    };
@@ -30242,10 +36282,13 @@ addon.questsDB = {
       ["req"] = 40;
    };
    [1481] = {
-      ["name"] = "The Corrupter";
-      ["prev"] = 1480;
       ["repgain"] = {
          [68] = 250;
+      };
+      ["name"] = "The Corrupter";
+      ["prev"] = 1480;
+      ["prequests"] = {
+         [1] = 1480;
       };
       ["next"] = 1482;
       ["objective"] = "Bring a Shadowstalker Scalp to Maurin Bonesplitter in Desolace.";
@@ -30258,20 +36301,26 @@ addon.questsDB = {
       ["req"] = 1;
    };
    [1489] = {
-      ["name"] = "Hamuul Runetotem";
-      ["prev"] = 880;
       ["repgain"] = {
          [81] = 25;
+      };
+      ["name"] = "Hamuul Runetotem";
+      ["prev"] = 880;
+      ["prequests"] = {
+         [1] = 880;
       };
       ["next"] = 1490;
       ["objective"] = "Speak with Hamuul Runetotem.";
       ["req"] = 12;
    };
    [1030] = {
-      ["name"] = "Raene's Cleansing";
-      ["prev"] = 1029;
       ["repgain"] = {
          [69] = 150;
+      };
+      ["name"] = "Raene's Cleansing";
+      ["prev"] = 1029;
+      ["prequests"] = {
+         [1] = 1029;
       };
       ["next"] = 1045;
       ["objective"] = "Find an uncorrupted furbolg, and using the power of Dartol's Rod of Transformation, speak to him.";
@@ -30289,6 +36338,9 @@ addon.questsDB = {
    [6002] = {
       ["name"] = "Body and Heart";
       ["prev"] = 5932;
+      ["prequests"] = {
+         [1] = 5932;
+      };
       ["repgain"] = {
          [609] = 250;
       };
@@ -30304,6 +36356,9 @@ addon.questsDB = {
    [1509] = {
       ["name"] = "News of Dogran";
       ["prev"] = 1508;
+      ["prequests"] = {
+         [1] = 1508;
+      };
       ["next"] = 1510;
       ["objective"] = "Speak with Gazrog at the Crossroads.";
       ["req"] = 20;
@@ -30311,12 +36366,18 @@ addon.questsDB = {
    [1513] = {
       ["name"] = "The Binding";
       ["prev"] = 1512;
+      ["prequests"] = {
+         [1] = 1512;
+      };
       ["objective"] = "Using Dogran's Pendant, summon and subdue a succubus, then return Dogran's Pendant to Gan'rul Bloodeye in Orgrimmar.";
       ["req"] = 20;
    };
    [1517] = {
       ["name"] = "Call of Earth";
       ["prev"] = 1516;
+      ["prequests"] = {
+         [1] = 1516;
+      };
       ["next"] = 1518;
       ["objective"] = "Find Spirit Rock and drink the Earth Sapta.";
       ["req"] = 4;
@@ -30324,12 +36385,18 @@ addon.questsDB = {
    [1521] = {
       ["name"] = "Call of Earth";
       ["prev"] = 1520;
+      ["prequests"] = {
+         [1] = 1520;
+      };
       ["objective"] = "Bring the Rough Quartz to Seer Ravenfeather in Camp Narache.";
       ["req"] = 4;
    };
    [1525] = {
       ["name"] = "Call of Fire";
       ["prev"] = 1524;
+      ["prequests"] = {
+         [1] = 1524;
+      };
       ["next"] = 1526;
       ["objective"] = "Bring 1 Fire Tar and 1 Reagent Pouch to Telf Joolam in Durotar.";
       ["req"] = 10;
@@ -30344,6 +36411,9 @@ addon.questsDB = {
    [6130] = {
       ["name"] = "Power over Poison";
       ["prev"] = 6129;
+      ["prequests"] = {
+         [1] = 6129;
+      };
       ["repgain"] = {
          [609] = 100;
       };
@@ -30379,6 +36449,9 @@ addon.questsDB = {
    [8323] = {
       ["name"] = "True Believers";
       ["prev"] = 8279;
+      ["prequests"] = {
+         [1] = 8279;
+      };
       ["objective"] = "Hermit Ortell wants you to bring him 10 Encrypted Twilight Texts";
       ["req"] = 54;
    };
@@ -30390,6 +36463,9 @@ addon.questsDB = {
    [8387] = {
       ["name"] = "Invaders of Alterac Valley";
       ["prev"] = 8369;
+      ["prequests"] = {
+         [1] = 8369;
+      };
       ["repgain"] = {
          [729] = 100;
       };
@@ -30410,10 +36486,13 @@ addon.questsDB = {
       ["req"] = 18;
    };
    [2991] = {
-      ["name"] = "Nekrum's Medallion";
-      ["prev"] = 2990;
       ["repgain"] = {
          [47] = 350;
+      };
+      ["name"] = "Nekrum's Medallion";
+      ["prev"] = 2990;
+      ["prequests"] = {
+         [1] = 2990;
       };
       ["next"] = 2992;
       ["objective"] = "Bring Nekrum's Medallion to Thadius Grimshade in the Blasted Lands.";
@@ -30425,10 +36504,13 @@ addon.questsDB = {
       ["req"] = 44;
    };
    [6322] = {
-      ["name"] = "Michael Garrett";
-      ["prev"] = 6323;
       ["repgain"] = {
          [68] = 25;
+      };
+      ["name"] = "Michael Garrett";
+      ["prev"] = 6323;
+      ["prequests"] = {
+         [1] = 6323;
       };
       ["next"] = 6324;
       ["objective"] = "Bring Gordon's Crate to Michael Garrett.";
@@ -30460,6 +36542,9 @@ addon.questsDB = {
    [6386] = {
       ["name"] = "Return to the Crossroads.";
       ["prev"] = 6385;
+      ["prequests"] = {
+         [1] = 6385;
+      };
       ["repgain"] = {
          [530] = 350;
          [76] = 350;
@@ -30470,6 +36555,9 @@ addon.questsDB = {
    [6402] = {
       ["name"] = "Stormwind Rendezvous";
       ["prev"] = 4322;
+      ["prequests"] = {
+         [1] = 4322;
+      };
       ["objective"] = "Travel to Stormwind City and venture to the city gates. Speak with Squire Rowe so that he may let Marshal Windsor know that you have arrived.";
       ["req"] = 50;
    };
@@ -30497,6 +36585,9 @@ addon.questsDB = {
    [8835] = {
       ["name"] = "Ten Commendation Signets";
       ["prev"] = 8820;
+      ["prequests"] = {
+         [1] = 8820;
+      };
       ["objective"] = "";
       ["req"] = 1;
    };
@@ -30514,17 +36605,23 @@ addon.questsDB = {
       ["req"] = 56;
    };
    [8931] = {
+      ["followup"] = 8929;
       ["name"] = "Just Compensation";
       ["prev"] = 8977;
-      ["followup"] = 8929;
+      ["prequests"] = {
+         [1] = 8977;
+      };
       ["next"] = 8929;
       ["objective"] = "Bring a Beaststalker's Belt and a set of Beaststalker's Gloves to Deliana in Ironforge.";
       ["req"] = 58;
    };
    [8963] = {
+      ["followup"] = 8988;
       ["name"] = "Components of Importance";
       ["prev"] = 8961;
-      ["followup"] = 8988;
+      ["prequests"] = {
+         [1] = 8961;
+      };
       ["next"] = 8967;
       ["objective"] = "Acquire a Starbreeze Village Relic and return it to Bodley inside Blackrock Mountain.";
       ["req"] = 58;
@@ -30532,6 +36629,9 @@ addon.questsDB = {
    [8995] = {
       ["name"] = "Mea Culpa, Lord Valthalak";
       ["prev"] = 8994;
+      ["prequests"] = {
+         [1] = 8994;
+      };
       ["next"] = 8996;
       ["objective"] = "Use the Brazier of Beckoning to summon Lord Valthalak. Dispatch him, and use Lord Valthalak's Amulet on the corpse. Then, return Lord Valthalak's Amulet to the Spirit of Lord Valthalak.";
       ["req"] = 58;
@@ -30544,6 +36644,9 @@ addon.questsDB = {
    [9059] = {
       ["name"] = "Cryptstalker Handguards";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -30553,6 +36656,9 @@ addon.questsDB = {
    [9091] = {
       ["name"] = "Dreamwalker Handguards";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -30585,24 +36691,36 @@ addon.questsDB = {
    [1665] = {
       ["name"] = "Bartleby's Mug";
       ["prev"] = 1640;
+      ["prequests"] = {
+         [1] = 1640;
+      };
       ["objective"] = "Bring Bartleby's Mug to Burlguard";
       ["req"] = 10;
    };
    [9251] = {
       ["name"] = "Atiesh, the Befouled Greatstaff";
       ["prev"] = 9250;
+      ["prequests"] = {
+         [1] = 9250;
+      };
       ["objective"] = "Anachronos at the Caverns of Time in Tanaris wants the Staff Head of Atiesh and the Base of Atiesh.";
       ["req"] = 60;
    };
    [9037] = {
       ["name"] = "Dreadnaught Helmet";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Korfax at Light's Hope Chapel in the Eastern Plaguelands will make a Dreadnaught Helmet if you bring him the following items: 1 Desecrated Helmet, 15 Wartorn Plate Scraps, 5 Arcanite Bars and 1 Nexus Crystal.";
       ["req"] = 60;
    };
    [9042] = {
       ["name"] = "Dreadnaught Bracers";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -30612,6 +36730,9 @@ addon.questsDB = {
    [1681] = {
       ["name"] = "Ironband's Compound";
       ["prev"] = 1680;
+      ["prequests"] = {
+         [1] = 1680;
+      };
       ["next"] = 1682;
       ["objective"] = "Bring a load of Umbral Ore to Tormus Deepforge in Ironforge.";
       ["req"] = 10;
@@ -30625,12 +36746,18 @@ addon.questsDB = {
    [1689] = {
       ["name"] = "The Binding";
       ["prev"] = 1688;
+      ["prequests"] = {
+         [1] = 1688;
+      };
       ["objective"] = "Using the Bloodstone Choker, summon and subdue a voidwalker, then return the Bloodstone Choker to Gakin the Darkbinder in Stormwind.";
       ["req"] = 10;
    };
    [1693] = {
       ["name"] = "Weapons of Elunite";
       ["prev"] = 1692;
+      ["prequests"] = {
+         [1] = 1692;
+      };
       ["reward"] = {
          [1] = 6966;
          [2] = 6968;
@@ -30643,30 +36770,45 @@ addon.questsDB = {
    [3512] = {
       ["name"] = "In Eranikus' Own Words";
       ["prev"] = 3374;
+      ["prequests"] = {
+         [1] = 3374;
+      };
       ["objective"] = "Travel to the eastern part of Winterspring and speak with Umbranse the Spiritspeaker.";
       ["req"] = 48;
    };
    [1701] = {
       ["name"] = "Fire Hardened Mail";
       ["prev"] = 1702;
+      ["prequests"] = {
+         [1] = 1702;
+      };
       ["objective"] = "Gather the materials Furen Longbeard requires, and bring them to him in Stormwind.";
       ["req"] = 20;
    };
    [1705] = {
       ["name"] = "Burning Blood";
       ["prev"] = 1700;
+      ["prequests"] = {
+         [1] = 1700;
+      };
       ["objective"] = "Bring 20 vials of Burning Blood and 1 Burning Rock to Grimand Elmore in Stormwind.";
       ["req"] = 20;
    };
    [1709] = {
       ["name"] = "Klockmort's Creation";
       ["prev"] = 1708;
+      ["prequests"] = {
+         [1] = 1708;
+      };
       ["objective"] = "";
       ["req"] = 20;
    };
    [1713] = {
       ["name"] = "The Summoning";
       ["prev"] = 1712;
+      ["prequests"] = {
+         [1] = 1712;
+      };
       ["objective"] = "Bring the Whirlwind Heart to Bath'rah Windwatcher.";
       ["req"] = 30;
    };
@@ -30679,6 +36821,9 @@ addon.questsDB = {
    [9050] = {
       ["name"] = "Redemption Wristguards";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -30688,6 +36833,9 @@ addon.questsDB = {
    [9051] = {
       ["name"] = "Toxic Test";
       ["prev"] = 9052;
+      ["prequests"] = {
+         [1] = 9052;
+      };
       ["next"] = 9053;
       ["objective"] = "Stab a Devilsaur with the Devilsaur Barb. Return to Torwa Pathfinder in Un'Goro Crater when you have completed this task.";
       ["req"] = 50;
@@ -30695,6 +36843,9 @@ addon.questsDB = {
    [7842] = {
       ["name"] = "Another Message to the Wildhammer";
       ["prev"] = 7841;
+      ["prequests"] = {
+         [1] = 7841;
+      };
       ["next"] = 7843;
       ["objective"] = "Otho Moji'ko at Revantusk Village in the Hinterlands wants you to bring him 10 Long Elegant Feathers from the gryphons that inhabit the Hinterlands. Return to him once this task is complete.$B$BGryphons are known to inhabit every region of the Hinterlands.";
       ["req"] = 44;
@@ -30749,6 +36900,9 @@ addon.questsDB = {
    [8377] = {
       ["name"] = "Armaments of War";
       ["prev"] = 8315;
+      ["prequests"] = {
+         [1] = 8315;
+      };
       ["repgain"] = {
          [609] = 250;
       };
@@ -30778,12 +36932,18 @@ addon.questsDB = {
    [2609] = {
       ["name"] = "The Touch of Zanzil";
       ["prev"] = 2608;
+      ["prequests"] = {
+         [1] = 2608;
+      };
       ["objective"] = "Bring Doc Mixilpixil one bundle of Simple Wildflowers, one Leaded Vial, one Bronze Tube, and one Spool of Light Chartreuse Silk Thread. The 'itis' doesn't cure itself, young $g fella:lady;. ";
       ["req"] = 20;
    };
    [9074] = {
       ["name"] = "Earthshatter Girdle";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -30791,9 +36951,12 @@ addon.questsDB = {
       ["req"] = 60;
    };
    [2759] = {
+      ["followup"] = 2760;
       ["name"] = "In Search of Galvan";
       ["prev"] = 2758;
-      ["followup"] = 2760;
+      ["prequests"] = {
+         [1] = 2758;
+      };
       ["next"] = 2760;
       ["objective"] = "Speak with McGavan in Booty Bay.";
       ["req"] = 40;
@@ -30801,6 +36964,9 @@ addon.questsDB = {
    [1781] = {
       ["name"] = "The Tome of Divinity";
       ["prev"] = 1780;
+      ["prequests"] = {
+         [1] = 1780;
+      };
       ["next"] = 1786;
       ["objective"] = "Take the Symbol of Life to Gazin Tenorm in Stormwind.";
       ["req"] = 12;
@@ -30808,6 +36974,9 @@ addon.questsDB = {
    [1785] = {
       ["name"] = "The Tome of Divinity";
       ["prev"] = 1784;
+      ["prequests"] = {
+         [1] = 1784;
+      };
       ["objective"] = "Speak to Tiza Battleforge in Ironforge.";
       ["req"] = 12;
    };
@@ -30819,6 +36988,9 @@ addon.questsDB = {
    [7170] = {
       ["name"] = "Earned Reverence";
       ["prev"] = 7169;
+      ["prequests"] = {
+         [1] = 7169;
+      };
       ["objective"] = "";
       ["req"] = 51;
    };
@@ -30841,6 +37013,9 @@ addon.questsDB = {
    [1805] = {
       ["name"] = "Tome of the Cabal";
       ["prev"] = 1803;
+      ["prequests"] = {
+         [1] = 1803;
+      };
       ["next"] = 1795;
       ["objective"] = "Bring the Reconstructed Tome and 3 Rods of Channeling to Strahad Farsan in Ratchet.";
       ["req"] = 30;
@@ -30848,6 +37023,9 @@ addon.questsDB = {
    [1652] = {
       ["name"] = "The Tome of Valor";
       ["prev"] = 1651;
+      ["prequests"] = {
+         [1] = 1651;
+      };
       ["next"] = 1653;
       ["objective"] = "Speak to Duthorian Rall in Stormwind.";
       ["req"] = 20;
@@ -30855,6 +37033,9 @@ addon.questsDB = {
    [9090] = {
       ["name"] = "Dreamwalker Boots";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -30862,10 +37043,13 @@ addon.questsDB = {
       ["req"] = 60;
    };
    [8288] = {
-      ["name"] = "Only One May Rise";
-      ["prev"] = 8286;
       ["repgain"] = {
          [910] = 200;
+      };
+      ["name"] = "Only One May Rise";
+      ["prev"] = 8286;
+      ["prequests"] = {
+         [1] = 8286;
       };
       ["next"] = 8301;
       ["objective"] = "Return the Head of the Broodlord Lashlayer to Baristolth of the Shifting Sands at Cenarion Hold in Silithus.";
@@ -30874,6 +37058,9 @@ addon.questsDB = {
    [1821] = {
       ["name"] = "Agamand Heirlooms";
       ["prev"] = 1820;
+      ["prequests"] = {
+         [1] = 1820;
+      };
       ["next"] = 1822;
       ["objective"] = "Bring Coleman Farthing the Agamand Family Axe, the Agamand Family Sword, the Agamand Family Mace and the Agamand Family dagger.";
       ["req"] = 10;
@@ -30881,6 +37068,9 @@ addon.questsDB = {
    [1825] = {
       ["name"] = "Speak with Thun'grim";
       ["prev"] = 1824;
+      ["prequests"] = {
+         [1] = 1824;
+      };
       ["next"] = 1838;
       ["objective"] = "Speak with Thun'grim Firegaze in the Barrens.";
       ["req"] = 20;
@@ -30909,6 +37099,9 @@ addon.questsDB = {
    [1841] = {
       ["name"] = "Velora Nitely and the Brutal Legguards";
       ["prev"] = 1838;
+      ["prequests"] = {
+         [1] = 1838;
+      };
       ["next"] = 1846;
       ["objective"] = "Speak with Velora Nitely in the Undercity.";
       ["req"] = 20;
@@ -30916,18 +37109,27 @@ addon.questsDB = {
    [1845] = {
       ["name"] = "Brutal Helm";
       ["prev"] = 1844;
+      ["prequests"] = {
+         [1] = 1844;
+      };
       ["objective"] = "";
       ["req"] = 20;
    };
    [9106] = {
       ["name"] = "Plagueheart Shoulderpads";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Mataus the Wrathcaster at Light's Hope Chapel in the Eastern Plaguelands will make Plagueheart Shoulderpads if you bring him the following: 1 Desecrated Shoulderpads, 12 Wartorn Cloth Scraps, 2 Mooncloth and 3 Cured Rugged Hides.";
       ["req"] = 60;
    };
    [9112] = {
       ["name"] = "Leggings of Faith";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Father Inigo Montoy at Light's Hope Chapel in the Eastern Plaguelands will make Leggings of Faith if you bring him the following: 1 Desecrated Leggings, 20 Wartorn Cloth Scraps, 4 Mooncloth and 2 Nexus Crystals.";
       ["req"] = 60;
    };
@@ -30939,6 +37141,9 @@ addon.questsDB = {
    [1861] = {
       ["name"] = "Mirror Lake";
       ["prev"] = 1860;
+      ["prequests"] = {
+         [1] = 1860;
+      };
       ["reward"] = {
          [1] = 7508;
          [2] = 9513;
@@ -30949,12 +37154,18 @@ addon.questsDB = {
    [4121] = {
       ["name"] = "Precarious Predicament";
       ["prev"] = 4122;
+      ["prequests"] = {
+         [1] = 4122;
+      };
       ["objective"] = "Escort your prisoner, Grark Lorkrub, through Burning Steppes and through Blackrock Mountain to the Searing Gorge.$B$BYou recall Lexlort mentioning that he would have his men waiting on the other side to take Grark into custody.$B$BYou will also be required to hand over your Thorium Shackles to Lexlort.";
       ["req"] = 52;
    };
    [4129] = {
       ["name"] = "The Knife Revealed";
       ["prev"] = 4127;
+      ["prequests"] = {
+         [1] = 4127;
+      };
       ["next"] = 4130;
       ["objective"] = "Take the Discarded Knife to Quintis Jonespyre in Feathermoon Stronghold.";
       ["req"] = 40;
@@ -30999,6 +37210,9 @@ addon.questsDB = {
    [9114] = {
       ["name"] = "Shoulderpads of Faith";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -31008,6 +37222,9 @@ addon.questsDB = {
    [9115] = {
       ["name"] = "Sandals of Faith";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -31017,6 +37234,9 @@ addon.questsDB = {
    [7602] = {
       ["name"] = "Flawless Fel Essence";
       ["prev"] = 7601;
+      ["prequests"] = {
+         [1] = 7601;
+      };
       ["next"] = 7603;
       ["objective"] = "Impsy in Felwood has asked that you bring him three Flawless Fel Essences originating from three distinct locations.$B$BThe Legashi Satyrs of Azshara hold the Flawless Fel Essence of their region. The Jaedenar Legionnaires of Jaedenar hold the Flawless Fel Essence of their region. The Felguard Sentries of the Blasted Lands hold the Flawless Fel Essence of their region.$B$BRecover the Flawless Fel Essences and return  to Impsy in Felwood.";
       ["req"] = 50;
@@ -31024,6 +37244,9 @@ addon.questsDB = {
    [3117] = {
       ["name"] = "Etched Sigil";
       ["prev"] = 457;
+      ["prequests"] = {
+         [1] = 457;
+      };
       ["repgain"] = {
          [69] = 75;
       };
@@ -31033,6 +37256,9 @@ addon.questsDB = {
    [7634] = {
       ["name"] = "Ancient Sinew Wrapped Lamina";
       ["prev"] = 7632;
+      ["prequests"] = {
+         [1] = 7632;
+      };
       ["objective"] = "Hastat the Ancient has asked that you bring him a Mature Blue Dragon Sinew. Should you find this sinew, return it to Hastat in Felwood.";
       ["req"] = 60;
    };
@@ -31047,12 +37273,18 @@ addon.questsDB = {
    [7666] = {
       ["name"] = "Again Into the Great Ossuary";
       ["prev"] = 7647;
+      ["prequests"] = {
+         [1] = 7647;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
    [1921] = {
       ["name"] = "Gathering Materials";
       ["prev"] = 1920;
+      ["prequests"] = {
+         [1] = 1920;
+      };
       ["objective"] = "Bring 10 Linen Cloth and the 6 Charged Rift Gems to Wynne Larson in Stormwind.";
       ["req"] = 15;
    };
@@ -31062,21 +37294,27 @@ addon.questsDB = {
       ["req"] = 50;
    };
    [8956] = {
+      ["followup"] = 8960;
       ["name"] = "Anthion's Parting Words";
       ["prev"] = 9015;
-      ["followup"] = 8960;
+      ["prequests"] = {
+         [1] = 9015;
+      };
       ["next"] = 8960;
       ["objective"] = "Return to Deliana in Ironforge with a set of Shadowcraft Boots, Shadowcraft Pants and Shadowcraft Spaulders.";
       ["req"] = 58;
    };
    [7730] = {
-      ["name"] = "Zukk'ash Infestation";
-      ["prev"] = 2903;
       ["repgain"] = {
          [76] = 250;
          [68] = 250;
          [81] = 250;
          [530] = 250;
+      };
+      ["name"] = "Zukk'ash Infestation";
+      ["prev"] = 2903;
+      ["prequests"] = {
+         [1] = 2903;
       };
       ["followup"] = 7732;
       ["objective"] = "Bring 20 Zukk'ash Carapaces to Hadoken Swiftstrider at Camp Mojache, Feralas.";
@@ -31090,18 +37328,27 @@ addon.questsDB = {
    [1941] = {
       ["name"] = "Manaweave Robe";
       ["prev"] = 1921;
+      ["prequests"] = {
+         [1] = 1921;
+      };
       ["objective"] = "";
       ["req"] = 15;
    };
    [1945] = {
       ["name"] = "Laughing Sisters";
       ["prev"] = 1944;
+      ["prequests"] = {
+         [1] = 1944;
+      };
       ["objective"] = "Bring 12 Laughing Sister's Hairs to Kil'hala at the Crossroads.";
       ["req"] = 26;
    };
    [1949] = {
       ["name"] = "Hidden Secrets";
       ["prev"] = 1947;
+      ["prequests"] = {
+         [1] = 1947;
+      };
       ["next"] = 1950;
       ["objective"] = "Speak with Magus Tirth in the Shimmering Flats.";
       ["req"] = 30;
@@ -31124,6 +37371,9 @@ addon.questsDB = {
    [1961] = {
       ["name"] = "Gathering Materials";
       ["prev"] = 1960;
+      ["prequests"] = {
+         [1] = 1960;
+      };
       ["objective"] = "Bring 10 Linen Cloth and 6 Dalaran Mana Gems to Josef Gregorian.";
       ["req"] = 15;
    };
@@ -31151,12 +37401,18 @@ addon.questsDB = {
    [9108] = {
       ["name"] = "Plagueheart Gloves";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Mataus the Wrathcaster at Light's Hope Chapel in the Eastern Plaguelands will make Plagueheart Gloves if you bring him the following: 1 Desecrated Gloves, 8 Wartorn Cloth Scraps and 4 Mooncloth.";
       ["req"] = 60;
    };
    [7922] = {
       ["name"] = "Mark of Honor";
       ["prev"] = 7876;
+      ["prequests"] = {
+         [1] = 7876;
+      };
       ["objective"] = "You obtained a Warsong Mark of Honor for your last task, talk to me again, and you gain your reward.";
       ["req"] = 50;
    };
@@ -31178,10 +37434,13 @@ addon.questsDB = {
       ["req"] = 10;
    };
    [1150] = {
-      ["name"] = "Test of Endurance";
-      ["prev"] = 1149;
       ["repgain"] = {
          [81] = 250;
+      };
+      ["name"] = "Test of Endurance";
+      ["prev"] = 1149;
+      ["prequests"] = {
+         [1] = 1149;
       };
       ["next"] = 1151;
       ["objective"] = "Bring Grenka's Claw to Dorn Plainstalker in Thousand Needles.";
@@ -31197,6 +37456,11 @@ addon.questsDB = {
       ["req"] = 40;
    };
    [4321] = {
+      ["prequests"] = {
+         [1] = 4287;
+         [2] = 4288;
+         [3] = 4285;
+      };
       ["objective"] = "Speak with J.D. Collie in a moment.";
       ["name"] = "Making Sense of It";
       ["req"] = 47;
@@ -31204,6 +37468,9 @@ addon.questsDB = {
    [2204] = {
       ["name"] = "Restoring the Necklace";
       ["prev"] = 2201;
+      ["prequests"] = {
+         [1] = 2201;
+      };
       ["objective"] = " and Uldaman is probably the best place for it";
       ["req"] = 37;
    };
@@ -31218,6 +37485,9 @@ addon.questsDB = {
    [8050] = {
       ["name"] = "The Eye of Zuldazar";
       ["prev"] = 8049;
+      ["prequests"] = {
+         [1] = 8049;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
@@ -31227,10 +37497,13 @@ addon.questsDB = {
       ["req"] = 60;
    };
    [3221] = {
-      ["name"] = "Speak with Renferrel";
-      ["prev"] = 449;
       ["repgain"] = {
          [68] = 10;
+      };
+      ["name"] = "Speak with Renferrel";
+      ["prev"] = 449;
+      ["prequests"] = {
+         [1] = 449;
       };
       ["next"] = 1359;
       ["objective"] = "Speak with Apothecary Renferrel at the Sepulcher.";
@@ -31268,6 +37541,9 @@ addon.questsDB = {
    [8146] = {
       ["name"] = "The Maelstrom's Tendril";
       ["prev"] = 8145;
+      ["prequests"] = {
+         [1] = 8145;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
@@ -31277,10 +37553,13 @@ addon.questsDB = {
       ["req"] = 20;
    };
    [3261] = {
-      ["name"] = "Jorn Skyseer";
-      ["prev"] = 905;
       ["repgain"] = {
          [81] = 10;
+      };
+      ["name"] = "Jorn Skyseer";
+      ["prev"] = 905;
+      ["prequests"] = {
+         [1] = 905;
       };
       ["next"] = 882;
       ["objective"] = "Speak with Jorn Skyseer at Camp Taurajo.";
@@ -31307,6 +37586,9 @@ addon.questsDB = {
    [4147] = {
       ["name"] = "Marvon's Workshop";
       ["prev"] = 4145;
+      ["prequests"] = {
+         [1] = 4145;
+      };
       ["next"] = 4146;
       ["objective"] = "Travel to Marvon Rivetseeker's workshop in Ratchet.";
       ["req"] = 47;
@@ -31314,6 +37596,9 @@ addon.questsDB = {
    [8324] = {
       ["name"] = "Still Believing";
       ["prev"] = 8323;
+      ["prequests"] = {
+         [1] = 8323;
+      };
       ["objective"] = "";
       ["req"] = 54;
    };
@@ -31325,6 +37610,9 @@ addon.questsDB = {
    [8388] = {
       ["name"] = "For Great Honor";
       ["prev"] = 8367;
+      ["prequests"] = {
+         [1] = 8367;
+      };
       ["repgain"] = {
          [510] = 100;
          [729] = 150;
@@ -31357,6 +37645,9 @@ addon.questsDB = {
    [8516] = {
       ["name"] = "The Alliance Needs More Thick Leather!";
       ["prev"] = 8515;
+      ["prequests"] = {
+         [1] = 8515;
+      };
       ["objective"] = "Bring 10 thick leather to Marta Finespindle at the airfield in Dun Morogh.";
       ["req"] = 1;
    };
@@ -31373,6 +37664,9 @@ addon.questsDB = {
    [4291] = {
       ["name"] = "The Scent of Lar'korwi";
       ["prev"] = 4290;
+      ["prequests"] = {
+         [1] = 4290;
+      };
       ["next"] = 4292;
       ["objective"] = "Bring 2 Ravasaur Pheromone Glands to Torwa Pathfinder near the entrance to Un'Goro Crater.";
       ["req"] = 48;
@@ -31380,6 +37674,9 @@ addon.questsDB = {
    [8612] = {
       ["name"] = "The Horde Needs More Lean Wolf Steaks!";
       ["prev"] = 8611;
+      ["prequests"] = {
+         [1] = 8611;
+      };
       ["objective"] = "Bring 20 Lean Wolf Steaks to Bloodguard Rawtar at the Valley of Spirits in Orgrimmar.";
       ["req"] = 1;
    };
@@ -31427,6 +37724,9 @@ addon.questsDB = {
    [8836] = {
       ["name"] = "One Commendation Signet";
       ["prev"] = 8813;
+      ["prequests"] = {
+         [1] = 8813;
+      };
       ["objective"] = "";
       ["req"] = 1;
    };
@@ -31441,9 +37741,12 @@ addon.questsDB = {
       ["req"] = 43;
    };
    [8932] = {
+      ["followup"] = 8929;
       ["name"] = "Just Compensation";
       ["prev"] = 8977;
-      ["followup"] = 8929;
+      ["prequests"] = {
+         [1] = 8977;
+      };
       ["next"] = 8929;
       ["objective"] = "Bring a Magister's Belt and a set of Magister's Gloves to Deliana in Ironforge.$B";
       ["req"] = 58;
@@ -31456,18 +37759,27 @@ addon.questsDB = {
    [8996] = {
       ["name"] = "Return to Bodley";
       ["prev"] = 8995;
+      ["prequests"] = {
+         [1] = 8995;
+      };
       ["objective"] = "Return to Bodley inside Blackrock Mountain and give him the Brazier of Beckoning.";
       ["req"] = 58;
    };
    [9028] = {
       ["name"] = "The Source Revealed";
       ["prev"] = 9027;
+      ["prequests"] = {
+         [1] = 9027;
+      };
       ["objective"] = "Find Apothecary Staffron Lerent in the Hillsbrad Foothills behind Ravenholdt Manor.";
       ["req"] = 53;
    };
    [9060] = {
       ["name"] = "Cryptstalker Girdle";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -31477,6 +37789,9 @@ addon.questsDB = {
    [9092] = {
       ["name"] = "Dreamwalker Girdle";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -31494,6 +37809,9 @@ addon.questsDB = {
    [1651] = {
       ["name"] = "The Tome of Valor";
       ["prev"] = 1650;
+      ["prequests"] = {
+         [1] = 1650;
+      };
       ["next"] = 1652;
       ["objective"] = "Defend Daphne Stilwell from the Defias attack.$B$BNeither of your spirits must be released from their mortal coils if you wish to succeed.$B$BAfter you are successful, speak to Daphne Stilwell again.";
       ["req"] = 20;
@@ -31523,6 +37841,9 @@ addon.questsDB = {
    [1667] = {
       ["name"] = "Dead-tooth Jack";
       ["prev"] = 1666;
+      ["prequests"] = {
+         [1] = 1666;
+      };
       ["reward"] = {
          [1] = 6979;
          [2] = 6983;
@@ -31543,6 +37864,9 @@ addon.questsDB = {
    [2338] = {
       ["name"] = "Translating the Journal";
       ["prev"] = 2318;
+      ["prequests"] = {
+         [1] = 2318;
+      };
       ["repgain"] = {
          [530] = 10;
       };
@@ -31552,6 +37876,9 @@ addon.questsDB = {
    [4721] = {
       ["name"] = "Wild Guardians";
       ["prev"] = 4741;
+      ["prequests"] = {
+         [1] = 4741;
+      };
       ["repgain"] = {
          [76] = 250;
       };
@@ -31566,6 +37893,9 @@ addon.questsDB = {
    [4723] = {
       ["name"] = "Beached Sea Creature";
       ["prev"] = 4681;
+      ["prequests"] = {
+         [1] = 4681;
+      };
       ["repgain"] = {
          [69] = 75;
       };
@@ -31588,6 +37918,9 @@ addon.questsDB = {
    [4771] = {
       ["name"] = "Dawn's Gambit";
       ["prev"] = 5531;
+      ["prequests"] = {
+         [1] = 5531;
+      };
       ["reward"] = {
          [1] = 15853;
          [2] = 15854;
@@ -31598,6 +37931,9 @@ addon.questsDB = {
    [4787] = {
       ["name"] = "The Ancient Egg";
       ["prev"] = 3527;
+      ["prequests"] = {
+         [1] = 3527;
+      };
       ["next"] = 3528;
       ["objective"] = "Bring the Ancient Egg to Yeh'kinya in Tanaris.";
       ["req"] = 40;
@@ -31605,12 +37941,18 @@ addon.questsDB = {
    [4803] = {
       ["name"] = "Shardtooth E'ko";
       ["prev"] = 975;
+      ["prequests"] = {
+         [1] = 975;
+      };
       ["objective"] = "";
       ["req"] = 55;
    };
    [3481] = {
       ["name"] = "Trinkets...";
       ["prev"] = 3463;
+      ["prequests"] = {
+         [1] = 3463;
+      };
       ["objective"] = "Open the chest.";
       ["req"] = 40;
    };
@@ -31646,15 +37988,18 @@ addon.questsDB = {
    };
    [4883] = {
       ["name"] = "Guarding Secrets";
-      ["prev"] = 4882;
+      ["objective"] = "Take the Blue-feathered Necklace to Nara Wildmane.";
       ["repgain"] = {
          [81] = 250;
       };
+      ["prequests"] = {
+         [1] = 4882;
+      };
+      ["prev"] = 4882;
       ["reward"] = {
          [1] = 15796;
          [2] = 15797;
       };
-      ["objective"] = "Take the Blue-feathered Necklace to Nara Wildmane.";
       ["req"] = 52;
    };
    [3513] = {
@@ -31669,14 +38014,20 @@ addon.questsDB = {
    [2458] = {
       ["name"] = "Deep Cover";
       ["prev"] = 2460;
+      ["prequests"] = {
+         [1] = 2460;
+      };
       ["objective"] = "Travel to the Venture Co. Tower, north of the Sludge Fen and contact the Shattered Hand's covert operative, Taskmaster Fizzule.$B$BWhen the tower is in sight, use the Flare Gun to signal your arrival to Taskmaster Fizzule. Fire off TWO flares, then approach Taskmaster Fizzule and perform the Shattered /Salute.$B$BThese actions must be performed in the correct order, as Fizzule will attack and terminate any person he does not recognize.";
       ["req"] = 20;
    };
    [3521] = {
-      ["name"] = "Iverron's Antidote";
-      ["prev"] = 3519;
       ["repgain"] = {
          [69] = 250;
+      };
+      ["name"] = "Iverron's Antidote";
+      ["prev"] = 3519;
+      ["prequests"] = {
+         [1] = 3519;
       };
       ["next"] = 3522;
       ["objective"] = "Collect 7 Hyacinth Mushrooms, 4 Moonpetal Lilies, and 1 Webwood Ichor for Dirania Silveshine in Shadowglen.";
@@ -31685,6 +38036,9 @@ addon.questsDB = {
    [1267] = {
       ["name"] = "The Missing Diplomat";
       ["prev"] = 1324;
+      ["prequests"] = {
+         [1] = 1324;
+      };
       ["objective"] = "Speak to Jaina Proudmore in Dustwallow Swamp.";
       ["req"] = 28;
    };
@@ -31696,15 +38050,21 @@ addon.questsDB = {
    [3541] = {
       ["name"] = "Delivery to Jes'rimon";
       ["prev"] = 3517;
+      ["prequests"] = {
+         [1] = 3517;
+      };
       ["next"] = 3563;
       ["objective"] = "Bring the Tablet of Jin'yael to Jes'rimon in Orgrimmar.";
       ["req"] = 45;
    };
    [2498] = {
-      ["name"] = "Return to Denalan";
-      ["prev"] = 923;
       ["repgain"] = {
          [69] = 10;
+      };
+      ["name"] = "Return to Denalan";
+      ["prev"] = 923;
+      ["prequests"] = {
+         [1] = 923;
       };
       ["next"] = 2499;
       ["objective"] = "Rellian Greenspyre wants you to speak with Denalan at Lake Al'Ameth.";
@@ -31722,6 +38082,9 @@ addon.questsDB = {
    [5081] = {
       ["name"] = "Maxwell's Mission";
       ["prev"] = 5002;
+      ["prequests"] = {
+         [1] = 5002;
+      };
       ["reward"] = {
          [1] = 13958;
          [2] = 13959;
@@ -31735,6 +38098,9 @@ addon.questsDB = {
    [5043] = {
       ["name"] = "Agamaggan's Agility";
       ["prev"] = 5052;
+      ["prequests"] = {
+         [1] = 5052;
+      };
       ["objective"] = "";
       ["req"] = 14;
    };
@@ -31746,6 +38112,9 @@ addon.questsDB = {
    [1791] = {
       ["name"] = "The Windwatcher";
       ["prev"] = 1719;
+      ["prequests"] = {
+         [1] = 1719;
+      };
       ["next"] = 1712;
       ["objective"] = "Speak with Bath'rah the Windwatcher.";
       ["req"] = 30;
@@ -31759,21 +38128,27 @@ addon.questsDB = {
    };
    [5121] = {
       ["name"] = "High Chief Winterfall";
-      ["prev"] = 5087;
+      ["objective"] = "Donova Snowden in Winterspring wants you to defeat High Chief Winterfall.";
       ["repgain"] = {
          [577] = 250;
       };
+      ["prequests"] = {
+         [1] = 5087;
+      };
+      ["prev"] = 5087;
       ["reward"] = {
          [1] = 15784;
          [2] = 15786;
          [3] = 15787;
       };
-      ["objective"] = "Donova Snowden in Winterspring wants you to defeat High Chief Winterfall.";
       ["req"] = 52;
    };
    [5123] = {
       ["name"] = "The Final Piece";
       ["prev"] = 5087;
+      ["prequests"] = {
+         [1] = 5087;
+      };
       ["repgain"] = {
          [577] = 75;
       };
@@ -31783,6 +38158,9 @@ addon.questsDB = {
    [5161] = {
       ["name"] = "Wrath of the Blue Flight";
       ["prev"] = 5160;
+      ["prequests"] = {
+         [1] = 5160;
+      };
       ["next"] = 5162;
       ["objective"] = "Speak with Haleh if you wish to continue.";
       ["req"] = 57;
@@ -31796,12 +38174,18 @@ addon.questsDB = {
    [2586] = {
       ["name"] = "Salt of the Scorpok";
       ["prev"] = 2585;
+      ["prequests"] = {
+         [1] = 2585;
+      };
       ["objective"] = "Bring three Scorpok Pincers, two Vulture Gizzards, and one Blasted Boar Lung to Bloodmage Drazial.";
       ["req"] = 45;
    };
    [3621] = {
       ["name"] = "The Formation of Felbane";
       ["prev"] = 3602;
+      ["prequests"] = {
+         [1] = 3602;
+      };
       ["next"] = 3625;
       ["objective"] = "Take the Shipment to Galvan the Ancient in Stranglethorn Vale.";
       ["req"] = 45;
@@ -31809,29 +38193,38 @@ addon.questsDB = {
    [2602] = {
       ["name"] = "Infallible Mind";
       ["prev"] = 2601;
+      ["prequests"] = {
+         [1] = 2601;
+      };
       ["objective"] = "Bring ten Basilisk Brains and two Vulture Gizzards to Bloodmage Lynnore.";
       ["req"] = 45;
    };
    [5219] = {
+      ["followup"] = 5220;
       ["repgain"] = {
          [469] = 250;
          [529] = 250;
       };
       ["name"] = "Target: Dalson's Tears";
       ["prev"] = 5217;
-      ["followup"] = 5220;
+      ["prequests"] = {
+         [1] = 5217;
+      };
       ["next"] = 5220;
       ["objective"] = "Go to Dalson's Tears in Western Plaguelands to locate and defeat the Cauldron Lord present there, and use its key to gain access to the cauldron.  You must have the Empty Dalson's Tears Bottle with you to secure a sample of the poisons used inside the cauldron.";
       ["req"] = 50;
    };
    [5235] = {
+      ["followup"] = 5227;
       ["repgain"] = {
          [67] = 250;
          [529] = 250;
       };
       ["name"] = "Target: Gahrron's Withering";
       ["prev"] = 5234;
-      ["followup"] = 5227;
+      ["prequests"] = {
+         [1] = 5234;
+      };
       ["next"] = 5236;
       ["objective"] = "Go to Gahrron's Withering in Western Plaguelands to locate and defeat the Cauldron Lord present there, and use its key to gain access to the cauldron.  You must have the Empty Gahrron's Withering Bottle with you to secure a sample of the poisons used inside the cauldron.";
       ["req"] = 50;
@@ -31866,6 +38259,9 @@ addon.questsDB = {
    [3114] = {
       ["name"] = "Glyphic Memorandum";
       ["prev"] = 179;
+      ["prequests"] = {
+         [1] = 179;
+      };
       ["repgain"] = {
          [54] = 75;
       };
@@ -31909,6 +38305,9 @@ addon.questsDB = {
    [5537] = {
       ["name"] = "Skeletal Fragments";
       ["prev"] = 5533;
+      ["prequests"] = {
+         [1] = 5533;
+      };
       ["next"] = 5538;
       ["objective"] = "Bring 15 Skeletal Fragments to Alchemist Arbington at Chillwind Point, Western Plaguelands.";
       ["req"] = 55;
@@ -31939,6 +38338,9 @@ addon.questsDB = {
    [2608] = {
       ["name"] = "The Touch of Zanzil";
       ["prev"] = 2607;
+      ["prequests"] = {
+         [1] = 2607;
+      };
       ["followup"] = 2609;
       ["objective"] = "/Lay down to be examined by Doc Mixilpixil. How can he find the cure if he can't find the cause?$B";
       ["req"] = 20;
@@ -31946,6 +38348,9 @@ addon.questsDB = {
    [2746] = {
       ["name"] = "Items of Some Consequence";
       ["prev"] = 2745;
+      ["prequests"] = {
+         [1] = 2745;
+      };
       ["repgain"] = {
          [72] = 25;
       };
@@ -31955,12 +38360,18 @@ addon.questsDB = {
    [2754] = {
       ["name"] = "Horns of Frenzy";
       ["prev"] = 2753;
+      ["prequests"] = {
+         [1] = 2753;
+      };
       ["objective"] = "Bring two Solid Iron Mauls, two Silvered Bronze Boots, and two Silvered Bronze Gauntlets to Orokk Omosh in Orgrimmar.";
       ["req"] = 32;
    };
    [2762] = {
       ["name"] = "The Great Silver Deceiver";
       ["prev"] = 2760;
+      ["prequests"] = {
+         [1] = 2760;
+      };
       ["followup"] = 2765;
       ["objective"] = "Bring forty Mithril Bars and five Truesilver Bars to Galvan the Ancient in Stranglethorn.";
       ["req"] = 40;
@@ -31972,20 +38383,26 @@ addon.questsDB = {
    };
    [3905] = {
       ["name"] = "Grape Manifest";
-      ["prev"] = 3904;
+      ["objective"] = "Bring the Grape Manifest to Brother Neals in Northshire Abbey.";
       ["repgain"] = {
          [72] = 250;
       };
+      ["prequests"] = {
+         [1] = 3904;
+      };
+      ["prev"] = 3904;
       ["reward"] = {
          [1] = 11475;
          [2] = 2690;
       };
-      ["objective"] = "Bring the Grape Manifest to Brother Neals in Northshire Abbey.";
       ["req"] = 2;
    };
    [3909] = {
       ["name"] = "The Videre Elixir";
       ["prev"] = 3908;
+      ["prequests"] = {
+         [1] = 3908;
+      };
       ["next"] = 3912;
       ["objective"] = "Seek out Gregan Brewspewer in northern Feralas. From him, learn how you may acquire the Videre Elixir, then return to Donova Snowden in Winterspring.";
       ["req"] = 47;
@@ -31993,11 +38410,19 @@ addon.questsDB = {
    [3941] = {
       ["name"] = "A Gnome's Assistance";
       ["prev"] = 3914;
+      ["prequests"] = {
+         [1] = 3914;
+      };
       ["next"] = 3942;
       ["objective"] = "Find J.D. Collie in the cave at Marshal's Refuge.";
       ["req"] = 47;
    };
    [9033] = {
+      ["prequests"] = {
+         [1] = 9121;
+         [2] = 9123;
+         [3] = 9122;
+      };
       ["objective"] = "Commander Eligor Dawnbringer at Light's Hope Chapel in the Eastern Plaguelands wants you to slay 5 Living Monstrosities, 5 Stoneskin Gargoyles, 8 Deathknight Captains and 3 Venom Stalkers.";
       ["name"] = "Echoes of War";
       ["req"] = 60;
@@ -32005,6 +38430,9 @@ addon.questsDB = {
    [3961] = {
       ["name"] = "Linken's Adventure";
       ["prev"] = 4005;
+      ["prequests"] = {
+         [1] = 4005;
+      };
       ["next"] = 3962;
       ["objective"] = "Take the Silver Totem of Aquementas to Linken in Marshal's Refuge.";
       ["req"] = 47;
@@ -32041,6 +38469,9 @@ addon.questsDB = {
    [2850] = {
       ["name"] = "Wild Leather Helmet";
       ["prev"] = 2847;
+      ["prequests"] = {
+         [1] = 2847;
+      };
       ["followup"] = 2853;
       ["objective"] = "Bring 2 Nightscape Tunics, 2 Nightscape Headbands, and a Wildvine to Pratt McGrubben in Feathermoon Stronghold.";
       ["req"] = 30;
@@ -32048,6 +38479,9 @@ addon.questsDB = {
    [2858] = {
       ["name"] = "Wild Leather Boots";
       ["prev"] = 2854;
+      ["prequests"] = {
+         [1] = 2854;
+      };
       ["followup"] = 2860;
       ["objective"] = "Bring 2 Nightscape Pants, 2 Nightscape Boots, and 2 Wildvines to Jangdor Swiftstrider in Camp Mojache.";
       ["req"] = 30;
@@ -32064,6 +38498,9 @@ addon.questsDB = {
    [2874] = {
       ["name"] = "Deliver to MacKinley";
       ["prev"] = 2873;
+      ["prequests"] = {
+         [1] = 2873;
+      };
       ["reward"] = {
          [1] = 9636;
          [2] = 9637;
@@ -32086,10 +38523,13 @@ addon.questsDB = {
       ["req"] = 15;
    };
    [6129] = {
-      ["name"] = "Curing the Sick";
-      ["prev"] = 6128;
       ["repgain"] = {
          [609] = 75;
+      };
+      ["name"] = "Curing the Sick";
+      ["prev"] = 6128;
+      ["prequests"] = {
+         [1] = 6128;
       };
       ["next"] = 6130;
       ["objective"] = "Use the Curative Animal Salve on 10 Sickly Gazelles that are located throughout the northern part of the Barrens; doing so should cure them.  Sickly Gazelles have been reported north of the east-west road that runs through the Crossroads.";
@@ -32098,6 +38538,9 @@ addon.questsDB = {
    [8292] = {
       ["name"] = "Talismans of Merit";
       ["prev"] = 8291;
+      ["prequests"] = {
+         [1] = 8291;
+      };
       ["objective"] = "You obtained a Silverwing Talisman of Merit for your last task, talk to me again, and you gain your reward.";
       ["req"] = 60;
    };
@@ -32126,25 +38569,35 @@ addon.questsDB = {
    };
    [2938] = {
       ["name"] = "Venom to the Undercity";
-      ["prev"] = 2937;
+      ["objective"] = "Bring Faranell's Parcel to Master Apothecary Faranell in the Undercity.";
       ["repgain"] = {
          [68] = 500;
       };
+      ["prequests"] = {
+         [1] = 2937;
+      };
+      ["prev"] = 2937;
       ["reward"] = {
          [1] = 9649;
          [2] = 9650;
          [3] = 10686;
       };
-      ["objective"] = "Bring Faranell's Parcel to Master Apothecary Faranell in the Undercity.";
       ["req"] = 40;
    };
    [5891] = {
       ["name"] = "Salve via Disenchanting";
       ["prev"] = 5886;
+      ["prequests"] = {
+         [1] = 5886;
+      };
       ["objective"] = "";
       ["req"] = 48;
    };
    [2954] = {
+      ["prequests"] = {
+         [1] = 2946;
+         [2] = 2966;
+      };
       ["objective"] = " I will not allow for entry into the Uldum compound.\"$B$BThe appearance of the Stone Watcher of Norgannon must be the reaction that was hoped for in sending you out to the Tanaris desert with the platinum discs.  As instructed";
       ["name"] = "The Stone Watcher";
       ["req"] = 45;
@@ -32158,6 +38611,9 @@ addon.questsDB = {
    [2970] = {
       ["name"] = "Doling Justice";
       ["prev"] = 2969;
+      ["prequests"] = {
+         [1] = 2969;
+      };
       ["repgain"] = {
          [69] = 150;
       };
@@ -32183,6 +38639,9 @@ addon.questsDB = {
    [2994] = {
       ["name"] = "Saving Sharpbeak";
       ["prev"] = 2993;
+      ["prequests"] = {
+         [1] = 2993;
+      };
       ["reward"] = {
          [1] = 9651;
          [2] = 9652;
@@ -32193,6 +38652,9 @@ addon.questsDB = {
    [3002] = {
       ["name"] = "The Gordunni Orb";
       ["prev"] = 2979;
+      ["prequests"] = {
+         [1] = 2979;
+      };
       ["repgain"] = {
          [530] = 75;
       };
@@ -32219,6 +38681,9 @@ addon.questsDB = {
    [4386] = {
       ["name"] = "Crystal Spire";
       ["prev"] = 4321;
+      ["prequests"] = {
+         [1] = 4321;
+      };
       ["objective"] = "";
       ["req"] = 47;
    };
@@ -32249,14 +38714,20 @@ addon.questsDB = {
    [8928] = {
       ["name"] = "A Shifty Merchant";
       ["prev"] = 8925;
+      ["prequests"] = {
+         [1] = 8925;
+      };
       ["objective"] = "Search for an imp inside a cave at the entrance of Darkwhisper Gorge in southern Winterspring, purchase a Fel Elemental Rod and return to Mux Manascrambler in Gadgetzan.";
       ["req"] = 58;
    };
    [6147] = {
-      ["name"] = "Return to Nathanos";
-      ["prev"] = 6146;
       ["repgain"] = {
          [68] = 75;
+      };
+      ["name"] = "Return to Nathanos";
+      ["prev"] = 6146;
+      ["prequests"] = {
+         [1] = 6146;
       };
       ["next"] = 6148;
       ["objective"] = "Return to Nathanos Blightcaller with the new information.$B";
@@ -32278,6 +38749,9 @@ addon.questsDB = {
    [3098] = {
       ["name"] = "Glyphic Scroll";
       ["prev"] = 364;
+      ["prequests"] = {
+         [1] = 364;
+      };
       ["repgain"] = {
          [68] = 75;
       };
@@ -32287,6 +38761,9 @@ addon.questsDB = {
    [3106] = {
       ["name"] = "Simple Rune";
       ["prev"] = 179;
+      ["prequests"] = {
+         [1] = 179;
+      };
       ["repgain"] = {
          [47] = 75;
       };
@@ -32301,6 +38778,9 @@ addon.questsDB = {
    [3122] = {
       ["name"] = "Return to Witch Doctor Uzer'i";
       ["prev"] = 3121;
+      ["prequests"] = {
+         [1] = 3121;
+      };
       ["repgain"] = {
          [530] = 25;
       };
@@ -32310,6 +38790,10 @@ addon.questsDB = {
    [8421] = {
       ["name"] = "The Wrong Stuff";
       ["next"] = 8422;
+      ["prequests"] = {
+         [1] = 8419;
+         [2] = 8420;
+      };
       ["objective"] = "Bring 10 Rotting Wood and 4 Bloodvenom Essence to Impsy in Felwood.";
       ["req"] = 50;
    };
@@ -32336,6 +38820,9 @@ addon.questsDB = {
    [8581] = {
       ["name"] = "The Horde Needs More Firebloom!";
       ["prev"] = 8580;
+      ["prequests"] = {
+         [1] = 8580;
+      };
       ["objective"] = "Bring 20 Firebloom to Batrider Pele'keiki at the Valley of Spirits in Orgrimmar.";
       ["req"] = 1;
    };
@@ -32364,20 +38851,26 @@ addon.questsDB = {
       ["req"] = 10;
    };
    [6403] = {
-      ["name"] = "The Great Masquerade";
-      ["prev"] = 6402;
       ["repgain"] = {
          [469] = 125;
+      };
+      ["name"] = "The Great Masquerade";
+      ["prev"] = 6402;
+      ["prequests"] = {
+         [1] = 6402;
       };
       ["next"] = 6501;
       ["objective"] = "Follow Reginald Windsor through Stormwind. Protect him from harm!";
       ["req"] = 50;
    };
    [8741] = {
-      ["name"] = "The Champion Returns";
-      ["prev"] = 8736;
       ["repgain"] = {
          [910] = 250;
+      };
+      ["name"] = "The Champion Returns";
+      ["prev"] = 8736;
+      ["prequests"] = {
+         [1] = 8736;
       };
       ["followup"] = 8742;
       ["objective"] = "Take the Green Scepter Shard to Anachronos at the Caverns of Time in Tanaris.$B";
@@ -32399,6 +38892,9 @@ addon.questsDB = {
    [8837] = {
       ["name"] = "Ten Commendation Signets";
       ["prev"] = 8821;
+      ["prequests"] = {
+         [1] = 8821;
+      };
       ["objective"] = "";
       ["req"] = 1;
    };
@@ -32413,17 +38909,23 @@ addon.questsDB = {
       ["req"] = 57;
    };
    [8933] = {
+      ["followup"] = 8929;
       ["name"] = "Just Compensation";
       ["prev"] = 8977;
-      ["followup"] = 8929;
+      ["prequests"] = {
+         [1] = 8977;
+      };
       ["next"] = 8929;
       ["objective"] = "Bring a Lightforge Belt and a set of Lightforge Gauntlets to Deliana in Ironforge.$B";
       ["req"] = 58;
    };
    [8965] = {
+      ["followup"] = 8986;
       ["name"] = "Components of Importance";
       ["prev"] = 8961;
-      ["followup"] = 8986;
+      ["prequests"] = {
+         [1] = 8961;
+      };
       ["next"] = 8969;
       ["objective"] = "Obtain Soul Ashes of the Banished and return them to Bodley inside Blackrock Mountain.";
       ["req"] = 58;
@@ -32436,6 +38938,9 @@ addon.questsDB = {
    [6563] = {
       ["name"] = "The Essence of Aku'Mai";
       ["prev"] = 6562;
+      ["prequests"] = {
+         [1] = 6562;
+      };
       ["repgain"] = {
          [530] = 250;
       };
@@ -32445,6 +38950,9 @@ addon.questsDB = {
    [9061] = {
       ["name"] = "Cryptstalker Wristguards";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -32454,6 +38962,9 @@ addon.questsDB = {
    [9093] = {
       ["name"] = "Dreamwalker Wristguards";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -32463,6 +38974,9 @@ addon.questsDB = {
    [9125] = {
       ["name"] = "Crypt Fiend Parts";
       ["prev"] = 9124;
+      ["prequests"] = {
+         [1] = 9124;
+      };
       ["repgain"] = {
          [529] = 10;
       };
@@ -32472,6 +38986,9 @@ addon.questsDB = {
    [6627] = {
       ["name"] = "Test of Lore";
       ["prev"] = 1154;
+      ["prequests"] = {
+         [1] = 1154;
+      };
       ["next"] = 1159;
       ["objective"] = "Answer Braug Dimspirit's question successfully and then speak to him again. He will remain in Stonetalon Mountains when you are ready.";
       ["req"] = 25;
@@ -32500,6 +39017,9 @@ addon.questsDB = {
    [2138] = {
       ["name"] = "Cleansing of the Infected";
       ["prev"] = 2118;
+      ["prequests"] = {
+         [1] = 2118;
+      };
       ["repgain"] = {
          [69] = 250;
       };
@@ -32530,33 +39050,42 @@ addon.questsDB = {
    };
    [3370] = {
       ["name"] = "In Nightmares";
-      ["prev"] = 6981;
+      ["objective"] = "Bring the Nightmare Shard to Mathrengyl Bearwalker in Darnassus.";
       ["repgain"] = {
          [69] = 250;
       };
+      ["prequests"] = {
+         [1] = 6981;
+      };
+      ["prev"] = 6981;
       ["reward"] = {
          [1] = 10657;
          [2] = 10658;
       };
-      ["objective"] = "Bring the Nightmare Shard to Mathrengyl Bearwalker in Darnassus.";
       ["req"] = 15;
    };
    [3378] = {
       ["name"] = "Prayer to Elune";
-      ["prev"] = 3377;
+      ["objective"] = "Find the Prayer to Elune and take it to Astarii Starseeker in Darnassus.$B";
       ["repgain"] = {
          [69] = 350;
       };
+      ["prequests"] = {
+         [1] = 3377;
+      };
+      ["prev"] = 3377;
       ["reward"] = {
          [1] = 10745;
          [2] = 10746;
       };
-      ["objective"] = "Find the Prayer to Elune and take it to Astarii Starseeker in Darnassus.$B";
       ["req"] = 40;
    };
    [4722] = {
       ["name"] = "Beached Sea Turtle";
       ["prev"] = 4681;
+      ["prequests"] = {
+         [1] = 4681;
+      };
       ["repgain"] = {
          [69] = 75;
       };
@@ -32566,6 +39095,9 @@ addon.questsDB = {
    [2382] = {
       ["name"] = "Wrenix of Ratchet";
       ["prev"] = 2379;
+      ["prequests"] = {
+         [1] = 2379;
+      };
       ["next"] = 2381;
       ["objective"] = "Travel to Ratchet and speak with Wrenix the Wretched.";
       ["req"] = 16;
@@ -32573,12 +39105,18 @@ addon.questsDB = {
    [3402] = {
       ["name"] = "The Undermarket";
       ["prev"] = 3385;
+      ["prequests"] = {
+         [1] = 3385;
+      };
       ["objective"] = "Speak with Vizzklick in Gadgetzan.$B";
       ["req"] = 43;
    };
    [6001] = {
       ["name"] = "Body and Heart";
       ["prev"] = 5931;
+      ["prequests"] = {
+         [1] = 5931;
+      };
       ["repgain"] = {
          [609] = 250;
       };
@@ -32608,6 +39146,9 @@ addon.questsDB = {
    [3442] = {
       ["name"] = "The Flawless Flame";
       ["prev"] = 3441;
+      ["prequests"] = {
+         [1] = 3441;
+      };
       ["next"] = 3443;
       ["objective"] = "Collect 4 Hearts of Flame and 4 globes of Golem Oil and return the items to Kalaran Windblade.";
       ["req"] = 40;
@@ -32615,6 +39156,9 @@ addon.questsDB = {
    [3450] = {
       ["name"] = "An Easy Pickup";
       ["prev"] = 3448;
+      ["prequests"] = {
+         [1] = 3448;
+      };
       ["next"] = 3451;
       ["objective"] = "Speak to Xiggs Fuselighter in Ironforge.";
       ["req"] = 45;
@@ -32622,6 +39166,9 @@ addon.questsDB = {
    [9109] = {
       ["name"] = "Plagueheart Belt";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["repgain"] = {
          [529] = 200;
       };
@@ -32639,6 +39186,9 @@ addon.questsDB = {
    [2522] = {
       ["name"] = "Kum'isha's Endeavors";
       ["prev"] = 2521;
+      ["prequests"] = {
+         [1] = 2521;
+      };
       ["objective"] = "Find and return a Flawless Draenethyst Sphere to Kum'isha the Collector.";
       ["req"] = 45;
    };
@@ -32655,20 +39205,26 @@ addon.questsDB = {
       ["req"] = 15;
    };
    [2966] = {
-      ["name"] = "Seeing What Happens";
-      ["prev"] = 2965;
       ["repgain"] = {
          [81] = 250;
+      };
+      ["name"] = "Seeing What Happens";
+      ["prev"] = 2965;
+      ["prequests"] = {
+         [1] = 2965;
       };
       ["followup"] = 2954;
       ["objective"] = "Bring the miniature platinum discs to the gates of Uldum in Tanaris and look for clues as to the connection between the two.";
       ["req"] = 45;
    };
    [3506] = {
-      ["name"] = "Betrayed";
-      ["prev"] = 3505;
       ["repgain"] = {
          [76] = 150;
+      };
+      ["name"] = "Betrayed";
+      ["prev"] = 3505;
+      ["prequests"] = {
+         [1] = 3505;
       };
       ["next"] = 3507;
       ["objective"] = "Destroy the arcane focusing crystal tied to Magus Rimtori and then slay her. Afterwards, take the Head of Magus Rimtori to Ag'tor Bloodfist in Azshara.";
@@ -32676,20 +39232,26 @@ addon.questsDB = {
    };
    [3514] = {
       ["name"] = "Horde Presence";
-      ["prev"] = 3513;
+      ["objective"] = "Kill the leader of the Talon Den, Rynthariel the Keymaster.";
       ["repgain"] = {
          [76] = 350;
       };
+      ["prequests"] = {
+         [1] = 3513;
+      };
+      ["prev"] = 3513;
       ["reward"] = {
          [1] = 10653;
          [2] = 10654;
       };
-      ["objective"] = "Kill the leader of the Talon Den, Rynthariel the Keymaster.";
       ["req"] = 15;
    };
    [7043] = {
       ["name"] = "You're a Mean One...";
       ["prev"] = 7042;
+      ["prequests"] = {
+         [1] = 7042;
+      };
       ["next"] = 7045;
       ["objective"] = " $N.  Be c-c-careful though!  He is t-t-the one who turned me into this s-s-snowy mess!$B$BYou're g-g-gonna need some help in f-f-facing him.  I've seen him w-w-wander all around where the y-y-yeti are; he's s-s-surely here s-s-somewhere!  F-f-find the treats $N";
       ["req"] = 30;
@@ -32697,6 +39259,9 @@ addon.questsDB = {
    [8465] = {
       ["name"] = "Speak to Salfa";
       ["prev"] = 8461;
+      ["prequests"] = {
+         [1] = 8461;
+      };
       ["repgain"] = {
          [576] = 25;
       };
@@ -32711,6 +39276,9 @@ addon.questsDB = {
    [8379] = {
       ["name"] = "Armaments of War";
       ["prev"] = 8315;
+      ["prequests"] = {
+         [1] = 8315;
+      };
       ["repgain"] = {
          [609] = 250;
       };
@@ -32720,6 +39288,9 @@ addon.questsDB = {
    [5466] = {
       ["name"] = "The Lich, Ras Frostwhisper";
       ["prev"] = 5465;
+      ["prequests"] = {
+         [1] = 5465;
+      };
       ["reward"] = {
          [1] = 13982;
          [2] = 13986;
@@ -32740,6 +39311,9 @@ addon.questsDB = {
    [3570] = {
       ["name"] = "Seeping Corruption";
       ["prev"] = 3569;
+      ["prequests"] = {
+         [1] = 3569;
+      };
       ["repgain"] = {
          [68] = 250;
       };
@@ -32747,10 +39321,13 @@ addon.questsDB = {
       ["req"] = 45;
    };
    [5522] = {
-      ["name"] = "Leonid Barthalomew";
-      ["prev"] = 4734;
       ["repgain"] = {
          [529] = 75;
+      };
+      ["name"] = "Leonid Barthalomew";
+      ["prev"] = 4734;
+      ["prequests"] = {
+         [1] = 4734;
       };
       ["next"] = 5531;
       ["objective"] = "Bring the Frozen Eggs to Leonid Barthalomew in the Eastern Plaguelands.";
@@ -32759,6 +39336,9 @@ addon.questsDB = {
    [7171] = {
       ["name"] = "Legendary Heroes";
       ["prev"] = 7170;
+      ["prequests"] = {
+         [1] = 7170;
+      };
       ["objective"] = "";
       ["req"] = 51;
    };
@@ -32771,6 +39351,9 @@ addon.questsDB = {
    [3602] = {
       ["name"] = "Azsharite";
       ["prev"] = 3511;
+      ["prequests"] = {
+         [1] = 3511;
+      };
       ["objective"] = "Recover twenty Crystallized Azsharite from southern Azshara. You may use the Felhound to assist you in 'sniffing' out the location of cleverly hidden deposits.$B$BReturn to Loramus when the task is complete.$B";
       ["req"] = 45;
    };
@@ -32797,6 +39380,9 @@ addon.questsDB = {
    [3626] = {
       ["name"] = "Return to the Blasted Lands";
       ["prev"] = 3625;
+      ["prequests"] = {
+         [1] = 3625;
+      };
       ["next"] = 3627;
       ["objective"] = "Return to the Fallen Hero of the Horde.";
       ["req"] = 45;
@@ -32810,6 +39396,10 @@ addon.questsDB = {
    [3642] = {
       ["name"] = "The Pledge of Secrecy";
       ["next"] = 3643;
+      ["prequests"] = {
+         [1] = 3635;
+         [2] = 3637;
+      };
       ["objective"] = "If you agree to become a Gnome Engineer, then right-click on the Pledge of Secrecy and speak once more with Oglethrope Obnoticus in Booty bay.";
       ["req"] = 30;
    };
@@ -32831,10 +39421,13 @@ addon.questsDB = {
       ["req"] = 44;
    };
    [2902] = {
-      ["name"] = "Woodpaw Investigation";
-      ["prev"] = 2863;
       ["repgain"] = {
          [81] = 75;
+      };
+      ["name"] = "Woodpaw Investigation";
+      ["prev"] = 2863;
+      ["prequests"] = {
+         [1] = 2863;
       };
       ["next"] = 2903;
       ["objective"] = "Find the gnoll battle plans somewhere in the gnoll camps to the south of Camp Mojache.";
@@ -32858,6 +39451,9 @@ addon.questsDB = {
    [6568] = {
       ["name"] = "The Testament of Rexxar";
       ["prev"] = 6567;
+      ["prequests"] = {
+         [1] = 6567;
+      };
       ["next"] = 6569;
       ["objective"] = "Deliver Rexxar's Letter to Myranda the Hag in the Western Plaguelands.";
       ["req"] = 55;
@@ -32872,6 +39468,9 @@ addon.questsDB = {
    [7427] = {
       ["name"] = "Wanted: MORE DWARVES!";
       ["prev"] = 7401;
+      ["prequests"] = {
+         [1] = 7401;
+      };
       ["objective"] = "";
       ["req"] = 55;
    };
@@ -32884,6 +39483,9 @@ addon.questsDB = {
    [6082] = {
       ["name"] = "Taming the Beast";
       ["prev"] = 6083;
+      ["prequests"] = {
+         [1] = 6083;
+      };
       ["next"] = 6081;
       ["objective"] = "Use the Taming Rod to tame an Armored Scorpid. Practice your skills, then return to Thotar at Razor Hill.";
       ["req"] = 10;
@@ -32895,16 +39497,19 @@ addon.questsDB = {
    };
    [7491] = {
       ["name"] = "For All To See";
-      ["prev"] = 7490;
+      ["objective"] = "Seek out Overlord Runthak in the Valley of Strength.";
       ["repgain"] = {
          [76] = 500;
       };
+      ["prequests"] = {
+         [1] = 7490;
+      };
+      ["prev"] = 7490;
       ["reward"] = {
          [1] = 18406;
          [2] = 18403;
          [3] = 18404;
       };
-      ["objective"] = "Seek out Overlord Runthak in the Valley of Strength.";
       ["req"] = 60;
    };
    [7507] = {
@@ -32938,20 +39543,26 @@ addon.questsDB = {
       ["req"] = 50;
    };
    [3786] = {
-      ["name"] = "Morrowgrain Research";
-      ["prev"] = 3782;
       ["repgain"] = {
          [81] = 250;
+      };
+      ["name"] = "Morrowgrain Research";
+      ["prev"] = 3782;
+      ["prequests"] = {
+         [1] = 3782;
       };
       ["followup"] = 3804;
       ["objective"] = "Use an Evergreen Pouch with a Packet of Tharlendis Seeds and two Un'Goro Soil samples to try and cultivate samples of Morrowgrain.$B$BBring 10 Morrowgrain to Bashana Runetotem in Thunder Bluff.";
       ["req"] = 47;
    };
    [3130] = {
-      ["name"] = "Against the Hatecrest";
-      ["prev"] = 2867;
       ["repgain"] = {
          [69] = 25;
+      };
+      ["name"] = "Against the Hatecrest";
+      ["prev"] = 2867;
+      ["prequests"] = {
+         [1] = 2867;
       };
       ["next"] = 2869;
       ["objective"] = "Report to Latronicus Moonspear in Feathermoon Stronghold.";
@@ -32960,12 +39571,18 @@ addon.questsDB = {
    [7603] = {
       ["name"] = "Kroshius' Infernal Core";
       ["prev"] = 7602;
+      ["prequests"] = {
+         [1] = 7602;
+      };
       ["objective"] = "Search Shatter Scar Vale in Felwood for the remains of Kroshius. When you locate the remains, use the Fel Fire near them and await Kroshius' return. When the infernal has awoken, slay him and take from his corpse Kroshius' Infernal Core.$B$BReturn Kroshius' Infernal Core to Niby the Almighty in Felwood.";
       ["req"] = 50;
    };
    [8466] = {
       ["name"] = "Feathers for Grazle";
       ["prev"] = 8460;
+      ["prequests"] = {
+         [1] = 8460;
+      };
       ["repgain"] = {
          [576] = 75;
       };
@@ -32975,6 +39592,9 @@ addon.questsDB = {
    [7635] = {
       ["name"] = "A Proper String";
       ["prev"] = 7632;
+      ["prequests"] = {
+         [1] = 7632;
+      };
       ["objective"] = "Stoma the Ancient has asked that you bring him a Mature Black Dragon Sinew. Should you find this sinew, return it to Stoma in Felwood.";
       ["req"] = 60;
    };
@@ -33001,6 +39621,9 @@ addon.questsDB = {
    [3842] = {
       ["name"] = "A Short Incubation";
       ["prev"] = 3841;
+      ["prequests"] = {
+         [1] = 3841;
+      };
       ["repgain"] = {
          [69] = 75;
       };
@@ -33010,12 +39633,18 @@ addon.questsDB = {
    [5165] = {
       ["name"] = "Dousing the Flames of Protection";
       ["prev"] = 5159;
+      ["prequests"] = {
+         [1] = 5159;
+      };
       ["objective"] = "Using the Purified Moon Well Water, douse the flames of the four braziers of protection within Shadow Hold in Felwood, then return to Greta Mosshoof in the Emerald Sanctuary.";
       ["req"] = 48;
    };
    [8658] = {
       ["name"] = "Striker's Leggings";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -33023,13 +39652,16 @@ addon.questsDB = {
       ["req"] = 60;
    };
    [7731] = {
-      ["name"] = "Stinglasher";
-      ["prev"] = 2903;
       ["repgain"] = {
          [76] = 350;
          [68] = 350;
          [81] = 350;
          [530] = 350;
+      };
+      ["name"] = "Stinglasher";
+      ["prev"] = 2903;
+      ["prequests"] = {
+         [1] = 2903;
       };
       ["followup"] = 7732;
       ["objective"] = "Defeat Stinglasher in the Writhing Deep, bringing its glands back to Hadoken Swiftstrider at Camp Mojache, Feralas.";
@@ -33038,6 +39670,9 @@ addon.questsDB = {
    [8386] = {
       ["name"] = "Fight for Warsong Gulch";
       ["prev"] = 8372;
+      ["prequests"] = {
+         [1] = 8372;
+      };
       ["repgain"] = {
          [890] = 50;
       };
@@ -33066,6 +39701,11 @@ addon.questsDB = {
       ["repgain"] = {
          [72] = 150;
       };
+      ["prequests"] = {
+         [1] = 7794;
+         [2] = 7791;
+         [3] = 7793;
+      };
       ["objective"] = "";
       ["req"] = 50;
    };
@@ -33074,12 +39714,20 @@ addon.questsDB = {
       ["repgain"] = {
          [54] = 150;
       };
+      ["prequests"] = {
+         [1] = 7807;
+         [2] = 7808;
+         [3] = 7809;
+      };
       ["objective"] = "";
       ["req"] = 50;
    };
    [3914] = {
       ["name"] = "Linken's Sword";
       ["prev"] = 3913;
+      ["prequests"] = {
+         [1] = 3913;
+      };
       ["next"] = 3941;
       ["objective"] = "Deliver Linken's Superior Sword to Linken in Un'Goro Crater.";
       ["req"] = 47;
@@ -33087,6 +39735,9 @@ addon.questsDB = {
    [3922] = {
       ["name"] = "Nugget Slugs";
       ["prev"] = 3921;
+      ["prequests"] = {
+         [1] = 3921;
+      };
       ["repgain"] = {
          [470] = 250;
          [530] = 75;
@@ -33125,6 +39776,9 @@ addon.questsDB = {
    [7923] = {
       ["name"] = "Mark of Honor";
       ["prev"] = 7875;
+      ["prequests"] = {
+         [1] = 7875;
+      };
       ["objective"] = "You obtained a Warsong Mark of Honor for your last task, talk to me again, and you gain your reward.";
       ["req"] = 40;
    };
@@ -33136,6 +39790,16 @@ addon.questsDB = {
    [8930] = {
       ["name"] = "In Search of Anthion";
       ["next"] = 8945;
+      ["prequests"] = {
+         [1] = 8938;
+         [2] = 8939;
+         [3] = 8940;
+         [4] = 8941;
+         [5] = 8942;
+         [6] = 8943;
+         [7] = 8944;
+         [8] = 8927;
+      };
       ["followup"] = 8945;
       ["objective"] = "Use the Extra-Dimensional Ghost Revealer at the entrance to Stratholme and speak with the ghost of Anthion Harmon.";
       ["req"] = 58;
@@ -33143,6 +39807,9 @@ addon.questsDB = {
    [4491] = {
       ["name"] = "A Little Help From My Friends";
       ["prev"] = 4492;
+      ["prequests"] = {
+         [1] = 4492;
+      };
       ["reward"] = {
          [1] = 11910;
          [2] = 11911;
@@ -33154,27 +39821,36 @@ addon.questsDB = {
    [6570] = {
       ["name"] = "Emberstrife";
       ["prev"] = 6569;
+      ["prequests"] = {
+         [1] = 6569;
+      };
       ["objective"] = "Travel to the Wyrmbog in Dustwallow Marsh and seek out Emberstrife's Den. Once inside, wear the Amulet of Draconic Subversion and speak with Emberstrife.$B";
       ["req"] = 55;
    };
    [4002] = {
       ["name"] = "The Eastern Kingdom";
       ["prev"] = 4001;
+      ["prequests"] = {
+         [1] = 4001;
+      };
       ["next"] = 4003;
       ["objective"] = "Speak with Thrall if you are prepared to take on the mission he has planned.";
       ["req"] = 48;
    };
    [4765] = {
       ["name"] = "Delivery to Ridgewell";
-      ["prev"] = 4764;
+      ["objective"] = "Bring Ridgewell's Crate to Remington Ridgewell in Stormwind.";
       ["repgain"] = {
          [72] = 250;
       };
+      ["prequests"] = {
+         [1] = 4764;
+      };
+      ["prev"] = 4764;
       ["reward"] = {
          [1] = 15861;
          [2] = 15860;
       };
-      ["objective"] = "Bring Ridgewell's Crate to Remington Ridgewell in Stormwind.";
       ["req"] = 57;
    };
    [9122] = {
@@ -33189,6 +39865,9 @@ addon.questsDB = {
    [8051] = {
       ["name"] = "The Eye of Zuldazar";
       ["prev"] = 8050;
+      ["prequests"] = {
+         [1] = 8050;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
@@ -33200,6 +39879,9 @@ addon.questsDB = {
    [1473] = {
       ["name"] = "Creature of the Void";
       ["next"] = 1471;
+      ["prequests"] = {
+         [1] = 1478;
+      };
       ["objective"] = "Recover Egalin's Grimoire and bring it to Carendin Halgar in the Temple of the Damned.";
       ["req"] = 10;
    };
@@ -33235,12 +39917,18 @@ addon.questsDB = {
    [8147] = {
       ["name"] = "The Maelstrom's Tendril";
       ["prev"] = 8146;
+      ["prequests"] = {
+         [1] = 8146;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
    [4082] = {
       ["name"] = "KILL ON SIGHT: High Ranking Dark Iron Officials";
       ["prev"] = 4081;
+      ["prequests"] = {
+         [1] = 4081;
+      };
       ["repgain"] = {
          [76] = 250;
       };
@@ -33280,15 +39968,18 @@ addon.questsDB = {
    };
    [3522] = {
       ["name"] = "Iverron's Antidote";
-      ["prev"] = 3521;
+      ["objective"] = "Bring Iverron's Antidote to Iverron before the time limit is up. Iverron can be found by the cave to the north.";
       ["repgain"] = {
          [69] = 350;
       };
+      ["prequests"] = {
+         [1] = 3521;
+      };
+      ["prev"] = 3521;
       ["reward"] = {
          [1] = 10655;
          [2] = 10656;
       };
-      ["objective"] = "Bring Iverron's Antidote to Iverron before the time limit is up. Iverron can be found by the cave to the north.";
       ["req"] = 2;
    };
    [8358] = {
@@ -33299,6 +39990,9 @@ addon.questsDB = {
    [8390] = {
       ["name"] = "Conquering Arathi Basin";
       ["prev"] = 8370;
+      ["prequests"] = {
+         [1] = 8370;
+      };
       ["repgain"] = {
          [510] = 50;
       };
@@ -33308,6 +40002,9 @@ addon.questsDB = {
    [8422] = {
       ["name"] = "Trolls of a Feather";
       ["prev"] = 8421;
+      ["prequests"] = {
+         [1] = 8421;
+      };
       ["reward"] = {
          [1] = 20536;
          [2] = 20534;
@@ -33331,24 +40028,36 @@ addon.questsDB = {
    [4244] = {
       ["name"] = "Chasing A-Me 01";
       ["prev"] = 4243;
+      ["prequests"] = {
+         [1] = 4243;
+      };
       ["objective"] = " you wonder if it'll be that simple to fix A-Me 01 and get her back to Karna Remtravel near Marshall's Refuge.$B$BOnly trying it will tell.\"";
       ["req"] = 48;
    };
    [8518] = {
       ["name"] = "The Alliance Needs More Linen Bandages!";
       ["prev"] = 8517;
+      ["prequests"] = {
+         [1] = 8517;
+      };
       ["objective"] = "Bring 20 linen bandages to Sentinel Silversky at the airfield in Dun Morogh.";
       ["req"] = 1;
    };
    [8550] = {
       ["name"] = "The Horde Needs Peacebloom!";
       ["prev"] = 8549;
+      ["prequests"] = {
+         [1] = 8549;
+      };
       ["objective"] = "Bring 20 Peacebloom to Herbalist Proudfeather at the Valley of Spirits in Orgrimmar.";
       ["req"] = 1;
    };
    [4292] = {
       ["name"] = "The Bait for Lar'korwi";
       ["prev"] = 4291;
+      ["prequests"] = {
+         [1] = 4291;
+      };
       ["reward"] = {
          [1] = 11876;
          [2] = 11882;
@@ -33359,6 +40068,9 @@ addon.questsDB = {
    [8614] = {
       ["name"] = "The Horde Needs More Spotted Yellowtail!";
       ["prev"] = 8613;
+      ["prequests"] = {
+         [1] = 8613;
+      };
       ["objective"] = "Bring 20 Spotted Yellowtail to Fisherman Lin'do at the Valley of Spirits in Orgrimmar.";
       ["req"] = 1;
    };
@@ -33390,6 +40102,11 @@ addon.questsDB = {
       ["repgain"] = {
          [910] = 500;
       };
+      ["prequests"] = {
+         [1] = 8729;
+         [2] = 8730;
+         [3] = 8741;
+      };
       ["objective"] = "";
       ["req"] = 60;
    };
@@ -33409,6 +40126,9 @@ addon.questsDB = {
    [8838] = {
       ["name"] = "One Commendation Signet";
       ["prev"] = 8814;
+      ["prequests"] = {
+         [1] = 8814;
+      };
       ["objective"] = "";
       ["req"] = 1;
    };
@@ -33427,17 +40147,23 @@ addon.questsDB = {
       ["req"] = 58;
    };
    [8934] = {
+      ["followup"] = 8929;
       ["name"] = "Just Compensation";
       ["prev"] = 8977;
-      ["followup"] = 8929;
+      ["prequests"] = {
+         [1] = 8977;
+      };
       ["next"] = 8929;
       ["objective"] = "Bring a Devout Belt and a set of Devout Gloves to Deliana in Ironforge.";
       ["req"] = 58;
    };
    [8966] = {
+      ["followup"] = 8970;
       ["name"] = "The Left Piece of Lord Valthalak's Amulet";
       ["prev"] = 8962;
-      ["followup"] = 8970;
+      ["prequests"] = {
+         [1] = 8962;
+      };
       ["next"] = 8970;
       ["objective"] = "Use the Brazier of Beckoning to summon forth the spirit of Mor Grayhoof and slay him. Return to Bodley inside Blackrock Mountain with the Left Piece of Lord Valthalak's Amulet and the Brazier of Beckoning.";
       ["req"] = 58;
@@ -33445,12 +40171,18 @@ addon.questsDB = {
    [8998] = {
       ["name"] = "Back to the Beginning";
       ["prev"] = 8996;
+      ["prequests"] = {
+         [1] = 8996;
+      };
       ["objective"] = "Speak with Mokvar at Grommash Hold in Orgrimmar's Valley of Wisdom.";
       ["req"] = 58;
    };
    [8381] = {
       ["name"] = "Armaments of War";
       ["prev"] = 8315;
+      ["prequests"] = {
+         [1] = 8315;
+      };
       ["repgain"] = {
          [609] = 250;
       };
@@ -33459,16 +40191,19 @@ addon.questsDB = {
    };
    [3902] = {
       ["name"] = "Scavenging Deathknell";
-      ["prev"] = 376;
+      ["objective"] = "Search Deathknell and the vicinity for 6 pieces of Scavenged Goods, and return them to Deathguard Saltain.";
       ["repgain"] = {
          [68] = 350;
       };
+      ["prequests"] = {
+         [1] = 376;
+      };
+      ["prev"] = 376;
       ["reward"] = {
          [1] = 11848;
          [2] = 11849;
          [3] = 11850;
       };
-      ["objective"] = "Search Deathknell and the vicinity for 6 pieces of Scavenged Goods, and return them to Deathguard Saltain.";
       ["req"] = 2;
    };
    [9094] = {
@@ -33524,21 +40259,27 @@ addon.questsDB = {
    };
    [6381] = {
       ["name"] = "New Life";
-      ["prev"] = 6301;
+      ["objective"] = "Plant 10 Gaea Seeds in Gaea Dirt Mounds, and then return the remaining Enchanted Gaea Seeds to Tammra at Sun Rock Retreat.";
       ["repgain"] = {
          [81] = 250;
       };
+      ["prequests"] = {
+         [1] = 6301;
+      };
+      ["prev"] = 6301;
       ["reward"] = {
          [1] = 16985;
          [2] = 16986;
       };
-      ["objective"] = "Plant 10 Gaea Seeds in Gaea Dirt Mounds, and then return the remaining Enchanted Gaea Seeds to Tammra at Sun Rock Retreat.";
       ["req"] = 17;
    };
    [8990] = {
+      ["followup"] = 8994;
       ["name"] = "The Right Piece of Lord Valthalak's Amulet";
       ["prev"] = 8985;
-      ["followup"] = 8994;
+      ["prequests"] = {
+         [1] = 8985;
+      };
       ["next"] = 8994;
       ["objective"] = "Use the Brazier of Beckoning to summon forth the spirit of Isalien and slay her. Return to Bodley inside Blackrock Mountain with the recombined Lord Valthalak's Amulet and the Brazier of Beckoning.";
       ["req"] = 58;
@@ -33549,18 +40290,24 @@ addon.questsDB = {
       ["req"] = 50;
    };
    [4022] = {
+      ["followup"] = 4024;
       ["name"] = "A Taste of Flame";
       ["prev"] = 3481;
-      ["followup"] = 4024;
+      ["prequests"] = {
+         [1] = 3481;
+      };
       ["next"] = 4024;
       ["objective"] = "Show Cyrus Therepentous the Black Dragonflight Molt you received from Kalaran Windblade.$B";
       ["req"] = 52;
    };
    [1126] = {
-      ["name"] = "Hive in the Tower";
-      ["prev"] = 1125;
       ["repgain"] = {
          [609] = 250;
+      };
+      ["name"] = "Hive in the Tower";
+      ["prev"] = 1125;
+      ["prequests"] = {
+         [1] = 1125;
       };
       ["next"] = 6844;
       ["objective"] = "Scale the tower of Southwind Village and locate a means to stir the silithid hive into activity.  Bring back anything unusual you may uncover when doing so to Layo Starstrike at the Valor's Rest graveyard of Silithus.";
@@ -33569,6 +40316,9 @@ addon.questsDB = {
    [4062] = {
       ["name"] = "The Rise of the Machines";
       ["prev"] = 4061;
+      ["prequests"] = {
+         [1] = 4061;
+      };
       ["next"] = 4063;
       ["objective"] = "Take the Elemental Shard Sample to Lotwil Veriatus.$B$BYou recall Theodora saying that Lotwil was stationed in a camp to the east.$B";
       ["req"] = 52;
@@ -33600,10 +40350,13 @@ addon.questsDB = {
       ["req"] = 15;
    };
    [1026] = {
-      ["name"] = "Raene's Cleansing";
-      ["prev"] = 1024;
       ["repgain"] = {
          [69] = 250;
+      };
+      ["name"] = "Raene's Cleansing";
+      ["prev"] = 1024;
+      ["prequests"] = {
+         [1] = 1024;
       };
       ["next"] = 1027;
       ["objective"] = "Find the Wooden Key and a piece of Dartol's Rod before returning to Shael'dryn at the moonwell.";
@@ -33612,6 +40365,9 @@ addon.questsDB = {
    [1034] = {
       ["name"] = "The Ruins of Stardust";
       ["prev"] = 1033;
+      ["prequests"] = {
+         [1] = 1033;
+      };
       ["repgain"] = {
          [69] = 250;
       };
@@ -33621,18 +40377,27 @@ addon.questsDB = {
    [4788] = {
       ["name"] = "The Final Tablets";
       ["prev"] = 5065;
+      ["prequests"] = {
+         [1] = 5065;
+      };
       ["objective"] = "Bring the Fifth and Sixth Mosh'aru Tablets to Prospector Ironboot in Tanaris.";
       ["req"] = 40;
    };
    [4804] = {
       ["name"] = "Chillwind E'ko";
       ["prev"] = 975;
+      ["prequests"] = {
+         [1] = 975;
+      };
       ["objective"] = "";
       ["req"] = 55;
    };
    [6187] = {
       ["name"] = "Order Must Be Restored";
       ["prev"] = 6186;
+      ["prequests"] = {
+         [1] = 6186;
+      };
       ["reward"] = {
          [1] = 16996;
          [2] = 16997;
@@ -33644,14 +40409,20 @@ addon.questsDB = {
    [4148] = {
       ["name"] = "Bloodpetal Zapper";
       ["prev"] = 4146;
+      ["prequests"] = {
+         [1] = 4146;
+      };
       ["objective"] = "";
       ["req"] = 47;
    };
    [1040] = {
-      ["name"] = "Passage to Booty Bay";
-      ["prev"] = 1039;
       ["repgain"] = {
          [21] = 25;
+      };
+      ["name"] = "Passage to Booty Bay";
+      ["prev"] = 1039;
+      ["prequests"] = {
+         [1] = 1039;
       };
       ["next"] = 1041;
       ["objective"] = "Take a boat to Booty Bay and speak with Caravaneer Ruzzgot.";
@@ -33688,10 +40459,13 @@ addon.questsDB = {
       ["req"] = 18;
    };
    [1072] = {
-      ["name"] = "An Old Colleague";
-      ["prev"] = 1071;
       ["repgain"] = {
          [54] = 75;
+      };
+      ["name"] = "An Old Colleague";
+      ["prev"] = 1071;
+      ["prequests"] = {
+         [1] = 1071;
       };
       ["next"] = 1073;
       ["objective"] = "Speak to Lomac Gearstrip in Ironforge.";
@@ -33700,6 +40474,9 @@ addon.questsDB = {
    [1076] = {
       ["name"] = "Devils in Westfall";
       ["prev"] = 1075;
+      ["prequests"] = {
+         [1] = 1075;
+      };
       ["repgain"] = {
          [54] = 250;
          [72] = 250;
@@ -33722,6 +40499,9 @@ addon.questsDB = {
    [4964] = {
       ["name"] = "The Completed Orb of Dar'Orahil";
       ["prev"] = 4976;
+      ["prequests"] = {
+         [1] = 4976;
+      };
       ["reward"] = {
          [1] = 15108;
          [2] = 15106;
@@ -33732,6 +40512,9 @@ addon.questsDB = {
    [1092] = {
       ["name"] = "Gerenzo's Orders";
       ["prev"] = 1090;
+      ["prequests"] = {
+         [1] = 1090;
+      };
       ["repgain"] = {
          [470] = 150;
       };
@@ -33740,15 +40523,18 @@ addon.questsDB = {
    };
    [1096] = {
       ["name"] = "Gerenzo Wrenchwhistle";
-      ["prev"] = 1095;
+      ["objective"] = "Bring Gerenzo Wrenchwhistle's Mechanical Arm to Ziz Fizziks in the Stonetalon Mountains.";
       ["repgain"] = {
          [470] = 250;
       };
+      ["prequests"] = {
+         [1] = 1095;
+      };
+      ["prev"] = 1095;
       ["reward"] = {
          [1] = 6667;
          [2] = 6668;
       };
-      ["objective"] = "Bring Gerenzo Wrenchwhistle's Mechanical Arm to Ziz Fizziks in the Stonetalon Mountains.";
       ["req"] = 16;
    };
    [1098] = {
@@ -33762,12 +40548,18 @@ addon.questsDB = {
    [1108] = {
       ["name"] = "Indurium";
       ["prev"] = 1106;
+      ["prequests"] = {
+         [1] = 1106;
+      };
       ["objective"] = "Bring 10 Indurium Flakes to Martek the Exiled in the Badlands.";
       ["req"] = 28;
    };
    [5044] = {
       ["name"] = "Wisdom of Agamaggan";
       ["prev"] = 5052;
+      ["prequests"] = {
+         [1] = 5052;
+      };
       ["objective"] = "";
       ["req"] = 14;
    };
@@ -33779,6 +40571,9 @@ addon.questsDB = {
    [1116] = {
       ["name"] = "Dream Dust in the Swamp";
       ["prev"] = 1115;
+      ["prequests"] = {
+         [1] = 1115;
+      };
       ["next"] = 1117;
       ["objective"] = "Bring 10 Specks of Dream Dust to Krazek in Booty Bay.  Dream Dust is gathered from the dragon whelps of the Swamp of Sorrows.";
       ["req"] = 30;
@@ -33788,12 +40583,20 @@ addon.questsDB = {
       ["repgain"] = {
          [72] = 250;
       };
+      ["prequests"] = {
+         [1] = 5066;
+         [2] = 5090;
+         [3] = 5091;
+      };
       ["objective"] = "Kill 10 Skeletal Flayers and 10 Slavering Ghouls in Sorrow Hill.$B$BReturn to Commander Ashlam Valorfist at Chillwind Camp, Western Plaguelands.";
       ["req"] = 50;
    };
    [8281] = {
       ["name"] = "Stepping Up Security";
       ["prev"] = 8280;
+      ["prequests"] = {
+         [1] = 8280;
+      };
       ["repgain"] = {
          [609] = 250;
       };
@@ -33803,6 +40606,9 @@ addon.questsDB = {
    [5124] = {
       ["name"] = "Fiery Plate Gauntlets";
       ["prev"] = 5103;
+      ["prequests"] = {
+         [1] = 5103;
+      };
       ["objective"] = "Bring Malyfous Darkhammer 6 Enchanted Thorium Bars, 2 Essence of Fire, and 4 Star Rubies. You will also need to turn in your Unfired Plate Gauntlets.";
       ["req"] = 55;
    };
@@ -33840,16 +40646,22 @@ addon.questsDB = {
    [5204] = {
       ["name"] = "Retribution of the Light";
       ["prev"] = 5203;
+      ["prequests"] = {
+         [1] = 5203;
+      };
       ["next"] = 5385;
       ["objective"] = "Return to Jaedenar and kill the succubus Rakaiah before finding the Remains of Trey Lightforge.";
       ["req"] = 49;
    };
    [5220] = {
-      ["name"] = "Return to Chillwind Camp";
-      ["prev"] = 5219;
       ["repgain"] = {
          [469] = 75;
          [529] = 75;
+      };
+      ["name"] = "Return to Chillwind Camp";
+      ["prev"] = 5219;
+      ["prequests"] = {
+         [1] = 5219;
       };
       ["next"] = 5222;
       ["objective"] = "Bring the Filled Dalson's Tears Bottle to High Priestess MacDonnell at Chillwind Camp, Western Plaguelands.";
@@ -33858,6 +40670,9 @@ addon.questsDB = {
    [5236] = {
       ["name"] = "Return to the Bulwark";
       ["prev"] = 5235;
+      ["prequests"] = {
+         [1] = 5235;
+      };
       ["repgain"] = {
          [67] = 75;
          [529] = 75;
@@ -33866,13 +40681,16 @@ addon.questsDB = {
       ["req"] = 50;
    };
    [5252] = {
-      ["name"] = "Remorseful Highborne";
-      ["prev"] = 5248;
       ["repgain"] = {
          [69] = 25;
          [54] = 25;
          [72] = 25;
          [47] = 25;
+      };
+      ["name"] = "Remorseful Highborne";
+      ["prev"] = 5248;
+      ["prequests"] = {
+         [1] = 5248;
       };
       ["next"] = 5253;
       ["objective"] = "Speak with Wynd Nightchaser in Starfall Village, and ask about the proper place for the Crystal of Zin-Malor.";
@@ -33881,6 +40699,9 @@ addon.questsDB = {
    [1206] = {
       ["name"] = "Jarl Needs Eyes";
       ["prev"] = 1218;
+      ["prequests"] = {
+         [1] = 1218;
+      };
       ["next"] = 1203;
       ["objective"] = "Bring 20 Unpopped Darkmist Eyes to Swamp Eye\" Jarl at the Swamplight Manor.\"";
       ["req"] = 30;
@@ -33893,6 +40714,9 @@ addon.questsDB = {
    [1244] = {
       ["name"] = "The Missing Diplomat";
       ["prev"] = 1243;
+      ["prequests"] = {
+         [1] = 1243;
+      };
       ["next"] = 1245;
       ["objective"] = "Find the Defias Docket and return it to Watcher Backus in Duskwood.";
       ["req"] = 28;
@@ -33908,10 +40732,13 @@ addon.questsDB = {
       ["req"] = 3;
    };
    [1264] = {
-      ["name"] = "The Missing Diplomat";
-      ["prev"] = 1250;
       ["repgain"] = {
          [72] = 75;
+      };
+      ["name"] = "The Missing Diplomat";
+      ["prev"] = 1250;
+      ["prequests"] = {
+         [1] = 1250;
       };
       ["next"] = 1265;
       ["objective"] = "Find Commander Samaul in Dustwallow Marsh.";
@@ -33926,6 +40753,9 @@ addon.questsDB = {
    [1276] = {
       ["name"] = "The Black Shield";
       ["prev"] = 1323;
+      ["prequests"] = {
+         [1] = 1323;
+      };
       ["objective"] = "Show the Blackened Iron Shield to Mosarn in Thunder Bluff.";
       ["req"] = 30;
    };
@@ -33939,6 +40769,9 @@ addon.questsDB = {
    [8469] = {
       ["name"] = "Beads for Salfa";
       ["prev"] = 8464;
+      ["prequests"] = {
+         [1] = 8464;
+      };
       ["repgain"] = {
          [576] = 50;
       };
@@ -33954,6 +40787,9 @@ addon.questsDB = {
    [8629] = {
       ["name"] = "Avenger's Legguards";
       ["prev"] = 8579;
+      ["prequests"] = {
+         [1] = 8579;
+      };
       ["repgain"] = {
          [910] = 250;
       };
@@ -33966,9 +40802,12 @@ addon.questsDB = {
       ["req"] = 48;
    };
    [1386] = {
+      ["followup"] = 1369;
       ["name"] = "Assault on the Kolkar";
       ["prev"] = 1385;
-      ["followup"] = 1369;
+      ["prequests"] = {
+         [1] = 1385;
+      };
       ["next"] = 1369;
       ["objective"] = "Maintain your reputation with the Magram. Kill 12 Kolkar Centaurs, 12 Kolkar Scouts and 6 Kolkar Maulers, then return to Warug in the Magram Village in Desolace.";
       ["req"] = 30;
@@ -33983,10 +40822,13 @@ addon.questsDB = {
       ["req"] = 30;
    };
    [2767] = {
-      ["name"] = "Rescue OOX-22/FE!";
-      ["prev"] = 2766;
       ["repgain"] = {
          [0] = 21;
+      };
+      ["name"] = "Rescue OOX-22/FE!";
+      ["prev"] = 2766;
+      ["prequests"] = {
+         [1] = 2766;
       };
       ["followup"] = 3721;
       ["objective"] = " safe place so it can begin a lengthy take-off procedure.  It has built-in cloaking";
@@ -34010,28 +40852,34 @@ addon.questsDB = {
    };
    [1436] = {
       ["name"] = "Alliance Relations";
-      ["prev"] = 1435;
+      ["objective"] = "Speak to Keldran in Orgrimmar.";
       ["repgain"] = {
          [76] = 250;
       };
+      ["prequests"] = {
+         [1] = 1435;
+      };
+      ["prev"] = 1435;
       ["reward"] = {
          [1] = 6744;
          [2] = 6745;
       };
-      ["objective"] = "Speak to Keldran in Orgrimmar.";
       ["req"] = 30;
    };
    [2903] = {
       ["name"] = "The Battle Plans";
-      ["prev"] = 2902;
+      ["objective"] = "Bring the Woodpaw Battle Plans to Hadoken Swiftstrider in Camp Mojache.";
       ["repgain"] = {
          [81] = 250;
       };
+      ["prequests"] = {
+         [1] = 2902;
+      };
+      ["prev"] = 2902;
       ["reward"] = {
          [1] = 9661;
          [2] = 9662;
       };
-      ["objective"] = "Bring the Woodpaw Battle Plans to Hadoken Swiftstrider in Camp Mojache.";
       ["req"] = 39;
    };
    [2198] = {
@@ -34052,6 +40900,9 @@ addon.questsDB = {
    [1476] = {
       ["name"] = "Hearts of the Pure";
       ["prev"] = 1472;
+      ["prequests"] = {
+         [1] = 1472;
+      };
       ["next"] = 1474;
       ["objective"] = "Bring the hearts of Dalin Forgewright and Comar Villard to Carendin Halgar in the Temple of the Damned.";
       ["req"] = 20;
@@ -34090,6 +40941,9 @@ addon.questsDB = {
    [1526] = {
       ["name"] = "Call of Fire";
       ["prev"] = 1525;
+      ["prequests"] = {
+         [1] = 1525;
+      };
       ["next"] = 1527;
       ["objective"] = "Defeat the Minor Manifestation of Fire, and place the Glowing Ember in the brazier atop the Shrine of Eternal Flame.";
       ["req"] = 10;
@@ -34105,6 +40959,9 @@ addon.questsDB = {
    [1534] = {
       ["name"] = "Call of Water";
       ["prev"] = 1536;
+      ["prequests"] = {
+         [1] = 1536;
+      };
       ["next"] = 220;
       ["objective"] = "Fill the Empty Blue Waterskin at the Ruins of Stardust in Ashenvale and return to Brine in the Barrens.";
       ["req"] = 20;
@@ -34112,6 +40969,9 @@ addon.questsDB = {
    [1536] = {
       ["name"] = "Call of Water";
       ["prev"] = 1535;
+      ["prequests"] = {
+         [1] = 1535;
+      };
       ["next"] = 1534;
       ["objective"] = "Fill the Empty Red Waterskin at the well in Tarren Mill and return to Brine in the Barrens.";
       ["req"] = 20;
@@ -34130,6 +40990,9 @@ addon.questsDB = {
    [1558] = {
       ["name"] = "The Stonewrought Dam";
       ["prev"] = 1468;
+      ["prequests"] = {
+         [1] = 1468;
+      };
       ["repgain"] = {
          [469] = 75;
       };
@@ -34139,6 +41002,9 @@ addon.questsDB = {
    [6364] = {
       ["name"] = "Return to Jahan";
       ["prev"] = 6363;
+      ["prequests"] = {
+         [1] = 6363;
+      };
       ["repgain"] = {
          [81] = 350;
       };
@@ -34146,11 +41012,14 @@ addon.questsDB = {
       ["req"] = 10;
    };
    [6388] = {
-      ["name"] = "Gryth Thurden";
-      ["prev"] = 6391;
       ["repgain"] = {
          [54] = 25;
          [47] = 25;
+      };
+      ["name"] = "Gryth Thurden";
+      ["prev"] = 6391;
+      ["prequests"] = {
+         [1] = 6391;
       };
       ["next"] = 6392;
       ["objective"] = "Bring the Honorary Picks to Gryth Thurden in Ironforge.";
@@ -34174,6 +41043,9 @@ addon.questsDB = {
    [2298] = {
       ["name"] = "Kingly Shakedown";
       ["prev"] = 2299;
+      ["prequests"] = {
+         [1] = 2299;
+      };
       ["objective"] = "Travel to Stormwind and seek out Renzik The Shiv.\"\"";
       ["req"] = 16;
    };
@@ -34189,6 +41061,9 @@ addon.questsDB = {
    [1640] = {
       ["name"] = "Beat Bartleby";
       ["prev"] = 1639;
+      ["prequests"] = {
+         [1] = 1639;
+      };
       ["next"] = 1665;
       ["objective"] = "Beat Bartleby, then talk to him.";
       ["req"] = 10;
@@ -34202,6 +41077,9 @@ addon.questsDB = {
    [2260] = {
       ["name"] = "Erion's Behest";
       ["prev"] = 2259;
+      ["prequests"] = {
+         [1] = 2259;
+      };
       ["objective"] = "Travel to Stormwind City and seek council with Renzik The Shiv.\"$B\"";
       ["req"] = 16;
    };
@@ -34213,6 +41091,9 @@ addon.questsDB = {
    [1678] = {
       ["name"] = "Vejrek";
       ["prev"] = 1679;
+      ["prequests"] = {
+         [1] = 1679;
+      };
       ["next"] = 1680;
       ["objective"] = "Bring Vejrek's Head to Muren Stormpike in Ironforge.";
       ["req"] = 10;
@@ -34220,6 +41101,9 @@ addon.questsDB = {
    [1680] = {
       ["name"] = "Tormus Deepforge";
       ["prev"] = 1678;
+      ["prequests"] = {
+         [1] = 1678;
+      };
       ["next"] = 1681;
       ["objective"] = "Speak with Tormus Deepforge.";
       ["req"] = 10;
@@ -34233,6 +41117,9 @@ addon.questsDB = {
    [2964] = {
       ["name"] = "A Future Task";
       ["prev"] = 2977;
+      ["prequests"] = {
+         [1] = 2977;
+      };
       ["repgain"] = {
          [47] = 250;
       };
@@ -34242,12 +41129,18 @@ addon.questsDB = {
    [1706] = {
       ["name"] = "Grimand's Armor";
       ["prev"] = 1705;
+      ["prequests"] = {
+         [1] = 1705;
+      };
       ["objective"] = "";
       ["req"] = 20;
    };
    [3451] = {
       ["name"] = "Signal for Pickup";
       ["prev"] = 3450;
+      ["prequests"] = {
+         [1] = 3450;
+      };
       ["objective"] = "Speak to Xiggs Fuselighter and get a Standard Issue Flare Gun from him in Ironforge.";
       ["req"] = 45;
    };
@@ -34260,15 +41153,21 @@ addon.questsDB = {
    [6084] = {
       ["name"] = "Taming the Beast";
       ["prev"] = 6064;
+      ["prequests"] = {
+         [1] = 6064;
+      };
       ["next"] = 6085;
       ["objective"] = "Use the Taming Rod to tame a Snow Leopard. Practice your skills, then return to Grif Wildheart in Kharanos.";
       ["req"] = 10;
    };
    [2944] = {
-      ["name"] = "The Super Snapper FX";
-      ["prev"] = 2941;
       ["repgain"] = {
          [69] = 250;
+      };
+      ["name"] = "The Super Snapper FX";
+      ["prev"] = 2941;
+      ["prequests"] = {
+         [1] = 2941;
       };
       ["next"] = 2943;
       ["objective"] = "Use the Super Snapper FX to take a snapshot of Gammerita, then return to Daryn Lightwind in Rut'theran Village.";
@@ -34277,6 +41176,9 @@ addon.questsDB = {
    [1786] = {
       ["name"] = "The Tome of Divinity";
       ["prev"] = 1781;
+      ["prequests"] = {
+         [1] = 1781;
+      };
       ["next"] = 1787;
       ["objective"] = "Take the Symbol of Life and resurrect Henze Faulk in Elwynn.";
       ["req"] = 12;
@@ -34289,6 +41191,9 @@ addon.questsDB = {
    [6148] = {
       ["name"] = "The Scarlet Oracle, Demetria";
       ["prev"] = 6147;
+      ["prequests"] = {
+         [1] = 6147;
+      };
       ["reward"] = {
          [1] = 16996;
          [2] = 16997;
@@ -34300,6 +41205,9 @@ addon.questsDB = {
    [8231] = {
       ["name"] = "Wavethrashing";
       ["prev"] = 8153;
+      ["prequests"] = {
+         [1] = 8153;
+      };
       ["next"] = 8232;
       ["objective"] = "Bring 6 Wavethrasher Scales to Ogtinc in Azshara.  Ogtinc resides atop the cliffs northeast the Ruins of Eldarath.";
       ["req"] = 50;
@@ -34322,17 +41230,20 @@ addon.questsDB = {
    };
    [5730] = {
       ["name"] = "Hidden Enemies";
-      ["prev"] = 5729;
+      ["objective"] = "Speak to Thrall in Orgrimmar and tell him what you've learned.";
       ["repgain"] = {
          [76] = 350;
       };
+      ["prequests"] = {
+         [1] = 5729;
+      };
+      ["prev"] = 5729;
       ["reward"] = {
          [1] = 15443;
          [2] = 15445;
          [3] = 15424;
          [4] = 15444;
       };
-      ["objective"] = "Speak to Thrall in Orgrimmar and tell him what you've learned.";
       ["req"] = 9;
    };
    [8359] = {
@@ -34343,6 +41254,9 @@ addon.questsDB = {
    [8391] = {
       ["name"] = "Claiming Arathi Basin";
       ["prev"] = 8393;
+      ["prequests"] = {
+         [1] = 8393;
+      };
       ["repgain"] = {
          [509] = 50;
       };
@@ -34358,6 +41272,9 @@ addon.questsDB = {
    [8258] = {
       ["name"] = "The Darkreaver Menace";
       ["prev"] = 7667;
+      ["prequests"] = {
+         [1] = 7667;
+      };
       ["repgain"] = {
          [76] = 500;
          [68] = 500;
@@ -34370,12 +41287,18 @@ addon.questsDB = {
    [5062] = {
       ["name"] = "Sacred Fire";
       ["prev"] = 4865;
+      ["prequests"] = {
+         [1] = 4865;
+      };
       ["objective"] = "Gather 10 bushels of Incendia Agave, and then consult Magatha Grimtotem on Elder Rise in Thunderbluff.";
       ["req"] = 24;
    };
    [8519] = {
       ["name"] = "A Pawn on the Eternal Board";
       ["prev"] = 8305;
+      ["prequests"] = {
+         [1] = 8305;
+      };
       ["repgain"] = {
          [910] = 200;
       };
@@ -34390,6 +41313,9 @@ addon.questsDB = {
    [8583] = {
       ["name"] = "The Horde Needs More Purple Lotus!";
       ["prev"] = 8582;
+      ["prequests"] = {
+         [1] = 8582;
+      };
       ["objective"] = "Bring 20 Purple Lotus to Apothecary Jezel at the Valley of Spirits in Orgrimmar.";
       ["req"] = 1;
    };
@@ -34424,6 +41350,9 @@ addon.questsDB = {
    [8743] = {
       ["name"] = "Bang a Gong!";
       ["prev"] = 8742;
+      ["prequests"] = {
+         [1] = 8742;
+      };
       ["repgain"] = {
          [910] = 500;
       };
@@ -34446,6 +41375,9 @@ addon.questsDB = {
    [8839] = {
       ["name"] = "Ten Commendation Signets";
       ["prev"] = 8822;
+      ["prequests"] = {
+         [1] = 8822;
+      };
       ["objective"] = "";
       ["req"] = 1;
    };
@@ -34465,17 +41397,23 @@ addon.questsDB = {
       ["req"] = 10;
    };
    [8935] = {
+      ["followup"] = 8929;
       ["name"] = "Just Compensation";
       ["prev"] = 8977;
-      ["followup"] = 8929;
+      ["prequests"] = {
+         [1] = 8977;
+      };
       ["next"] = 8929;
       ["objective"] = "Bring a Shadowcraft Belt and a set of Shadowcraft Gloves to Deliana in Ironforge.";
       ["req"] = 58;
    };
    [8967] = {
+      ["followup"] = 8970;
       ["name"] = "The Left Piece of Lord Valthalak's Amulet";
       ["prev"] = 8963;
-      ["followup"] = 8970;
+      ["prequests"] = {
+         [1] = 8963;
+      };
       ["next"] = 8970;
       ["objective"] = "Use the Brazier of Beckoning to summon forth the spirit of Isalien and slay her. Return to Bodley inside Blackrock Mountain with the Left Piece of Lord Valthalak's Amulet and the Brazier of Beckoning.";
       ["req"] = 58;
@@ -34483,6 +41421,9 @@ addon.questsDB = {
    [8999] = {
       ["name"] = "Saving the Best for Last";
       ["prev"] = 8997;
+      ["prequests"] = {
+         [1] = 8997;
+      };
       ["objective"] = "Give Deliana your Wildheart Cowl and Wildheart Vest.";
       ["req"] = 58;
    };
@@ -34504,12 +41445,18 @@ addon.questsDB = {
    [9095] = {
       ["name"] = "Frostfire Robe";
       ["prev"] = 9033;
+      ["prequests"] = {
+         [1] = 9033;
+      };
       ["objective"] = "Archmage Angela Dosantos at Light's Hope Chapel in the Eastern Plaguelands will make a Frostfire Robe if you bring her the following: 1 Desecrated Robe, 25 Wartorn Cloth Scraps, 4 Mooncloth and 2 Nexus Crystals.";
       ["req"] = 60;
    };
    [9127] = {
       ["name"] = "Bone Fragments";
       ["prev"] = 9126;
+      ["prequests"] = {
+         [1] = 9126;
+      };
       ["repgain"] = {
          [529] = 10;
       };
@@ -34519,6 +41466,9 @@ addon.questsDB = {
    [6628] = {
       ["name"] = "Test of Lore";
       ["prev"] = 1160;
+      ["prequests"] = {
+         [1] = 1160;
+      };
       ["next"] = 1394;
       ["objective"] = "Answer Parqual Fintallas' question successfully and then speak to him again. He will remain in the Undercity until you are ready.";
       ["req"] = 25;
@@ -34556,6 +41506,9 @@ addon.questsDB = {
    [1120] = {
       ["name"] = "Get the Gnomes Drunk";
       ["prev"] = 1119;
+      ["prequests"] = {
+         [1] = 1119;
+      };
       ["followup"] = 1122;
       ["objective"] = "Bring the Fool's Stout to the Gnome Pit Boss.";
       ["req"] = 35;
@@ -34588,6 +41541,9 @@ addon.questsDB = {
    [2772] = {
       ["name"] = "The World At Your Feet";
       ["prev"] = 2760;
+      ["prequests"] = {
+         [1] = 2760;
+      };
       ["followup"] = 3321;
       ["objective"] = "Bring two Heavy Mithril Boots and one Ornate Mithril Pants to Trenton Lighthammer.$B";
       ["req"] = 40;
@@ -34620,6 +41576,9 @@ addon.questsDB = {
    [1482] = {
       ["name"] = "The Corrupter";
       ["prev"] = 1481;
+      ["prequests"] = {
+         [1] = 1481;
+      };
       ["repgain"] = {
          [68] = 250;
       };
@@ -34629,12 +41588,18 @@ addon.questsDB = {
    [8165] = {
       ["name"] = "More Resource Crates";
       ["prev"] = 8162;
+      ["prequests"] = {
+         [1] = 8162;
+      };
       ["objective"] = "Win the battle for Arathi Basin, get an Arathi Resource Crate, and return it to Deathstalker Mortis at Hammerfall.";
       ["req"] = 20;
    };
    [3088] = {
       ["name"] = "Encrypted Parchment";
       ["prev"] = 788;
+      ["prequests"] = {
+         [1] = 788;
+      };
       ["repgain"] = {
          [76] = 75;
       };
@@ -34653,6 +41618,9 @@ addon.questsDB = {
    [3104] = {
       ["name"] = "Glyphic Letter";
       ["prev"] = 7;
+      ["prequests"] = {
+         [1] = 7;
+      };
       ["repgain"] = {
          [72] = 75;
       };
@@ -34662,6 +41630,9 @@ addon.questsDB = {
    [3108] = {
       ["name"] = "Etched Rune";
       ["prev"] = 179;
+      ["prequests"] = {
+         [1] = 179;
+      };
       ["repgain"] = {
          [47] = 75;
       };
@@ -34671,6 +41642,9 @@ addon.questsDB = {
    [3115] = {
       ["name"] = "Tainted Memorandum";
       ["prev"] = 179;
+      ["prequests"] = {
+         [1] = 179;
+      };
       ["repgain"] = {
          [54] = 50;
       };
@@ -34705,6 +41679,9 @@ addon.questsDB = {
    [1920] = {
       ["name"] = "Investigate the Blue Recluse";
       ["prev"] = 1919;
+      ["prequests"] = {
+         [1] = 1919;
+      };
       ["next"] = 1921;
       ["objective"] = "Obtain a Cantation of Manifestation and a Chest of Containment coffers from behind Jennea Cannon.  Bring 3 Filled Containment Coffers to Jennea at the Wizard's Sanctum.";
       ["req"] = 15;
@@ -34751,6 +41728,9 @@ addon.questsDB = {
    [3092] = {
       ["name"] = "Etched Note";
       ["prev"] = 747;
+      ["prequests"] = {
+         [1] = 747;
+      };
       ["repgain"] = {
          [81] = 75;
       };
@@ -34758,10 +41738,13 @@ addon.questsDB = {
       ["req"] = 1;
    };
    [4183] = {
-      ["name"] = "The True Masters";
-      ["prev"] = 4182;
       ["repgain"] = {
          [69] = 150;
+      };
+      ["name"] = "The True Masters";
+      ["prev"] = 4182;
+      ["prequests"] = {
+         [1] = 4182;
       };
       ["next"] = 4184;
       ["objective"] = "Travel to Lakeshire and deliver Helendis Riverhorn's Letter to Magistrate Solomon. ";
@@ -34782,12 +41765,20 @@ addon.questsDB = {
       ["repgain"] = {
          [81] = 10;
       };
+      ["prequests"] = {
+         [1] = 235;
+         [2] = 742;
+         [3] = 6382;
+      };
       ["objective"] = "";
       ["req"] = 20;
    };
    [6583] = {
       ["name"] = "The Test of Skulls, Somnus";
       ["prev"] = 6570;
+      ["prequests"] = {
+         [1] = 6570;
+      };
       ["followup"] = 6585;
       ["objective"] = "Destroy the drake champion of the Green Flight, Somnus. Take his skull and return it to Emberstrife.";
       ["req"] = 55;

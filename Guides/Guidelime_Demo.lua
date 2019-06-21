@@ -1,8 +1,9 @@
-local addonName, addon = ...
-
-addon.guides["Demo"] = {
+Guidelime.registerGuide(
+{
+	group = "Demo",
 	minLevel = 1,
 	maxLevel = 6,
+	title = "Dun Morogh",
 	colorQuest = "|cFF59C4F1",
 	race = {"Dwarf", "Gnome"},
 	steps = {
@@ -50,4 +51,4 @@ addon.guides["Demo"] = {
 		{text = "To your right accept [QP2160Supplies to Tannok]"},
 		{text = "Leave the area through Coldridge Pass"}
 	}
-}
+})
