@@ -97,15 +97,15 @@ function addon.fillGuides()
 			addon.guidesFrame.guides[i]:SetFontObject("GameFontNormal")
 			addon.guidesFrame.guides[i]:SetWidth(550)
 			addon.guidesFrame.guides[i]:SetTextColor(255,255,255,255)
-			local text = " "
+			local text = "    "
 			if guide.minLevel ~= nil then
-				--text = text .. addon.getLevelColor(guide.minLevel) .. guide.minLevel .. "|r"
+				text = text .. addon.getLevelColor(guide.minLevel) .. guide.minLevel .. "|r"
 			end
 			if guide.minLevel ~= nil or guide.maxLevel ~= nil then
 				text = text .. "-"
 			end
 			if guide.maxLevel ~= nil then
-				--text = text .. addon.getLevelColor(guide.maxLevel) .. guide.maxLevel .. "|r"
+				text = text .. addon.getLevelColor(guide.maxLevel) .. guide.maxLevel .. "|r"
 			end
 			if guide.minLevel ~= nil or guide.maxLevel ~= nil then
 				text = text .. " "
