@@ -463,9 +463,9 @@ local function updateStepCompletion(i, completedIndexes)
 		if step.completed == nil then step.completed = step.completeWithNext and wasCompleted end
 	end
 	
-	if i > 1 and step.completed then
+	if i > 1 and (step.completed or step.skip or not step.available) then
 		local pstep = addon.currentGuide.steps[i - 1]
-		if not pstep.completed and pstep.completeWithNext ~= nil and pstep.completeWithNext and not pstep.skip then
+		if not pstep.completed and pstep.completeWithNext ~= nil and pstep.completeWithNext then
 			if addon.debugging then print("LIME: complete with next ", i - 1) end
 			pstep.completed = true
 			table.insert(completedIndexes, i - 1)
