@@ -89,9 +89,11 @@ function addon.fillGuides()
 
 		for j, name in ipairs(guides) do
 			local guide = addon.guides[name]
+			if addon.debugging then print("LIME: group ", group, name) end
 			
 			addon.guidesFrame.guides[i] = CreateFrame("EditBox", nil, content)
 			addon.guidesFrame.guides[i]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+			addon.guidesFrame.guides[i]:SetMultiLine(true)
 			addon.guidesFrame.guides[i]:EnableMouse(false)
 			addon.guidesFrame.guides[i]:SetAutoFocus(false)
 			addon.guidesFrame.guides[i]:SetFontObject("GameFontNormal")
@@ -132,6 +134,11 @@ function addon.fillGuides()
 				self:SetBackdropColor(255,255,255,128)
 				addon.guidesFrame.textDetails:SetText(self.guide.details or "")
 	    		self:ClearFocus()
+				if GuidelimeDataChar.currentGuide.name == self.guide.name then
+					addon.guidesFrame.loadBtn:SetText(L.RESET_GUIDE)
+				else
+					addon.guidesFrame.loadBtn:SetText(L.LOAD_GUIDE)
+				end
 			end)
 			prev = addon.guidesFrame.guides[i]
 			i = i + 1
@@ -153,8 +160,19 @@ function addon.fillGuides()
 	addon.guidesFrame.textDetails:SetTextColor(255,255,255,255)
 	addon.guidesFrame.textDetails:SetText(addon.guides[GuidelimeDataChar.currentGuide.name].details or "")
 	
-	--addon.guidesFrame.scrollframe.content:SetHeight(100)
-	--addon.guidesFrame.scrollframe:UpdateScrollChildRect();
+	addon.guidesFrame.loadBtn = CreateFrame("BUTTON", nil, addon.guidesFrame, "UIPanelButtonTemplate")
+	addon.guidesFrame.loadBtn:SetWidth(120)
+	addon.guidesFrame.loadBtn:SetHeight(30)
+	addon.guidesFrame.loadBtn:SetText(L.RESET_GUIDE)
+	addon.guidesFrame.loadBtn:SetPoint("BOTTOMLEFT", addon.guidesFrame, "BOTTOMLEFT", 20, 20)
+	addon.guidesFrame.loadBtn:SetScript("OnClick", function() 
+		addon.guidesFrame.loadBtn:SetText(L.RESET_GUIDE)
+		GuidelimeDataChar.currentGuide = {name = addon.guidesFrame.guides[addon.guidesFrame.selectedIndex].guide.name, skip = {}}
+		addon.loadGuide()
+		if GuidelimeDataChar.mainFrameShowing then
+			addon.updateMainFrame()
+		end
+	end)
 end
 
 local function addSliderOption(optionsTable, option, min, max, step, text, tooltip, updateFunction, mouseUpFunction)

@@ -15,6 +15,8 @@ L.MAIN_FRAME_HEIGHT = "Window height"
 L.MISSING_PREQUEST = "The following required quest was not completed:"
 L.MISSING_PREQUESTS = "The following required quests were not completed:"
 L.OTHER_GUIDES = "Other guides"
+L.LOAD_GUIDE = "Load guide"
+L.RESET_GUIDE = "Reset guide"
 
 local locale = GetLocale()
 
@@ -30,6 +32,8 @@ L.DETAILS = "Details"
 L.MAIN_FRAME_WIDTH = "Fensterbreite"
 L.MAIN_FRAME_HEIGHT = "Fensterhöhe"
 L.OTHER_GUIDES = "Andere Guides"
+L.LOAD_GUIDE = "Guide laden"
+L.RESET_GUIDE = "Guide zurücksetzen"
 
 end
 

@@ -17,15 +17,15 @@ addon.COLOR_LEVEL_GRAY = "|cFF808080"
 
 function addon.getLevelColor(level)
 	if level > addon.level + 4 then
-		return COLOR_LEVEL_RED
+		return addon.COLOR_LEVEL_RED
 	elseif level > addon.level + 2 then
-		return COLOR_LEVEL_ORANGE
+		return addon.COLOR_LEVEL_ORANGE
 	elseif level >= addon.level - 2 then
-		return COLOR_LEVEL_YELLOW
+		return addon.COLOR_LEVEL_YELLOW
 	elseif level >= addon.level - 4 - math.min(4, math.floor(addon.level / 10)) then
-		return COLOR_LEVEL_GREEN
+		return addon.COLOR_LEVEL_GREEN
 	else
-		return COLOR_LEVEL_GRAY	
+		return addon.COLOR_LEVEL_GRAY	
 	end
 end
 
@@ -134,9 +134,11 @@ function addon.loadGuide()
 	if GuidelimeDataChar.currentGuide == nil then GuidelimeDataChar.currentGuide = {} end
 	if GuidelimeDataChar.currentGuide.name == nil then 
 		GuidelimeDataChar.currentGuide.name = "Demo" 
+	end
+	if GuidelimeDataChar.currentGuide.skip == nil then 
 		GuidelimeDataChar.currentGuide.skip = {}
 	end
-	
+		
 	addon.currentGuide = {}
 	addon.currentGuide.name = GuidelimeDataChar.currentGuide.name
 	if addon.guides[GuidelimeDataChar.currentGuide.name] == nil then 
@@ -208,9 +210,10 @@ function addon.loadGuide()
 						end
 					end
 					if element.title == nil or element.title == "" then
-						element.title = addon.questsDB[element.questID].name
+						if addon.questsDB[element.questId] == nil then error("loading guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": unknown quest id " .. element.questId .. "\" in line \"" .. step.text .. "\"") end
+						element.title = addon.questsDB[element.questId].name
 					elseif addon.debugging and addon.questsDB[element.questId].name ~= string.sub(element.title, 1, #addon.questsDB[element.questId].name) then
-						error("loading guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": wrong title for quest " .. element.questId .. "\"" .. element.title .. "\" instead of \"" .. addon.questsDB[element.questId].name .. "\" in line \"" .. step.text .. "\"")
+						error("loading guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": wrong title for quest " .. element.questId .. " \"" .. element.title .. "\" instead of \"" .. addon.questsDB[element.questId].name .. "\" in line \"" .. step.text .. "\"")
 					end
 					if element.t == "COMPLETE" or element.t == "TURNIN" or element.t == "WORK" then
 						if element.objective == nil then
@@ -225,6 +228,7 @@ function addon.loadGuide()
 			step.skip = GuidelimeDataChar.currentGuide.skip[#addon.currentGuide.steps] ~= nil and GuidelimeDataChar.currentGuide.skip[#addon.currentGuide.steps]
 			step.active = false
 			step.completed = false
+			step.available = true
 		end
 	end
 	
@@ -276,7 +280,7 @@ local function updateStepText(i)
 				end
 			end
 		end
-		if element.available ~= nil and not element.available and element.missingPrequests ~= nil then
+		if not element.available and element.missingPrequests ~= nil then
 			if tooltip ~= "" then tooltip = tooltip .. "\n" end
 			if #element.missingPrequests == 1 then
 				tooltip = tooltip .. L.MISSING_PREQUEST .. " "
@@ -466,7 +470,7 @@ local function updateStepCompletion(i, completedIndexes)
 	if i > 1 and (step.completed or step.skip or not step.available) then
 		local pstep = addon.currentGuide.steps[i - 1]
 		if not pstep.completed and pstep.completeWithNext ~= nil and pstep.completeWithNext then
-			if addon.debugging then print("LIME: complete with next ", i - 1) end
+			if addon.debugging then print("LIME: complete with next ", i - 1, step.completed, step.skip, step.available) end
 			pstep.completed = true
 			table.insert(completedIndexes, i - 1)
 		end
@@ -545,7 +549,7 @@ local function updateStepsCompletion()
 end
 
 local function fadeoutStep(indexes)
-	if addon.debugging then print("LIME: fade out", #indexes) end
+	--if addon.debugging then print("LIME: fade out", #indexes) end
 	if #indexes == 0 then return end
 	local keepFading = {}
 	local update = false
