@@ -169,6 +169,7 @@ function addon.fillGuides()
 		addon.guidesFrame.loadBtn:SetText(L.RESET_GUIDE)
 		GuidelimeDataChar.currentGuide = {name = addon.guidesFrame.guides[addon.guidesFrame.selectedIndex].guide.name, skip = {}}
 		addon.loadGuide()
+		addon.updateFromQuestLog()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateMainFrame()
 		end
@@ -264,9 +265,11 @@ function addon.fillOptions()
 	prev = checkbox
 	local checkbox = addCheckOption(GuidelimeDataChar, "mainFrameLocked", L.LOCK_MAINFRAME, nil, function()
 		if GuidelimeDataChar.mainFrameLocked then
-			addon.mainFrame.lockBtn:SetButtonState("NORMAL")
+	    	addon.mainFrame.lockBtn:SetPushedTexture("Interface/Buttons/LockButton-Unlocked-Down")
+	    	addon.mainFrame.lockBtn:SetNormalTexture("Interface/Buttons/LockButton-Locked-Up")
 		else
-			addon.mainFrame.lockBtn:SetButtonState("PUSHED")
+	    	addon.mainFrame.lockBtn:SetNormalTexture("Interface/Buttons/LockButton-Unlocked-Down")
+	    	addon.mainFrame.lockBtn:SetPushedTexture("Interface/Buttons/LockButton-Locked-Up")
 		end
 	end)
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)

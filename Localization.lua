@@ -17,6 +17,10 @@ L.MISSING_PREQUESTS = "The following required quests were not completed:"
 L.OTHER_GUIDES = "Other guides"
 L.LOAD_GUIDE = "Load guide"
 L.RESET_GUIDE = "Reset guide"
+L.QUEST_REQUIRED_LEVEL = "Required level for %s is %s"
+L.STEP_MANUAL = "Click here in order to mark this step as completed"
+L.STEP_FOLLOWUP_QUEST = "If you skip this step you will miss %s later on"
+L.STEP_FOLLOWUP_QUESTS = "If you skip this step you will miss %s quests later on"
 
 local locale = GetLocale()
 
@@ -34,6 +38,10 @@ L.MAIN_FRAME_HEIGHT = "Fensterhöhe"
 L.OTHER_GUIDES = "Andere Guides"
 L.LOAD_GUIDE = "Guide laden"
 L.RESET_GUIDE = "Guide zurücksetzen"
+L.QUEST_REQUIRED_LEVEL = "Mindestlevel für %s ist %s"
+L.STEP_MANUAL = "Hier klicken um diesen Schritt als erledigt zu markieren"
+L.STEP_FOLLOWUP_QUEST = "Wenn du diesen Schritt überspringst, kannst du später %s nicht erledigen"
+L.STEP_FOLLOWUP_QUESTS = "Wenn du diesen Schritt überspringst, kannst du später %s Quests nicht erledigen"
 
 end
 

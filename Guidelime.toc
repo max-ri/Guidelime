@@ -15,6 +15,7 @@ Localization.lua
 Guidelime.lua
 Guidelime_Options.lua
 Guidelime_Parser.lua
+Guidelime_Map.lua
 Data\Guidelime_MapDB.lua
 Data\Guidelime_QuestsDB.lua
 Guides\Guidelime_Demo.lua

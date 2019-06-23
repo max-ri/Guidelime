@@ -6,7 +6,7 @@ Guidelime.registerGuide(
 		"https://legacy-wow.com/vanilla-1-60-alliance-leveling-guide/1-12-dwarf-gnomea/", 
 		"https://legacy-wow.com/vanilla-1-60-alliance-leveling-guide/1-12-dwarf-gnomeb/"
 	},	
-	minLevel = 1,	
+	minLevel = 1,
 	maxLevel = 12,	
 	race = {"Dwarf", "Gnome"},	
 	steps = {
@@ -55,7 +55,7 @@ Guidelime.registerGuide(
 		{text = "Once at [L46, 53] turn in [QT420Senir's Observations pt.2]"},
 		{text = "Up ahead on the right, in front of the Inn, accept [QP384Beer Basted Boar Ribs]"},
 		{text = "Go in the Inn and turn in [QT2160Supplies to Tannok]"},
-		{text = "Go to the Innkeeper, make it your home and purchase the rhapsody malt for [QC384,3Beer Basted Boar Ribs]"},
+		{text = "Go to the Innkeeper, make it your home and purchase the rhapsody malt for [QC384,2Beer Basted Boar Ribs]", manual = true},
 		{text = "[T Get new skills]"},
 		{text = "Go across the road from the Inn and accept [QP400Tools for Steelgrill]"},
 		{text = "Go NE to [L49, 48] and accept [QP317Stocking Jetsteam] and [QP313The Grizzled Den]"},
