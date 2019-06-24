@@ -13,6 +13,9 @@ codes:
  - P get flight point
  - V vendor
  - R repair
+ - A applies to [A (race),(class),(faction),...]
+ - O optional step
+ - C complete this step along with the next one
 ]]
 
 function addon.parseLine(step)
@@ -22,27 +25,27 @@ function addon.parseLine(step)
 	local found
 	repeat
 		found = false
-		t = string.gsub(t, "(.-)%[(.-)%]", function(text, code)
+		t = t:gsub("(.-)%[(.-)%]", function(text, code)
 			if text ~= "" then
 				local element = {}
 				element.t = "TEXT"
 				element.text = text
 				table.insert(step.elements, element)
 			end
-			if string.sub(code, 1, 1) == "Q" then
+			if code:sub(1, 1) == "Q" then
 				local element = {}
-				if string.sub(code, 2, 2) == "P" then
+				if code:sub(2, 2) == "P" then
 					element.t = "PICKUP"
-				elseif string.sub(code, 2, 2) == "T" then
+				elseif code:sub(2, 2) == "T" then
 					element.t = "TURNIN"
-				elseif string.sub(code, 2, 2) == "C" then
+				elseif code:sub(2, 2) == "C" then
 					element.t = "COMPLETE"
-				elseif string.sub(code, 2, 2) == "S" then
+				elseif code:sub(2, 2) == "S" then
 					element.t = "SKIP"
 				else
 					error("parsing guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": code not recognized for [" .. code .. "] in line \"" .. step.text .. "\"")
 				end
-				string.gsub(string.sub(code, 3), "(%d+),?(%d*)(.*)", function(id, objective, title)
+				code:sub(3):gsub("(%d+),?(%d*)(.*)", function(id, objective, title)
 					element.questId = tonumber(id)
 					if objective ~= "" then element.objective = tonumber(objective) end
 					if title == "-" then
@@ -52,10 +55,10 @@ function addon.parseLine(step)
 					end
 				end)
 				table.insert(step.elements, element)
-			elseif string.sub(code, 1, 1) == "L" then
+			elseif code:sub(1, 1) == "L" then
 				local element = {}
 				element.t = "LOC"
-				string.gsub(code, "L(%d+%.?%d*), ?(%d+%.?%d*)(.*)", function(x, y, zone)
+				code:gsub("L(%d+%.?%d*), ?(%d+%.?%d*)(.*)", function(x, y, zone)
 					element.x = tonumber(x)
 					element.y = tonumber(y)
 					if zone ~= "" then addon.currentZone = addon.mapIDs[zone] end
@@ -63,10 +66,10 @@ function addon.parseLine(step)
 					if element.mapID == nil then error("parsing guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": zone not found for [" .. code .. "] in line \"" .. step.text .. "\"") end
 				end)
 				table.insert(step.elements, element)
-			elseif string.sub(code, 1, 1) == "G" then
+			elseif code:sub(1, 1) == "G" then
 				local element = {}
 				element.t = "GOTO"
-				string.gsub(code, "G(%d+%.?%d*), ?(%d+%.?%d*),? ?(%d*%.?%d*)(.*)", function(x, y, radius, zone)
+				code:gsub("G(%d+%.?%d*), ?(%d+%.?%d*),? ?(%d*%.?%d*)(.*)", function(x, y, radius, zone)
 					element.x = tonumber(x)
 					element.y = tonumber(y)
 					if radius ~= "" then element.radius = tonumber(radius) else element.radius = 1 end
@@ -75,13 +78,13 @@ function addon.parseLine(step)
 					if element.mapID == nil then error("parsing guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": zone not found for [" .. code .. "] in line \"" .. step.text .. "\"") end
 				end)
 				table.insert(step.elements, element)
-			elseif string.sub(code, 1, 2) == "XP" then
+			elseif code:sub(1, 2) == "XP" then
 				local element = {}
 				element.t = "LEVEL"
-				string.gsub(code, "XP(%d+)([%+%-%.]?)(%d*)(.*)", function(level, t, xp, text)
+				code:gsub("XP(%d+)([%+%-%.]?)(%d*)(.*)", function(level, t, xp, text)
 					element.level = tonumber(level)
-					if text ~= "" and string.sub(text, 1, 1) == " " then
-						element.text = string.sub(text, 2)
+					if text ~= "" and text:sub(1, 1) == " " then
+						element.text = text:sub(2)
 					elseif text ~= "" then
 						element.text = text
 					else
@@ -102,41 +105,72 @@ function addon.parseLine(step)
 					end
 				end)
 				table.insert(step.elements, element)
-			elseif string.sub(code, 1, 1) == "H" then
+			elseif code:sub(1, 1) == "H" then
 				local element = {}
 				element.t = "HEARTH"
-				element.text = string.sub(code, 2)
+				element.text = code:sub(2)
 				table.insert(step.elements, element)
-			elseif string.sub(code, 1, 1) == "F" then
+			elseif code:sub(1, 1) == "F" then
 				local element = {}
 				element.t = "FLY"
-				element.text = string.sub(code, 2)
+				element.text = code:sub(2)
 				table.insert(step.elements, element)
-			elseif string.sub(code, 1, 1) == "T" then
+			elseif code:sub(1, 1) == "T" then
 				local element = {}
 				element.t = "TRAIN"
-				element.text = string.sub(code, 2)
+				element.text = code:sub(2)
 				table.insert(step.elements, element)
-			elseif string.sub(code, 1, 1) == "S" then
+			elseif code:sub(1, 1) == "S" then
 				local element = {}
 				element.t = "SETHEARTH"
-				element.text = string.sub(code, 2)
+				element.text = code:sub(2)
 				table.insert(step.elements, element)
-			elseif string.sub(code, 1, 1) == "P" then
+			elseif code:sub(1, 1) == "P" then
 				local element = {}
 				element.t = "GETFLIGHTPOINT"
-				element.text = string.sub(code, 2)
+				element.text = code:sub(2)
 				table.insert(step.elements, element)
-			elseif string.sub(code, 1, 1) == "V" then
+			elseif code:sub(1, 1) == "V" then
 				local element = {}
 				element.t = "VENDOR"
-				element.text = string.sub(code, 2)
+				element.text = code:sub(2)
 				table.insert(step.elements, element)
-			elseif string.sub(code, 1, 1) == "R" then
+			elseif code:sub(1, 1) == "R" then
 				local element = {}
 				element.t = "REPAIR"
-				element.text = string.sub(code, 2)
+				element.text = code:sub(2)
 				table.insert(step.elements, element)
+			elseif code:sub(1, 1) == "O" then
+				local element = {}
+				element.t = "TEXT"
+				element.text = code:sub(2)
+				if element.text ~= "" then 
+					table.insert(step.elements, element)
+				end
+				step.optional = true
+			elseif code:sub(1, 1) == "C" then
+				local element = {}
+				element.t = "TEXT"
+				element.text = code:sub(2)
+				if element.text ~= "" then 
+					table.insert(step.elements, element)
+				end
+				step.completeWithNext = true
+			elseif code:sub(1, 1) == "A" then
+				code:sub(2):gsub("([^,]+)", function(c)
+					if c == "Warrior" or c == "Rogue" or c == "Mage" or c == "Warlock" or c == "Hunter" or c == "Priest" or c == "Druid" or c == "Paladin" or c == "Shaman" then
+						if step.class == nil then step.class = {} end
+						table.insert(step.class, c)
+					elseif c == "Human" or c == "Night Elf" or c == "Dwarf" or c == "Gnome" or c == "Orc" or c == "Troll" or c == "Tauren" or c == "Undead" or c == "Blood Elf" or c == "Draenei" then
+						if step.race == nil then step.race = {} end
+						table.insert(step.race, c)
+					elseif c == "Alliance" or c == "Horde" then
+						if step.faction == nil then step.faction = {} end
+						table.insert(step.faction, c)
+					else
+						error("parsing guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": code not recognized for [" .. code .. "] in line \"" .. step.text .. "\"")
+					end
+				end)
 			else
 				error("parsing guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": code not recognized for [" .. code .. "] in line \"" .. step.text .. "\"")
 			end
@@ -144,7 +178,7 @@ function addon.parseLine(step)
 			return ""
 		end)
 	until(not found)
-	if t ~= nil then
+	if t ~= nil and t ~= "" then
 		local element = {}
 		element.t = "TEXT"
 		element.text = t

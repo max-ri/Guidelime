@@ -181,6 +181,7 @@ function addon.loadGuide()
 	local completed = GetQuestsCompleted()
 	
 	for i, step in ipairs(addon.guides[GuidelimeDataChar.currentGuide.name].steps) do
+		addon.parseLine(step)	
 		local loadLine = true
 		if step.race ~= nil then
 			if not contains(step.race, addon.race) then loadLine = false end
@@ -191,7 +192,6 @@ function addon.loadGuide()
 		if step.faction ~= nil and step.faction ~= addon.faction then loadLine = false end
 		if loadLine then
 			table.insert(addon.currentGuide.steps, step) 
-			addon.parseLine(step)	
 			step.trackQuest = {}
 			for j, element in ipairs(step.elements) do
 				element.available = true
@@ -227,7 +227,7 @@ function addon.loadGuide()
 					if element.title == nil or element.title == "" then
 						if addon.questsDB[element.questId] == nil then error("loading guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": unknown quest id " .. element.questId .. "\" in line \"" .. step.text .. "\"") end
 						element.title = addon.questsDB[element.questId].name
-					elseif addon.debugging and addon.questsDB[element.questId].name ~= string.sub(element.title, 1, #addon.questsDB[element.questId].name) then
+					elseif addon.debugging and addon.questsDB[element.questId].name ~= element.title:sub(1, #addon.questsDB[element.questId].name) then
 						error("loading guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": wrong title for quest " .. element.questId .. " \"" .. element.title .. "\" instead of \"" .. addon.questsDB[element.questId].name .. "\" in line \"" .. step.text .. "\"")
 					end
 					if element.t == "COMPLETE" or element.t == "TURNIN" or element.t == "WORK" then
@@ -309,7 +309,7 @@ local function updateStepText(i)
 				text = text .. "|T" .. addon.icons.PICKUP_UNAVAILABLE .. ":12|t"
 				if tooltip ~= "" then tooltip = tooltip .. "\n" end
 				local q = getQuestText(element.questId, "PICKUP")
-				tooltip = tooltip .. string.format(L.QUEST_REQUIRED_LEVEL, q, addon.questsDB[element.questId].req)
+				tooltip = tooltip .. L.QUEST_REQUIRED_LEVEL:format(q, addon.questsDB[element.questId].req)
 			elseif element.t == "TURNIN" and not element.finished then
 				text = text .. "|T" .. addon.icons.TURNIN_INCOMPLETE .. ":12|t"
 			elseif addon.icons[element.t] ~= nil then
@@ -344,9 +344,9 @@ local function updateStepText(i)
 			if skipTooltip ~= "" then skipTooltip = skipTooltip .. "\n" end
 			skipTooltip = skipTooltip .. "|T" .. addon.icons.UNAVAILABLE .. ":12|t"
 			if #addon.quests[element.questId].followup == 1 then
-				skipTooltip = skipTooltip .. string.format(L.STEP_FOLLOWUP_QUEST, getQuestText(addon.quests[element.questId].followup[1], "PICKUP"))
+				skipTooltip = skipTooltip .. L.STEP_FOLLOWUP_QUEST:format(getQuestText(addon.quests[element.questId].followup[1], "PICKUP"))
 			else
-				skipTooltip = skipTooltip .. string.format(L.STEP_FOLLOWUP_QUESTS, #addon.quests[element.questId].followup)
+				skipTooltip = skipTooltip .. L.STEP_FOLLOWUP_QUESTS:format(#addon.quests[element.questId].followup)
 			end
 		end
 	end
@@ -448,13 +448,12 @@ local function updateStepCompletion(i, completedIndexes)
 		if step.completed == nil then step.completed = step.completeWithNext and wasCompleted end
 	end
 	
-	if i > 1 then
-		local pstep = addon.currentGuide.steps[i - 1]
-		local c = step.completed or step.skip --or not step.available
-		if pstep.completed ~= c and pstep.completeWithNext ~= nil and pstep.completeWithNext then
-			if addon.debugging then print("LIME: complete with next ", i - 1, c, step.skip, step.available) end
-			pstep.completed = c
-			table.insert(completedIndexes, i - 1)
+	if i < #addon.currentGuide.steps and step.completeWithNext ~= nil and step.completeWithNext then
+		local nstep = addon.currentGuide.steps[i + 1]
+		local c = nstep.completed or nstep.skip
+		if step.completed ~= c then
+			if addon.debugging then print("LIME: complete with next ", i - 1, c, nstep.skip, nstep.available) end
+			step.completed = c
 		end
 	end
 	
@@ -509,12 +508,11 @@ local function updateStepAvailability(i, changedIndexes, marked)
 		if not element.available then step.available = false end
 	end
 
-	if i > 1 then
-		local pstep = addon.currentGuide.steps[i - 1]
-		if pstep.available ~= step.available and pstep.completeWithNext ~= nil and pstep.completeWithNext then
-			if addon.debugging then print("LIME: complete with next ", i - 1, step.skip, step.available) end
-			pstep.available = step.available
-			table.insert(changedIndexes, i - 1)
+	if i < #addon.currentGuide.steps and step.completeWithNext ~= nil and step.completeWithNext then 
+		local nstep = addon.currentGuide.steps[i + 1]
+		if step.available ~= nstep.available then
+			if addon.debugging then print("LIME: complete with next ", i, nstep.skip, nstep.available) end
+			step.available = nstep.available
 		end
 	end
 

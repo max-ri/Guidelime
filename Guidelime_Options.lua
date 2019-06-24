@@ -58,7 +58,7 @@ function addon.fillGuides()
 	for name, guide in pairs(addon.guides) do
 		if groups[guide.group] == nil then 
 			groups[guide.group] = {} 
-		table.insert(groupNames, guide.group)
+			table.insert(groupNames, guide.group)
 		end
 		table.insert(groups[guide.group], name)
 	end
