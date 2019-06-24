@@ -38,14 +38,17 @@ addon.icons = {
 	COMPLETE = "Interface\\GossipFrame\\BattleMasterGossipIcon",
 	TURNIN = "Interface\\GossipFrame\\ActiveQuestIcon",
 	TURNIN_INCOMPLETE = "Interface\\GossipFrame\\IncompleteQuestIcon",
-	
-	--LOC = "Interface\\Icons\\Ability_Tracking",
-	--GOTO = "Interface\\Icons\\Ability_Tracking",
+	SETHEARTH = "Interface\\Icons\\INV_Drink_05", -- nicer than the actual "Interface\\GossipFrame\\BinderGossipIcon" ?
+	VENDOR = "Interface\\GossipFrame\\VendorGossipIcon",
+	REPAIR = "Interface\\Icons\\Trade_BlackSmithing",
 	HEARTH = "Interface\\Icons\\INV_Misc_Rune_01",
 	FLY = "Interface\\GossipFrame\\TaxiGossipIcon",
 	TRAIN = "Interface\\GossipFrame\\TrainerGossipIcon",
+	GETFLIGHTPOINT = "Interface\\Addons\\Guidelime\\Icons\\getflightpoint",
+	
+	--LOC = "Interface\\Icons\\Ability_Tracking",
+	--GOTO = "Interface\\Icons\\Ability_Tracking",
 
-	--GETFLIGHTPOINT = "Interface\\Icons\\Ability_Hunter_EagleEye",
 	--KILL = "Interface\\Icons\\Ability_Creature_Cursed_02",
 	--MAP = "Interface\\Icons\\Ability_Spy",
 	--SETHEARTH = "Interface\\AddOns\\TourGuide\\resting.tga",
@@ -104,6 +107,7 @@ end
 local function loadData()
 	local defaultOptions = {
 		debugging = false,
+		showQuestLevels = true
 	}
 	local defaultOptionsChar = {
 		mainFrameX = 0,
@@ -191,8 +195,19 @@ function addon.loadGuide()
 			step.trackQuest = {}
 			for j, element in ipairs(step.elements) do
 				element.available = true
-				if step.manual == nil and (element.t == "PICKUP" or element.t == "COMPLETE" or element.t == "TURNIN" or element.t == "LEVEL" or element.t == "GOTO") then 
-					step.manual = false 
+				
+				if element.t == "PICKUP" or element.t == "COMPLETE" or element.t == "TURNIN" or element.t == "LEVEL" then 
+					if step.manual == nil then step.manual = false end
+					step.completeWithNext = false
+				elseif element.t == "TRAIN" or element.t == "VENDOR" or element.t == "REPAIR" or element.t == "SETHEARTH" or element.t == "GETFLIGHTPOINT" then 
+					if step.manual == nil then step.manual = true end
+					step.completeWithNext = false
+				elseif element.t == "GOTO" then 
+					if step.manual == nil then step.manual = false end
+					if step.completeWithNext == nil then step.completeWithNext = true end
+				elseif element.t == "FLY" or element.t == "HEARTH" then 
+					if step.manual == nil then step.manual = true end
+					if step.completeWithNext == nil then step.completeWithNext = true end
 				end
 				if element.questId ~= nil then
 					if addon.quests[element.questId] == nil then
@@ -225,9 +240,9 @@ function addon.loadGuide()
 				end
 			end
 			if step.manual == nil then step.manual = true end
-			if step.completeWithNext == nil then step.compleWithNext = false end
-			if step.completeWithNext then step.required = false end
-			if step.required == nil then step.required = true end
+			if step.completeWithNext == nil then step.compleWithNext = not step.manual end
+			if step.completeWithNext then step.optional = true end
+			if step.optional == nil then step.optional = false end
 			step.skip = GuidelimeDataChar.currentGuide.skip[#addon.currentGuide.steps] ~= nil and GuidelimeDataChar.currentGuide.skip[#addon.currentGuide.steps]
 			step.active = false
 			step.completed = false
@@ -254,6 +269,15 @@ end
 
 local function getQuestText(id, t, colored)
 	local q = ""
+	if GuidelimeData.showQuestLevels then
+		q = q .. addon.getLevelColor(addon.questsDB[id].level)
+		q = q .. "[" .. addon.questsDB[id].level .. "] "
+		if colored == nil or colored then 
+			q = q .. "|r"
+		else
+			q = q .. addon.COLOR_INACTIVE
+		end
+	end
 	if colored == nil or colored then q = q .. getColorQuest(t) end
 	q = q .. addon.questsDB[id].name
 	if colored == nil or colored and addon.currentGuide.colorQuest ~= nil then q = q .. "|r" end
@@ -354,20 +378,8 @@ local function updateStepText(i)
 		end
 	end
 	addon.mainFrame.steps[i].textBox:SetText(text)
-	if tooltip ~= "" then
-		addon.mainFrame.steps[i].textBox:SetScript("OnEnter", function(this) GameTooltip:SetOwner(this, "ANCHOR_RIGHT",0,-32);  GameTooltip:SetText(tooltip); GameTooltip:Show() end)
-		addon.mainFrame.steps[i].textBox:SetScript("OnLeave", function(this) GameTooltip:Hide() end)
-	else
-		addon.mainFrame.steps[i].textBox:SetScript("OnEnter", nil)
-		addon.mainFrame.steps[i].textBox:SetScript("OnLeave", nil)
-	end
-	if skipTooltip ~= "" then
-		addon.mainFrame.steps[i]:SetScript("OnEnter", function(this) GameTooltip:SetOwner(this, "ANCHOR_RIGHT",0,-32);  GameTooltip:SetText(skipTooltip); GameTooltip:Show() end)
-		addon.mainFrame.steps[i]:SetScript("OnLeave", function(this) GameTooltip:Hide() end)
-	else
-		addon.mainFrame.steps[i]:SetScript("OnEnter", nil)
-		addon.mainFrame.steps[i]:SetScript("OnLeave", nil)
-	end
+	addon.mainFrame.steps[i].textBox.tooltip = tooltip
+	addon.mainFrame.steps[i].tooltip = skipTooltip
 end
 
 local function queryPosition()
@@ -582,7 +594,7 @@ local function updateStepsActivation()
 		if step.active then
 			for j, pstep in ipairs(addon.currentGuide.steps) do
 				if j == i then break end
-				if pstep.required and not pstep.skip and not pstep.completed and pstep.available then
+				if not pstep.optional and not pstep.skip and not pstep.completed and pstep.available then
 					step.active = false
 					break 
 				end
@@ -611,7 +623,7 @@ local function updateStepsMapIcons()
 	addon.showMapIcons()
 end
 
-local function updateStepsText()
+function addon.updateStepsText()
 	--if addon.debugging then print("LIME: update step texts") end
 	if addon.currentGuide == nil then return end
 	for i, step in ipairs(addon.currentGuide.steps) do
@@ -626,7 +638,7 @@ function addon.updateSteps(completedIndexes)
 	updateStepsCompletion(completedIndexes)
 	updateStepsActivation()
 	updateStepsMapIcons()
-	updateStepsText()
+	addon.updateStepsText()
 	fadeoutStep(completedIndexes) 
 end
 
@@ -661,20 +673,20 @@ function addon.updateMainFrame()
 					local step = addon.currentGuide.steps[i]
 					step.skip = addon.mainFrame.steps[i]:GetChecked()
 					GuidelimeDataChar.currentGuide.skip[i] = step.skip
-					--if step.skip then
-					--	fadeoutStep({i})
-					--else
-						addon.updateSteps({i})
-					--end
+					addon.updateSteps({i})
 				end)
+				addon.mainFrame.steps[i]:SetScript("OnEnter", function(this) if this.tooltip ~= nil and this.tooltip ~= "" then GameTooltip:SetOwner(this, "ANCHOR_RIGHT",0,-32);  GameTooltip:SetText(this.tooltip); GameTooltip:Show() end end)
+				addon.mainFrame.steps[i]:SetScript("OnLeave", function(this) if this.tooltip ~= nil and this.tooltip ~= "" then GameTooltip:Hide() end end)
 				
-				addon.mainFrame.steps[i].textBox=CreateFrame("EditBox", nil, addon.mainFrame.steps[i])
+				addon.mainFrame.steps[i].textBox = CreateFrame("EditBox", nil, addon.mainFrame.steps[i])
 				addon.mainFrame.steps[i].textBox:SetPoint("TOPLEFT", addon.mainFrame.steps[i], "TOPLEFT", 35, -9)
 				addon.mainFrame.steps[i].textBox:SetMultiLine(true)
-				addon.mainFrame.steps[i].textBox:EnableMouse(false)
 				addon.mainFrame.steps[i].textBox:SetAutoFocus(false)
 				addon.mainFrame.steps[i].textBox:SetFontObject("GameFontNormal")
 				addon.mainFrame.steps[i].textBox:SetWidth(addon.mainFrame.scrollChild:GetWidth() - 35)
+				addon.mainFrame.steps[i].textBox:SetScript("OnEnter", function(this) if this.tooltip ~= nil and this.tooltip ~= "" then GameTooltip:SetOwner(this, "ANCHOR_RIGHT",0,-32); GameTooltip:SetText(this.tooltip); GameTooltip:Show() end end)
+				addon.mainFrame.steps[i].textBox:SetScript("OnLeave", function(this) if this.tooltip ~= nil and this.tooltip ~= "" then GameTooltip:Hide() end end)
+    			addon.mainFrame.steps[i].textBox:SetScript("OnEditFocusGained", function (self) self:ClearFocus() end)
 				updateStepText(i)
 				
 				prev = addon.mainFrame.steps[i].textBox
@@ -711,7 +723,15 @@ function addon.showMainFrame()
 				local _
 				_, _, GuidelimeDataChar.mainFrameRelative, GuidelimeDataChar.mainFrameX, GuidelimeDataChar.mainFrameY = addon.mainFrame:GetPoint()
 			elseif (button == "RightButton") then
-				addon.showGuides()
+				EasyMenu({
+					{text = L.AVAILABLE_GUIDES .. "...", func = function() addon.showGuides() end},
+					{text = GAMEOPTIONS_MENU .. "...", func = function() addon.showOptions() end},
+					{text = L.HIDE_COMPLETED_STEPS, checked = GuidelimeDataChar.hideCompletedSteps, func = function()
+						GuidelimeDataChar.hideCompletedSteps = not GuidelimeDataChar.hideCompletedSteps
+						if addon.optionsFrame ~= nil then addon.optionsFrame.options.hideCompletedSteps:SetChecked(GuidelimeDataChar.hideCompletedSteps) end
+						addon.updateMainFrame()
+					end}
+				}, CreateFrame("Frame", "WoWProDropMenu", UIParent, "UIDropDownMenuTemplate"), "cursor", 0 , 0, "MENU");
 			end
 		end)
 		
@@ -753,7 +773,7 @@ function addon.showMainFrame()
 		end
 		addon.mainFrame.lockBtn:SetScript("OnClick", function() 
 			GuidelimeDataChar.mainFrameLocked = not GuidelimeDataChar.mainFrameLocked
-			addon.optionsFrame.options.mainFrameLocked:SetChecked(mainFrameLocked)
+			if addon.optionsFrame ~= nil then addon.optionsFrame.options.mainFrameLocked:SetChecked(GuidelimeDataChar.mainFrameLocked) end
 			if GuidelimeDataChar.mainFrameLocked then
 		    	addon.mainFrame.lockBtn:SetPushedTexture("Interface/Buttons/LockButton-Unlocked-Down")
 		    	addon.mainFrame.lockBtn:SetNormalTexture("Interface/Buttons/LockButton-Locked-Up")
@@ -868,7 +888,7 @@ function addon.frame:QUEST_LOG_UPDATE()
 			
 			if checkCompleted then
 				if questFound then
-					updateStepsText()
+					addon.updateStepsText()
 				end
 				C_Timer.After(1, function() 
 					local completed = GetQuestsCompleted()
@@ -890,7 +910,7 @@ function addon.frame:QUEST_LOG_UPDATE()
 			elseif questChanged then 
 				addon.updateSteps() 
 			elseif questFound then
-				updateStepsText()
+				addon.updateStepsText()
 			end
 		end
 	end

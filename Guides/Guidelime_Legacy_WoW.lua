@@ -1,7 +1,12 @@
+local group = "Legacy WoW"
+local details = "Guide from the website |cFFFFD100Legacy World of Warcraft|r (|cFFAAAAAAhttps://legacy-wow.com|r). Check it out! It contains not only these leveling guides but also class "
+	.. "and profession guides, talent calculators and much more."
+
 Guidelime.registerGuide(
 {	
-	group = "legacy",
-	title = "Dun Morogh",
+	group = group,
+	title = "Dwarf/Gnome",
+	next = group .. " 12-17 Darkshore",
 	source = {
 		"https://legacy-wow.com/vanilla-1-60-alliance-leveling-guide/1-12-dwarf-gnomea/", 
 		"https://legacy-wow.com/vanilla-1-60-alliance-leveling-guide/1-12-dwarf-gnomeb/"
@@ -9,6 +14,7 @@ Guidelime.registerGuide(
 	minLevel = 1,
 	maxLevel = 12,	
 	race = {"Dwarf", "Gnome"},	
+	details = details,
 	steps = {
 		-- Part 1
 		{text = "Right in front of where you start accept [QP179Dwarven Outfitters]"},
@@ -43,10 +49,10 @@ Guidelime.registerGuide(
 		{text = "Run back up to [L25, 75] and turn in [QT182The Troll Cave] accept [QP218The Stolen Journal] you should be [XP4.8 5 or very close] to it now."},
 		{text = "Go back in the cave at [L26, 79] and go left at the 3 directions to [L30, 80] and kill Grik'nir the Cold for [QC218The Stolen Journal]"},
 		{text = "Return back to [L25, 75] and turn in [QT218The Stolen Journal] accept [QP282Senir's Observations pt.1]"},
-		{text = "Turn around and Accept [QP3364Scalding Mornbrew Delivery] and [H hearth]."},
+		{text = "Turn around and Accept [QP3364Scalding Mornbrew Delivery] and [H] hearth."},
 		{text = "Run up into Anvilmar at [L28, 69] and turn in [QT3361A Refugee's Quandary]"},
 		{text = "Go further back and turn in [QT3364Scalding Mornbrew Delivery] accept [QP3365Bring Back the Mug]"},
-		{text = "[T Get training] before you leave"},
+		{text = "[T] Get training before you leave"},
 		{text = "Run right to [L25, 75], everything is yellow so nothing will attack you, and turn in [QT3365Bring Back the Mug]"},
 		{text = "Head toward the tunnel and turn in [QT282Senir's Observations pt.1] at [L33, 71] and accept [QP420Senir's Observations pt.2]"},
 		{text = "You should be about [XP6-500 500 to 6] now"},
@@ -55,8 +61,8 @@ Guidelime.registerGuide(
 		{text = "Once at [L46, 53] turn in [QT420Senir's Observations pt.2]"},
 		{text = "Up ahead on the right, in front of the Inn, accept [QP384Beer Basted Boar Ribs]"},
 		{text = "Go in the Inn and turn in [QT2160Supplies to Tannok]"},
-		{text = "Go to the Innkeeper, make it your home and purchase the rhapsody malt for [QC384,2Beer Basted Boar Ribs]", manual = true},
-		{text = "[T Get new skills]"},
+		{text = "Go to the Innkeeper, [S]make it your home and purchase the rhapsody malt for [QC384,2Beer Basted Boar Ribs]"},
+		{text = "[T] Get new skills"},
 		{text = "Go across the road from the Inn and accept [QP400Tools for Steelgrill]"},
 		{text = "Go NE to [L49, 48] and accept [QP317Stocking Jetsteam] and [QP313The Grizzled Den]"},
 		{text = "Go to the left house and turn in [QT400Tools for Steelgrill]"},
@@ -66,7 +72,7 @@ Guidelime.registerGuide(
 				"If you’re having trouble finding boars, just go to around [L40, 65] there is a lot."},
 		{text = "Go into the grizzled den at [L42, 54] and kill wendingos until you get 8 manes for [QC313The Grizzled Den]"},
 		{text = "You also wanna head out to [L40, 65] and turn in [QT5541Ammo for Rumbleshot] watch the scene it’s cool, only if you aren’t time running. You should be [XP6.9 7 or very close] now"},
-		{text = "[H Hearth] back to Kharanos [G47, 52]"},
+		{text = "[H] Hearth back to Kharanos [G47, 52]"},
 		{text = "Just outside the Inn, turn in [QT384Beer Basted Boar Ribs]"},
 		{text = "Go to the house at [L45, 49], NE of the Inn, and accept [QP412Operation Recombobulation]"},
 		{text = "Run NE to [L49, 48] and turn in [QT317Stocking Jetsteam] accept [QP318Evershine]"},
@@ -90,12 +96,12 @@ Guidelime.registerGuide(
 		{text = "Either straight down the steps of the Inn, or N of the GY, turn in [QT287Frostmane Hold] accept [QP291The Reports]"},
 		{text = "Go NW in the house at [L45, 49] and turn in [QT412Operation Recombobulation]"},
 		{text = "Go east to [L49, 48] and turn in [QT320Return to Bellowfiz] you should be [XP9.5half way to 10] now"},
-		{text = "Go North to IF at [G53, 35]", completeWithNext = true, required = false},
-		{text = "Make IF your home at [L21, 55Ironforge]"},
+		{text = "Go North to IF at [G53, 35]"},
+		{text = "[S] Make IF your home at [L21, 55Ironforge]"},
 		{text = "Go to [L39, 56] in IF, behind the bank, in the kings room, turn in [QT291The Reports]"},
-		{text = "Enter the tram at [G76, 51]", completeWithNext = true, required = false},
-		{text = "Take the tram down to SW", completeWithNext = true, required = false},
-		{text = "Go to [L66, 62Stormwind City] and get the FP"},
+		{text = "Enter the tram at [G76, 51]"},
+		{text = "Take the tram down to SW"},
+		{text = "[P]Go to [G66, 62Stormwind City] and get the FP"},
 		{text = "Reach goldshire and enter the Inn at [G42, 65Elwynn Forest]"},
 		{text = "Just to your left accept [QP60Kobold Candles]"},
 		{text = "Exit the Inn and go straight out and accept [QP62The Fargodeep Mine]"},
@@ -108,7 +114,7 @@ Guidelime.registerGuide(
 		{text = "Go back west to [L34, 84] and turn in [QT86Pie for Billy] SKIP [QS84Back to Billy]"},
 		{text = "Go west some to the river at [L29, 85] and turn in [QT106Young Lovers] accept [QP111Speak with Gramma]"},
 		{text = "Go back to [L34, 84] and turn in [QT111Speak with Gramma] in the house, accept [QP107Note to William] You should be [XP10] now"},
-		{text = "Go back to goldshire, either die or run", completeWithNext = true, required = false},
+		{text = "Go back to [G42, 65]goldshire, either die or run"},
 		{text = "In the Inn turn in [QT60Kobold Candles] SKIP [QS61Shipment to Stormwind] also turn in [QT107Note to William] SKIP [QS112Collecting Kelp]"},
 		{text = "Straight outside the Inn, turn in [QT62The Fargodeep Mine] SKIP [QS76The Jasperlode Mine]"},
 		{text = "South near the fence, turn in [QT47Gold Dust Exchange]"},
@@ -122,7 +128,7 @@ Guidelime.registerGuide(
 		{text = "Go east to [G80, 51] and follow the path into Loch Modan"},
 		{text = "Go to [L22, 73Loch Modan] and accept [QP224In Defense of the King's Lands]"},
 		{text = "Go up in the tower and accept [QP267The Trogg Threat]"},
-		{text = "At [L33, 50] grab the FP"},
+		{text = "[P] At [L33, 50] grab the FP"},
 		{text = "Look for the wandering guard and accept [QP416Rat Catching]"},
 		{text = "Kill troggs from [L27, 53] and north for [QC224In Defense of the King's Lands] and [QC267The Trogg Threat]"},
 		{text = "Go back to [L22, 73] and turn them both in[QT224-][QT267-]"},
@@ -130,3 +136,32 @@ Guidelime.registerGuide(
 		{text = "You should be [XP12] now or close to it. You can grind if you’d like but it doesn’t matter much. Follow the Night Elf to IF guide but just go backwards. You’re going to go north through the wetlands to menethil, then boat to auberdine from here."},
 	}
 })
+
+-- other guides are fake so far
+Guidelime.registerGuide({group = group, faction = "Alliance", minLevel = 12, maxLevel = 17, details = details, title = "Darkshore", steps = {}})
+Guidelime.registerGuide({group = group, faction = "Alliance", minLevel = 17, maxLevel = 21, details = details, title = "Darkshore", steps = {}})
+Guidelime.registerGuide({group = group, faction = "Alliance", minLevel = 21, maxLevel = 24, details = details, title = "Ashenvale", steps = {}})
+Guidelime.registerGuide({group = group, faction = "Alliance", minLevel = 24, maxLevel = 27, details = details, title = "Darkshore", steps = {}})
+Guidelime.registerGuide({group = group, faction = "Alliance", minLevel = 27, maxLevel = 29, details = details, title = "Menethil Harbor", steps = {}})
+Guidelime.registerGuide({group = group, faction = "Alliance", minLevel = 29, maxLevel = 30, details = details, title = "Duskwood", steps = {}})
+Guidelime.registerGuide({group = group, faction = "Alliance", minLevel = 30, maxLevel = 32, details = details, title = "Menethil Harbor", steps = {}})
+Guidelime.registerGuide({group = group, faction = "Alliance", minLevel = 32, maxLevel = 35, details = details, title = "Stranglethorn Vale", steps = {}})
+Guidelime.registerGuide({group = group, faction = "Alliance", minLevel = 35, maxLevel = 36, details = details, title = "Desolace", steps = {}})
+Guidelime.registerGuide({group = group, faction = "Alliance", minLevel = 36, maxLevel = 38, details = details, title = "Stranglethorn Vale", steps = {}})
+Guidelime.registerGuide({group = group, faction = "Alliance", minLevel = 38, maxLevel = 40, details = details, title = "Hillsbrad Foothills", steps = {}})
+Guidelime.registerGuide({group = group, faction = "Alliance", minLevel = 40, maxLevel = 41, details = details, title = "Stranglethorn Vale", steps = {}})
+Guidelime.registerGuide({group = group, faction = "Alliance", minLevel = 41, maxLevel = 43, details = details, title = "Swamp of Sorrows", steps = {}})
+Guidelime.registerGuide({group = group, faction = "Alliance", minLevel = 43, maxLevel = 45, details = details, title = "Tanaris", steps = {}})
+Guidelime.registerGuide({group = group, faction = "Alliance", minLevel = 45, maxLevel = 47, details = details, title = "Feralas", steps = {}})
+Guidelime.registerGuide({group = group, faction = "Alliance", minLevel = 47, maxLevel = 48, details = details, title = "The Hinterlands", steps = {}})
+Guidelime.registerGuide({group = group, faction = "Alliance", minLevel = 48, maxLevel = 49, details = details, title = "Tanaris", steps = {}})
+Guidelime.registerGuide({group = group, faction = "Alliance", minLevel = 49, maxLevel = 50, details = details, title = "Blasted Lands", steps = {}})
+Guidelime.registerGuide({group = group, faction = "Alliance", minLevel = 50, maxLevel = 51, details = details, title = "Searing Gorge", steps = {}})
+Guidelime.registerGuide({group = group, faction = "Alliance", minLevel = 51, maxLevel = 53, details = details, title = "Un'Goro Crater", steps = {}})
+Guidelime.registerGuide({group = group, faction = "Alliance", minLevel = 53, maxLevel = 54, details = details, title = "Un'Goro Crater pt. 2", steps = {}})
+Guidelime.registerGuide({group = group, faction = "Alliance", minLevel = 54, maxLevel = 55, details = details, title = "Felwood", steps = {}})
+Guidelime.registerGuide({group = group, faction = "Alliance", minLevel = 55, maxLevel = 56, details = details, title = "Winterspring", steps = {}})
+Guidelime.registerGuide({group = group, faction = "Alliance", minLevel = 56, maxLevel = 57, details = details, title = "Silithus", steps = {}})
+Guidelime.registerGuide({group = group, faction = "Alliance", minLevel = 57, maxLevel = 58, details = details, title = "Western Plaguelands", steps = {}})
+Guidelime.registerGuide({group = group, faction = "Alliance", minLevel = 58, maxLevel = 59, details = details, title = "Eastern Plaguelands", steps = {}})
+Guidelime.registerGuide({group = group, faction = "Alliance", minLevel = 59, maxLevel = 60, details = details, title = "Winterspring", steps = {}})

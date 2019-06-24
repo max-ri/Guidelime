@@ -21,6 +21,7 @@ L.QUEST_REQUIRED_LEVEL = "Required level for %s is %s"
 L.STEP_MANUAL = "Click here in order to mark this step as completed"
 L.STEP_FOLLOWUP_QUEST = "If you skip this step you will miss %s later on"
 L.STEP_FOLLOWUP_QUESTS = "If you skip this step you will miss %s quests later on"
+L.SHOW_QUEST_LEVELS = "show quest levels"
 
 local locale = GetLocale()
 
@@ -42,6 +43,7 @@ L.QUEST_REQUIRED_LEVEL = "Mindestlevel für %s ist %s"
 L.STEP_MANUAL = "Hier klicken um diesen Schritt als erledigt zu markieren"
 L.STEP_FOLLOWUP_QUEST = "Wenn du diesen Schritt überspringst, kannst du später %s nicht erledigen"
 L.STEP_FOLLOWUP_QUESTS = "Wenn du diesen Schritt überspringst, kannst du später %s Quests nicht erledigen"
+L.SHOW_QUEST_LEVELS = "Quest-Level anzeigen"
 
 end
 

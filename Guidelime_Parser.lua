@@ -1,5 +1,20 @@
 local addonName, addon = ...
 
+--[[
+codes:
+ - Q [QP/T/C/S(id)[,objective](title)] quest pickup/turnin/complete/skip
+ - L [L(x).(y)[zone] ] loc
+ - G [G(x).(y)[zone] ] goto
+ - XP [XP (level)[.(percentage)/+(points)/-(points remaining)] experience
+ - H hearth
+ - F fly
+ - T train
+ - S set hearth
+ - P get flight point
+ - V vendor
+ - R repair
+]]
+
 function addon.parseLine(step)
 	if step.text == nil then return end
 	step.elements = {}
@@ -24,8 +39,6 @@ function addon.parseLine(step)
 					element.t = "COMPLETE"
 				elseif string.sub(code, 2, 2) == "S" then
 					element.t = "SKIP"
-				elseif string.sub(code, 2, 2) == "W" then
-					element.t = "WORK"
 				else
 					error("parsing guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": code not recognized for [" .. code .. "] in line \"" .. step.text .. "\"")
 				end
@@ -102,6 +115,26 @@ function addon.parseLine(step)
 			elseif string.sub(code, 1, 1) == "T" then
 				local element = {}
 				element.t = "TRAIN"
+				element.text = string.sub(code, 2)
+				table.insert(step.elements, element)
+			elseif string.sub(code, 1, 1) == "S" then
+				local element = {}
+				element.t = "SETHEARTH"
+				element.text = string.sub(code, 2)
+				table.insert(step.elements, element)
+			elseif string.sub(code, 1, 1) == "P" then
+				local element = {}
+				element.t = "GETFLIGHTPOINT"
+				element.text = string.sub(code, 2)
+				table.insert(step.elements, element)
+			elseif string.sub(code, 1, 1) == "V" then
+				local element = {}
+				element.t = "VENDOR"
+				element.text = string.sub(code, 2)
+				table.insert(step.elements, element)
+			elseif string.sub(code, 1, 1) == "R" then
+				local element = {}
+				element.t = "REPAIR"
 				element.text = string.sub(code, 2)
 				table.insert(step.elements, element)
 			else

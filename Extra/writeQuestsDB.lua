@@ -10,6 +10,7 @@ local quests = JSON:decode(json)
 local questsConverted = {}
 for id, quest in pairs(quests) do
 	questsConverted[tonumber(id)] = quest
+	quest.level = tonumber(quest.level)
 	quest.req = tonumber(quest.req)
 	quest.prev = tonumber(quest.prev)
 	quest.next = tonumber(quest.next)

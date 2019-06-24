@@ -7,58 +7,29 @@ function addon.loadOptionsFrame()
 	addon.fillGuides()
 	addon.fillOptions()
 end
+local function loadSelectedGuide() 
+	addon.guidesFrame.loadBtn:SetText(L.RESET_GUIDE)
+	GuidelimeDataChar.currentGuide = {name = addon.guidesFrame.guides[addon.guidesFrame.selectedIndex].guide.name, skip = {}}
+	addon.guidesFrame.text1:SetText(L.CURRENT_GUIDE .. ": |cFFFFFFFF" .. GuidelimeDataChar.currentGuide.name .. "\n")
+	addon.loadGuide()
+	addon.updateFromQuestLog()
+	if GuidelimeDataChar.mainFrameShowing then
+		addon.updateMainFrame()
+	end
+end
 
 function addon.fillGuides()
     addon.guidesFrame = CreateFrame("Frame", nil, UIParent)
     addon.guidesFrame.name = addonName
     InterfaceOptions_AddCategory(addon.guidesFrame)
 	
-    local scrollframe = CreateFrame("ScrollFrame", nil, addon.guidesFrame) 
-    scrollframe:SetPoint('TOPLEFT', 5, -5)
-    scrollframe:SetPoint('BOTTOMRIGHT', -5, 5)
-    scrollframe:EnableMouseWheel(true)
-    scrollframe:SetScript('OnMouseWheel', function(self, direction)
-        if direction == 1 then
-            scroll_value = math.max(self:GetVerticalScroll() - 50, 1)
-            self:SetVerticalScroll(scroll_value)
-            self:GetParent().scrollbar:SetValue(scroll_value) 
-        elseif direction == -1 then
-            scroll_value = math.min(self:GetVerticalScroll() + 50, 250)
-            self:SetVerticalScroll(scroll_value)
-            self:GetParent().scrollbar:SetValue(scroll_value)
-        end
-    end)
-    addon.guidesFrame.scrollframe = scrollframe 
-
-    local scrollbar = CreateFrame("Slider", nil, scrollframe, "UIPanelScrollBarTemplate") 
-    scrollbar:SetPoint("TOPLEFT", addon.guidesFrame, "TOPRIGHT", -20, -20) 
-    scrollbar:SetPoint("BOTTOMLEFT", addon.guidesFrame, "BOTTOMRIGHT", -20, 20) 
-    scrollbar:SetMinMaxValues(1, 250) 
-    scrollbar:SetValueStep(1) 
-    scrollbar.scrollStep = 1 
-    scrollbar:SetValue(0) 
-    scrollbar:SetWidth(16) 
-    scrollbar:SetScript("OnValueChanged", 
-    function (self, value) 
-    self:GetParent():SetVerticalScroll(value) 
-    end) 
-    local scrollbg = scrollbar:CreateTexture(nil, "BACKGROUND") 
-    scrollbg:SetAllPoints(scrollbar) 
-    scrollbg:SetColorTexture(0, 0, 0, 0.6) 
-    addon.guidesFrame.scrollbar = scrollbar
-    
-    local content = CreateFrame("Frame", nil, scrollframe) 
-    content:SetSize(1, 1) 
-    scrollframe.content = content 
-    scrollframe:SetScrollChild(content)
-
-	addon.guidesFrame.title = content:CreateFontString(nil, content, "GameFontNormal")
+	addon.guidesFrame.title = addon.guidesFrame:CreateFontString(nil, addon.guidesFrame, "GameFontNormal")
 	addon.guidesFrame.title:SetText(addonName .. " |cFFFFFFFF" .. GetAddOnMetadata(addonName, "version"))
-	addon.guidesFrame.title:SetPoint("TOPLEFT", content, "TOPLEFT", 20, -20)
+	addon.guidesFrame.title:SetPoint("TOPLEFT", addon.guidesFrame, "TOPLEFT", 20, -20)
 	addon.guidesFrame.title:SetFontObject("GameFontNormalLarge")
 	local prev = addon.guidesFrame.title
 	
-	addon.guidesFrame.text1 = content:CreateFontString(nil, content, "GameFontNormal")
+	addon.guidesFrame.text1 = addon.guidesFrame:CreateFontString(nil, addon.guidesFrame, "GameFontNormal")
 	if GuidelimeDataChar.currentGuide ~= nil then
 		addon.guidesFrame.text1:SetText(L.CURRENT_GUIDE .. ": |cFFFFFFFF" .. GuidelimeDataChar.currentGuide.name .. "\n")
 	else
@@ -67,21 +38,38 @@ function addon.fillGuides()
 	addon.guidesFrame.text1:SetPoint("TOPLEFT", prev, "TOPLEFT", 0, -30)
 	prev = addon.guidesFrame.text1
 	
-	addon.guidesFrame.text2 = content:CreateFontString(nil, content, "GameFontNormal")
+	addon.guidesFrame.text2 = addon.guidesFrame:CreateFontString(nil, addon.guidesFrame, "GameFontNormal")
 	addon.guidesFrame.text2:SetText(L.AVAILABLE_GUIDES .. ":\n")
-	addon.guidesFrame.text2:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -20)
+	addon.guidesFrame.text2:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
 	prev = addon.guidesFrame.text2
 
+    local scrollFrame = CreateFrame("ScrollFrame", nil, addon.guidesFrame, "UIPanelScrollFrameTemplate")
+    scrollFrame:SetPoint("TOPLEFT", prev, "TOPLEFT", 0, -20)
+    scrollFrame:SetPoint("RIGHT", addon.guidesFrame, "RIGHT", -30, 0)
+    scrollFrame:SetPoint("BOTTOM", addon.guidesFrame, "BOTTOM", 0, 160)
+
+    local content = CreateFrame("Frame", nil, scrollFrame) 
+    content:SetSize(1, 1) 
+    scrollFrame:SetScrollChild(content)
+	prev = content
+
 	local groups = {}
+	local groupNames = {}
 	for name, guide in pairs(addon.guides) do
-		if groups[guide.group] == nil then groups[guide.group] = {} end
+		if groups[guide.group] == nil then 
+			groups[guide.group] = {} 
+		table.insert(groupNames, guide.group)
+		end
 		table.insert(groups[guide.group], name)
 	end
+	table.sort(groupNames)
 	
 	local i = 1
 	addon.guidesFrame.groups = {}
 	addon.guidesFrame.guides = {}
-	for group, guides in pairs(groups) do
+	for _, group, guides in ipairs(groupNames) do
+		local guides = groups[group]
+		table.sort(guides)
 		addon.guidesFrame.groups[group] = content:CreateFontString(nil, content, "GameFontNormal")
 		addon.guidesFrame.groups[group]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 		addon.guidesFrame.groups[group]:SetText(group)
@@ -94,7 +82,6 @@ function addon.fillGuides()
 			addon.guidesFrame.guides[i] = CreateFrame("EditBox", nil, content)
 			addon.guidesFrame.guides[i]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 			addon.guidesFrame.guides[i]:SetMultiLine(true)
-			addon.guidesFrame.guides[i]:EnableMouse(false)
 			addon.guidesFrame.guides[i]:SetAutoFocus(false)
 			addon.guidesFrame.guides[i]:SetFontObject("GameFontNormal")
 			addon.guidesFrame.guides[i]:SetWidth(550)
@@ -117,63 +104,77 @@ function addon.fillGuides()
 			end
 			addon.guidesFrame.guides[i]:SetText(text)
 			addon.guidesFrame.guides[i]:SetBackdrop({
-				bgFile = "Interface/DialogFrame/UI-DialogBox-Background",
-				tile = true, tileSize = 32, edgeSize = 0
+				--bgFile = "Interface\\QuestFrame\\UI-QuestLogTitleHighlight",
+				bgFile = "Interface\\AddOns\\Guidelime\\Icons\\TitleHighlight",
+				tile = false, edgeSize = 0
 			})
 			addon.guidesFrame.guides[i].index = i
 			addon.guidesFrame.guides[i].guide = guide
 			if name == GuidelimeDataChar.currentGuide.name then
 				addon.guidesFrame.selectedIndex = i
-				addon.guidesFrame.guides[i]:SetBackdropColor(255,255,255,128)	
+				addon.guidesFrame.guides[i]:SetBackdropColor(1,1,0,1)	
 			else
 				addon.guidesFrame.guides[i]:SetBackdropColor(0,0,0,0)	
 			end
 			addon.guidesFrame.guides[i]:SetScript("OnMouseUp", function(self)
 				addon.guidesFrame.guides[addon.guidesFrame.selectedIndex]:SetBackdropColor(0,0,0,0)	
 				addon.guidesFrame.selectedIndex = self.index
-				self:SetBackdropColor(255,255,255,128)
+				self:SetBackdropColor(1,1,0,1)
 				addon.guidesFrame.textDetails:SetText(self.guide.details or "")
-	    		self:ClearFocus()
 				if GuidelimeDataChar.currentGuide.name == self.guide.name then
 					addon.guidesFrame.loadBtn:SetText(L.RESET_GUIDE)
 				else
 					addon.guidesFrame.loadBtn:SetText(L.LOAD_GUIDE)
 				end
+				-- Double-Click?				
+			    if self.timer ~= nil and self.timer < time() then
+			        self.timer = nil
+			    elseif self.timer ~= nil and self.timer == time() then
+			        self.timer = nil
+					loadSelectedGuide()
+			    else
+			        self.timer = time()
+			    end
 			end)
+			addon.guidesFrame.guides[i]:SetScript("OnEnter", function(self)
+				if addon.guidesFrame.selectedIndex ~= self.index then
+					self:SetBackdropColor(0.5,0.5,1,1)	
+				end
+			end)
+			addon.guidesFrame.guides[i]:SetScript("OnLeave", function(self)
+				if addon.guidesFrame.selectedIndex ~= self.index then
+					self:SetBackdropColor(0,0,0,0)	
+				end
+			end)
+    		addon.guidesFrame.guides[i]:SetScript("OnEditFocusGained", function (self) self:ClearFocus() end)
+			addon.guidesFrame.guides[i]:SetAutoFocus(false)
 			prev = addon.guidesFrame.guides[i]
 			i = i + 1
 		end
 	end
-		
-	addon.guidesFrame.text3 = content:CreateFontString(nil, content, "GameFontNormal")
+	prev = scrollFrame
+	
+	addon.guidesFrame.text3 = addon.guidesFrame:CreateFontString(nil, addon.guidesFrame, "GameFontNormal")
 	addon.guidesFrame.text3:SetText(L.DETAILS .. ":\n")
 	addon.guidesFrame.text3:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -20)
 	prev = addon.guidesFrame.text3
 
-	addon.guidesFrame.textDetails = CreateFrame("EditBox", nil, content)
+	addon.guidesFrame.textDetails = CreateFrame("EditBox", nil, addon.guidesFrame)
 	addon.guidesFrame.textDetails:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	addon.guidesFrame.textDetails:SetMultiLine(true)
-	addon.guidesFrame.textDetails:EnableMouse(false)
-	addon.guidesFrame.textDetails:SetAutoFocus(false)
 	addon.guidesFrame.textDetails:SetFontObject("GameFontNormal")
 	addon.guidesFrame.textDetails:SetWidth(550)
 	addon.guidesFrame.textDetails:SetTextColor(255,255,255,255)
 	addon.guidesFrame.textDetails:SetText(addon.guides[GuidelimeDataChar.currentGuide.name].details or "")
+    addon.guidesFrame.textDetails:SetScript("OnEditFocusGained", function (self) self:ClearFocus() end)
+	addon.guidesFrame.textDetails:SetAutoFocus(false)
 	
 	addon.guidesFrame.loadBtn = CreateFrame("BUTTON", nil, addon.guidesFrame, "UIPanelButtonTemplate")
 	addon.guidesFrame.loadBtn:SetWidth(120)
 	addon.guidesFrame.loadBtn:SetHeight(30)
 	addon.guidesFrame.loadBtn:SetText(L.RESET_GUIDE)
 	addon.guidesFrame.loadBtn:SetPoint("BOTTOMLEFT", addon.guidesFrame, "BOTTOMLEFT", 20, 20)
-	addon.guidesFrame.loadBtn:SetScript("OnClick", function() 
-		addon.guidesFrame.loadBtn:SetText(L.RESET_GUIDE)
-		GuidelimeDataChar.currentGuide = {name = addon.guidesFrame.guides[addon.guidesFrame.selectedIndex].guide.name, skip = {}}
-		addon.loadGuide()
-		addon.updateFromQuestLog()
-		if GuidelimeDataChar.mainFrameShowing then
-			addon.updateMainFrame()
-		end
-	end)
+	addon.guidesFrame.loadBtn:SetScript("OnClick", loadSelectedGuide)
 end
 
 local function addSliderOption(optionsTable, option, min, max, step, text, tooltip, updateFunction, mouseUpFunction)
@@ -263,25 +264,8 @@ function addon.fillOptions()
 	end)
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
 	prev = checkbox
-	local checkbox = addCheckOption(GuidelimeDataChar, "mainFrameLocked", L.LOCK_MAINFRAME, nil, function()
-		if GuidelimeDataChar.mainFrameLocked then
-	    	addon.mainFrame.lockBtn:SetPushedTexture("Interface/Buttons/LockButton-Unlocked-Down")
-	    	addon.mainFrame.lockBtn:SetNormalTexture("Interface/Buttons/LockButton-Locked-Up")
-		else
-	    	addon.mainFrame.lockBtn:SetNormalTexture("Interface/Buttons/LockButton-Unlocked-Down")
-	    	addon.mainFrame.lockBtn:SetPushedTexture("Interface/Buttons/LockButton-Locked-Up")
-		end
-	end)
-	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
-	prev = checkbox
-	checkbox = addCheckOption(GuidelimeDataChar, "hideCompletedSteps", L.HIDE_COMPLETED_STEPS, nil, function()
-		if GuidelimeDataChar.mainFrameShowing then
-			addon.updateMainFrame()
-		end
-	end)
-	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 8)
-	prev = checkbox
-	local slider = addSliderOption(GuidelimeDataChar, "mainFrameWidth", 50, 800, 1, L.MAIN_FRAME_WIDTH, nil, function()
+	
+	local sliderW = addSliderOption(GuidelimeDataChar, "mainFrameWidth", 50, 800, 1, L.MAIN_FRAME_WIDTH, nil, function()
 		if addon.mainFrame ~= nil then 
 			addon.mainFrame:SetWidth(GuidelimeDataChar.mainFrameWidth) 
 			addon.mainFrame.scrollChild:SetWidth(GuidelimeDataChar.mainFrameWidth)
@@ -293,8 +277,8 @@ function addon.fillOptions()
 			addon.updateMainFrame()
 		end
 	end)
-	slider:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -30)
-	slider = addSliderOption(GuidelimeDataChar, "mainFrameHeight", 50, 600, 1, L.MAIN_FRAME_HEIGHT, nil, function()
+	sliderW:SetPoint("TOPLEFT", prev, "TOPLEFT", 250, -20)
+	sliderH = addSliderOption(GuidelimeDataChar, "mainFrameHeight", 50, 600, 1, L.MAIN_FRAME_HEIGHT, nil, function()
 		if addon.mainFrame ~= nil then 
 			addon.mainFrame:SetHeight(GuidelimeDataChar.mainFrameHeight) 
 			addon.mainFrame.scrollChild:SetWidth(GuidelimeDataChar.mainFrameWidth)
@@ -305,7 +289,35 @@ function addon.fillOptions()
 			addon.updateMainFrame()
 		end
 	end)
-	slider:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 270, -30)
+	sliderH:SetPoint("TOPLEFT", prev, "TOPLEFT", 250, -60)
+	
+	local checkbox = addCheckOption(GuidelimeDataChar, "mainFrameLocked", L.LOCK_MAINFRAME, nil, function()
+		if GuidelimeDataChar.mainFrameLocked then
+	    	addon.mainFrame.lockBtn:SetPushedTexture("Interface/Buttons/LockButton-Unlocked-Down")
+	    	addon.mainFrame.lockBtn:SetNormalTexture("Interface/Buttons/LockButton-Locked-Up")
+		else
+	    	addon.mainFrame.lockBtn:SetNormalTexture("Interface/Buttons/LockButton-Unlocked-Down")
+	    	addon.mainFrame.lockBtn:SetPushedTexture("Interface/Buttons/LockButton-Locked-Up")
+		end
+	end)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	prev = checkbox
+	
+	checkbox = addCheckOption(GuidelimeDataChar, "hideCompletedSteps", L.HIDE_COMPLETED_STEPS, nil, function()
+		if GuidelimeDataChar.mainFrameShowing then
+			addon.updateMainFrame()
+		end
+	end)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	prev = checkbox
+	
+	checkbox = addCheckOption(GuidelimeData, "showQuestLevels", L.SHOW_QUEST_LEVELS, nil, function()
+		if GuidelimeDataChar.mainFrameShowing then
+			addon.updateStepsText()
+		end
+	end)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	prev = checkbox
 end
 
 function addon.showGuides()
@@ -313,8 +325,8 @@ function addon.showGuides()
 	InterfaceOptionsFrame_Show() 
 	InterfaceOptionsFrame_OpenToCategory(addon.guidesFrame)
 
-	addon.guidesFrame.scrollframe.content:SetHeight(addon.guidesFrame.scrollframe:GetHeight())
-	addon.guidesFrame.scrollframe:UpdateScrollChildRect();
+	--addon.guidesFrame.scrollframe.content:SetHeight(addon.guidesFrame.scrollframe:GetHeight())
+	--addon.guidesFrame.scrollframe:UpdateScrollChildRect();
 
 end
 
