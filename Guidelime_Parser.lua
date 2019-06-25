@@ -18,6 +18,20 @@ codes:
  - C complete this step along with the next one
 ]]
 
+function addon.parseGuide(guide)
+	if guide.text ~= nil then
+		guide.steps = {}
+		guide.text:gsub("([^\n]+)", function(c)
+			if c ~= nil and c ~= "" then
+				table.insert(guide.steps, {text = c})
+			end
+		end
+	end
+	for i, step in ipairs(guide.steps) do
+		addon.parseLine(step)	
+	end
+end
+
 function addon.parseLine(step)
 	if step.text == nil then return end
 	step.elements = {}
@@ -157,14 +171,15 @@ function addon.parseLine(step)
 				end
 				step.completeWithNext = true
 			elseif code:sub(1, 1) == "A" then
-				code:sub(2):gsub("([^,]+)", function(c)
-					if c == "Warrior" or c == "Rogue" or c == "Mage" or c == "Warlock" or c == "Hunter" or c == "Priest" or c == "Druid" or c == "Paladin" or c == "Shaman" then
+				code:sub(2):upper::gsub(" ",""):gsub("([^,]+)", function(c)
+					if c == "WARRIOR" or c == "ROGUE" or c == "MAGE" or c == "WARLOCK" or c == "HUNTER" or c == "PRIEST" or c == "DRUID" or c == "PALADIN" or c == "SHAMAN" then
 						if step.class == nil then step.class = {} end
 						table.insert(step.class, c)
-					elseif c == "Human" or c == "Night Elf" or c == "Dwarf" or c == "Gnome" or c == "Orc" or c == "Troll" or c == "Tauren" or c == "Undead" or c == "Blood Elf" or c == "Draenei" then
+					elseif c == "HUMAN" or c == "NIGHTELF" or c == "DWARF" or c == "GNOME" or c == "ORC" or c == "TROLL" or c == "TAUREN" or c == "UNDEAD" or c == "SCOURGE" then
 						if step.race == nil then step.race = {} end
+						if c == "UNDEAD" then c = "SCOURGE" end
 						table.insert(step.race, c)
-					elseif c == "Alliance" or c == "Horde" then
+					elseif c == "ALLIANCE" or c == "HORDE" then
 						if step.faction == nil then step.faction = {} end
 						table.insert(step.faction, c)
 					else

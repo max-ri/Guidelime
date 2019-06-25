@@ -59,8 +59,9 @@ addon.icons = {
 }
 
 addon.faction = UnitFactionGroup("player")
-addon.class = UnitClass("player")
-addon.race = UnitRace("player")
+local _
+_, addon.class = UnitClass("player")
+_, addon.race = UnitRace("player")
 addon.level = UnitLevel("player")
 addon.xp = UnitXP("player")
 addon.xpMax = UnitXPMax("player")
@@ -82,6 +83,13 @@ local function contains(array, value)
 end
 
 function Guidelime.registerGuide(guide)
+	if guide.race ~= nil then
+		if not containsWith(guide.race, function(v) return v:upper:gsub(" ","") == addon.race end) then return end
+	end
+	if guide.class ~= nil then
+		if not contains(guide.class, function(v) return v:upper:gsub(" ","") == addon.class end) then return end
+	end
+	if guide.faction ~= nil and guide.faction:upper:gsub(" ","") ~= addon.faction then return end
 	if guide.name == nil then
 		if guide.title ~= nil then 
 			guide.name = guide.title
@@ -178,9 +186,9 @@ function addon.loadCurrentGuide()
 	--print(format(L.LOAD_MESSAGE, addon.currentGuide.name))
 	
 	local completed = GetQuestsCompleted()
-	
+
+	addon.parseGuide(addon.guides[GuidelimeDataChar.currentGuide.name])	
 	for i, step in ipairs(addon.guides[GuidelimeDataChar.currentGuide.name].steps) do
-		addon.parseLine(step)	
 		local loadLine = true
 		if step.race ~= nil then
 			if not contains(step.race, addon.race) then loadLine = false end

@@ -1,57 +1,53 @@
 Guidelime.registerGuide(
 {	
-	group = "TourGuide",
-	source = {
-		"https://github.com/TekNoLogic/TourGuide"
-	},
-	minLevel = 17,	
-	maxLevel = 18,
-	title = "Loch Modan",
-	faction = "Alliance",	
-	details = "Guide from the addon TourGuide by tekkub (|cFFAAAAAAhttps://github.com/TekNoLogic/TourGuide|r)",
-	steps = {
-		{text = "Fly to [F] Loch Modan. Boat to Stormwind, then fly there![ADwarf,Gnome]"},
-		{text = "Go to Loch Modan Boat to Stormwind, take the tram to IF, then run to Loch. [P]Make sure you grab flight points along the way.[AHuman,Night Elf]"},
-		{text = "Go to Algaz Station In the north of Loch Modan[C]"},
-		{text = "Accept [QP307Filthy Paws] Upstairs, inside the tower"},
-		{text = "Accept [QP1338Stormpike's Order]"},
-		{text = "Complete [QC307Filthy Paws] In the mine east of the tower"},
-		{text = "Turn in [QT307Filthy Paws]"},
-		{text = "Go to Thelsamar[C]"},
-		{text = "Accept [QP436Ironband's Excavation] Last house"},
-		{text = "Turn in [QT414Stout to Kadrell][O]"},
-		{text = "Turn in [QT436Ironband's Excavation] Along the south shore of the loch [L64.9, 66.6Loch Modan]"},
-		{text = "Accept [QP297Gathering Idols]"},
-		{text = "Accept [QP298Excavation Progress Report]"},
-		{text = "Complete [QC297Gathering Idols]"},
-		{text = "Turn in [QT297Gathering Idols]"},
-		{text = "Go to The Farstrider Lodge East of Excavation site [G83.8, 62.4]"},
-		{text = "Accept [QP385Crocolisk Hunting]"},
-		{text = "Accept [QP257A Hunter's Boast]"},
-		{text = "Complete [QC257A Hunter's Boast]"},
-		{text = "Turn in [QT257A Hunter's Boast]"},
-		{text = "Accept [QP258A Hunter's Challenge]"},
-		{text = "Complete [QC258A Hunter's Challenge]"},
-		{text = "Turn in [QT258A Hunter's Challenge]"},
-		{text = "Accept [QP271Vyrin's Revenge (Part 1)]"},
-		{text = "Accept [QP2038Bingles' Missing Supplies] The NPC can be found at the easternmost shore of The Loch [L63.5, 47.9]"},
-		{text = "Complete [QC385Crocolisk Hunting] Lots on the islands [L55,55] [L54,40]"},
-		{text = "Complete [QC2038Bingles' Missing Supplies] The supplies are scattered around northernmost islands. Blastencapper [L54.21, 26.61], Hammer [L51.78, 24.09], Screwdriver [L48.37, 20.50], Wrench [L48.73, 30.10]"},
-		{text = "Accept [QP250A Dark Threat Looms (Part 1)] Middle of the Stonewrought Dam"},
-		{text = "Turn in [QT250A Dark Threat Looms (Part 1)] Barrel at the east of dam"},
-		{text = "Accept [QP199A Dark Threat Looms (Part 2)]"},
-		{text = "Turn in [QT199A Dark Threat Looms (Part 2)]"},
-		{text = "Turn in [QT298Excavation Progress Report] Back at Thelsamar"},
-		{text = "Accept [QP301Report to Ironforge]"},
-		{text = "Complete [QC271Vyrin's Revenge (Part 1)] Cave top of the mountain south of Thelsamar [L39.7, 66.6]"},
-		{text = "Turn in [QT385Crocolisk Hunting] Back at Farstrider Lodge"},
-		{text = "Turn in [QT271Vyrin's Revenge (Part 1)]"},
-		{text = "Accept [QP531Vyrin's Revenge (Part 2)]"},
-		{text = "Turn in [QT531Vyrin's Revenge (Part 2)]"},
-		{text = "Turn in [QT2038Bingles' Missing Supplies] Remember Bingles at the shore?"},
-		{text = "Fly to [F] City of Ironforge[AHuman,Dwarf,Gnome]"},
-		{text = "Go to [F] City of Ironforge[ANight Elf,Draenei]"},
-		{text = "[P] Grab flight point[ANight Elf,Draenei]"},
-		{text = "Turn in [QT301Report to Ironforge] Hall of Explorers. Skip the follow-up."}
-	}
-})
+group = "TourGuide",
+source = {"https://github.com/TekNoLogic/TourGuide"},
+minLevel = 17, maxLevel = 18,
+title = "Loch Modan",
+faction = "Alliance",	
+details = "Guide from the addon TourGuide by tekkub (|cFFAAAAAAhttps://github.com/TekNoLogic/TourGuide|r)",
+text = [[
+Fly to [F] Loch Modan. Boat to Stormwind, then fly there![ADwarf,Gnome]
+Go to Loch Modan Boat to Stormwind, take the tram to IF, then run to Loch. [P]Make sure you grab flight points along the way.[AHuman,Night Elf]
+Go to Algaz Station In the north of Loch Modan[C]
+Accept [QP307Filthy Paws] Upstairs, inside the tower
+Accept [QP1338Stormpike's Order]
+Complete [QC307Filthy Paws] In the mine east of the tower
+Turn in [QT307Filthy Paws]
+Go to Thelsamar[C]
+Accept [QP436Ironband's Excavation] Last house
+Turn in [QT414Stout to Kadrell][O]
+Turn in [QT436Ironband's Excavation] Along the south shore of the loch [L64.9, 66.6Loch Modan]
+Accept [QP297Gathering Idols]
+Accept [QP298Excavation Progress Report]
+Complete [QC297Gathering Idols]
+Turn in [QT297Gathering Idols]
+Go to The Farstrider Lodge East of Excavation site [G83.8, 62.4]
+Accept [QP385Crocolisk Hunting]
+Accept [QP257A Hunter's Boast]
+Complete [QC257A Hunter's Boast]
+Turn in [QT257A Hunter's Boast]
+Accept [QP258A Hunter's Challenge]
+Complete [QC258A Hunter's Challenge]
+Turn in [QT258A Hunter's Challenge]
+Accept [QP271Vyrin's Revenge (Part 1)]
+Accept [QP2038Bingles' Missing Supplies] The NPC can be found at the easternmost shore of The Loch [L63.5, 47.9]
+Complete [QC385Crocolisk Hunting] Lots on the islands [L55,55] [L54,40]
+Complete [QC2038Bingles' Missing Supplies] The supplies are scattered around northernmost islands. Blastencapper [L54.21, 26.61], Hammer [L51.78, 24.09], Screwdriver [L48.37, 20.50], Wrench [L48.73, 30.10]
+Accept [QP250A Dark Threat Looms (Part 1)] Middle of the Stonewrought Dam
+Turn in [QT250A Dark Threat Looms (Part 1)] Barrel at the east of dam
+Accept [QP199A Dark Threat Looms (Part 2)]
+Turn in [QT199A Dark Threat Looms (Part 2)]
+Turn in [QT298Excavation Progress Report] Back at Thelsamar
+Accept [QP301Report to Ironforge]
+Complete [QC271Vyrin's Revenge (Part 1)] Cave top of the mountain south of Thelsamar [L39.7, 66.6]
+Turn in [QT385Crocolisk Hunting] Back at Farstrider Lodge
+Turn in [QT271Vyrin's Revenge (Part 1)]
+Accept [QP531Vyrin's Revenge (Part 2)]
+Turn in [QT531Vyrin's Revenge (Part 2)]
+Turn in [QT2038Bingles' Missing Supplies] Remember Bingles at the shore?
+Fly to [F] City of Ironforge[AHuman,Dwarf,Gnome]
+Go to [F] City of Ironforge[ANight Elf,Draenei]
+[P] Grab flight point[ANight Elf,Draenei]
+Turn in [QT301Report to Ironforge] Hall of Explorers. Skip the follow-up."
+]]})
