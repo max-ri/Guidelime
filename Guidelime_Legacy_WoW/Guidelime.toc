@@ -1,0 +1,9 @@
+## Title: Guidelime_Legacy_WoW
+## Author: Borick of Arthas(EU) / DarkSpy
+## Version: 0.001
+## Interface: 11302
+## Notes: Guides for Guidelime from https://legacy-wow.com
+
+Guidelime_Legacy_WoW.lua
+
+
