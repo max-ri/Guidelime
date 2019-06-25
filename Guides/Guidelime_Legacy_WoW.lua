@@ -1,5 +1,5 @@
 local group = "Legacy WoW"
-local details = "Guide from the website |cFFFFD100Legacy World of Warcraft|r (|cFFAAAAAAhttps://legacy-wow.com|r). Check it out! It contains not only these leveling guides but also class "
+local details = "Guide from the website |cFFFFD100Legacy World of Warcraft|r (|cFFAAAAAAhttps://legacy-wow.com|r). Check it out! It does not only contain these leveling guides but also class "
 	.. "and profession guides, talent calculators and much more."
 
 Guidelime.registerGuide(
@@ -21,8 +21,8 @@ Guidelime.registerGuide(
 		{text = "Go south around [L28, 73Dun Morogh] and kill wolves for the meat then go back to [L29, 71] and turn in [QT179Dwarven Outfitters] then accept [QP3109Encrypted Rune] and [QP233Coldridge Valley Mail Delivery pt.1][ARogue,Dwarf]"},
 		{text = "Go south around [L28, 73Dun Morogh] and kill wolves for the meat then go back to [L29, 71] and turn in [QT179Dwarven Outfitters] then accept [QP3113Encrypted Memorandum] and [QP233Coldridge Valley Mail Delivery pt.1][ARogue,Gnome]"},
 		{text = "Go south around [L28, 73Dun Morogh] and kill wolves for the meat then go back to [L29, 71] and turn in [QT179Dwarven Outfitters] then accept [QP3106Simple Rune] and [QP233Coldridge Valley Mail Delivery pt.1][AWarrior,Dwarf]"},
-		{text = "Go south around [L28, 73Dun Morogh] and kill wolves for the meat then go back to [L29, 71] and turn in [QT179Dwarven Outfitters] then accept [QP3112Simple Memorandom] and [QP233Coldridge Valley Mail Delivery pt.1][AWarrior,Gnome]"},
-		{text = "Go south around [L28, 73Dun Morogh] and kill wolves for the meat then go back to [L29, 71] and turn in [QT179Dwarven Outfitters] then accept [QP3115Tainted Memorandom] and [QP233Coldridge Valley Mail Delivery pt.1][AWarlock]"},
+		{text = "Go south around [L28, 73Dun Morogh] and kill wolves for the meat then go back to [L29, 71] and turn in [QT179Dwarven Outfitters] then accept [QP3112Simple Memorandum] and [QP233Coldridge Valley Mail Delivery pt.1][AWarrior,Gnome]"},
+		{text = "Go south around [L28, 73Dun Morogh] and kill wolves for the meat then go back to [L29, 71] and turn in [QT179Dwarven Outfitters] then accept [QP3115Tainted Memorandum] and [QP233Coldridge Valley Mail Delivery pt.1][AWarlock]"},
 		{text = "Go south around [L28, 73Dun Morogh] and kill wolves for the meat then go back to [L29, 71] and turn in [QT179Dwarven Outfitters] then accept [QP3107Consecrated Rune] and [QP233Coldridge Valley Mail Delivery pt.1][APaladin]"},
 		{text = "Go south around [L28, 73Dun Morogh] and kill wolves for the meat then go back to [L29, 71] and turn in [QT179Dwarven Outfitters] then accept [QP3108Etched Rune] and [QP233Coldridge Valley Mail Delivery pt.1][AHunter]"},
 		{text = "Go south around [L28, 73Dun Morogh] and kill wolves for the meat then go back to [L29, 71] and turn in [QT179Dwarven Outfitters] then accept [QP3110Hallowed Rune] and [QP233Coldridge Valley Mail Delivery pt.1][APriest]"},
@@ -100,7 +100,7 @@ Guidelime.registerGuide(
 		{text = "[S] Make IF your home at [L21, 55Ironforge]"},
 		{text = "Go to [L39, 56] in IF, behind the bank, in the kings room, turn in [QT291The Reports]"},
 		{text = "Enter the tram at [G76, 51]"},
-		{text = "Take the tram down to SW"},
+		{text = "Take the tram down to SW[C]"},
 		{text = "[P]Go to [G66, 62Stormwind City] and get the FP"},
 		{text = "Reach goldshire and enter the Inn at [G42, 65Elwynn Forest]"},
 		{text = "Just to your left accept [QP60Kobold Candles]"},

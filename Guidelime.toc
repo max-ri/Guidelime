@@ -13,6 +13,8 @@ Libs\HereBeDragons\HereBeDragons-Pins-2.0.lua
 
 Localization.lua
 Guidelime.lua
+Guidelime_Frames.lua
+Guidelime_Guides.lua
 Guidelime_Options.lua
 Guidelime_Parser.lua
 Guidelime_Map.lua
