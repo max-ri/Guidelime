@@ -4,7 +4,9 @@ local L = addon.L
 function addon.loadGuide(name)
 	if addon.debugging then print("LIME: load guide", name) end
 	
-	addon.guidesFrame.guides[GuidelimeDataChar.currentGuide.name]:SetBackdropColor(0,0,0,0)	
+	if GuidelimeDataChar.currentGuide.name ~= nil then
+		addon.guidesFrame.guides[GuidelimeDataChar.currentGuide.name]:SetBackdropColor(0,0,0,0)	
+	end
 	addon.guidesFrame.guides[name]:SetBackdropColor(1,1,0,1)
 	GuidelimeDataChar.currentGuide = {name = name, skip = {}}
 	if addon.guidesFrame ~= nil then
@@ -38,7 +40,7 @@ function addon.fillGuides()
 	
 	addon.guidesFrame.text1 = addon.guidesFrame:CreateFontString(nil, addon.guidesFrame, "GameFontNormal")
 	if GuidelimeDataChar.currentGuide ~= nil then
-		addon.guidesFrame.text1:SetText(L.CURRENT_GUIDE .. ": |cFFFFFFFF" .. GuidelimeDataChar.currentGuide.name .. "\n")
+		addon.guidesFrame.text1:SetText(L.CURRENT_GUIDE .. ": |cFFFFFFFF" .. (GuidelimeDataChar.currentGuide.name or "") .. "\n")
 	else
 		addon.guidesFrame.text1:SetText(L.CURRENT_GUIDE .. ":\n")
 	end
@@ -60,14 +62,26 @@ function addon.fillGuides()
     scrollFrame:SetScrollChild(content)
 	prev = content
 
+	if addon.debugging then print("LIME: ", addon.race, addon.class) end
+
 	local groups = {}
 	local groupNames = {}
 	for name, guide in pairs(addon.guides) do
-		if groups[guide.group] == nil then 
-			groups[guide.group] = {} 
-			table.insert(groupNames, guide.group)
+		local showGuide = true
+		if guide.race ~= nil then
+			if not addon.containsWith(guide.race, function(v) return v:upper():gsub(" ","") == addon.race end) then showGuide = false end
 		end
-		table.insert(groups[guide.group], name)
+		if guide.class ~= nil then
+			if not addon.containsWith(guide.class, function(v) return v:upper():gsub(" ","") == addon.class end) then showGuide = false end
+		end
+		if guide.faction ~= nil and guide.faction:upper():gsub(" ","") ~= addon.faction then loadGuide = false end
+		if showGuide then
+			if groups[guide.group] == nil then 
+				groups[guide.group] = {} 
+				table.insert(groupNames, guide.group)
+			end
+			table.insert(groups[guide.group], name)
+		end
 	end
 	table.sort(groupNames)
 	
@@ -83,7 +97,7 @@ function addon.fillGuides()
 
 		for j, name in ipairs(guides) do
 			local guide = addon.guides[name]
-			if addon.debugging then print("LIME: guide", group, name) end
+			--if addon.debugging then print("LIME: guide", group, name) end
 			
 			local text = "    "
 			if guide.minLevel ~= nil then
@@ -139,9 +153,12 @@ function addon.fillGuides()
 	addon.guidesFrame.text3:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -20)
 	prev = addon.guidesFrame.text3
 
-	addon.guidesFrame.textDetails = addon.addMultilineText(addon.guidesFrame, addon.guides[GuidelimeDataChar.currentGuide.name].details or "", 550)
+	addon.guidesFrame.textDetails = addon.addMultilineText(addon.guidesFrame, nil, 550)
 	addon.guidesFrame.textDetails:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	addon.guidesFrame.textDetails:SetTextColor(255,255,255,255)
+	if addon.guides[GuidelimeDataChar.currentGuide.name] ~= nil and addon.guides[GuidelimeDataChar.currentGuide.name].details ~= nil then
+		addon.guidesFrame.textDetails:SetText(addon.guides[GuidelimeDataChar.currentGuide.name].details)
+	end
 	
 	addon.guidesFrame.loadBtn = CreateFrame("BUTTON", nil, addon.guidesFrame, "UIPanelButtonTemplate")
 	addon.guidesFrame.loadBtn:SetWidth(120)

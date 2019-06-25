@@ -12,7 +12,7 @@ source = {
 },	
 minLevel = 1,
 maxLevel = 12,	
-race = {"Dwarf", "Gnome	"},
+race = {"Dwarf", "Gnome"},
 details = details,
 text =
 -- Part 1

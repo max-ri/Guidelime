@@ -13,6 +13,7 @@ addon.COLOR_LEVEL_ORANGE = "|cFFFFA500"
 addon.COLOR_LEVEL_YELLOW = "|cFFFFFF00"
 addon.COLOR_LEVEL_GREEN = "|cFF008000"
 addon.COLOR_LEVEL_GRAY = "|cFF808080"
+addon.MAINFRAME_ALPHA_MAX = 85
 
 function addon.getLevelColor(level)
 	if level > addon.level + 4 then
@@ -61,7 +62,7 @@ addon.icons = {
 addon.faction = UnitFactionGroup("player")
 local _
 _, addon.class = UnitClass("player")
-_, addon.race = UnitRace("player")
+_, addon.race = UnitRace("player"); addon.race = addon.race:upper()
 addon.level = UnitLevel("player")
 addon.xp = UnitXP("player")
 addon.xpMax = UnitXPMax("player")
@@ -71,25 +72,18 @@ addon.guides = {}
 addon.queryingPositions = false
 addon.dataLoaded = false
 
-local function containsWith(array, func)
+function addon.containsWith(array, func)
 	for i, v in ipairs(array) do
 		if func(v) then return true end
 	end
 	return false
 end
 
-local function contains(array, value)
-	return containsWith(array, function(v) return v == value end)
+function addon.contains(array, value)
+	return addon.containsWith(array, function(v) return v == value end)
 end
 
 function Guidelime.registerGuide(guide)
-	if guide.race ~= nil then
-		if not containsWith(guide.race, function(v) return v:upper:gsub(" ","") == addon.race end) then return end
-	end
-	if guide.class ~= nil then
-		if not containsWith(guide.class, function(v) return v:upper:gsub(" ","") == addon.class end) then return end
-	end
-	if guide.faction ~= nil and guide.faction:upper:gsub(" ","") ~= addon.faction then return end
 	if guide.name == nil then
 		if guide.title ~= nil then 
 			guide.name = guide.title
@@ -121,11 +115,12 @@ local function loadData()
 	local defaultOptionsChar = {
 		mainFrameX = 0,
 		mainFrameY = 0,
-		mainFrameRelative = "CENTER",
+		mainFrameRelative = "RIGHT",
 		mainFrameShowing = true,
 		mainFrameLocked = false,
 		mainFrameWidth = 350,
 		mainFrameHeight = 400,
+		mainFrameAlpha = 0.5,
 		hideCompletedSteps = true,
 		hideUnavailableSteps = true
 	}
@@ -164,24 +159,24 @@ function addon.loadCurrentGuide()
 		
 	addon.currentGuide = {}
 	addon.currentGuide.name = GuidelimeDataChar.currentGuide.name
+	addon.currentGuide.steps = {}
+	addon.quests = {}
+	addon.currentZone = nil
 	if addon.guides[GuidelimeDataChar.currentGuide.name] == nil then 
 		if addon.debugging then
 			print("LIME: available guides:")
 			for name, guide in pairs(addon.guides) do
 				print("LIME: " .. name)
 			end
+			print("LIME: guide \"" .. (GuidelimeDataChar.currentGuide.name or "") .. "\" not found")
 		end
-		GuidelimeDataChar.currentGuide.name = "Demo 1-6 Dun Morogh" 
-		addon.currentGuide.name = GuidelimeDataChar.currentGuide.name
-		--error("guide \"" .. GuidelimeDataChar.currentGuide.name .. "\" not found") 
+		GuidelimeDataChar.currentGuide.name = nil
+		addon.currentGuide.name = nil
+		return
 	end
-	for k, v in pairs(addon.guides[GuidelimeDataChar.currentGuide.name]) do
-		addon.currentGuide[k] = v
-	end
-	addon.currentGuide.steps = {}
-	addon.quests = {}
-	addon.currentZone = nil
+	addon.currentGuide.colorQuest = addon.guides[GuidelimeDataChar.currentGuide.name].colorQuest
 	if addon.currentGuide.colorQuest == nil then addon.currentGuide.colorQuest = addon.COLOR_QUEST_DEFAULT end
+	addon.currentGuide.next = addon.guides[GuidelimeDataChar.currentGuide.name].next
 	
 	--print(format(L.LOAD_MESSAGE, addon.currentGuide.name))
 	
@@ -191,10 +186,10 @@ function addon.loadCurrentGuide()
 	for i, step in ipairs(addon.guides[GuidelimeDataChar.currentGuide.name].steps) do
 		local loadLine = true
 		if step.race ~= nil then
-			if not contains(step.race, addon.race) then loadLine = false end
+			if not addon.contains(step.race, addon.race) then loadLine = false end
 		end
 		if step.class ~= nil then
-			if not contains(step.class, addon.class) then loadLine = false end
+			if not addon.contains(step.class, addon.class) then loadLine = false end
 		end
 		if step.faction ~= nil and step.faction ~= addon.faction then loadLine = false end
 		if loadLine then
@@ -549,7 +544,7 @@ local function updateStepsCompletion(changedIndexes)
 			end
 		end
 		for _, i in ipairs(newIndexes) do
-			if not contains(changedIndexes, i) then
+			if not addon.contains(changedIndexes, i) then
 		 		table.insert(changedIndexes, i)
 			elseif addon.debugging then
 				error("step " .. i .. " changed more than once")
@@ -575,7 +570,7 @@ local function fadeoutStep(indexes)
 				(not GuidelimeDataChar.hideCompletedSteps and step.available) or
 				(not GuidelimeDataChar.hideUnavailableSteps and not step.completed and not step.skip) then
 				step.fading = nil
-				if not containsWith(addon.currentGuide.steps, function(s) return s.fading ~= nil end) then update = true end
+				if not addon.containsWith(addon.currentGuide.steps, function(s) return s.fading ~= nil end) then update = true end
 			else
 				if step.fading == nil then step.fading = 1 end
 				step.fading = step.fading - 0.05
@@ -609,7 +604,7 @@ local function updateStepsActivation()
 			end
 		end
 		if step.active then
-			if containsWith(step.elements, function(e) return e.t == "GOTO" end) then
+			if addon.containsWith(step.elements, function(e) return e.t == "GOTO" end) then
 				queryPosition()
 			end
 		end
@@ -665,6 +660,7 @@ end
 function addon.updateMainFrame()
 	--if addon.debugging then print("LIME: updating main frame") end
 	
+	GameTooltip:Hide()
 	if addon.mainFrame.steps ~= nil then
 		for k, step in pairs(addon.mainFrame.steps) do
 			step:Hide()
@@ -676,9 +672,15 @@ function addon.updateMainFrame()
 		addon.mainFrame.message = nil
 	end
 	
-	if addon.currentGuide == nil then
+	if addon.currentGuide.name == nil then
 		if addon.debugging then print("LIME: No guide loaded") end
-		addon.mainFrame.message = addon.addMultilineText(addon.mainFrame.scrollChild, L.NO_GUIDE_LOADED, addon.mainFrame.scrollChild:GetWidth() - 20, nil, addon.showGuides())
+		addon.mainFrame.message = addon.addMultilineText(addon.mainFrame.scrollChild, L.NO_GUIDE_LOADED, addon.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
+			if (button == "RightButton") then
+				showContextMenu()
+			else
+				addon.showGuides()
+			end
+		end)
 		addon.mainFrame.message:SetPoint("TOPLEFT", addon.mainFrame.scrollChild, "TOPLEFT", 10, -25)
 	else
 		--if addon.debugging then print("LIME: Showing guide " .. addon.currentGuide.name) end
@@ -719,12 +721,22 @@ function addon.updateMainFrame()
 		if finished then
 			if addon.currentGuide.next == nil then
 				addon.mainFrame.message = addon.addMultilineText(addon.mainFrame.scrollChild, 
-					L.GUIDE_FINISHED, addon.mainFrame.scrollChild:GetWidth() - 20, nil,
-					addon.showGuides)
+					L.GUIDE_FINISHED, addon.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
+					if (button == "RightButton") then
+						showContextMenu()
+					else
+						addon.showGuides()
+					end
+				end)
 			else
 				addon.mainFrame.message = addon.addMultilineText(addon.mainFrame.scrollChild, 
-					L.GUIDE_FINISHED_NEXT:format("|cFFFFFFFF" .. addon.currentGuide.next .. "|r"), addon.mainFrame.scrollChild:GetWidth() - 20, nil,
-					function() addon.loadGuide(addon.currentGuide.next) end)
+					L.GUIDE_FINISHED_NEXT:format("|cFFFFFFFF" .. addon.currentGuide.next .. "|r"), addon.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button) 
+					if (button == "RightButton") then
+						showContextMenu()
+					else
+						addon.loadGuide(addon.currentGuide.next)
+					end
+				end)
 			end
 			if prev == nil then
 				addon.mainFrame.message:SetPoint("TOPLEFT", addon.mainFrame.scrollChild, "TOPLEFT", 10, -25)
@@ -748,9 +760,9 @@ function addon.showMainFrame()
 		addon.mainFrame:SetHeight(GuidelimeDataChar.mainFrameHeight)
 		addon.mainFrame:SetPoint(GuidelimeDataChar.mainFrameRelative, UIParent, GuidelimeDataChar.mainFrameRelative, GuidelimeDataChar.mainFrameX, GuidelimeDataChar.mainFrameY)
 		addon.mainFrame:SetBackdrop({
-			bgFile = "Interface/DialogFrame/UI-DialogBox-Background",
-			tile = true, tileSize = 32, edgeSize = 0
+			bgFile = "Interface/Addons/Icons/Guidelime/Black", tile = false
 		})
+		addon.mainFrame:SetBackdropColor(1,0,0,GuidelimeDataChar.mainFrameAlpha)
 		addon.mainFrame:SetFrameLevel(999)
 		addon.mainFrame:SetMovable(true)
 		addon.mainFrame:EnableMouse(true)
@@ -916,7 +928,7 @@ function addon.frame:QUEST_LOG_UPDATE()
 			addon.updateMainFrame()
 		else
 			if not questChanged then
-				if containsWith(addon.currentGuide.steps, function(s) return not s.skip and not s.completed and s.active and s.xp ~= nil end) then 
+				if addon.containsWith(addon.currentGuide.steps, function(s) return not s.skip and not s.completed and s.active and s.xp ~= nil end) then 
 					questChanged = true 
 				end
 			end
@@ -954,7 +966,7 @@ end
 
 SLASH_Guidelime1 = "/lime"
 function SlashCmdList.Guidelime(msg)
-	if msg == '' then showMainFrame() 
+	if msg == '' then addon.showMainFrame() 
 	elseif msg == 'debug true' and not addon.debugging then addon.debugging = true; print('LIME: addon.debugging enabled')
 	elseif msg == 'debug false' and addon.debugging then addon.debugging = false; print('LIME: addon.debugging disabled') end
 	GuidelimeData.debugging = addon.debugging

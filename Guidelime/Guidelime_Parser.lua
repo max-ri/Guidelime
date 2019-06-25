@@ -25,7 +25,7 @@ function addon.parseGuide(guide)
 			if c ~= nil and c ~= "" then
 				table.insert(guide.steps, {text = c})
 			end
-		end
+		end)
 	end
 	for i, step in ipairs(guide.steps) do
 		addon.parseLine(step)	
@@ -171,11 +171,11 @@ function addon.parseLine(step)
 				end
 				step.completeWithNext = true
 			elseif code:sub(1, 1) == "A" then
-				code:sub(2):upper::gsub(" ",""):gsub("([^,]+)", function(c)
+				code:sub(2):upper():gsub(" ",""):gsub("([^,]+)", function(c)
 					if c == "WARRIOR" or c == "ROGUE" or c == "MAGE" or c == "WARLOCK" or c == "HUNTER" or c == "PRIEST" or c == "DRUID" or c == "PALADIN" or c == "SHAMAN" then
 						if step.class == nil then step.class = {} end
 						table.insert(step.class, c)
-					elseif c == "HUMAN" or c == "NIGHTELF" or c == "DWARF" or c == "GNOME" or c == "ORC" or c == "TROLL" or c == "TAUREN" or c == "UNDEAD" or c == "SCOURGE" then
+					elseif c == "HUMAN" or c == "NIGHTELF" or c == "DWARF" or c == "GNOME" or c == "ORC" or c == "TROLL" or c == "TAUREN" or c == "UNDEAD" or c == "SCOURGE" or c == "BLOODELF" or c == "DRAENEI" then
 						if step.race == nil then step.race = {} end
 						if c == "UNDEAD" then c = "SCOURGE" end
 						table.insert(step.race, c)

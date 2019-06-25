@@ -25,6 +25,7 @@ function addon.addSliderOption(frame, optionsTable, option, min, max, step, text
     slider.editbox:SetAutoFocus(false)
     slider:SetScript("OnValueChanged", function(self)
         slider.editbox:SetText(tostring(slider:GetValue()))
+    	slider.editbox:SetCursorPosition(0)
 		optionsTable[option] = slider:GetValue()
 		if updateFunction ~= nil then updateFunction() end
     end)

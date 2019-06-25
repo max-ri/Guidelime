@@ -50,6 +50,12 @@ function addon.fillOptions()
 		end
 	end)
 	sliderH:SetPoint("TOPLEFT", prev, "TOPLEFT", 250, -60)
+	sliderA = addon.addSliderOption(addon.optionsFrame, GuidelimeDataChar, "mainFrameAlpha", 0, 1, 0.01, L.MAIN_FRAME_ALPHA, nil, function()
+		if addon.mainFrame ~= nil then 
+			addon.mainFrame:SetBackdropColor(0,0,0,GuidelimeDataChar.mainFrameAlpha)
+		end
+	end)
+	sliderA:SetPoint("TOPLEFT", prev, "TOPLEFT", 250, -100)
 	
 	local checkbox = addon.addCheckOption(addon.optionsFrame, GuidelimeDataChar, "mainFrameLocked", L.LOCK_MAINFRAME, nil, function()
 		if GuidelimeDataChar.mainFrameLocked then
