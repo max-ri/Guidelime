@@ -559,40 +559,53 @@ local function updateStepsCompletion(changedIndexes)
 	if addon.debugging then print("LIME: changed ", #changedIndexes) end
 end
 
-local function fadeoutStep(indexes)
-	--if addon.debugging then print("LIME: fade out", #indexes) end
-	if #indexes == 0 then return end
-	local keepFading = {}
+local function keepFading()
 	local update = false
-	for _, i in ipairs(indexes) do
-		local step = addon.currentGuide.steps[i]
-		if not step.completed and not step.skip and step.available then
-			step.fading = nil
-			if addon.mainFrame.steps ~= nil and addon.mainFrame.steps[i] ~= nil then addon.mainFrame.steps[i]:SetAlpha(1) end
-		else	
-			step.active = false
-			if (step.fading ~= nil and step.fading <= 0) or 
-				(not GuidelimeDataChar.hideCompletedSteps and step.available) or
-				(not GuidelimeDataChar.hideUnavailableSteps and not step.completed and not step.skip) then
+	local isFading = false
+	for i, step in ipairs(addon.currentGuide.steps)	do
+		if step.fading ~= nil then
+			if not step.completed and not step.skip and step.available then
 				step.fading = nil
-				if not addon.containsWith(addon.currentGuide.steps, function(s) return s.fading ~= nil end) then update = true end
-			else
-				if step.fading == nil then step.fading = 1 end
-				step.fading = step.fading - 0.05
-				if addon.mainFrame.steps ~= nil and addon.mainFrame.steps[i] ~= nil then 
-					if addon.debugging then print("LIME: fade out", i, step.fading) end
-					addon.mainFrame.steps[i]:SetAlpha(step.fading) 
-				end
-				table.insert(keepFading, i)
-			end			
+				if addon.mainFrame.steps ~= nil and addon.mainFrame.steps[i] ~= nil then addon.mainFrame.steps[i]:SetAlpha(1) end
+			else	
+				step.active = false
+				--if addon.debugging then print("LIME: fade out", i, step.fading) end
+				if step.fading <= 0 or 
+					(not GuidelimeDataChar.hideCompletedSteps and step.available) or
+					(not GuidelimeDataChar.hideUnavailableSteps and not step.completed and not step.skip) then
+					step.fading = nil
+					--if addon.debugging then print("LIME: fade out", i) end
+					update = true 
+				else
+					step.fading = step.fading - 0.05
+					if addon.mainFrame.steps ~= nil and addon.mainFrame.steps[i] ~= nil then 
+						addon.mainFrame.steps[i]:SetAlpha(step.fading) 
+					end
+					isFading = true
+				end			
+			end
 		end
 	end
-	if update and (GuidelimeDataChar.hideCompletedSteps or GuidelimeDataChar.hideUnavailableSteps) then
-		addon.updateMainFrame() 
-	elseif #keepFading > 0 then
+	if isFading then
 		C_Timer.After(0.1, function() 
-			fadeoutStep(keepFading)
+			keepFading()
 		end)
+	elseif update and (GuidelimeDataChar.hideCompletedSteps or GuidelimeDataChar.hideUnavailableSteps) then
+		addon.updateMainFrame() 
+	end
+end
+
+local function fadeoutStep(indexes)
+	for _, i in ipairs(indexes) do
+		local step = addon.currentGuide.steps[i]
+		step.fading = 1
+	end
+	keepFading()
+end
+
+local function stopFading()
+	for i, step in ipairs(addon.currentGuide.steps)	do
+		step.fading = nil
 	end
 end
 
@@ -654,28 +667,34 @@ local function showContextMenu()
 	EasyMenu({
 		{text = L.AVAILABLE_GUIDES .. "...", func = function() addon.showGuides() end},
 		{text = GAMEOPTIONS_MENU .. "...", func = function() addon.showOptions() end},
-		{text = L.HIDE_COMPLETED_STEPS, checked = GuidelimeDataChar.hideCompletedSteps, func = function()
-			GuidelimeDataChar.hideCompletedSteps = not GuidelimeDataChar.hideCompletedSteps
-			if addon.optionsFrame ~= nil then addon.optionsFrame.options.hideCompletedSteps:SetChecked(GuidelimeDataChar.hideCompletedSteps) end
+		{text = L.HIDE_COMPLETED_STEPS, checked = GuidelimeDataChar.hideCompletedSteps or GuidelimeDataChar.hideUnavailableSteps, func = function()
+			GuidelimeDataChar.hideCompletedSteps = not GuidelimeDataChar.hideCompletedSteps and not GuidelimeDataChar.hideUnavailableSteps
+			GuidelimeDataChar.hideUnavailableSteps = GuidelimeDataChar.hideCompletedSteps
+			if addon.optionsFrame ~= nil then 
+				addon.optionsFrame.options.hideCompletedSteps:SetChecked(GuidelimeDataChar.hideCompletedSteps) 
+				addon.optionsFrame.options.hideUnavailableSteps:SetChecked(GuidelimeDataChar.hideUnavailableSteps) 
+			end
 			addon.updateMainFrame()
 		end}
 	}, CreateFrame("Frame", nil, nil, "UIDropDownMenuTemplate"), "cursor", 0 , 0, "MENU");
 end
 
 function addon.updateMainFrame()
-	--if addon.debugging then print("LIME: updating main frame") end
+	if addon.debugging then print("LIME: updating main frame") end
 	
 	GameTooltip:Hide()
-	if addon.mainFrame.steps ~= nil then
-		for k, step in pairs(addon.mainFrame.steps) do
+	if addon.mainFrame.allSteps ~= nil then
+		for k, step in pairs(addon.mainFrame.allSteps) do
 			step:Hide()
 		end
 	end
 	addon.mainFrame.steps = {}
+	addon.mainFrame.allSteps = {}
 	if addon.mainFrame.message ~= nil then
 		addon.mainFrame.message:Hide()
 		addon.mainFrame.message = nil
 	end
+	stopFading()
 	
 	if addon.currentGuide.name == nil then
 		if addon.debugging then print("LIME: No guide loaded") end
@@ -697,6 +716,7 @@ function addon.updateMainFrame()
 			if ((not step.completed and not step.skip) or not GuidelimeDataChar.hideCompletedSteps) and 
 				(step.available or not GuidelimeDataChar.hideUnavailableSteps) then
 				addon.mainFrame.steps[i] = addon.addCheckbox(addon.mainFrame.scrollChild, "")
+				table.insert(addon.mainFrame.allSteps, addon.mainFrame.steps[i])
 				if prev == nil then
 					addon.mainFrame.steps[i]:SetPoint("TOPLEFT", addon.mainFrame.scrollChild, "TOPLEFT", 0, -14)
 				else
@@ -708,7 +728,11 @@ function addon.updateMainFrame()
 					local step = addon.currentGuide.steps[i]
 					step.skip = addon.mainFrame.steps[i]:GetChecked()
 					GuidelimeDataChar.currentGuide.skip[i] = step.skip
-					addon.updateSteps({i})
+					if not step.skip and GuidelimeDataChar.hideUnavailableSteps then
+						addon.updateMainFrame()
+					else 
+						addon.updateSteps({i})
+					end
 				end)
 				
 				addon.mainFrame.steps[i].textBox = addon.addMultilineText(addon.mainFrame.steps[i], nil, addon.mainFrame.scrollChild:GetWidth() - 40, "", function(self, button)
