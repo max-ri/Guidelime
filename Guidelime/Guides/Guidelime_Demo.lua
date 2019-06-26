@@ -1,11 +1,5 @@
-Guidelime.registerGuide({
-group = "Demo",
-minLevel = 1,
-maxLevel = 6,
-title = "Dun Morogh",
-colorQuest = "|cFF59C4F1",
-race = {"Dwarf", "Gnome"},
-text = [[
+Guidelime.registerGuide([[
+[NDemo 1 - 6 Dun Morogh][GADwarf,Gnome]
 At the NPC in front of you [L30,71Dun Morogh] get [QP179Dwarven Outfitters]
 Kill wolves south of you for [QC179]
 Return to the NPC [L30,71], turn in [QT179], and accept [QP3109Encrypted Rune] and [QP233Coldridge Valley Mail Delivery][ARogue,Dwarf]
@@ -49,4 +43,4 @@ Turn in [QT218] at the dwarf camp [L25,76] and accept [QP282Senir's Observations
 Exit Anvilmar and follow the path east and turn in [QT282] and accept [QP420Senir's Observations]
 To your right accept [QP2160Supplies to Tannok]
 Leave the area through Coldridge Pass
-]]})
+]],...)

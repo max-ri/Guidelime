@@ -84,29 +84,10 @@ function addon.contains(array, value)
 end
 
 function Guidelime.registerGuide(guide, addonName)
-	if guide.group == nil then
-		if addonName ~= nil and addonName:sub(1,10) == "Guidelime_" then
-			guide.group = addonName:sub(11)
-		elseif addonName ~= nil then
-			guide.group = addonName
-		else
-			guide.group = L.OTHER_GUIDES
-		end
+	if type(guide) == "STRING" then
+		guide = {text = guide}
 	end
-	if guide.name == nil then
-		if guide.title ~= nil then 
-			guide.name = guide.title
-		else
-			guide.name = ""
-		end
-		if guide.minLevel ~= nil or guide.maxLevel ~= nil then
-			guide.name = " " .. guide.name
-			if guide.maxLevel ~= nil then guide.name = guide.maxLevel .. guide.name end
-			guide.name = "-" .. guide.name
-			if guide.minLevel ~= nil then guide.name = guide.minLevel .. guide.name end
-		end
-		guide.name = guide.group .. " " .. guide.name
-	end
+	addon.parseGuide(guide, addonName)	
 	if addon.guides[guide.name] ~= nil then error("There is more than one guide with the name \"" .. guide.name .. "\"") end
 	addon.guides[guide.name] = guide
 end
@@ -187,7 +168,6 @@ function addon.loadCurrentGuide()
 	
 	local completed = GetQuestsCompleted()
 
-	addon.parseGuide(addon.guides[GuidelimeDataChar.currentGuide.name])	
 	for i, step in ipairs(addon.guides[GuidelimeDataChar.currentGuide.name].steps) do
 		local loadLine = true
 		if step.race ~= nil then
@@ -197,6 +177,7 @@ function addon.loadCurrentGuide()
 			if not addon.contains(step.class, addon.class) then loadLine = false end
 		end
 		if step.faction ~= nil and step.faction ~= addon.faction then loadLine = false end
+		if #step.elements == 0 then loadLine = false end
 		if loadLine then
 			table.insert(addon.currentGuide.steps, step) 
 			step.trackQuest = {}
@@ -324,7 +305,7 @@ local function updateStepText(i)
 				text = text .. "|T" .. addon.icons[element.t] .. ":12|t"
 			end
 			if element.text ~= nil then
-				text = text .. element.text
+				text = text .. element.text:gsub("\\","\n")
 			end
 			if addon.quests[element.questId] ~= nil then
 				text = text .. getQuestText(element.questId, element.t, step.active)
@@ -734,7 +715,7 @@ function addon.updateMainFrame()
 				if (button == "RightButton") then
 					showContextMenu()
 				else
-					addon.loadGuide(addon.currentGuide.next)
+					addon.loadGuide(addon.currentGuide.group .. addon.currentGuide.next)
 				end
 			end)
 		end

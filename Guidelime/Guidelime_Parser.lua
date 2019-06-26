@@ -2,6 +2,10 @@ local addonName, addon = ...
 
 --[[
 codes:
+ - N Name and level of the guide [N(min)-(max)(name)]
+ - NX Name and level of the next guide proposed after finishing this [NN(min)-(max)(name)]
+ - D details of the guide [D(details)]
+ - GA guide applies to [GA(race),(class),(faction),...]
  - Q [QP/T/C/S(id)[,objective](title)] quest pickup/turnin/complete/skip
  - L [L(x).(y)[zone] ] loc
  - G [G(x).(y)[zone] ] goto
@@ -13,12 +17,12 @@ codes:
  - P get flight point
  - V vendor
  - R repair
- - A applies to [A (race),(class),(faction),...]
+ - A applies to [A(race),(class),(faction),...]
  - O optional step
  - C complete this step along with the next one
 ]]
 
-function addon.parseGuide(guide)
+function addon.parseGuide(guide, addonName)
 	if guide.text ~= nil then
 		guide.steps = {}
 		guide.text:gsub("([^\n]+)", function(c)
@@ -28,11 +32,44 @@ function addon.parseGuide(guide)
 		end)
 	end
 	for i, step in ipairs(guide.steps) do
-		addon.parseLine(step)	
+		addon.parseLine(step, guide)	
 	end
+	if guide.group == nil then
+		if addonName ~= nil and addonName:sub(1,10) == "Guidelime_" then
+			guide.group = addonName:sub(11)
+		elseif addonName ~= nil then
+			guide.group = addonName
+		else
+			guide.group = L.OTHER_GUIDES
+		end
+	end
+	if guide.title ~= nil then 
+		guide.name = guide.title
+	else
+		guide.name = ""
+	end
+	if guide.minLevel ~= nil or guide.maxLevel ~= nil then
+		guide.name = " " .. guide.name
+		if guide.maxLevel ~= nil then guide.name = guide.maxLevel .. guide.name end
+		guide.name = "-" .. guide.name
+		if guide.minLevel ~= nil then guide.name = guide.minLevel .. guide.name end
+	end
+	guide.name = guide.group .. " " .. guide.name
 end
 
-function addon.parseLine(step)
+local function isClass(c)
+	return c == "WARRIOR" or c == "ROGUE" or c == "MAGE" or c == "WARLOCK" or c == "HUNTER" or c == "PRIEST" or c == "DRUID" or c == "PALADIN" or c == "SHAMAN"
+end
+
+local function isRace(c)
+	return c == "HUMAN" or c == "NIGHTELF" or c == "DWARF" or c == "GNOME" or c == "ORC" or c == "TROLL" or c == "TAUREN" or c == "UNDEAD" or c == "SCOURGE" or c == "BLOODELF" or c == "DRAENEI"
+end
+
+local function isFaction(c)
+	return c == "ALLIANCE" or c == "HORDE"
+end
+
+function addon.parseLine(step, guide)
 	if step.text == nil then return end
 	step.elements = {}
 	local t = step.text
@@ -46,7 +83,20 @@ function addon.parseLine(step)
 				element.text = text
 				table.insert(step.elements, element)
 			end
-			if code:sub(1, 1) == "Q" then
+			if code:sub(1, 1) == "N" then
+				if code:sub(2, 2) == "X" then
+					guide.next = code:sub(3)
+				else
+					code:sub(2):gsub("(.*) ?(%d*) ?- ?(%d*) ?(.*)", function (group, minLevel, maxLevel, title)
+						guide.group = group
+						guide.minLevel = tonumber(minLevel)
+						guide.maxLevel = tonumber(maxLevel)
+						guide.title = title
+					end)
+				end
+			elseif code:sub(1, 1) == "D" then
+				guide.details = code:sub(2)
+			elseif code:sub(1, 1) == "Q" then
 				local element = {}
 				if code:sub(2, 2) == "P" then
 					element.t = "PICKUP"
@@ -81,17 +131,35 @@ function addon.parseLine(step)
 				end)
 				table.insert(step.elements, element)
 			elseif code:sub(1, 1) == "G" then
-				local element = {}
-				element.t = "GOTO"
-				code:gsub("G(%d+%.?%d*), ?(%d+%.?%d*),? ?(%d*%.?%d*)(.*)", function(x, y, radius, zone)
-					element.x = tonumber(x)
-					element.y = tonumber(y)
-					if radius ~= "" then element.radius = tonumber(radius) else element.radius = 1 end
-					if zone ~= "" then addon.currentZone = addon.mapIDs[zone] end
-					element.mapID = addon.currentZone
-					if element.mapID == nil then error("parsing guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": zone not found for [" .. code .. "] in line \"" .. step.text .. "\"") end
-				end)
-				table.insert(step.elements, element)
+				elseif code:sub(2, 1) == "A" then
+					code:sub(3):upper():gsub(" ",""):gsub("([^,]+)", function(c)
+						if isClass(c) then
+							if guide.class == nil then guide.class = {} end
+							table.insert(guide.class, c)
+						elseif isRace(c) then
+							if guide.race == nil then guide.race = {} end
+							if c == "UNDEAD" then c = "SCOURGE" end
+							table.insert(guide.race, c)
+						elseif isFaction(c) then
+							if guide.faction == nil then guide.faction = {} end
+							table.insert(guide.faction, c)
+						else
+							error("parsing guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": code not recognized for [" .. code .. "] in line \"" .. step.text .. "\"")
+						end
+					end)
+				else
+					local element = {}
+					element.t = "GOTO"
+					code:gsub("G(%d+%.?%d*), ?(%d+%.?%d*),? ?(%d*%.?%d*)(.*)", function(x, y, radius, zone)
+						element.x = tonumber(x)
+						element.y = tonumber(y)
+						if radius ~= "" then element.radius = tonumber(radius) else element.radius = 1 end
+						if zone ~= "" then addon.currentZone = addon.mapIDs[zone] end
+						element.mapID = addon.currentZone
+						if element.mapID == nil then error("parsing guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": zone not found for [" .. code .. "] in line \"" .. step.text .. "\"") end
+					end)
+					table.insert(step.elements, element)
+				end
 			elseif code:sub(1, 2) == "XP" then
 				local element = {}
 				element.t = "LEVEL"
@@ -172,14 +240,14 @@ function addon.parseLine(step)
 				step.completeWithNext = true
 			elseif code:sub(1, 1) == "A" then
 				code:sub(2):upper():gsub(" ",""):gsub("([^,]+)", function(c)
-					if c == "WARRIOR" or c == "ROGUE" or c == "MAGE" or c == "WARLOCK" or c == "HUNTER" or c == "PRIEST" or c == "DRUID" or c == "PALADIN" or c == "SHAMAN" then
+					if isClass(c) then
 						if step.class == nil then step.class = {} end
 						table.insert(step.class, c)
-					elseif c == "HUMAN" or c == "NIGHTELF" or c == "DWARF" or c == "GNOME" or c == "ORC" or c == "TROLL" or c == "TAUREN" or c == "UNDEAD" or c == "SCOURGE" or c == "BLOODELF" or c == "DRAENEI" then
+					elseif isRace(c) then
 						if step.race == nil then step.race = {} end
 						if c == "UNDEAD" then c = "SCOURGE" end
 						table.insert(step.race, c)
-					elseif c == "ALLIANCE" or c == "HORDE" then
+					elseif isFaction(c) then
 						if step.faction == nil then step.faction = {} end
 						table.insert(step.faction, c)
 					else

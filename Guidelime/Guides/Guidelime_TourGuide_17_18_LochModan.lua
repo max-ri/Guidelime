@@ -1,12 +1,7 @@
-Guidelime.registerGuide(
-{	
-group = "TourGuide",
-source = {"https://github.com/TekNoLogic/TourGuide"},
-minLevel = 17, maxLevel = 18,
-title = "Loch Modan",
-faction = "Alliance",	
-details = "Guide from the addon TourGuide by tekkub (|cFFAAAAAAhttps://github.com/TekNoLogic/TourGuide|r)",
-text = [[
+Guidelime.registerGuide([[
+[NTourGuide 17 - 18 Loch Modan]
+[DGuide from the addon TourGuide by tekkub (|cFFAAAAAAhttps://github.com/TekNoLogic/TourGuide|r)]
+[GAAlliance]
 Fly to [F] Loch Modan. Boat to Stormwind, then fly there![ADwarf,Gnome]
 Go to Loch Modan Boat to Stormwind, take the tram to IF, then run to Loch. [P]Make sure you grab flight points along the way.[AHuman,Night Elf]
 Go to Algaz Station In the north of Loch Modan[C]
@@ -50,4 +45,4 @@ Fly to [F] City of Ironforge[AHuman,Dwarf,Gnome]
 Go to [F] City of Ironforge[ANight Elf,Draenei]
 [P] Grab flight point[ANight Elf,Draenei]
 Turn in [QT301Report to Ironforge] Hall of Explorers. Skip the follow-up."
-]]})
+]],...)
