@@ -84,7 +84,7 @@ function addon.contains(array, value)
 end
 
 function Guidelime.registerGuide(guide, addonName)
-	if type(guide) == "STRING" then
+	if type(guide) == "string" then
 		guide = {text = guide}
 	end
 	addon.parseGuide(guide, addonName)	
@@ -163,6 +163,7 @@ function addon.loadCurrentGuide()
 	addon.currentGuide.colorQuest = addon.guides[GuidelimeDataChar.currentGuide.name].colorQuest
 	if addon.currentGuide.colorQuest == nil then addon.currentGuide.colorQuest = addon.COLOR_QUEST_DEFAULT end
 	addon.currentGuide.next = addon.guides[GuidelimeDataChar.currentGuide.name].next
+	addon.currentGuide.group = addon.guides[GuidelimeDataChar.currentGuide.name].group
 	
 	--print(format(L.LOAD_MESSAGE, addon.currentGuide.name))
 	
@@ -715,7 +716,7 @@ function addon.updateMainFrame()
 				if (button == "RightButton") then
 					showContextMenu()
 				else
-					addon.loadGuide(addon.currentGuide.group .. addon.currentGuide.next)
+					addon.loadGuide(addon.currentGuide.group .. " " .. addon.currentGuide.next)
 				end
 			end)
 		end

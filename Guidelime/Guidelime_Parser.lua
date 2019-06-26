@@ -34,13 +34,13 @@ function addon.parseGuide(guide, addonName)
 	for i, step in ipairs(guide.steps) do
 		addon.parseLine(step, guide)	
 	end
-	if guide.group == nil then
+	if guide.group == nil or guide.group == "" then
 		if addonName ~= nil and addonName:sub(1,10) == "Guidelime_" then
 			guide.group = addonName:sub(11)
 		elseif addonName ~= nil then
 			guide.group = addonName
 		else
-			guide.group = L.OTHER_GUIDES
+			guide.group = "other guides"--L.OTHER_GUIDES
 		end
 	end
 	if guide.title ~= nil then 
@@ -87,7 +87,7 @@ function addon.parseLine(step, guide)
 				if code:sub(2, 2) == "X" then
 					guide.next = code:sub(3)
 				else
-					code:sub(2):gsub("(.*) ?(%d*) ?- ?(%d*) ?(.*)", function (group, minLevel, maxLevel, title)
+					code:sub(2):gsub("([^%d]*) ?(%d*) ?- ?(%d*) ?(.*)", function (group, minLevel, maxLevel, title)
 						guide.group = group
 						guide.minLevel = tonumber(minLevel)
 						guide.maxLevel = tonumber(maxLevel)
@@ -117,21 +117,21 @@ function addon.parseLine(step, guide)
 					else
 						element.title = title
 					end
+					table.insert(step.elements, element)
 				end)
-				table.insert(step.elements, element)
 			elseif code:sub(1, 1) == "L" then
-				local element = {}
-				element.t = "LOC"
 				code:gsub("L(%d+%.?%d*), ?(%d+%.?%d*)(.*)", function(x, y, zone)
+					local element = {}
+					element.t = "LOC"
 					element.x = tonumber(x)
 					element.y = tonumber(y)
 					if zone ~= "" then addon.currentZone = addon.mapIDs[zone] end
 					element.mapID = addon.currentZone
-					if element.mapID == nil then error("parsing guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": zone not found for [" .. code .. "] in line \"" .. step.text .. "\"") end
+					if element.mapID == nil then error("zone not found for [" .. code .. "] in line \"" .. step.text .. "\"") end
+					table.insert(step.elements, element)
 				end)
-				table.insert(step.elements, element)
 			elseif code:sub(1, 1) == "G" then
-				elseif code:sub(2, 1) == "A" then
+				if code:sub(2, 2) == "A" then
 					code:sub(3):upper():gsub(" ",""):gsub("([^,]+)", function(c)
 						if isClass(c) then
 							if guide.class == nil then guide.class = {} end
@@ -141,29 +141,28 @@ function addon.parseLine(step, guide)
 							if c == "UNDEAD" then c = "SCOURGE" end
 							table.insert(guide.race, c)
 						elseif isFaction(c) then
-							if guide.faction == nil then guide.faction = {} end
-							table.insert(guide.faction, c)
+							guide.faction = c
 						else
-							error("parsing guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": code not recognized for [" .. code .. "] in line \"" .. step.text .. "\"")
+							error("code not recognized for [" .. code .. "] in line \"" .. step.text .. "\"")
 						end
 					end)
 				else
-					local element = {}
-					element.t = "GOTO"
 					code:gsub("G(%d+%.?%d*), ?(%d+%.?%d*),? ?(%d*%.?%d*)(.*)", function(x, y, radius, zone)
+						local element = {}
+						element.t = "GOTO"
 						element.x = tonumber(x)
 						element.y = tonumber(y)
 						if radius ~= "" then element.radius = tonumber(radius) else element.radius = 1 end
 						if zone ~= "" then addon.currentZone = addon.mapIDs[zone] end
 						element.mapID = addon.currentZone
-						if element.mapID == nil then error("parsing guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": zone not found for [" .. code .. "] in line \"" .. step.text .. "\"") end
+						if element.mapID == nil then error("zone not found for [" .. code .. "] in line \"" .. step.text .. "\"") end
+						table.insert(step.elements, element)
 					end)
-					table.insert(step.elements, element)
 				end
 			elseif code:sub(1, 2) == "XP" then
-				local element = {}
-				element.t = "LEVEL"
 				code:gsub("XP(%d+)([%+%-%.]?)(%d*)(.*)", function(level, t, xp, text)
+					local element = {}
+					element.t = "LEVEL"
 					element.level = tonumber(level)
 					if text ~= "" and text:sub(1, 1) == " " then
 						element.text = text:sub(2)
@@ -185,8 +184,8 @@ function addon.parseLine(step, guide)
 						element.xp = tonumber("0." .. xp)
 						step.xp = true
 					end
+					table.insert(step.elements, element)
 				end)
-				table.insert(step.elements, element)
 			elseif code:sub(1, 1) == "H" then
 				local element = {}
 				element.t = "HEARTH"
@@ -248,14 +247,13 @@ function addon.parseLine(step, guide)
 						if c == "UNDEAD" then c = "SCOURGE" end
 						table.insert(step.race, c)
 					elseif isFaction(c) then
-						if step.faction == nil then step.faction = {} end
-						table.insert(step.faction, c)
+						step.faction = c
 					else
-						error("parsing guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": code not recognized for [" .. code .. "] in line \"" .. step.text .. "\"")
+						error("code not recognized for [" .. code .. "] in line \"" .. step.text .. "\"")
 					end
 				end)
 			else
-				error("parsing guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": code not recognized for [" .. code .. "] in line \"" .. step.text .. "\"")
+				error("code not recognized for [" .. code .. "] in line \"" .. step.text .. "\"")
 			end
 			found = true
 			return ""

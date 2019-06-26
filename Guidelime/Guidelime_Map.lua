@@ -63,8 +63,8 @@ function addon.addMapIcon(element)
 	if mapIcon ~= nil then
 		mapIcon.inUse = true
 		mapIcon.mapID = element.mapID
-		mapIcon.x = element.x
-		mapIcon.y = element.y
+		mapIcon.x = assert(element.x)
+		mapIcon.y = assert(element.y)
 		element.mapIndex = mapIcon.index
 		--eif addon.debugging then print("Guidelime : AddWorldMapIconMap", element.mapID, element.x / 100, element.y / 100) end
 	end
