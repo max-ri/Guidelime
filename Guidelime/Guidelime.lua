@@ -564,15 +564,11 @@ local function keepFading()
 	local isFading = false
 	for i, step in ipairs(addon.currentGuide.steps)	do
 		if step.fading ~= nil then
-			if not step.completed and not step.skip and step.available then
-				step.fading = nil
-				if addon.mainFrame.steps ~= nil and addon.mainFrame.steps[i] ~= nil then addon.mainFrame.steps[i]:SetAlpha(1) end
-			else	
+			if (GuidelimeDataChar.hideCompletedSteps and (step.completed or step.skip)) or
+			   (GuidelimeDataChar.hideUnavailableSteps and not step.available) then
 				step.active = false
 				--if addon.debugging then print("LIME: fade out", i, step.fading) end
-				if step.fading <= 0 or 
-					(not GuidelimeDataChar.hideCompletedSteps and step.available) or
-					(not GuidelimeDataChar.hideUnavailableSteps and not step.completed and not step.skip) then
+				if step.fading <= 0 then
 					step.fading = nil
 					--if addon.debugging then print("LIME: fade out", i) end
 					update = true 
@@ -582,7 +578,10 @@ local function keepFading()
 						addon.mainFrame.steps[i]:SetAlpha(step.fading) 
 					end
 					isFading = true
-				end			
+				end	
+			else		
+				step.fading = nil
+				if addon.mainFrame.steps ~= nil and addon.mainFrame.steps[i] ~= nil then addon.mainFrame.steps[i]:SetAlpha(1) end
 			end
 		end
 	end
@@ -610,6 +609,7 @@ local function stopFading()
 end
 
 local function updateStepsActivation()
+	addon.currentGuide.firstActiveIndex = nil
 	for i, step in ipairs(addon.currentGuide.steps) do
 		step.active = not step.completed and not step.skip and step.available
 		if step.active then
@@ -622,9 +622,19 @@ local function updateStepsActivation()
 			end
 		end
 		if step.active then
+			if addon.currentGuide.firstActiveIndex == nil then
+				addon.currentGuide.firstActiveIndex = i
+			end
 			if addon.containsWith(step.elements, function(e) return e.t == "GOTO" end) then
 				queryPosition()
 			end
+		end
+	end
+	if addon.mainFrame.message ~= nil then
+		if addon.currentGuide.firstActiveIndex ~= nil then
+			addon.mainFrame.message:Hide()
+		else
+			addon.mainFrame.message:Show()
 		end
 	end
 end
@@ -708,10 +718,30 @@ function addon.updateMainFrame()
 		addon.mainFrame.message:SetPoint("TOPLEFT", addon.mainFrame.scrollChild, "TOPLEFT", 10, -25)
 	else
 		--if addon.debugging then print("LIME: Showing guide " .. addon.currentGuide.name) end
+
+		if addon.currentGuide.next == nil then
+			addon.mainFrame.message = addon.addMultilineText(addon.mainFrame.scrollChild, 
+				L.GUIDE_FINISHED, addon.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
+				if (button == "RightButton") then
+					showContextMenu()
+				else
+					addon.showGuides()
+				end
+			end)
+		else
+			addon.mainFrame.message = addon.addMultilineText(addon.mainFrame.scrollChild, 
+				L.GUIDE_FINISHED_NEXT:format("|cFFFFFFFF" .. addon.currentGuide.next .. "|r"), addon.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button) 
+				if (button == "RightButton") then
+					showContextMenu()
+				else
+					addon.loadGuide(addon.currentGuide.next)
+				end
+			end)
+		end
+
 		addon.updateSteps()
 		
 		local prev = nil
-		local finished = true
 		for i, step in ipairs(addon.currentGuide.steps) do
 			if ((not step.completed and not step.skip) or not GuidelimeDataChar.hideCompletedSteps) and 
 				(step.available or not GuidelimeDataChar.hideUnavailableSteps) then
@@ -744,38 +774,14 @@ function addon.updateMainFrame()
 				updateStepText(i)
 				
 				prev = addon.mainFrame.steps[i].textBox
-				if not step.completed and not step.skip then finished = false end
 			end
 		end
-		if finished then
-			if addon.currentGuide.next == nil then
-				addon.mainFrame.message = addon.addMultilineText(addon.mainFrame.scrollChild, 
-					L.GUIDE_FINISHED, addon.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
-					if (button == "RightButton") then
-						showContextMenu()
-					else
-						addon.showGuides()
-					end
-				end)
-			else
-				addon.mainFrame.message = addon.addMultilineText(addon.mainFrame.scrollChild, 
-					L.GUIDE_FINISHED_NEXT:format("|cFFFFFFFF" .. addon.currentGuide.next .. "|r"), addon.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button) 
-					if (button == "RightButton") then
-						showContextMenu()
-					else
-						addon.loadGuide(addon.currentGuide.next)
-					end
-				end)
-			end
-			if prev == nil then
-				addon.mainFrame.message:SetPoint("TOPLEFT", addon.mainFrame.scrollChild, "TOPLEFT", 10, -25)
-			else
-				addon.mainFrame.message:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -25, -15)
-			end
+		if prev == nil then
+			addon.mainFrame.message:SetPoint("TOPLEFT", addon.mainFrame.scrollChild, "TOPLEFT", 10, -25)
+		else
+			addon.mainFrame.message:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -25, -15)
 		end
 	end
-	addon.mainFrame.scrollChild:SetHeight(addon.mainFrame:GetHeight())
-	addon.mainFrame.scrollFrame:UpdateScrollChildRect();
 end
 
 function addon.showMainFrame()
@@ -813,8 +819,8 @@ function addon.showMainFrame()
 		
 		addon.mainFrame.scrollChild = CreateFrame("FRAME", nil, addon.mainFrame)
 		addon.mainFrame.scrollFrame:SetScrollChild(addon.mainFrame.scrollChild);
-		--addon.mainFrame.scrollChild:SetAllPoints(addon.mainFrame)
 		addon.mainFrame.scrollChild:SetWidth(GuidelimeDataChar.mainFrameWidth)
+		addon.mainFrame.scrollChild:SetHeight(addon.mainFrame:GetHeight())
 		
 		if addon.firstLogUpdate then 
 			addon.updateMainFrame() 
@@ -836,7 +842,6 @@ function addon.showMainFrame()
 		addon.mainFrame.lockBtn = CreateFrame("BUTTON", "lockBtn", addon.mainFrame)
     	addon.mainFrame.lockBtn:SetSize(24, 24)
 		addon.mainFrame.lockBtn:SetPoint("TOPRIGHT", addon.mainFrame, "TOPRIGHT", -20,0)
-	    --addon.mainFrame.lockBtn:SetHighlightTexture("Interface/Buttons/LockButton-Locked-Highlight")
 		if GuidelimeDataChar.mainFrameLocked then
 	    	addon.mainFrame.lockBtn:SetPushedTexture("Interface/Buttons/LockButton-Unlocked-Down")
 	    	addon.mainFrame.lockBtn:SetNormalTexture("Interface/Buttons/LockButton-Locked-Up")
