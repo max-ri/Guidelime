@@ -83,7 +83,16 @@ function addon.contains(array, value)
 	return addon.containsWith(array, function(v) return v == value end)
 end
 
-function Guidelime.registerGuide(guide)
+function Guidelime.registerGuide(guide, addonName)
+	if guide.group == nil then
+		if addonName ~= nil and addonName:sub(1,10) == "Guidelime_" then
+			guide.group = addonName:sub(11)
+		elseif addonName ~= nil then
+			guide.group = addonName
+		else
+			guide.group = L.OTHER_GUIDES
+		end
+	end
 	if guide.name == nil then
 		if guide.title ~= nil then 
 			guide.name = guide.title
@@ -96,11 +105,7 @@ function Guidelime.registerGuide(guide)
 			guide.name = "-" .. guide.name
 			if guide.minLevel ~= nil then guide.name = guide.minLevel .. guide.name end
 		end
-		if guide.group ~= nil then
-			guide.name = guide.group .. " " .. guide.name
-		else
-			guide.group = L.OTHER_GUIDES
-		end
+		guide.name = guide.group .. " " .. guide.name
 	end
 	if addon.guides[guide.name] ~= nil then error("There is more than one guide with the name \"" .. guide.name .. "\"") end
 	addon.guides[guide.name] = guide
