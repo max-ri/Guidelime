@@ -6,7 +6,7 @@ codes:
  - NX Name and level of the next guide proposed after finishing this [NN(min)-(max)(name)]
  - D details of the guide [D(details)]
  - GA guide applies to [GA(race),(class),(faction),...]
- - Q [QP/T/C/S(id)[,objective](title)] quest pickup/turnin/complete/skip
+ - Q [QP/T/C/S/W(id)[,objective](title)] quest pickup/turnin/complete/skip
  - L [L(x).(y)[zone] ] loc
  - G [G(x).(y)[zone] ] goto
  - XP [XP (level)[.(percentage)/+(points)/-(points remaining)] experience
@@ -34,7 +34,7 @@ function addon.parseGuide(guide, addonName)
 	for i, step in ipairs(guide.steps) do
 		addon.parseLine(step, guide)	
 	end
-	if guide.group == nil or guide.group == "" then
+	if guide.group == nil then
 		if addonName ~= nil and addonName:sub(1,10) == "Guidelime_" then
 			guide.group = addonName:sub(11)
 		elseif addonName ~= nil then
@@ -87,8 +87,9 @@ function addon.parseLine(step, guide)
 				if code:sub(2, 2) == "X" then
 					guide.next = code:sub(3)
 				else
-					code:sub(2):gsub("([^%d]*) ?(%d*) ?- ?(%d*) ?(.*)", function (group, minLevel, maxLevel, title)
-						guide.group = group
+					code:sub(2):gsub("([^%d]-) ?(%d*) ?- ?(%d*) ?(.*)", function (group, minLevel, maxLevel, title)
+						print("LIME: \"".. (group or "") .. "\",\"" .. minLevel .. "\",\"" .. maxLevel .. "\",\"" .. title .. "\"")
+						if group ~= "" then guide.group = group end
 						guide.minLevel = tonumber(minLevel)
 						guide.maxLevel = tonumber(maxLevel)
 						guide.title = title
@@ -106,6 +107,8 @@ function addon.parseLine(step, guide)
 					element.t = "COMPLETE"
 				elseif code:sub(2, 2) == "S" then
 					element.t = "SKIP"
+				elseif code:sub(2, 2) == "W" then
+					element.t = "WORK"
 				else
 					error("parsing guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": code not recognized for [" .. code .. "] in line \"" .. step.text .. "\"")
 				end

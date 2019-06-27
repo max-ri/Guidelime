@@ -31,12 +31,14 @@ end
 
 addon.icons = {
 	MAP = "Interface\\Addons\\Guidelime\\Icons\\lime",
+	MAP_HIGHLIGHT = "Interface\\Addons\\Guidelime\\Icons\\lime_highlight",
 	COMPLETED = "Interface\\Buttons\\UI-CheckBox-Check",
 	UNAVAILABLE = "Interface\\Buttons\\UI-GroupLoot-Pass-Up", -- or rather "Interface\\Buttons\\UI-StopButton" (yellow x) ?
 	
 	PICKUP = "Interface\\GossipFrame\\AvailableQuestIcon",
 	PICKUP_UNAVAILABLE = "Interface\\Addons\\Guidelime\\Icons\\questunavailable",
 	COMPLETE = "Interface\\GossipFrame\\BattleMasterGossipIcon",
+	WORK = "Interface\\GossipFrame\\BattleMasterGossipIcon",
 	TURNIN = "Interface\\GossipFrame\\ActiveQuestIcon",
 	TURNIN_INCOMPLETE = "Interface\\GossipFrame\\IncompleteQuestIcon",
 	SETHEARTH = "Interface\\Icons\\INV_Drink_05", -- nicer than the actual "Interface\\GossipFrame\\BinderGossipIcon" ?
@@ -59,10 +61,10 @@ addon.icons = {
 	--BOAT = "Interface\\Icons\\Spell_Frost_SummonWaterElemental",
 }
 
-addon.faction = UnitFactionGroup("player")
 local _
 _, addon.class = UnitClass("player")
 _, addon.race = UnitRace("player"); addon.race = addon.race:upper()
+addon.faction = UnitFactionGroup("player")
 addon.level = UnitLevel("player")
 addon.xp = UnitXP("player")
 addon.xpMax = UnitXPMax("player")
@@ -108,7 +110,9 @@ local function loadData()
 		mainFrameHeight = 400,
 		mainFrameAlpha = 0.5,
 		hideCompletedSteps = true,
-		hideUnavailableSteps = true
+		hideUnavailableSteps = true,
+		showArrow = true,
+		arrowAlpha = 0.5
 	}
 	if GuidelimeData == nil then
 		GuidelimeData = {
@@ -189,13 +193,12 @@ function addon.loadCurrentGuide()
 					if step.manual == nil then step.manual = false end
 					step.completeWithNext = false
 				elseif element.t == "TRAIN" or element.t == "VENDOR" or element.t == "REPAIR" or element.t == "SETHEARTH" or element.t == "GETFLIGHTPOINT" then 
-					if step.manual == nil then step.manual = true end
+					step.manual = true
 					step.completeWithNext = false
 				elseif element.t == "GOTO" then 
 					if step.manual == nil then step.manual = false end
 					if step.completeWithNext == nil then step.completeWithNext = true end
 				elseif element.t == "FLY" or element.t == "HEARTH" then 
-					if step.manual == nil then step.manual = true end
 					if step.completeWithNext == nil then step.completeWithNext = true end
 				end
 				if element.questId ~= nil then
@@ -319,18 +322,7 @@ local function updateStepText(i)
 				end
 			end
 		end
-		if not element.available and element.missingPrequests ~= nil then
-			if tooltip ~= "" then tooltip = tooltip .. "\n" end
-			tooltip = tooltip .. "|T" .. addon.icons.UNAVAILABLE .. ":12|t"
-			if #element.missingPrequests == 1 then
-				tooltip = tooltip .. L.MISSING_PREQUEST .. " "
-			else
-				tooltip = tooltip .. L.MISSING_PREQUESTS .. " "
-			end
-			for i, id in ipairs(element.missingPrequests) do
-				tooltip = tooltip .. getQuestText(id, "TURNIN")
-			end			
-		elseif not element.completed and element.questId ~= nil and addon.quests[element.questId].followup ~= nil and #addon.quests[element.questId].followup > 0 then
+		if element.available and not element.completed and element.questId ~= nil and addon.quests[element.questId].followup ~= nil and #addon.quests[element.questId].followup > 0 then
 			if skipTooltip ~= "" then skipTooltip = skipTooltip .. "\n" end
 			skipTooltip = skipTooltip .. "|T" .. addon.icons.UNAVAILABLE .. ":12|t"
 			if #addon.quests[element.questId].followup == 1 then
@@ -339,6 +331,18 @@ local function updateStepText(i)
 				skipTooltip = skipTooltip .. L.STEP_FOLLOWUP_QUESTS:format(#addon.quests[element.questId].followup)
 			end
 		end
+	end
+	if step.missingPrequests ~= nil and #step.missingPrequests > 0 then
+		if tooltip ~= "" then tooltip = tooltip .. "\n" end
+		tooltip = tooltip .. "|T" .. addon.icons.UNAVAILABLE .. ":12|t"
+		if #step.missingPrequests == 1 then
+			tooltip = tooltip .. L.MISSING_PREQUEST .. " "
+		else
+			tooltip = tooltip .. L.MISSING_PREQUESTS .. " "
+		end
+		for i, id in ipairs(step.missingPrequests) do
+			tooltip = tooltip .. getQuestText(id, "TURNIN")
+		end			
 	end
 	for id, v in pairs(step.trackQuest) do
 		if addon.quests[id].logIndex ~= nil and addon.quests[id].objectives ~= nil then
@@ -380,7 +384,7 @@ end
 local function queryPosition()
 	if addon.queryingPosition then return end
 	addon.queryingPosition = true
-	C_Timer.After(2, function() 
+	C_Timer.After(0.5, function() 
 		addon.queryingPosition = false
 		local y, x = UnitPosition("player")
 		--if addon.debugging then print("LIME : queryingPosition", x, y) end
@@ -398,50 +402,52 @@ local function updateStepCompletion(i, completedIndexes)
 	local step = addon.currentGuide.steps[i]
 
 	local wasCompleted = step.completed
-	if not step.manual then
-		step.completed = nil
-		for j, element in ipairs(step.elements) do
-			if element.t == "PICKUP" then
-				element.completed = addon.quests[element.questId].completed or addon.quests[element.questId].logIndex ~= nil
-				if step.completed == nil or not element.completed then step.completed = element.completed end
-			elseif element.t == "COMPLETE" then
-				element.completed = 
-					addon.quests[element.questId].completed or 
-					addon.quests[element.questId].finished or
-					(element.objective ~= nil and addon.quests[element.questId].objectives ~= nil and addon.quests[element.questId].objectives[element.objective].done)
-				if step.completed == nil or not element.completed then step.completed = element.completed end
-			elseif element.t == "TURNIN" then
-				element.finished = addon.quests[element.questId].finished
-				element.completed = addon.quests[element.questId].completed
-				if step.completed == nil or not element.completed then step.completed = element.completed end
-			elseif element.t == "GOTO" then
-				if not wasCompleted and step.active and not step.skip then
-					local x, y = HBD:GetZoneCoordinatesFromWorld(addon.x, addon.y, element.mapID, false)
-					--if addon.debugging then print("LIME : zone coordinates", x, y, element.mapID) end
-					if x ~= nil and y ~= nil then
-						x = x * 100; y = y * 100;
-						element.completed = (x - element.x) * (x - element.x) + (y - element.y) * (y - element.y) <= element.radius * element.radius
-					else
-						element.completed = false
-					end
-					if step.completed == nil or not element.completed then step.completed = element.completed end
+	if not step.manual then	step.completed = nil end
+	for j, element in ipairs(step.elements) do
+		if element.t == "PICKUP" then
+			element.completed = addon.quests[element.questId].completed or addon.quests[element.questId].logIndex ~= nil
+			if step.completed == nil or not element.completed then step.completed = element.completed end
+		elseif element.t == "COMPLETE" then
+			element.completed = 
+				addon.quests[element.questId].completed or 
+				addon.quests[element.questId].finished or
+				(element.objective ~= nil and addon.quests[element.questId].objectives ~= nil and addon.quests[element.questId].objectives[element.objective].done)
+			if step.completed == nil or not element.completed then step.completed = element.completed end
+		elseif element.t == "TURNIN" then
+			element.finished = addon.quests[element.questId].finished
+			element.completed = addon.quests[element.questId].completed
+			if step.completed == nil or not element.completed then step.completed = element.completed end
+		elseif element.t == "LEVEL" then
+			element.completed = element.level <= addon.level
+			if element.xp ~= nil and element.level == addon.level then
+				if element.xpType == "REMAINING" then
+					if element.xp < (addon.xpMax - addon.xp) then element.completed = false end
+				elseif element.xpType == "PERCENTAGE" then
+					if addon.xpMax == 0 or element.xp > (addon.xp / addon.xpMax) then element.completed = false end
+				else
+					if element.xp > addon.xp then element.completed = false end
 				end
-			elseif element.t == "LEVEL" then
-				element.completed = element.level <= addon.level
-				if element.xp ~= nil and element.level == addon.level then
-					if element.xpType == "REMAINING" then
-						if element.xp < (addon.xpMax - addon.xp) then element.completed = false end
-					elseif element.xpType == "PERCENTAGE" then
-						if addon.xpMax == 0 or element.xp > (addon.xp / addon.xpMax) then element.completed = false end
-					else
-						if element.xp > addon.xp then element.completed = false end
-					end
-				end			
+			end			
+			if step.completed == nil or not element.completed then step.completed = element.completed end
+		end
+	end
+	-- check goto last so that goto only matters when there are no other objectives completed
+	for j, element in ipairs(step.elements) do
+		if element.t == "GOTO" then
+			if not wasCompleted and not step.completed and step.active and not step.skip and not element.completed then
+				local x, y = HBD:GetZoneCoordinatesFromWorld(addon.x, addon.y, element.mapID, false)
+				--if addon.debugging then print("LIME : zone coordinates", x, y, element.mapID) end
+				if x ~= nil and y ~= nil then
+					x = x * 100; y = y * 100;
+					element.completed = (x - element.x) * (x - element.x) + (y - element.y) * (y - element.y) <= element.radius * element.radius
+				else
+					element.completed = false
+				end
 				if step.completed == nil or not element.completed then step.completed = element.completed end
 			end
 		end
-		if step.completed == nil then step.completed = step.completeWithNext and wasCompleted end
 	end
+	if step.completed == nil then step.completed = step.completeWithNext and wasCompleted end
 	
 	if i < #addon.currentGuide.steps and step.completeWithNext ~= nil and step.completeWithNext then
 		local nstep = addon.currentGuide.steps[i + 1]
@@ -459,19 +465,20 @@ end
 
 local function updateStepAvailability(i, changedIndexes, marked)
 	local step = addon.currentGuide.steps[i]
-	if step.manual then return false end
 	
 	local wasAvailable = step.available
 	step.available = true
+	step.missingPrequests = {}
 	for j, element in ipairs(step.elements) do
 		element.available = true
 		if element.t == "PICKUP" then
 			if addon.questsDB[element.questId].prequests ~= nil then
-				element.missingPrequests = {}
 				for i, id in ipairs(addon.questsDB[element.questId].prequests) do
 					if not addon.quests[id].completed and marked.TURNIN[id] == nil then
 						element.available = false
-						table.insert(element.missingPrequests, id)
+						if not addon.contains(step.missingPrequests, id) then
+							table.insert(step.missingPrequests, id)
+						end
 					end
 				end
 			end
@@ -484,6 +491,9 @@ local function updateStepAvailability(i, changedIndexes, marked)
 				addon.quests[element.questId].logIndex == nil 
 			then 
 				element.available = false 
+				if not addon.contains(step.missingPrequests, element.questId) then
+					table.insert(step.missingPrequests, element.questId)
+				end
 			end
 			if step.skip and element.available then
 				marked.SKIP_COMPLETE[element.questId] = true
@@ -494,6 +504,9 @@ local function updateStepAvailability(i, changedIndexes, marked)
 				addon.quests[element.questId].logIndex == nil 
 			then 
 				element.available = false 
+				if not addon.contains(step.missingPrequests, element.questId) then
+					table.insert(step.missingPrequests, element.questId)
+				end
 			end
 			if marked.SKIP_COMPLETE[element.questId] ~= nil then element.available = false end
 			if not step.skip and element.available then
@@ -607,9 +620,6 @@ local function updateStepsActivation()
 			if addon.currentGuide.firstActiveIndex == nil then
 				addon.currentGuide.firstActiveIndex = i
 			end
-			if addon.containsWith(step.elements, function(e) return e.t == "GOTO" end) then
-				queryPosition()
-			end
 		end
 	end
 	if addon.mainFrame.message ~= nil then
@@ -624,11 +634,20 @@ end
 local function updateStepsMapIcons()
 	if addon.currentGuide == nil then return end
 	addon.removeMapIcons()
+	addon.hideArrow()
+	local highlight = true
 	for i, step in ipairs(addon.currentGuide.steps) do
 		if not step.skip and not step.completed then
 			for j, element in ipairs(step.elements) do
-				if element.t == "LOC" or element.t == "GOTO" then
-					mapIcon = addon.addMapIcon(element)
+				if element.t == "GOTO" and not step.completed and step.active and not step.skip and not element.completed then
+					addon.addMapIcon(element, highlight)
+					if highlight then
+						if GuidelimeDataChar.showArrow then addon.showArrow(element) end
+						queryPosition()
+						highlight = false
+					end
+				elseif element.t == "LOC" or element.t == "GOTO" then
+					addon.addMapIcon(element, false)
 				end
 			end
 		end
@@ -935,7 +954,7 @@ function addon.frame:QUEST_LOG_UPDATE()
 	addon.xp = UnitXP("player")
 	addon.xpMax = UnitXPMax("player")
 	addon.y, addon.x = UnitPosition("player")
-	--if addon.debugging then print("LIME: QUEST_LOG_UPDATE", UnitPosition("playe r")) end
+	--if addon.debugging then print("LIME: QUEST_LOG_UPDATE", UnitPosition("player")) end
 	
 	if addon.quests ~= nil then 
 		local checkCompleted, questChanged, questFound = addon.updateFromQuestLog()

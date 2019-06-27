@@ -26,36 +26,36 @@ function addon.fillOptions()
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
 	prev = checkbox
 	
-	local sliderW = addon.addSliderOption(addon.optionsFrame, GuidelimeDataChar, "mainFrameWidth", 50, 800, 1, L.MAIN_FRAME_WIDTH, nil, function()
+	local slider = addon.addSliderOption(addon.optionsFrame, GuidelimeDataChar, "mainFrameWidth", 50, 800, 1, L.MAIN_FRAME_WIDTH, nil, function()
 		if addon.mainFrame ~= nil then 
 			addon.mainFrame:SetWidth(GuidelimeDataChar.mainFrameWidth) 
 			addon.mainFrame.scrollChild:SetWidth(GuidelimeDataChar.mainFrameWidth)
 		end
 	end)
-	sliderW:SetScript("OnMouseUp", function()
+	slider:SetScript("OnMouseUp", function()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateMainFrame()
 		end
 	end)
-	sliderW:SetPoint("TOPLEFT", prev, "TOPLEFT", 250, -20)
-	sliderH = addon.addSliderOption(addon.optionsFrame, GuidelimeDataChar, "mainFrameHeight", 50, 600, 1, L.MAIN_FRAME_HEIGHT, nil, function()
+	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 250, -20)
+	slider = addon.addSliderOption(addon.optionsFrame, GuidelimeDataChar, "mainFrameHeight", 50, 600, 1, L.MAIN_FRAME_HEIGHT, nil, function()
 		if addon.mainFrame ~= nil then 
 			addon.mainFrame:SetHeight(GuidelimeDataChar.mainFrameHeight) 
 			addon.mainFrame.scrollChild:SetWidth(GuidelimeDataChar.mainFrameWidth)
 		end
 	end)
-	sliderH:SetScript("OnMouseUp", function()
+	slider:SetScript("OnMouseUp", function()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateMainFrame()
 		end
 	end)
-	sliderH:SetPoint("TOPLEFT", prev, "TOPLEFT", 250, -60)
-	sliderA = addon.addSliderOption(addon.optionsFrame, GuidelimeDataChar, "mainFrameAlpha", 0, 1, 0.01, L.MAIN_FRAME_ALPHA, nil, function()
+	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 250, -60)
+	local slider = addon.addSliderOption(addon.optionsFrame, GuidelimeDataChar, "mainFrameAlpha", 0, 1, 0.01, L.MAIN_FRAME_ALPHA, nil, function()
 		if addon.mainFrame ~= nil then 
 			addon.mainFrame:SetBackdropColor(0,0,0,GuidelimeDataChar.mainFrameAlpha)
 		end
 	end)
-	sliderA:SetPoint("TOPLEFT", prev, "TOPLEFT", 250, -100)
+	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 250, -100)
 	
 	local checkbox = addon.addCheckOption(addon.optionsFrame, GuidelimeDataChar, "mainFrameLocked", L.LOCK_MAINFRAME, nil, function()
 		if GuidelimeDataChar.mainFrameLocked then
@@ -85,6 +85,21 @@ function addon.fillOptions()
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = checkbox
 	
+	checkbox = addon.addCheckOption(addon.optionsFrame, GuidelimeDataChar, "showArrow", L.SHOW_ARROW, nil, function()
+		if GuidelimeDataChar.mainFrameShowing then
+			addon.updateStepsText()
+		end
+	end)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	prev = checkbox
+	
+	slider = addon.addSliderOption(addon.optionsFrame, GuidelimeDataChar, "arrowAlpha", 0, 1, 0.01, L.ARROW_ALPHA, nil, function()
+		--if addon.mainFrame ~= nil then 
+		--	addon.mainFrame:SetBackdropColor(0,0,0,GuidelimeDataChar.arrowAlpha)
+		--end
+	end)
+	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 250, -20)
+
 	checkbox = addon.addCheckOption(addon.optionsFrame, GuidelimeData, "showQuestLevels", L.SHOW_QUEST_LEVELS, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateStepsText()

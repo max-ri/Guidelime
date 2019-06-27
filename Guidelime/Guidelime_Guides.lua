@@ -62,7 +62,7 @@ function addon.fillGuides()
     scrollFrame:SetScrollChild(content)
 	prev = content
 
-	if addon.debugging then print("LIME: ", addon.race, addon.class) end
+	if addon.debugging then print("LIME:", addon.faction, addon.race, addon.class) end
 
 	local groups = {}
 	local groupNames = {}
