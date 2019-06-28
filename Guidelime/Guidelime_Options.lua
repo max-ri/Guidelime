@@ -52,7 +52,7 @@ function addon.fillOptions()
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 250, -60)
 	local slider = addon.addSliderOption(addon.optionsFrame, GuidelimeDataChar, "mainFrameAlpha", 0, 1, 0.01, L.MAIN_FRAME_ALPHA, nil, function()
 		if addon.mainFrame ~= nil then 
-			addon.mainFrame:SetBackdropColor(0,0,0,GuidelimeDataChar.mainFrameAlpha)
+			addon.mainFrame:SetBackdropColor(1,1,1,GuidelimeDataChar.mainFrameAlpha)
 		end
 	end)
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 250, -100)
@@ -86,19 +86,20 @@ function addon.fillOptions()
 	prev = checkbox
 	
 	checkbox = addon.addCheckOption(addon.optionsFrame, GuidelimeDataChar, "showArrow", L.SHOW_ARROW, nil, function()
-		if GuidelimeDataChar.mainFrameShowing then
-			addon.updateStepsText()
+		if addon.arrowFrame ~= nil and not GuidelimeDataChar.showArrow then
+			addon.arrowFrame:Hide()
 		end
 	end)
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = checkbox
 	
+	--[[ todo: arrow alpha not working yet 
 	slider = addon.addSliderOption(addon.optionsFrame, GuidelimeDataChar, "arrowAlpha", 0, 1, 0.01, L.ARROW_ALPHA, nil, function()
-		--if addon.mainFrame ~= nil then 
-		--	addon.mainFrame:SetBackdropColor(0,0,0,GuidelimeDataChar.arrowAlpha)
-		--end
+		if addon.arrowFrame ~= nil then 
+			addon.arrowFrame:SetBackdropColor(1,1,1,GuidelimeDataChar.arrowAlpha)
+		end
 	end)
-	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 250, -20)
+	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 250, -20)]]
 
 	checkbox = addon.addCheckOption(addon.optionsFrame, GuidelimeData, "showQuestLevels", L.SHOW_QUEST_LEVELS, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then

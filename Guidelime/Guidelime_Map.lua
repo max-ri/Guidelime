@@ -47,6 +47,10 @@ local function createMapIcon(i)
 	return addon.mapIcons[i]
 end
 
+for i = 9,0,-1 do
+	createMapIcon(i)
+end
+
 local function getMapIcon(element, highlight)
 	if highlight then 
 		if addon.mapIcons[0] == nil then createMapIcon(0) end
@@ -98,18 +102,51 @@ local function showMapIcon(mapIcon)
 end
 
 function addon.showMapIcons()
-	for i = #addon.mapIcons + 1, 0, -1 do
+	for i = 0, 9 do
 		showMapIcon(addon.mapIcons[i])
 	end
 end
 
+function addon.updateArrow()
+	if addon.arrowFrame ~= nil then
+		local angle = addon.face - math.atan2(addon.arrowX - addon.x, addon.arrowY - addon.y)
+		local index = angle * 32 / math.pi
+		if index > 64 then index = index - 64 end
+		local col = math.floor(index % 8)
+		local row = math.floor(index / 8)
+		addon.arrowFrame.texture:SetTexCoord(col / 8, (col + 1) / 8, row / 8, (row + 1) / 8)
+		--if addon.debugging then print("lime: arrow", angle) end
+	end
+end
+
 function addon.showArrow(element)
-	if element.x == nil or element.y == nil or element.mapID == nil or addon.x == nil or addon.y == nil then return end
-	local x, y = HBD:GetWorldCoordinatesFromZone(element.x / 100, element.y / 100, element.mapID)
-	local angle = math.atan2(x - addon.x, y - addon.y)
-	if addon.debugging then print("LIME: arrow", x, y, addon.x, addon.y, angle) end
-	--todo
+	if not GuidelimeDataChar.showArrow then return end
+	if element.x == nil or element.y == nil or element.mapID == nil or addon.x == nil or addon.y == nil or addon.face == nil then return end
+	
+	if addon.arrowFrame == nil then
+		addon.arrowFrame = CreateFrame("FRAME", nil, UIParent)
+		addon.arrowFrame:SetWidth(64)
+		addon.arrowFrame:SetHeight(64)
+		addon.arrowFrame:SetPoint(GuidelimeDataChar.arrowRelative, UIParent, GuidelimeDataChar.arrowRelative, GuidelimeDataChar.arrowX, GuidelimeDataChar.arrowY)
+	    addon.arrowFrame.texture = addon.arrowFrame:CreateTexture(nil, "OVERLAY")
+	    addon.arrowFrame.texture:SetTexture("Interface/Addons/Guidelime/Icons/lime_arrow")
+	    addon.arrowFrame.texture:SetAllPoints()
+		addon.arrowFrame:SetMovable(true)
+		addon.arrowFrame:EnableMouse(true)
+		addon.arrowFrame:SetScript("OnMouseDown", function(this, button) 
+			if (button == "LeftButton") then addon.arrowFrame:StartMoving() end
+		end)
+		addon.arrowFrame:SetScript("OnMouseUp", function(this, button) 
+			addon.arrowFrame:StopMovingOrSizing() 
+			local _
+			_, _, GuidelimeDataChar.arrowRelative, GuidelimeDataChar.arrowX, GuidelimeDataChar.arrowY = addon.arrowFrame:GetPoint()
+		end)
+	end
+	addon.arrowX, addon.arrowY = HBD:GetWorldCoordinatesFromZone(element.x / 100, element.y / 100, element.mapID)
+	addon.updateArrow()
+	addon.arrowFrame:Show()
 end
 
 function addon.hideArrow()
+	if addon.arrowFrame ~= nil then addon.arrowFrame:Hide() end
 end

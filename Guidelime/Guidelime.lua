@@ -69,6 +69,7 @@ addon.level = UnitLevel("player")
 addon.xp = UnitXP("player")
 addon.xpMax = UnitXPMax("player")
 addon.y, addon.x = UnitPosition("player")
+addon.face = GetPlayerFacing()
 
 addon.guides = {}
 addon.queryingPositions = false
@@ -112,6 +113,9 @@ local function loadData()
 		hideCompletedSteps = true,
 		hideUnavailableSteps = true,
 		showArrow = true,
+		arrowX = 0,
+		arrowY = 0,
+		arrowRelative = "TOP",
 		arrowAlpha = 0.5
 	}
 	if GuidelimeData == nil then
@@ -384,14 +388,20 @@ end
 local function queryPosition()
 	if addon.queryingPosition then return end
 	addon.queryingPosition = true
-	C_Timer.After(0.5, function() 
+	C_Timer.After(0.2, function() 
 		addon.queryingPosition = false
 		local y, x = UnitPosition("player")
+		local face = GetPlayerFacing()
 		--if addon.debugging then print("LIME : queryingPosition", x, y) end
 		if x ~= addon.x or y ~= addon.y then
 			addon.x = x
 			addon.y = y
+			addon.face = face
 			addon.updateSteps()
+		elseif face ~= addon.face then
+			addon.face = face
+			addon.updateArrow()		
+			queryPosition()
 		else
 			queryPosition()
 		end
@@ -637,9 +647,9 @@ local function updateStepsMapIcons()
 	addon.hideArrow()
 	local highlight = true
 	for i, step in ipairs(addon.currentGuide.steps) do
-		if not step.skip and not step.completed then
+		if not step.skip and not step.completed and step.available then
 			for j, element in ipairs(step.elements) do
-				if element.t == "GOTO" and not step.completed and step.active and not step.skip and not element.completed then
+				if element.t == "GOTO" and step.active and not element.completed then
 					addon.addMapIcon(element, highlight)
 					if highlight then
 						if GuidelimeDataChar.showArrow then addon.showArrow(element) end
@@ -796,9 +806,9 @@ function addon.showMainFrame()
 		addon.mainFrame:SetHeight(GuidelimeDataChar.mainFrameHeight)
 		addon.mainFrame:SetPoint(GuidelimeDataChar.mainFrameRelative, UIParent, GuidelimeDataChar.mainFrameRelative, GuidelimeDataChar.mainFrameX, GuidelimeDataChar.mainFrameY)
 		addon.mainFrame:SetBackdrop({
-			bgFile = "Interface/Addons/Icons/Guidelime/Black", tile = false
+			bgFile = "Interface/Addons/Guidelime/Icons/Black", tile = false
 		})
-		addon.mainFrame:SetBackdropColor(1,0,0,GuidelimeDataChar.mainFrameAlpha)
+		addon.mainFrame:SetBackdropColor(1,1,1,GuidelimeDataChar.mainFrameAlpha)
 		addon.mainFrame:SetFrameLevel(999)
 		addon.mainFrame:SetMovable(true)
 		addon.mainFrame:EnableMouse(true)

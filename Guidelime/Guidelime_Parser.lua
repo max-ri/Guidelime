@@ -85,10 +85,13 @@ function addon.parseLine(step, guide)
 			end
 			if code:sub(1, 1) == "N" then
 				if code:sub(2, 2) == "X" then
-					guide.next = code:sub(3)
+					code:sub(2):gsub("(%d*) ?- ?(%d*) ?(.*)", function (minLevel, maxLevel, title)
+						--print("LIME: \"".. (group or "") .. "\",\"" .. minLevel .. "\",\"" .. maxLevel .. "\",\"" .. title .. "\"")
+						guide.next = minLevel .. "-" .. maxLevel .. " " .. title
+					end)
 				else
 					code:sub(2):gsub("([^%d]-) ?(%d*) ?- ?(%d*) ?(.*)", function (group, minLevel, maxLevel, title)
-						print("LIME: \"".. (group or "") .. "\",\"" .. minLevel .. "\",\"" .. maxLevel .. "\",\"" .. title .. "\"")
+						--print("LIME: \"".. (group or "") .. "\",\"" .. minLevel .. "\",\"" .. maxLevel .. "\",\"" .. title .. "\"")
 						if group ~= "" then guide.group = group end
 						guide.minLevel = tonumber(minLevel)
 						guide.maxLevel = tonumber(maxLevel)
