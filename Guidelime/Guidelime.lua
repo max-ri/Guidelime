@@ -116,7 +116,7 @@ local function loadData()
 		arrowX = 0,
 		arrowY = 0,
 		arrowRelative = "TOP",
-		arrowAlpha = 0.5
+		arrowAlpha = 0.8
 	}
 	if GuidelimeData == nil then
 		GuidelimeData = {
@@ -155,7 +155,6 @@ function addon.loadCurrentGuide()
 	addon.currentGuide.name = GuidelimeDataChar.currentGuide.name
 	addon.currentGuide.steps = {}
 	addon.quests = {}
-	addon.currentZone = nil
 	if addon.guides[GuidelimeDataChar.currentGuide.name] == nil then 
 		if addon.debugging then
 			print("LIME: available guides:")
@@ -168,8 +167,6 @@ function addon.loadCurrentGuide()
 		addon.currentGuide.name = nil
 		return
 	end
-	addon.currentGuide.colorQuest = addon.guides[GuidelimeDataChar.currentGuide.name].colorQuest
-	if addon.currentGuide.colorQuest == nil then addon.currentGuide.colorQuest = addon.COLOR_QUEST_DEFAULT end
 	addon.currentGuide.next = addon.guides[GuidelimeDataChar.currentGuide.name].next
 	addon.currentGuide.group = addon.guides[GuidelimeDataChar.currentGuide.name].group
 	
@@ -220,12 +217,6 @@ function addon.loadCurrentGuide()
 							end
 						end
 					end
-					if element.title == nil or element.title == "" then
-						if addon.questsDB[element.questId] == nil then error("loading guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": unknown quest id " .. element.questId .. "\" in line \"" .. step.text .. "\"") end
-						element.title = addon.questsDB[element.questId].name
-					elseif addon.debugging and addon.questsDB[element.questId].name ~= element.title:sub(1, #addon.questsDB[element.questId].name) then
-						error("loading guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": wrong title for quest " .. element.questId .. " \"" .. element.title .. "\" instead of \"" .. addon.questsDB[element.questId].name .. "\" in line \"" .. step.text .. "\"")
-					end
 					if element.t == "COMPLETE" or element.t == "TURNIN" or element.t == "WORK" then
 						if element.objective == nil then
 							step.trackQuest[element.questId] = true
@@ -253,16 +244,6 @@ function addon.loadCurrentGuide()
 	--end
 end
 
-local function getColorQuest(t)
-	if addon.currentGuide.colorQuest == nil then
-		return ""
-	elseif type(addon.currentGuide.colorQuest) == "table" then
-		return addon.currentGuide.colorQuest[t]
-	else
-		return addon.currentGuide.colorQuest
-	end
-end
-
 local function getQuestText(id, t, colored)
 	local q = ""
 	if GuidelimeData.showQuestLevels then
@@ -274,9 +255,9 @@ local function getQuestText(id, t, colored)
 			q = q .. addon.COLOR_INACTIVE
 		end
 	end
-	if colored == nil or colored then q = q .. getColorQuest(t) end
+	if colored == nil or colored then q = q .. addon.COLOR_QUEST_DEFAULT end
 	q = q .. addon.questsDB[id].name
-	if colored == nil or colored and addon.currentGuide.colorQuest ~= nil then q = q .. "|r" end
+	if colored == nil or colored then q = q .. "|r" end
 	return q
 end
 
@@ -286,7 +267,7 @@ local function updateStepText(i)
 	local text = ""
 	local tooltip = ""
 	local skipTooltip = ""
-	--if addon.debugging then text = text .. i .. " " end
+	if addon.debugging then text = text .. i .. " " end
 	if not step.active then
 		text = text .. addon.COLOR_INACTIVE
 	elseif step.manual then
@@ -311,9 +292,9 @@ local function updateStepText(i)
 				text = text .. "|T" .. addon.icons.TURNIN_INCOMPLETE .. ":12|t"
 			elseif addon.icons[element.t] ~= nil then
 				text = text .. "|T" .. addon.icons[element.t] .. ":12|t"
-			end
+			end			
 			if element.text ~= nil then
-				text = text .. element.text:gsub("\\","\n")
+				text = text .. element.text
 			end
 			if addon.quests[element.questId] ~= nil then
 				text = text .. getQuestText(element.questId, element.t, step.active)
@@ -497,7 +478,7 @@ local function updateStepAvailability(i, changedIndexes, marked)
 			end
 		elseif element.t == "COMPLETE" then
 			if marked.PICKUP[element.questId] == nil and 
-				not addon.quests[element.questId].completed and 
+				not element.completed and 
 				addon.quests[element.questId].logIndex == nil 
 			then 
 				element.available = false 
@@ -510,7 +491,7 @@ local function updateStepAvailability(i, changedIndexes, marked)
 			end
 		elseif element.t == "TURNIN" then
 			if marked.PICKUP[element.questId] == nil and 
-				not addon.quests[element.questId].completed and 
+				not element.completed and 
 				addon.quests[element.questId].logIndex == nil 
 			then 
 				element.available = false 
@@ -518,7 +499,10 @@ local function updateStepAvailability(i, changedIndexes, marked)
 					table.insert(step.missingPrequests, element.questId)
 				end
 			end
-			if marked.SKIP_COMPLETE[element.questId] ~= nil then element.available = false end
+			if marked.SKIP_COMPLETE[element.questId] ~= nil and 
+				not element.completed then 
+				element.available = false 
+			end
 			if not step.skip and element.available then
 				marked.TURNIN[element.questId] = true
 			end
@@ -534,7 +518,7 @@ local function updateStepAvailability(i, changedIndexes, marked)
 		end
 	end
 
-	if step.available ~= wasAvailable then
+	if step.available ~= wasAvailable and not addon.contains(changedIndexes, i) then
 		table.insert(changedIndexes, i)
 	end
 end

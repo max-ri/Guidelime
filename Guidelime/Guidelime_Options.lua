@@ -93,13 +93,12 @@ function addon.fillOptions()
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = checkbox
 	
-	--[[ todo: arrow alpha not working yet 
 	slider = addon.addSliderOption(addon.optionsFrame, GuidelimeDataChar, "arrowAlpha", 0, 1, 0.01, L.ARROW_ALPHA, nil, function()
 		if addon.arrowFrame ~= nil then 
-			addon.arrowFrame:SetBackdropColor(1,1,1,GuidelimeDataChar.arrowAlpha)
+			addon.arrowFrame:SetAlpha(GuidelimeDataChar.arrowAlpha)
 		end
 	end)
-	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 250, -20)]]
+	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 250, -20)
 
 	checkbox = addon.addCheckOption(addon.optionsFrame, GuidelimeData, "showQuestLevels", L.SHOW_QUEST_LEVELS, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then

@@ -1,6 +1,6 @@
 Guidelime.registerGuide([[
 [NTourGuide 17 - 18 Loch Modan]
-[DGuide from the addon TourGuide by tekkub (|cFFAAAAAAhttps://github.com/TekNoLogic/TourGuide|r)]
+[DGuide from the addon TourGuide by tekkub (https://github.com/TekNoLogic/TourGuide)]
 [GAAlliance]
 Fly to [F] Loch Modan. Boat to Stormwind, then fly there![ADwarf,Gnome]
 Go to Loch Modan Boat to Stormwind, take the tram to IF, then run to Loch. [P]Make sure you grab flight points along the way.[AHuman,Night Elf]

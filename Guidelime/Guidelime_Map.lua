@@ -110,7 +110,7 @@ function addon.updateArrow()
 	if addon.arrowFrame ~= nil then
 		local angle = addon.face - math.atan2(addon.arrowX - addon.x, addon.arrowY - addon.y)
 		local index = angle * 32 / math.pi
-		if index > 64 then index = index - 64 end
+		if index > 64 then index = index - 64 elseif index < 0 then index = index + 64 end
 		local col = math.floor(index % 8)
 		local row = math.floor(index / 8)
 		addon.arrowFrame.texture:SetTexCoord(col / 8, (col + 1) / 8, row / 8, (row + 1) / 8)
@@ -130,12 +130,13 @@ function addon.showArrow(element)
 	    addon.arrowFrame.texture = addon.arrowFrame:CreateTexture(nil, "OVERLAY")
 	    addon.arrowFrame.texture:SetTexture("Interface/Addons/Guidelime/Icons/lime_arrow")
 	    addon.arrowFrame.texture:SetAllPoints()
+		addon.arrowFrame:SetAlpha(GuidelimeDataChar.arrowAlpha)
 		addon.arrowFrame:SetMovable(true)
 		addon.arrowFrame:EnableMouse(true)
-		addon.arrowFrame:SetScript("OnMouseDown", function(this, button) 
-			if (button == "LeftButton") then addon.arrowFrame:StartMoving() end
+		addon.arrowFrame:SetScript("OnMouseDown", function(this) 
+			addon.arrowFrame:StartMoving()
 		end)
-		addon.arrowFrame:SetScript("OnMouseUp", function(this, button) 
+		addon.arrowFrame:SetScript("OnMouseUp", function(this) 
 			addon.arrowFrame:StopMovingOrSizing() 
 			local _
 			_, _, GuidelimeDataChar.arrowRelative, GuidelimeDataChar.arrowX, GuidelimeDataChar.arrowY = addon.arrowFrame:GetPoint()
