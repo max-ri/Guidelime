@@ -6,14 +6,14 @@ HBDPins = LibStub("HereBeDragons-Pins-2.0")
 
 addon.mapIcons = {}
 
-local function createIconFrame(texture, minimap)
-    local f = CreateFrame("Button", "Guidelime" .. texture .. minimap, nil)
+local function createIconFrame(index, minimap)
+    local f = CreateFrame("Button", "Guidelime" .. index .. minimap, nil)
 
     f:SetFrameStrata("TOOLTIP");
     f:SetWidth(16)
     f:SetHeight(16)
     f.texture = f:CreateTexture(nil, "TOOLTIP")
-    f.texture:SetTexture(texture)
+    f.texture:SetTexture(addon.icons.MAP .. index)
     f.texture:SetWidth(16)
     f.texture:SetHeight(16)
     f.texture:SetAllPoints(f)
@@ -40,17 +40,16 @@ local function createMapIcon(i)
 		if #addon.mapIcons >= 9 then return nil end
 		i = #addon.mapIcons + 1
 	end
-	addon.mapIcons[i] = createIconFrame(addon.icons.MAP .. i, 0)
-	addon.mapIcons[i].minimap = createIconFrame(addon.icons.MAP .. i, 1)
+	addon.mapIcons[i] = createIconFrame(i, 0)
+	addon.mapIcons[i].minimap = createIconFrame(i, 1)
 	addon.mapIcons[i].index = i
 	addon.mapIcons[i].inUse = false
 	return addon.mapIcons[i]
 end
 
-for i = 9,0,-1 do
+for i = 9, 0, -1 do
 	createMapIcon(i)
 end
-
 local function getMapIcon(element, highlight)
 	if highlight then 
 		if addon.mapIcons[0] == nil then createMapIcon(0) end
