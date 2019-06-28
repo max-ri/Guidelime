@@ -35,9 +35,11 @@ local function createIconFrame(texture, minimap)
     return f
 end
 
-local function createMapIcon()
-	if #addon.mapIcons >= 9 then return nil end
-	local i = #addon.mapIcons + 1
+local function createMapIcon(i)
+	if i == nil then
+		if #addon.mapIcons >= 9 then return nil end
+		i = #addon.mapIcons + 1
+	end
 	addon.mapIcons[i] = createIconFrame(addon.icons.MAP .. i, 0)
 	addon.mapIcons[i].minimap = createIconFrame(addon.icons.MAP .. i, 1)
 	addon.mapIcons[i].index = i
@@ -45,22 +47,10 @@ local function createMapIcon()
 	return addon.mapIcons[i]
 end
 
-local function getHightlightIcon()
-	if addon.highlightIcon == nil then
-		addon.highlightIcon = createIconFrame(addon.icons.MAP_HIGHLIGHT, 0)
-		addon.highlightIcon.minimap = createIconFrame(addon.icons.MAP_HIGHLIGHT, 1)
-		addon.highlightIcon.index = 0
-		addon.arrowIcon = createIconFrame(addon.icons.MAP_0, 0)
-		addon.arrowIcon.minimap = createIconFrame(addon.icons.MAP_0, 1)
-		addon.arrowIcon.index = 0
-	end
-	return addon.highlightIcon
-end
-
 local function getMapIcon(element, highlight)
-	if highlight then return getHighlightIcon() end
-	if addon.highlightIcon ~= nil and addon.highlightIcon.inUse and addon.highlightIcon.mapID == element.mapID and addon.hightlighIcon.x == element.x and addon.highlightIcon.y == element.y then
-		return addon.arrowIcon
+	if highlight then 
+		if addon.mapIcons[0] == nil then createMapIcon(0) end
+		return addon.mapIcons[0] 
 	end
 	for i, mapIcon in ipairs(addon.mapIcons) do
 		if mapIcon.inUse then 
@@ -75,7 +65,7 @@ local function getMapIcon(element, highlight)
 end
 
 function addon.addMapIcon(element, highlight)
-	local mapIcon = getMapIcon(element)
+	local mapIcon = getMapIcon(element, highlight)
 	if mapIcon ~= nil then
 		mapIcon.inUse = true
 		mapIcon.mapID = element.mapID
@@ -91,7 +81,6 @@ function addon.removeMapIcons()
 	HBDPins:RemoveAllMinimapIcons(addon)
 	for i, mapIcon in ipairs(addon.mapIcons) do
 		mapIcon.inUse = false
-		mapIcon.highlight = false
 	end
 	for i, step in ipairs(addon.currentGuide.steps) do
 		for j, element in ipairs(step.elements) do
@@ -100,14 +89,17 @@ function addon.removeMapIcons()
 	end
 end
 
+local function showMapIcon(mapIcon)
+	if mapIcon ~= nil and mapIcon.inUse then
+		--if addon.debugging then print("LIME: map icon", mapIcon.mapID, mapIcon.x, mapIcon.y) end
+		HBDPins:AddWorldMapIconMap(addon, mapIcon, mapIcon.mapID, mapIcon.x / 100, mapIcon.y / 100, 3)
+		HBDPins:AddMinimapIconMap(addon, mapIcon.minimap, mapIcon.mapID, mapIcon.x / 100, mapIcon.y / 100, true, true)
+	end
+end
+
 function addon.showMapIcons()
-	for i = #addon.mapIcons, 1, -1 do
-		local mapIcon = addon.mapIcons[i]
-		if mapIcon.inUse then
-			--if addon.debugging then print("LIME: map icon", mapIcon.mapID, mapIcon.x, mapIcon.y) end
-			HBDPins:AddWorldMapIconMap(addon, mapIcon, mapIcon.mapID, mapIcon.x / 100, mapIcon.y / 100, 3)
-			HBDPins:AddMinimapIconMap(addon, mapIcon.minimap, mapIcon.mapID, mapIcon.x / 100, mapIcon.y / 100, true, true)
-		end
+	for i = #addon.mapIcons + 1, 0, -1 do
+		showMapIcon(addon.mapIcons[i])
 	end
 end
 
