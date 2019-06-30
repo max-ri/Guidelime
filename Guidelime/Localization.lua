@@ -31,6 +31,7 @@ L.SHOW_TOOLTIPS = "show tooltips"
 L.NO_GUIDE_LOADED = "You have not yet selected a guide. Click here in order to start by loading a guide."
 L.GUIDE_FINISHED = "Your current guide has been finished. Click here in order to load another guide."
 L.GUIDE_FINISHED_NEXT = "Your current guide has been finished. Click here in order to continue with %s."
+L.AUTO_COMPLETE_QUESTS = "automatically accept/turn in current quests"
 
 local locale = GetLocale()
 
@@ -64,6 +65,7 @@ L.SHOW_TOOLTIPS = "Tooltips anzeigen"
 L.NO_GUIDE_LOADED = "Du hast noch keinen Guide ausgewählt. Klicke hier um einen Guide auszuwählen."
 L.GUIDE_FINISHED = "Der aktuelle Guide ist abgeschlossen. Klicke hier um einen neuen Guide auszuwählen."
 L.GUIDE_FINISHED_NEXT = "Der aktuelle Guide ist abgeschlossen. Klicke hier um mit %s fortzufahren."
+L.AUTO_COMPLETE_QUESTS = "aktuelle Quests automatisch annehmen/einlösen"
 
 end
 

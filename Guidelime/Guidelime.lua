@@ -32,6 +32,7 @@ end
 addon.icons = {
 	MAP = "Interface\\Addons\\Guidelime\\Icons\\lime",
 	MAP_HIGHLIGHT = "Interface\\Addons\\Guidelime\\Icons\\lime_highlight",
+	MAP_ARROW = "Interface\\Addons\\Guidelime\\Icons\\lime_arrow",
 	COMPLETED = "Interface\\Buttons\\UI-CheckBox-Check",
 	UNAVAILABLE = "Interface\\Buttons\\UI-GroupLoot-Pass-Up", -- or rather "Interface\\Buttons\\UI-StopButton" (yellow x) ?
 	
@@ -98,7 +99,7 @@ end
 local function loadData()
 	local defaultOptions = {
 		debugging = false,
-		showQuestLevels = true,
+		showQuestLevels = false,
 		showTooltips = true
 	}
 	local defaultOptionsChar = {
@@ -112,9 +113,10 @@ local function loadData()
 		mainFrameAlpha = 0.5,
 		hideCompletedSteps = true,
 		hideUnavailableSteps = true,
+		autoCompleteQuest = true,
 		showArrow = true,
 		arrowX = 0,
-		arrowY = 0,
+		arrowY = -20,
 		arrowRelative = "TOP",
 		arrowAlpha = 0.8
 	}
@@ -300,7 +302,11 @@ local function updateStepText(i)
 				text = text .. getQuestText(element.questId, element.t, step.active)
 			end
 			if element.t == "LOC" or element.t == "GOTO" then
-				if element.mapIndex ~= nil then
+				if element.mapIndex == 0 and addon.arrowFrame ~= nil then
+					text = text .. "|T" .. addon.icons.MAP_ARROW .. ":12:12:0:0:512:512:" .. 
+						addon.arrowFrame.col * 64 .. ":" .. (addon.arrowFrame.col + 1) * 64 .. ":" .. 
+						addon.arrowFrame.row * 64 .. ":" .. (addon.arrowFrame.row + 1) * 64 .. ":::|t"
+				elseif element.mapIndex ~= nil then
 					text = text .. "|T" .. addon.icons.MAP .. element.mapIndex .. ":12|t"
 				else
 					text = text .. "|T" .. addon.icons.MAP .. ":12|t"
@@ -599,6 +605,7 @@ end
 
 local function updateStepsActivation()
 	addon.currentGuide.firstActiveIndex = nil
+	addon.currentGuide.activeQuests = {}
 	for i, step in ipairs(addon.currentGuide.steps) do
 		step.active = not step.completed and not step.skip and step.available
 		if step.active then
@@ -614,7 +621,19 @@ local function updateStepsActivation()
 			if addon.currentGuide.firstActiveIndex == nil then
 				addon.currentGuide.firstActiveIndex = i
 			end
+			for j, element in ipairs(step.elements) do
+				if element.t == "PICKUP" or element.t == "TURNIN" then
+					table.insert(addon.currentGuide.activeQuests, element.questId)
+				end
+			end
 		end
+	end
+	-- TODO scroll to first active
+	if addon.debugging and 
+		addon.currentGuide.firstActiveIndex ~= nil and 
+		addon.mainFrame.steps ~= nil and
+		addon.mainFrame.steps[addon.currentGuide.firstActiveIndex] ~= nil then 
+		print("LIME: first active top", addon.mainFrame.steps[addon.currentGuide.firstActiveIndex]:GetTop()) 
 	end
 	if addon.mainFrame.message ~= nil then
 		if addon.currentGuide.firstActiveIndex ~= nil then
@@ -926,10 +945,13 @@ function addon.updateFromQuestLog()
 				q.finished = questLog[id].finished
 				--if addon.debugging then print("LIME: new log entry ".. id .. " finished", q.finished) end
 			end
-			q.objectives = {}
-			for k=1, GetNumQuestLeaderBoards(q.logIndex) do
+			if q.objectives == nil then q.objectives = {} end
+			for k = 1, GetNumQuestLeaderBoards(q.logIndex) do
 				local desc, _, done = GetQuestLogLeaderBoard(k, addon.quests[id].logIndex)
-				q.objectives[k] = {desc = desc, done = done}
+				if q.objectives[k] == nil or desc ~= q.objectives[k] or done ~= q.objectives[k].done then
+					questChanged = true
+					q.objectives[k] = {desc = desc, done = done}
+				end					
 			end
 		else
 			if q.logIndex ~= nil then
@@ -991,6 +1013,59 @@ function addon.frame:QUEST_LOG_UPDATE()
 		end
 	end
 	addon.firstLogUpdate = true
+end
+
+addon.frame:RegisterEvent('GOSSIP_SHOW')
+function addon.frame:GOSSIP_SHOW()
+	if addon.debugging then 
+	-- TODO
+		print ("LIME: GOSSIP_SHOW", GetNumGossipActiveQuests())
+		print ("LIME: GOSSIP_SHOW", GetGossipActiveQuests())
+	end
+end
+
+addon.frame:RegisterEvent('QUEST_GREETING')
+function addon.frame:QUEST_GREETING()
+	if addon.debugging then 
+		print ("LIME: QUEST_GREETING")
+	end
+end
+
+addon.frame:RegisterEvent('QUEST_DETAIL')
+function addon.frame:QUEST_DETAIL()
+	local id = GetQuestID()
+	if GuidelimeDataChar.autoCompleteQuest and addon.contains(addon.currentGuide.activeQuests, id) then 
+		print ("LIME: QUEST_DETAIL", id)
+		C_Timer.After(1, function() 
+			AcceptQuest()
+		end)
+	end
+end
+
+addon.frame:RegisterEvent('QUEST_PROGRESS')
+function addon.frame:QUEST_PROGRESS()
+	local id = GetQuestID()
+	if GuidelimeDataChar.autoCompleteQuest and addon.contains(addon.currentGuide.activeQuests, id) then 
+		if addon.debugging then print ("LIME: QUEST_PROGRESS", id) end
+		if IsQuestCompletable() then
+			C_Timer.After(1, function() 
+				CompleteQuest()
+			end)
+		end
+	end
+end
+
+addon.frame:RegisterEvent('QUEST_COMPLETE')
+function addon.frame:QUEST_COMPLETE()
+	local id = GetQuestID()
+	if GuidelimeDataChar.autoCompleteQuest and addon.contains(addon.currentGuide.activeQuests, id) then 
+		if addon.debugging then print ("LIME: QUEST_COMPLETE", id) end
+		if (GetNumQuestChoices() <= 1) then
+			C_Timer.After(1, function() 
+		        GetQuestReward(1)
+		    end)
+		end
+	end
 end
 
 SLASH_Guidelime1 = "/lime"

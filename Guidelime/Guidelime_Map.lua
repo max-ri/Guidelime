@@ -82,8 +82,8 @@ end
 function addon.removeMapIcons()
 	HBDPins:RemoveAllWorldMapIcons(addon)
 	HBDPins:RemoveAllMinimapIcons(addon)
-	for i, mapIcon in ipairs(addon.mapIcons) do
-		mapIcon.inUse = false
+	for i = 0, #addon.mapIcons do
+		addon.mapIcons[i].inUse = false
 	end
 	for i, step in ipairs(addon.currentGuide.steps) do
 		for j, element in ipairs(step.elements) do
@@ -101,7 +101,7 @@ local function showMapIcon(mapIcon)
 end
 
 function addon.showMapIcons()
-	for i = 0, 9 do
+	for i = 0, #addon.mapIcons do
 		showMapIcon(addon.mapIcons[i])
 	end
 end
@@ -110,41 +110,42 @@ function addon.updateArrow()
 	if addon.arrowFrame ~= nil then
 		local angle = addon.face - math.atan2(addon.arrowX - addon.x, addon.arrowY - addon.y)
 		local index = angle * 32 / math.pi
-		if index > 64 then index = index - 64 elseif index < 0 then index = index + 64 end
-		local col = math.floor(index % 8)
-		local row = math.floor(index / 8)
-		addon.arrowFrame.texture:SetTexCoord(col / 8, (col + 1) / 8, row / 8, (row + 1) / 8)
+		if index >= 64 then index = index - 64 elseif index < 0 then index = index + 64 end
+		addon.arrowFrame.col = math.floor(index % 8)
+		addon.arrowFrame.row = math.floor(index / 8)
+		addon.arrowFrame.texture:SetTexCoord(addon.arrowFrame.col / 8, (addon.arrowFrame.col + 1) / 8, addon.arrowFrame.row / 8, (addon.arrowFrame.row + 1) / 8)
 		--if addon.debugging then print("lime: arrow", angle) end
 	end
 end
 
 function addon.showArrow(element)
-	if not GuidelimeDataChar.showArrow then return end
 	if element.x == nil or element.y == nil or element.mapID == nil or addon.x == nil or addon.y == nil or addon.face == nil then return end
 	
-	if addon.arrowFrame == nil then
-		addon.arrowFrame = CreateFrame("FRAME", nil, UIParent)
-		addon.arrowFrame:SetWidth(64)
-		addon.arrowFrame:SetHeight(64)
-		addon.arrowFrame:SetPoint(GuidelimeDataChar.arrowRelative, UIParent, GuidelimeDataChar.arrowRelative, GuidelimeDataChar.arrowX, GuidelimeDataChar.arrowY)
-	    addon.arrowFrame.texture = addon.arrowFrame:CreateTexture(nil, "OVERLAY")
-	    addon.arrowFrame.texture:SetTexture("Interface/Addons/Guidelime/Icons/lime_arrow")
-	    addon.arrowFrame.texture:SetAllPoints()
-		addon.arrowFrame:SetAlpha(GuidelimeDataChar.arrowAlpha)
-		addon.arrowFrame:SetMovable(true)
-		addon.arrowFrame:EnableMouse(true)
-		addon.arrowFrame:SetScript("OnMouseDown", function(this) 
-			addon.arrowFrame:StartMoving()
-		end)
-		addon.arrowFrame:SetScript("OnMouseUp", function(this) 
-			addon.arrowFrame:StopMovingOrSizing() 
-			local _
-			_, _, GuidelimeDataChar.arrowRelative, GuidelimeDataChar.arrowX, GuidelimeDataChar.arrowY = addon.arrowFrame:GetPoint()
-		end)
+	if GuidelimeDataChar.showArrow then
+		if addon.arrowFrame == nil then
+			addon.arrowFrame = CreateFrame("FRAME", nil, UIParent)
+			addon.arrowFrame:SetWidth(64)
+			addon.arrowFrame:SetHeight(64)
+			addon.arrowFrame:SetPoint(GuidelimeDataChar.arrowRelative, UIParent, GuidelimeDataChar.arrowRelative, GuidelimeDataChar.arrowX, GuidelimeDataChar.arrowY)
+		    addon.arrowFrame.texture = addon.arrowFrame:CreateTexture(nil, "OVERLAY")
+		    addon.arrowFrame.texture:SetTexture("Interface/Addons/Guidelime/Icons/lime_arrow")
+		    addon.arrowFrame.texture:SetAllPoints()
+			addon.arrowFrame:SetAlpha(GuidelimeDataChar.arrowAlpha)
+			addon.arrowFrame:SetMovable(true)
+			addon.arrowFrame:EnableMouse(true)
+			addon.arrowFrame:SetScript("OnMouseDown", function(this) 
+				addon.arrowFrame:StartMoving()
+			end)
+			addon.arrowFrame:SetScript("OnMouseUp", function(this) 
+				addon.arrowFrame:StopMovingOrSizing() 
+				local _
+				_, _, GuidelimeDataChar.arrowRelative, GuidelimeDataChar.arrowX, GuidelimeDataChar.arrowY = addon.arrowFrame:GetPoint()
+			end)
+		end
+		addon.arrowX, addon.arrowY = HBD:GetWorldCoordinatesFromZone(element.x / 100, element.y / 100, element.mapID)
+		addon.arrowFrame:Show()
 	end
-	addon.arrowX, addon.arrowY = HBD:GetWorldCoordinatesFromZone(element.x / 100, element.y / 100, element.mapID)
 	addon.updateArrow()
-	addon.arrowFrame:Show()
 end
 
 function addon.hideArrow()
