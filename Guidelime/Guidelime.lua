@@ -1021,6 +1021,8 @@ function addon.frame:GOSSIP_SHOW()
 	-- TODO
 		print ("LIME: GOSSIP_SHOW", GetNumGossipActiveQuests())
 		print ("LIME: GOSSIP_SHOW", GetGossipActiveQuests())
+		print ("LIME: GOSSIP_SHOW", GetNumGossipAvailableQuests())
+		print ("LIME: GOSSIP_SHOW", GetGossipAvailableQuests())
 	end
 end
 
