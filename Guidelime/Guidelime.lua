@@ -622,7 +622,7 @@ local function updateStepsActivation()
 				addon.currentGuide.firstActiveIndex = i
 			end
 			for j, element in ipairs(step.elements) do
-				if element.t == "PICKUP" or element.t == "TURNIN" then
+				if not element.completed and (element.t == "PICKUP" or element.t == "TURNIN") then
 					table.insert(addon.currentGuide.activeQuests, element.questId)
 				end
 			end
@@ -917,11 +917,12 @@ end
 function addon.updateFromQuestLog()
 	local questLog = {}
 	for i=1,GetNumQuestLogEntries() do
-		local _, _, _, header, _, completed, _, id = GetQuestLogTitle(i)
+		local name, _, _, header, _, completed, _, id = GetQuestLogTitle(i)
 		if not header then
 			questLog[id] = {}
 			questLog[id].index = i
 			questLog[id].finished = (completed == 1)
+			questLog[id].name = name
 		end
 	end
 	
@@ -943,6 +944,7 @@ function addon.updateFromQuestLog()
 				questChanged = true
 				q.logIndex = questLog[id].index
 				q.finished = questLog[id].finished
+				q.name = questLog[id].name
 				--if addon.debugging then print("LIME: new log entry ".. id .. " finished", q.finished) end
 			end
 			if q.objectives == nil then q.objectives = {} end
@@ -970,7 +972,6 @@ function addon.frame:QUEST_LOG_UPDATE()
 	addon.xp = UnitXP("player")
 	addon.xpMax = UnitXPMax("player")
 	addon.y, addon.x = UnitPosition("player")
-	--if addon.debugging then print("LIME: QUEST_LOG_UPDATE", UnitPosition("player")) end
 	
 	if addon.quests ~= nil then 
 		local checkCompleted, questChanged, questFound = addon.updateFromQuestLog()
@@ -1015,14 +1016,68 @@ function addon.frame:QUEST_LOG_UPDATE()
 	addon.firstLogUpdate = true
 end
 
+local function getQuestNameById(id)
+	if addon.quests[id] ~= nil and addon.quests[id].name ~= nil then
+		return addon.quests[id].name
+	end
+	local locale = GetLocale()
+	if locale == "frFR" then
+		return addon.questsDB[id].name_fr
+	elseif locale == "deDE" then
+		return addon.questsDB[id].name_de
+	elseif locale == "zhCN" or locale == "zhTW" then
+		return addon.questsDB[id].name_cn
+	elseif locale == "esES" or locale == "esMX" then
+		return addon.questsDB[id].name_es
+	elseif locale == "ruRU" then
+		return addon.questsDB[id].name_ru
+	else
+		return addon.questsDB[id].name
+	end
+end
+
 addon.frame:RegisterEvent('GOSSIP_SHOW')
 function addon.frame:GOSSIP_SHOW()
-	if addon.debugging then 
-	-- TODO
-		print ("LIME: GOSSIP_SHOW", GetNumGossipActiveQuests())
-		print ("LIME: GOSSIP_SHOW", GetGossipActiveQuests())
-		print ("LIME: GOSSIP_SHOW", GetNumGossipAvailableQuests())
-		print ("LIME: GOSSIP_SHOW", GetGossipAvailableQuests())
+	if GuidelimeDataChar.autoCompleteQuest then 
+		if addon.debugging then print ("LIME: GOSSIP_SHOW", GetGossipActiveQuests()) end
+		if addon.debugging then print ("LIME: GOSSIP_SHOW", GetGossipAvailableQuests()) end
+		local q = { GetGossipActiveQuests() }
+		local selectActive = nil
+		local selectAvailable = nil
+		addon.openNpcAgain = false
+		for i = 1, GetNumGossipActiveQuests() do
+			local name = q[(i-1) * 7 + 1]
+			if addon.containsWith(addon.currentGuide.activeQuests, function(id) return name == getQuestNameById(id) end) then
+				if selectActive == nil then
+					selectActive = i
+				else
+					addon.openNpcAgain = true
+				end			
+			end
+		end
+		q = { GetGossipAvailableQuests() }
+		for i = 1, GetNumGossipAvailableQuests() do
+			local name = q[(i-1) * 7 + 1]
+			if addon.containsWith(addon.currentGuide.activeQuests, function(id) return name == getQuestNameById(id) end) then
+				if selectActive == nil and selectAvailable == nil then
+					selectAvailable = i
+				else
+					addon.openNpcAgain = true
+				end			
+			end
+		end
+
+		if selectActive ~= nil then
+			C_Timer.After(1, function() 
+				if addon.debugging then print ("LIME: GOSSIP_SHOW selectActive", selectActive) end
+				SelectGossipActiveQuest(selectActive)
+			end)
+		elseif selectAvailable ~= nil then
+			C_Timer.After(1, function() 
+				if addon.debugging then print ("LIME: GOSSIP_SHOW selectAvailable", selectAvailable) end
+				SelectGossipAvailableQuest(selectAvailable)
+			end)
+		end
 	end
 end
 
@@ -1036,10 +1091,13 @@ end
 addon.frame:RegisterEvent('QUEST_DETAIL')
 function addon.frame:QUEST_DETAIL()
 	local id = GetQuestID()
+	if addon.debugging then print ("LIME: QUEST_DETAIL", id) end
 	if GuidelimeDataChar.autoCompleteQuest and addon.contains(addon.currentGuide.activeQuests, id) then 
-		print ("LIME: QUEST_DETAIL", id)
 		C_Timer.After(1, function() 
 			AcceptQuest()
+			if addon.openNpcAgain then 
+				--todo
+			end
 		end)
 	end
 end
@@ -1047,13 +1105,14 @@ end
 addon.frame:RegisterEvent('QUEST_PROGRESS')
 function addon.frame:QUEST_PROGRESS()
 	local id = GetQuestID()
-	if GuidelimeDataChar.autoCompleteQuest and addon.contains(addon.currentGuide.activeQuests, id) then 
-		if addon.debugging then print ("LIME: QUEST_PROGRESS", id) end
-		if IsQuestCompletable() then
-			C_Timer.After(1, function() 
-				CompleteQuest()
-			end)
-		end
+	if addon.debugging then print ("LIME: QUEST_PROGRESS", id) end
+	if IsQuestCompletable() and GuidelimeDataChar.autoCompleteQuest and addon.contains(addon.currentGuide.activeQuests, id) then 
+		C_Timer.After(1, function() 
+			CompleteQuest()
+			if addon.openNpcAgain then 
+				--todo
+			end
+		end)
 	end
 end
 
