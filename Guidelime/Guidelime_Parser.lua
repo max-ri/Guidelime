@@ -3,7 +3,7 @@ local addonName, addon = ...
 --[[
 codes:
  - N Name and level of the guide [N(min)-(max)(name)]
- - NX Name and level of the next guide proposed after finishing this [NN(min)-(max)(name)]
+ - NX Name and level of the next guide proposed after finishing this [NX(min)-(max)(name)]
  - D details of the guide [D(details)]
  - GA guide applies to [GA(race),(class),(faction),...]
  - Q [QP/T/C/S/W(id)[,objective](title)] quest pickup/turnin/complete/skip
@@ -22,7 +22,10 @@ codes:
  - C complete this step along with the next one
 ]]
 
-function addon.parseGuide(guide, addonName)
+function addon.parseGuide(guide, group)
+	if type(guide) == "string" then
+		guide = {text = guide}
+	end
 	if guide.text ~= nil then
 		guide.steps = {}
 		guide.text:gsub("([^\n]+)", function(c)
@@ -35,14 +38,12 @@ function addon.parseGuide(guide, addonName)
 	for i, step in ipairs(guide.steps) do
 		addon.parseLine(step, guide)	
 	end
-	if guide.group == nil then
-		if addonName ~= nil and addonName:sub(1,10) == "Guidelime_" then
-			guide.group = addonName:sub(11)
-		elseif addonName ~= nil then
-			guide.group = addonName
-		else
-			guide.group = "other guides"--L.OTHER_GUIDES
-		end
+	if group ~= nil and group:sub(1,10) == "Guidelime_" then
+		guide.group = group:sub(11)
+	elseif group ~= nil then
+		guide.group = group
+	else
+		guide.group = "other guides"--L.OTHER_GUIDES
 	end
 	if guide.title ~= nil then 
 		guide.name = guide.title
@@ -56,6 +57,7 @@ function addon.parseGuide(guide, addonName)
 		if guide.minLevel ~= nil then guide.name = guide.minLevel .. guide.name end
 	end
 	guide.name = guide.group .. " " .. guide.name
+	return guide
 end
 
 local function isClass(c)
@@ -73,7 +75,7 @@ end
 function addon.parseLine(step, guide)
 	if step.text == nil then return end
 	step.elements = {}
-	local t = step.text:gsub("\\","\n"):gsub("(.-)%[(.-)%]", function(text, code)
+	local t = step.text:gsub("\\\\","\n"):gsub("(.-)%[(.-)%]", function(text, code)
 		if text ~= "" then
 			local element = {}
 			element.t = "TEXT"
@@ -87,9 +89,8 @@ function addon.parseLine(step, guide)
 					guide.next = minLevel .. "-" .. maxLevel .. " " .. title
 				end, 1)
 			else
-				code:sub(2):gsub("([^%d]-)%s?(%d*)%s?-%s?(%d*)%s?(.*)", function (group, minLevel, maxLevel, title)
+				code:sub(2):gsub("(%d*)%s?-%s?(%d*)%s?(.*)", function (minLevel, maxLevel, title)
 					--print("LIME: \"".. (group or "") .. "\",\"" .. minLevel .. "\",\"" .. maxLevel .. "\",\"" .. title .. "\"")
-					if group ~= "" then guide.group = group end
 					guide.minLevel = tonumber(minLevel)
 					guide.maxLevel = tonumber(maxLevel)
 					guide.title = title

@@ -9,7 +9,7 @@ function addon.fillOptions()
 
 	addon.optionsFrame.title = addon.optionsFrame:CreateFontString(nil, addon.optionsFrame, "GameFontNormal")
 	addon.optionsFrame.title:SetText(addonName .. " |cFFFFFFFF" .. GetAddOnMetadata(addonName, "version") .." - " .. GAMEOPTIONS_MENU)
-	addon.optionsFrame.title:SetPoint("TOPLEFT", 25, -24)
+	addon.optionsFrame.title:SetPoint("TOPLEFT", 20, -20)
 	addon.optionsFrame.title:SetFontObject("GameFontNormalLarge")
 	local prev = addon.optionsFrame.title
 

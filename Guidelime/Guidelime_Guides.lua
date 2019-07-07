@@ -12,6 +12,12 @@ function addon.loadGuide(name)
 	if addon.guidesFrame ~= nil then
 		addon.guidesFrame.text1:SetText(L.CURRENT_GUIDE .. ": |cFFFFFFFF" .. name .. "\n")
 	end
+	if addon.editorFrame ~= nil then
+		addon.editorFrame.text1:SetText(L.CURRENT_GUIDE .. ": |cFFFFFFFF" .. name .. "\n")
+		if addon.guides[GuidelimeDataChar.currentGuide.name] ~= nil then
+			addon.editorFrame.textBox:SetText(addon.guides[GuidelimeDataChar.currentGuide.name].text)
+		end
+	end
 	addon.loadCurrentGuide()
 	addon.updateFromQuestLog()
 	if GuidelimeDataChar.mainFrameShowing then
@@ -153,8 +159,17 @@ function addon.fillGuides()
 	addon.guidesFrame.text3:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -20)
 	prev = addon.guidesFrame.text3
 
-	addon.guidesFrame.textDetails = addon.addMultilineText(addon.guidesFrame, nil, 550)
-	addon.guidesFrame.textDetails:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+    scrollFrame = CreateFrame("ScrollFrame", nil, addon.guidesFrame, "UIPanelScrollFrameTemplate")
+    scrollFrame:SetPoint("TOPLEFT", prev, "TOPLEFT", 0, -20)
+    scrollFrame:SetPoint("RIGHT", addon.guidesFrame, "RIGHT", -30, 0)
+    scrollFrame:SetPoint("BOTTOM", addon.guidesFrame, "BOTTOM", 0, 60)
+
+    content = CreateFrame("Frame", nil, scrollFrame) 
+    content:SetSize(1, 1) 
+    scrollFrame:SetScrollChild(content)
+
+	addon.guidesFrame.textDetails = addon.addMultilineText(content, nil, 550)
+	addon.guidesFrame.textDetails:SetPoint("TOPLEFT", content, "BOTTOMLEFT", 0, 0)
 	addon.guidesFrame.textDetails:SetTextColor(255,255,255,255)
 	if addon.guides[GuidelimeDataChar.currentGuide.name] ~= nil and addon.guides[GuidelimeDataChar.currentGuide.name].details ~= nil then
 		addon.guidesFrame.textDetails:SetText(addon.guides[GuidelimeDataChar.currentGuide.name].details)

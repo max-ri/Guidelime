@@ -1,5 +1,5 @@
 Guidelime.registerGuide([[
-[NTourGuide 17 - 18 Loch Modan]
+[N17 - 18 Loch Modan]
 [DGuide from the addon TourGuide by tekkub (https://github.com/TekNoLogic/TourGuide)]
 [GAAlliance]
 Fly to [F] Loch Modan. Boat to Stormwind, then fly there![ADwarf,Gnome]
@@ -44,5 +44,5 @@ Turn in [QT2038Bingles' Missing Supplies] Remember Bingles at the shore?
 Fly to [F] City of Ironforge[AHuman,Dwarf,Gnome]
 Go to [F] City of Ironforge[ANight Elf,Draenei]
 [P] Grab flight point[ANight Elf,Draenei]
-Turn in [QT301Report to Ironforge] Hall of Explorers. Skip the follow-up."
-]],...)
+Turn in [QT301Report to Ironforge] Hall of Explorers. Skip the follow-up.
+]], "TourGuide")

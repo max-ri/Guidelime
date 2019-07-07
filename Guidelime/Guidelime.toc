@@ -16,6 +16,7 @@ Guidelime.lua
 Guidelime_Frames.lua
 Guidelime_Guides.lua
 Guidelime_Options.lua
+Guidelime_Editor.lua
 Guidelime_Parser.lua
 Guidelime_Map.lua
 Data\Guidelime_MapDB.lua

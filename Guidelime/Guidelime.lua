@@ -14,6 +14,7 @@ addon.COLOR_LEVEL_YELLOW = "|cFFFFFF00"
 addon.COLOR_LEVEL_GREEN = "|cFF008000"
 addon.COLOR_LEVEL_GRAY = "|cFF808080"
 addon.MAINFRAME_ALPHA_MAX = 85
+addon.AUTO_COMPLETE_DELAY = 0.5
 
 function addon.getLevelColor(level)
 	if level > addon.level + 4 then
@@ -87,13 +88,12 @@ function addon.contains(array, value)
 	return addon.containsWith(array, function(v) return v == value end)
 end
 
-function Guidelime.registerGuide(guide, addonName)
-	if type(guide) == "string" then
-		guide = {text = guide}
-	end
-	addon.parseGuide(guide, addonName)	
+function Guidelime.registerGuide(guide, group)
+	guide = addon.parseGuide(guide, group)	
+	if addon.debugging then print("LIME: ", guide.name) end
 	if addon.guides[guide.name] ~= nil then error("There is more than one guide with the name \"" .. guide.name .. "\"") end
 	addon.guides[guide.name] = guide
+	return guide
 end
 
 local function loadData()
@@ -138,6 +138,12 @@ local function loadData()
 	end
 	
 	addon.debugging = GuidelimeData.debugging
+	
+	if GuidelimeData.customGuides ~= nil then
+		for name, guide in pairs(GuidelimeData.customGuides) do
+			Guidelime.registerGuide(guide, L.CUSTOM_GUIDES)
+		end
+	end
 	
 	addon.loadCurrentGuide()
 	
@@ -628,13 +634,6 @@ local function updateStepsActivation()
 			end
 		end
 	end
-	-- TODO scroll to first active
-	if addon.debugging and 
-		addon.currentGuide.firstActiveIndex ~= nil and 
-		addon.mainFrame.steps ~= nil and
-		addon.mainFrame.steps[addon.currentGuide.firstActiveIndex] ~= nil then 
-		print("LIME: first active top", addon.mainFrame.steps[addon.currentGuide.firstActiveIndex]:GetTop()) 
-	end
 	if addon.mainFrame.message ~= nil then
 		if addon.currentGuide.firstActiveIndex ~= nil then
 			addon.mainFrame.message:Hide()
@@ -674,6 +673,18 @@ function addon.updateStepsText()
 	for i, step in ipairs(addon.currentGuide.steps) do
 		updateStepText(i)
 	end
+	C_Timer.After(0.2, function() 
+		-- scroll to first active
+		if addon.currentGuide.firstActiveIndex ~= nil and 
+			addon.mainFrame.steps ~= nil and
+			addon.mainFrame.steps[addon.currentGuide.firstActiveIndex] ~= nil then 
+			addon.mainFrame.scrollFrame:SetVerticalScroll(
+				addon.mainFrame:GetTop()
+				- addon.mainFrame.steps[addon.currentGuide.firstActiveIndex]:GetTop()
+				+ addon.mainFrame.scrollFrame:GetVerticalScroll()
+				- 14)
+		end
+	end)
 end
 
 function addon.updateSteps(completedIndexes)
@@ -691,6 +702,7 @@ local function showContextMenu()
 	EasyMenu({
 		{text = L.AVAILABLE_GUIDES .. "...", func = function() addon.showGuides() end},
 		{text = GAMEOPTIONS_MENU .. "...", func = function() addon.showOptions() end},
+		{text = L.EDITOR .. "...", func = function() addon.showEditor() end},
 		{text = L.HIDE_COMPLETED_STEPS, checked = GuidelimeDataChar.hideCompletedSteps or GuidelimeDataChar.hideUnavailableSteps, func = function()
 			GuidelimeDataChar.hideCompletedSteps = not GuidelimeDataChar.hideCompletedSteps and not GuidelimeDataChar.hideUnavailableSteps
 			GuidelimeDataChar.hideUnavailableSteps = GuidelimeDataChar.hideCompletedSteps
@@ -903,6 +915,7 @@ function addon.frame:PLAYER_ENTERING_WORLD()
 	
 	addon.fillGuides()
 	addon.fillOptions()
+	addon.fillEditor()
 	
 	if GuidelimeDataChar.mainFrameShowing then addon.showMainFrame() end
 end
@@ -1068,12 +1081,12 @@ function addon.frame:GOSSIP_SHOW()
 		end
 
 		if selectActive ~= nil then
-			C_Timer.After(1, function() 
+			C_Timer.After(addon.AUTO_COMPLETE_DELAY, function() 
 				if addon.debugging then print ("LIME: GOSSIP_SHOW selectActive", selectActive) end
 				SelectGossipActiveQuest(selectActive)
 			end)
 		elseif selectAvailable ~= nil then
-			C_Timer.After(1, function() 
+			C_Timer.After(addon.AUTO_COMPLETE_DELAY, function() 
 				if addon.debugging then print ("LIME: GOSSIP_SHOW selectAvailable", selectAvailable) end
 				SelectGossipAvailableQuest(selectAvailable)
 			end)
@@ -1093,7 +1106,7 @@ function addon.frame:QUEST_DETAIL()
 	local id = GetQuestID()
 	if addon.debugging then print ("LIME: QUEST_DETAIL", id) end
 	if GuidelimeDataChar.autoCompleteQuest and addon.contains(addon.currentGuide.activeQuests, id) then 
-		C_Timer.After(1, function() 
+		C_Timer.After(addon.AUTO_COMPLETE_DELAY, function() 
 			AcceptQuest()
 			if addon.openNpcAgain then 
 				--todo
@@ -1107,7 +1120,7 @@ function addon.frame:QUEST_PROGRESS()
 	local id = GetQuestID()
 	if addon.debugging then print ("LIME: QUEST_PROGRESS", id) end
 	if IsQuestCompletable() and GuidelimeDataChar.autoCompleteQuest and addon.contains(addon.currentGuide.activeQuests, id) then 
-		C_Timer.After(1, function() 
+		C_Timer.After(addon.AUTO_COMPLETE_DELAY, function() 
 			CompleteQuest()
 			if addon.openNpcAgain then 
 				--todo
@@ -1122,7 +1135,7 @@ function addon.frame:QUEST_COMPLETE()
 	if GuidelimeDataChar.autoCompleteQuest and addon.contains(addon.currentGuide.activeQuests, id) then 
 		if addon.debugging then print ("LIME: QUEST_COMPLETE", id) end
 		if (GetNumQuestChoices() <= 1) then
-			C_Timer.After(1, function() 
+			C_Timer.After(addon.AUTO_COMPLETE_DELAY, function() 
 		        GetQuestReward(1)
 		    end)
 		end
