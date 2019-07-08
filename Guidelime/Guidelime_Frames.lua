@@ -101,3 +101,62 @@ function addon.addMultilineText(frame, text, width, tooltip, clickFunc, doubleCl
 	return textbox
 end
 
+function addon.createPopupFrame(message, okFunc, hasCancel, height)
+
+	local popupFrame = CreateFrame("FRAME", nil, UIParent)
+	popupFrame:SetWidth(550)
+	if height == nil then height = 100 end
+	popupFrame:SetHeight(height)
+	popupFrame:SetPoint("CENTER", UIParent, "CENTER")
+	popupFrame:SetBackdrop({
+		bgFile = "Interface/DialogFrame/UI-DialogBox-Background",
+		edgeFile = "Interface/DialogFrame/UI-DialogBox-Border",
+		tile = true, tileSize = 32, edgeSize = 32,
+		insets = { left = 11, right = 12, top = 12, bottom = 11}
+	})
+	popupFrame:SetBackdropColor(0,0,0,1)
+	popupFrame:SetFrameLevel(999)
+	popupFrame:SetFrameStrata("DIALOG")
+	popupFrame:SetMovable(true)
+	popupFrame:SetScript("OnKeyDown", function(self,key) 
+		if key == "ESCAPE" then
+			self:Hide(); 
+		end 
+	end)
+	  
+	popupFrame:EnableMouse(true)
+	popupFrame:SetScript("OnMouseDown", function(this) this:StartMoving() end)
+	popupFrame:SetScript("OnMouseUp", function(this) this:StopMovingOrSizing() end)
+	
+	if message ~= nil then
+		popupFrame.message = popupFrame:CreateFontString(nil, popupFrame, "GameFontNormal")
+		popupFrame.message:SetText(message);
+		popupFrame.message:SetPoint("TOPLEFT", 20, -30 )
+	end
+
+	popupFrame.okBtn = CreateFrame("BUTTON", nil, popupFrame, "UIPanelButtonTemplate")
+	popupFrame.okBtn:SetWidth(128)
+	popupFrame.okBtn:SetHeight(24)
+	popupFrame.okBtn:SetText( OKAY )
+	if hasCancel then
+		popupFrame.okBtn:SetPoint("BOTTOM", popupFrame, -70, 12)
+	else
+		popupFrame.okBtn:SetPoint("BOTTOM", popupFrame, 70, 12)
+	end
+	popupFrame.okBtn:SetScript("OnClick", function(self) 
+		if okFunc ~= nil then okFunc(self:GetParent()) end
+		self:GetParent():Hide()
+	end)
+
+	if hasCancel then
+		popupFrame.cancelBtn = CreateFrame("BUTTON", nil, popupFrame, "UIPanelButtonTemplate")
+		popupFrame.cancelBtn:SetWidth(128)
+		popupFrame.cancelBtn:SetHeight(24)
+		popupFrame.cancelBtn:SetText( CANCEL )
+		popupFrame.cancelBtn:SetPoint("BOTTOM", popupFrame, 70, 12)
+		popupFrame.cancelBtn:SetScript("OnClick", function(self) 
+			self:GetParent():Hide()
+		end)
+	end
+	return popupFrame
+end

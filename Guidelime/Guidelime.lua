@@ -32,24 +32,25 @@ end
 
 addon.icons = {
 	MAP = "Interface\\Addons\\Guidelime\\Icons\\lime",
-	MAP_HIGHLIGHT = "Interface\\Addons\\Guidelime\\Icons\\lime_highlight",
 	MAP_ARROW = "Interface\\Addons\\Guidelime\\Icons\\lime_arrow",
 	COMPLETED = "Interface\\Buttons\\UI-CheckBox-Check",
 	UNAVAILABLE = "Interface\\Buttons\\UI-GroupLoot-Pass-Up", -- or rather "Interface\\Buttons\\UI-StopButton" (yellow x) ?
 	
+	QUEST = "Interface\\GossipFrame\\ActiveQuestIcon",
 	PICKUP = "Interface\\GossipFrame\\AvailableQuestIcon",
 	PICKUP_UNAVAILABLE = "Interface\\Addons\\Guidelime\\Icons\\questunavailable",
 	COMPLETE = "Interface\\GossipFrame\\BattleMasterGossipIcon",
 	WORK = "Interface\\GossipFrame\\BattleMasterGossipIcon",
 	TURNIN = "Interface\\GossipFrame\\ActiveQuestIcon",
 	TURNIN_INCOMPLETE = "Interface\\GossipFrame\\IncompleteQuestIcon",
-	SETHEARTH = "Interface\\Icons\\INV_Drink_05", -- nicer than the actual "Interface\\GossipFrame\\BinderGossipIcon" ?
+	SET_HEARTH = "Interface\\Addons\\Guidelime\\Icons\\set_hearth", -- made from "Interface\\Icons\\INV_Drink_05", nicer than the actual "Interface\\GossipFrame\\BinderGossipIcon" ?
 	VENDOR = "Interface\\GossipFrame\\VendorGossipIcon",
-	REPAIR = "Interface\\Icons\\Trade_BlackSmithing",
-	HEARTH = "Interface\\Icons\\INV_Misc_Rune_01",
+	REPAIR = "Interface\\Addons\\Guidelime\\Icons\\repair", -- made from "Interface\\Icons\\Trade_BlackSmithing",
+	HEARTH = "Interface\\Addons\\Guidelime\\Icons\\hearth", -- made from "Interface\\Icons\\INV_Misc_Rune_01",
 	FLY = "Interface\\GossipFrame\\TaxiGossipIcon",
 	TRAIN = "Interface\\GossipFrame\\TrainerGossipIcon",
-	GETFLIGHTPOINT = "Interface\\Addons\\Guidelime\\Icons\\getflightpoint",
+	GET_FLIGHT_POINT = "Interface\\Addons\\Guidelime\\Icons\\getflightpoint",
+	GOTO = "Interface\\Addons\\Guidelime\\Icons\\lime0",
 	
 	--LOC = "Interface\\Icons\\Ability_Tracking",
 	--GOTO = "Interface\\Icons\\Ability_Tracking",
@@ -201,7 +202,7 @@ function addon.loadCurrentGuide()
 				if element.t == "PICKUP" or element.t == "COMPLETE" or element.t == "TURNIN" or element.t == "LEVEL" then 
 					if step.manual == nil then step.manual = false end
 					step.completeWithNext = false
-				elseif element.t == "TRAIN" or element.t == "VENDOR" or element.t == "REPAIR" or element.t == "SETHEARTH" or element.t == "GETFLIGHTPOINT" then 
+				elseif element.t == "TRAIN" or element.t == "VENDOR" or element.t == "REPAIR" or element.t == "SET_HEARTH" or element.t == "GET_FLIGHT_POINT" then 
 					step.manual = true
 					step.completeWithNext = false
 				elseif element.t == "GOTO" then 
@@ -298,16 +299,7 @@ local function updateStepText(i)
 				tooltip = tooltip .. L.QUEST_REQUIRED_LEVEL:format(q, addon.questsDB[element.questId].req)
 			elseif element.t == "TURNIN" and not element.finished then
 				text = text .. "|T" .. addon.icons.TURNIN_INCOMPLETE .. ":12|t"
-			elseif addon.icons[element.t] ~= nil then
-				text = text .. "|T" .. addon.icons[element.t] .. ":12|t"
-			end			
-			if element.text ~= nil then
-				text = text .. element.text
-			end
-			if addon.quests[element.questId] ~= nil then
-				text = text .. getQuestText(element.questId, element.t, step.active)
-			end
-			if element.t == "LOC" or element.t == "GOTO" then
+			elseif element.t == "LOC" or element.t == "GOTO" then
 				if element.mapIndex == 0 and addon.arrowFrame ~= nil then
 					text = text .. "|T" .. addon.icons.MAP_ARROW .. ":12:12:0:0:512:512:" .. 
 						addon.arrowFrame.col * 64 .. ":" .. (addon.arrowFrame.col + 1) * 64 .. ":" .. 
@@ -317,6 +309,14 @@ local function updateStepText(i)
 				else
 					text = text .. "|T" .. addon.icons.MAP .. ":12|t"
 				end
+			elseif addon.icons[element.t] ~= nil then
+				text = text .. "|T" .. addon.icons[element.t] .. ":12|t"
+			end			
+			if element.text ~= nil then
+				text = text .. element.text
+			end
+			if addon.quests[element.questId] ~= nil then
+				text = text .. getQuestText(element.questId, element.t, step.active)
 			end
 		end
 		if element.available and not element.completed and element.questId ~= nil and addon.quests[element.questId].followup ~= nil and #addon.quests[element.questId].followup > 0 then
