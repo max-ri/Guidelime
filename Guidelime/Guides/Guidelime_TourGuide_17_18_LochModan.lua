@@ -42,7 +42,7 @@ Accept [QP531Vyrin's Revenge (Part 2)]
 Turn in [QT531Vyrin's Revenge (Part 2)]
 Turn in [QT2038Bingles' Missing Supplies] Remember Bingles at the shore?
 Fly to [F] City of Ironforge[AHuman,Dwarf,Gnome]
-Go to [F] City of Ironforge[ANight Elf,Draenei]
-[P] Grab flight point[ANight Elf,Draenei]
+Go to [F] City of Ironforge[ANight Elf]
+[P] Grab flight point[ANight Elf]
 Turn in [QT301Report to Ironforge] Hall of Explorers. Skip the follow-up.
 ]], "TourGuide")

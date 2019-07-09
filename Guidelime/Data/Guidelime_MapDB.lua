@@ -54,3 +54,7 @@ addon.mapIDs = {
 	["Hillsbrad Foothills"] = 1424,
 	["Silithus"] = 1451,
 }
+addon.zoneNames = {}
+for zone, id in pairs(addon.mapIDs) do
+	addon.zoneNames[id] = zone
+end

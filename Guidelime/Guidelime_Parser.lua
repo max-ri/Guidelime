@@ -6,7 +6,7 @@ codes:
  - NX Name and level of the next guide proposed after finishing this [NX(min)-(max)(name)]
  - D details of the guide [D(details)]
  - GA guide applies to [GA(race),(class),(faction),...]
- - Q [QP/T/C/S/W(id)[,objective](title)] quest pickup/turnin/complete/skip
+ - Q [QA/T/C/S/W(id)[,objective](title)] quest accept/turnin/complete/skip
  - L [L(x).(y)[zone] ] loc
  - G [G(x).(y)[zone] ] goto
  - XP [XP (level)[.(percentage)/+(points)/-(points remaining)] experience
@@ -83,18 +83,6 @@ function addon.parseGuide(guide, group)
 	return guide
 end
 
-local function isClass(c)
-	return c == "WARRIOR" or c == "ROGUE" or c == "MAGE" or c == "WARLOCK" or c == "HUNTER" or c == "PRIEST" or c == "DRUID" or c == "PALADIN" or c == "SHAMAN"
-end
-
-local function isRace(c)
-	return c == "HUMAN" or c == "NIGHTELF" or c == "DWARF" or c == "GNOME" or c == "ORC" or c == "TROLL" or c == "TAUREN" or c == "UNDEAD" or c == "SCOURGE" or c == "BLOODELF" or c == "DRAENEI"
-end
-
-local function isFaction(c)
-	return c == "ALLIANCE" or c == "HORDE"
-end
-
 function addon.parseLine(step, guide)
 	if step.text == nil then return end
 	step.elements = {}
@@ -125,12 +113,12 @@ function addon.parseLine(step, guide)
 				:gsub("(https://[%w%./#%-%?]*)", "|cFFAAAAAA%1|r")
 				:gsub("(http://[%w%./#%-%?]*)", "|cFFAAAAAA%1|r")
 				:gsub("(http://[%w%./#%-%?]*)", "|cFFAAAAAA%1|r")
-				:gsub("%*([^%*]+)%*", "|cFFFFD100%1|r" end)
+				:gsub("%*([^%*]+)%*", "|cFFFFD100%1|r")
 				:gsub("%*%*","%*")
 		elseif code:sub(1, 1) == addon.codes.QUEST then
 			local element = {}
-			if code:sub(2, 2) == "P" then
-				element.t = "PICKUP"
+			if code:sub(2, 2) == "A" or code:sub(2, 2) == "P" then
+				element.t = "ACCEPT"
 			elseif code:sub(2, 2) == "T" then
 				element.t = "TURNIN"
 			elseif code:sub(2, 2) == "C" then
@@ -175,30 +163,28 @@ function addon.parseLine(step, guide)
 			end, 1)
 		elseif code:sub(1, 2) == addon.codes.GUIDE_APPLIES then
 			code:sub(3):upper():gsub(" ",""):gsub("([^,]+)", function(c)
-				if isClass(c) then
+				if addon.isClass(c) then
 					if guide.class == nil then guide.class = {} end
-					table.insert(guide.class, c)
-				elseif isRace(c) then
+					table.insert(guide.class, addon.getClass(c))
+				elseif addon.isRace(c) then
 					if guide.race == nil then guide.race = {} end
-					if c == "UNDEAD" then c = "SCOURGE" end
-					table.insert(guide.race, c)
-				elseif isFaction(c) then
-					guide.faction = c
+					table.insert(guide.race, addon.getRace(c))
+				elseif addon.isFaction(c) then
+					guide.faction = addon.getFaction(c)
 				else
 					error("code not recognized for [" .. code .. "] in line \"" .. step.text .. "\"")
 				end
 			end)
 		elseif code:sub(1, 1) == addon.codes.APPLIES then
 			code:sub(2):upper():gsub(" ",""):gsub("([^,]+)", function(c)
-				if isClass(c) then
+				if addon.isClass(c) then
 					if step.class == nil then step.class = {} end
-					table.insert(step.class, c)
-				elseif isRace(c) then
+					table.insert(step.class, addon.getClass(c))
+				elseif addon.isRace(c) then
 					if step.race == nil then step.race = {} end
-					if c == "UNDEAD" then c = "SCOURGE" end
-					table.insert(step.race, c)
-				elseif isFaction(c) then
-					step.faction = c
+					table.insert(step.race, addon.getRace(c))
+				elseif addon.isFaction(c) then
+					step.faction = addon.getFaction(c)
 				else
 					error("code not recognized for [" .. code .. "] in line \"" .. step.text .. "\"")
 				end
@@ -248,7 +234,7 @@ function addon.parseLine(step, guide)
 				table.insert(step.elements, element)
 			end
 			step.optional = true
-		elseif code:sub(1, 1) == addon.codes.CONTINUE_WITH_NEXT then
+		elseif code:sub(1, 1) == addon.codes.COMPLETE_WITH_NEXT then
 			local element = {}
 			element.t = "TEXT"
 			element.text = code:sub(2)

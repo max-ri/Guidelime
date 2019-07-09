@@ -45,8 +45,12 @@ function addon.addSliderOption(frame, optionsTable, option, min, max, step, text
     return slider
 end
 
-function addon.addCheckbox(frame, tooltip)
+function addon.addCheckbox(frame, text, tooltip)
 	local checkbox = CreateFrame("CheckButton", nil, frame, "UICheckButtonTemplate")
+	if text ~= nil then
+		checkbox.text:SetText(text)
+		checkbox.text:SetFontObject("GameFontNormal")
+	end
 	if tooltip ~= nil then
 		checkbox.tooltip = tooltip
 		checkbox:SetScript("OnEnter", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32);  GameTooltip:SetText(self.tooltip); GameTooltip:Show() end end)
@@ -56,10 +60,8 @@ function addon.addCheckbox(frame, tooltip)
 end
 
 function addon.addCheckOption(frame, optionsTable, option, text, tooltip, updateFunction)
-	local checkbox = addon.addCheckbox(frame, tooltip)
+	local checkbox = addon.addCheckbox(frame, text, tooltip)
 	frame.options[option] = checkbox
-	checkbox.text:SetText(text)
-	checkbox.text:SetFontObject("GameFontNormal")
 	if optionsTable[option] ~= false then checkbox:SetChecked(true) end
 	checkbox:SetScript("OnClick", function()
 		optionsTable[option] = checkbox:GetChecked() 
@@ -101,6 +103,21 @@ function addon.addMultilineText(frame, text, width, tooltip, clickFunc, doubleCl
 	return textbox
 end
 
+function addon.addTextbox(frame, text, width, tooltip)
+	local textbox = CreateFrame("EditBox", nil, frame, "InputBoxTemplate")
+	textbox.text = frame:CreateFontString(nil, frame, "GameFontNormal")
+	textbox.text:SetText(text)
+	textbox:SetFontObject("GameFontNormal")
+	textbox:SetHeight(10)
+	textbox:SetWidth(width)
+	textbox:SetTextColor(255,255,255,255)
+	if tooltip ~= nil then
+		textbox.tooltip = tooltip
+		textbox:SetScript("OnEnter", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32);  GameTooltip:SetText(self.tooltip); GameTooltip:Show() end end)
+		textbox:SetScript("OnLeave", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:Hide() end end)
+	end
+	return textbox
+end
 function addon.createPopupFrame(message, okFunc, hasCancel, height)
 
 	local popupFrame = CreateFrame("FRAME", nil, UIParent)
@@ -109,7 +126,7 @@ function addon.createPopupFrame(message, okFunc, hasCancel, height)
 	popupFrame:SetHeight(height)
 	popupFrame:SetPoint("CENTER", UIParent, "CENTER")
 	popupFrame:SetBackdrop({
-		bgFile = "Interface/DialogFrame/UI-DialogBox-Background",
+		bgFile = "Interface/Addons/Guidelime/Icons/Black", --"Interface/DialogFrame/UI-DialogBox-Background",
 		edgeFile = "Interface/DialogFrame/UI-DialogBox-Border",
 		tile = true, tileSize = 32, edgeSize = 32,
 		insets = { left = 11, right = 12, top = 12, bottom = 11}
@@ -158,5 +175,6 @@ function addon.createPopupFrame(message, okFunc, hasCancel, height)
 			self:GetParent():Hide()
 		end)
 	end
+
 	return popupFrame
 end

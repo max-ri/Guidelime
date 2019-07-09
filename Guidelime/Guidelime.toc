@@ -21,6 +21,7 @@ Guidelime_Parser.lua
 Guidelime_Map.lua
 Data\Guidelime_MapDB.lua
 Data\Guidelime_QuestsDB.lua
+Data\Guidelime_Quests.lua
 Guides\Guidelime_Demo.lua
 Guides\Guidelime_Stormwind_Rally.lua
 Guides\Guidelime_TourGuide_17_18_LochModan.lua
