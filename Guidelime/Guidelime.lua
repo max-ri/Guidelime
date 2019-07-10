@@ -512,7 +512,7 @@ local function updateStepCompletion(i, completedIndexes)
 		end
 	end
 	
-	if step.completed ~= wasCompleted then
+	if step.completed ~= wasCompleted and not addon.contains(completedIndexes, i) then
 		table.insert(completedIndexes, i)
 	end	
 end
@@ -588,9 +588,9 @@ end
 
 local function updateStepsCompletion(changedIndexes)
 	if addon.debugging then print("LIME: update steps completion") end
-	local newIndexes
+	local newIndexes = {}
 	repeat
-		newIndexes = {}
+		local numNew = #newIndexes
 		local marked = {SKIP_ACCEPT = {}, SKIP_COMPLETE = {}, TURNIN = {}}
 		for i, step in ipairs(addon.currentGuide.steps) do
 			updateStepCompletion(i, newIndexes)
@@ -603,11 +603,9 @@ local function updateStepsCompletion(changedIndexes)
 		for _, i in ipairs(newIndexes) do
 			if not addon.contains(changedIndexes, i) then
 		 		table.insert(changedIndexes, i)
-			--elseif addon.debugging then
-			--	error("step " .. i .. " changed more than once")
 			end
 		end
-	until(#newIndexes == 0)
+	until(numNew == #newIndexes)
 	if addon.debugging then print("LIME: changed ", #changedIndexes) end
 end
 
