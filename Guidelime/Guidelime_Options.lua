@@ -104,6 +104,14 @@ function addon.fillOptions()
 	end)
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -10)
 
+	slider = addon.addSliderOption(addon.optionsFrame, GuidelimeData, "maxNumOfMarkers", 0, 62, 1, L.MAX_NUM_OF_MARKERS)
+	slider:SetScript("OnMouseUp", function()
+		if GuidelimeDataChar.mainFrameShowing then
+			addon.updateSteps()
+		end
+	end)
+	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -50)
+	
 	checkbox = addon.addCheckOption(addon.optionsFrame, GuidelimeData, "showQuestLevels", L.SHOW_QUEST_LEVELS, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateStepsText()

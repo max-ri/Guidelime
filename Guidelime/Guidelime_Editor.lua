@@ -311,8 +311,8 @@ function addon.showEditPopupXP(typ, guide)
 	local popup = addon.createPopupFrame(nil, function(popup)
 		local level, xp = popupXPCodeValues(popup)
 		if level == nil then error (L.LEVEL .. " is not a number") end
-		if popup.key ~= "" and xp == nil then error (L["XP" .. popup.key] .. " is not a number") end
-		if popup.key == "%" and (xp < 0 or xp >= 100) then error (L["XP" .. popup.key] .. " is not between 0 and 100") end
+		if popup.key ~= "" and xp == nil then error (L["XP_LEVEL" .. popup.key] .. " is not a number") end
+		if popup.key == "%" and (xp < 0 or xp >= 100) then error (L["XP_LEVEL" .. popup.key] .. " is not between 0 and 100") end
 		local text = popup.textboxText:GetText()
 		if text ~= "" then text = " " .. text end
 		insertCode(typ, level .. (popup.key or "") .. (xp or "") .. text)
@@ -322,7 +322,7 @@ function addon.showEditPopupXP(typ, guide)
 	popup.textboxLevel:SetPoint("TOPLEFT", 120, -20)
 	popup.checkboxes = {}
 	for i, key in ipairs({"", "+", "-", "%"}) do
-		popup.checkboxes[key] = addon.addCheckbox(popup, L["XP" .. key], L["XP" .. key .. "_TOOLTIP"])
+		popup.checkboxes[key] = addon.addCheckbox(popup, L["XP_LEVEL" .. key], L["XP_LEVEL" .. key .. "_TOOLTIP"])
 		popup.checkboxes[key]:SetPoint("TOPLEFT", -110 + i * 130, -40)
 		popup.checkboxes[key]:SetScript("OnClick", function()
 			popup.key = key

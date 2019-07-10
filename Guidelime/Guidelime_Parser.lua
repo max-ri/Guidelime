@@ -130,7 +130,7 @@ function addon.parseLine(step, guide)
 			else
 				error("parsing guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": code not recognized for [" .. code .. "] in line \"" .. step.text .. "\"")
 			end
-			code:sub(3):gsub("(%d+),?(%d*)(.*)", function(id, objective, title)
+			code:sub(3):gsub("(%d+),?(%d*)%s*(.*)", function(id, objective, title)
 				element.questId = tonumber(id)
 				if objective ~= "" then element.objective = tonumber(objective) end
 				if title == "-" then
@@ -141,8 +141,8 @@ function addon.parseLine(step, guide)
 				if addon.questsDB[element.questId] == nil then error("loading guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": unknown quest id " .. element.questId .. "\" in line \"" .. step.text .. "\"") end
 				if element.title == nil or element.title == "" then
 					element.title = addon.questsDB[element.questId].name
-				elseif addon.debugging and addon.questsDB[element.questId].name ~= element.title:sub(1, #addon.questsDB[element.questId].name) then
-					error("loading guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": wrong title for quest " .. element.questId .. " \"" .. element.title .. "\" instead of \"" .. addon.questsDB[element.questId].name .. "\" in line \"" .. step.text .. "\"")
+				--elseif addon.debugging and addon.questsDB[element.questId].name ~= element.title:sub(1, #addon.questsDB[element.questId].name) then
+				--	error("loading guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": wrong title for quest " .. element.questId .. " \"" .. element.title .. "\" instead of \"" .. addon.questsDB[element.questId].name .. "\" in line \"" .. step.text .. "\"")
 				end
 				if step.race == nil and addon.questsDB[element.questId].races ~= nil then step.race = addon.questsDB[element.questId].races end
 				if step.class == nil and addon.questsDB[element.questId].classes ~= nil then step.class = addon.questsDB[element.questId].classes end

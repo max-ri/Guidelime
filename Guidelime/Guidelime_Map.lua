@@ -13,7 +13,8 @@ local function createIconFrame(index, minimap)
     f:SetWidth(16)
     f:SetHeight(16)
     f.texture = f:CreateTexture(nil, "TOOLTIP")
-    f.texture:SetTexture(addon.icons.MAP .. index)
+    f.texture:SetTexture(addon.icons.MAP_MARKER)
+	f.texture:SetTexCoord((index % 8) / 8, (index % 8 + 1) / 8, math.floor(index / 8) / 8, (math.floor(index / 8) + 1) / 8)
     f.texture:SetWidth(16)
     f.texture:SetHeight(16)
     f.texture:SetAllPoints(f)
@@ -37,7 +38,7 @@ end
 
 local function createMapIcon(i)
 	if i == nil then
-		if #addon.mapIcons >= 9 then return nil end
+		if #addon.mapIcons >= 63 then return nil end
 		i = #addon.mapIcons + 1
 	end
 	addon.mapIcons[i] = createIconFrame(i, 0)
@@ -47,9 +48,6 @@ local function createMapIcon(i)
 	return addon.mapIcons[i]
 end
 
-for i = 9, 0, -1 do
-	createMapIcon(i)
-end
 local function getMapIcon(element, highlight)
 	if highlight then 
 		if addon.mapIcons[0] == nil then createMapIcon(0) end
@@ -69,7 +67,7 @@ end
 
 function addon.addMapIcon(element, highlight)
 	local mapIcon = getMapIcon(element, highlight)
-	if mapIcon ~= nil then
+	if mapIcon ~= nil and mapIcon.index < GuidelimeData.maxNumOfMarkers then
 		mapIcon.inUse = true
 		mapIcon.mapID = element.mapID
 		mapIcon.x = assert(element.x)
@@ -82,8 +80,8 @@ end
 function addon.removeMapIcons()
 	HBDPins:RemoveAllWorldMapIcons(addon)
 	HBDPins:RemoveAllMinimapIcons(addon)
-	for i = 0, #addon.mapIcons do
-		addon.mapIcons[i].inUse = false
+	for i, mapIcon in pairs(addon.mapIcons) do
+		mapIcon.inUse = false
 	end
 	for i, step in ipairs(addon.currentGuide.steps) do
 		for j, element in ipairs(step.elements) do
@@ -101,7 +99,7 @@ local function showMapIcon(mapIcon)
 end
 
 function addon.showMapIcons()
-	for i = 0, #addon.mapIcons do
+	for i = #addon.mapIcons, 0, -1 do
 		showMapIcon(addon.mapIcons[i])
 	end
 end

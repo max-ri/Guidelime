@@ -33,6 +33,7 @@ end
 addon.icons = {
 	MAP = "Interface\\Addons\\Guidelime\\Icons\\lime",
 	MAP_ARROW = "Interface\\Addons\\Guidelime\\Icons\\lime_arrow",
+	MAP_MARKER = "Interface\\Addons\\Guidelime\\Icons\\lime_marker",
 	COMPLETED = "Interface\\Buttons\\UI-CheckBox-Check",
 	UNAVAILABLE = "Interface\\Buttons\\UI-GroupLoot-Pass-Up", -- or rather "Interface\\Buttons\\UI-StopButton" (yellow x) ?
 	
@@ -148,7 +149,8 @@ local function loadData()
 	local defaultOptions = {
 		debugging = false,
 		showQuestLevels = false,
-		showTooltips = true
+		showTooltips = true,
+		maxNumOfMarkers = 10
 	}
 	local defaultOptionsChar = {
 		mainFrameX = 0,
@@ -300,7 +302,7 @@ function addon.loadCurrentGuide()
 	--end
 end
 
-local function getQuestText(id, t, colored)
+local function getQuestText(id, t, title, colored)
 	local q = ""
 	if GuidelimeData.showQuestLevels then
 		q = q .. addon.getLevelColor(addon.questsDB[id].level)
@@ -312,7 +314,7 @@ local function getQuestText(id, t, colored)
 		end
 	end
 	if colored == nil or colored then q = q .. addon.COLOR_QUEST_DEFAULT end
-	q = q .. addon.questsDB[id].name
+	q = q .. (title or addon.questsDB[id].name)
 	if colored == nil or colored then q = q .. "|r" end
 	return q
 end
@@ -352,7 +354,9 @@ local function updateStepText(i)
 						addon.arrowFrame.col * 64 .. ":" .. (addon.arrowFrame.col + 1) * 64 .. ":" .. 
 						addon.arrowFrame.row * 64 .. ":" .. (addon.arrowFrame.row + 1) * 64 .. ":::|t"
 				elseif element.mapIndex ~= nil then
-					text = text .. "|T" .. addon.icons.MAP .. element.mapIndex .. ":12|t"
+					text = text .. "|T" .. addon.icons.MAP_MARKER .. ":12:12:0:0:512:512:" .. 
+						element.mapIndex % 8 * 64 .. ":" .. (element.mapIndex % 8 + 1) * 64 .. ":" .. 
+						math.floor(element.mapIndex / 8) * 64 .. ":" .. (math.floor(element.mapIndex / 8) + 1) * 64 .. ":::|t"
 				else
 					text = text .. "|T" .. addon.icons.MAP .. ":12|t"
 				end
@@ -363,7 +367,7 @@ local function updateStepText(i)
 				text = text .. element.text
 			end
 			if addon.quests[element.questId] ~= nil then
-				text = text .. getQuestText(element.questId, element.t, step.active)
+				text = text .. getQuestText(element.questId, element.t, element.title, step.active)
 			end
 		end
 		if element.available and not element.completed and element.questId ~= nil and addon.quests[element.questId].followup ~= nil and #addon.quests[element.questId].followup > 0 then
@@ -532,11 +536,11 @@ local function updateStepAvailability(i, changedIndexes, marked)
 					end
 				end
 			end
-			if not step.skip and element.available then
-				marked.ACCEPT[element.questId] = true
+			if step.skip and element.available then
+				marked.SKIP_ACCEPT[element.questId] = true
 			end
 		elseif element.t == "COMPLETE" then
-			if marked.ACCEPT[element.questId] == nil and 
+			if marked.SKIP_ACCEPT[element.questId] == true and 
 				not element.completed and 
 				addon.quests[element.questId].logIndex == nil 
 			then 
@@ -549,7 +553,7 @@ local function updateStepAvailability(i, changedIndexes, marked)
 				marked.SKIP_COMPLETE[element.questId] = true
 			end
 		elseif element.t == "TURNIN" then
-			if marked.ACCEPT[element.questId] == nil and 
+			if marked.SKIP_ACCEPT[element.questId] == true and 
 				not element.completed and 
 				addon.quests[element.questId].logIndex == nil 
 			then 
@@ -587,7 +591,7 @@ local function updateStepsCompletion(changedIndexes)
 	local newIndexes
 	repeat
 		newIndexes = {}
-		local marked = {ACCEPT = {}, SKIP_COMPLETE = {}, TURNIN = {}}
+		local marked = {SKIP_ACCEPT = {}, SKIP_COMPLETE = {}, TURNIN = {}}
 		for i, step in ipairs(addon.currentGuide.steps) do
 			updateStepCompletion(i, newIndexes)
 			updateStepAvailability(i, newIndexes, marked)
@@ -599,8 +603,8 @@ local function updateStepsCompletion(changedIndexes)
 		for _, i in ipairs(newIndexes) do
 			if not addon.contains(changedIndexes, i) then
 		 		table.insert(changedIndexes, i)
-			elseif addon.debugging then
-				error("step " .. i .. " changed more than once")
+			--elseif addon.debugging then
+			--	error("step " .. i .. " changed more than once")
 			end
 		end
 	until(#newIndexes == 0)
@@ -725,7 +729,8 @@ function addon.updateStepsText()
 		-- scroll to first active
 		if addon.currentGuide.firstActiveIndex ~= nil and 
 			addon.mainFrame.steps ~= nil and
-			addon.mainFrame.steps[addon.currentGuide.firstActiveIndex] ~= nil then 
+			addon.mainFrame.steps[addon.currentGuide.firstActiveIndex] ~= nil and 
+			addon.mainFrame.steps[addon.currentGuide.firstActiveIndex]:GetTop() ~= nil then 
 			addon.mainFrame.scrollFrame:SetVerticalScroll(
 				addon.mainFrame:GetTop()
 				- addon.mainFrame.steps[addon.currentGuide.firstActiveIndex]:GetTop()

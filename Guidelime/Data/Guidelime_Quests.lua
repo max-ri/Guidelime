@@ -46,5 +46,10 @@ function addon.getPossibleQuestIdsByName(name)
 			end
 		end
 	end
-	return addon.questsDBReverse[name:gsub("%(",""):gsub("%)",""):gsub("pt%.","part"):upper()]
+	local filteredName = name:gsub("%(",""):gsub("%)",""):gsub("pt%.","part"):upper()
+	local ids = addon.questsDBReverse[filteredName]
+	if ids == nil and filteredName:sub(#filteredName - 5,#filteredName - 1) == "PART " then 
+		return addon.getPossibleQuestIdsByName(filteredName:sub(1, #filteredName - 7)) 
+	end
+	return ids
 end
