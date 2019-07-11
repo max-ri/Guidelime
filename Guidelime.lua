@@ -119,7 +119,8 @@ function addon.loadData()
 		debugging = false,
 		showQuestLevels = false,
 		showTooltips = true,
-		maxNumOfMarkers = 10
+		maxNumOfMarkers = 10,
+		version = GetAddOnMetadata(addonName, "version")
 	}
 	local defaultOptionsChar = {
 		mainFrameX = 0,
@@ -137,18 +138,11 @@ function addon.loadData()
 		arrowX = 0,
 		arrowY = -20,
 		arrowRelative = "TOP",
-		arrowAlpha = 0.8
+		arrowAlpha = 0.8,
+		version = GetAddOnMetadata(addonName, "version")
 	}
-	if GuidelimeData == nil then
-		GuidelimeData = {
-			version = version
-		}
-	end
-	if GuidelimeDataChar == nil then
-		GuidelimeDataChar = {
-			version = version
-		}
-	end
+	if GuidelimeData == nil then GuidelimeData = {} end
+	if GuidelimeDataChar == nil then GuidelimeDataChar = {} end
 	for option, default in pairs(defaultOptions) do
 		if GuidelimeData[option] == nil then GuidelimeData[option] = default end
 	end
