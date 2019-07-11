@@ -410,11 +410,11 @@ end
 function addon.fillEditor()
 	addon.editorFrame = CreateFrame("FRAME", nil, addon.guidesFrame)
 	addon.editorFrame.name = L.EDITOR
-	addon.editorFrame.parent = addonName
+	addon.editorFrame.parent = GetAddOnMetadata(addonName, "title")
 	InterfaceOptions_AddCategory(addon.editorFrame)
 
 	addon.editorFrame.title = addon.editorFrame:CreateFontString(nil, addon.editorFrame, "GameFontNormal")
-	addon.editorFrame.title:SetText(addonName .. " |cFFFFFFFF" .. GetAddOnMetadata(addonName, "version") .." - " .. L.EDITOR)
+	addon.editorFrame.title:SetText(GetAddOnMetadata(addonName, "title") .. " |cFFFFFFFF" .. GetAddOnMetadata(addonName, "version") .." - " .. L.EDITOR)
 	addon.editorFrame.title:SetPoint("TOPLEFT", 20, -20)
 	addon.editorFrame.title:SetFontObject("GameFontNormalLarge")
 	local prev = addon.editorFrame.title

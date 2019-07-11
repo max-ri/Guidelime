@@ -126,7 +126,7 @@ function addon.createPopupFrame(message, okFunc, hasCancel, height)
 	popupFrame:SetHeight(height)
 	popupFrame:SetPoint("CENTER", UIParent, "CENTER")
 	popupFrame:SetBackdrop({
-		bgFile = "Interface/Addons/Guidelime/Icons/Black", --"Interface/DialogFrame/UI-DialogBox-Background",
+		bgFile = "Interface/Addons/" .. addonName .. "/Icons/Black", --"Interface/DialogFrame/UI-DialogBox-Background",
 		edgeFile = "Interface/DialogFrame/UI-DialogBox-Border",
 		tile = true, tileSize = 32, edgeSize = 32,
 		insets = { left = 11, right = 12, top = 12, bottom = 11}

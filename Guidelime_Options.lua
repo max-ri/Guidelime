@@ -4,11 +4,11 @@ local L = addon.L
 function addon.fillOptions()
 	addon.optionsFrame = CreateFrame("FRAME", nil, addon.guidesFrame)
 	addon.optionsFrame.name = GAMEOPTIONS_MENU
-	addon.optionsFrame.parent = addonName
+	addon.optionsFrame.parent = GetAddOnMetadata(addonName, "title")
 	InterfaceOptions_AddCategory(addon.optionsFrame)
 
 	addon.optionsFrame.title = addon.optionsFrame:CreateFontString(nil, addon.optionsFrame, "GameFontNormal")
-	addon.optionsFrame.title:SetText(addonName .. " |cFFFFFFFF" .. GetAddOnMetadata(addonName, "version") .." - " .. GAMEOPTIONS_MENU)
+	addon.optionsFrame.title:SetText(GetAddOnMetadata(addonName, "title") .. " |cFFFFFFFF" .. GetAddOnMetadata(addonName, "version") .." - " .. GAMEOPTIONS_MENU)
 	addon.optionsFrame.title:SetPoint("TOPLEFT", 20, -20)
 	addon.optionsFrame.title:SetFontObject("GameFontNormalLarge")
 	local prev = addon.optionsFrame.title

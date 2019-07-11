@@ -32,27 +32,27 @@ function addon.getLevelColor(level)
 end
 
 addon.icons = {
-	MAP = "Interface\\Addons\\Guidelime\\Icons\\lime",
-	MAP_ARROW = "Interface\\Addons\\Guidelime\\Icons\\lime_arrow",
-	MAP_MARKER = "Interface\\Addons\\Guidelime\\Icons\\lime_marker",
+	MAP = "Interface\\Addons\\" .. addonName .. "\\Icons\\lime",
+	MAP_ARROW = "Interface\\Addons\\" .. addonName .. "\\Icons\\lime_arrow",
+	MAP_MARKER = "Interface\\Addons\\" .. addonName .. "\\Icons\\lime_marker",
 	COMPLETED = "Interface\\Buttons\\UI-CheckBox-Check",
 	UNAVAILABLE = "Interface\\Buttons\\UI-GroupLoot-Pass-Up", -- or rather "Interface\\Buttons\\UI-StopButton" (yellow x) ?
 	
 	QUEST = "Interface\\GossipFrame\\ActiveQuestIcon",
 	ACCEPT = "Interface\\GossipFrame\\AvailableQuestIcon",
-	ACCEPT_UNAVAILABLE = "Interface\\Addons\\Guidelime\\Icons\\questunavailable",
+	ACCEPT_UNAVAILABLE = "Interface\\Addons\\" .. addonName .. "\\Icons\\questunavailable",
 	COMPLETE = "Interface\\GossipFrame\\BattleMasterGossipIcon",
 	WORK = "Interface\\GossipFrame\\BattleMasterGossipIcon",
 	TURNIN = "Interface\\GossipFrame\\ActiveQuestIcon",
 	TURNIN_INCOMPLETE = "Interface\\GossipFrame\\IncompleteQuestIcon",
-	SET_HEARTH = "Interface\\Addons\\Guidelime\\Icons\\set_hearth", -- made from "Interface\\Icons\\INV_Drink_05", nicer than the actual "Interface\\GossipFrame\\BinderGossipIcon" ?
+	SET_HEARTH = "Interface\\Addons\\" .. addonName .. "\\Icons\\set_hearth", -- made from "Interface\\Icons\\INV_Drink_05", nicer than the actual "Interface\\GossipFrame\\BinderGossipIcon" ?
 	VENDOR = "Interface\\GossipFrame\\VendorGossipIcon",
-	REPAIR = "Interface\\Addons\\Guidelime\\Icons\\repair", -- made from "Interface\\Icons\\Trade_BlackSmithing",
-	HEARTH = "Interface\\Addons\\Guidelime\\Icons\\hearth", -- made from "Interface\\Icons\\INV_Misc_Rune_01",
+	REPAIR = "Interface\\Addons\\" .. addonName .. "\\Icons\\repair", -- made from "Interface\\Icons\\Trade_BlackSmithing",
+	HEARTH = "Interface\\Addons\\" .. addonName .. "\\Icons\\hearth", -- made from "Interface\\Icons\\INV_Misc_Rune_01",
 	FLY = "Interface\\GossipFrame\\TaxiGossipIcon",
 	TRAIN = "Interface\\GossipFrame\\TrainerGossipIcon",
-	GET_FLIGHT_POINT = "Interface\\Addons\\Guidelime\\Icons\\getflightpoint",
-	GOTO = "Interface\\Addons\\Guidelime\\Icons\\lime0",
+	GET_FLIGHT_POINT = "Interface\\Addons\\" .. addonName .. "\\Icons\\getflightpoint",
+	GOTO = "Interface\\Addons\\" .. addonName .. "\\Icons\\lime0",
 	
 	--LOC = "Interface\\Icons\\Ability_Tracking",
 	--GOTO = "Interface\\Icons\\Ability_Tracking",
@@ -878,7 +878,7 @@ function addon.showMainFrame()
 		addon.mainFrame:SetHeight(GuidelimeDataChar.mainFrameHeight)
 		addon.mainFrame:SetPoint(GuidelimeDataChar.mainFrameRelative, UIParent, GuidelimeDataChar.mainFrameRelative, GuidelimeDataChar.mainFrameX, GuidelimeDataChar.mainFrameY)
 		addon.mainFrame:SetBackdrop({
-			bgFile = "Interface/Addons/Guidelime/Icons/Black", tile = false
+			bgFile = "Interface/Addons/" .. addonName .. "/Icons/Black", tile = false
 		})
 		addon.mainFrame:SetBackdropColor(1,1,1,GuidelimeDataChar.mainFrameAlpha)
 		addon.mainFrame:SetFrameLevel(999)

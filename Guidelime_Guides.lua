@@ -35,11 +35,11 @@ end
 
 function addon.fillGuides()
     addon.guidesFrame = CreateFrame("Frame", nil, UIParent)
-    addon.guidesFrame.name = addonName
+    addon.guidesFrame.name = GetAddOnMetadata(addonName, "title")
     InterfaceOptions_AddCategory(addon.guidesFrame)
 	
 	addon.guidesFrame.title = addon.guidesFrame:CreateFontString(nil, addon.guidesFrame, "GameFontNormal")
-	addon.guidesFrame.title:SetText(addonName .. " |cFFFFFFFF" .. GetAddOnMetadata(addonName, "version"))
+	addon.guidesFrame.title:SetText(GetAddOnMetadata(addonName, "title") .. " |cFFFFFFFF" .. GetAddOnMetadata(addonName, "version"))
 	addon.guidesFrame.title:SetPoint("TOPLEFT", addon.guidesFrame, "TOPLEFT", 20, -20)
 	addon.guidesFrame.title:SetFontObject("GameFontNormalLarge")
 	local prev = addon.guidesFrame.title
@@ -128,7 +128,7 @@ function addon.fillGuides()
 			addon.guidesFrame.guides[name]:SetTextColor(255,255,255,255)
 			addon.guidesFrame.guides[name]:SetBackdrop({
 				--bgFile = "Interface\\QuestFrame\\UI-QuestLogTitleHighlight",
-				bgFile = "Interface\\AddOns\\Guidelime\\Icons\\TitleHighlight",
+				bgFile = "Interface\\AddOns\\" .. addonName .. "\\Icons\\TitleHighlight",
 				tile = false, edgeSize = 0
 			})
 			addon.guidesFrame.guides[name].name = name

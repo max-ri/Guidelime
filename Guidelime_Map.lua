@@ -7,7 +7,7 @@ HBDPins = LibStub("HereBeDragons-Pins-2.0")
 addon.mapIcons = {}
 
 local function createIconFrame(index, minimap)
-    local f = CreateFrame("Button", "Guidelime" .. index .. minimap, nil)
+    local f = CreateFrame("Button", addonName .. index .. minimap, nil)
 
     f:SetFrameStrata("TOOLTIP");
     f:SetWidth(16)
@@ -23,8 +23,8 @@ local function createIconFrame(index, minimap)
     f:EnableMouse(false)
 
     function f:Unload()
-        HBDPins:RemoveMinimapIcon(Guidelime, self);
-        HBDPins:RemoveWorldMapIcon(Guidelime, self);
+        HBDPins:RemoveMinimapIcon(addon, self);
+        HBDPins:RemoveWorldMapIcon(addon, self);
         if(self.texture) then
             self.texture:SetVertexColor(1, 1, 1, 1);
         end
@@ -126,7 +126,7 @@ function addon.showArrow(element)
 			addon.arrowFrame:SetHeight(64)
 			addon.arrowFrame:SetPoint(GuidelimeDataChar.arrowRelative, UIParent, GuidelimeDataChar.arrowRelative, GuidelimeDataChar.arrowX, GuidelimeDataChar.arrowY)
 		    addon.arrowFrame.texture = addon.arrowFrame:CreateTexture(nil, "OVERLAY")
-		    addon.arrowFrame.texture:SetTexture("Interface/Addons/Guidelime/Icons/lime_arrow")
+		    addon.arrowFrame.texture:SetTexture("Interface/Addons/" .. addonName .. "/Icons/lime_arrow")
 		    addon.arrowFrame.texture:SetAllPoints()
 			addon.arrowFrame:SetAlpha(GuidelimeDataChar.arrowAlpha)
 			addon.arrowFrame:SetMovable(true)
