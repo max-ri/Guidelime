@@ -1,5 +1,7 @@
 Guidelime.registerGuide([[
-[NDemo 1 - 6 Dun Morogh][GADwarf,Gnome]
+[NDemo 1 - 6 Dun Morogh]
+[GADwarf,Gnome]
+[D A short guide for the dwarf and gnome starting zone. Go Gnomes!]
 At the NPC in front of you get [G29.93,71.2Dun Morogh][QA179 Dwarven Outfitters]
 Kill wolves south of you for [QC179 Dwarven Outfitters]
 Return to the NPC, turn in [G29.93,71.2][QT179 Dwarven Outfitters], and accept [QA3109 Encrypted Rune][A Dwarf,Rogue] and [QA233 Coldridge Valley Mail Delivery]
@@ -45,4 +47,4 @@ Turn in [G25.08,75.71][QT218 The Stolen Journal] at the dwarf camp and accept [Q
 Exit Anvilmar and follow the path east and turn in [G33.48,71.84][QT282 Senir's Observations] and accept [QA420 Senir's Observations]
 To your right accept [G33.85,72.24][QA2160 Supplies to Tannok]
 Leave the area through Coldridge Pass
-]],...)
+]],"Demo")

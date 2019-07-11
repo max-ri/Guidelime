@@ -23,6 +23,5 @@ Guidelime_Map.lua
 Data\Guidelime_MapDB.lua
 Data\Guidelime_QuestsDB.lua
 Data\Guidelime_Data.lua
-Guides\Guidelime_Demo.lua
-
-
+Guides\Demo_Dun_Morogh_1-6.lua
+Guides\Demo_Loch_Modan_16-18.lua

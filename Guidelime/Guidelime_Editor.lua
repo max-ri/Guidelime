@@ -232,20 +232,11 @@ function addon.showEditPopupQUEST(typ, guide)
 		local applies = ""
 		if addon.questsDB[id].races ~= nil or addon.questsDB[id].classes ~= nil then
 			applies = "][A "
-			local first = true
 			if addon.questsDB[id].races ~= nil then
-				for i, race in ipairs(addon.questsDB[id].races) do
-					if not first then applies = applies .. ","; end
-					applies = applies .. race
-					first = false
-				end
+				applies = applies .. table.concat(addon.questsDB[id].races, ",")
 			end
 			if addon.questsDB[id].classes ~= nil then
-				for i, class in ipairs(addon.questsDB[id].classes) do
-					if not first then applies = applies .. ","; end
-					applies = applies .. class
-					first = false
-				end
+				applies = applies .. table.concat(addon.questsDB[id].classes, ",")
 			end
 		end
 		insertCode(typ, popup.key .. id .. objective .. text .. applies)

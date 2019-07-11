@@ -288,6 +288,20 @@ local function getQuestText(id, t, title, colored)
 	return q
 end
 
+local function getSkipQuests(id, skipQuests, newSkipQuests)
+	if newSkipQuests == nil then newSkipQuests = {} end
+	if addon.quests[id].followup ~= nil and #addon.quests[id].followup > 0 then
+		for k, fid in ipairs(addon.quests[id].followup) do
+			if addon.currentGuide.unavailableQuests[fid] == nil and skipQuests[fid] == nil then
+				table.insert(newSkipQuests, fid)
+				skipQuests[fid] = true
+				getSkipQuests(fid, skipQuests, newSkipQuests)
+			end
+		end
+	end
+	return newSkipQuests
+end
+
 local function updateStepText(i)
 	local step = addon.currentGuide.steps[i]
 	if addon.mainFrame.steps == nil or addon.mainFrame.steps[i] == nil or addon.mainFrame.steps[i].textBox == nil then return end
@@ -295,6 +309,7 @@ local function updateStepText(i)
 	local tooltip = ""
 	local skipTooltip = ""
 	local skipText = ""
+	local skipQuests = {}
 	if addon.debugging then text = text .. i .. " " end
 	if not step.active then
 		text = text .. addon.COLOR_INACTIVE
@@ -340,21 +355,16 @@ local function updateStepText(i)
 				text = text .. getQuestText(element.questId, element.t, element.title, step.active)
 			end
 		end
-		if element.available and not element.completed and element.questId ~= nil and addon.quests[element.questId].followup ~= nil and #addon.quests[element.questId].followup > 0 then
-			local skipQuests = {}
-			for k, id in ipairs(addon.quests[element.questId].followup) do
-				if addon.currentGuide.unavailableQuests[id] == true then
-					table.insert(skipQuests, id)
-				end
-			end
-			if #skipQuests > 0 then
-				if skipText ~= "" then skipText = skipText .. "\n" end
-				if #skipQuests == 1 then
-					skipText = skipText .. L.STEP_FOLLOWUP_QUEST:format(getQuestText(element.questId, element.t)) .. ":\n"
+		if element.available and not element.completed and element.questId ~= nil then
+			local newSkipQuests = getSkipQuests(element.questId, skipQuests)
+			if #newSkipQuests > 0 then
+				if skipText ~= "" then skipText = skipText .. "\n\n" end
+				if #newSkipQuests == 1 then
+					skipText = skipText .. L.STEP_FOLLOWUP_QUEST:format(getQuestText(element.questId, element.t)) ..":\n"
 				else
-					skipText = skipText .. L.STEP_FOLLOWUP_QUESTS:format(getQuestText(element.questId, element.t)) .. ":\n"
+					skipText = skipText .. L.STEP_FOLLOWUP_QUESTS:format(getQuestText(element.questId, element.t)) ..":\n"
 				end
-				for k, id in ipairs(skipQuests) do
+				for k, id in ipairs(newSkipQuests) do
 					skipText = skipText .. "\n|T" .. addon.icons.UNAVAILABLE .. ":12|t" .. getQuestText(id, "ACCEPT")
 				end
 			end
@@ -497,7 +507,7 @@ end
 local function updateStepAvailability(i, changedIndexes, skipped)
 	local step = addon.currentGuide.steps[i]
 	local wasAvailable = step.available
-	step.available = true
+	step.available = nil
 	step.missingPrequests = {}
 	for j, element in ipairs(step.elements) do
 		element.available = true
@@ -516,6 +526,7 @@ local function updateStepAvailability(i, changedIndexes, skipped)
 			if step.skip and element.available then
 				skipped.ACCEPT[element.questId] = true
 			end
+			if not element.completed then step.available = step.available or element.available end
 		elseif element.t == "COMPLETE" then
 			if skipped.ACCEPT[element.questId] == true and 
 				not element.completed and 
@@ -529,6 +540,7 @@ local function updateStepAvailability(i, changedIndexes, skipped)
 			if step.skip and element.available then
 				skipped.COMPLETE[element.questId] = true
 			end
+			if not element.completed then step.available = step.available or element.available end
 		elseif element.t == "TURNIN" then
 			if skipped.ACCEPT[element.questId] == true and 
 				not element.completed and 
@@ -546,9 +558,10 @@ local function updateStepAvailability(i, changedIndexes, skipped)
 			if step.skip and element.available then
 				skipped.TURNIN[element.questId] = true
 			end
+			if not element.completed then step.available = step.available or element.available end
 		end
-		if not element.available then step.available = false end
 	end
+	if step.available == nil then step.available = true end
 
 	if i < #addon.currentGuide.steps and step.completeWithNext ~= nil and step.completeWithNext then 
 		local nstep = addon.currentGuide.steps[i + 1]
