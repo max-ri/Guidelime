@@ -213,7 +213,6 @@ function addon.loadCurrentGuide()
 		if #step.elements == 0 then loadLine = false end
 		if loadLine then
 			table.insert(addon.currentGuide.steps, step) 
-			step.trackQuest = {}
 			for j, element in ipairs(step.elements) do
 				element.available = true
 				
@@ -242,13 +241,6 @@ function addon.loadCurrentGuide()
 								if addon.quests[id].followup == nil then addon.quests[id].followup = {} end
 								table.insert(addon.quests[id].followup, element.questId)
 							end
-						end
-					end
-					if element.t == "COMPLETE" or element.t == "TURNIN" or element.t == "WORK" then
-						if element.objective == nil then
-							step.trackQuest[element.questId] = true
-						else
-							step.trackQuest[element.questId] = element.objective
 						end
 					end
 				end
@@ -310,6 +302,7 @@ local function updateStepText(i)
 	local skipTooltip = ""
 	local skipText = ""
 	local skipQuests = {}
+	local trackQuest = {}
 	if addon.debugging then text = text .. i .. " " end
 	if not step.active then
 		text = text .. addon.COLOR_INACTIVE
@@ -321,39 +314,37 @@ local function updateStepText(i)
 		skipTooltip = L.STEP_SKIP
 	end
 	for j, element in ipairs(step.elements) do
-		if element.hidden == nil or not element.hidden then
-			if not element.available then
-				text = text .. "|T" .. addon.icons.UNAVAILABLE .. ":12|t"
-			elseif element.completed and element.t ~= "GOTO" then
-				text = text .. "|T" .. addon.icons.COMPLETED .. ":12|t"
-			elseif element.t == "ACCEPT" and addon.questsDB[element.questId].req > addon.level then
-				text = text .. "|T" .. addon.icons.ACCEPT_UNAVAILABLE .. ":12|t"
-				if tooltip ~= "" then tooltip = tooltip .. "\n" end
-				local q = getQuestText(element.questId, "ACCEPT")
-				tooltip = tooltip .. L.QUEST_REQUIRED_LEVEL:format(q, addon.questsDB[element.questId].req)
-			elseif element.t == "TURNIN" and not element.finished then
-				text = text .. "|T" .. addon.icons.TURNIN_INCOMPLETE .. ":12|t"
-			elseif element.t == "LOC" or element.t == "GOTO" then
-				if element.mapIndex == 0 and addon.arrowFrame ~= nil then
-					text = text .. "|T" .. addon.icons.MAP_ARROW .. ":12:12:0:0:512:512:" .. 
-						addon.arrowFrame.col * 64 .. ":" .. (addon.arrowFrame.col + 1) * 64 .. ":" .. 
-						addon.arrowFrame.row * 64 .. ":" .. (addon.arrowFrame.row + 1) * 64 .. ":::|t"
-				elseif element.mapIndex ~= nil then
-					text = text .. "|T" .. addon.icons.MAP_MARKER .. ":12:12:0:0:512:512:" .. 
-						element.mapIndex % 8 * 64 .. ":" .. (element.mapIndex % 8 + 1) * 64 .. ":" .. 
-						math.floor(element.mapIndex / 8) * 64 .. ":" .. (math.floor(element.mapIndex / 8) + 1) * 64 .. ":::|t"
-				else
-					text = text .. "|T" .. addon.icons.MAP .. ":12|t"
-				end
-			elseif addon.icons[element.t] ~= nil then
-				text = text .. "|T" .. addon.icons[element.t] .. ":12|t"
-			end			
-			if element.text ~= nil then
-				text = text .. element.text
+		if not element.available then
+			text = text .. "|T" .. addon.icons.UNAVAILABLE .. ":12|t"
+		elseif element.completed and element.t ~= "GOTO" then
+			text = text .. "|T" .. addon.icons.COMPLETED .. ":12|t"
+		elseif element.t == "ACCEPT" and addon.questsDB[element.questId].req > addon.level then
+			text = text .. "|T" .. addon.icons.ACCEPT_UNAVAILABLE .. ":12|t"
+			if tooltip ~= "" then tooltip = tooltip .. "\n" end
+			local q = getQuestText(element.questId, "ACCEPT")
+			tooltip = tooltip .. L.QUEST_REQUIRED_LEVEL:format(q, addon.questsDB[element.questId].req)
+		elseif element.t == "TURNIN" and not element.finished then
+			text = text .. "|T" .. addon.icons.TURNIN_INCOMPLETE .. ":12|t"
+		elseif element.t == "LOC" or element.t == "GOTO" then
+			if element.mapIndex == 0 and addon.arrowFrame ~= nil then
+				text = text .. "|T" .. addon.icons.MAP_ARROW .. ":12:12:0:0:512:512:" .. 
+					addon.arrowFrame.col * 64 .. ":" .. (addon.arrowFrame.col + 1) * 64 .. ":" .. 
+					addon.arrowFrame.row * 64 .. ":" .. (addon.arrowFrame.row + 1) * 64 .. ":::|t"
+			elseif element.mapIndex ~= nil then
+				text = text .. "|T" .. addon.icons.MAP_MARKER .. ":12:12:0:0:512:512:" .. 
+					element.mapIndex % 8 * 64 .. ":" .. (element.mapIndex % 8 + 1) * 64 .. ":" .. 
+					math.floor(element.mapIndex / 8) * 64 .. ":" .. (math.floor(element.mapIndex / 8) + 1) * 64 .. ":::|t"
+			else
+				text = text .. "|T" .. addon.icons.MAP .. ":12|t"
 			end
-			if addon.quests[element.questId] ~= nil then
-				text = text .. getQuestText(element.questId, element.t, element.title, step.active)
-			end
+		elseif addon.icons[element.t] ~= nil then
+			text = text .. "|T" .. addon.icons[element.t] .. ":12|t"
+		end			
+		if element.text ~= nil then
+			text = text .. element.text
+		end
+		if addon.quests[element.questId] ~= nil then
+			text = text .. getQuestText(element.questId, element.t, element.title, step.active)
 		end
 		if element.available and not element.completed and element.questId ~= nil then
 			local newSkipQuests = getSkipQuests(element.questId, skipQuests)
@@ -366,6 +357,13 @@ local function updateStepText(i)
 				end
 				for k, id in ipairs(newSkipQuests) do
 					skipText = skipText .. "\n|T" .. addon.icons.UNAVAILABLE .. ":12|t" .. getQuestText(id, "ACCEPT")
+				end
+			end
+			if element.t == "COMPLETE" or element.t == "TURNIN" or element.t == "WORK" then
+				if element.objective == nil then
+					trackQuest[element.questId] = true
+				else
+					trackQuest[element.questId] = element.objective
 				end
 			end
 		end
@@ -382,7 +380,7 @@ local function updateStepText(i)
 			tooltip = tooltip .. getQuestText(id, "TURNIN")
 		end			
 	end
-	for id, v in pairs(step.trackQuest) do
+	for id, v in pairs(trackQuest) do
 		if addon.quests[id].logIndex ~= nil and addon.quests[id].objectives ~= nil then
 			if type(v) == "number" then
 				if addon.debugging then print("LIME: objective ", v) end
@@ -523,7 +521,7 @@ local function updateStepAvailability(i, changedIndexes, skipped)
 					end
 				end
 			end
-			if step.skip and element.available then
+			if step.skip or not element.available then
 				skipped.ACCEPT[element.questId] = true
 			end
 			if not element.completed then step.available = step.available or element.available end
@@ -537,7 +535,7 @@ local function updateStepAvailability(i, changedIndexes, skipped)
 					table.insert(step.missingPrequests, element.questId)
 				end
 			end
-			if step.skip and element.available then
+			if step.skip or not element.available then
 				skipped.COMPLETE[element.questId] = true
 			end
 			if not element.completed then step.available = step.available or element.available end
@@ -555,7 +553,7 @@ local function updateStepAvailability(i, changedIndexes, skipped)
 				not element.completed then 
 				element.available = false 
 			end
-			if step.skip and element.available then
+			if step.skip or not element.available then
 				skipped.TURNIN[element.questId] = true
 			end
 			if not element.completed then step.available = step.available or element.available end

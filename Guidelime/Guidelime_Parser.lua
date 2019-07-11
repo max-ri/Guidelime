@@ -134,16 +134,16 @@ function addon.parseLine(step, guide)
 				element.questId = tonumber(id)
 				if objective ~= "" then element.objective = tonumber(objective) end
 				if title == "-" then
-					element.hidden = true
+					element.title = ""
+				elseif title == nil or title == "" then
+					element.title = addon.questsDB[element.questId].name
 				else
 					element.title = title
 				end
 				if addon.questsDB[element.questId] == nil then error("loading guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": unknown quest id " .. element.questId .. "\" in line \"" .. step.text .. "\"") end
-				if element.title == nil or element.title == "" then
-					element.title = addon.questsDB[element.questId].name
 				--elseif addon.debugging and addon.questsDB[element.questId].name ~= element.title:sub(1, #addon.questsDB[element.questId].name) then
 				--	error("loading guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": wrong title for quest " .. element.questId .. " \"" .. element.title .. "\" instead of \"" .. addon.questsDB[element.questId].name .. "\" in line \"" .. step.text .. "\"")
-				end
+				--end
 				if step.race == nil and addon.questsDB[element.questId].races ~= nil then 
 					step.race = {}
 					for i, r in pairs(addon.questsDB[element.questId].races) do step.race[i] = r end

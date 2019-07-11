@@ -25,10 +25,10 @@ Accept [G63.56,47.92][QA2038 Bingles' Missing Supplies]
 Clear up the coast until you reach the big island with Crocs & finish [QC385 Crocolisk Hunting]
 Go up to the north islands and do [QC263 Defense of the King's Lands Part 3][O]
 Also look for [QC2038,1 Bingles' Wrench][G48.73, 30.10][O]
-Find the [QC2038,2 Screwdriver] [G48.37, 20.50][O]
 Loot the [QC2038,4 Blastencapper][G54.21, 26.61][O]
 Get his [QC2038,3 Hammer][G51.78, 24.09][O]
-[QC263][QC2038] Complete both quests
+Find the [QC2038,2 Screwdriver] [G48.37, 20.50][O]
+[QC263-][QC2038-]Complete both quests
 Grind up to the Dam[G46.05,13.61][C]
 Accept [G46.05,13.61][QA250 A Dark Threat Looms]
 Go to the east side of the dam and turn in [QT250 A Dark Threat Looms] accept [QA199 Part 2]
