@@ -14,7 +14,8 @@ addon.COLOR_LEVEL_YELLOW = "|cFFFFFF00"
 addon.COLOR_LEVEL_GREEN = "|cFF008000"
 addon.COLOR_LEVEL_GRAY = "|cFF808080"
 addon.MAINFRAME_ALPHA_MAX = 85
-addon.AUTO_COMPLETE_DELAY = 0.8
+addon.AUTO_COMPLETE_DELAY = 0.7
+addon.DEFAULT_GOTO_RADIUS = 0.5
 
 function addon.getLevelColor(level)
 	if level > addon.level + 4 then
@@ -65,38 +66,6 @@ addon.icons = {
 	--BOAT = "Interface\\Icons\\Spell_Frost_SummonWaterElemental",
 }
 
-addon.factions = {"Alliance", "Horde"}
-addon.races = {Human = "Alliance", NightElf = "Alliance", Dwarf = "Alliance", Gnome = "Alliance", Orc = "Horde", Troll = "Horde", Tauren = "Horde", Undead = "Horde"}
-addon.classes = {"Warrior", "Rogue", "Mage", "Warlock", "Hunter", "Priest", "Druid", "Paladin", "Shaman"}
-addon.classesWithFaction = {Paladin = "Alliance", Shaman = "Horde"}
-
-function addon.getClass(class)
-	for i, c in ipairs(addon.classes) do
-		if c:upper() == class:upper() then return c end
-	end
-end
-function addon.isClass(class)
-	return addon.getClass(class) ~= nil
-end
-function addon.getRace(race)
-	for r, f in pairs(addon.races) do
-		if r:upper() == race:upper() then return r end
-	end
-	if race:upper() == "SCOURCE" then return "Undead" end
-end
-function addon.isRace(race)
-	return addon.getRace(race) ~= nil
-end
-function addon.getFaction(faction)
-	for i, f in ipairs(addon.factions) do
-		if f:upper() == faction:upper() then return f end
-	end
-end
-function addon.isFaction(faction)
-	return addon.getFaction(faction) ~= nil
-end
-
-
 local _
 _, addon.class = UnitClass("player")
 _, addon.race = UnitRace("player"); addon.race = addon.race:upper()
@@ -145,7 +114,7 @@ function Guidelime.registerGuide(guide, group)
 	return guide
 end
 
-local function loadData()
+function addon.loadData()
 	local defaultOptions = {
 		debugging = false,
 		showQuestLevels = false,
@@ -325,6 +294,7 @@ local function updateStepText(i)
 	local text = ""
 	local tooltip = ""
 	local skipTooltip = ""
+	local skipText = ""
 	if addon.debugging then text = text .. i .. " " end
 	if not step.active then
 		text = text .. addon.COLOR_INACTIVE
@@ -339,7 +309,7 @@ local function updateStepText(i)
 		if element.hidden == nil or not element.hidden then
 			if not element.available then
 				text = text .. "|T" .. addon.icons.UNAVAILABLE .. ":12|t"
-			elseif element.completed then
+			elseif element.completed and element.t ~= "GOTO" then
 				text = text .. "|T" .. addon.icons.COMPLETED .. ":12|t"
 			elseif element.t == "ACCEPT" and addon.questsDB[element.questId].req > addon.level then
 				text = text .. "|T" .. addon.icons.ACCEPT_UNAVAILABLE .. ":12|t"
@@ -371,12 +341,22 @@ local function updateStepText(i)
 			end
 		end
 		if element.available and not element.completed and element.questId ~= nil and addon.quests[element.questId].followup ~= nil and #addon.quests[element.questId].followup > 0 then
-			if skipTooltip ~= "" then skipTooltip = skipTooltip .. "\n" end
-			skipTooltip = skipTooltip .. "|T" .. addon.icons.UNAVAILABLE .. ":12|t"
-			if #addon.quests[element.questId].followup == 1 then
-				skipTooltip = skipTooltip .. L.STEP_FOLLOWUP_QUEST:format(getQuestText(addon.quests[element.questId].followup[1], "ACCEPT"))
-			else
-				skipTooltip = skipTooltip .. L.STEP_FOLLOWUP_QUESTS:format(#addon.quests[element.questId].followup)
+			local skipQuests = {}
+			for k, id in ipairs(addon.quests[element.questId].followup) do
+				if addon.currentGuide.unavailableQuests[id] == true then
+					table.insert(skipQuests, id)
+				end
+			end
+			if #skipQuests > 0 then
+				if skipText ~= "" then skipText = skipText .. "\n" end
+				if #skipQuests == 1 then
+					skipText = skipText .. L.STEP_FOLLOWUP_QUEST:format(getQuestText(element.questId, element.t)) .. ":\n"
+				else
+					skipText = skipText .. L.STEP_FOLLOWUP_QUESTS:format(getQuestText(element.questId, element.t)) .. ":\n"
+				end
+				for k, id in ipairs(skipQuests) do
+					skipText = skipText .. "\n|T" .. addon.icons.UNAVAILABLE .. ":12|t" .. getQuestText(id, "ACCEPT")
+				end
 			end
 		end
 	end
@@ -420,6 +400,7 @@ local function updateStepText(i)
 		end
 	end
 	addon.mainFrame.steps[i].textBox:SetText(text)
+	addon.mainFrame.steps[i].skipText = skipText
 	if GuidelimeData.showTooltips then
 		addon.mainFrame.steps[i].textBox.tooltip = tooltip
 		addon.mainFrame.steps[i].tooltip = skipTooltip
@@ -437,15 +418,11 @@ local function queryPosition()
 		local y, x = UnitPosition("player")
 		local face = GetPlayerFacing()
 		--if addon.debugging then print("LIME : queryingPosition", x, y) end
-		if x ~= addon.x or y ~= addon.y then
+		if x ~= addon.x or y ~= addon.y or face ~= addon.face then
 			addon.x = x
 			addon.y = y
 			addon.face = face
 			addon.updateSteps()
-		elseif face ~= addon.face then
-			addon.face = face
-			addon.updateArrow()		
-			queryPosition()
 		else
 			queryPosition()
 		end
@@ -517,9 +494,8 @@ local function updateStepCompletion(i, completedIndexes)
 	end	
 end
 
-local function updateStepAvailability(i, changedIndexes, marked)
+local function updateStepAvailability(i, changedIndexes, skipped)
 	local step = addon.currentGuide.steps[i]
-	
 	local wasAvailable = step.available
 	step.available = true
 	step.missingPrequests = {}
@@ -528,21 +504,22 @@ local function updateStepAvailability(i, changedIndexes, marked)
 		if element.t == "ACCEPT" then
 			if addon.questsDB[element.questId].prequests ~= nil then
 				for i, id in ipairs(addon.questsDB[element.questId].prequests) do
-					if not addon.quests[id].completed and marked.TURNIN[id] == nil then
+					if not addon.quests[id].completed and skipped.TURNIN[id] == true then
 						element.available = false
 						if not addon.contains(step.missingPrequests, id) then
 							table.insert(step.missingPrequests, id)
 						end
+						addon.currentGuide.unavailableQuests[element.questId] = true
 					end
 				end
 			end
 			if step.skip and element.available then
-				marked.SKIP_ACCEPT[element.questId] = true
+				skipped.ACCEPT[element.questId] = true
 			end
 		elseif element.t == "COMPLETE" then
-			if marked.SKIP_ACCEPT[element.questId] == true and 
+			if skipped.ACCEPT[element.questId] == true and 
 				not element.completed and 
-				addon.quests[element.questId].logIndex == nil 
+				addon.quests[element.questId].logIndex == nil
 			then 
 				element.available = false 
 				if not addon.contains(step.missingPrequests, element.questId) then
@@ -550,24 +527,24 @@ local function updateStepAvailability(i, changedIndexes, marked)
 				end
 			end
 			if step.skip and element.available then
-				marked.SKIP_COMPLETE[element.questId] = true
+				skipped.COMPLETE[element.questId] = true
 			end
 		elseif element.t == "TURNIN" then
-			if marked.SKIP_ACCEPT[element.questId] == true and 
+			if skipped.ACCEPT[element.questId] == true and 
 				not element.completed and 
-				addon.quests[element.questId].logIndex == nil 
+				addon.quests[element.questId].logIndex == nil
 			then 
 				element.available = false 
 				if not addon.contains(step.missingPrequests, element.questId) then
 					table.insert(step.missingPrequests, element.questId)
 				end
 			end
-			if marked.SKIP_COMPLETE[element.questId] ~= nil and 
+			if skipped.COMPLETE[element.questId] ~= nil and 
 				not element.completed then 
 				element.available = false 
 			end
-			if not step.skip and element.available then
-				marked.TURNIN[element.questId] = true
+			if step.skip and element.available then
+				skipped.TURNIN[element.questId] = true
 			end
 		end
 		if not element.available then step.available = false end
@@ -587,26 +564,21 @@ local function updateStepAvailability(i, changedIndexes, marked)
 end
 
 local function updateStepsCompletion(changedIndexes)
-	if addon.debugging then print("LIME: update steps completion") end
-	local newIndexes = {}
+	--if addon.debugging then print("LIME: update steps completion") end
+	addon.currentGuide.unavailableQuests = {}
 	repeat
-		local numNew = #newIndexes
-		local marked = {SKIP_ACCEPT = {}, SKIP_COMPLETE = {}, TURNIN = {}}
+		local numNew = #changedIndexes
+		local skipped = {ACCEPT = {}, COMPLETE = {}, TURNIN = {}}
 		for i, step in ipairs(addon.currentGuide.steps) do
-			updateStepCompletion(i, newIndexes)
-			updateStepAvailability(i, newIndexes, marked)
+			updateStepCompletion(i, changedIndexes)
+			updateStepAvailability(i, changedIndexes, skipped)
 			if addon.mainFrame.steps ~= nil and addon.mainFrame.steps[i] ~= nil then 
 				addon.mainFrame.steps[i]:SetChecked(step.completed or step.skip)
 				addon.mainFrame.steps[i]:SetEnabled((not step.completed and step.available) or step.skip)
 			end
 		end
-		for _, i in ipairs(newIndexes) do
-			if not addon.contains(changedIndexes, i) then
-		 		table.insert(changedIndexes, i)
-			end
-		end
-	until(numNew == #newIndexes)
-	if addon.debugging then print("LIME: changed ", #changedIndexes) end
+	until(numNew == #changedIndexes)
+	--if addon.debugging then print("LIME: changed", #changedIndexes) end
 end
 
 local function keepFading()
@@ -659,7 +631,6 @@ local function stopFading()
 end
 
 local function updateStepsActivation()
-	addon.currentGuide.firstActiveIndex = nil
 	addon.currentGuide.activeQuests = {}
 	for i, step in ipairs(addon.currentGuide.steps) do
 		step.active = not step.completed and not step.skip and step.available
@@ -673,14 +644,20 @@ local function updateStepsActivation()
 			end
 		end
 		if step.active then
-			if addon.currentGuide.firstActiveIndex == nil then
-				addon.currentGuide.firstActiveIndex = i
-			end
 			for j, element in ipairs(step.elements) do
 				if not element.completed and (element.t == "ACCEPT" or element.t == "TURNIN") then
 					table.insert(addon.currentGuide.activeQuests, element.questId)
 				end
 			end
+		end
+	end
+end
+
+local function updateFirstActiveIndex()
+	addon.currentGuide.firstActiveIndex = nil
+	for i, step in ipairs(addon.currentGuide.steps) do
+		if (step.active or step.fading ~= nil) and addon.currentGuide.firstActiveIndex == nil then
+			addon.currentGuide.firstActiveIndex = i
 		end
 	end
 	if addon.mainFrame.message ~= nil then
@@ -690,6 +667,7 @@ local function updateStepsActivation()
 			addon.mainFrame.message:Show()
 		end
 	end
+	--if addon.debugging then print("LIME: firstActiveIndex ", addon.currentGuide.firstActiveIndex) end
 end
 
 local function updateStepsMapIcons()
@@ -707,7 +685,7 @@ local function updateStepsMapIcons()
 						queryPosition()
 						highlight = false
 					end
-				elseif element.t == "LOC" or element.t == "GOTO" then
+				elseif (element.t == "LOC" or element.t == "GOTO") and not element.completed then
 					addon.addMapIcon(element, false)
 				end
 			end
@@ -746,8 +724,9 @@ function addon.updateSteps(completedIndexes)
 	updateStepsCompletion(completedIndexes)
 	updateStepsActivation()
 	updateStepsMapIcons()
-	addon.updateStepsText()
 	fadeoutStep(completedIndexes) 
+	updateFirstActiveIndex()
+	addon.updateStepsText()
 end
 
 local function showContextMenu()
@@ -765,6 +744,17 @@ local function showContextMenu()
 			addon.updateMainFrame()
 		end}
 	}, CreateFrame("Frame", nil, nil, "UIDropDownMenuTemplate"), "cursor", 0 , 0, "MENU");
+end
+
+local function setStepSkip(i, value)
+	local step = addon.currentGuide.steps[i]
+	step.skip = value
+	GuidelimeDataChar.currentGuide.skip[i] = step.skip
+	if not step.skip and GuidelimeDataChar.hideUnavailableSteps then
+		addon.updateMainFrame()
+	else 
+		addon.updateSteps({i})
+	end
 end
 
 function addon.updateMainFrame()
@@ -834,13 +824,16 @@ function addon.updateMainFrame()
 				addon.mainFrame.steps[i]:SetChecked(step.completed or step.skip)
 				addon.mainFrame.steps[i]:SetEnabled((not step.completed and step.available) or step.skip)
 				addon.mainFrame.steps[i]:SetScript("OnClick", function() 
-					local step = addon.currentGuide.steps[i]
-					step.skip = addon.mainFrame.steps[i]:GetChecked()
-					GuidelimeDataChar.currentGuide.skip[i] = step.skip
-					if not step.skip and GuidelimeDataChar.hideUnavailableSteps then
-						addon.updateMainFrame()
-					else 
-						addon.updateSteps({i})
+					if not addon.mainFrame.steps[i]:GetChecked() or addon.mainFrame.steps[i].skipText == nil or addon.mainFrame.steps[i].skipText == "" then
+						setStepSkip(i, addon.mainFrame.steps[i]:GetChecked())
+					else
+						addon.mainFrame.steps[i]:SetChecked(false)
+						local _, lines = addon.mainFrame.steps[i].skipText:gsub("\n", "\n")
+						if addon.debugging then print("LIME: " .. addon.mainFrame.steps[i].skipText .. lines) end
+						addon.createPopupFrame(addon.mainFrame.steps[i].skipText, function() 
+							addon.mainFrame.steps[i]:SetChecked(true)
+							setStepSkip(i, true)
+						end, true, 120 + lines * 10):Show()
 					end
 				end)
 				
@@ -865,7 +858,7 @@ end
 
 function addon.showMainFrame()
 	
-	if not addon.dataLoaded then loadData() end
+	if not addon.dataLoaded then addon.loadData() end
 	
 	if addon.mainFrame == nil then
 		--if addon.debugging then print("LIME: initializing main frame") end
@@ -956,229 +949,10 @@ function addon.showMainFrame()
 	GuidelimeDataChar.mainFrameShowing = true
 end
 
--- Register events and call functions
-addon.frame:SetScript("OnEvent", function(self, event, ...)
-	addon.frame[event](self, ...)
-end)
-
-addon.frame:RegisterEvent('PLAYER_ENTERING_WORLD')
-function addon.frame:PLAYER_ENTERING_WORLD()
-	--if addon.debugging then print("LIME: Player entering world...") end
-	if not addon.dataLoaded then loadData() end
-	
-	addon.fillGuides()
-	addon.fillOptions()
-	addon.fillEditor()
-	
-	if GuidelimeDataChar.mainFrameShowing then addon.showMainFrame() end
-end
-
-addon.frame:RegisterEvent('PLAYER_LEVEL_UP')
-function addon.frame:PLAYER_LEVEL_UP(level)
-	if addon.debugging then print("LIME: You reached level " .. level .. ". Grats!") end
-	addon.level = level
-	addon.updateSteps()
-end
-
-function addon.updateFromQuestLog()
-	local questLog = {}
-	for i=1,GetNumQuestLogEntries() do
-		local name, _, _, header, _, completed, _, id = GetQuestLogTitle(i)
-		if not header then
-			questLog[id] = {}
-			questLog[id].index = i
-			questLog[id].finished = (completed == 1)
-			questLog[id].name = name
-		end
-	end
-	
-	local checkCompleted = false
-	local questChanged = false
-	local questFound = false
-	for id, q in pairs(addon.quests) do
-		if questLog[id] ~= nil then
-			if q.logIndex ~= nil then
-				questFound = true
-				if q.logIndex ~= questLog[id].index or q.finished ~= questLog[id].finished then
-					questChanged = true
-					q.logIndex = questLog[id].index
-					q.finished = questLog[id].finished
-					--if addon.debugging then print("LIME: changed log entry ".. id .. " finished", q.finished) end
-				end
-			else
-				questFound = true
-				questChanged = true
-				q.logIndex = questLog[id].index
-				q.finished = questLog[id].finished
-				q.name = questLog[id].name
-				--if addon.debugging then print("LIME: new log entry ".. id .. " finished", q.finished) end
-			end
-			if q.objectives == nil then q.objectives = {} end
-			for k = 1, GetNumQuestLeaderBoards(q.logIndex) do
-				local desc, _, done = GetQuestLogLeaderBoard(k, addon.quests[id].logIndex)
-				if q.objectives[k] == nil or desc ~= q.objectives[k] or done ~= q.objectives[k].done then
-					questChanged = true
-					q.objectives[k] = {desc = desc, done = done}
-				end					
-			end
-		else
-			if q.logIndex ~= nil then
-				checkCompleted = true
-				q.logIndex = nil
-				--if addon.debugging then print("LIME: removed log entry ".. id) end
-			end
-		end
-	end
-	return checkCompleted, questChanged, questFound
-end
-
-addon.frame:RegisterEvent('QUEST_LOG_UPDATE')
-function addon.frame:QUEST_LOG_UPDATE()
-	--if addon.debugging then print("LIME: QUEST_LOG_UPDATE", addon.firstLogUpdate) end
-	addon.xp = UnitXP("player")
-	addon.xpMax = UnitXPMax("player")
-	addon.y, addon.x = UnitPosition("player")
-	
-	if addon.quests ~= nil then 
-		local checkCompleted, questChanged, questFound = addon.updateFromQuestLog()
-
-		if addon.firstLogUpdate == nil then
-			addon.updateMainFrame()
-		else
-			if not questChanged then
-				if addon.contains(addon.currentGuide.steps, function(s) return not s.skip and not s.completed and s.active and s.xp ~= nil end) then 
-					questChanged = true 
-				end
-			end
-			
-			if checkCompleted then
-				if questFound then
-					addon.updateStepsText()
-				end
-				C_Timer.After(1, function() 
-					local completed = GetQuestsCompleted()
-					local questCompleted = false
-					for id, q in pairs(addon.quests) do
-						if completed[id] and not q.completed then
-							questCompleted = true
-							q.finished = true
-							q.completed = true
-						end
-					end
-					if questCompleted == true or not GuidelimeDataChar.hideCompletedSteps then
-						addon.updateSteps()
-					else
-						-- quest was abandoned so redraw erverything since completed steps might have to be done again
-						addon.updateMainFrame()
-					end
-				end)
-			elseif questChanged then 
-				addon.updateSteps() 
-			elseif questFound then
-				addon.updateStepsText()
-			end
-		end
-	end
-	addon.firstLogUpdate = true
-end
-
-addon.frame:RegisterEvent('GOSSIP_SHOW')
-function addon.frame:GOSSIP_SHOW()
-	if GuidelimeDataChar.autoCompleteQuest then 
-		if addon.debugging then print ("LIME: GOSSIP_SHOW", GetGossipActiveQuests()) end
-		if addon.debugging then print ("LIME: GOSSIP_SHOW", GetGossipAvailableQuests()) end
-		local q = { GetGossipActiveQuests() }
-		local selectActive = nil
-		local selectAvailable = nil
-		addon.openNpcAgain = false
-		for i = 1, GetNumGossipActiveQuests() do
-			local name = q[(i-1) * 7 + 1]
-			if addon.contains(addon.currentGuide.activeQuests, function(id) return name == addon.getQuestNameById(id) end) then
-				if selectActive == nil then
-					selectActive = i
-				else
-					addon.openNpcAgain = true
-				end			
-			end
-		end
-		q = { GetGossipAvailableQuests() }
-		for i = 1, GetNumGossipAvailableQuests() do
-			local name = q[(i-1) * 7 + 1]
-			if addon.contains(addon.currentGuide.activeQuests, function(id) return name == addon.getQuestNameById(id) end) then
-				if selectActive == nil and selectAvailable == nil then
-					selectAvailable = i
-				else
-					addon.openNpcAgain = true
-				end			
-			end
-		end
-
-		if selectActive ~= nil then
-			C_Timer.After(addon.AUTO_COMPLETE_DELAY, function() 
-				if addon.debugging then print ("LIME: GOSSIP_SHOW selectActive", selectActive) end
-				SelectGossipActiveQuest(selectActive)
-			end)
-		elseif selectAvailable ~= nil then
-			C_Timer.After(addon.AUTO_COMPLETE_DELAY, function() 
-				if addon.debugging then print ("LIME: GOSSIP_SHOW selectAvailable", selectAvailable) end
-				SelectGossipAvailableQuest(selectAvailable)
-			end)
-		end
-	end
-end
-
-addon.frame:RegisterEvent('QUEST_GREETING')
-function addon.frame:QUEST_GREETING()
-	if addon.debugging then 
-		print ("LIME: QUEST_GREETING")
-	end
-end
-
-addon.frame:RegisterEvent('QUEST_DETAIL')
-function addon.frame:QUEST_DETAIL()
-	local id = GetQuestID()
-	if addon.debugging then print ("LIME: QUEST_DETAIL", id) end
-	if GuidelimeDataChar.autoCompleteQuest and addon.currentGuide.activeQuests ~= nil and addon.contains(addon.currentGuide.activeQuests, id) then 
-		C_Timer.After(addon.AUTO_COMPLETE_DELAY, function() 
-			AcceptQuest()
-			if addon.openNpcAgain then 
-				--todo
-			end
-		end)
-	end
-end
-
-addon.frame:RegisterEvent('QUEST_PROGRESS')
-function addon.frame:QUEST_PROGRESS()
-	local id = GetQuestID()
-	if addon.debugging then print ("LIME: QUEST_PROGRESS", id) end
-	if IsQuestCompletable() and GuidelimeDataChar.autoCompleteQuest and addon.contains(addon.currentGuide.activeQuests, id) then 
-		C_Timer.After(addon.AUTO_COMPLETE_DELAY, function() 
-			CompleteQuest()
-			if addon.openNpcAgain then 
-				--todo
-			end
-		end)
-	end
-end
-
-addon.frame:RegisterEvent('QUEST_COMPLETE')
-function addon.frame:QUEST_COMPLETE()
-	local id = GetQuestID()
-	if GuidelimeDataChar.autoCompleteQuest and addon.contains(addon.currentGuide.activeQuests, id) then 
-		if addon.debugging then print ("LIME: QUEST_COMPLETE", id) end
-		if (GetNumQuestChoices() <= 1) then
-			C_Timer.After(addon.AUTO_COMPLETE_DELAY, function() 
-		        GetQuestReward(1)
-		    end)
-		end
-	end
-end
-
 SLASH_Guidelime1 = "/lime"
 function SlashCmdList.Guidelime(msg)
 	if msg == '' then addon.showMainFrame() 
-	elseif msg == 'debug true' and not addon.debugging then addon.debugging = true; print('LIME: addon.debugging enabled')
-	elseif msg == 'debug false' and addon.debugging then addon.debugging = false; print('LIME: addon.debugging disabled') end
+	elseif msg == 'debug true' and not addon.debugging then addon.debugging = true; print('LIME: debugging enabled')
+	elseif msg == 'debug false' and addon.debugging then addon.debugging = false; print('LIME: debugging disabled') end
 	GuidelimeData.debugging = addon.debugging
 end

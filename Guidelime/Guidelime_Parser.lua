@@ -144,21 +144,16 @@ function addon.parseLine(step, guide)
 				--elseif addon.debugging and addon.questsDB[element.questId].name ~= element.title:sub(1, #addon.questsDB[element.questId].name) then
 				--	error("loading guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": wrong title for quest " .. element.questId .. " \"" .. element.title .. "\" instead of \"" .. addon.questsDB[element.questId].name .. "\" in line \"" .. step.text .. "\"")
 				end
-				if step.race == nil and addon.questsDB[element.questId].races ~= nil then step.race = addon.questsDB[element.questId].races end
-				if step.class == nil and addon.questsDB[element.questId].classes ~= nil then step.class = addon.questsDB[element.questId].classes end
+				if step.race == nil and addon.questsDB[element.questId].races ~= nil then 
+					step.race = {}
+					for i, r in pairs(addon.questsDB[element.questId].races) do step.race[i] = r end
+				end
+				if step.class == nil and addon.questsDB[element.questId].classes ~= nil then 
+					step.class = {}
+					for i, r in pairs(addon.questsDB[element.questId].classes) do step.class[i] = r end
+				end
 				if step.faction == nil and addon.questsDB[element.questId].faction ~= nil then step.faction = addon.questsDB[element.questId].faction end
 				if addon.questsDB[element.questId].sort ~= nil and addon.mapIDs[addon.questsDB[element.questId].sort] ~= nil then guide.currentZone = addon.mapIDs[addon.questsDB[element.questId].sort] end
-				table.insert(step.elements, element)
-			end, 1)
-		elseif code:sub(1, 1) == addon.codes.LOC then
-			code:gsub("L(%d+%.?%d*),%s?(%d+%.?%d*)(.*)", function(x, y, zone)
-				local element = {}
-				element.t = "LOC"
-				element.x = tonumber(x)
-				element.y = tonumber(y)
-				if zone ~= "" then guide.currentZone = addon.mapIDs[zone] end
-				element.mapID = guide.currentZone
-				if element.mapID == nil then error("zone not found for [" .. code .. "] in line \"" .. step.text .. "\"") end
 				table.insert(step.elements, element)
 			end, 1)
 		elseif code:sub(1, 2) == addon.codes.GUIDE_APPLIES then
@@ -195,7 +190,18 @@ function addon.parseLine(step, guide)
 				element.t = "GOTO"
 				element.x = tonumber(x)
 				element.y = tonumber(y)
-				if radius ~= "" then element.radius = tonumber(radius) else element.radius = 1 end
+				if radius ~= "" then element.radius = tonumber(radius) else element.radius = addon.DEFAULT_GOTO_RADIUS end
+				if zone ~= "" then guide.currentZone = addon.mapIDs[zone] end
+				element.mapID = guide.currentZone
+				if element.mapID == nil then error("zone not found for [" .. code .. "] in line \"" .. step.text .. "\"") end
+				table.insert(step.elements, element)
+			end, 1)
+		elseif code:sub(1, 1) == addon.codes.LOC then
+			code:gsub("L(%d+%.?%d*),%s?(%d+%.?%d*)(.*)", function(x, y, zone)
+				local element = {}
+				element.t = "LOC"
+				element.x = tonumber(x)
+				element.y = tonumber(y)
 				if zone ~= "" then guide.currentZone = addon.mapIDs[zone] end
 				element.mapID = guide.currentZone
 				if element.mapID == nil then error("zone not found for [" .. code .. "] in line \"" .. step.text .. "\"") end
@@ -245,7 +251,7 @@ function addon.parseLine(step, guide)
 		else
 			local found = false
 			for k, v in pairs(addon.codes) do
-				if code == v then
+				if code:sub(1, 1) == v then
 					local element = {}
 					element.t = k
 					element.text = code:sub(2)

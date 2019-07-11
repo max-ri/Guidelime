@@ -207,8 +207,8 @@ function addon.showEditPopupQUEST(typ, guide)
 		local text = popup.textboxName:GetText()
 		local id = tonumber(text)
 		if id == nil then
-			local ids = addon.getPossibleQuestIdsByName(text)
-			if ids == nil then
+			local ids = addon.getPossibleQuestIdsByName(text, guide.faction, guide.race, guide.class)
+			if ids == nil or #ids == 0 then
 				error("Quest \"" .. text .. "\" was not found")
 			elseif #ids > 1 then
 				local msg = "More than one quest \"" .. text .. "\" was found. Enter one of these ids: "
@@ -217,6 +217,8 @@ function addon.showEditPopupQUEST(typ, guide)
 					msg = msg .. id
 				end
 				error(msg)
+			elseif popup.textboxObjective:GetText() ~= "" and tonumber(popup.textboxObjective:GetText()) == nil then
+				error(L.QUEST_OBJECTIVE .. " is not a number")
 			end
 			id = ids[1]
 		else
@@ -224,10 +226,29 @@ function addon.showEditPopupQUEST(typ, guide)
 		end
 		--if text == addon.getQuestNameById(id) then text = "" end
 		local objective = ""
-		if (popup.key == "C" or popup.key == "W") and popup.textboxObjective:GetText() ~= "" then
+		if (popup.key == "C" or popup.key == "W") and tonumber(popup.textboxObjective:GetText()) ~= nil then
 			objective = "," .. popup.textboxObjective:GetText()
 		end
-		insertCode(typ, popup.key .. id .. objective .. text)
+		local applies = ""
+		if addon.questsDB[id].races ~= nil or addon.questsDB[id].classes ~= nil then
+			applies = "][A "
+			local first = true
+			if addon.questsDB[id].races ~= nil then
+				for i, race in ipairs(addon.questsDB[id].races) do
+					if not first then applies = applies .. ","; end
+					applies = applies .. race
+					first = false
+				end
+			end
+			if addon.questsDB[id].classes ~= nil then
+				for i, class in ipairs(addon.questsDB[id].classes) do
+					if not first then applies = applies .. ","; end
+					applies = applies .. class
+					first = false
+				end
+			end
+		end
+		insertCode(typ, popup.key .. id .. objective .. text .. applies)
 	end, true, 150)
 	popup.checkboxes = {}
 	for i, key in ipairs({"A", "C", "T", "W", "S"}) do
@@ -247,7 +268,7 @@ function addon.showEditPopupQUEST(typ, guide)
 			end
 		end)
 	end
-	popup.key = "P"
+	popup.key = "A"
 	popup.checkboxes[popup.key]:SetChecked(true)
 	popup.textboxName = addon.addTextbox(popup, L.QUEST_NAME, 410, L.QUEST_NAME_TOOLTIP)
 	popup.textboxName.text:SetPoint("TOPLEFT", 20, -50)
