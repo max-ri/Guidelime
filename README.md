@@ -4,7 +4,7 @@ A WoW Classic addon for leveling guides with automatic progress updates
 
 ## What does it do?
 
-Guides are shown as a list of steps where the progress is updates automatically as much as possible (quests picked up / completed, quest 
+Guides are shown as a list of steps where the progress is updated automatically as much as possible (quests picked up / completed, quest 
 items looted / mobs killed, etc). Only for some steps completion has to be confirmed manually (such as resupplying, getting new skills, etc). 
 Locations referenced in the guide are shown on the map and minimap. Also there is an arrow pointing in the direction towards the next step.
 
