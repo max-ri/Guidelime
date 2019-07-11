@@ -36,3 +36,8 @@ The German version will be finished soon. A Spanish version will follow afterwar
 
 The guides itself are language specific. The guides I am currently working on are in English language only. But using the editor you can create guides in your own language.
 
+
+
+You'd like to support me?
+
+<a href='https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=max_r_%40web.de&item_name=Guidelime&currency_code=EUR'><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif"/></a>
