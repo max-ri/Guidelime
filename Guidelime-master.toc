@@ -1,6 +1,6 @@
 ## Title: Guidelime
 ## Author: Borick of Arthas(EU)
-## Version: 0.003-Beta
+## Version: 0.004-Beta
 ## Interface: 11302
 ## SavedVariables: GuidelimeData
 ## SavedVariablesPerCharacter: GuidelimeDataChar
@@ -12,6 +12,7 @@ Libs\HereBeDragons\HereBeDragons-2.0.lua
 Libs\HereBeDragons\HereBeDragons-Pins-2.0.lua
 
 Localization.lua
+Data\Guidelime_Data.lua
 Guidelime.lua
 Guidelime_Events.lua
 Guidelime_Frames.lua
@@ -22,6 +23,5 @@ Guidelime_Parser.lua
 Guidelime_Map.lua
 Data\Guidelime_MapDB.lua
 Data\Guidelime_QuestsDB.lua
-Data\Guidelime_Data.lua
-Guides\Demo_Dun_Morogh_1-6.lua
+Guides\Demo_Coldridge_Valley_1-6.lua
 Guides\Demo_Loch_Modan_16-18.lua

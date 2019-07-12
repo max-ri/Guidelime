@@ -67,8 +67,8 @@ addon.icons = {
 }
 
 local _
-_, addon.class = UnitClass("player")
-_, addon.race = UnitRace("player"); addon.race = addon.race:upper()
+_, addon.class = UnitClass("player"); addon.class = addon.getClass(addon.class)
+_, addon.race = UnitRace("player"); addon.race = addon.getRace(addon.race)
 addon.faction = UnitFactionGroup("player")
 addon.level = UnitLevel("player")
 addon.xp = UnitXP("player")
@@ -519,10 +519,9 @@ local function updateStepAvailability(i, changedIndexes, skipped)
 				skipped.ACCEPT[element.questId] = true
 			end
 			if not element.completed then step.available = step.available or element.available end
-		elseif element.t == "COMPLETE" then
+		elseif element.t == "COMPLETE" or element.t == "WORK" then
 			if skipped.ACCEPT[element.questId] == true and 
-				not element.completed and 
-				addon.quests[element.questId].logIndex == nil
+				not element.completed
 			then 
 				element.available = false 
 				if not addon.contains(step.missingPrequests, element.questId) then
@@ -534,26 +533,24 @@ local function updateStepAvailability(i, changedIndexes, skipped)
 			end
 			if not element.completed then step.available = step.available or element.available end
 		elseif element.t == "TURNIN" then
-			if skipped.ACCEPT[element.questId] == true and 
-				not element.completed and 
-				addon.quests[element.questId].logIndex == nil
+			if (skipped.ACCEPT[element.questId] == true or skipped.COMPLETE[element.questId] == true) and 
+				not element.completed
 			then 
 				element.available = false 
 				if not addon.contains(step.missingPrequests, element.questId) then
 					table.insert(step.missingPrequests, element.questId)
 				end
 			end
-			if skipped.COMPLETE[element.questId] ~= nil and 
-				not element.completed then 
-				element.available = false 
-			end
 			if step.skip or not element.available then
 				skipped.TURNIN[element.questId] = true
 			end
 			if not element.completed then step.available = step.available or element.available end
+		elseif element.t == "LEVEL" then
+			if not element.completed then step.available = true end
 		end
 	end
 	if step.available == nil then step.available = true end
+	if step.manual and not step.completed then step.available = true end
 
 	if i < #addon.currentGuide.steps and step.completeWithNext ~= nil and step.completeWithNext then 
 		local nstep = addon.currentGuide.steps[i + 1]
@@ -956,8 +953,7 @@ end
 
 SLASH_Guidelime1 = "/lime"
 function SlashCmdList.Guidelime(msg)
-	if msg == '' then addon.showMainFrame() 
-	elseif msg == 'debug true' and not addon.debugging then addon.debugging = true; print('LIME: debugging enabled')
-	elseif msg == 'debug false' and addon.debugging then addon.debugging = false; print('LIME: debugging disabled') end
-	GuidelimeData.debugging = addon.debugging
+	if msg == '' then addon.showMainFrame()
+	elseif msg == 'debug true' and not addon.debugging then GuidelimeData.debugging = true; ReloadUI()
+	elseif msg == 'debug false' and addon.debugging then GuidelimeData.debugging = false; ReloadUI() end
 end

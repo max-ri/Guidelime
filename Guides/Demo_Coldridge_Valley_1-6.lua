@@ -1,6 +1,6 @@
 Guidelime.registerGuide([[
-[NDemo 1 - 6 Dun Morogh]
-[GADwarf,Gnome]
+[N 1 - 6 Coldridge Valley]
+[GA Dwarf,Gnome]
 [D A short guide for the dwarf and gnome starting zone. Go Gnomes!]
 At the NPC in front of you get [G29.93,71.2Dun Morogh][QA179 Dwarven Outfitters]
 Kill wolves south of you for [QC179 Dwarven Outfitters]
@@ -30,7 +30,7 @@ Get new skills at your [T] trainer and turn in [G28.83,68.33][QT3107 Consecrated
 Get new skills at your [T] trainer and turn in [G29.18,67.45][QT3108 Etched Rune][A Dwarf,Hunter]
 Get new skills at your [T] trainer and turn in [G28.6,66.39][QT3110 Hallowed Rune][A Dwarf,Priest]
 Get new skills at your [T] trainer and turn in [G28.71,66.37][QT3114 Glyphic Memorandum][A Gnome,Mage]
-Get new skills at your [T] trainer, turn in [G28.65,66.14][QT3115 Tainted Memorandum][A Gnome,Warlock], and accept [QA1599 Beginnings][A Warlock]
+Get new skills at your [T] trainer, turn in [G28.65,66.14][QT3115 Tainted Memorandum], and accept [QA1599 Beginnings][A Warlock]
 Exit Anvilmar and finish [QC170 A New Threat]
 Turn in [G29.71,71.25][QT170 A New Threat] at the starting point
 Turn in [G24.98,75.96][QT3365 Bring Back the Mug] at the camp at the end of the road
@@ -39,12 +39,12 @@ Loot the chest for [QC3361,2 A Refugee's Quandary] at the troll camp at [G23,80]
 Loot the bucket for [QC3361,3 A Refugee's Quandary] at the troll camp at [G26,79]
 At the camps or in the cave finish [QC182 The Troll Cave]
 Go back to the camp, turn in [G25.08,75.71][QT182 The Troll Cave], and accept [QA218 The Stolen Journal]
-In the troll cave keep left until you find and kill Grik'nir the Cold for [QC218 The Stolen Journal][AWarrior,Mage,Hunter,Rogue,Priest,Paladin]
+In the troll cave keep left until you find and kill Grik'nir the Cold for [QC218 The Stolen Journal][A Warrior,Mage,Hunter,Rogue,Priest,Paladin]
 Kill novices in the southern half of the cave until you finish [QC1599 Beginnings][A Warlock]
-At the end of the cave kill Grik'nir the Cold for [QC218 The Stolen Journal][AWarlock]
+At the end of the cave kill Grik'nir the Cold for [QC218 The Stolen Journal][A Warlock]
 Turn in [G25.08,75.71][QT218 The Stolen Journal] at the dwarf camp and accept [QA282 Senir's Observations]
 [H] Hearth or die to get back and turn in [G28.55,67.64][QT3361 A Refugee's Quandary] in Anvilmar
 Exit Anvilmar and follow the path east and turn in [G33.48,71.84][QT282 Senir's Observations] and accept [QA420 Senir's Observations]
 To your right accept [G33.85,72.24][QA2160 Supplies to Tannok]
 Leave the area through Coldridge Pass
-]],"Demo")
+]], "Demo")

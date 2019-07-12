@@ -1,6 +1,6 @@
 Guidelime.registerGuide(
 [[
-[N16-18Loch Modan]
+[N 16-18 Loch Modan]
 [GA Alliance]
 [D A guide created by *darealMarkyMark <Grizzly>* https://www.twitch.tv/darealmarkymark]
 SAVE ALL GOOEY SPIDER LEGS & CRISP SPIDER MEAT[O]
