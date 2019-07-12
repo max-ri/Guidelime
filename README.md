@@ -44,7 +44,7 @@ Type '/lime' or go to *Interface Options*, *AddOns*, *Guidelime*, *Options* and 
 
 ## Contact 
 
-Discord: *Borick#7318*
+Discord: https://discord.gg/kDXMHsV
 
 You'd like to support me?
 
