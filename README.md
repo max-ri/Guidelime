@@ -13,6 +13,8 @@ your favorite guide.
 
 <img src="https://i.imgur.com/6aCB623.png" alt="Guidelime"/>
 
+*This is for WoW Classic. It will not run on private servers and/or BFA.*
+
 ## What is missing?
 
 #### More guides
@@ -37,6 +39,9 @@ The German version will be finished soon. A Spanish version will follow afterwar
 The guides itself are language specific. The guides I am currently working on are in English language only. But using the editor you can create guides in your own language.
 
 
+## Contact 
+
+Discord: *Borick#7318*
 
 You'd like to support me?
 
