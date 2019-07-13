@@ -23,7 +23,7 @@ The following codes can be used:
 
 ### Codes that contain information about your guide
 
-These codes should each only be used once in your guide. (If have more than one of one kind all but the last one will be ignored.) You can put them anywhere in your guide. At the beginning would make most sense. It makes no difference whether you put each on a separate line of text or all in the same line.
+These codes should each only be used once in your guide. (If there is more than one of a kind, all but the last one will be ignored.) You can put them anywhere in your guide. At the beginning would make most sense. It makes no difference whether you put each on a separate line of text or all in the same line.
 
 #### `N` Name and level range of the guide 
 
@@ -33,7 +33,7 @@ Example: `[N 1-6 Coldridge Valley]`
 
 #### `D` Detailed guide description
 
-Here you can give a more detailed description of your guide. This will be shown below the guide selection list whenever the user mouses over your guide. You should describe what the player can expect from your guide whenever this should not be clear from the given level range and zone alone. You can also put your name, your website / youtube channel / twitch stream / or whatever you want people to know about you here.
+Here you can give a more detailed description of your guide. This will be shown below the guide selection list whenever the user mouses over your guide. You should describe what the player can expect from your guide whenever this is not clear from the given level range and zone alone. You can also put your name, your website / youtube channel / twitch stream / or whatever you want people to know about you here.
 
 Example: `[D My personal guide to the gnome/dwarf starting zone]`
 
