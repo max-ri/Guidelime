@@ -222,7 +222,7 @@ function addon.showEditPopupQUEST(typ, guide)
 			end
 			id = ids[1]
 		else
-			text = addon.getQuestNameById(id)
+			text = addon.getQuestNameById(id) or ""
 		end
 		--if text == addon.getQuestNameById(id) then text = "" end
 		local objective = ""
@@ -230,7 +230,7 @@ function addon.showEditPopupQUEST(typ, guide)
 			objective = "," .. popup.textboxObjective:GetText()
 		end
 		local applies = ""
-		if addon.questsDB[id].races ~= nil or addon.questsDB[id].classes ~= nil then
+		if addon.questsDB[id] ~= nil and (addon.questsDB[id].races ~= nil or addon.questsDB[id].classes ~= nil) then
 			applies = "][A "
 			if addon.questsDB[id].races ~= nil then
 				applies = applies .. table.concat(addon.questsDB[id].races, ",")
@@ -280,7 +280,6 @@ function addon.showEditPopupGOTO(typ, guide)
 		if y == nil then error ("Y is not a number") end
 		local zone = popup.textboxZone:GetText()
 		if zone ~= "" and addon.mapIDs[zone] == nil then 
-			error (zone .. " is not a zone") 
 			local msg = zone .. " is not a zone. Enter one of these zone names: "
 			local first = true
 			for zone, id in pairs(addon.mapIDs) do
@@ -306,7 +305,7 @@ function addon.showEditPopupGOTO(typ, guide)
 	popup.textboxX:SetText(math.floor(x * 10000) / 100)
 	popup.textboxY:SetText(math.floor(y * 10000) / 100)
 	local mapID = HBD:GetPlayerZone()
-	popup.textboxZone:SetText(addon.zoneNames[mapID])
+	popup.textboxZone:SetText(addon.zoneNames[mapID] or mapID)
 	popup:Show()
 end
 
@@ -461,8 +460,8 @@ function addon.fillEditor()
 	prev = addEditButton("GUIDE_APPLIES", prev)
 	prev = addEditButton("APPLIES", prev)
 	prev = addEditButton("OPTIONAL", prev)
-	prev = addEditButton("COMPLETE_WITH_NEXT", prev)
-	prev = addEditButton("QUEST", prev) -- TODO
+	prev = addEditButton("OPTIONAL_COMPLETE_WITH_NEXT", prev)
+	prev = addEditButton("QUEST", prev)
 	prev = addEditButton("GOTO", prev)
 	prev = addEditButton("XP", prev)
 	prev = addEditButton("HEARTH", prev)

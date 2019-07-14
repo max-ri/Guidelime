@@ -2,13 +2,13 @@ local addonName, addon = ...
 
 --[[
 codes:
- - N Name and level of the guide [N(min)-(max)(name)]
- - NX Name and level of the next guide proposed after finishing this [NX(min)-(max)(name)]
+ - N Name and level range of the guide [N(min)-(max)(name)]
+ - NX Name and level range of the next guide proposed after finishing this [NX(min)-(max)(name)]
  - D details of the guide [D(details)]
  - GA guide applies to [GA(race),(class),(faction),...]
- - Q [QA/T/C/S/W(id)[,objective](title)] quest accept/turnin/complete/skip
- - L [L(x).(y)[zone] ] loc
- - G [G(x).(y)[zone] ] goto
+ - Q [QA/T/C/S(id)[,objective](title)] quest accept/turnin/complete/skip    -- QW is deprecated; replaced by [QC...][O]
+ - L [L(x),(y)[zone] ] loc
+ - G [G(x),(y)[zone] ] goto
  - XP [XP (level)[.(percentage)/+(points)/-(points remaining)] experience
  - H hearth
  - F fly
@@ -29,10 +29,9 @@ addon.codes = {
 	GUIDE_APPLIES = "GA",
 	APPLIES = "A",
 	OPTIONAL = "O",
-	COMPLETE_WITH_NEXT = "C",
+	OPTIONAL_COMPLETE_WITH_NEXT = "OC",
 	QUEST = "Q",
 	GOTO = "G",
-	LOC = "L",
 	XP = "XP",
 	HEARTH = "H",
 	FLY = "F",
@@ -40,7 +39,10 @@ addon.codes = {
 	SET_HEARTH = "S",
 	GET_FLIGHT_POINT = "P",
 	VENDOR = "V",
-	REPAIR = "R"
+	REPAIR = "R",
+--deprecated
+	COMPLETE_WITH_NEXT = "C", -- same as OC
+	LOC = "L",
 }
 
 function addon.parseGuide(guide, group)
@@ -86,6 +88,7 @@ end
 function addon.parseLine(step, guide)
 	if step.text == nil then return end
 	step.elements = {}
+	local lastAutoStep
 	local t = step.text:gsub("(.-)%[(.-)%]", function(text, code)
 		if text ~= "" then
 			local element = {}
@@ -126,7 +129,8 @@ function addon.parseLine(step, guide)
 			elseif code:sub(2, 2) == "S" then
 				element.t = "SKIP"
 			elseif code:sub(2, 2) == "W" then
-				element.t = "WORK"
+				element.t = "COMPLETE"
+				element.optional = true
 			else
 				error("parsing guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": code not recognized for [" .. code .. "] in line \"" .. step.text .. "\"")
 			end
@@ -135,26 +139,33 @@ function addon.parseLine(step, guide)
 				if objective ~= "" then element.objective = tonumber(objective) end
 				if title == "-" then
 					element.title = ""
-				elseif title == nil or title == "" then
+				elseif addon.questsDB[element.questId] ~= nil and (title == nil or title == "") then
 					element.title = addon.questsDB[element.questId].name
 				else
 					element.title = title
 				end
-				if addon.questsDB[element.questId] == nil then error("loading guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": unknown quest id " .. element.questId .. "\" in line \"" .. step.text .. "\"") end
+				if addon.debugging and addon.questsDB[element.questId] == nil then 
+					print("LIME: loading guide \"" .. (guide.name or "") .. "\": unknown quest id " .. element.questId .. "\" in line \"" .. step.text .. "\"") 
+				end
 				--elseif addon.debugging and addon.questsDB[element.questId].name ~= element.title:sub(1, #addon.questsDB[element.questId].name) then
 				--	error("loading guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": wrong title for quest " .. element.questId .. " \"" .. element.title .. "\" instead of \"" .. addon.questsDB[element.questId].name .. "\" in line \"" .. step.text .. "\"")
 				--end
-				if step.race == nil and addon.questsDB[element.questId].races ~= nil then 
-					step.race = {}
-					for i, r in pairs(addon.questsDB[element.questId].races) do step.race[i] = r end
+				if addon.questsDB[element.questId] ~= nil then
+					if step.race == nil and addon.questsDB[element.questId].races ~= nil then 
+						step.race = {}
+						for i, r in pairs(addon.questsDB[element.questId].races) do step.race[i] = r end
+					end
+					if step.class == nil and addon.questsDB[element.questId].classes ~= nil then 
+						step.class = {}
+						for i, r in pairs(addon.questsDB[element.questId].classes) do step.class[i] = r end
+					end
+					if step.faction == nil and addon.questsDB[element.questId].faction ~= nil then step.faction = addon.questsDB[element.questId].faction end
+					if addon.questsDB[element.questId].sort ~= nil and addon.mapIDs[addon.questsDB[element.questId].sort] ~= nil then 
+						guide.currentZone = addon.mapIDs[addon.questsDB[element.questId].sort] 
+					end
 				end
-				if step.class == nil and addon.questsDB[element.questId].classes ~= nil then 
-					step.class = {}
-					for i, r in pairs(addon.questsDB[element.questId].classes) do step.class[i] = r end
-				end
-				if step.faction == nil and addon.questsDB[element.questId].faction ~= nil then step.faction = addon.questsDB[element.questId].faction end
-				if addon.questsDB[element.questId].sort ~= nil and addon.mapIDs[addon.questsDB[element.questId].sort] ~= nil then guide.currentZone = addon.mapIDs[addon.questsDB[element.questId].sort] end
 				table.insert(step.elements, element)
+				if element.t ~= "SKIP" then lastAutoStep = element end
 			end, 1)
 		elseif code:sub(1, 2) == addon.codes.GUIDE_APPLIES then
 			code:sub(3):upper():gsub(" ",""):gsub("([^,]+)", function(c)
@@ -231,15 +242,16 @@ function addon.parseLine(step, guide)
 					step.xp = true
 				end
 				table.insert(step.elements, element)
+				lastAutoStep = element
 			end, 1)
-		elseif code:sub(1, 1) == addon.codes.OPTIONAL then
+		elseif code:sub(1, 2) == addon.codes.OPTIONAL_COMPLETE_WITH_NEXT then
 			local element = {}
 			element.t = "TEXT"
-			element.text = code:sub(2)
+			element.text = code:sub(3)
 			if element.text ~= "" then 
 				table.insert(step.elements, element)
 			end
-			step.optional = true
+			step.completeWithNext = true
 		elseif code:sub(1, 1) == addon.codes.COMPLETE_WITH_NEXT then
 			local element = {}
 			element.t = "TEXT"
@@ -248,6 +260,18 @@ function addon.parseLine(step, guide)
 				table.insert(step.elements, element)
 			end
 			step.completeWithNext = true
+		elseif code:sub(1, 1) == addon.codes.OPTIONAL then
+			local element = {}
+			element.t = "TEXT"
+			element.text = code:sub(2)
+			if element.text ~= "" then 
+				table.insert(step.elements, element)
+			end
+			if lastAutoStep ~= nil then
+				lastAutoStep.optional = true
+			else
+				step.optional = true
+			end
 		else
 			local found = false
 			for k, v in pairs(addon.codes) do

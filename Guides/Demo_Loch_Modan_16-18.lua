@@ -28,12 +28,12 @@ Also look for [QC2038,1 Bingles' Wrench][G48.73, 30.10][O]
 Loot the [QC2038,4 Blastencapper][G54.21, 26.61][O]
 Get his [QC2038,3 Hammer][G51.78, 24.09][O]
 Find the [QC2038,2 Screwdriver] [G48.37, 20.50][O]
-[QC263-][QC2038-]Complete both quests
-Grind up to the Dam[G46.05,13.61][C]
+Complete [QC263-][QC2038 both quests]
+Grind up to the Dam[G46.05,13.61][OC]
 Accept [G46.05,13.61][QA250 A Dark Threat Looms]
 Go to the east side of the dam and turn in [QT250 A Dark Threat Looms] accept [QA199 Part 2]
 Turn in [G46.05,13.61][QT199 Part 2], accept [G46.05,13.61][QA161 A Dark Threat Looms Part 3]
-[H]Hearth to Thelsamar[C]
+[H]Hearth to Thelsamar
 Turn in [G37.24,47.38][QT298 Excavation Progress Report], accept [G37.24,47.38][QA301 Report to Ironforge]
 Run to the south tower and turn in [QT263 In Defense of the King's Lands Part 3]
 Accept [QA217 In Defense of the King's Lands Part 4]
@@ -48,12 +48,12 @@ Once 18, die and spirit rez at Thelsamar. [F]Fly to Ironforge.
 [T]Train class abilities, INCLUDING LOCKPICKING AND BUY THIEVES TOOLS. LEVEL & TRAIN COOKING TO 50[A Warrior,Mage,Paladin,Warlock,Hunter,Priest,Druid]
 [QT531 Turn in] Report to Ironforge
 Accept [G62.19,29.2Dun Morogh][QA2041 Speak with Shoni]
-Take the tram to Stormwind[C]
+Take the tram to Stormwind[OC]
 Turn in [G55.51,12.51Stormwind City][QT2041 Speak with Shoni]
 Turn in [G58.09,16.53][QT1338 Stormpike's Order]
 Buy Stormwind Seasoning Herbs
 Accept [G21.4,55.8][QA3765 The Corruption Abroad] in The Park
-From here, run directly to Goldshire[C]
+From here, run directly to Goldshire[OC]
 [S]Set hearth in Goldshire
 Run east to Redridge
 ]],"Demo")
