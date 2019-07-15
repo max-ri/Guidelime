@@ -437,6 +437,7 @@ function addon.fillEditor()
     addon.editorFrame.scrollFrame:SetScrollChild(content)
 	
 	addon.editorFrame.textBox = CreateFrame("EditBox", nil, content)
+	addon.editorFrame.textBox:SetEnabled(false)
 	if GuidelimeDataChar.currentGuide ~= nil and addon.guides[GuidelimeDataChar.currentGuide.name] ~= nil then
 		addon.editorFrame.textBox:SetText(addon.guides[GuidelimeDataChar.currentGuide.name].text)
 	end
@@ -445,7 +446,6 @@ function addon.fillEditor()
 	addon.editorFrame.textBox:SetWidth(550)
 	addon.editorFrame.textBox:SetPoint("TOPLEFT", content, "BOTTOMLEFT", 0, 0)
 	addon.editorFrame.textBox:SetTextColor(255,255,255,255)
-	addon.editorFrame.textBox:SetEnabled(false)
 	
 	addon.editorFrame.textBox:SetScript("OnShow", function(self) 
 		addon.editorFrame.textBox:SetEnabled(true)

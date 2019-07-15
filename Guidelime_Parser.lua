@@ -98,12 +98,12 @@ function addon.parseLine(step, guide)
 		end
 		
 		if code:sub(1, 2) == addon.codes.NEXT then
-			code:sub(2):gsub("(%d*)%s*-%s*(%d*)%s*(.*)", function (minLevel, maxLevel, title)
+			code:sub(2):gsub("%s*(%d*)%s*-%s*(%d*)%s*(.*)", function (minLevel, maxLevel, title)
 				--print("LIME: \"".. (group or "") .. "\",\"" .. minLevel .. "\",\"" .. maxLevel .. "\",\"" .. title .. "\"")
 				guide.next = minLevel .. "-" .. maxLevel .. " " .. title
 			end, 1)
 		elseif code:sub(1, 1) == addon.codes.NAME then
-			code:sub(2):gsub("(%d*)%s*-%s*(%d*)%s*(.*)", function (minLevel, maxLevel, title)
+			code:sub(2):gsub("%s*(%d*)%s*-%s*(%d*)%s*(.*)", function (minLevel, maxLevel, title)
 				--print("LIME: \"".. (group or "") .. "\",\"" .. minLevel .. "\",\"" .. maxLevel .. "\",\"" .. title .. "\"")
 				guide.minLevel = tonumber(minLevel)
 				guide.maxLevel = tonumber(maxLevel)
@@ -134,7 +134,7 @@ function addon.parseLine(step, guide)
 			else
 				error("parsing guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": code not recognized for [" .. code .. "] in line \"" .. step.text .. "\"")
 			end
-			code:sub(3):gsub("(%d+),?(%d*)%s*(.*)", function(id, objective, title)
+			code:sub(3):gsub("%s*(%d+),?(%d*)%s*(.*)", function(id, objective, title)
 				element.questId = tonumber(id)
 				if objective ~= "" then element.objective = tonumber(objective) end
 				if title == "-" then
@@ -196,7 +196,7 @@ function addon.parseLine(step, guide)
 				end
 			end)
 		elseif code:sub(1, 1) == addon.codes.GOTO then
-			code:gsub("G(%d+%.?%d*),%s?(%d+%.?%d*),?%s?(%d*%.?%d*)(.*)", function(x, y, radius, zone)
+			code:gsub("G%s*(%d+%.?%d*),%s?(%d+%.?%d*),?%s?(%d*%.?%d*)(.*)", function(x, y, radius, zone)
 				local element = {}
 				element.t = "GOTO"
 				element.x = tonumber(x)
@@ -208,7 +208,7 @@ function addon.parseLine(step, guide)
 				table.insert(step.elements, element)
 			end, 1)
 		elseif code:sub(1, 1) == addon.codes.LOC then
-			code:gsub("L(%d+%.?%d*),%s?(%d+%.?%d*)(.*)", function(x, y, zone)
+			code:gsub("L%s*(%d+%.?%d*),%s?(%d+%.?%d*)(.*)", function(x, y, zone)
 				local element = {}
 				element.t = "LOC"
 				element.x = tonumber(x)
@@ -219,7 +219,7 @@ function addon.parseLine(step, guide)
 				table.insert(step.elements, element)
 			end, 1)
 		elseif code:sub(1, 2) == addon.codes.XP then
-			code:gsub("XP(%d+)([%+%-%.]?)(%d*)(.*)", function(level, t, xp, text)
+			code:gsub("XP%s*(%d+)([%+%-%.]?)(%d*)(.*)", function(level, t, xp, text)
 				local element = {}
 				element.t = "LEVEL"
 				element.level = tonumber(level)
