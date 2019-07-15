@@ -103,21 +103,21 @@ Examples:
 
 `You should be about [XP6-500 500 to 6] now`
 
-### Codes for steps without automatic completion detection
+### Steps describing means of traveling
 
-All of the following do not (yet) have automatic detection built in. Except for the first two codes (`H` and `F`) which only represent means of traveling, the player will have to manually click on the checkbox in order to confirm he has done what is asked for so that the step disappears from his list.
+Steps which only tell the player how to get to the place where he needs to go next do not need to be checked off manually. Instead they will complete itself automatically whenever the next step is completed, since this will mean the player has reached the correct spot (by the way described or any other). If you want to describe how to reach the next step without using one of these codes (e.g. suicide / using unstuck / etc.) you can also achieve the same behavior by adding `[OC]` to your step (for a description see `O` below).
 
 #### `H` Use hearthstone
-
-As this only tells the player how to get to the place where he needs to go, this does not need to be checked off manually. Instead this step will complete itself automatically whenever the next step is completed.
 
 Example: `[H]Hearth to Thelsamar`
 
 #### `F` Take a flight
 
-Again this only tells the player how to travel to the next step. Therefore this step will also complete itself automatically whenever the next step is completed.
+Example: `[F]Fly to Thelsamar`
 
-Example: `[H]Fly to Thelsamar`
+### Other codes for steps without automatic completion detection
+
+All of the following steps do not (yet) have automatic detection built in. The player will have to manually click on the checkbox in order to confirm he has done what is asked for, so that the step disappears from his list. Basically all these codes do is add a nice icon to the step text. If none of the icons fit you can also just not use any code on a line and it will also be considered as a step the player has to check off manually.
 
 #### `T` Visit trainer
 
@@ -141,7 +141,7 @@ Example: `You can [V]sell vendor loot and resupply and [R] repair here`
 
 #### `A` Faction / races / classes this step applies to
 
-Similar to 'GA' you can set to which players one step of your guide applies. Again you can put any combination of a faction, races, or classes here, separated by commas. Names are case-insensitive and can contain spaces (use English names). For players that do not meet the criteria the whole line of the guide will not show up. 
+Similar to `GA` you can set to which players one step of your guide applies. Again you can put any combination of a faction, races, or classes here, separated by commas. Names are case-insensitive and can contain spaces (use English names). For players that do not meet the criteria the whole line of the guide will not show up. 
 
 When steps address class-/race-specific quests technically you are not required to use the `A`-code since the addon would detect that and not show the whole line in any way. But for making it easier for you to read your guide you might still want to specify it.
 
