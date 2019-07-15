@@ -42,7 +42,7 @@ The German version will be finished soon. A Spanish version will follow afterwar
 
 The guides itself are language specific. The guides I am currently working on are in English language only. But using the editor you can create guides in your own language.
 
-## How do I open the window again when I have closed id?
+## How do I open the window again after I closed it accidentally?
 
 Type `/lime` or go to *Interface Options*, *AddOns*, *Guidelime*, *Options* and click on show window.
 
