@@ -118,6 +118,8 @@ end
 
 function addon.showArrow(element)
 	if element.x == nil or element.y == nil or element.mapID == nil or addon.x == nil or addon.y == nil or addon.face == nil then return end
+	addon.arrowX, addon.arrowY = HBD:GetWorldCoordinatesFromZone(element.x / 100, element.y / 100, element.mapID)
+	if addon.arrowX == nil or addon.arrowY == nil then return end
 	
 	if GuidelimeDataChar.showArrow then
 		if addon.arrowFrame == nil then
@@ -140,7 +142,6 @@ function addon.showArrow(element)
 				_, _, GuidelimeDataChar.arrowRelative, GuidelimeDataChar.arrowX, GuidelimeDataChar.arrowY = addon.arrowFrame:GetPoint()
 			end)
 		end
-		addon.arrowX, addon.arrowY = HBD:GetWorldCoordinatesFromZone(element.x / 100, element.y / 100, element.mapID)
 		addon.arrowFrame:Show()
 	end
 	addon.updateArrow()

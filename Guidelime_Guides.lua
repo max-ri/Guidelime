@@ -75,10 +75,10 @@ function addon.fillGuides()
 	for name, guide in pairs(addon.guides) do
 		local showGuide = true
 		if guide.race ~= nil then
-			if not addon.contains(guide.race, function(v) return v:upper():gsub(" ","") == addon.race end) then showGuide = false end
+			if not addon.contains(guide.race, addon.race) then showGuide = false end
 		end
 		if guide.class ~= nil then
-			if not addon.contains(guide.class, function(v) return v:upper():gsub(" ","") == addon.class end) then showGuide = false end
+			if not addon.contains(guide.class, addon.class) then showGuide = false end
 		end
 		if guide.faction ~= nil and guide.faction:upper():gsub(" ","") ~= addon.faction then loadGuide = false end
 		if showGuide then
