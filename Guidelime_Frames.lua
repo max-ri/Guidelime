@@ -24,7 +24,7 @@ function addon.addSliderOption(frame, optionsTable, option, min, max, step, text
     slider.editbox:SetCursorPosition(0)
     slider.editbox:SetAutoFocus(false)
     slider:SetScript("OnValueChanged", function(self)
-        slider.editbox:SetText(tostring(slider:GetValue()))
+        slider.editbox:SetText(tostring(math.floor(slider:GetValue() * 100) / 100))
     	slider.editbox:SetCursorPosition(0)
 		optionsTable[option] = slider:GetValue()
 		if updateFunction ~= nil then updateFunction() end
@@ -128,7 +128,7 @@ function addon.createPopupFrame(message, okFunc, hasCancel, height)
 	popupFrame:SetBackdrop({
 		bgFile = "Interface/Addons/" .. addonName .. "/Icons/Black", --"Interface/DialogFrame/UI-DialogBox-Background",
 		edgeFile = "Interface/DialogFrame/UI-DialogBox-Border",
-		tile = true, tileSize = 32, edgeSize = 32,
+		tile = false, edgeSize = 32,
 		insets = { left = 11, right = 12, top = 12, bottom = 11}
 	})
 	popupFrame:SetBackdropColor(0,0,0,1)
