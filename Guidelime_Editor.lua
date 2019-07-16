@@ -371,11 +371,11 @@ function addon.showEditPopupXP(typ, guide)
 	popup:Show()
 end
 
-local function addEditButton(typ, prev)
+local function addEditButton(typ, prev, offset)
 	local button = CreateFrame("BUTTON", nil, addon.editorFrame, "UIPanelButtonTemplate")
 	button.typ = typ
 	button:SetWidth(30)
-	button:SetHeight(25)
+	button:SetHeight(24)
 	if addon.icons[typ] ~= nil then
 	    button.texture = button:CreateTexture(nil, "TOOLTIP")
 	    button.texture:SetTexture(addon.icons[typ])
@@ -388,7 +388,7 @@ local function addEditButton(typ, prev)
 	if prev == nil then
 		button:SetPoint("TOPLEFT", addon.editorFrame.scrollFrame, "TOPRIGHT", 30, 0)
 	else
-		button:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+		button:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, offset or 0)
 	end
 	button.tooltip = L["EDITOR_TOOLTIP_" .. typ]
 	if button.tooltip ~= nil then
@@ -438,39 +438,46 @@ function addon.fillEditor()
 	
 	addon.editorFrame.textBox = CreateFrame("EditBox", nil, content)
 	addon.editorFrame.textBox:SetEnabled(false)
+	addon.editorFrame.textBox:SetBackdrop({
+		bgFile = "Interface/Addons/" .. addonName .. "/Icons/Black", tile = false, 
+	})
+	addon.editorFrame.textBox:SetBackdropColor(0,0,0,1)
 	if GuidelimeDataChar.currentGuide ~= nil and addon.guides[GuidelimeDataChar.currentGuide.name] ~= nil then
 		addon.editorFrame.textBox:SetText(addon.guides[GuidelimeDataChar.currentGuide.name].text)
 	end
 	addon.editorFrame.textBox:SetMultiLine(true)
 	addon.editorFrame.textBox:SetFontObject("GameFontNormal")
-	addon.editorFrame.textBox:SetWidth(550)
 	addon.editorFrame.textBox:SetPoint("TOPLEFT", content, "BOTTOMLEFT", 0, 0)
 	addon.editorFrame.textBox:SetTextColor(255,255,255,255)
 	
 	addon.editorFrame.textBox:SetScript("OnShow", function(self) 
 		addon.editorFrame.textBox:SetEnabled(true)
+		addon.editorFrame.textBox:SetWidth(addon.editorFrame:GetWidth() - 100)
 	end)
 	addon.editorFrame.textBox:SetScript("OnHide", function(self) 
 		addon.editorFrame.textBox:SetEnabled(false)
 	end)
 
 	prev = addEditButton("NAME")
-	prev = addEditButton("NEXT", prev)
 	prev = addEditButton("DETAILS", prev)
+	prev = addEditButton("NEXT", prev)
 	prev = addEditButton("GUIDE_APPLIES", prev)
-	prev = addEditButton("APPLIES", prev)
-	prev = addEditButton("OPTIONAL", prev)
-	prev = addEditButton("OPTIONAL_COMPLETE_WITH_NEXT", prev)
-	prev = addEditButton("QUEST", prev)
+
+	prev = addEditButton("QUEST", prev, -3)
 	prev = addEditButton("GOTO", prev)
 	prev = addEditButton("XP", prev)
-	prev = addEditButton("HEARTH", prev)
+
+	prev = addEditButton("HEARTH", prev, -3)
 	prev = addEditButton("FLY", prev)
 	prev = addEditButton("TRAIN", prev)
 	prev = addEditButton("SET_HEARTH", prev)
 	prev = addEditButton("GET_FLIGHT_POINT", prev)
 	prev = addEditButton("VENDOR", prev)
 	prev = addEditButton("REPAIR", prev)
+
+	prev = addEditButton("APPLIES", prev, -3)
+	prev = addEditButton("OPTIONAL", prev)
+	prev = addEditButton("OPTIONAL_COMPLETE_WITH_NEXT", prev)
 
 	addon.editorFrame.saveBtn = CreateFrame("BUTTON", nil, addon.editorFrame, "UIPanelButtonTemplate")
 	addon.editorFrame.saveBtn:SetWidth(120)
