@@ -33,6 +33,17 @@ local function resetGuide()
 	addon.loadGuide(GuidelimeDataChar.currentGuide.name)
 end
 
+local function showUrlPopup(url)
+	local popup = addon.createPopupFrame(nil, nil, false, 80)
+	popup.textboxName = addon.addTextbox(popup, L.URL, 420)
+	popup.textboxName.text:SetPoint("TOPLEFT", 20, -20)
+	popup.textboxName:SetPoint("TOPLEFT", 120, -20)
+	popup.textboxName:SetText(url)
+	popup.textboxName:SetFocus()
+	popup.textboxName:HighlightText(false)
+	popup:Show()
+end
+
 function addon.fillGuides()
     addon.guidesFrame = CreateFrame("Frame", nil, UIParent)
     addon.guidesFrame.name = GetAddOnMetadata(addonName, "title")
@@ -140,6 +151,7 @@ function addon.fillGuides()
 			end
 			addon.guidesFrame.guides[name]:SetScript("OnEnter", function(self)
 				addon.guidesFrame.textDetails:SetText(self.guide.details or "")
+				addon.guidesFrame.textDetails.url = self.guide.detailsUrl or ""
 				if self.name ~= GuidelimeDataChar.currentGuide.name then
 					self:SetBackdropColor(0.5,0.5,1,1)	
 				end
@@ -168,11 +180,14 @@ function addon.fillGuides()
     content:SetSize(1, 1) 
     scrollFrame:SetScrollChild(content)
 
-	addon.guidesFrame.textDetails = addon.addMultilineText(content, nil, 550)
+	addon.guidesFrame.textDetails = addon.addMultilineText(content, nil, 550, nil, function()
+		if addon.guidesFrame.textDetails.url ~= nil then showUrlPopup(addon.guidesFrame.textDetails.url) end
+	end)
 	addon.guidesFrame.textDetails:SetPoint("TOPLEFT", content, "BOTTOMLEFT", 0, 0)
 	addon.guidesFrame.textDetails:SetTextColor(255,255,255,255)
 	if addon.guides[GuidelimeDataChar.currentGuide.name] ~= nil and addon.guides[GuidelimeDataChar.currentGuide.name].details ~= nil then
 		addon.guidesFrame.textDetails:SetText(addon.guides[GuidelimeDataChar.currentGuide.name].details)
+		addon.guidesFrame.textDetails.url = addon.guides[GuidelimeDataChar.currentGuide.name].detailsUrl or ""
 	end
 	
 	addon.guidesFrame.loadBtn = CreateFrame("BUTTON", nil, addon.guidesFrame, "UIPanelButtonTemplate")

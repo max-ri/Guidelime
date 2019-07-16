@@ -112,10 +112,9 @@ function addon.parseLine(step, guide)
 		elseif code:sub(1, 1) == addon.codes.DETAILS then
 			guide.detailsRaw = code:sub(2):gsub("%s*(.*)", "%1", 1)
 			guide.details = guide.detailsRaw
-				:gsub("(www%.[%w%./#%-%?]*)", "|cFFAAAAAA%1|r")
-				:gsub("(https://[%w%./#%-%?]*)", "|cFFAAAAAA%1|r")
-				:gsub("(http://[%w%./#%-%?]*)", "|cFFAAAAAA%1|r")
-				:gsub("(http://[%w%./#%-%?]*)", "|cFFAAAAAA%1|r")
+				:gsub("(https://[%w%./#%-%?]*)", function(url) guide.detailsUrl = url; return "|cFFAAAAAA" .. url .. "|r" end)
+				:gsub("(http://[%w%./#%-%?]*)", function(url) guide.detailsUrl = url; return "|cFFAAAAAA" .. url .. "|r" end)
+				:gsub("(www%.[%w%./#%-%?]*)", function(url) if guide.detailsUrl == nil then guide.detailsUrl = url end; return "|cFFAAAAAA" .. url .. "|r" end)
 				:gsub("%*([^%*]+)%*", "|cFFFFD100%1|r")
 				:gsub("%*%*","%*")
 		elseif code:sub(1, 1) == addon.codes.QUEST then
