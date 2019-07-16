@@ -57,6 +57,14 @@ function addon.fillOptions()
 	end)
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -90)
 	
+	slider = addon.addSliderOption(addon.optionsFrame, GuidelimeData, "maxNumOfSteps", 0, 20, 1, L.MAX_NUM_OF_STEPS)
+	slider:SetScript("OnMouseUp", function()
+		if GuidelimeDataChar.mainFrameShowing then
+			addon.updateMainFrame()
+		end
+	end)
+	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -130)
+	
 	local checkbox = addon.addCheckOption(addon.optionsFrame, GuidelimeDataChar, "mainFrameLocked", L.LOCK_MAINFRAME, nil, function()
 		if GuidelimeDataChar.mainFrameLocked then
 	    	addon.mainFrame.lockBtn:SetPushedTexture("Interface/Buttons/LockButton-Unlocked-Down")

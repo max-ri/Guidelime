@@ -9,7 +9,8 @@ addon.mapIcons = {}
 local function createIconFrame(index, minimap)
     local f = CreateFrame("Button", addonName .. index .. minimap, nil)
 
-    f:SetFrameStrata("TOOLTIP");
+    f:SetFrameStrata("TOOLTIP")
+	f:SetFrameLevel(index)
     f:SetWidth(16)
     f:SetHeight(16)
     f.texture = f:CreateTexture(nil, "TOOLTIP")
@@ -38,12 +39,15 @@ end
 
 local function createMapIcon(i)
 	if i == nil then
-		if #addon.mapIcons >= 63 then return nil end
 		i = #addon.mapIcons + 1
 	end
 	addon.mapIcons[i] = createIconFrame(i, 0)
 	addon.mapIcons[i].minimap = createIconFrame(i, 1)
-	addon.mapIcons[i].index = i
+	if i >= 63 then
+		addon.mapIcons[i].index = 63
+	else
+		addon.mapIcons[i].index = i
+	end
 	addon.mapIcons[i].inUse = false
 	return addon.mapIcons[i]
 end
@@ -67,7 +71,7 @@ end
 
 function addon.addMapIcon(element, highlight)
 	local mapIcon = getMapIcon(element, highlight)
-	if mapIcon ~= nil and mapIcon.index < GuidelimeData.maxNumOfMarkers then
+	if mapIcon ~= nil and (GuidelimeData.maxNumOfMarkers == 0 or mapIcon.index < GuidelimeData.maxNumOfMarkers) then
 		mapIcon.inUse = true
 		mapIcon.mapID = element.mapID
 		mapIcon.x = assert(element.x)

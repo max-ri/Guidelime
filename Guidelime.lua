@@ -121,6 +121,7 @@ function addon.loadData()
 		showQuestLevels = false,
 		showTooltips = true,
 		maxNumOfMarkers = 10,
+		maxNumOfSteps = 0,
 		version = GetAddOnMetadata(addonName, "version")
 	}
 	local defaultOptionsChar = {
@@ -322,11 +323,11 @@ local function updateStepText(i)
 			text = text .. "|T" .. addon.icons.TURNIN_INCOMPLETE .. ":12|t"
 		elseif element.t == "LOC" or element.t == "GOTO" then
 			if element.mapIndex == 0 and addon.arrowFrame ~= nil then
-				text = text .. "|T" .. addon.icons.MAP_ARROW .. ":12:12:0:0:512:512:" .. 
+				text = text .. "|T" .. addon.icons.MAP_ARROW .. ":15:15:0:1:512:512:" .. 
 					addon.arrowFrame.col * 64 .. ":" .. (addon.arrowFrame.col + 1) * 64 .. ":" .. 
 					addon.arrowFrame.row * 64 .. ":" .. (addon.arrowFrame.row + 1) * 64 .. ":::|t"
 			elseif element.mapIndex ~= nil then
-				text = text .. "|T" .. addon.icons.MAP_MARKER .. ":12:12:0:0:512:512:" .. 
+				text = text .. "|T" .. addon.icons.MAP_MARKER .. ":15:15:0:1:512:512:" .. 
 					element.mapIndex % 8 * 64 .. ":" .. (element.mapIndex % 8 + 1) * 64 .. ":" .. 
 					math.floor(element.mapIndex / 8) * 64 .. ":" .. (math.floor(element.mapIndex / 8) + 1) * 64 .. ":::|t"
 			else
@@ -816,9 +817,11 @@ function addon.updateMainFrame()
 		addon.updateSteps()
 		
 		local prev = nil
+		local count = 0
 		for i, step in ipairs(addon.currentGuide.steps) do
 			if ((not step.completed and not step.skip) or not GuidelimeDataChar.hideCompletedSteps) and 
-				(step.available or not GuidelimeDataChar.hideUnavailableSteps) then
+				(step.available or not GuidelimeDataChar.hideUnavailableSteps) and
+				(step.active or GuidelimeData.maxNumOfSteps == 0 or count < GuidelimeData.maxNumOfSteps) then
 				addon.mainFrame.steps[i] = addon.addCheckbox(addon.mainFrame.scrollChild, nil, "")
 				table.insert(addon.mainFrame.allSteps, addon.mainFrame.steps[i])
 				if prev == nil then
@@ -851,6 +854,7 @@ function addon.updateMainFrame()
 				updateStepText(i)
 				
 				prev = addon.mainFrame.steps[i].textBox
+				count = count + 1
 			end
 		end
 		if prev == nil then
