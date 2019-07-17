@@ -83,8 +83,10 @@ function addon.getPossibleQuestIdsByName(name, faction, race, class)
 	end
 	local filteredName = name:gsub("%(",""):gsub("%)",""):gsub("pt%.","part"):upper()
 	local ids = addon.questsDBReverse[filteredName]
-	if ids == nil and filteredName:sub(#filteredName - 5,#filteredName - 1) == "PART " then 
-		ids = addon.getPossibleQuestIdsByName(filteredName:sub(1, #filteredName - 7)) 
+	if ids == nil and filteredName:sub(#filteredName - 5, #filteredName - 1) == "PART " then 
+		ids = addon.getPossibleQuestIdsByName(filteredName:sub(1, #filteredName - 7))
+		-- looking for part 2 without specifying so and only getting 1 quest? not good return nil
+		if tonumber(filteredName:sub(#filteredName - 1, #filteredName)) > 1 and ids ~= nil and #ids == 1 then ids = nil end
 	end
 	if ids ~= nil and faction ~= nil or race ~= nil or class ~= nil then
 		local filteredIds = {}
