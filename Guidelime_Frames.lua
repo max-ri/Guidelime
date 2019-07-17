@@ -27,14 +27,14 @@ function addon.addSliderOption(frame, optionsTable, option, min, max, step, text
         slider.editbox:SetText(tostring(math.floor(slider:GetValue() * 100) / 100))
     	slider.editbox:SetCursorPosition(0)
 		optionsTable[option] = slider:GetValue()
-		if updateFunction ~= nil then updateFunction() end
+		if updateFunction ~= nil then updateFunction(self) end
     end)
     slider.editbox:SetScript("OnEnterPressed", function()
         local val = slider.editbox:GetText()
         if tonumber(val) then
             slider:SetValue(val)
             slider.editbox:ClearFocus()
-			if mouseUpFunction ~= nil then mouseUpFunction() end
+			if updateFunction ~= nil then updateFunction(self) end
         end
     end)
 	if tooltip ~= nil then

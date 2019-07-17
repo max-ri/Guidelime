@@ -34,7 +34,8 @@ end
 
 addon.icons = {
 	MAP = "Interface\\Addons\\" .. addonName .. "\\Icons\\lime",
-	MAP_ARROW = "Interface\\Addons\\" .. addonName .. "\\Icons\\lime_arrow",
+	MAP_ARROW = "Interface\\Addons\\" .. addonName .. "\\Icons\\Arrow",
+	MAP_LIME_ARROW = "Interface\\Addons\\" .. addonName .. "\\Icons\\lime_arrow",
 	MAP_MARKER = "Interface\\Addons\\" .. addonName .. "\\Icons\\lime_marker",
 	COMPLETED = "Interface\\Buttons\\UI-CheckBox-Check",
 	UNAVAILABLE = "Interface\\Buttons\\UI-GroupLoot-Pass-Up", -- or rather "Interface\\Buttons\\UI-StopButton" (yellow x) ?
@@ -56,11 +57,8 @@ addon.icons = {
 	GOTO = "Interface\\Addons\\" .. addonName .. "\\Icons\\lime0",
 	
 	--LOC = "Interface\\Icons\\Ability_Tracking",
-	--GOTO = "Interface\\Icons\\Ability_Tracking",
-
 	--KILL = "Interface\\Icons\\Ability_Creature_Cursed_02",
 	--MAP = "Interface\\Icons\\Ability_Spy",
-	--SETHEARTH = "Interface\\AddOns\\TourGuide\\resting.tga",
 	--NOTE = "Interface\\Icons\\INV_Misc_Note_01",
 	--USE = "Interface\\Icons\\INV_Misc_Bag_08",
 	--BUY = "Interface\\Icons\\INV_Misc_Coin_01",
@@ -122,6 +120,7 @@ function addon.loadData()
 		showTooltips = true,
 		maxNumOfMarkers = 10,
 		maxNumOfSteps = 0,
+		arrowStyle = 1,
 		version = GetAddOnMetadata(addonName, "version")
 	}
 	local defaultOptionsChar = {
@@ -322,10 +321,8 @@ local function updateStepText(i)
 		elseif element.t == "TURNIN" and not element.finished then
 			text = text .. "|T" .. addon.icons.TURNIN_INCOMPLETE .. ":12|t"
 		elseif element.t == "LOC" or element.t == "GOTO" then
-			if element.mapIndex == 0 and addon.arrowFrame ~= nil then
-				text = text .. "|T" .. addon.icons.MAP_ARROW .. ":15:15:0:1:512:512:" .. 
-					addon.arrowFrame.col * 64 .. ":" .. (addon.arrowFrame.col + 1) * 64 .. ":" .. 
-					addon.arrowFrame.row * 64 .. ":" .. (addon.arrowFrame.row + 1) * 64 .. ":::|t"
+			if element.mapIndex == 0 and addon.arrowFrame ~= nil and GuidelimeDataChar.showArrow then
+				text = text .. addon.getArrowIconText()
 			elseif element.mapIndex ~= nil then
 				text = text .. "|T" .. addon.icons.MAP_MARKER .. ":15:15:0:1:512:512:" .. 
 					element.mapIndex % 8 * 64 .. ":" .. (element.mapIndex % 8 + 1) * 64 .. ":" .. 
@@ -661,9 +658,11 @@ end
 
 local function updateFirstActiveIndex()
 	addon.currentGuide.firstActiveIndex = nil
+	addon.currentGuide.lastActiveIndex = nil
 	for i, step in ipairs(addon.currentGuide.steps) do
-		if (step.active or step.fading ~= nil) and addon.currentGuide.firstActiveIndex == nil then
-			addon.currentGuide.firstActiveIndex = i
+		if (step.active or step.fading ~= nil) then
+			if addon.currentGuide.firstActiveIndex == nil then addon.currentGuide.firstActiveIndex = i end
+			addon.currentGuide.lastActiveIndex = i
 		end
 	end
 	if addon.mainFrame.message ~= nil then
@@ -820,41 +819,42 @@ function addon.updateMainFrame()
 		local count = 0
 		for i, step in ipairs(addon.currentGuide.steps) do
 			if ((not step.completed and not step.skip) or not GuidelimeDataChar.hideCompletedSteps) and 
-				(step.available or not GuidelimeDataChar.hideUnavailableSteps) and
-				(step.active or GuidelimeData.maxNumOfSteps == 0 or count < GuidelimeData.maxNumOfSteps) then
-				addon.mainFrame.steps[i] = addon.addCheckbox(addon.mainFrame.scrollChild, nil, "")
-				table.insert(addon.mainFrame.allSteps, addon.mainFrame.steps[i])
-				if prev == nil then
-					addon.mainFrame.steps[i]:SetPoint("TOPLEFT", addon.mainFrame.scrollChild, "TOPLEFT", 0, -14)
-				else
-					addon.mainFrame.steps[i]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -35, -2)
-				end
-				addon.mainFrame.steps[i]:SetChecked(step.completed or step.skip)
-				addon.mainFrame.steps[i]:SetEnabled((not step.completed and step.available) or step.skip)
-				addon.mainFrame.steps[i]:SetScript("OnClick", function() 
-					if not addon.mainFrame.steps[i]:GetChecked() or addon.mainFrame.steps[i].skipText == nil or addon.mainFrame.steps[i].skipText == "" then
-						setStepSkip(i, addon.mainFrame.steps[i]:GetChecked())
+				(step.available or not GuidelimeDataChar.hideUnavailableSteps) then
+				if not step.active and i > addon.currentGuide.lastActiveIndex then count = count + 1 end
+				if step.active or GuidelimeData.maxNumOfSteps == 0 or count < GuidelimeData.maxNumOfSteps then
+					addon.mainFrame.steps[i] = addon.addCheckbox(addon.mainFrame.scrollChild, nil, "")
+					table.insert(addon.mainFrame.allSteps, addon.mainFrame.steps[i])
+					if prev == nil then
+						addon.mainFrame.steps[i]:SetPoint("TOPLEFT", addon.mainFrame.scrollChild, "TOPLEFT", 0, -14)
 					else
-						addon.mainFrame.steps[i]:SetChecked(false)
-						local _, lines = addon.mainFrame.steps[i].skipText:gsub("\n", "\n")
-						if addon.debugging then print("LIME: " .. addon.mainFrame.steps[i].skipText .. lines) end
-						addon.createPopupFrame(addon.mainFrame.steps[i].skipText, function() 
-							addon.mainFrame.steps[i]:SetChecked(true)
-							setStepSkip(i, true)
-						end, true, 120 + lines * 10):Show()
+						addon.mainFrame.steps[i]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -35, -2)
 					end
-				end)
-				
-				addon.mainFrame.steps[i].textBox = addon.addMultilineText(addon.mainFrame.steps[i], nil, addon.mainFrame.scrollChild:GetWidth() - 40, "", function(self, button)
-					if (button == "RightButton") then
-						showContextMenu()
-					end
-				end)
-				addon.mainFrame.steps[i].textBox:SetPoint("TOPLEFT", addon.mainFrame.steps[i], "TOPLEFT", 35, -9)
-				updateStepText(i)
-				
-				prev = addon.mainFrame.steps[i].textBox
-				count = count + 1
+					addon.mainFrame.steps[i]:SetChecked(step.completed or step.skip)
+					addon.mainFrame.steps[i]:SetEnabled((not step.completed and step.available) or step.skip)
+					addon.mainFrame.steps[i]:SetScript("OnClick", function() 
+						if not addon.mainFrame.steps[i]:GetChecked() or addon.mainFrame.steps[i].skipText == nil or addon.mainFrame.steps[i].skipText == "" then
+							setStepSkip(i, addon.mainFrame.steps[i]:GetChecked())
+						else
+							addon.mainFrame.steps[i]:SetChecked(false)
+							local _, lines = addon.mainFrame.steps[i].skipText:gsub("\n", "\n")
+							if addon.debugging then print("LIME: " .. addon.mainFrame.steps[i].skipText .. lines) end
+							addon.createPopupFrame(addon.mainFrame.steps[i].skipText, function() 
+								addon.mainFrame.steps[i]:SetChecked(true)
+								setStepSkip(i, true)
+							end, true, 120 + lines * 10):Show()
+						end
+					end)
+					
+					addon.mainFrame.steps[i].textBox = addon.addMultilineText(addon.mainFrame.steps[i], nil, addon.mainFrame.scrollChild:GetWidth() - 40, "", function(self, button)
+						if (button == "RightButton") then
+							showContextMenu()
+						end
+					end)
+					addon.mainFrame.steps[i].textBox:SetPoint("TOPLEFT", addon.mainFrame.steps[i], "TOPLEFT", 35, -9)
+					updateStepText(i)
+					
+					prev = addon.mainFrame.steps[i].textBox
+				end
 			end
 		end
 		if prev == nil then

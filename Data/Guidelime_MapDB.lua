@@ -1,7 +1,6 @@
 local addonName, addon = ...
 
-local version, build, date, tocversion = GetBuildInfo()
-if tocversion < 20000 then
+if select(4, GetBuildInfo()) < 20000 then
 	-- classic
 	addon.mapIDs = {
 		["The Hinterlands"] = 1425,

@@ -98,19 +98,39 @@ function addon.fillOptions()
 	prev = checkbox
 	
 	checkbox = addon.addCheckOption(addon.optionsFrame, GuidelimeDataChar, "showArrow", L.SHOW_ARROW, nil, function()
-		if addon.arrowFrame ~= nil and not GuidelimeDataChar.showArrow then
-			addon.arrowFrame:Hide()
+		if addon.arrowFrame ~= nil then
+			if GuidelimeDataChar.showArrow then
+				addon.arrowFrame:Show()
+			else
+				addon.arrowFrame:Hide()
+			end
+			addon.updateStepsText()
 		end
 	end)
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
 	prev = checkbox
 	
-	slider = addon.addSliderOption(addon.optionsFrame, GuidelimeDataChar, "arrowAlpha", 0.1, 1, 0.01, L.ARROW_ALPHA, nil, function()
+	slider = addon.addSliderOption(addon.optionsFrame, GuidelimeData, "arrowStyle", 1, 2, 1, L.ARROW_STYLE, nil, 
+	function(self)
+		self.editbox:SetText(L["ARROW_STYLE" .. GuidelimeData.arrowStyle])
+    	self.editbox:SetCursorPosition(0)
+	end)
+	slider:SetScript("OnMouseUp", function()
+		if addon.arrowFrame ~= nil then
+			addon.setArrowTexture()
+			addon.updateSteps() 
+		end
+	end)
+	slider.editbox:SetText(L["ARROW_STYLE" .. GuidelimeData.arrowStyle])
+    slider.editbox:SetCursorPosition(0)
+	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -10)
+
+	slider = addon.addSliderOption(addon.optionsFrame, GuidelimeDataChar, "arrowAlpha", 0, 1, 0.01, L.ARROW_ALPHA, nil, function()
 		if addon.arrowFrame ~= nil then 
 			addon.arrowFrame:SetAlpha(GuidelimeDataChar.arrowAlpha)
 		end
 	end)
-	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -10)
+	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -50)
 
 	slider = addon.addSliderOption(addon.optionsFrame, GuidelimeData, "maxNumOfMarkers", 0, 62, 1, L.MAX_NUM_OF_MARKERS)
 	slider:SetScript("OnMouseUp", function()
@@ -118,7 +138,7 @@ function addon.fillOptions()
 			addon.updateSteps()
 		end
 	end)
-	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -50)
+	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -90)
 	
 	checkbox = addon.addCheckOption(addon.optionsFrame, GuidelimeData, "showQuestLevels", L.SHOW_QUEST_LEVELS, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then

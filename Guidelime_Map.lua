@@ -108,15 +108,49 @@ function addon.showMapIcons()
 	end
 end
 
+function addon.setArrowTexture()
+	if GuidelimeData.arrowStyle == 1 then
+		addon.arrowFrame.texture:SetTexture(addon.icons.MAP_LIME_ARROW)
+		addon.arrowFrame.texture:SetVertexColor(1,1,1)
+		addon.arrowFrame:SetHeight(64)
+		addon.arrowFrame:SetWidth(64)
+	elseif GuidelimeData.arrowStyle == 2 then
+		addon.arrowFrame.texture:SetTexture(addon.icons.MAP_ARROW)
+		addon.arrowFrame.texture:SetVertexColor(0.5,1,0.2)
+		addon.arrowFrame:SetHeight(42)
+		addon.arrowFrame:SetWidth(56)
+	end
+end
+
 function addon.updateArrow()
 	if addon.arrowFrame ~= nil then
 		local angle = addon.face - math.atan2(addon.arrowX - addon.x, addon.arrowY - addon.y)
-		local index = angle * 32 / math.pi
-		if index >= 64 then index = index - 64 elseif index < 0 then index = index + 64 end
-		addon.arrowFrame.col = math.floor(index % 8)
-		addon.arrowFrame.row = math.floor(index / 8)
-		addon.arrowFrame.texture:SetTexCoord(addon.arrowFrame.col / 8, (addon.arrowFrame.col + 1) / 8, addon.arrowFrame.row / 8, (addon.arrowFrame.row + 1) / 8)
-		--if addon.debugging then print("lime: arrow", angle) end
+		if GuidelimeData.arrowStyle == 1 then
+			local index = angle * 32 / math.pi
+			if index >= 64 then index = index - 64 elseif index < 0 then index = index + 64 end
+			addon.arrowFrame.col = math.floor(index % 8)
+			addon.arrowFrame.row = math.floor(index / 8)
+			addon.arrowFrame.texture:SetTexCoord(addon.arrowFrame.col / 8, (addon.arrowFrame.col + 1) / 8, addon.arrowFrame.row / 8, (addon.arrowFrame.row + 1) / 8)
+		elseif GuidelimeData.arrowStyle == 2 then
+			local index = -angle * 54 / math.pi
+			if index < 0 then index = index + 108 end
+			if index < 0 then index = index + 108 end
+			addon.arrowFrame.col = math.floor(index % 9)
+			addon.arrowFrame.row = math.floor(index / 9)
+			addon.arrowFrame.texture:SetTexCoord(addon.arrowFrame.col * 56 / 512, (addon.arrowFrame.col + 1) * 56 / 512, addon.arrowFrame.row * 42 / 512, (addon.arrowFrame.row + 1) * 42 / 512)
+		end
+	end
+end
+
+function addon.getArrowIconText()
+	if GuidelimeData.arrowStyle == 1 then
+		return "|T" .. addon.icons.MAP_LIME_ARROW .. ":15:15:0:1:512:512:" .. 
+			addon.arrowFrame.col * 64 .. ":" .. (addon.arrowFrame.col + 1) * 64 .. ":" .. 
+			addon.arrowFrame.row * 64 .. ":" .. (addon.arrowFrame.row + 1) * 64 .. ":::|t"
+	elseif GuidelimeData.arrowStyle == 2 then
+		return "|T" .. addon.icons.MAP_ARROW .. ":15:15:0:1:512:512:" .. 
+			addon.arrowFrame.col * 56 .. ":" .. (addon.arrowFrame.col + 1) * 56 .. ":" .. 
+			addon.arrowFrame.row * 42 .. ":" .. (addon.arrowFrame.row + 1) * 42 .. ":127:255:51|t"
 	end
 end
 
@@ -132,7 +166,7 @@ function addon.showArrow(element)
 			addon.arrowFrame:SetHeight(64)
 			addon.arrowFrame:SetPoint(GuidelimeDataChar.arrowRelative, UIParent, GuidelimeDataChar.arrowRelative, GuidelimeDataChar.arrowX, GuidelimeDataChar.arrowY)
 		    addon.arrowFrame.texture = addon.arrowFrame:CreateTexture(nil, "OVERLAY")
-		    addon.arrowFrame.texture:SetTexture("Interface/Addons/" .. addonName .. "/Icons/lime_arrow")
+		    addon.setArrowTexture()
 		    addon.arrowFrame.texture:SetAllPoints()
 			addon.arrowFrame:SetAlpha(GuidelimeDataChar.arrowAlpha)
 			addon.arrowFrame:SetMovable(true)
