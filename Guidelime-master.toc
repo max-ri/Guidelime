@@ -25,3 +25,4 @@ Data\Guidelime_MapDB.lua
 Data\Guidelime_QuestsDB.lua
 Guides\Demo_Coldridge_Valley_1-6.lua
 Guides\Demo_Loch_Modan_16-18.lua
+Guides\Demo_Durotar_1-4.lua
