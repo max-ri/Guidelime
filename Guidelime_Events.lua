@@ -10,11 +10,6 @@ addon.frame:RegisterEvent('PLAYER_ENTERING_WORLD')
 function addon.frame:PLAYER_ENTERING_WORLD()
 	--if addon.debugging then print("LIME: Player entering world...") end
 	if not addon.dataLoaded then addon.loadData() end
-	
-	addon.fillGuides()
-	addon.fillOptions()
-	addon.fillEditor()
-	
 	if GuidelimeDataChar.mainFrameShowing then addon.showMainFrame() end
 end
 

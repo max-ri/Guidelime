@@ -91,7 +91,7 @@ function addon.fillGuides()
 		if guide.class ~= nil then
 			if not addon.contains(guide.class, addon.class) then showGuide = false end
 		end
-		if guide.faction ~= nil and guide.faction:upper():gsub(" ","") ~= addon.faction then loadGuide = false end
+		if guide.faction ~= nil and guide.faction ~= addon.faction then showGuide = false end
 		if showGuide then
 			if groups[guide.group] == nil then 
 				groups[guide.group] = {} 

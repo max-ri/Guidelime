@@ -79,32 +79,6 @@ addon.guides = {}
 addon.queryingPositions = false
 addon.dataLoaded = false
 
-function addon.contains(array, value)
-	for i, v in ipairs(array) do
-		if type(value) == "function" then
-			if value(v) then return true end
-		else
-			if v == value then return true end
-		end
-	end
-	return false
-end
-
-function addon.containsIgnoreCase(array, value)
-	return addon.contains(array, function(v) return v:upper() == value:upper() end)
-end
-
-function addon.containsKey(table, value)
-	for k, v in pairs(table) do
-		if type(value) == "function" then
-			if value(k) then return true end
-		else
-			if k == value then return true end
-		end
-	end
-	return false
-end
-
 function Guidelime.registerGuide(guide, group)
 	guide = addon.parseGuide(guide, group)	
 	if addon.debugging then print("LIME: ", guide.name) end
@@ -160,6 +134,10 @@ function addon.loadData()
 	end
 	
 	addon.loadCurrentGuide()
+
+	addon.fillGuides()
+	addon.fillOptions()
+	addon.fillEditor()
 	
 	addon.dataLoaded = true
 
@@ -216,7 +194,7 @@ function addon.loadCurrentGuide()
 					if element.optional == nil or not element.optional then step.completeWithNext = false end
 				elseif element.t == "TRAIN" or element.t == "VENDOR" or element.t == "REPAIR" or element.t == "SET_HEARTH" or element.t == "GET_FLIGHT_POINT" then 
 					step.manual = true
-					step.completeWithNext = false
+					if step.completeWithNext == nil then step.completeWithNext = false end
 				elseif element.t == "GOTO" then 
 					if step.manual == nil then step.manual = false end
 					if step.completeWithNext == nil then step.completeWithNext = true end

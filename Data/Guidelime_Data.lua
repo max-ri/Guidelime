@@ -112,3 +112,29 @@ function addon.getPossibleQuestIdsByName(name, faction, race, class)
 	end
 	return ids
 end
+
+function addon.contains(array, value)
+	for i, v in ipairs(array) do
+		if type(value) == "function" then
+			if value(v) then return true end
+		else
+			if v == value then return true end
+		end
+	end
+	return false
+end
+
+function addon.containsIgnoreCase(array, value)
+	return addon.contains(array, function(v) return v:upper() == value:upper() end)
+end
+
+function addon.containsKey(table, value)
+	for k, v in pairs(table) do
+		if type(value) == "function" then
+			if value(k) then return true end
+		else
+			if k == value then return true end
+		end
+	end
+	return false
+end
