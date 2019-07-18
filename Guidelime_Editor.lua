@@ -486,6 +486,11 @@ function addon.fillEditor()
 	addon.editorFrame.textBox:SetScript("OnHide", function(self) 
 		addon.editorFrame.textBox:SetEnabled(false)
 	end)
+	addon.editorFrame.textBox:SetScript("OnMouseUp", function(self, button)
+		if addon.debugging and addon.isDoubleClick(self) then
+			print("LIME:", addon.editorFrame.textBox:GetCursorPosition())
+		end
+	end)
 
 	prev = addEditButton("NAME")
 	prev = addEditButton("DETAILS", prev)

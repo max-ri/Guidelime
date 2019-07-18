@@ -70,6 +70,17 @@ function addon.addCheckOption(frame, optionsTable, option, text, tooltip, update
 	return checkbox
 end
 
+function addon.isDoubleClick(frame)
+	if frame.timer ~= nil and frame.timer < time() then
+	    frame.timer = nil
+	elseif frame.timer ~= nil and frame.timer == time() then
+	    frame.timer = nil
+		return true
+	else
+	    frame.timer = time()
+	end
+end
+
 function addon.addMultilineText(frame, text, width, tooltip, clickFunc, doubleClickFunc)
 	textbox = CreateFrame("EditBox", nil, frame)
 	textbox:SetMultiLine(true)
@@ -83,16 +94,8 @@ function addon.addMultilineText(frame, text, width, tooltip, clickFunc, doubleCl
 	if clickFunc ~= nil or doubleClickFunc ~= nil then
 		textbox:SetScript("OnMouseUp", function(self, button)
 			if clickFunc ~= nil then clickFunc(self, button) end
-			-- Double-Click?				
-			if doubleClickFunc ~= nil then
-			    if self.timer ~= nil and self.timer < time() then
-			        self.timer = nil
-			    elseif self.timer ~= nil and self.timer == time() then
-			        self.timer = nil
-					doubleClickFunc(self, button)
-			    else
-			        self.timer = time()
-			    end
+			if doubleClickFunc ~= nil and addon.isDoubleClick(self) then
+				doubleClickFunc(self, button)
 			end
 		end)
 	end
