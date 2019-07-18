@@ -81,6 +81,7 @@ addon.dataLoaded = false
 
 function Guidelime.registerGuide(guide, group)
 	guide = addon.parseGuide(guide, group)	
+	if guide == nil then error("There were errors parsing the guide \"" .. guide.name .. "\"") end
 	if addon.debugging then print("LIME: ", guide.name) end
 	if addon.guides[guide.name] ~= nil then error("There is more than one guide with the name \"" .. guide.name .. "\"") end
 	addon.guides[guide.name] = guide

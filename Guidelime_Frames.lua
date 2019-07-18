@@ -119,62 +119,66 @@ function addon.addTextbox(frame, text, width, tooltip)
 	return textbox
 end
 function addon.createPopupFrame(message, okFunc, hasCancel, height)
-
-	local popupFrame = CreateFrame("FRAME", nil, UIParent)
-	popupFrame:SetWidth(550)
+	addon.popupFrame = CreateFrame("FRAME", nil, addon.popupFrame or UIParent)
+	addon.popupFrame:SetWidth(550)
 	if height == nil then height = 100 end
-	popupFrame:SetHeight(height)
-	popupFrame:SetPoint("CENTER", UIParent, "CENTER")
-	popupFrame:SetBackdrop({
+	addon.popupFrame:SetHeight(height)
+	addon.popupFrame:SetPoint("CENTER", UIParent, "CENTER")
+	addon.popupFrame:SetBackdrop({
 		bgFile = "Interface/Addons/" .. addonName .. "/Icons/Black", --"Interface/DialogFrame/UI-DialogBox-Background",
 		edgeFile = "Interface/DialogFrame/UI-DialogBox-Border",
 		tile = false, edgeSize = 32,
 		insets = { left = 11, right = 12, top = 12, bottom = 11}
 	})
-	popupFrame:SetBackdropColor(0,0,0,1)
-	popupFrame:SetFrameLevel(999)
-	popupFrame:SetFrameStrata("DIALOG")
-	popupFrame:SetMovable(true)
-	popupFrame:SetScript("OnKeyDown", function(self,key) 
+	addon.popupFrame:SetBackdropColor(0,0,0,1)
+	addon.popupFrame:SetFrameStrata("DIALOG")
+	addon.popupFrame:SetFrameLevel(addon.popupFrame:GetParent():GetFrameLevel() + 2)
+	addon.popupFrame:SetMovable(true)
+	addon.popupFrame:SetScript("OnKeyDown", function(self,key) 
 		if key == "ESCAPE" then
 			self:Hide(); 
 		end 
 	end)
-	  
-	popupFrame:EnableMouse(true)
-	popupFrame:SetScript("OnMouseDown", function(this) this:StartMoving() end)
-	popupFrame:SetScript("OnMouseUp", function(this) this:StopMovingOrSizing() end)
+	addon.popupFrame:EnableMouse(true)
+	addon.popupFrame:SetScript("OnMouseDown", function(this) this:StartMoving() end)
+	addon.popupFrame:SetScript("OnMouseUp", function(this) this:StopMovingOrSizing() end)
+	addon.popupFrame:SetScript("OnHide", function(self)
+		while self ~= addon.popupFrame do
+			addon.popupFrame:Hide()
+		end
+		if self:GetParent() ~= UIParent then addon.popupFrame = self:GetParent() else addon.popupFrame = nil end
+	end)
 	
 	if message ~= nil then
-		popupFrame.message = popupFrame:CreateFontString(nil, popupFrame, "GameFontNormal")
-		popupFrame.message:SetText(message);
-		popupFrame.message:SetPoint("TOPLEFT", 20, -30 )
+		addon.popupFrame.message = addon.popupFrame:CreateFontString(nil, addon.popupFrame, "GameFontNormal")
+		addon.popupFrame.message:SetText(message);
+		addon.popupFrame.message:SetPoint("TOP", 0, -30 )
 	end
 
-	popupFrame.okBtn = CreateFrame("BUTTON", nil, popupFrame, "UIPanelButtonTemplate")
-	popupFrame.okBtn:SetWidth(128)
-	popupFrame.okBtn:SetHeight(24)
-	popupFrame.okBtn:SetText( OKAY )
+	addon.popupFrame.okBtn = CreateFrame("BUTTON", nil, addon.popupFrame, "UIPanelButtonTemplate")
+	addon.popupFrame.okBtn:SetWidth(128)
+	addon.popupFrame.okBtn:SetHeight(24)
+	addon.popupFrame.okBtn:SetText( OKAY )
 	if hasCancel then
-		popupFrame.okBtn:SetPoint("BOTTOM", popupFrame, -70, 12)
+		addon.popupFrame.okBtn:SetPoint("BOTTOM", addon.popupFrame, -70, 12)
 	else
-		popupFrame.okBtn:SetPoint("BOTTOM", popupFrame, 70, 12)
+		addon.popupFrame.okBtn:SetPoint("BOTTOM", addon.popupFrame, 70, 12)
 	end
-	popupFrame.okBtn:SetScript("OnClick", function(self) 
-		if okFunc ~= nil then okFunc(self:GetParent()) end
+	addon.popupFrame.okBtn:SetScript("OnClick", function(self) 
+		if okFunc ~= nil and okFunc(self:GetParent()) == false then return end
 		self:GetParent():Hide()
 	end)
 
 	if hasCancel then
-		popupFrame.cancelBtn = CreateFrame("BUTTON", nil, popupFrame, "UIPanelButtonTemplate")
-		popupFrame.cancelBtn:SetWidth(128)
-		popupFrame.cancelBtn:SetHeight(24)
-		popupFrame.cancelBtn:SetText( CANCEL )
-		popupFrame.cancelBtn:SetPoint("BOTTOM", popupFrame, 70, 12)
-		popupFrame.cancelBtn:SetScript("OnClick", function(self) 
+		addon.popupFrame.cancelBtn = CreateFrame("BUTTON", nil, addon.popupFrame, "UIPanelButtonTemplate")
+		addon.popupFrame.cancelBtn:SetWidth(128)
+		addon.popupFrame.cancelBtn:SetHeight(24)
+		addon.popupFrame.cancelBtn:SetText( CANCEL )
+		addon.popupFrame.cancelBtn:SetPoint("BOTTOM", addon.popupFrame, 70, 12)
+		addon.popupFrame.cancelBtn:SetScript("OnClick", function(self) 
 			self:GetParent():Hide()
 		end)
 	end
 
-	return popupFrame
+	return addon.popupFrame
 end

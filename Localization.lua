@@ -106,6 +106,14 @@ L.Paladin = "Paladin"
 L.Priest = "Priest"
 L.Druid = "Druid"
 L.Rogue = "Rogue"
+L.ERROR_CODE_NOT_RECOGNIZED = "parsing guide \"%s\": code [%s] not recognized in line \"%s\""
+L.ERROR_GUIDE_HAS_NO_NAME = "guide has no name"
+L.ERROR_CODE_ZONE_NOT_FOUND = "parsing guide \"%s\": zone not found in code [%s] in line \"%s\""
+L.ERROR_NOT_A_NUMBER = "%s is not a number"
+L.ERROR_QUEST_NOT_FOUND = "Quest \"%s\" was not found"
+L.ERROR_QUEST_NOT_UNIQUE = "There is more than one quest \"%s\" was found. Enter one of these ids: "
+L.ERROR_ZONE_NOT_FOUND = "\"%s\" is not a zone. Enter of of these zone names: "
+L.ERROR_OUT_OF_RANGE = "%s is not between %s and %s"
 
 local locale = GetLocale()
 

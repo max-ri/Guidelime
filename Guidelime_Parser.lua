@@ -1,4 +1,5 @@
 local addonName, addon = ...
+local L = addon.L
 
 --[[
 codes:
@@ -61,7 +62,7 @@ function addon.parseGuide(guide, group)
 	end
 	guide.currentZone = nil
 	for i, step in ipairs(guide.steps) do
-		addon.parseLine(step, guide)	
+		if not addon.parseLine(step, guide)	then return end
 	end
 	if group ~= nil and group:sub(1,10) == "Guidelime_" then
 		guide.group = group:sub(11)
@@ -70,11 +71,7 @@ function addon.parseGuide(guide, group)
 	else
 		guide.group = "other guides"--L.OTHER_GUIDES
 	end
-	if guide.title ~= nil then 
-		guide.name = guide.title
-	else
-		guide.name = ""
-	end
+	guide.name = guide.title or ""
 	if guide.minLevel ~= nil or guide.maxLevel ~= nil then
 		guide.name = " " .. guide.name
 		if guide.maxLevel ~= nil then guide.name = guide.maxLevel .. guide.name end
@@ -131,7 +128,8 @@ function addon.parseLine(step, guide)
 				element.t = "COMPLETE"
 				element.optional = true
 			else
-				error("parsing guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": code not recognized for [" .. code .. "] in line \"" .. step.text .. "\"")
+				addon.createPopupFrame(L.ERROR_CODE_NOT_RECOGNIZED, guide.name, code, step.text)
+				return
 			end
 			code:sub(3):gsub("%s*(%d+),?(%d*)%s*(.*)", function(id, objective, title)
 				element.questId = tonumber(id)
@@ -177,7 +175,8 @@ function addon.parseLine(step, guide)
 				elseif addon.isFaction(c) then
 					guide.faction = addon.getFaction(c)
 				else
-					error("code not recognized for [" .. code .. "] in line \"" .. step.text .. "\"")
+					addon.createPopupFrame(L.ERROR_CODE_NOT_RECOGNIZED, guide.name, code, step.text)
+					return
 				end
 			end)
 		elseif code:sub(1, 1) == addon.codes.APPLIES then
@@ -191,7 +190,8 @@ function addon.parseLine(step, guide)
 				elseif addon.isFaction(c) then
 					step.faction = addon.getFaction(c)
 				else
-					error("code not recognized for [" .. code .. "] in line \"" .. step.text .. "\"")
+					addon.createPopupFrame(L.ERROR_CODE_NOT_RECOGNIZED, guide.name, code, step.text)
+					return
 				end
 			end)
 		elseif code:sub(1, 1) == addon.codes.GOTO then
@@ -203,7 +203,10 @@ function addon.parseLine(step, guide)
 				if radius ~= "" then element.radius = tonumber(radius) else element.radius = addon.DEFAULT_GOTO_RADIUS end
 				if zone ~= "" then guide.currentZone = addon.mapIDs[zone] end
 				element.mapID = guide.currentZone
-				if element.mapID == nil then error("zone not found for [" .. code .. "] in line \"" .. step.text .. "\"") end
+				if element.mapID == nil then 
+					addon.createPopupFrame(L.ERROR_CODE_ZONE_NOT_FOUND, guide.name, code, step.text)
+					return
+				end
 				table.insert(step.elements, element)
 			end, 1)
 		elseif code:sub(1, 1) == addon.codes.LOC then
@@ -214,7 +217,10 @@ function addon.parseLine(step, guide)
 				element.y = tonumber(y)
 				if zone ~= "" then guide.currentZone = addon.mapIDs[zone] end
 				element.mapID = guide.currentZone
-				if element.mapID == nil then error("zone not found for [" .. code .. "] in line \"" .. step.text .. "\"") end
+				if element.mapID == nil then 
+					addon.createPopupFrame(L.ERROR_CODE_ZONE_NOT_FOUND, guide.name, code, step.text)
+					return
+				end
 				table.insert(step.elements, element)
 			end, 1)
 		elseif code:sub(1, 2) == addon.codes.XP then
@@ -283,7 +289,10 @@ function addon.parseLine(step, guide)
 					break
 				end
 			end
-			if not found then error("code not recognized for [" .. code .. "] in line \"" .. step.text .. "\"") end
+			if not found then 
+				addon.createPopupFrame(L.ERROR_CODE_NOT_RECOGNIZED, guide.name, code, step.text)
+				return
+			end
 		end
 		found = true
 		return ""
@@ -294,4 +303,5 @@ function addon.parseLine(step, guide)
 		element.text = t
 		table.insert(step.elements, element)
 	end
+	return true
 end

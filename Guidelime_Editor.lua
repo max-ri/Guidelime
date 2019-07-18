@@ -20,9 +20,19 @@ end
 function addon.showEditPopupNAME(typ, guide)
 	local popup = addon.createPopupFrame(nil, function(popup)
 		local min = tonumber(popup.textboxMinlevel:GetText())
-		if min == nil and popup.textboxMinlevel:GetText() ~= "" then error (L.MINIMUM_LEVEL .. " is not a number") end
+		if min == nil and popup.textboxMinlevel:GetText() ~= "" then 
+			addon.createPopupFrame(string.format(L.ERROR_NOT_A_NUMBER, L.MINIMUM_LEVEL))
+			return false
+		end
 		local max = tonumber(popup.textboxMaxlevel:GetText())
-		if max == nil and popup.textboxMaxlevel:GetText() ~= "" then error (L.MAXIMUM_LEVEL .. " is not a number") end
+		if max == nil and popup.textboxMaxlevel:GetText() ~= "" then 
+			addon.createPopupFrame(string.format(L.ERROR_NOT_A_NUMBER, L.MAXIMUM_LEVEL)) 
+			return false
+		end
+		if popup.textboxName:GetText() == "" then
+			addon.createPopupFrame(L.ERROR_GUIDE_HAS_NO_NAME) 
+			return false
+		end
 		insertCode(typ, (min or "") .. "-" .. (max or "") .. popup.textboxName:GetText(), true)
 	end, true, 140)
 	popup.textboxName = addon.addTextbox(popup, L.NAME, 420)
@@ -51,6 +61,10 @@ addon.showEditPopupNEXT = addon.showEditPopupNAME
 
 function addon.showEditPopupDETAILS(typ, guide)
 	local popup = addon.createPopupFrame(nil, function(popup)
+		if popup.textboxName:GetText() == "" then
+			addon.createPopupFrame(L.ERROR_GUIDE_HAS_NO_NAME) 
+			return false
+		end
 		insertCode(typ, " " .. popup.textboxName:GetText(), true)
 	end, true, 200)
 	popup.textName = popup:CreateFontString(nil, popup, "GameFontNormal")
@@ -209,16 +223,14 @@ function addon.showEditPopupQUEST(typ, guide)
 		if id == nil then
 			local ids = addon.getPossibleQuestIdsByName(text, guide.faction, guide.race, guide.class)
 			if ids == nil or #ids == 0 then
-				error("Quest \"" .. text .. "\" was not found")
+				addon.createPopupFrame(string.format(L.ERROR_QUEST_NOT_FOUND, text)) 
+				return false
 			elseif #ids > 1 then
-				local msg = "More than one quest \"" .. text .. "\" was found. Enter one of these ids: "
-				for i, id in ipairs(ids) do
-					if i > 1 then msg = msg .. ", " end
-					msg = msg .. id
-				end
-				error(msg)
+				addon.createPopupFrame(string.format(L.ERROR_QUEST_NOT_UNIQUE, text) .. table.concat(ids, ", "))
+				return false
 			elseif popup.textboxObjective:GetText() ~= "" and tonumber(popup.textboxObjective:GetText()) == nil then
-				error(L.QUEST_OBJECTIVE .. " is not a number")
+				addon.createPopupFrame(L.ERROR_NOT_A_NUMBER, L.QUEST_OBJECTIVE) 
+				return false
 			end
 			id = ids[1]
 		else
@@ -275,19 +287,26 @@ end
 function addon.showEditPopupGOTO(typ, guide)
 	local popup = addon.createPopupFrame(nil, function(popup)
 		local x = tonumber(popup.textboxX:GetText())
-		if x == nil then error ("X is not a number") end
+		if x == nil then 
+			addon.createPopupFrame(string.format(L.ERROR_NOT_A_NUMBER, "X"))
+			return false
+		end
 		local y = tonumber(popup.textboxY:GetText())
-		if y == nil then error ("Y is not a number") end
+		if y == nil then 
+			addon.createPopupFrame(string.format(L.ERROR_NOT_A_NUMBER, "Y")) 
+			return false
+		end
 		local zone = popup.textboxZone:GetText()
 		if zone ~= "" and addon.mapIDs[zone] == nil then 
-			local msg = zone .. " is not a zone. Enter one of these zone names: "
+			local msg = string.format(L.ERROR_ZONE_NOT_FOUND, zone)
 			local first = true
 			for zone, id in pairs(addon.mapIDs) do
 				if not first then msg = msg .. ", " end
 				msg = msg .. zone
 				first = false
 			end
-			error(msg)
+			addon.createPopupFrame(msg)
+			return false
 		end
 		insertCode(typ, x .. "," .. y .. zone)
 	end, true, 140)
@@ -321,9 +340,18 @@ end
 function addon.showEditPopupXP(typ, guide)
 	local popup = addon.createPopupFrame(nil, function(popup)
 		local level, xp = popupXPCodeValues(popup)
-		if level == nil then error (L.LEVEL .. " is not a number") end
-		if popup.key ~= "" and xp == nil then error (L["XP_LEVEL" .. popup.key] .. " is not a number") end
-		if popup.key == "%" and (xp < 0 or xp >= 100) then error (L["XP_LEVEL" .. popup.key] .. " is not between 0 and 100") end
+		if level == nil then 
+			addon.createPopupFrame(string.format(L.ERROR_NOT_A_NUMBER, L.LEVEL))
+			return false
+		end
+		if popup.key ~= "" and xp == nil then 
+			addon.createPopupFrame(string.format(L.ERROR_NOT_A_NUMBER, L["XP_LEVEL" .. popup.key])) 
+			return false
+		end
+		if popup.key == "%" and (xp < 0 or xp >= 100) then 
+			addon.createPopupFrame(string.format(L.ERROR_OUT_OF_RANGE, L["XP_LEVEL" .. popup.key], 0, 100))
+			return false
+		end
 		local text = popup.textboxText:GetText()
 		if text ~= "" then text = " " .. text end
 		insertCode(typ, level .. (popup.key or "") .. (xp or "") .. text)
@@ -398,7 +426,8 @@ local function addEditButton(typ, prev, offset)
 	button:SetScript("OnClick", function(self)
 		local showEditPopup = addon["showEditPopup" .. self.typ]
 		if showEditPopup ~= nil then
-			showEditPopup(self.typ, addon.parseGuide(addon.editorFrame.textBox:GetText(), L.CUSTOM_GUIDES))
+			local guide = addon.parseGuide(addon.editorFrame.textBox:GetText(), L.CUSTOM_GUIDES)
+			if guide ~= nil then showEditPopup(self.typ, guide) end
 		else
 			insertCode(typ)
 		end
@@ -486,6 +515,11 @@ function addon.fillEditor()
 	addon.editorFrame.saveBtn:SetPoint("BOTTOMLEFT", addon.editorFrame, "BOTTOMLEFT", 20, 20)
 	addon.editorFrame.saveBtn:SetScript("OnClick", function()
 		local guide = addon.parseGuide(addon.editorFrame.textBox:GetText(), L.CUSTOM_GUIDES)
+		if guide == nil then return end
+		if guide.title == nil then 
+			addon.createPopupFrame(L.ERROR_GUIDE_HAS_NO_NAME)
+			return
+		end
 		local msg
 		if GuidelimeData.customGuides == nil or GuidelimeData.customGuides[guide.name] == nil then
 			msg = string.format(L.SAVE_MSG, guide.name)

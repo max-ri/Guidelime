@@ -88,7 +88,7 @@ function addon.getPossibleQuestIdsByName(name, faction, race, class)
 		-- looking for part 2 without specifying so and only getting 1 quest? not good return nil
 		if tonumber(filteredName:sub(#filteredName - 1, #filteredName)) > 1 and ids ~= nil and #ids == 1 then ids = nil end
 	end
-	if ids ~= nil and faction ~= nil or race ~= nil or class ~= nil then
+	if ids ~= nil and (faction ~= nil or race ~= nil or class ~= nil) then
 		local filteredIds = {}
 		for i, id in ipairs(ids) do
 			local match = faction == nil or addon.questsDB[id].faction == nil or faction == addon.questsDB[id].faction
