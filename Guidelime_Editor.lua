@@ -521,7 +521,7 @@ function addon.fillEditor()
 	addon.editorFrame.saveBtn:SetScript("OnClick", function()
 		local guide = addon.parseGuide(addon.editorFrame.textBox:GetText(), L.CUSTOM_GUIDES)
 		if guide == nil then return end
-		if guide.title == nil then 
+		if guide.title == nil or guide.title == "" then 
 			addon.createPopupFrame(L.ERROR_GUIDE_HAS_NO_NAME)
 			return
 		end
