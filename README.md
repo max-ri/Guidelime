@@ -13,7 +13,7 @@ your favorite guide.
 
 <img src="https://i.imgur.com/6aCB623.png" alt="Guidelime"/>
 
-*This is for WoW Classic. It will not run on private servers and/or BFA.*
+*This is for WoW Classic. It will not run on private servers and/or BFA. (If you only want to take a look at the editor e.g., it will load on BFA if you select "load out of date addons".)*
 
 ## How do I write a guide?
 
