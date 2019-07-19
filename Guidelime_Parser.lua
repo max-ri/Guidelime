@@ -53,16 +53,28 @@ function addon.parseGuide(guide, group)
 		guide = {steps = guide}
 	end
 	if guide.text ~= nil then
+		local pos = 1
 		guide.steps = {}
-		guide.text:gsub("([^\n]+)", function(c)
+		local t = guide.text:gsub("([^\n]-)\n", function(c)
 			if c ~= nil and c ~= "" then
-				table.insert(guide.steps, {text = c:gsub("\\\\","\n")})
+				local step = {text = c:gsub("\\\\"," \n"), startPos = pos}
+				table.insert(guide.steps, step)
+				pos = pos + #c + 1
+				if addon.debugging and guide.text:sub(step.startPos, step.startPos + #c - 1) ~= c then
+					print("LIME: parsing guide \"" .. guide.text:sub(step.startPos, step.startPos + #c - 1) .. "\" should be \"" .. c .. "\" at " .. step.startPos .. "-" .. (step.startPos + #c - 1))
+				end
+			else
+				pos = pos + 1
 			end
+			return ""
 		end)
+		if t ~= nil and t ~= "" then
+			table.insert(guide.steps, {text = t:gsub("\\\\"," \n"), startPos = pos})
+		end
 	end
 	guide.currentZone = nil
 	for i, step in ipairs(guide.steps) do
-		if not addon.parseLine(step, guide)	then return end
+		if not addon.parseLine(step, guide) then return end
 	end
 	if group ~= nil and group:sub(1,10) == "Guidelime_" then
 		guide.group = group:sub(11)
@@ -79,6 +91,7 @@ function addon.parseGuide(guide, group)
 		if guide.minLevel ~= nil then guide.name = guide.minLevel .. guide.name end
 	end
 	guide.name = guide.group .. " " .. guide.name
+	
 	return guide
 end
 
@@ -87,14 +100,27 @@ function addon.parseLine(step, guide)
 	step.elements = {}
 	local lastAutoStep
 	local err = false
+	local pos = step.startPos
 	local t = step.text:gsub("(.-)%[(.-)%]", function(text, code)
 		if text ~= "" then
 			local element = {}
 			element.t = "TEXT"
 			element.text = text
+			element.startPos = pos
+			pos = pos + #text
+			element.endPos = pos - 1
 			table.insert(step.elements, element)
+			if addon.debugging and step.text:sub(element.startPos - step.startPos + 1, element.endPos - step.startPos + 1) ~= text then
+				print("LIME: parsing guide \"" .. step.text:sub(element.startPos - step.startPos + 1, element.endPos - step.startPos + 1) .. "\" should be \"" .. text .. "\" at " .. element.startPos .. "-" .. element.endPos .. " in " .. pos0 .. "->" .. step.text)
+			end
 		end
-		
+		local element = {}
+		element.startPos = pos
+		pos = pos + #code + 2
+		element.endPos = pos - 1
+		if addon.debugging and step.text:sub(element.startPos - step.startPos + 1, element.endPos - step.startPos + 1) ~= ("["..code.."]") then
+			print("LIME: parsing guide \"[" .. step.text:sub(element.startPos - step.startPos + 1, element.endPos - step.startPos + 1) .. "]\" should be \"" .. code .. "\" at " .. element.startPos .. "-" .. element.endPos .. " in " .. pos0 .. "->" .. step.text)
+		end
 		if code:sub(1, 2) == addon.codes.NEXT then
 			code:sub(2):gsub("%s*(%d*)%s*-%s*(%d*)%s*(.*)", function (minLevel, maxLevel, title)
 				--print("LIME: \"".. (group or "") .. "\",\"" .. minLevel .. "\",\"" .. maxLevel .. "\",\"" .. title .. "\"")
@@ -116,7 +142,6 @@ function addon.parseLine(step, guide)
 				:gsub("%*([^%*]+)%*", "|cFFFFD100%1|r")
 				:gsub("%*%*","%*")
 		elseif code:sub(1, 1) == addon.codes.QUEST then
-			local element = {}
 			if code:sub(2, 2) == "A" or code:sub(2, 2) == "P" then
 				element.t = "ACCEPT"
 			elseif code:sub(2, 2) == "T" then
@@ -129,7 +154,7 @@ function addon.parseLine(step, guide)
 				element.t = "COMPLETE"
 				element.optional = true
 			else
-				addon.createPopupFrame(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, step.text)
+				addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, step.text))
 				err = true
 			end
 			code:sub(3):gsub("%s*(%d+),?(%d*)%s*(.*)", function(id, objective, title)
@@ -176,7 +201,7 @@ function addon.parseLine(step, guide)
 				elseif addon.isFaction(c) then
 					guide.faction = addon.getFaction(c)
 				else
-					addon.createPopupFrame(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, step.text)
+					addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, step.text))
 					err = true
 				end
 			end)
@@ -191,13 +216,14 @@ function addon.parseLine(step, guide)
 				elseif addon.isFaction(c) then
 					step.faction = addon.getFaction(c)
 				else
-					addon.createPopupFrame(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, step.text)
+					addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, step.text))
 					err = true
 				end
+				element.t = "APPLIES"
+				table.insert(step.elements, element)
 			end)
 		elseif code:sub(1, 1) == addon.codes.GOTO then
 			code:gsub("G%s*(%d+%.?%d*),%s?(%d+%.?%d*),?%s?(%d*%.?%d*)(.*)", function(x, y, radius, zone)
-				local element = {}
 				element.t = "GOTO"
 				element.x = tonumber(x)
 				element.y = tonumber(y)
@@ -205,28 +231,26 @@ function addon.parseLine(step, guide)
 				if zone ~= "" then guide.currentZone = addon.mapIDs[zone] end
 				element.mapID = guide.currentZone
 				if element.mapID == nil then 
-					addon.createPopupFrame(L.ERROR_CODE_ZONE_NOT_FOUND, guide.name or "", code, step.text)
+					addon.createPopupFrame(string.format(L.ERROR_CODE_ZONE_NOT_FOUND, guide.name or "", code, step.text))
 					err = true
 				end
 				table.insert(step.elements, element)
 			end, 1)
 		elseif code:sub(1, 1) == addon.codes.LOC then
 			code:gsub("L%s*(%d+%.?%d*),%s?(%d+%.?%d*)(.*)", function(x, y, zone)
-				local element = {}
 				element.t = "LOC"
 				element.x = tonumber(x)
 				element.y = tonumber(y)
 				if zone ~= "" then guide.currentZone = addon.mapIDs[zone] end
 				element.mapID = guide.currentZone
 				if element.mapID == nil then 
-					addon.createPopupFrame(L.ERROR_CODE_ZONE_NOT_FOUND, guide.name or "", code, step.text)
+					addon.createPopupFrame(string.format(L.ERROR_CODE_ZONE_NOT_FOUND, guide.name or "", code, step.text))
 					err = true
 				end
 				table.insert(step.elements, element)
 			end, 1)
 		elseif code:sub(1, 2) == addon.codes.XP then
 			code:gsub("XP%s*(%d+)([%+%-%.]?)(%d*)(.*)", function(level, t, xp, text)
-				local element = {}
 				element.t = "LEVEL"
 				element.level = tonumber(level)
 				if text ~= "" then
@@ -251,7 +275,6 @@ function addon.parseLine(step, guide)
 				lastAutoStep = element
 			end, 1)
 		elseif code:sub(1, 2) == addon.codes.OPTIONAL_COMPLETE_WITH_NEXT then
-			local element = {}
 			element.t = "TEXT"
 			element.text = code:sub(3)
 			if element.text ~= "" then 
@@ -259,7 +282,6 @@ function addon.parseLine(step, guide)
 			end
 			step.completeWithNext = true
 		elseif code:sub(1, 1) == addon.codes.COMPLETE_WITH_NEXT then
-			local element = {}
 			element.t = "TEXT"
 			element.text = code:sub(2)
 			if element.text ~= "" then 
@@ -267,7 +289,6 @@ function addon.parseLine(step, guide)
 			end
 			step.completeWithNext = true
 		elseif code:sub(1, 1) == addon.codes.OPTIONAL then
-			local element = {}
 			element.t = "TEXT"
 			element.text = code:sub(2)
 			if element.text ~= "" then 
@@ -282,7 +303,6 @@ function addon.parseLine(step, guide)
 			local found = false
 			for k, v in pairs(addon.codes) do
 				if code:sub(1, 1) == v then
-					local element = {}
 					element.t = k
 					element.text = code:sub(2)
 					table.insert(step.elements, element)
@@ -303,6 +323,8 @@ function addon.parseLine(step, guide)
 		local element = {}
 		element.t = "TEXT"
 		element.text = t
+		element.startPos = pos 
+		element.endPos = pos + #t - 1
 		table.insert(step.elements, element)
 	end
 	return not err
