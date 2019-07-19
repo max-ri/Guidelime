@@ -6,6 +6,22 @@ addon.races = {Human = "Alliance", NightElf = "Alliance", Dwarf = "Alliance", Gn
 addon.classes = {"Warrior", "Rogue", "Mage", "Warlock", "Hunter", "Priest", "Druid", "Paladin", "Shaman"}
 addon.classesWithFaction = {Paladin = "Alliance", Shaman = "Horde"}
 
+addon.racesPerFaction = {}
+for race, faction in pairs(addon.races) do
+	if addon.racesPerFaction[faction] == nil then addon.racesPerFaction[faction] = {} end
+	table.insert(addon.racesPerFaction[faction], race)
+end
+
+addon.classesPerFaction = {}
+for i, class in ipairs(addon.classes) do
+	for i, faction in ipairs(addon.factions) do
+		if addon.classesWithFaction[class] or faction == faction then
+			if addon.classesPerFaction[faction] == nil then addon.classesPerFaction[faction] = {} end
+			table.insert(addon.classesPerFaction[faction], class)
+		end
+	end
+end
+
 function addon.getClass(class)
 	class = class:upper():gsub(" ","")
 	for i, c in ipairs(addon.classes) do
@@ -36,6 +52,7 @@ function addon.isFaction(faction)
 end
 
 function addon.getQuestNameById(id)
+	if id == nil then return nil end
 	if addon.quests[id] ~= nil and addon.quests[id].name ~= nil then
 		return addon.quests[id].name
 	end

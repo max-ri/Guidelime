@@ -262,7 +262,11 @@ addon.showEditPopupGUIDE_APPLIES = addon.showEditPopupAPPLIES
 function addon.showEditPopupQUEST(typ, guide, step, element)
 	local popup = addon.createPopupFrame(nil, function(popup)
 		local text = popup.textboxName:GetText()
-		local id = tonumber(text)
+		local id = tonumber(popup.textboxId:GetText())
+		if id == nil and popup.textboxId:GetText() ~= "" then 
+			addon.createPopupFrame(string.format(L.ERROR_NOT_A_NUMBER, L.QUEST_ID))
+			return false
+		end
 		if id == nil then
 			local ids = addon.getPossibleQuestIdsByName(text, guide.faction, guide.race, guide.class)
 			if ids == nil or #ids == 0 then
@@ -277,25 +281,70 @@ function addon.showEditPopupQUEST(typ, guide, step, element)
 			end
 			id = ids[1]
 		else
-			text = addon.getQuestNameById(id) or ""
+			if addon.questsDB[id] == nil then 
+				addon.createPopupFrame(string.format(L.ERROR_QUEST_NOT_FOUND, id)) 
+				return false
+			end
+			if text == "" then text = addon.getQuestNameById(id) end
 		end
-		--if text == addon.getQuestNameById(id) then text = "" end
 		local objective = ""
 		if (popup.key == "C" or popup.key == "W") and tonumber(popup.textboxObjective:GetText()) ~= nil then
 			objective = "," .. popup.textboxObjective:GetText()
 		end
 		local applies = ""
-		if addon.questsDB[id] ~= nil and (addon.questsDB[id].races ~= nil or addon.questsDB[id].classes ~= nil) then
-			applies = "][A "
-			if addon.questsDB[id].races ~= nil then
-				applies = applies .. table.concat(addon.questsDB[id].races, ",")
+		if addon.questsDB[id].races ~= nil or addon.questsDB[id].faction ~= nil then
+			local races = {}
+			local qraces = addon.questsDB[id].races
+			if qraces == nil then qraces = addon.racesPerFaction[addon.questsDB[id].faction] end
+			if guide.race ~= nil then
+				for i, race in ipairs(guide.race) do
+					if addon.contains(qraces, race) then table.insert(races, race) end
+				end
+				if #races == #guide.race then races = nil end
+			elseif guide.faction ~= nil then
+				for i, race in ipairs(addon.racesPerFaction[guide.faction]) do
+					if addon.contains(qraces, race) then table.insert(races, race) end
+				end
+				if #races == #addon.racesPerFaction[guide.faction] then races = nil end
+			else
+				races = addon.questsDB[id].races
 			end
-			if addon.questsDB[id].classes ~= nil then
-				applies = applies .. table.concat(addon.questsDB[id].classes, ",")
+			if races ~= nil then 
+				if #races == 0 then
+					addon.createPopupFrame(L.ERROR_QUEST_RACE_ONLY .. table.concat(qraces, ", "))
+					return false
+				end
+				applies = applies .. table.concat(races, ",")
 			end
 		end
+		if addon.questsDB[id].classes ~= nil or addon.questsDB[id].faction ~= nil then
+			local classes = {}
+			local qclasses = addon.questsDB[id].classes
+			if qclasses == nil then qclasses = addon.classesPerFaction[addon.questsDB[id].faction] end
+			if guide.class ~= nil then
+				for i, class in ipairs(guide.class) do
+					if addon.contains(qclasses, class) then table.insert(classes, class) end
+				end
+				if #classes == #guide.class then classes = nil end
+			elseif guide.faction ~= nil then
+				for i, class in ipairs(addon.classesPerFaction[guide.faction]) do
+					if addon.contains(qclasses, class) then table.insert(classes, class) end
+				end
+				if #classes == #addon.classesPerFaction[guide.faction] then classes = nil end
+			else
+				classes = addon.questsDB[id].classes
+			end
+			if classes ~= nil then
+				if #classes == 0 then
+					addon.createPopupFrame(L.ERROR_QUEST_CLASS_ONLY .. table.concat(addon.questsDB[id].classes, ", "))
+					return false
+				end
+				applies = applies .. table.concat(classes, ",")
+			end
+		end
+		if applies ~= "" then applies = "][A " .. applies end
 		insertCode("QUEST", popup.key .. id .. objective .. text .. applies, element)
-	end, true, 150)
+	end, true, 180)
 	popup.checkboxes = {}
 	for i, key in ipairs({"A", "C", "T", "S"}) do
 		popup.checkboxes[key] = addon.addCheckbox(popup, L["QUEST_" .. key], L["QUEST_" .. key .. "_TOOLTIP"])
@@ -317,15 +366,29 @@ function addon.showEditPopupQUEST(typ, guide, step, element)
 	popup.key = "A"
 	if element ~= nil then popup.key = element.t:sub(1, 1) end
 	popup.checkboxes[popup.key]:SetChecked(true)
+	popup.textboxId = addon.addTextbox(popup, L.QUEST_ID, 100, L.QUEST_ID_TOOLTIP)
+	popup.textboxId.text:SetPoint("TOPLEFT", 20, -50)
+	popup.textboxId:SetPoint("TOPLEFT", 140, -50)
+	popup.textQuestname = popup:CreateFontString(nil, popup, "GameFontNormal")
+	popup.textQuestname:SetPoint("TOPLEFT", 260, -50)
+	if element ~= nil then 
+		popup.textboxId:SetText(element.questId) 
+		popup.textQuestname:SetText(addon.getQuestNameById(element.questId))
+	end
+	popup.textboxId:SetScript("OnTextChanged", function(self) 
+		popup.textQuestname:SetText(addon.getQuestNameById(tonumber(popup.textboxId:GetText())) or "")
+	end)
 	popup.textboxName = addon.addTextbox(popup, L.QUEST_NAME, 400, L.QUEST_NAME_TOOLTIP)
-	popup.textboxName.text:SetPoint("TOPLEFT", 20, -50)
-	popup.textboxName:SetPoint("TOPLEFT", 140, -50)
-	if element ~= nil then popup.textboxName:SetText(element.questId) end
+	popup.textboxName.text:SetPoint("TOPLEFT", 20, -80)
+	popup.textboxName:SetPoint("TOPLEFT", 140, -80)
+	if element ~= nil then if element.title == "" then popup.textboxName:SetText("-") else popup.textboxName:SetText(element.title) end end
 	popup.textboxObjective = addon.addTextbox(popup, L.QUEST_OBJECTIVE, 100, L.QUEST_OBJECTIVE_TOOLTIP)
-	popup.textboxObjective.text:SetPoint("TOPLEFT", 20, -80)
-	popup.textboxObjective:SetPoint("TOPLEFT", 140, -80)
-	popup.textboxObjective:Hide()
-	popup.textboxObjective.text:Hide()
+	popup.textboxObjective.text:SetPoint("TOPLEFT", 20, -110)
+	popup.textboxObjective:SetPoint("TOPLEFT", 140, -110)
+	if popup.key ~= "C" then
+		popup.textboxObjective:Hide()
+		popup.textboxObjective.text:Hide()
+	end
 	if element ~= nil then popup.textboxObjective:SetText(element.objective or "") end
 	popup:Show()
 end
@@ -621,6 +684,18 @@ function addon.fillEditor()
 			ReloadUI()
 		end, true):Show()
 	end)
+
+	addon.editorFrame.mapBtn = CreateFrame("BUTTON", nil, addon.editorFrame, "UIPanelButtonTemplate")
+	addon.editorFrame.mapBtn:SetWidth(100)
+	addon.editorFrame.mapBtn:SetHeight(30)
+	addon.editorFrame.mapBtn:SetText(L.SHOW_MAP)
+	addon.editorFrame.mapBtn:SetPoint("BOTTOMLEFT", addon.editorFrame, "BOTTOMLEFT", 400, 20)
+	addon.editorFrame.mapBtn:SetPoint("BOTTOMLEFT", addon.editorFrame, "BOTTOMLEFT", 400, 20)
+	addon.editorFrame.mapBtn:SetScript("OnClick", function()
+		ToggleWorldMap()
+	end)
+
+
 	addon.editorFrame:Hide()
 end
 
