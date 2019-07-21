@@ -196,10 +196,18 @@ function addon.fillGuides()
 	addon.guidesFrame.loadBtn:SetText(L.RESET_GUIDE)
 	addon.guidesFrame.loadBtn:SetPoint("BOTTOMLEFT", addon.guidesFrame, "BOTTOMLEFT", 20, 20)
 	addon.guidesFrame.loadBtn:SetScript("OnClick", resetGuide)
+
+	addon.guidesFrame.loadBtn = CreateFrame("BUTTON", nil, addon.guidesFrame, "UIPanelButtonTemplate")
+	addon.guidesFrame.loadBtn:SetWidth(120)
+	addon.guidesFrame.loadBtn:SetHeight(30)
+	addon.guidesFrame.loadBtn:SetText(L.EDIT_GUIDE)
+	addon.guidesFrame.loadBtn:SetPoint("BOTTOMLEFT", addon.guidesFrame, "BOTTOMLEFT", 140, 20)
+	addon.guidesFrame.loadBtn:SetScript("OnClick", addon.showEditor)
 end
 
 function addon.showGuides()
 	if not addon.dataLoaded then loadData() end
+	if addon.editorFrame ~= nil and addon.editorFrame:IsVisible() then addon.editorFrame:Hide() end
 	InterfaceOptionsFrame_Show() 
 	InterfaceOptionsFrame_OpenToCategory(addon.guidesFrame)
 end

@@ -159,6 +159,7 @@ end
 
 function addon.showOptions()
 	if not addon.dataLoaded then loadData() end
+	if addon.editorFrame ~= nil and addon.editorFrame:IsVisible() then addon.editorFrame:Hide() end
 	InterfaceOptionsFrame_Show() 
 	InterfaceOptionsFrame_OpenToCategory(addon.optionsFrame)
 end

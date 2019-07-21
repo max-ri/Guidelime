@@ -113,7 +113,7 @@ function addon.addTextbox(frame, text, width, tooltip)
 	textbox:SetFontObject("GameFontNormal")
 	textbox:SetHeight(10)
 	textbox:SetWidth(width)
-	textbox:SetTextColor(255,255,255,255)
+	textbox:SetTextColor(1,1,1,1)
 	if tooltip ~= nil then
 		textbox.tooltip = tooltip
 		textbox:SetScript("OnEnter", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32);  GameTooltip:SetText(self.tooltip); GameTooltip:Show() end end)
@@ -134,7 +134,7 @@ function addon.createPopupFrame(message, okFunc, hasCancel, height)
 		insets = { left = 11, right = 12, top = 12, bottom = 11}
 	})
 	addon.popupFrame:SetBackdropColor(0,0,0,1)
-	addon.popupFrame:SetFrameStrata("DIALOG")
+	--addon.popupFrame:SetFrameStrata("DIALOG")
 	addon.popupFrame:SetFrameLevel(addon.popupFrame:GetParent():GetFrameLevel() + 2)
 	addon.popupFrame:SetMovable(true)
 	addon.popupFrame:SetScript("OnKeyDown", function(self,key) 
@@ -146,9 +146,6 @@ function addon.createPopupFrame(message, okFunc, hasCancel, height)
 	addon.popupFrame:SetScript("OnMouseDown", function(this) this:StartMoving() end)
 	addon.popupFrame:SetScript("OnMouseUp", function(this) this:StopMovingOrSizing() end)
 	addon.popupFrame:SetScript("OnHide", function(self)
-		while self ~= addon.popupFrame do
-			addon.popupFrame:Hide()
-		end
 		if self:GetParent() ~= UIParent then addon.popupFrame = self:GetParent() else addon.popupFrame = nil end
 	end)
 	
@@ -159,8 +156,7 @@ function addon.createPopupFrame(message, okFunc, hasCancel, height)
 	end
 
 	addon.popupFrame.okBtn = CreateFrame("BUTTON", nil, addon.popupFrame, "UIPanelButtonTemplate")
-	addon.popupFrame.okBtn:SetWidth(128)
-	addon.popupFrame.okBtn:SetHeight(24)
+	addon.popupFrame.okBtn:SetSize(128, 24)
 	addon.popupFrame.okBtn:SetText( OKAY )
 	if hasCancel then
 		addon.popupFrame.okBtn:SetPoint("BOTTOM", addon.popupFrame, -70, 12)
@@ -174,8 +170,7 @@ function addon.createPopupFrame(message, okFunc, hasCancel, height)
 
 	if hasCancel then
 		addon.popupFrame.cancelBtn = CreateFrame("BUTTON", nil, addon.popupFrame, "UIPanelButtonTemplate")
-		addon.popupFrame.cancelBtn:SetWidth(128)
-		addon.popupFrame.cancelBtn:SetHeight(24)
+		addon.popupFrame.cancelBtn:SetSize(128, 24)
 		addon.popupFrame.cancelBtn:SetText( CANCEL )
 		addon.popupFrame.cancelBtn:SetPoint("BOTTOM", addon.popupFrame, 70, 12)
 		addon.popupFrame.cancelBtn:SetScript("OnClick", function(self) 

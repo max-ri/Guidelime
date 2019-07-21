@@ -54,10 +54,11 @@ function addon.parseGuide(guide, group)
 	end
 	if guide.text ~= nil then
 		local pos = 1
+		local line = 1
 		guide.steps = {}
 		local t = guide.text:gsub("([^\n]-)\n", function(c)
 			if c ~= nil and c ~= "" then
-				local step = {text = c:gsub("\\\\"," \n"), startPos = pos}
+				local step = {text = c:gsub("\\\\"," \n"), startPos = pos, line = line}
 				table.insert(guide.steps, step)
 				pos = pos + #c + 1
 				if addon.debugging and guide.text:sub(step.startPos, step.startPos + #c - 1) ~= c then
@@ -66,10 +67,11 @@ function addon.parseGuide(guide, group)
 			else
 				pos = pos + 1
 			end
+			line = line + 1
 			return ""
 		end)
 		if t ~= nil and t ~= "" then
-			table.insert(guide.steps, {text = t:gsub("\\\\"," \n"), startPos = pos})
+			table.insert(guide.steps, {text = t:gsub("\\\\"," \n"), startPos = pos, line = line})
 		end
 	end
 	guide.currentZone = nil

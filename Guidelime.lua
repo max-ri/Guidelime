@@ -138,7 +138,6 @@ function addon.loadData()
 
 	addon.fillGuides()
 	addon.fillOptions()
-	addon.fillEditor()
 	
 	addon.dataLoaded = true
 
