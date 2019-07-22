@@ -69,9 +69,9 @@ local function getMapIcon(element, highlight)
 	return createMapIcon()		
 end
 
-function addon.addMapIcon(element, highlight)
+function addon.addMapIcon(element, highlight, ignoreMaxNumOfMarkers)
 	local mapIcon = getMapIcon(element, highlight)
-	if mapIcon ~= nil and (GuidelimeData.maxNumOfMarkers == 0 or mapIcon.index < GuidelimeData.maxNumOfMarkers) then
+	if mapIcon ~= nil and (ignoreMaxNumOfMarkers or GuidelimeData.maxNumOfMarkers == 0 or mapIcon.index < GuidelimeData.maxNumOfMarkers) then
 		mapIcon.inUse = true
 		mapIcon.mapID = element.mapID
 		mapIcon.x = assert(element.x)

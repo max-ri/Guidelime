@@ -191,23 +191,34 @@ function addon.fillGuides()
 	end
 	
 	addon.guidesFrame.loadBtn = CreateFrame("BUTTON", nil, addon.guidesFrame, "UIPanelButtonTemplate")
-	addon.guidesFrame.loadBtn:SetWidth(120)
+	addon.guidesFrame.loadBtn:SetWidth(140)
 	addon.guidesFrame.loadBtn:SetHeight(30)
 	addon.guidesFrame.loadBtn:SetText(L.RESET_GUIDE)
 	addon.guidesFrame.loadBtn:SetPoint("BOTTOMLEFT", addon.guidesFrame, "BOTTOMLEFT", 20, 20)
 	addon.guidesFrame.loadBtn:SetScript("OnClick", resetGuide)
 
 	addon.guidesFrame.loadBtn = CreateFrame("BUTTON", nil, addon.guidesFrame, "UIPanelButtonTemplate")
-	addon.guidesFrame.loadBtn:SetWidth(120)
+	addon.guidesFrame.loadBtn:SetWidth(140)
 	addon.guidesFrame.loadBtn:SetHeight(30)
 	addon.guidesFrame.loadBtn:SetText(L.EDIT_GUIDE)
-	addon.guidesFrame.loadBtn:SetPoint("BOTTOMLEFT", addon.guidesFrame, "BOTTOMLEFT", 140, 20)
+	addon.guidesFrame.loadBtn:SetPoint("BOTTOMLEFT", addon.guidesFrame, "BOTTOMLEFT", 160, 20)
 	addon.guidesFrame.loadBtn:SetScript("OnClick", addon.showEditor)
+end
+
+function addon.isGuidesShowing()
+	return InterfaceOptionsFrame:IsShown() and InterfaceOptionsFramePanelContainer.displayedPanel == addon.guidesFrame
 end
 
 function addon.showGuides()
 	if not addon.dataLoaded then loadData() end
-	if addon.editorFrame ~= nil and addon.editorFrame:IsVisible() then addon.editorFrame:Hide() end
-	InterfaceOptionsFrame_Show() 
-	InterfaceOptionsFrame_OpenToCategory(addon.guidesFrame)
+	if addon.isGuidesShowing() then 
+		InterfaceOptionsFrame:Hide()
+	else
+		if addon.isEditorShowing() then addon.editorFrame:Hide() end
+		-- calling twice ensures guides are shown. calling once might only show game options. why? idk
+		InterfaceOptionsFrame_OpenToCategory(addon.guidesFrame)
+		InterfaceOptionsFrame_OpenToCategory(addon.guidesFrame)
+	end
 end
+
+

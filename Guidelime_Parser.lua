@@ -54,11 +54,11 @@ function addon.parseGuide(guide, group)
 	end
 	if guide.text ~= nil then
 		local pos = 1
-		local line = 1
+		guide.lines = 1
 		guide.steps = {}
 		local t = guide.text:gsub("([^\n]-)\n", function(c)
 			if c ~= nil and c ~= "" then
-				local step = {text = c:gsub("\\\\"," \n"), startPos = pos, line = line}
+				local step = {text = c:gsub("\\\\"," \n"), startPos = pos, line = guide.lines}
 				table.insert(guide.steps, step)
 				pos = pos + #c + 1
 				if addon.debugging and guide.text:sub(step.startPos, step.startPos + #c - 1) ~= c then
@@ -67,11 +67,11 @@ function addon.parseGuide(guide, group)
 			else
 				pos = pos + 1
 			end
-			line = line + 1
+			guide.lines = guide.lines + 1
 			return ""
 		end)
 		if t ~= nil and t ~= "" then
-			table.insert(guide.steps, {text = t:gsub("\\\\"," \n"), startPos = pos, line = line})
+			table.insert(guide.steps, {text = t:gsub("\\\\"," \n"), startPos = pos, line = guide.lines})
 		end
 	end
 	guide.currentZone = nil
@@ -82,8 +82,6 @@ function addon.parseGuide(guide, group)
 		guide.group = group:sub(11)
 	elseif group ~= nil then
 		guide.group = group
-	else
-		guide.group = "other guides"--L.OTHER_GUIDES
 	end
 	guide.name = guide.title or ""
 	if guide.minLevel ~= nil or guide.maxLevel ~= nil then
@@ -92,7 +90,7 @@ function addon.parseGuide(guide, group)
 		guide.name = "-" .. guide.name
 		if guide.minLevel ~= nil then guide.name = guide.minLevel .. guide.name end
 	end
-	guide.name = guide.group .. " " .. guide.name
+	if guide.group ~= nil then guide.name = guide.group .. " " .. guide.name end
 	
 	return guide
 end

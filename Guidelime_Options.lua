@@ -157,9 +157,18 @@ function addon.fillOptions()
 	prev = checkbox
 end
 
+function addon.isOptionsShowing()
+	return InterfaceOptionsFrame:IsShown() and InterfaceOptionsFramePanelContainer.displayedPanel == addon.optionsFrame
+end
+
 function addon.showOptions()
 	if not addon.dataLoaded then loadData() end
-	if addon.editorFrame ~= nil and addon.editorFrame:IsVisible() then addon.editorFrame:Hide() end
-	InterfaceOptionsFrame_Show() 
-	InterfaceOptionsFrame_OpenToCategory(addon.optionsFrame)
+	if addon.isOptionsShowing() then 
+		InterfaceOptionsFrame:Hide()
+	else
+		if addon.isEditorShowing() then addon.editorFrame:Hide() end
+		-- calling twice ensures options are shown. calling once might only show game options. why? idk
+		InterfaceOptionsFrame_OpenToCategory(addon.optionsFrame)
+		InterfaceOptionsFrame_OpenToCategory(addon.optionsFrame)
+	end
 end

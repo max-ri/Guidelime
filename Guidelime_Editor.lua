@@ -1,6 +1,42 @@
 local addonName, addon = ...
 local L = addon.L
 
+local function setEditorMapIcons(guide)
+	addon.removeMapIcons()
+	addon.hideArrow()
+	local highlight = true
+	for i, step in ipairs(guide.steps) do
+		for j, element in ipairs(step.elements) do
+			if element.t == "LOC" or element.t == "GOTO" then
+				addon.addMapIcon(element, i == addon.editorFrame.selectedStepIndex and j == addon.editorFrame.selectedElementIndex, true)
+			end
+		end
+	end
+	addon.showMapIcons()
+end
+
+local function getElementByPos(pos, guide)
+	for i, step in ipairs(guide.steps) do
+		for j, element in ipairs(step.elements) do
+			--print(element.startPos .. "-" .. element.endPos)
+			if element.startPos <= pos and element.endPos >= pos then
+				return step, element, i, j
+			end
+		end
+	end
+end
+
+local function parseGuide()
+	local guide = addon.parseGuide(addon.editorFrame.textBox:GetText())
+	local lines = {}
+	for i = 1, guide.lines do lines[i] = i end
+	local pos = addon.editorFrame.textBox:GetCursorPosition() + 1
+	addon.editorFrame.selectedStep, addon.editorFrame.selectedElement, addon.editorFrame.selectedStepIndex, addon.editorFrame.selectedElementIndex = getElementByPos(pos, guide)
+	addon.editorFrame.linesBox:SetText(table.concat(lines, "\n"))
+	setEditorMapIcons(guide)
+	return guide
+end
+
 local function insertCode(typ, text, element, replace)
 	local newCode = "[" .. addon.codes[typ] .. (text or "") .. "]"
 	if element ~= nil then
@@ -31,17 +67,6 @@ local function insertCode(typ, text, element, replace)
 	end
 end
 
-local function getElementByPos(pos, guide)
-	for i, step in ipairs(guide.steps) do
-		for j, element in ipairs(step.elements) do
-			--print(element.startPos .. "-" .. element.endPos)
-			if element.startPos <= pos and element.endPos >= pos then
-				return step, element
-			end
-		end
-	end
-end
-	
 function addon.showEditPopupNAME(typ, guide, step, element)
 	local popup = addon.createPopupFrame(nil, function(popup)
 		local min = tonumber(popup.textboxMinlevel:GetText())
@@ -534,15 +559,7 @@ function addon.showEditPopupXP(typ, guide, step, element)
 end
 addon.showEditPopupLEVEL = addon.showEditPopupXP
 
-local function parseGuide()
-	local guide = addon.parseGuide(addon.editorFrame.textBox:GetText(), L.CUSTOM_GUIDES)
-	local lines = {}
-	for i = 1, guide.steps[#guide.steps].line do lines[i] = i end
-	addon.editorFrame.linesBox:SetText(table.concat(lines, "\n"))
-	return guide
-end
-
-local function addEditButton(typ, prev, offset)
+local function addEditButton(typ, prev, point, offsetX, offsetY)
 	local button = CreateFrame("BUTTON", nil, addon.editorFrame, "UIPanelButtonTemplate")
 	button.typ = typ
 	button:SetWidth(30)
@@ -556,11 +573,7 @@ local function addEditButton(typ, prev, offset)
 	else
 		button:SetText(addon.codes[typ])
 	end
-	if prev == nil then
-		button:SetPoint("TOPLEFT", addon.editorFrame.scrollFrame, "TOPRIGHT", 30, 0)
-	else
-		button:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, offset or 0)
-	end
+	button:SetPoint("TOPLEFT", prev, point or "TOPRIGHT", offsetX or 0, offsetY or 0)
 	button.tooltip = L["EDITOR_TOOLTIP_" .. typ]
 	if button.tooltip ~= nil then
 		button:SetScript("OnEnter", function(self) GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32);  GameTooltip:SetText(self.tooltip); GameTooltip:Show() end)
@@ -581,20 +594,33 @@ end
 function addon.showEditor()
 	if not addon.dataLoaded then loadData() end
 
+	if addon.isEditorShowing() then
+		addon.editorFrame:Hide()
+		return
+	end
+	
 	InterfaceOptionsFrame:Hide() 
 
 	if addon.editorFrame == nil then
-		addon.editorFrame = addon.createPopupFrame(nil, function()
+		addon.editorFrame = addon.createPopupFrame(nil, nil, false, 800)
+		addon.editorFrame:SetWidth(1400)
+		addon.editorFrame:SetPoint(GuidelimeDataChar.editorFrameRelative, UIParent, GuidelimeDataChar.editorFrameRelative, GuidelimeDataChar.editorFrameX, GuidelimeDataChar.editorFrameY)
+		addon.editorFrame:SetScript("OnHide", function(self)
+			addon.updateStepsMapIcons()
+			addon.popupFrame = nil
+		end)
+		addon.editorFrame:SetScript("OnMouseUp", function(this) 
+			addon.editorFrame:StopMovingOrSizing()
+			local _
+			_, _, GuidelimeDataChar.editorFrameRelative, GuidelimeDataChar.editorFrameX, GuidelimeDataChar.editorFrameY = addon.editorFrame:GetPoint()
+		end)
+		addon.editorFrame.Hide_ = addon.editorFrame.Hide
+		addon.editorFrame.Hide = function(self)
 			while addon.editorFrame ~= addon.popupFrame do
 				addon.popupFrame:Hide()
 			end
-		end, false, 800)
-		addon.editorFrame:SetWidth(1400)
-		--[[addon.editorFrame:SetScript("OnHide", function(self)
-			while self ~= addon.popupFrame do
-				addon.popupFrame:Hide()
-			end
-		end)]]
+			addon.editorFrame.Hide_(self)
+		end
 		
 		addon.editorFrame.okBtn:SetNormalTexture("Interface/Buttons/UI-Panel-MinimizeButton-Up")
 		addon.editorFrame.okBtn:SetHighlightTexture("Interface/Buttons/UI-Panel-MinimizeButton-Highlight")
@@ -619,9 +645,31 @@ function addon.showEditor()
 		addon.editorFrame.text1:SetPoint("TOPLEFT", prev, "TOPLEFT", 0, -30)
 		prev = addon.editorFrame.text1
 		
+		local firstButton = addEditButton("NAME", prev, "TOPLEFT", 0, -30)
+		prev = addEditButton("DETAILS", firstButton)
+		prev = addEditButton("NEXT", prev)
+		prev = addEditButton("GUIDE_APPLIES", prev)
+
+		prev = addEditButton("QUEST", prev, "TOPRIGHT", 3)
+		prev = addEditButton("GOTO", prev)
+		prev = addEditButton("XP", prev)
+
+		prev = addEditButton("HEARTH", prev, "TOPRIGHT", 3)
+		prev = addEditButton("FLY", prev)
+		prev = addEditButton("TRAIN", prev)
+		prev = addEditButton("SET_HEARTH", prev)
+		prev = addEditButton("GET_FLIGHT_POINT", prev)
+		prev = addEditButton("VENDOR", prev)
+		prev = addEditButton("REPAIR", prev)
+
+		prev = addEditButton("APPLIES", prev, "TOPRIGHT", 3)
+		prev = addEditButton("OPTIONAL", prev)
+		prev = addEditButton("OPTIONAL_COMPLETE_WITH_NEXT", prev, "TOPRIGHT", 3)
+		prev = firstButton
+
 	    addon.editorFrame.scrollFrame = CreateFrame("ScrollFrame", nil, addon.editorFrame, "UIPanelScrollFrameTemplate")
 	    addon.editorFrame.scrollFrame:SetPoint("TOPLEFT", prev, "TOPLEFT", 0, -40)
-	    addon.editorFrame.scrollFrame:SetPoint("RIGHT", addon.editorFrame, "RIGHT", -80, 0)
+	    addon.editorFrame.scrollFrame:SetPoint("RIGHT", addon.editorFrame, "RIGHT", -50, 0)
 	    addon.editorFrame.scrollFrame:SetPoint("BOTTOM", addon.editorFrame, "BOTTOM", 0, 60)
 
 	    local content = CreateFrame("Frame", nil, addon.editorFrame.scrollFrame) 
@@ -643,10 +691,8 @@ function addon.showEditor()
 			--if element ~= nil then self.tooltip = element.t end
 			if addon.isDoubleClick(self) then
 				local guide = parseGuide()
-				local pos = addon.editorFrame.textBox:GetCursorPosition() + 1
-				local step, element = getElementByPos(pos, guide)
-				if element ~= nil and addon["showEditPopup" .. element.t] ~= nil then
-					addon["showEditPopup" .. element.t](element.t, guide, step, element)
+				if addon.editorFrame.selectedElement ~= nil and addon["showEditPopup" .. addon.editorFrame.selectedElement.t] ~= nil then
+					addon["showEditPopup" .. addon.editorFrame.selectedElement.t](addon.editorFrame.selectedElement.t, guide, addon.editorFrame.selectedStep, addon.editorFrame.selectedElement)
 				end
 			end
 			--if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32);  GameTooltip:SetText(self.tooltip); GameTooltip:Show() end
@@ -665,11 +711,8 @@ function addon.showEditor()
 		addon.editorFrame:SetScript("OnKeyDown", nil)
 		addon.editorFrame.textBox:SetScript("OnKeyDown", function(self,key) 
 			if key == "ESCAPE" then
-				while addon.editorFrame ~= addon.popupFrame do
-					addon.popupFrame:Hide()
-				end
-				addon.editorFrame:Hide(); 
-			elseif key == "ENTER" or key == "BACKSPACE" or key == "DELETE" then
+				addon.editorFrame:Hide()
+			elseif key == "ENTER" or key == "BACKSPACE" or key == "DELETE" or key == "]" then
 				C_Timer.After(0.01, parseGuide)
 			end
 		end)
@@ -678,34 +721,13 @@ function addon.showEditor()
 			addon.editorFrame.textBox:SetEnabled(true)
 		end)
 
-		prev = addEditButton("NAME")
-		prev = addEditButton("DETAILS", prev)
-		prev = addEditButton("NEXT", prev)
-		prev = addEditButton("GUIDE_APPLIES", prev)
-
-		prev = addEditButton("QUEST", prev, -3)
-		prev = addEditButton("GOTO", prev)
-		prev = addEditButton("XP", prev)
-
-		prev = addEditButton("HEARTH", prev, -3)
-		prev = addEditButton("FLY", prev)
-		prev = addEditButton("TRAIN", prev)
-		prev = addEditButton("SET_HEARTH", prev)
-		prev = addEditButton("GET_FLIGHT_POINT", prev)
-		prev = addEditButton("VENDOR", prev)
-		prev = addEditButton("REPAIR", prev)
-
-		prev = addEditButton("APPLIES", prev, -3)
-		prev = addEditButton("OPTIONAL", prev)
-		prev = addEditButton("OPTIONAL_COMPLETE_WITH_NEXT", prev)
-
 		addon.editorFrame.saveBtn = CreateFrame("BUTTON", nil, addon.editorFrame, "UIPanelButtonTemplate")
-		addon.editorFrame.saveBtn:SetWidth(120)
+		addon.editorFrame.saveBtn:SetWidth(140)
 		addon.editorFrame.saveBtn:SetHeight(30)
 		addon.editorFrame.saveBtn:SetText(L.SAVE_GUIDE)
 		addon.editorFrame.saveBtn:SetPoint("BOTTOMLEFT", addon.editorFrame, "BOTTOMLEFT", 20, 20)
 		addon.editorFrame.saveBtn:SetScript("OnClick", function()
-			local guide = addon.parseGuide(addon.editorFrame.textBox:GetText(), L.CUSTOM_GUIDES)
+			local guide = parseGuide()
 			if guide == nil then return end
 			if guide.title == nil or guide.title == "" then 
 				addon.createPopupFrame(L.ERROR_GUIDE_HAS_NO_NAME)
@@ -720,26 +742,28 @@ function addon.showEditor()
 			addon.createPopupFrame(msg, function()
 				if GuidelimeData.customGuides == nil then GuidelimeData.customGuides = {} end
 				GuidelimeData.customGuides[guide.name] = guide.text
-				GuidelimeDataChar.currentGuide = {name = guide.name, skip = {}}
+				GuidelimeDataChar.currentGuide = {name = L.CUSTOM_GUIDES .. " " .. guide.name, skip = {}}
 				ReloadUI()
 			end, true):Show()
 		end)
 
 		addon.editorFrame.mapBtn = CreateFrame("BUTTON", nil, addon.editorFrame, "UIPanelButtonTemplate")
-		addon.editorFrame.mapBtn:SetWidth(100)
+		addon.editorFrame.mapBtn:SetWidth(140)
 		addon.editorFrame.mapBtn:SetHeight(30)
 		addon.editorFrame.mapBtn:SetText(L.SHOW_MAP)
-		addon.editorFrame.mapBtn:SetPoint("BOTTOMLEFT", addon.editorFrame, "BOTTOMLEFT", 400, 20)
 		addon.editorFrame.mapBtn:SetPoint("BOTTOMLEFT", addon.editorFrame, "BOTTOMLEFT", 400, 20)
 		addon.editorFrame.mapBtn:SetScript("OnClick", function()
 			addon.editorFrame.textBox:SetEnabled(false)
 			ToggleWorldMap()
 			--addon.editorFrame:Hide(); 
 		end)
-		
-		parseGuide()
 	else
 		addon.popupFrame = addon.editorFrame
 	end
 	addon.editorFrame:Show()
+	parseGuide()
+end
+
+function addon.isEditorShowing()
+	return addon.editorFrame ~= nil and addon.editorFrame:IsVisible()
 end
