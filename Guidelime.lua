@@ -264,7 +264,7 @@ local function getQuestText(id, t, title, colored)
 		end
 	end
 	if colored == nil or colored then q = q .. addon.COLOR_QUEST_DEFAULT end
-	q = q .. (title or addon.questsDB[id].name)
+	q = q .. (title or addon.getQuestNameById(id))
 	if colored == nil or colored then q = q .. "|r" end
 	return q
 end

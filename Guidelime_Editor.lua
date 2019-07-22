@@ -240,7 +240,7 @@ function addon.showEditPopupAPPLIES(typ, guide, step, element)
 		end)
 	end
 	for i, class in ipairs(addon.classes) do
-		popup.checkboxes[class] = addon.addCheckbox(popup, L[class])
+		popup.checkboxes[class] = addon.addCheckbox(popup, addon.getLocalizedClass(class))
 		popup.checkboxes[class]:SetPoint("TOPLEFT", 20, 5 - i * 25)
 		if typ == "GUIDE_APPLIES" then
 			if guide.class ~= nil and addon.contains(guide.class, class) then
@@ -260,7 +260,7 @@ function addon.showEditPopupAPPLIES(typ, guide, step, element)
 	end
 	local count = {}
 	for race, faction in pairs(addon.races) do
-		popup.checkboxes[race] = addon.addCheckbox(popup, L[race])
+		popup.checkboxes[race] = addon.addCheckbox(popup, addon.getLocalizedRace(race))
 		if count[faction] == nil then count[faction] = 1 else count[faction] = count[faction] + 1 end
 		popup.checkboxes[race]:SetPoint("TOPLEFT", left[faction], -50 - count[faction] * 30)
 		if typ == "GUIDE_APPLIES" then
@@ -336,7 +336,11 @@ function addon.showEditPopupQUEST(typ, guide, step, element)
 			end
 			if races ~= nil then 
 				if #races == 0 then
-					addon.createPopupFrame(L.ERROR_QUEST_RACE_ONLY .. table.concat(qraces, ", "))
+					local racesLoc = {}
+					for i, race in ipairs(qraces) do
+						table.insert(racesLoc, addon.getLocalizedRace(race))
+					end
+					addon.createPopupFrame(L.ERROR_QUEST_RACE_ONLY .. table.concat(racesLoc, ", "))
 					return false
 				end
 				applies = applies .. table.concat(races, ",")
@@ -361,7 +365,11 @@ function addon.showEditPopupQUEST(typ, guide, step, element)
 			end
 			if classes ~= nil then
 				if #classes == 0 then
-					addon.createPopupFrame(L.ERROR_QUEST_CLASS_ONLY .. table.concat(addon.questsDB[id].classes, ", "))
+					local classesLoc = {}
+					for i, class in ipairs(addon.questsDB[id].classes) do
+						table.insert(classesLoc, addon.getLocalizedClass(class))
+					end
+					addon.createPopupFrame(L.ERROR_QUEST_CLASS_ONLY .. table.concat(classesLoc, ", "))
 					return false
 				end
 				applies = applies .. table.concat(classes, ",")
@@ -712,7 +720,7 @@ function addon.showEditor()
 		addon.editorFrame.textBox:SetScript("OnKeyDown", function(self,key) 
 			if key == "ESCAPE" then
 				addon.editorFrame:Hide()
-			elseif key == "ENTER" or key == "BACKSPACE" or key == "DELETE" or key == "]" then
+			elseif key == "ENTER" or key == "]" then
 				C_Timer.After(0.01, parseGuide)
 			end
 		end)

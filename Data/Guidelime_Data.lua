@@ -3,6 +3,7 @@ local L = addon.L
 
 addon.factions = {"Alliance", "Horde"}
 addon.races = {Human = "Alliance", NightElf = "Alliance", Dwarf = "Alliance", Gnome = "Alliance", Orc = "Horde", Troll = "Horde", Tauren = "Horde", Undead = "Horde"}
+addon.raceIDs = {Human = 1, NightElf = 4, Dwarf = 3, Gnome = 7, Orc = 2, Troll = 8, Tauren = 6, Undead = 5}
 addon.classes = {"Warrior", "Rogue", "Mage", "Warlock", "Hunter", "Priest", "Druid", "Paladin", "Shaman"}
 addon.classesWithFaction = {Paladin = "Alliance", Shaman = "Horde"}
 
@@ -50,6 +51,12 @@ end
 function addon.isFaction(faction)
 	return addon.getFaction(faction) ~= nil
 end
+function addon.getLocalizedRace(race)
+	return C_CreatureInfo.GetRaceInfo(addon.raceIDs[race]).raceName
+end
+function addon.getLocalizedClass(class)
+	return LOCALIZED_CLASS_NAMES_MALE[class:upper()]
+end
 
 function addon.getQuestNameById(id)
 	if id == nil then return nil end
@@ -59,16 +66,8 @@ function addon.getQuestNameById(id)
 	local locale = GetLocale()
 	if addon.questsDB[id] == nil then
 		return nil
-	elseif locale == "frFR" then
-		return addon.questsDB[id].name_fr
-	elseif locale == "deDE" then
-		return addon.questsDB[id].name_de
-	elseif locale == "zhCN" or locale == "zhTW" then
-		return addon.questsDB[id].name_cn
-	elseif locale == "esES" or locale == "esMX" then
-		return addon.questsDB[id].name_es
-	elseif locale == "ruRU" then
-		return addon.questsDB[id].name_ru
+	elseif addon.questsDB[id]["name_" .. locale] ~= nil then
+		return addon.questsDB[id]["name_"..locale]
 	else
 		return addon.questsDB[id].name
 	end
