@@ -173,7 +173,7 @@ function addon.loadCurrentGuide()
 	addon.quests = {}
 	if addon.guides[GuidelimeDataChar.currentGuide.name] == nil then 
 		if addon.debugging then
-			print("LIME: availbale guides:")
+			print("LIME: available guides:")
 			for name, guide in pairs(addon.guides) do
 				print("LIME: " .. name)
 			end
@@ -481,7 +481,7 @@ local function updateStepCompletion(i, completedIndexes)
 		local nstep = addon.currentGuide.steps[i + 1]
 		local c = nstep.completed or nstep.skip
 		if step.completed ~= c then
-			if addon.debugging then print("LIME: complete with next ", i - 1, c, nstep.skip, nstep.available) end
+			--if addon.debugging then print("LIME: complete with next ", i - 1, c, nstep.skip, nstep.available) end
 			step.completed = c
 		end
 	end
@@ -542,7 +542,7 @@ local function updateStepAvailability(i, changedIndexes, skipped)
 	if i < #addon.currentGuide.steps and step.completeWithNext ~= nil and step.completeWithNext then 
 		local nstep = addon.currentGuide.steps[i + 1]
 		if step.available ~= nstep.available then
-			if addon.debugging then print("LIME: complete with next ", i, nstep.skip, nstep.available) end
+			--if addon.debugging then print("LIME: complete with next ", i, nstep.skip, nstep.available) end
 			step.available = nstep.available
 		end
 	end
@@ -825,7 +825,7 @@ function addon.updateMainFrame()
 						else
 							addon.mainFrame.steps[i]:SetChecked(false)
 							local _, lines = addon.mainFrame.steps[i].skipText:gsub("\n", "\n")
-							if addon.debugging then print("LIME: " .. addon.mainFrame.steps[i].skipText .. lines) end
+							--if addon.debugging then print("LIME: " .. addon.mainFrame.steps[i].skipText .. lines) end
 							addon.createPopupFrame(addon.mainFrame.steps[i].skipText, function() 
 								addon.mainFrame.steps[i]:SetChecked(true)
 								setStepSkip(i, true)

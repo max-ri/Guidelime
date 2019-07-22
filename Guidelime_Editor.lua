@@ -168,7 +168,7 @@ function addon.popupAppliesSetEnabledCheckboxes(popup, typ, guide)
 				if addon.classesWithFaction[class] ~= nil then faction = addon.classesWithFaction[class] end
 			end
 		end
-		if addon.debugging then print("LIME :", faction) end
+		--if addon.debugging then print("LIME :", faction) end
 		for key, box in pairs(popup.checkboxes) do
 			if addon.isFaction(key) and faction ~= nil then
 				box:SetEnabled(false)

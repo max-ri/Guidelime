@@ -111,10 +111,8 @@ function addon.getPossibleQuestIdsByName(name, faction, race, class)
 			if match and race ~= nil and addon.questsDB[id].races ~= nil then
 				match = false
 				for i, r in ipairs(race) do
-					if addon.debugging then print("LIME:",r) end
 					if addon.contains(addon.questsDB[id].races, r) then match = true; break end
 				end
-				if addon.debugging then print("LIME:",match) end
 			end	
 			if match and class ~= nil and addon.questsDB[id].classes ~= nil then
 				match = false
