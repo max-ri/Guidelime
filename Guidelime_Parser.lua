@@ -33,6 +33,7 @@ addon.codes = {
 	OPTIONAL_COMPLETE_WITH_NEXT = "OC",
 	QUEST = "Q",
 	GOTO = "G",
+	LOC = "L",
 	XP = "XP",
 	HEARTH = "H",
 	FLY = "F",
@@ -43,7 +44,6 @@ addon.codes = {
 	REPAIR = "R",
 --deprecated
 	COMPLETE_WITH_NEXT = "C", -- same as OC
-	LOC = "L",
 }
 
 function addon.parseGuide(guide, group)
