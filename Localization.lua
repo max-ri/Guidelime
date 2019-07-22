@@ -1,6 +1,11 @@
 local addonName, addon = ...
 
+local defaultLocale = "enUS"
+
+function getLocalizedStrings(locale)
 local L = {}
+
+if locale == defaultLocale then
 
 L.TITLE = addonName
 L.SHOW_MAINFRAME = "show window"
@@ -69,9 +74,7 @@ L.QUEST_A = "Accept"
 L.QUEST_T = "Turn in"
 L.QUEST_C = "Complete" 
 L.QUEST_S = "Skip"
-L.QUEST_W = "Work"
 L.QUEST_S_TOOLTIP = "Only use this to point out to the player not to accept a certain quest"
-L.QUEST_W_TOOLTIP = "This will show the current progress on the quest while not requiring the quest to be completed in order to continue"
 L.QUEST_NAME = "Quest name"
 L.QUEST_NAME_TOOLTIP = "Text to be shown. If omitted the name of the quest will be shown. If this is \"-\" no text will be shown"
 L.QUEST_ID = "Quest id"
@@ -121,12 +124,145 @@ L.Priest = "Priest"
 L.Druid = "Druid"
 L.Rogue = "Rogue"
 
-local locale = GetLocale()
+elseif locale == "deDE" then
 
-if locale == "deDE" then
-
--- TODO
+L.TITLE = addonName
+L.SHOW_MAINFRAME = "Fenster anzeigen"
+L.LOCK_MAINFRAME = "Fenster feststellen"
+L.LOAD_MESSAGE = "Guidelime: Lade Guide \"%s\""
+L.HIDE_COMPLETED_STEPS = "Abgeschlossene Schritte verstecken"
+L.HIDE_UNAVAILABLE_STEPS = "Nicht verfügbare Schritte verstecken"
+L.CURRENT_GUIDE = "Aktueller Guide"
+L.AVAILABLE_GUIDES = "Verfügbare Guides"
+L.DETAILS = "Details"
+L.MAIN_FRAME_WIDTH = "Fensterbreite"
+L.MAIN_FRAME_HEIGHT = "Fensterhöhe"
+L.MAIN_FRAME_ALPHA = "Fenster-Alpha"
+L.MAX_NUM_OF_STEPS = "Anzahl angezeigter Schritte (0 = unbegrenzt)"
+L.MAX_NUM_OF_MARKERS = "Anzahl von Kartenmarkierungen (0 = unbegrenzt)"
+L.SHOW_ARROW = "Richtungspfeil anzeigen"
+L.ARROW_ALPHA = "Richtungspfeil-Alpha"
+L.ARROW_STYLE = "Richtungspfeil-Stil"
+L.ARROW_STYLE1 = "Limette"
+L.ARROW_STYLE2 = "Pfeil"
+L.MISSING_PREQUEST = "Folgende Quest wurde übersprungen:"
+L.MISSING_PREQUESTS = "Folgende Quests wurden übersprungen:"
+L.OTHER_GUIDES = "Andere Guides"
+L.LOAD_GUIDE = "Guide laden"
+L.RESET_GUIDE = "Guide zurücksetzen"
+L.EDIT_GUIDE = "Guide bearbeiten"
+L.URL = "URL"
+L.QUEST_REQUIRED_LEVEL = "Mindestlevel für %s ist %s"
+L.STEP_MANUAL = "Hier klicken, wenn dieser Schritt erledigt ist"
+L.STEP_SKIP = "Hier klicken, um diesen Schritt zu überspringen"
+L.STEP_FOLLOWUP_QUEST = "Wenn du %s überspringst, kannst du folgende Quest später nicht erledigen"
+L.STEP_FOLLOWUP_QUESTS = "Wenn du %s überspringst, kannst du folgende Quests nicht erledigen"
+L.SHOW_QUEST_LEVELS = "Quest-Level anzeigen"
+L.SHOW_TOOLTIPS = "Tooltips anzeigen"
+L.NO_GUIDE_LOADED = "Du hast noch keinen Guide ausgewählt. Klicke hier um einen Guide auszuwählen."
+L.GUIDE_FINISHED = "Der aktuelle Guide ist abgeschlossen. Klicke hier um einen neuen Guide auszuwählen."
+L.GUIDE_FINISHED_NEXT = "Der aktuelle Guide ist abgeschlossen. Klicke hier um mit %s fortzufahren."
+L.AUTO_COMPLETE_QUESTS = "Quests automatisch annehmen/einlösen"
+L.EDITOR = "Editor"
+L.SAVE_GUIDE = "Guide speichern"
+L.CUSTOM_GUIDES = "Eigene Guides"
+L.SAVE_MSG = "Guide speichern als \"%s\"?" 
+L.OVERWRITE_MSG = "Den vorhandenen Guide \"%s\" überschreiben?" 
+L.EDITOR_TOOLTIP_NAME = "Namen und Levelbereich des Guides angeben\nz.B.: \"[N1-6Coldridgetal]\""
+L.EDITOR_TOOLTIP_NEXT = "Namen und Levelbereich des Guides angeben der auf diesen folgt\nz.B.: \"[NX6-12Dun Morogh]\""
+L.EDITOR_TOOLTIP_DETAILS = "Detaillierte Guidebeschreibung eingeben\nz.B.: \"[D Mein eigener Guide für das Startgebiet der Gnome und Zwerge]\""
+L.EDITOR_TOOLTIP_GUIDE_APPLIES = "Einstellen für welche Faktion/Rassen/Klassen der Guide verwendet werden kann (englische Bezeichnungen)\nz.B.: \"[GA Dwarf,Gnome]\""
+L.EDITOR_TOOLTIP_APPLIES = "Einstellen für welche Faktion/Rassen/Klassen der aktuelle Schritt gültig ist\nz.B.: \"[A Dwarf,Rogue]\""
+L.EDITOR_TOOLTIP_OPTIONAL = "Den aktuellen Schritt als optional markieren\nd.h.: \"[O]\""
+L.EDITOR_TOOLTIP_OPTIONAL_COMPLETE_WITH_NEXT = "Der aktuelle Schritt soll automatisch als erledigt markiert werden, sobald der darauffolgende Schritt erledigt ist\nd.h.: \"[OC]\""
+L.EDITOR_TOOLTIP_QUEST = "Eine Quest hinzufügen\nz.B.: \"[QA179]\" oder \"[QC3361,2 Dilemma eines Flüchtlings]\""
+L.EDITOR_TOOLTIP_GOTO = "Koordinaten eines Zielpunktes hinzufügen\nz.B.: \"[G 29.93,71.2 Dun Morogh]\""
+L.EDITOR_TOOLTIP_XP = "Bei diesem Schritt wird vom Spieler erwartet, dass ein bestimmter Level / ein bestimmtes Maß an Erfahrung erreicht worden ist\nz.B.: \"[XP8.5 die Hälfte des Levels bis 9]\""
+L.EDITOR_TOOLTIP_HEARTH = "Der Spieler soll den Ruhestein verwenden\nd.h.: \"[H]\""
+L.EDITOR_TOOLTIP_FLY = "Der Spieler soll eine Flugroute nehmen\nd.h.: \"[F]\""
+L.EDITOR_TOOLTIP_TRAIN = "Der Spieler soll den Trainer aufsuchen\nd.h.: \"[T]\""
+L.EDITOR_TOOLTIP_SET_HEARTH = "Der Spieler soll den Ruhestein in der Taverne binden\nd.h.: \"[S]\""
+L.EDITOR_TOOLTIP_GET_FLIGHT_POINT = "Der Spieler soll einen neuen Flugpunkt aktivieren\nd.h.: \"[Ü]\""
+L.EDITOR_TOOLTIP_VENDOR = "Der Spieler soll verkaufen / sich neu ausrüsten\nd.h.: \"[V]\""
+L.EDITOR_TOOLTIP_REPAIR = "Der Spieler soll reparieren\nd.h.: \"[R]\""
+L.EDITOR_TOOLTIP_ZONE = "Diese Angabe ist nur für die ersten Koordinaten erforderlich. Wenn keine Zone angegeben wird, wird angenommen, dass die Zone dieselbe ist wie bei vorangehenden Koordinaten."
+L.NAME = "Name"
+L.MINIMUM_LEVEL ="Minimal-Level"
+L.MAXIMUM_LEVEL ="Maximal-Level"
+L.QUEST_A = "Annehmen" 
+L.QUEST_T = "Abgeben"
+L.QUEST_C = "Erledigen" 
+L.QUEST_S = "Überspringen"
+L.QUEST_S_TOOLTIP = "Verwenden wenn der Spieler darauf aufmerksam gemacht werden soll eine bestimmte Quest nicht anzunehmen"
+L.QUEST_NAME = "Quest-Name"
+L.QUEST_NAME_TOOLTIP = "Angezeigter Text. Wenn nich angegeben wird der Name der Quest angezeigt. Wird \"-\" angegeben wird kein Text angezeigt."
+L.QUEST_ID = "Quest-ID"
+L.QUEST_ID_TOOLTIP = "Quest-ID. Wenn nicht angegeben wird nach einer Quest mit dem angegebenen Namen gesucht. Da der Name nicht eindeutig sein muss, kann es erforderlich sein die ID anzugeben."
+L.QUEST_OBJECTIVE = "Questziel"
+L.QUEST_OBJECTIVE_TOOLTIP = "Nummer des Questziel welches vervollständigt werden soll (1 für das Erste, 2 für das Zweite, ...). Kann angegeben werden wenn nur ein einzelnes Ziel verfolgt wird. Wenn es nicht angegeben wird, sind alle Ziele erforderlich."
+L.XP_LEVEL = "Nur Level"
+L["XP_LEVEL+"] = "Erhaltene Punkte"
+L["XP_LEVEL-"] = "Verbleibende Punkte"
+L["XP_LEVEL%"] = "Prozentualer Anteil"
+L["XP_LEVEL+_TOOLTIP"] = "Der Spieler muss den angegeben Level sowie zusätzlich die angebene Anzahl Erfahrungspunkte erreicht haben"
+L["XP_LEVEL-_TOOLTIP"] = "Dem Spieler dürfen höchstens die angegebene Anzahl Erfharungspunkte bis zum Erreichen des angegebenen Levels fehlen"
+L["XP_LEVEL%_TOOLTIP"] = "Der Spieler muss den angegeben Level sowie zusätzlich den angebenen prozentualen Anteil an Erfahrungspunkten bis zum Erreichen des nächsten Levels erreicht haben"
+L.XP_TEXT = "Text"
+L.XP_TEXT_TOOLTIP = "Angezeigter Text. Wenn kein Text angegeben wird, wird \"%s\" angezeigt."
+L.SHOW_MAP = "Auf der Karte anzeigen"
+L.ERROR_CODE_NOT_RECOGNIZED = "Lese Guide \"%s\": Code [%s] nicht erkannt in Zeile \"%s\""
+L.ERROR_GUIDE_HAS_NO_NAME = "Guide hat keinen Namen"
+L.ERROR_CODE_ZONE_NOT_FOUND = "Lese Guide \"%s\": Zone nicht gefunden in Code [%s] in Zeile \"%s\""
+L.ERROR_NOT_A_NUMBER = "%s ist keine Zahl"
+L.ERROR_QUEST_NOT_FOUND = "Quest \"%s\" nicht gefunden"
+L.ERROR_QUEST_NOT_UNIQUE = "Es gibt mehr als eine Quest \"%s\". Eine der folgenden IDs angeben: "
+L.ERROR_ZONE_NOT_FOUND = "\"%s\" ist keine Zone. Bitte einer der folgenden Zonen eingeben: "
+L.ERROR_OUT_OF_RANGE = "%s ist nicht zwischne %s und %s"
+L.ERROR_QUEST_RACE_ONLY = "Diese Quest ist nur für die folgenden Rassen verfügbar: "
+L.ERROR_QUEST_CLASS_ONLY = "Diese Quest ist nur für die folgenden Klassen verfügbar: "
+L.ZONE = "Zone"
+L.LEVEL = "Level"
+L.PART = "Teil"
+L.Alliance = "Allianz"
+L.Horde = "Horde"
+L.Human = "Mensch"
+L.NightElf = "Nachtelf"
+L.Dwarf = "Zwerg"
+L.Gnome = "Gnom"
+L.Orc = "Ork"
+L.Troll = "Troll"
+L.Tauren = "Taure"
+L.Undead = "Untoter"
+L.Warrior = "Krieger"
+L.Hunter = "Jäger"
+L.Mage = "Magier"
+L.Warlock = "Hexer"
+L.Shaman = "Schamane"
+L.Paladin = "Paladin"
+L.Priest = "Priester"
+L.Druid = "Druide"
+L.Rogue = "Schurke"
 
 end
+return L
+end
 
-addon.L = L
+local defaultL = getLocalizedStrings(defaultLocale)
+
+addon.L = setmetatable(getLocalizedStrings(GetLocale()), {__index = defaultL})
+
+function addon.testLocalization()
+	if not addon.debugging then return end
+	for i, locale in ipairs({"deDE", "enGB", "enUS", "esES", "esMX", "frFR", "itIT", "koKR", "ptBR", "ruRU", "zhCN", "zhTW"}) do
+		local L = getLocalizedStrings(locale)
+		if next(L) ~= nil then
+			for key, value in pairs(defaultL) do
+				if L[key] == nil then
+					print("LIME: " .. locale .. " L." .. key .. " is missing")
+				end
+			end
+		else
+			--print("LIME: " .. locale .. " is missing")
+		end		
+	end	
+end
