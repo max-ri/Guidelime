@@ -479,6 +479,7 @@ function addon.showEditPopupGOTO(typ, guide, step, element)
 	end
 	popup:Show()
 end
+addon.showEditPopupLOC = addon.showEditPopupGOTO
 
 local function popupXPCodeValues(popup)
 	local level = tonumber(popup.textboxLevel:GetText())
@@ -634,7 +635,7 @@ function addon.showEditor()
 		addon.editorFrame.okBtn:SetHighlightTexture("Interface/Buttons/UI-Panel-MinimizeButton-Highlight")
 		addon.editorFrame.okBtn:SetPushedTexture("Interface/Buttons/UI-Panel-MinimizeButton-Down")
 		addon.editorFrame.okBtn:ClearAllPoints()
-		addon.popupFrame.okBtn:SetPoint("TOPRIGHT", addon.popupFrame, -10, -10)
+		addon.editorFrame.okBtn:SetPoint("TOPRIGHT", addon.editorFrame, -10, -10)
 		addon.editorFrame.okBtn:SetSize(24, 24)
 		addon.editorFrame.okBtn:SetText(nil)
 		
@@ -660,6 +661,7 @@ function addon.showEditor()
 
 		prev = addEditButton("QUEST", prev, "TOPRIGHT", 3)
 		prev = addEditButton("GOTO", prev)
+		prev = addEditButton("LOC", prev)
 		prev = addEditButton("XP", prev)
 
 		prev = addEditButton("HEARTH", prev, "TOPRIGHT", 3)
@@ -677,7 +679,7 @@ function addon.showEditor()
 
 	    addon.editorFrame.scrollFrame = CreateFrame("ScrollFrame", nil, addon.editorFrame, "UIPanelScrollFrameTemplate")
 	    addon.editorFrame.scrollFrame:SetPoint("TOPLEFT", prev, "TOPLEFT", 0, -40)
-	    addon.editorFrame.scrollFrame:SetPoint("RIGHT", addon.editorFrame, "RIGHT", -50, 0)
+	    addon.editorFrame.scrollFrame:SetPoint("RIGHT", addon.editorFrame, "RIGHT", -300, 0)
 	    addon.editorFrame.scrollFrame:SetPoint("BOTTOM", addon.editorFrame, "BOTTOM", 0, 60)
 
 	    local content = CreateFrame("Frame", nil, addon.editorFrame.scrollFrame) 
@@ -692,7 +694,7 @@ function addon.showEditor()
 		addon.editorFrame.textBox:SetFontObject("GameFontNormal")
 		addon.editorFrame.textBox:SetPoint("TOPLEFT", content, "TOPLEFT", 30, 0)
 		addon.editorFrame.textBox:SetTextColor(1,1,1,1)
-		addon.editorFrame.textBox:SetWidth(addon.editorFrame:GetWidth() - 100)
+		addon.editorFrame.textBox:SetWidth(addon.editorFrame:GetWidth() - 350)
 		addon.editorFrame.textBox:SetScript("OnMouseUp", function(self, button)
 			--if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:Hide() end
 			--self.tooltip = nil
@@ -715,6 +717,27 @@ function addon.showEditor()
 		addon.editorFrame.linesBox:SetPoint("TOPLEFT", content, "TOPLEFT", 0, 0)
 		addon.editorFrame.linesBox:SetTextColor(0.6,0.8,1,1)
 		addon.editorFrame.linesBox:SetWidth(25)
+		
+		addon.editorFrame.questInfoText = addon.editorFrame:CreateFontString(nil, addon.editorFrame, "GameFontNormal")
+		addon.editorFrame.questInfoText:SetText(L.QUEST_INFO)
+		addon.editorFrame.questInfoText:SetPoint("TOPLEFT", addon.editorFrame.scrollFrame, "TOPRIGHT", 40, 0)
+		prev = addon.editorFrame.questInfoText
+		
+		addon.editorFrame.questInfo = addon.editorFrame:CreateFontString(nil, addon.editorFrame, "GameFontNormal")
+		addon.editorFrame.questInfo:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 20)
+		addon.editorFrame.questInfo:SetTextColor(1,1,1,1)
+		addon.editorFrame.questInfo:SetHeight(200)
+		prev = addon.editorFrame.questInfo
+
+		addon.editorFrame.gotoInfoText = addon.editorFrame:CreateFontString(nil, addon.editorFrame, "GameFontNormal")
+		addon.editorFrame.gotoInfoText:SetText(L.GOTO_INFO)
+		addon.editorFrame.gotoInfoText:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 20)
+		prev = addon.editorFrame.gotoInfoText
+		
+		addon.editorFrame.gotoInfo = addon.editorFrame:CreateFontString(nil, addon.editorFrame, "GameFontNormal")
+		addon.editorFrame.gotoInfo:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 20)
+		addon.editorFrame.gotoInfo:SetTextColor(1,1,1,1)
+		addon.editorFrame.gotoInfo:SetHeight(485)
 		
 		addon.editorFrame:SetScript("OnKeyDown", nil)
 		addon.editorFrame.textBox:SetScript("OnKeyDown", function(self,key) 
@@ -759,7 +782,7 @@ function addon.showEditor()
 		addon.editorFrame.mapBtn:SetWidth(140)
 		addon.editorFrame.mapBtn:SetHeight(30)
 		addon.editorFrame.mapBtn:SetText(L.SHOW_MAP)
-		addon.editorFrame.mapBtn:SetPoint("BOTTOMLEFT", addon.editorFrame, "BOTTOMLEFT", 400, 20)
+		addon.editorFrame.mapBtn:SetPoint("TOPLEFT", addon.editorFrame.gotoInfo, "BOTTOMLEFT", 0, 20)
 		addon.editorFrame.mapBtn:SetScript("OnClick", function()
 			addon.editorFrame.textBox:SetEnabled(false)
 			ToggleWorldMap()

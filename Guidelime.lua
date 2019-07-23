@@ -55,6 +55,7 @@ addon.icons = {
 	TRAIN = "Interface\\GossipFrame\\TrainerGossipIcon",
 	GET_FLIGHT_POINT = "Interface\\Addons\\" .. addonName .. "\\Icons\\getflightpoint",
 	GOTO = "Interface\\Addons\\" .. addonName .. "\\Icons\\lime0",
+	LOC = "Interface\\Addons\\" .. addonName .. "\\Icons\\lime",
 	
 	--LOC = "Interface\\Icons\\Ability_Tracking",
 	--KILL = "Interface\\Icons\\Ability_Creature_Cursed_02",
