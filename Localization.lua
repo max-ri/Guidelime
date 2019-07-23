@@ -114,107 +114,128 @@ L.Horde = "Horde"
 elseif locale == "deDE" then
 
 L.TITLE = addonName
-L.SHOW_MAINFRAME = "Fenster anzeigen"
-L.LOCK_MAINFRAME = "Fenster feststellen"
-L.LOAD_MESSAGE = "Guidelime: Lade Guide \"%s\""
-L.HIDE_COMPLETED_STEPS = "Abgeschlossene Schritte verstecken"
-L.HIDE_UNAVAILABLE_STEPS = "Nicht verfügbare Schritte verstecken"
-L.CURRENT_GUIDE = "Aktueller Guide"
-L.AVAILABLE_GUIDES = "Verfügbare Guides"
-L.DETAILS = "Details"
-L.MAIN_FRAME_WIDTH = "Fensterbreite"
-L.MAIN_FRAME_HEIGHT = "Fensterhöhe"
-L.MAIN_FRAME_ALPHA = "Fenster-Alpha"
-L.MAX_NUM_OF_STEPS = "Anzahl angezeigter Schritte (0 = unbegrenzt)"
-L.MAX_NUM_OF_MARKERS = "Anzahl von Kartenmarkierungen (0 = unbegrenzt)"
-L.SHOW_ARROW = "Richtungspfeil anzeigen"
-L.ARROW_ALPHA = "Richtungspfeil-Alpha"
-L.ARROW_STYLE = "Richtungspfeil-Stil"
-L.ARROW_STYLE1 = "Limette"
-L.ARROW_STYLE2 = "Pfeil"
-L.MISSING_PREQUEST = "Folgende Quest wurde übersprungen:"
-L.MISSING_PREQUESTS = "Folgende Quests wurden übersprungen:"
-L.OTHER_GUIDES = "Andere Guides"
-L.LOAD_GUIDE = "Guide laden"
-L.RESET_GUIDE = "Guide zurücksetzen"
-L.EDIT_GUIDE = "Guide bearbeiten"
-L.URL = "URL"
-L.QUEST_REQUIRED_LEVEL = "Mindestlevel für %s ist %s"
-L.STEP_MANUAL = "Hier klicken, wenn dieser Schritt erledigt ist"
-L.STEP_SKIP = "Hier klicken, um diesen Schritt zu überspringen"
-L.STEP_FOLLOWUP_QUEST = "Wenn du %s überspringst, kannst du folgende Quest später nicht erledigen"
-L.STEP_FOLLOWUP_QUESTS = "Wenn du %s überspringst, kannst du folgende Quests nicht erledigen"
-L.SHOW_QUEST_LEVELS = "Quest-Level anzeigen"
-L.SHOW_TOOLTIPS = "Tooltips anzeigen"
-L.NO_GUIDE_LOADED = "Du hast noch keinen Guide ausgewählt. Klicke hier um einen Guide auszuwählen."
-L.GUIDE_FINISHED = "Der aktuelle Guide ist abgeschlossen. Klicke hier um einen neuen Guide auszuwählen."
-L.GUIDE_FINISHED_NEXT = "Der aktuelle Guide ist abgeschlossen. Klicke hier um mit %s fortzufahren."
-L.AUTO_COMPLETE_QUESTS = "Quests automatisch annehmen/einlösen"
-L.EDITOR = "Editor"
-L.SAVE_GUIDE = "Guide speichern"
-L.CUSTOM_GUIDES = "Eigene Guides"
-L.SAVE_MSG = "Guide speichern als \"%s\"?" 
-L.OVERWRITE_MSG = "Den vorhandenen Guide \"%s\" überschreiben?" 
-L.EDITOR_TOOLTIP_NAME = "Namen und Levelbereich des Guides angeben\nz.B.: \"[N1-6Coldridgetal]\""
-L.EDITOR_TOOLTIP_NEXT = "Namen und Levelbereich des Guides angeben der auf diesen folgt\nz.B.: \"[NX6-12Dun Morogh]\""
-L.EDITOR_TOOLTIP_DETAILS = "Detaillierte Guidebeschreibung eingeben\nz.B.: \"[D Mein eigener Guide für das Startgebiet der Gnome und Zwerge]\""
-L.EDITOR_TOOLTIP_GUIDE_APPLIES = "Einstellen für welche Faktion/Rassen/Klassen der Guide verwendet werden kann (englische Bezeichnungen)\nz.B.: \"[GA Dwarf,Gnome]\""
-L.EDITOR_TOOLTIP_APPLIES = "Einstellen für welche Faktion/Rassen/Klassen der aktuelle Schritt gültig ist\nz.B.: \"[A Dwarf,Rogue]\""
-L.EDITOR_TOOLTIP_OPTIONAL = "Den aktuellen Schritt als optional markieren\nd.h.: \"[O]\""
-L.EDITOR_TOOLTIP_OPTIONAL_COMPLETE_WITH_NEXT = "Der aktuelle Schritt soll automatisch als erledigt markiert werden, sobald der darauffolgende Schritt erledigt ist\nd.h.: \"[OC]\""
-L.EDITOR_TOOLTIP_QUEST = "Eine Quest hinzufügen\nz.B.: \"[QA179]\" oder \"[QC3361,2 Dilemma eines Flüchtlings]\""
-L.EDITOR_TOOLTIP_GOTO = "Koordinaten eines Zielpunktes hinzufügen\nz.B.: \"[G 29.93,71.2 Dun Morogh]\""
-L.EDITOR_TOOLTIP_XP = "Bei diesem Schritt wird vom Spieler erwartet, dass ein bestimmter Level / ein bestimmtes Maß an Erfahrung erreicht worden ist\nz.B.: \"[XP8.5 die Hälfte des Levels bis 9]\""
-L.EDITOR_TOOLTIP_HEARTH = "Der Spieler soll den Ruhestein verwenden\nd.h.: \"[H]\""
-L.EDITOR_TOOLTIP_FLY = "Der Spieler soll eine Flugroute nehmen\nd.h.: \"[F]\""
-L.EDITOR_TOOLTIP_TRAIN = "Der Spieler soll den Trainer aufsuchen\nd.h.: \"[T]\""
-L.EDITOR_TOOLTIP_SET_HEARTH = "Der Spieler soll den Ruhestein in der Taverne binden\nd.h.: \"[S]\""
-L.EDITOR_TOOLTIP_GET_FLIGHT_POINT = "Der Spieler soll einen neuen Flugpunkt aktivieren\nd.h.: \"[Ü]\""
-L.EDITOR_TOOLTIP_VENDOR = "Der Spieler soll verkaufen / sich neu ausrüsten\nd.h.: \"[V]\""
-L.EDITOR_TOOLTIP_REPAIR = "Der Spieler soll reparieren\nd.h.: \"[R]\""
-L.EDITOR_TOOLTIP_ZONE = "Diese Angabe ist nur für die ersten Koordinaten erforderlich. Wenn keine Zone angegeben wird, wird angenommen, dass die Zone dieselbe ist wie bei vorangehenden Koordinaten."
-L.NAME = "Name"
-L.MINIMUM_LEVEL ="Minimal-Level"
-L.MAXIMUM_LEVEL ="Maximal-Level"
-L.QUEST_A = "Annehmen" 
-L.QUEST_T = "Abgeben"
-L.QUEST_C = "Erledigen" 
-L.QUEST_S = "Überspringen"
-L.QUEST_S_TOOLTIP = "Verwenden, wenn der Spieler darauf aufmerksam gemacht werden soll, eine bestimmte Quest nicht anzunehmen"
-L.QUEST_NAME = "Quest-Name"
-L.QUEST_NAME_TOOLTIP = "Angezeigter Text. Wenn nicht angegeben wird der Name der Quest angezeigt. Wird \"-\" angegeben wird kein Text angezeigt."
-L.QUEST_ID = "Quest-ID"
-L.QUEST_ID_TOOLTIP = "Quest-ID. Wenn nicht angegeben wird nach einer Quest mit dem angegebenen Namen gesucht. Da der Name nicht eindeutig sein muss, kann es erforderlich sein die ID anzugeben."
-L.QUEST_OBJECTIVE = "Questziel"
-L.QUEST_OBJECTIVE_TOOLTIP = "Nummer des Questziel welches vervollständigt werden soll (1 für das Erste, 2 für das Zweite, ...). Kann angegeben werden wenn nur ein einzelnes Ziel verfolgt wird. Wenn es nicht angegeben wird, sind alle Ziele erforderlich."
-L.XP_LEVEL = "Nur Level"
-L["XP_LEVEL+"] = "Erhaltene Punkte"
+L["Alliance"] = "Allianz"
+L["ARROW_ALPHA"] = "Richtungspfeil-Alpha"
+L["ARROW_STYLE"] = "Richtungspfeil-Stil"
+L["ARROW_STYLE1"] = "Limette"
+L["ARROW_STYLE2"] = "Pfeil"
+L["AUTO_COMPLETE_QUESTS"] = "Quests automatisch annehmen/einlösen"
+L["AVAILABLE_GUIDES"] = "Verfügbare Guides"
+L["CURRENT_GUIDE"] = "Aktueller Guide"
+L["CUSTOM_GUIDES"] = "Eigene Guides"
+L["DETAILS"] = "Details"
+L["EDIT_GUIDE"] = "Guide bearbeiten"
+L["EDITOR"] = "Editor"
+L["EDITOR_TOOLTIP_APPLIES"] = [=[Einstellen für welche Faktion/Rassen/Klassen der aktuelle Schritt gültig ist
+z.B.: "[A Dwarf,Rogue]"]=]
+L["EDITOR_TOOLTIP_DETAILS"] = [=[Detaillierte Guidebeschreibung eingeben
+z.B.: "[D Mein eigener Guide für das Startgebiet der Gnome und Zwerge]"]=]
+L["EDITOR_TOOLTIP_FLY"] = [=[Der Spieler soll eine Flugroute nehmen
+d.h.: "[F]"]=]
+L["EDITOR_TOOLTIP_GET_FLIGHT_POINT"] = [=[Der Spieler soll einen neuen Flugpunkt aktivieren
+d.h.: "[Ü]"]=]
+L["EDITOR_TOOLTIP_GOTO"] = [=[Koordinaten eines Zielpunktes hinzufügen
+z.B.: "[G 29.93,71.2 Dun Morogh]"]=]
+L["EDITOR_TOOLTIP_GUIDE_APPLIES"] = [=[Einstellen für welche Faktion/Rassen/Klassen der Guide verwendet werden kann (englische Bezeichnungen)
+z.B.: "[GA Dwarf,Gnome]"]=]
+L["EDITOR_TOOLTIP_HEARTH"] = [=[Der Spieler soll den Ruhestein verwenden
+d.h.: "[H]"]=]
+L["EDITOR_TOOLTIP_LOC"] = "Koordinaten eines zusätzlichen Punktes hinzufügen\\nz.B.: \\\"[L 29.93,71.2 Dun Morogh]\\\""
+L["EDITOR_TOOLTIP_NAME"] = [=[Namen und Levelbereich des Guides angeben
+z.B.: "[N1-6Coldridgetal]"]=]
+L["EDITOR_TOOLTIP_NEXT"] = [=[Namen und Levelbereich des Guides angeben der auf diesen folgt
+z.B.: "[NX6-12Dun Morogh]"]=]
+L["EDITOR_TOOLTIP_OPTIONAL"] = [=[Den aktuellen Schritt als optional markieren
+d.h.: "[O]"]=]
+L["EDITOR_TOOLTIP_OPTIONAL_COMPLETE_WITH_NEXT"] = [=[Der aktuelle Schritt soll automatisch als erledigt markiert werden, sobald der darauffolgende Schritt erledigt ist
+d.h.: "[OC]"]=]
+L["EDITOR_TOOLTIP_QUEST"] = [=[Eine Quest hinzufügen
+z.B.: "[QA179]" oder "[QC3361,2 Dilemma eines Flüchtlings]"]=]
+L["EDITOR_TOOLTIP_REPAIR"] = [=[Der Spieler soll reparieren
+d.h.: "[R]"]=]
+L["EDITOR_TOOLTIP_SET_HEARTH"] = [=[Der Spieler soll den Ruhestein in der Taverne binden
+d.h.: "[S]"]=]
+L["EDITOR_TOOLTIP_TRAIN"] = [=[Der Spieler soll den Trainer aufsuchen
+d.h.: "[T]"]=]
+L["EDITOR_TOOLTIP_VENDOR"] = [=[Der Spieler soll verkaufen / sich neu ausrüsten
+d.h.: "[V]"]=]
+L["EDITOR_TOOLTIP_XP"] = [=[Bei diesem Schritt wird vom Spieler erwartet, dass ein bestimmter Level / ein bestimmtes Maß an Erfahrung erreicht worden ist
+z.B.: "[XP8.5 die Hälfte des Levels bis 9]"]=]
+L["EDITOR_TOOLTIP_ZONE"] = "Diese Angabe ist nur für die ersten Koordinaten erforderlich. Wenn keine Zone angegeben wird, wird angenommen, dass die Zone dieselbe ist wie bei vorangehenden Koordinaten."
+L["ERROR_CODE_NOT_RECOGNIZED"] = "Lese Guide \"%s\": Code [%s] nicht erkannt in Zeile \"%s\""
+L["ERROR_CODE_ZONE_NOT_FOUND"] = "Lese Guide \"%s\": Zone nicht gefunden in Code [%s] in Zeile \"%s\""
+L["ERROR_GUIDE_HAS_NO_NAME"] = "Guide hat keinen Namen"
+L["ERROR_NOT_A_NUMBER"] = "%s ist keine Zahl"
+L["ERROR_OUT_OF_RANGE"] = "%s ist nicht zwischne %s und %s"
+L["ERROR_QUEST_CLASS_ONLY"] = "Diese Quest ist nur für die folgenden Klassen verfügbar: "
+L["ERROR_QUEST_NOT_FOUND"] = "Quest \"%s\" nicht gefunden"
+L["ERROR_QUEST_NOT_UNIQUE"] = "Es gibt mehr als eine Quest \"%s\". Eine der folgenden IDs angeben: "
+L["ERROR_QUEST_RACE_ONLY"] = "Diese Quest ist nur für die folgenden Rassen verfügbar: "
+L["ERROR_ZONE_NOT_FOUND"] = "\"%s\" ist keine Zone. Bitte einer der folgenden Zonen eingeben: "
+L["GOTO_INFO"] = "Koordinaten-Info"
+L["GUIDE_FINISHED"] = "Der aktuelle Guide ist abgeschlossen. Klicke hier um einen neuen Guide auszuwählen."
+L["GUIDE_FINISHED_NEXT"] = "Der aktuelle Guide ist abgeschlossen. Klicke hier um mit %s fortzufahren."
+L["HIDE_COMPLETED_STEPS"] = "Abgeschlossene Schritte verstecken"
+L["HIDE_UNAVAILABLE_STEPS"] = "Nicht verfügbare Schritte verstecken"
+L["Horde"] = "Horde"
+L["LEVEL"] = "Level"
+L["LOAD_GUIDE"] = "Guide laden"
+L["LOAD_MESSAGE"] = "Guidelime: Lade Guide \"%s\""
+L["LOCK_MAINFRAME"] = "Fenster feststellen"
+L["MAIN_FRAME_ALPHA"] = "Fenster-Alpha"
+L["MAIN_FRAME_HEIGHT"] = "Fensterhöhe"
+L["MAIN_FRAME_WIDTH"] = "Fensterbreite"
+L["MAX_NUM_OF_MARKERS"] = "Anzahl von Kartenmarkierungen (0 = unbegrenzt)"
+L["MAX_NUM_OF_STEPS"] = "Anzahl angezeigter Schritte (0 = unbegrenzt)"
+L["MAXIMUM_LEVEL"] = "Maximal-Level"
+L["MINIMUM_LEVEL"] = "Minimal-Level"
+L["MISSING_PREQUEST"] = "Folgende Quest wurde übersprungen:"
+L["MISSING_PREQUESTS"] = "Folgende Quests wurden übersprungen:"
+L["NAME"] = "Name"
+L["NO_GUIDE_LOADED"] = "Du hast noch keinen Guide ausgewählt. Klicke hier um einen Guide auszuwählen."
+L["OTHER_GUIDES"] = "Andere Guides"
+L["OVERWRITE_MSG"] = "Den vorhandenen Guide \"%s\" überschreiben?"
+L["PART"] = "Teil"
+L["QUEST_A"] = "Annehmen"
+L["QUEST_C"] = "Erledigen"
+L["QUEST_ID"] = "Quest-ID"
+L["QUEST_ID_TOOLTIP"] = "Quest-ID. Wenn nicht angegeben wird nach einer Quest mit dem angegebenen Namen gesucht. Da der Name nicht eindeutig sein muss, kann es erforderlich sein die ID anzugeben."
+L["QUEST_INFO"] = "Quest-Info"
+L["QUEST_NAME"] = "Quest-Name"
+L["QUEST_NAME_TOOLTIP"] = "Angezeigter Text. Wenn nich angegeben wird der Name der Quest angezeigt. Wird \"-\" angegeben wird kein Text angezeigt."
+L["QUEST_OBJECTIVE"] = "Questziel"
+L["QUEST_OBJECTIVE_TOOLTIP"] = "Nummer des Questziel welches vervollständigt werden soll (1 für das Erste, 2 für das Zweite, ...). Kann angegeben werden wenn nur ein einzelnes Ziel verfolgt wird. Wenn es nicht angegeben wird, sind alle Ziele erforderlich."
+L["QUEST_REQUIRED_LEVEL"] = "Mindestlevel für %s ist %s"
+L["QUEST_S"] = "Überspringen"
+L["QUEST_S_TOOLTIP"] = "Verwenden wenn der Spieler darauf aufmerksam gemacht werden soll eine bestimmte Quest nicht anzunehmen"
+L["QUEST_T"] = "Abgeben"
+L["RESET_GUIDE"] = "Guide zurücksetzen"
+L["SAVE_GUIDE"] = "Guide speichern"
+L["SAVE_MSG"] = "Guide speichern als \"%s\"?"
+L["SHOW_ARROW"] = "Richtungspfeil anzeigen"
+L["SHOW_MAINFRAME"] = "Fenster anzeigen"
+L["SHOW_MAP"] = "Auf der Karte anzeigen"
+L["SHOW_QUEST_LEVELS"] = "Quest-Level anzeigen"
+L["SHOW_TOOLTIPS"] = "Tooltips anzeigen"
+L["STEP_FOLLOWUP_QUEST"] = "Wenn du %s überspringst, kannst du folgende Quest später nicht erledigen"
+L["STEP_FOLLOWUP_QUESTS"] = "Wenn du %s überspringst, kannst du folgende Quests nicht erledigen"
+L["STEP_MANUAL"] = "Hier klicken, wenn dieser Schritt erledigt ist"
+L["STEP_SKIP"] = "Hier klicken, um diesen Schritt zu überspringen"
+L["URL"] = "URL"
+L["XP_LEVEL"] = "Nur Level"
 L["XP_LEVEL-"] = "Verbleibende Punkte"
 L["XP_LEVEL%"] = "Prozentualer Anteil"
-L["XP_LEVEL+_TOOLTIP"] = "Der Spieler muss den angegeben Level sowie zusätzlich die angebene Anzahl Erfahrungspunkte erreicht haben"
-L["XP_LEVEL-_TOOLTIP"] = "Dem Spieler dürfen höchstens die angegebene Anzahl Erfharungspunkte bis zum Erreichen des angegebenen Levels fehlen"
 L["XP_LEVEL%_TOOLTIP"] = "Der Spieler muss den angegeben Level sowie zusätzlich den angebenen prozentualen Anteil an Erfahrungspunkten bis zum Erreichen des nächsten Levels erreicht haben"
-L.XP_TEXT = "Text"
-L.XP_TEXT_TOOLTIP = "Angezeigter Text. Wenn kein Text angegeben wird, wird \"%s\" angezeigt."
-L.SHOW_MAP = "Auf der Karte anzeigen"
-L.ERROR_CODE_NOT_RECOGNIZED = "Lese Guide \"%s\": Code [%s] nicht erkannt in Zeile \"%s\""
-L.ERROR_GUIDE_HAS_NO_NAME = "Guide hat keinen Namen"
-L.ERROR_CODE_ZONE_NOT_FOUND = "Lese Guide \"%s\": Zone nicht gefunden in Code [%s] in Zeile \"%s\""
-L.ERROR_NOT_A_NUMBER = "%s ist keine Zahl"
-L.ERROR_QUEST_NOT_FOUND = "Quest \"%s\" nicht gefunden"
-L.ERROR_QUEST_NOT_UNIQUE = "Es gibt mehr als eine Quest \"%s\". Eine der folgenden IDs angeben: "
-L.ERROR_ZONE_NOT_FOUND = "\"%s\" ist keine Zone. Bitte einer der folgenden Zonen eingeben: "
-L.ERROR_OUT_OF_RANGE = "%s ist nicht zwischne %s und %s"
-L.ERROR_QUEST_RACE_ONLY = "Diese Quest ist nur für die folgenden Rassen verfügbar: "
-L.ERROR_QUEST_CLASS_ONLY = "Diese Quest ist nur für die folgenden Klassen verfügbar: "
-L.ZONE = "Zone"
-L.LEVEL = "Level"
-L.PART = "Teil"
-L.Alliance = "Allianz"
-L.Horde = "Horde"
+L["XP_LEVEL-_TOOLTIP"] = "Dem Spieler dürfen höchstens die angegebene Anzahl Erfharungspunkte bis zum Erreichen des angegebenen Levels fehlen"
+L["XP_LEVEL+"] = "Erhaltene Punkte"
+L["XP_LEVEL+_TOOLTIP"] = "Der Spieler muss den angegeben Level sowie zusätzlich die angebene Anzahl Erfahrungspunkte erreicht haben"
+L["XP_TEXT"] = "Text"
+L["XP_TEXT_TOOLTIP"] = "Angezeigter Text. Wenn kein Text angegeben wird, wird \"%s\" angezeigt."
+L["ZONE"] = "Zone"
 
-elseif locale = "frFR" then
+elseif locale == "frFR" then
 
+L.TITLE = addonName
 L["Alliance"] = "Alliance"
 L["ARROW_ALPHA"] = "transparence de la flèche"
 L["ARROW_STYLE"] = "style de la flèche"
@@ -227,23 +248,31 @@ L["CUSTOM_GUIDES"] = "Guides personnalisés"
 L["DETAILS"] = "Détails"
 L["EDIT_GUIDE"] = "Modifier le guide"
 L["EDITOR"] = "Éditeur"
-L["EDITOR_TOOLTIP_APPLIES"] = "Indiquer à quelle faction / races / classes s'applique l'étape actuelle, par exemple : \"[A Dwarf,Rogue]\""
-L["EDITOR_TOOLTIP_DETAILS"] = "Entrer une description détaillée du guide, par exemple : \"[D Mon guide pour la zone de départ nain / gnome]\" "
+L["EDITOR_TOOLTIP_APPLIES"] = [=[Indiquer à quelle faction / races / classes s'applique l'étape actuelle,
+par exemple : "[A Dwarf,Rogue]"]=]
+L["EDITOR_TOOLTIP_DETAILS"] = [=[Entrer une description détaillée du guide,
+par exemple : "[D Mon guide pour la zone de départ nain / gnome]" ]=]
 L["EDITOR_TOOLTIP_FLY"] = "Le joueur devrait prendre un trajet aérien : \"[F]\""
 L["EDITOR_TOOLTIP_GET_FLIGHT_POINT"] = "Le joueur devrait prendre un nouveau point de trajet aérien : \"[G]\""
-L["EDITOR_TOOLTIP_GOTO"] = "Ajouter les coordonnées d'une destination cible, par exemple : \"[G 29.93,71.2 Dun Morogh]\""
-L["EDITOR_TOOLTIP_GUIDE_APPLIES"] = "Indiquer à quelle faction / races / classes s'applique ce guide, par exemple : \"[GA Dwarf,Gnome]\""
+L["EDITOR_TOOLTIP_GOTO"] = [=[Ajouter les coordonnées d'une destination cible,
+par exemple : "[G 29.93,71.2 Dun Morogh]"]=]
+L["EDITOR_TOOLTIP_GUIDE_APPLIES"] = [=[Indiquer à quelle faction / races / classes s'applique ce guide,
+par exemple : "[GA Dwarf,Gnome]"]=]
 L["EDITOR_TOOLTIP_HEARTH"] = "Le joueur devrait utiliser sa pierre de foyer : \"[H]\""
-L["EDITOR_TOOLTIP_NAME"] = "Entrer le nom et la fourchette de niveau du guide, par exemple : \"[N1-6Coldridge Valley]\""
-L["EDITOR_TOOLTIP_NEXT"] = "Entrer le nom et la fourchette de niveau du guide suivant le guide actuel, par exemple : \"[NX6-12Dun Morogh]\""
+L["EDITOR_TOOLTIP_NAME"] = [=[Entrer le nom et la fourchette de niveau du guide,
+par exemple : "[N1-6Coldridge Valley]"]=]
+L["EDITOR_TOOLTIP_NEXT"] = [=[Entrer le nom et la fourchette de niveau du guide suivant le guide actuel,
+par exemple : "[NX6-12Dun Morogh]"]=]
 L["EDITOR_TOOLTIP_OPTIONAL"] = "Marque l'étape actuelle comme étant optionnelle : \"[O]\""
 L["EDITOR_TOOLTIP_OPTIONAL_COMPLETE_WITH_NEXT"] = "Marque l'étape actuelle pour être automatiquement complétée dès que l'étape suivante est complétée : \"[OC]\""
-L["EDITOR_TOOLTIP_QUEST"] = "Ajouter une quête, par exemple : \"[QA179]\" ou \"[QC3361,2 Les malheurs d'un réfugié]\""
+L["EDITOR_TOOLTIP_QUEST"] = [=[Ajouter une quête,
+par exemple : "[QA179]" ou "[QC3361,2 Les malheurs d'un réfugié]"]=]
 L["EDITOR_TOOLTIP_REPAIR"] = "Le joueur devrait réparer ici : \"[R]\""
 L["EDITOR_TOOLTIP_SET_HEARTH"] = "Le joueur devrait lier sa pierre de foyer à l'auberge : \"[S]\""
 L["EDITOR_TOOLTIP_TRAIN"] = "Le joueur devrait visiter l'entraineur de sa classe : \"[T]\""
 L["EDITOR_TOOLTIP_VENDOR"] = "Le joueur devrait vendre / se réapprovisionner ici : \"[C]\""
-L["EDITOR_TOOLTIP_XP"] = "Cette étape nécessite que le joueur ait atteint un certain niveau / une certaine quantité d'expérience du niveau actuel, par exemple : \"[XP8.5 à mi-chemin de 9]\""
+L["EDITOR_TOOLTIP_XP"] = [=[Cette étape nécessite que le joueur ait atteint un certain niveau / une certaine quantité d'expérience du niveau actuel,
+par exemple : "[XP8.5 à mi-chemin de 9]"]=]
 L["EDITOR_TOOLTIP_ZONE"] = "Ce n'est pas nécessaire pour toutes les coordonnées sauf la première. Si omis, il est supposé qu'il se trouve dans la même zone que les coordonnées précédentes."
 L["ERROR_CODE_NOT_RECOGNIZED"] = "Analyse du guide \"%s\" : le code [%s] n'est pas reconnu à la ligne \"%s\""
 L["ERROR_CODE_ZONE_NOT_FOUND"] = "Analyse du guide \"%s\" : la zone [%s] n'est pas trouvée à la ligne \"%s\""
