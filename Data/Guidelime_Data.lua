@@ -73,6 +73,19 @@ function addon.getQuestNameById(id)
 	end
 end
 
+function addon.getQuestObjective(id)
+	if id == nil then return nil end
+	local locale = GetLocale()
+	if addon.questsDB[id] == nil then
+		return nil
+	elseif addon.questsDB[id]["objective_" .. locale] ~= nil then
+		return addon.questsDB[id]["objective_"..locale]
+	else
+		return addon.questsDB[id].objective
+	end
+end
+
+
 function addon.getPossibleQuestIdsByName(name, faction, race, class)
 	if addon.questsDBReverse == nil then
 		addon.questsDBReverse = {}

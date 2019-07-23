@@ -72,6 +72,7 @@ function addon.parseGuide(guide, group)
 		end)
 		if t ~= nil and t ~= "" then
 			table.insert(guide.steps, {text = t:gsub("\\\\"," \n"), startPos = pos, line = guide.lines})
+			guide.lines = guide.lines + 1
 		end
 	end
 	guide.currentZone = nil

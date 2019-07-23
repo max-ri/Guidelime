@@ -1,14 +1,70 @@
 local addonName, addon = ...
 local L = addon.L
 
+local function setQuestInfo(id)
+	if id == nil then return end
+	local text = L.NAME .. ": " .. addon.COLOR_WHITE .. addon.getQuestNameById(id) .. " (#" .. id .. ")|r\n"
+	local quest = addon.questsDB[id]
+	if quest ~= nil then
+		if quest.name ~= addon.getQuestNameById(id) then text = text .. L.ENGLISH_NAME .. ": " .. addon.COLOR_WHITE .. quest.name .. "|r\n" end
+		text = text .. L.CATEGORY .. ": " .. addon.COLOR_WHITE .. quest.sort .. "|r\n"
+		text = text .. L.MINIMUM_LEVEL .. ": " .. addon.COLOR_WHITE .. quest.level .. "|r\n"
+		text = text .. L.OBJECTIVE .. ": " .. addon.COLOR_WHITE .. addon.getQuestObjective(id) .. "|r\n"
+		if quest.series ~= nil or quest.next ~= nil or quest.prev ~= nil then
+			text = text .. "\n" .. L.QUEST_CHAIN
+			if quest.series ~= nil then text = text .. addon.COLOR_WHITE .. " (" .. L.PART .. " " .. quest.series .. ")|r" end
+			text = text .. "\n"
+			if quest.next ~= nil then text = text .. L.NEXT .. ": " .. addon.COLOR_WHITE .. addon.getQuestNameById(quest.next) .. " (#" .. quest.next .. ")|r\n" end
+			if quest.prev ~= nil then text = text .. L.PREVIOUS .. ": " .. addon.COLOR_WHITE .. addon.getQuestNameById(quest.prev) .. " (#" .. quest.prev .. ")|r\n" end
+		end
+	end	
+	addon.editorFrame.questInfo:SetText(text)
+end
+
 local function setEditorMapIcons(guide)
 	addon.removeMapIcons()
 	addon.hideArrow()
 	local highlight = true
+	local prev
+	if addon.editorFrame.gotoInfo ~= nil then
+		for i, text in ipairs(addon.editorFrame.gotoInfo) do
+			text:Hide()
+		end
+	end
+	addon.editorFrame.gotoInfo = {}
 	for i, step in ipairs(guide.steps) do
 		for j, element in ipairs(step.elements) do
 			if element.t == "LOC" or element.t == "GOTO" then
 				addon.addMapIcon(element, i == addon.editorFrame.selectedStepIndex and j == addon.editorFrame.selectedElementIndex, true)
+				
+				local text = CreateFrame("EditBox", nil, addon.editorFrame.gotoInfoContent)
+				text:SetEnabled(false)
+				text:SetWidth(200)
+				text:SetMultiLine(true)
+				text:SetFontObject("GameFontNormal")
+				text:SetTextColor(1,1,1,1)
+				text:SetText("|cFF99CCFF" .. step.line .. "|r " .. element.x .. ", " .. element.y .. " |T" .. addon.icons.MAP_MARKER .. ":15:15:0:1:512:512:" .. 
+					element.mapIndex % 8 * 64 .. ":" .. (element.mapIndex % 8 + 1) * 64 .. ":" .. 
+					math.floor(element.mapIndex / 8) * 64 .. ":" .. (math.floor(element.mapIndex / 8) + 1) * 64 .. ":::|t")
+
+				if prev == nil then
+					text:SetPoint("TOPLEFT", addon.editorFrame.gotoInfoContent, "TOPLEFT", 0, 0)
+				else
+					text:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+				end
+				text:SetScript("OnMouseUp", function(self, button)
+					print(addon.editorFrame.gotoInfoContent.timer)
+					if addon.isDoubleClick(addon.editorFrame.gotoInfoContent) then
+						print(step.line)
+						addon["showEditPopup" .. element.t](element.t, guide, step, element)
+					else
+						addon.editorFrame.selectedStep, addon.editorFrame.selectedElement, addon.editorFrame.selectedStepIndex, addon.editorFrame.selectedElementIndex = 
+							step, element, i, j
+						setEditorMapIcons(guide)
+					end
+				end)
+				prev = text
+				table.insert(addon.editorFrame.gotoInfo, text)
 			end
 		end
 	end
@@ -30,9 +86,11 @@ local function parseGuide()
 	local guide = addon.parseGuide(addon.editorFrame.textBox:GetText())
 	local lines = {}
 	for i = 1, guide.lines do lines[i] = i end
-	local pos = addon.editorFrame.textBox:GetCursorPosition() + 1
-	addon.editorFrame.selectedStep, addon.editorFrame.selectedElement, addon.editorFrame.selectedStepIndex, addon.editorFrame.selectedElementIndex = getElementByPos(pos, guide)
 	addon.editorFrame.linesBox:SetText(table.concat(lines, "\n"))
+	local pos = addon.editorFrame.textBox:GetCursorPosition()
+	addon.editorFrame.selectedStep, addon.editorFrame.selectedElement, addon.editorFrame.selectedStepIndex, addon.editorFrame.selectedElementIndex = 
+		getElementByPos(pos, guide)
+	if addon.editorFrame.selectedElement ~= nil then setQuestInfo(addon.editorFrame.selectedElement.questId) end
 	setEditorMapIcons(guide)
 	return guide
 end
@@ -44,27 +102,31 @@ local function insertCode(typ, text, element, replace)
 		local newText = oldText:sub(1, element.startPos - 1) .. newCode .. oldText:sub(element.endPos + 1)
 		if addon.debugging then	print("LIME: replacing \"" .. oldText:sub(element.startPos, element.endPos) .. "\" with \"" .. newCode .. "\"") end
 		addon.editorFrame.textBox:SetText(newText)
-		addon.editorFrame.textBox:HighlightText(element.startPos - 1, element.endPos - 1)
-		return
-	elseif replace then
-		if text == nil or text == "" then 
-			newCode = "" 
-		else 
-			replace = false 
+		addon.editorFrame.textBox:HighlightText(element.startPos - 1, element.startPos - 1 + #newCode)
+		addon.editorFrame.textBox:SetCursorPosition(element.startPos - 1 + #newCode)
+	else
+		if replace then
+			if text == nil or text == "" then 
+				newCode = "" 
+			else 
+				replace = false 
+			end
+			local s, e = addon.editorFrame.textBox:GetText():find("%[" .. addon.codes[typ] .. ".-%]")
+			if s ~= nil then
+				replace = true
+				local oldText = addon.editorFrame.textBox:GetText()
+				local newText = oldText:sub(1, s - 1) .. newCode .. oldText:sub(e + 1)
+				addon.editorFrame.textBox:SetText(newText)
+				addon.editorFrame.textBox:HighlightText(s, s + #newCode)
+				addon.editorFrame.textBox:SetCursorPosition(s + #newCode)
+			end
 		end
-		local s, e = addon.editorFrame.textBox:GetText():find("%[" .. addon.codes[typ] .. ".-%]")
-		if s ~= nil then
-			replace = true
-			local oldText = addon.editorFrame.textBox:GetText()
-			local newText = oldText:sub(1, s - 1) .. newCode .. oldText:sub(e + 1)
-			addon.editorFrame.textBox:SetText(newText)
-			addon.editorFrame.textBox:HighlightText(s, s + #newCode)
+		if not replace then
+			addon.editorFrame.textBox:Insert(newCode)
+			addon.editorFrame.textBox:HighlightText(addon.editorFrame.textBox:GetCursorPosition() - #newCode, addon.editorFrame.textBox:GetCursorPosition())
 		end
 	end
-	if not replace then
-		addon.editorFrame.textBox:Insert(newCode)
-		addon.editorFrame.textBox:HighlightText(addon.editorFrame.textBox:GetCursorPosition() - #newCode, addon.editorFrame.textBox:GetCursorPosition())
-	end
+	parseGuide()
 end
 
 function addon.showEditPopupNAME(typ, guide, step, element)
@@ -87,13 +149,13 @@ function addon.showEditPopupNAME(typ, guide, step, element)
 	end, true, 140)
 	popup.textboxMinlevel = addon.addTextbox(popup, L.MINIMUM_LEVEL, 100)
 	popup.textboxMinlevel.text:SetPoint("TOPLEFT", 20, -20)
-	popup.textboxMinlevel:SetPoint("TOPLEFT", 120, -20)
+	popup.textboxMinlevel:SetPoint("TOPLEFT", 140, -20)
 	popup.textboxMaxlevel = addon.addTextbox(popup, L.MAXIMUM_LEVEL, 100)
 	popup.textboxMaxlevel.text:SetPoint("TOPLEFT", 20, -50)
-	popup.textboxMaxlevel:SetPoint("TOPLEFT", 120, -50)
-	popup.textboxName = addon.addTextbox(popup, L.NAME, 420)
+	popup.textboxMaxlevel:SetPoint("TOPLEFT", 140, -50)
+	popup.textboxName = addon.addTextbox(popup, L.NAME, 400)
 	popup.textboxName.text:SetPoint("TOPLEFT", 20, -80)
-	popup.textboxName:SetPoint("TOPLEFT", 120, -80)
+	popup.textboxName:SetPoint("TOPLEFT", 140, -80)
 	if typ == "NAME" then
 		if guide.title ~= nil then popup.textboxName:SetText(guide.title) end
 		if guide.minLevel ~= nil then popup.textboxMinlevel:SetText(guide.minLevel) end
@@ -126,7 +188,7 @@ function addon.showEditPopupDETAILS(typ, guide, step, element)
 	popup.textboxName:SetPoint("TOPLEFT", 90, -20)
 	popup.textboxName:SetMultiLine(true)
 	popup.textboxName:SetWidth(450)
-	popup.textboxName:SetTextColor(255,255,255,255)
+	popup.textboxName:SetTextColor(1,1,1,1)
 	popup:Show()
 end
 
@@ -401,23 +463,24 @@ function addon.showEditPopupQUEST(typ, guide, step, element)
 	popup.checkboxes[popup.key]:SetChecked(true)
 	popup.textboxId = addon.addTextbox(popup, L.QUEST_ID, 100, L.QUEST_ID_TOOLTIP)
 	popup.textboxId.text:SetPoint("TOPLEFT", 20, -50)
-	popup.textboxId:SetPoint("TOPLEFT", 140, -50)
+	popup.textboxId:SetPoint("TOPLEFT", 170, -50)
 	popup.textQuestname = popup:CreateFontString(nil, popup, "GameFontNormal")
-	popup.textQuestname:SetPoint("TOPLEFT", 260, -50)
+	popup.textQuestname:SetPoint("TOPLEFT", 280, -50)
 	if element ~= nil then 
 		popup.textboxId:SetText(element.questId) 
 		popup.textQuestname:SetText(addon.getQuestNameById(element.questId))
 	end
 	popup.textboxId:SetScript("OnTextChanged", function(self) 
 		popup.textQuestname:SetText(addon.getQuestNameById(tonumber(popup.textboxId:GetText())) or "")
+		setQuestInfo(tonumber(popup.textboxId:GetText()))
 	end)
-	popup.textboxName = addon.addTextbox(popup, L.QUEST_NAME, 400, L.QUEST_NAME_TOOLTIP)
+	popup.textboxName = addon.addTextbox(popup, L.QUEST_NAME, 370, L.QUEST_NAME_TOOLTIP)
 	popup.textboxName.text:SetPoint("TOPLEFT", 20, -80)
-	popup.textboxName:SetPoint("TOPLEFT", 140, -80)
+	popup.textboxName:SetPoint("TOPLEFT", 170, -80)
 	if element ~= nil then if element.title == "" then popup.textboxName:SetText("-") else popup.textboxName:SetText(element.title) end end
 	popup.textboxObjective = addon.addTextbox(popup, L.QUEST_OBJECTIVE, 100, L.QUEST_OBJECTIVE_TOOLTIP)
 	popup.textboxObjective.text:SetPoint("TOPLEFT", 20, -110)
-	popup.textboxObjective:SetPoint("TOPLEFT", 140, -110)
+	popup.textboxObjective:SetPoint("TOPLEFT", 170, -110)
 	if popup.key ~= "C" then
 		popup.textboxObjective:Hide()
 		popup.textboxObjective.text:Hide()
@@ -612,7 +675,7 @@ function addon.showEditor()
 
 	if addon.editorFrame == nil then
 		addon.editorFrame = addon.createPopupFrame(nil, nil, false, 800)
-		addon.editorFrame:SetWidth(1400)
+		addon.editorFrame:SetWidth(1500)
 		addon.editorFrame:SetPoint(GuidelimeDataChar.editorFrameRelative, UIParent, GuidelimeDataChar.editorFrameRelative, GuidelimeDataChar.editorFrameX, GuidelimeDataChar.editorFrameY)
 		addon.editorFrame:SetScript("OnHide", function(self)
 			addon.updateStepsMapIcons()
@@ -679,9 +742,7 @@ function addon.showEditor()
 
 	    addon.editorFrame.scrollFrame = CreateFrame("ScrollFrame", nil, addon.editorFrame, "UIPanelScrollFrameTemplate")
 	    addon.editorFrame.scrollFrame:SetPoint("TOPLEFT", prev, "TOPLEFT", 0, -40)
-	    addon.editorFrame.scrollFrame:SetPoint("RIGHT", addon.editorFrame, "RIGHT", -300, 0)
-	    addon.editorFrame.scrollFrame:SetPoint("BOTTOM", addon.editorFrame, "BOTTOM", 0, 60)
-
+	    addon.editorFrame.scrollFrame:SetPoint("BOTTOMRIGHT", addon.editorFrame, "BOTTOMRIGHT", -340, 60)
 	    local content = CreateFrame("Frame", nil, addon.editorFrame.scrollFrame) 
 	    content:SetSize(1, 1) 
 	    addon.editorFrame.scrollFrame:SetScrollChild(content)
@@ -694,13 +755,13 @@ function addon.showEditor()
 		addon.editorFrame.textBox:SetFontObject("GameFontNormal")
 		addon.editorFrame.textBox:SetPoint("TOPLEFT", content, "TOPLEFT", 30, 0)
 		addon.editorFrame.textBox:SetTextColor(1,1,1,1)
-		addon.editorFrame.textBox:SetWidth(addon.editorFrame:GetWidth() - 350)
+		addon.editorFrame.textBox:SetWidth(addon.editorFrame:GetWidth() - 390)
 		addon.editorFrame.textBox:SetScript("OnMouseUp", function(self, button)
 			--if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:Hide() end
 			--self.tooltip = nil
 			--if element ~= nil then self.tooltip = element.t end
+			local guide = parseGuide()
 			if addon.isDoubleClick(self) then
-				local guide = parseGuide()
 				if addon.editorFrame.selectedElement ~= nil and addon["showEditPopup" .. addon.editorFrame.selectedElement.t] ~= nil then
 					addon["showEditPopup" .. addon.editorFrame.selectedElement.t](addon.editorFrame.selectedElement.t, guide, addon.editorFrame.selectedStep, addon.editorFrame.selectedElement)
 				end
@@ -723,22 +784,32 @@ function addon.showEditor()
 		addon.editorFrame.questInfoText:SetPoint("TOPLEFT", addon.editorFrame.scrollFrame, "TOPRIGHT", 40, 0)
 		prev = addon.editorFrame.questInfoText
 		
-		addon.editorFrame.questInfo = addon.editorFrame:CreateFontString(nil, addon.editorFrame, "GameFontNormal")
-		addon.editorFrame.questInfo:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 20)
-		addon.editorFrame.questInfo:SetTextColor(1,1,1,1)
-		addon.editorFrame.questInfo:SetHeight(200)
-		prev = addon.editorFrame.questInfo
+	    addon.editorFrame.questInfoScrollFrame = CreateFrame("ScrollFrame", nil, addon.editorFrame, "UIPanelScrollFrameTemplate")
+	    addon.editorFrame.questInfoScrollFrame:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
+	    addon.editorFrame.questInfoScrollFrame:SetPoint("BOTTOMRIGHT", prev, "BOTTOMLEFT", 260, -130)
+	    local content = CreateFrame("Frame", nil, addon.editorFrame.questInfoScrollFrame) 
+	    content:SetSize(1, 1) 
+	    addon.editorFrame.questInfoScrollFrame:SetScrollChild(content)
+		addon.editorFrame.questInfo = CreateFrame("EditBox", nil, content)
+		addon.editorFrame.questInfo:SetEnabled(false)
+		addon.editorFrame.questInfo:SetWidth(240)
+		addon.editorFrame.questInfo:SetMultiLine(true)
+		addon.editorFrame.questInfo:SetFontObject("GameFontNormal")
+		addon.editorFrame.questInfo:SetPoint("TOPLEFT", content, "TOPLEFT", 0, 0)
+		prev = addon.editorFrame.questInfoScrollFrame
 
 		addon.editorFrame.gotoInfoText = addon.editorFrame:CreateFontString(nil, addon.editorFrame, "GameFontNormal")
 		addon.editorFrame.gotoInfoText:SetText(L.GOTO_INFO)
-		addon.editorFrame.gotoInfoText:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 20)
+		addon.editorFrame.gotoInfoText:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -20)
 		prev = addon.editorFrame.gotoInfoText
 		
-		addon.editorFrame.gotoInfo = addon.editorFrame:CreateFontString(nil, addon.editorFrame, "GameFontNormal")
-		addon.editorFrame.gotoInfo:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 20)
-		addon.editorFrame.gotoInfo:SetTextColor(1,1,1,1)
-		addon.editorFrame.gotoInfo:SetHeight(485)
-		
+	    addon.editorFrame.gotoInfoScrollFrame = CreateFrame("ScrollFrame", nil, addon.editorFrame, "UIPanelScrollFrameTemplate")
+	    addon.editorFrame.gotoInfoScrollFrame:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
+	    addon.editorFrame.gotoInfoScrollFrame:SetPoint("BOTTOMRIGHT", prev, "BOTTOMLEFT", 260, -445)
+	    addon.editorFrame.gotoInfoContent = CreateFrame("Frame", nil, addon.editorFrame.gotoInfoScrollFrame) 
+	    addon.editorFrame.gotoInfoContent:SetSize(1, 1) 
+	    addon.editorFrame.gotoInfoScrollFrame:SetScrollChild(addon.editorFrame.gotoInfoContent)
+
 		addon.editorFrame:SetScript("OnKeyDown", nil)
 		addon.editorFrame.textBox:SetScript("OnKeyDown", function(self,key) 
 			if key == "ESCAPE" then
@@ -782,7 +853,7 @@ function addon.showEditor()
 		addon.editorFrame.mapBtn:SetWidth(140)
 		addon.editorFrame.mapBtn:SetHeight(30)
 		addon.editorFrame.mapBtn:SetText(L.SHOW_MAP)
-		addon.editorFrame.mapBtn:SetPoint("TOPLEFT", addon.editorFrame.gotoInfo, "BOTTOMLEFT", 0, 20)
+		addon.editorFrame.mapBtn:SetPoint("TOPLEFT", addon.editorFrame.gotoInfoScrollFrame, "BOTTOMLEFT", 0, -10)
 		addon.editorFrame.mapBtn:SetScript("OnClick", function()
 			addon.editorFrame.textBox:SetEnabled(false)
 			ToggleWorldMap()

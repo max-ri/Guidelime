@@ -14,6 +14,7 @@ addon.COLOR_LEVEL_ORANGE = "|cFFFFA500"
 addon.COLOR_LEVEL_YELLOW = "|cFFFFFF00"
 addon.COLOR_LEVEL_GREEN = "|cFF008000"
 addon.COLOR_LEVEL_GRAY = "|cFF808080"
+addon.COLOR_WHITE = "|cFFFFFFFF"
 addon.MAINFRAME_ALPHA_MAX = 85
 addon.AUTO_COMPLETE_DELAY = 1.7
 addon.DEFAULT_GOTO_RADIUS = 0.3
@@ -793,7 +794,7 @@ function addon.updateMainFrame()
 			end)
 		else
 			addon.mainFrame.message = addon.addMultilineText(addon.mainFrame.scrollChild, 
-				L.GUIDE_FINISHED_NEXT:format("|cFFFFFFFF" .. addon.currentGuide.next .. "|r"), addon.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button) 
+				L.GUIDE_FINISHED_NEXT:format(addon.COLOR_WHITE .. addon.currentGuide.next .. "|r"), addon.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button) 
 				if (button == "RightButton") then
 					showContextMenu()
 				else
