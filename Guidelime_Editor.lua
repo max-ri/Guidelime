@@ -84,6 +84,7 @@ end
 
 local function parseGuide()
 	local guide = addon.parseGuide(addon.editorFrame.textBox:GetText())
+	if guide == nil then return end
 	local lines = {}
 	for i = 1, guide.lines do lines[i] = i end
 	addon.editorFrame.linesBox:SetText(table.concat(lines, "\n"))

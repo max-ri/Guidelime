@@ -60,7 +60,7 @@ end
 
 function addon.getQuestNameById(id)
 	if id == nil then return nil end
-	if addon.quests[id] ~= nil and addon.quests[id].name ~= nil then
+	if addon.quests ~= nil and addon.quests[id] ~= nil and addon.quests[id].name ~= nil then
 		return addon.quests[id].name
 	end
 	local locale = GetLocale()

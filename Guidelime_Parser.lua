@@ -155,7 +155,7 @@ function addon.parseLine(step, guide)
 				element.t = "COMPLETE"
 				element.optional = true
 			else
-				addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, step.text))
+				addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, (step.line or "") .. " " .. step.text))
 				err = true
 			end
 			code:sub(3):gsub("%s*(%d+),?(%d*)%s*(.*)", function(id, objective, title)
@@ -164,12 +164,12 @@ function addon.parseLine(step, guide)
 				if title == "-" then
 					element.title = ""
 				elseif addon.questsDB[element.questId] ~= nil and (title == nil or title == "") then
-					element.title = addon.questsDB[element.questId].name
+					element.title = addon.getQuestNameById(element.questId)
 				else
 					element.title = title
 				end
 				if addon.debugging and addon.questsDB[element.questId] == nil then 
-					print("LIME: loading guide \"" .. (guide.name or "") .. "\": unknown quest id " .. element.questId .. "\" in line \"" .. step.text .. "\"") 
+					print("LIME: loading guide \"" .. (guide.name or "") .. "\": unknown quest id " .. element.questId .. "\" in line \"" .. (step.line or "") .. " " .. step.text .. "\"") 
 				end
 				--elseif addon.debugging and addon.questsDB[element.questId].name ~= element.title:sub(1, #addon.questsDB[element.questId].name) then
 				--	error("loading guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": wrong title for quest " .. element.questId .. " \"" .. element.title .. "\" instead of \"" .. addon.questsDB[element.questId].name .. "\" in line \"" .. step.text .. "\"")
@@ -202,7 +202,7 @@ function addon.parseLine(step, guide)
 				elseif addon.isFaction(c) then
 					guide.faction = addon.getFaction(c)
 				else
-					addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, step.text))
+					addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, (step.line or "") .. " " .. step.text))
 					err = true
 				end
 			end)
@@ -217,14 +217,14 @@ function addon.parseLine(step, guide)
 				elseif addon.isFaction(c) then
 					step.faction = addon.getFaction(c)
 				else
-					addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, step.text))
+					addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, (step.line or "") .. " " .. step.text))
 					err = true
 				end
 				element.t = "APPLIES"
 				table.insert(step.elements, element)
 			end)
 		elseif code:sub(1, 1) == addon.codes.GOTO then
-			code:gsub("G%s*(%d+%.?%d*),%s?(%d+%.?%d*),?%s?(%d*%.?%d*)(.*)", function(x, y, radius, zone)
+			code:gsub("G%s*(%d+%.?%d*),%s?(%d+%.?%d*),?%s?(%d*%.?%d*)%s?(.*)", function(x, y, radius, zone)
 				element.t = "GOTO"
 				element.x = tonumber(x)
 				element.y = tonumber(y)
@@ -232,20 +232,20 @@ function addon.parseLine(step, guide)
 				if zone ~= "" then guide.currentZone = addon.mapIDs[zone] end
 				element.mapID = guide.currentZone
 				if element.mapID == nil then 
-					addon.createPopupFrame(string.format(L.ERROR_CODE_ZONE_NOT_FOUND, guide.name or "", code, step.text))
+					addon.createPopupFrame(string.format(L.ERROR_CODE_ZONE_NOT_FOUND, guide.name or "", code, (step.line or "") .. " " .. step.text))
 					err = true
 				end
 				table.insert(step.elements, element)
 			end, 1)
 		elseif code:sub(1, 1) == addon.codes.LOC then
-			code:gsub("L%s*(%d+%.?%d*),%s?(%d+%.?%d*)(.*)", function(x, y, zone)
+			code:gsub("L%s*(%d+%.?%d*),%s?(%d+%.?%d*)%s?(.*)", function(x, y, zone)
 				element.t = "LOC"
 				element.x = tonumber(x)
 				element.y = tonumber(y)
 				if zone ~= "" then guide.currentZone = addon.mapIDs[zone] end
 				element.mapID = guide.currentZone
 				if element.mapID == nil then 
-					addon.createPopupFrame(string.format(L.ERROR_CODE_ZONE_NOT_FOUND, guide.name or "", code, step.text))
+					addon.createPopupFrame(string.format(L.ERROR_CODE_ZONE_NOT_FOUND, guide.name or "", code, (step.line or "") .. " " .. step.text))
 					err = true
 				end
 				table.insert(step.elements, element)
@@ -312,7 +312,7 @@ function addon.parseLine(step, guide)
 				end
 			end
 			if not found then 
-				addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, step.text))
+				addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, (step.line or "") .. " " .. step.text))
 				err = true
 			end
 		end

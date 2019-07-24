@@ -121,10 +121,11 @@ function addon.addTextbox(frame, text, width, tooltip)
 	end
 	return textbox
 end
+
 function addon.createPopupFrame(message, okFunc, hasCancel, height)
 	addon.popupFrame = CreateFrame("FRAME", nil, addon.popupFrame or UIParent)
 	addon.popupFrame:SetWidth(550)
-	if height == nil then height = 100 end
+	if height == nil then height = 150 end
 	addon.popupFrame:SetHeight(height)
 	addon.popupFrame:SetPoint("CENTER", UIParent, "CENTER")
 	addon.popupFrame:SetBackdrop({
@@ -150,7 +151,9 @@ function addon.createPopupFrame(message, okFunc, hasCancel, height)
 	end)
 	
 	if message ~= nil then
-		addon.popupFrame.message = addon.popupFrame:CreateFontString(nil, addon.popupFrame, "GameFontNormal")
+		addon.popupFrame.message = addon.popupFrame:CreateFontString(nil, addon.popupFrame, "GameFontNormal")	
+		addon.popupFrame.message:SetWidth(530)
+		addon.popupFrame.message:SetWordWrap(true)
 		addon.popupFrame.message:SetText(message);
 		addon.popupFrame.message:SetPoint("TOP", 0, -30 )
 	end
