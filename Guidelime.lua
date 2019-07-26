@@ -15,6 +15,7 @@ addon.COLOR_LEVEL_YELLOW = "|cFFFFFF00"
 addon.COLOR_LEVEL_GREEN = "|cFF008000"
 addon.COLOR_LEVEL_GRAY = "|cFF808080"
 addon.COLOR_WHITE = "|cFFFFFFFF"
+addon.COLOR_LIGHT_BLUE = "|cFF99CCFF"
 addon.MAINFRAME_ALPHA_MAX = 85
 addon.AUTO_COMPLETE_DELAY = 1.7
 addon.DEFAULT_GOTO_RADIUS = 0.3
@@ -94,6 +95,7 @@ function addon.loadData()
 	local defaultOptions = {
 		debugging = false,
 		showQuestLevels = false,
+		showMinimumQuestLevels = false,
 		showTooltips = true,
 		maxNumOfMarkers = 10,
 		maxNumOfSteps = 0,
@@ -256,14 +258,21 @@ end
 
 local function getQuestText(id, title, colored)
 	local q = ""
-	if GuidelimeData.showQuestLevels then
-		q = q .. addon.getLevelColor(addon.questsDB[id].level)
-		q = q .. "[" .. addon.questsDB[id].level .. "] "
-		if colored == nil or colored then
+	if GuidelimeData.showQuestLevels or GuidelimeData.showMinimumQuestLevels then
+		q = q .. "["
+		if GuidelimeData.showMinimumQuestLevels then
+			q = q .. addon.COLOR_LIGHT_BLUE ..addon.questsDB[id].req
+		end
+		if GuidelimeData.showQuestLevels then
+			q = q .. addon.getLevelColor(addon.questsDB[id].level) .. addon.questsDB[id].level
+			if addon.questsDB[id].type == "Elite" then q = q .. "+" end
+		end
+		if colored == true then
 			q = q .. "|r"
 		else
 			q = q .. addon.COLOR_INACTIVE
 		end
+		q = q .. "]"
 	end
 	if colored == nil or colored then q = q .. addon.COLOR_QUEST_DEFAULT end
 	q = q .. (title or addon.getQuestNameById(id))

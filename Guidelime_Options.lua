@@ -140,7 +140,15 @@ function addon.fillOptions()
 	end)
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -90)
 	
-	checkbox = addon.addCheckOption(addon.optionsFrame, GuidelimeData, "showQuestLevels", L.SHOW_QUEST_LEVELS, nil, function()
+	checkbox = addon.addCheckOption(addon.optionsFrame, GuidelimeData, "showQuestLevels", L.SHOW_SUGGESTED_QUEST_LEVELS, nil, function()
+		if GuidelimeDataChar.mainFrameShowing then
+			addon.updateStepsText()
+		end
+	end)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	prev = checkbox
+
+	checkbox = addon.addCheckOption(addon.optionsFrame, GuidelimeData, "showMinimumQuestLevels", L.SHOW_MINIMUM_QUEST_LEVELS, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateStepsText()
 		end
