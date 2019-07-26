@@ -46,6 +46,14 @@ addon.codes = {
 	COMPLETE_WITH_NEXT = "C", -- same as OC
 }
 
+function addon.getSuperCode(code)
+	if code == "ACCEPT" then return "QUEST" end
+	if code == "TURNIN" then return "QUEST" end
+	if code == "COMPLETE" then return "QUEST" end
+	if code == "SKIP" then return "QUEST" end
+	return code
+end
+
 function addon.parseGuide(guide, group)
 	if type(guide) == "string" then
 		guide = {text = guide}

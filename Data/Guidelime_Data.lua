@@ -1,6 +1,8 @@
 local addonName, addon = ...
 local L = addon.L
 
+HBD = LibStub("HereBeDragons-2.0")
+
 addon.factions = {"Alliance", "Horde"}
 addon.races = {Human = "Alliance", NightElf = "Alliance", Dwarf = "Alliance", Gnome = "Alliance", Orc = "Horde", Troll = "Horde", Tauren = "Horde", Undead = "Horde"}
 addon.raceIDs = {Human = 1, NightElf = 4, Dwarf = 3, Gnome = 7, Orc = 2, Troll = 8, Tauren = 6, Undead = 5}
@@ -74,10 +76,9 @@ function addon.getQuestNameById(id)
 end
 
 function addon.getQuestObjective(id)
-	if id == nil then return nil end
 	local locale = GetLocale()
-	if addon.questsDB[id] == nil then
-		return nil
+	if id == nil or addon.questsDB[id] == nil then
+		return
 	elseif addon.questsDB[id]["objective_" .. locale] ~= nil then
 		return addon.questsDB[id]["objective_"..locale]
 	else
@@ -85,6 +86,48 @@ function addon.getQuestObjective(id)
 	end
 end
 
+function addon.getQuestPositions(id, typ, index, objective)
+	if id == nil or addon.questsDB[id] == nil then return end
+	local quest
+	if typ == "ACCEPT" then 
+		quest = addon.questsDB[id].source
+	elseif typ == "TURNIN" then
+		quest = addon.questsDB[id].deliver
+	else
+		return
+	end
+	if quest == nil or #quest < index then return end
+	local element = quest[index]
+	if element.positions == nil then return end
+	local positions = {}
+	for i, pos in ipairs(element.positions) do
+		local x, y, zone = addon.GetZoneCoordinatesFromWorld(pos.x, pos.y, pos.mapid)
+		if x ~= nil then
+			table.insert(positions, {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, zone = zone})
+		else
+			error("error transforming (" .. pos.x .. "," .. pos.y .. " " .. pos.mapid .. ") into zone coordinates for quest #" .. id)
+		end
+	end
+	return positions
+end
+
+function addon.getQuestTargetNames(id, typ, objective)
+	if id == nil or addon.questsDB[id] == nil then return end
+	local quest
+	if typ == "ACCEPT" then 
+		quest = addon.questsDB[id].source
+	elseif typ == "TURNIN" then
+		quest = addon.questsDB[id].deliver
+	else
+		return
+	end
+	if quest == nil then return end
+	local names = {}
+	for _, element in ipairs(quest) do
+		table.insert(names, element.name)
+	end
+	return names
+end	
 
 function addon.getPossibleQuestIdsByName(name, faction, race, class)
 	if addon.questsDBReverse == nil then
@@ -138,6 +181,23 @@ function addon.getPossibleQuestIdsByName(name, faction, race, class)
 		return filteredIds
 	end
 	return ids
+end
+
+function addon.GetZoneCoordinatesFromWorld(worldX, worldY, instance)
+	for name, id in pairs(addon.mapIDs) do
+		local x, y = HBD:GetZoneCoordinatesFromWorld(worldY, worldX, id, false)
+		if x ~= nil and x > 0 and x < 1 and y ~= nil and y > 0 and y < 1 then
+			local checkX, checkY, checkInstance = HBD:GetWorldCoordinatesFromZone(x, y, id)
+			if checkInstance == instance then
+				-- hack for some bfa zone names
+				do
+					local e = name:find("[@!]")
+					if e ~= nil then name = name:sub(1, e - 1) end
+				end
+				return x, y, name
+			end
+		end
+	end
 end
 
 function addon.contains(array, value)

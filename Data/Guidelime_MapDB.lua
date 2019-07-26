@@ -1,5 +1,13 @@
 local addonName, addon = ...
 
+--[[if GetLocale() == "enUS" then
+	-- read ui map id list from HDB
+	addon.mapIDs = {}
+	for i, id in ipairs(HBD:GetAllMapIDs()) do
+		addon.mapIDs[HBD:GetLocalizedMap(id)] = id
+	end
+else]]
+
 if select(4, GetBuildInfo()) < 20000 then
 	-- classic
 	addon.mapIDs = {
@@ -12,7 +20,7 @@ if select(4, GetBuildInfo()) < 20000 then
 		["Badlands"] = 1418,
 		["Searing Gorge"] = 1427,
 		["Loch Modan"] = 1432,
-		["Eastern Kingdoms"] = 1415,
+		--["Eastern Kingdoms"] = 1415,
 		["Undercity"] = 1458,
 		["Desolace"] = 1443,
 		["Warsong Gulch"] = 1460,
@@ -21,7 +29,7 @@ if select(4, GetBuildInfo()) < 20000 then
 		["Azshara"] = 1447,
 		["The Barrens"] = 1413,
 		["Swamp of Sorrows"] = 1435,
-		["Azeroth"] = 947,
+		--["Azeroth"] = 947,
 		["Alterac Mountains"] = 1416,
 		["Darkshore"] = 1439,
 		["Blasted Lands"] = 1419,
@@ -44,7 +52,7 @@ if select(4, GetBuildInfo()) < 20000 then
 		["Dun Morogh"] = 1426,
 		["Western Plaguelands"] = 1422,
 		["Wetlands"] = 1437,
-		["Kalimdor"] = 1414,
+		--["Kalimdor"] = 1414,
 		["Arathi Basin"] = 1461,
 		["Silverpine Forest"] = 1421,
 		["Darnassus"] = 1457,
@@ -59,12 +67,12 @@ if select(4, GetBuildInfo()) < 20000 then
 else
 	-- BFA
 	addon.mapIDs = {
-	 ["Azeroth"]=947,
+	 --["Azeroth"]=947,
 	 ["Durotar"]=1411,
 	 ["Mulgore"]=1412,
 	 ["The Barrens"]=1413,
-	 ["Kalimdor"]=1414,
-	 ["Eastern Kingdoms"]=1415,
+	 --["Kalimdor"]=1414,
+	 --["Eastern Kingdoms"]=1415,
 	 ["Alterac Mountains"]=1416,
 	 ["Arathi Highlands"]=1417,
 	 ["Badlands"]=1418,
@@ -111,8 +119,8 @@ else
 	 ["Alterac Valley"]=1459,
 	 ["Warsong Gulch"]=1460,
 	 ["Arathi Basin"]=1461,
-	 ["Eastern Kingdoms#1463"]=1463,
-	 ["Kalimdor#1464"]=1464,
+	 --["Eastern Kingdoms#1463"]=1463,
+	 --["Kalimdor#1464"]=1464,
 	 ["Durotar"]=1,
 	 ["Burning Blade Coven"]=2,
 	 ["Tiragarde Keep"]=3,
@@ -124,8 +132,8 @@ else
 	 ["The Venture Co. Mine"]=9,
 	 ["Northern Barrens"]=10,
 	 ["Wailing Caverns"]=11,
-	 ["Kalimdor"]=12,
-	 ["Eastern Kingdoms"]=13,
+	 --["Kalimdor"]=12,
+	 --["Eastern Kingdoms"]=13,
 	 ["Arathi Highlands!Eastern Kingdoms"]=14,
 	 ["Badlands"]=15,
 	 ["Uldaman!Badlands"]=16,
@@ -1048,8 +1056,8 @@ else
 	 ["Overseer's Redoubt@Tol Dagor!Dungeon"]=979,
 	 ["Overseer's Summit@Tol Dagor!Dungeon"]=980,
 	 ["Un'gol Ruins!Instance"]=981,
-	 ["Eastern Kingdoms#985"]=985,
-	 ["Kalimdor#986"]=986,
+	 --["Eastern Kingdoms#985"]=985,
+	 --["Kalimdor#986"]=986,
 	 ["Outland#987"]=987,
 	 ["Northrend#988"]=988,
 	 ["Pandaria#989"]=989,
@@ -1139,8 +1147,8 @@ else
 	 ["Drustvar!Kul Tiras#1014"]=1197,
 	 ["Stormsong Valley!Kul Tiras#1014"]=1198,
 	 ["Darkshore!Instance1203"]=1203,
-	 ["Eastern Kingdoms#1208"]=1208,
-	 ["Kalimdor#1209"]=1209,
+	 --["Eastern Kingdoms#1208"]=1208,
+	 --["Kalimdor#1209"]=1209,
 	 ["Arathi Highlands!Eastern Kingdoms#1208"]=1244,
 	 ["Badlands!Eastern Kingdoms#1208"]=1245,
 	 ["Blasted Lands!Eastern Kingdoms#1208"]=1246,
@@ -1228,9 +1236,11 @@ else
 	 ["Shrine of the Storm#1362"]=1362,
 	 ["CrucibleRaid_Bottom_Intro!Dungeon"]=1363,
 	 ["The Great Sea@Battle of Dazar'alor!Dungeon"]=1364,
-	 ["Boralus@Battle of Dazar'alor!Dungeon"]=1367,
+	 ["Boralus@Battle of Dazar'alor!Dungeon"]=1367, 
 	}
 end
+
+--end
 
 addon.zoneNames = {}
 for zone, id in pairs(addon.mapIDs) do
