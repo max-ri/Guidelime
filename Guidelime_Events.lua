@@ -15,8 +15,18 @@ end
 
 addon.frame:RegisterEvent('PLAYER_LEVEL_UP')
 function addon.frame:PLAYER_LEVEL_UP(level)
-	if addon.debugging then print("LIME: You reached level " .. level .. ". Grats!") end
-	addon.level = level
+	C_Timer.After(0.1, function()
+		addon.level = level
+		addon.xpMax = UnitXPMax("player")
+		if addon.debugging then print("LIME: You reached level " .. level .. ". Grats! new xp max is " .. addon.xpMax) end
+		addon.updateSteps()
+	end)
+end
+
+addon.frame:RegisterEvent('PLAYER_XP_UPDATE')
+function addon.frame:PLAYER_XP_UPDATE(level)
+	addon.xp = UnitXP("player")
+	--if addon.debugging then print("LIME: xp is " .. addon.xp) end
 	addon.updateSteps()
 end
 
