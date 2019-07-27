@@ -96,9 +96,9 @@ end
 
 local function showMapIcon(mapIcon)
 	if mapIcon ~= nil and mapIcon.inUse then
-		--if addon.debugging then print("LIME: map icon", mapIcon.mapID, mapIcon.x, mapIcon.y) end
-		HBDPins:AddWorldMapIconMap(addon, mapIcon, mapIcon.mapID, mapIcon.x / 100, mapIcon.y / 100, 3)
-		HBDPins:AddMinimapIconMap(addon, mapIcon.minimap, mapIcon.mapID, mapIcon.x / 100, mapIcon.y / 100, true, true)
+		local x, y, instance = HBD:GetWorldCoordinatesFromZone(mapIcon.x / 100, mapIcon.y / 100, mapIcon.mapID)
+		HBDPins:AddWorldMapIconWorld(addon, mapIcon, instance, x, y, 3)
+		HBDPins:AddMinimapIconWorld(addon, mapIcon.minimap, instance, x, y, true, true)
 	end
 end
 
