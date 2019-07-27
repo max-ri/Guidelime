@@ -57,7 +57,7 @@ local function setEditorMapIcons(guide)
 	for i, step in ipairs(guide.steps) do
 		for j, element in ipairs(step.elements) do
 			if element.t == "LOC" or element.t == "GOTO" then
-				addon.addMapIcon(element, addon.editorFrame.selection ~= nil and i == addon.editorFrame.selection.stepIndex and j == addon.editorFrame.selection.elementIndex, true)
+				addon.addMapIcon(element, addon.editorFrame.selection == element, true)
 				
 				local text = CreateFrame("EditBox", nil, addon.editorFrame.gotoInfoContent)
 				text:SetEnabled(false)
@@ -75,12 +75,10 @@ local function setEditorMapIcons(guide)
 					text:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 				end
 				text:SetScript("OnMouseUp", function(self, button)
-					print(addon.editorFrame.gotoInfoContent.timer)
 					if addon.isDoubleClick(addon.editorFrame.gotoInfoContent) then
-						print(step.line)
-						addon["showEditPopup" .. element.t](element.t, guide, step, element)
+						addon["showEditPopup" .. element.t](element.t, guide, element)
 					else
-						addon.editorFrame.selection = {step = step, element = element, stepIndex = i, elementIndex = j}
+						addon.editorFrame.selection = element
 						setEditorMapIcons(guide)
 					end
 				end)
@@ -97,7 +95,7 @@ local function getElementByPos(pos, guide)
 		for j, element in ipairs(step.elements) do
 			--print(element.startPos .. "-" .. element.endPos)
 			if element.startPos <= pos and element.endPos >= pos then
-				return {step = step, element = element, stepIndex = i, elementIndex = j}
+				return element
 			end
 		end
 	end
@@ -111,7 +109,7 @@ local function parseGuide()
 	addon.editorFrame.linesBox:SetText(table.concat(lines, "\n"))
 	local pos = addon.editorFrame.textBox:GetCursorPosition() + 1
 	addon.editorFrame.selection = getElementByPos(pos, guide)
-	if addon.editorFrame.selection ~= nil then setQuestInfo(addon.editorFrame.selection.element.questId) end
+	if addon.editorFrame.selection ~= nil then setQuestInfo(addon.editorFrame.selection.questId) end
 	setEditorMapIcons(guide)
 	return guide
 end
@@ -306,8 +304,8 @@ function addon.popupAppliesSetEnabledCheckboxes(popup, typ, guide)
 end
 
 function addon.showEditPopupAPPLIES(typ, guide, selection)
-	local step, element 
-	if selection ~= nil then step = selection.step; element = selection.element end
+	local step 
+	if selection ~= nil then step = selection.step end
 	local popup = createEditPopup(function(popup)
 		local text = ""
 		local factionLocked = false
@@ -334,7 +332,7 @@ function addon.showEditPopupAPPLIES(typ, guide, selection)
 			end
 		end		
 		if text ~= "" then text = " " .. text end
-		insertCode(typ, text, typ == "GUIDE_APPLIES", element)
+		insertCode(typ, text, typ == "GUIDE_APPLIES", selection)
 	end, 300)
 	
 	popup.checkboxes = {}
@@ -398,9 +396,7 @@ end
 addon.showEditPopupGUIDE_APPLIES = addon.showEditPopupAPPLIES
 
 function addon.showEditPopupQUEST(typ, guide, selection)
-	local element 
-	if selection ~= nil then element = selection.element end
-	local firstElement, lastElement = element, element
+	local firstElement, lastElement = selection, selection
 	local popup = createEditPopup(function(popup)
 		local text = popup.textboxName:GetText()
 		local id = tonumber(popup.textboxId:GetText())
@@ -494,7 +490,7 @@ function addon.showEditPopupQUEST(typ, guide, selection)
 		end
 		if applies ~= "" then 
 			applies = "][A " .. applies 
-			if selection.step.elements[selection.elementIndex + 1].t == "APPLIES" then lastElement = selection.step.elements[selection.elementIndex + 1] end
+			if selection.step.elements[selection.index + 1].t == "APPLIES" then lastElement = selection.step.elements[selection.index + 1] end
 		end
 		insertCode("QUEST", popup.key .. id .. objective .. text .. applies, false, firstElement, lastElement)
 	end, 180)
@@ -517,16 +513,16 @@ function addon.showEditPopupQUEST(typ, guide, selection)
 		end)
 	end
 	popup.key = "A"
-	if element ~= nil then popup.key = element.t:sub(1, 1) end
+	if selection ~= nil then popup.key = selection.t:sub(1, 1) end
 	popup.checkboxes[popup.key]:SetChecked(true)
 	popup.textboxId = addon.addTextbox(popup, L.QUEST_ID, 100, L.QUEST_ID_TOOLTIP)
 	popup.textboxId.text:SetPoint("TOPLEFT", 20, -50)
 	popup.textboxId:SetPoint("TOPLEFT", 170, -50)
 	popup.textQuestname = popup:CreateFontString(nil, popup, "GameFontNormal")
 	popup.textQuestname:SetPoint("TOPLEFT", 280, -50)
-	if element ~= nil then 
-		popup.textboxId:SetText(element.questId) 
-		popup.textQuestname:SetText(addon.getQuestNameById(element.questId))
+	if selection ~= nil then 
+		popup.textboxId:SetText(selection.questId) 
+		popup.textQuestname:SetText(addon.getQuestNameById(selection.questId))
 	end
 	popup.textboxId:SetScript("OnTextChanged", function(self) 
 		popup.textQuestname:SetText(addon.getQuestNameById(tonumber(popup.textboxId:GetText())) or "")
@@ -535,7 +531,7 @@ function addon.showEditPopupQUEST(typ, guide, selection)
 	popup.textboxName = addon.addTextbox(popup, L.QUEST_NAME, 370, L.QUEST_NAME_TOOLTIP)
 	popup.textboxName.text:SetPoint("TOPLEFT", 20, -80)
 	popup.textboxName:SetPoint("TOPLEFT", 170, -80)
-	if element ~= nil then if element.title == "" then popup.textboxName:SetText("-") else popup.textboxName:SetText(element.title) end end
+	if selection ~= nil then if selection.title == "" then popup.textboxName:SetText("-") else popup.textboxName:SetText(selection.title) end end
 	popup.textboxObjective = addon.addTextbox(popup, L.QUEST_OBJECTIVE, 100, L.QUEST_OBJECTIVE_TOOLTIP)
 	popup.textboxObjective.text:SetPoint("TOPLEFT", 20, -110)
 	popup.textboxObjective:SetPoint("TOPLEFT", 170, -110)
@@ -543,13 +539,11 @@ function addon.showEditPopupQUEST(typ, guide, selection)
 		popup.textboxObjective:Hide()
 		popup.textboxObjective.text:Hide()
 	end
-	if element ~= nil then popup.textboxObjective:SetText(element.objective or "") end
+	if selection ~= nil then popup.textboxObjective:SetText(selection.objective or "") end
 	popup:Show()
 end
 
 function addon.showEditPopupGOTO(typ, guide, selection)
-	local element 
-	if selection ~= nil then element = selection.element end
 	local popup = createEditPopup(function(popup)
 		local x = tonumber(popup.textboxX:GetText())
 		if x == nil then 
@@ -573,7 +567,7 @@ function addon.showEditPopupGOTO(typ, guide, selection)
 			addon.createPopupFrame(msg)
 			return false
 		end
-		insertCode(typ, x .. "," .. y .. zone, false, element)
+		insertCode(typ, x .. "," .. y .. zone, false, selection)
 	end, 140)
 	popup.textboxX = addon.addTextbox(popup, "X", 100)
 	popup.textboxX.text:SetPoint("TOPLEFT", 20, -20)
@@ -585,10 +579,10 @@ function addon.showEditPopupGOTO(typ, guide, selection)
 	popup.textboxZone.text:SetPoint("TOPLEFT", 20, -80)
 	popup.textboxZone:SetPoint("TOPLEFT", 120, -80)
 
-	if element ~= nil then	
-		popup.textboxX:SetText(element.x)
-		popup.textboxY:SetText(element.y)
-		popup.textboxZone:SetText(addon.zoneNames[element.mapID] or "")
+	if selection ~= nil then	
+		popup.textboxX:SetText(selection.x)
+		popup.textboxY:SetText(selection.y)
+		popup.textboxZone:SetText(addon.zoneNames[selection.mapID] or "")
 	else	
 		local x, y = HBD:GetPlayerZonePosition()
 		popup.textboxX:SetText(math.floor(x * 10000) / 100)
@@ -610,8 +604,6 @@ local function popupXPCodeValues(popup)
 end
 
 function addon.showEditPopupXP(typ, guide, selection)
-	local element 
-	if selection ~= nil then element = selection.element end
 	local popup = createEditPopup(function(popup)
 		local level, xp = popupXPCodeValues(popup)
 		if level == nil then 
@@ -628,12 +620,12 @@ function addon.showEditPopupXP(typ, guide, selection)
 		end
 		local text = popup.textboxText:GetText()
 		if text ~= "" then text = " " .. text end
-		insertCode("XP", level .. (popup.key or "") .. (xp or "") .. text, false, element)
+		insertCode("XP", level .. (popup.key or "") .. (xp or "") .. text, false, selection)
 	end, 170)
 	popup.textboxLevel = addon.addTextbox(popup, L.LEVEL, 100)
 	popup.textboxLevel.text:SetPoint("TOPLEFT", 20, -20)
 	popup.textboxLevel:SetPoint("TOPLEFT", 140, -20)
-	if element ~= nil then popup.textboxLevel:SetText(element.level) end
+	if selection ~= nil then popup.textboxLevel:SetText(selection.level) end
 	popup.checkboxes = {}
 	for i, key in ipairs({"", "+", "-", "%"}) do
 		popup.checkboxes[key] = addon.addCheckbox(popup, L["XP_LEVEL" .. key], L["XP_LEVEL" .. key .. "_TOOLTIP"])
@@ -654,10 +646,10 @@ function addon.showEditPopupXP(typ, guide, selection)
 		end)
 	end
 	popup.key = ""
-	if element ~= nil and element.xp ~= nil then
-		if element.xpType == "REMAINING" then
+	if selection ~= nil and selection.xp ~= nil then
+		if selection.xpType == "REMAINING" then
 			popup.key = "-"
-		elseif element.xpType == "PERCENTAGE" then
+		elseif selection.xpType == "PERCENTAGE" then
 			popup.key = "."
 		else
 			popup.key = "+"
@@ -667,7 +659,7 @@ function addon.showEditPopupXP(typ, guide, selection)
 	popup.textboxXP = addon.addTextbox(popup, "", 100)
 	popup.textboxXP.text:SetPoint("TOPLEFT", 20, -80)
 	popup.textboxXP:SetPoint("TOPLEFT", 140, -80)
-	if element ~= nil and element.xp ~= nil then popup.textboxXP:SetText(element.xp) end
+	if selection ~= nil and selection.xp ~= nil then popup.textboxXP:SetText(selection.xp) end
 	if popup.key == "" then
 		popup.textboxXP:Hide()
 		popup.textboxXP.text:Hide()
@@ -684,7 +676,7 @@ function addon.showEditPopupXP(typ, guide, selection)
 		GameTooltip:Show() 
 	end)
 	popup.textboxText:SetScript("OnLeave", function(self) GameTooltip:Hide() end)
-	if element ~= nil then popup.textboxText:SetText(element.text) end
+	if selection ~= nil then popup.textboxText:SetText(selection.text) end
 	popup:Show()
 end
 addon.showEditPopupLEVEL = addon.showEditPopupXP
@@ -714,8 +706,8 @@ local function addEditButton(typ, prev, point, offsetX, offsetY)
 		if showEditPopup ~= nil then
 			local guide = parseGuide()
 			if guide ~= nil then 
-				if addon.editorFrame.selection ~= nil and addon.getSuperCode(addon.editorFrame.selection.element.t) == self.typ then
-					showEditPopup(addon.editorFrame.selection.element.t, guide, addon.editorFrame.selection)
+				if addon.editorFrame.selection ~= nil and addon.getSuperCode(addon.editorFrame.selection.t) == self.typ then
+					showEditPopup(addon.editorFrame.selection.t, guide, addon.editorFrame.selection)
 				else
 					showEditPopup(self.typ, guide) 
 				end
@@ -824,7 +816,7 @@ function addon.showEditor()
 			if not addon.editorFrame.textBox:IsEnabled() then return end
 			local guide = parseGuide()
 			if addon.editorFrame.selection ~= nil and addon.isDoubleClick(self) then
-				local showPopup = addon["showEditPopup" .. addon.getSuperCode(addon.editorFrame.selection.element.t)]
+				local showPopup = addon["showEditPopup" .. addon.getSuperCode(addon.editorFrame.selection.t)]
 				if showPopup ~= nil then
 					showPopup(addon.editorFrame.selection.t, guide, addon.editorFrame.selection)
 				end

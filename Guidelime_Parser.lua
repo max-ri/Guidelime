@@ -66,7 +66,7 @@ function addon.parseGuide(guide, group)
 		guide.steps = {}
 		local t = guide.text:gsub("([^\n]-)\n", function(c)
 			if c ~= nil and c ~= "" then
-				local step = {text = c:gsub("\\\\"," \n"), startPos = pos, line = guide.lines}
+				local step = {text = c:gsub("\\\\"," \n"), startPos = pos, line = guide.lines, guide = guide}
 				table.insert(guide.steps, step)
 				pos = pos + #c + 1
 				if addon.debugging and guide.text:sub(step.startPos, step.startPos + #c - 1) ~= c then
@@ -79,7 +79,7 @@ function addon.parseGuide(guide, group)
 			return ""
 		end)
 		if t ~= nil and t ~= "" then
-			table.insert(guide.steps, {text = t:gsub("\\\\"," \n"), startPos = pos, line = guide.lines})
+			table.insert(guide.steps, {text = t:gsub("\\\\"," \n"), startPos = pos, line = guide.lines, guide = guide})
 			guide.lines = guide.lines + 1
 		end
 	end
@@ -118,6 +118,8 @@ function addon.parseLine(step, guide)
 			element.startPos = pos
 			pos = pos + #text
 			element.endPos = pos - 1
+			element.index = #step.elements + 1
+			element.step = step
 			table.insert(step.elements, element)
 			if addon.debugging and step.text:sub(element.startPos - step.startPos + 1, element.endPos - step.startPos + 1) ~= text then
 				print("LIME: parsing guide \"" .. step.text:sub(element.startPos - step.startPos + 1, element.endPos - step.startPos + 1) .. "\" should be \"" .. text .. "\" at " .. element.startPos .. "-" .. element.endPos .. " in " .. pos0 .. "->" .. step.text)
@@ -127,6 +129,8 @@ function addon.parseLine(step, guide)
 		element.startPos = pos
 		pos = pos + #code + 2
 		element.endPos = pos - 1
+		element.index = #step.elements + 1
+		element.step = step
 		if addon.debugging and step.text:sub(element.startPos - step.startPos + 1, element.endPos - step.startPos + 1) ~= ("["..code.."]") then
 			print("LIME: parsing guide \"[" .. step.text:sub(element.startPos - step.startPos + 1, element.endPos - step.startPos + 1) .. "]\" should be \"" .. code .. "\" at " .. element.startPos .. "-" .. element.endPos .. " in " .. pos0 .. "->" .. step.text)
 		end
@@ -171,9 +175,7 @@ function addon.parseLine(step, guide)
 				if objective ~= "" then element.objective = tonumber(objective) end
 				if title == "-" then
 					element.title = ""
-				elseif addon.questsDB[element.questId] ~= nil and (title == nil or title == "") then
-					element.title = addon.getQuestNameById(element.questId)
-				else
+				elseif title ~= "" then
 					element.title = title
 				end
 				if addon.debugging and addon.questsDB[element.questId] == nil then 
@@ -334,6 +336,8 @@ function addon.parseLine(step, guide)
 		element.text = t
 		element.startPos = pos 
 		element.endPos = pos + #t - 1
+		element.index = #step.elements + 1
+		element.step = step
 		table.insert(step.elements, element)
 	end
 	return not err
