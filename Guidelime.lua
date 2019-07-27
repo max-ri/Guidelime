@@ -135,20 +135,20 @@ function addon.loadData()
 
 	addon.debugging = GuidelimeData.debugging
 
-	GuidelimeData.version:gsub("(%d+).(%d+)", function(major, minor)
-		if tonumber(major) == 0 and tonumber(minor) < 10 then
-			-- before 0.010 custom guides were saved with a key prefixed with L.CUSTOM_GUIDES. This produces different keys when language is changed. Therefore remove.
-			local guides = GuidelimeData.customGuides
-			GuidelimeData.customGuides = {}
-			for name, guide in pairs(guides) do
-				if name:sub(1, 14) == "Custom guides " then name = name:sub(15) end
-				GuidelimeData.customGuides[name] = guide
-			end
-			GuidelimeData.version = GetAddOnMetadata(addonName, "version")
-		end
-	end, 1)
-
 	if GuidelimeData.customGuides ~= nil then
+		GuidelimeData.version:gsub("(%d+).(%d+)", function(major, minor)
+			if tonumber(major) == 0 and tonumber(minor) < 10 then
+				-- before 0.010 custom guides were saved with a key prefixed with L.CUSTOM_GUIDES. This produces different keys when language is changed. Therefore remove.
+				local guides = GuidelimeData.customGuides
+				GuidelimeData.customGuides = {}
+				for name, guide in pairs(guides) do
+					if name:sub(1, 14) == "Custom guides " then name = name:sub(15) end
+					GuidelimeData.customGuides[name] = guide
+				end
+				GuidelimeData.version = GetAddOnMetadata(addonName, "version")
+			end
+		end, 1)
+
 		for _, guide in pairs(GuidelimeData.customGuides) do
 			Guidelime.registerGuide(guide, L.CUSTOM_GUIDES)
 		end
