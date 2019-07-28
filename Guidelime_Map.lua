@@ -15,6 +15,7 @@ local function createIconFrame(index, minimap)
     f:SetHeight(16)
     f.texture = f:CreateTexture(nil, "TOOLTIP")
     f.texture:SetTexture(addon.icons.MAP_MARKER)
+	if index >= 64 then index = 63 end
 	f.texture:SetTexCoord((index % 8) / 8, (index % 8 + 1) / 8, math.floor(index / 8) / 8, (math.floor(index / 8) + 1) / 8)
     f.texture:SetWidth(16)
     f.texture:SetHeight(16)
@@ -43,11 +44,7 @@ local function createMapIcon(i)
 	end
 	addon.mapIcons[i] = createIconFrame(i, 0)
 	addon.mapIcons[i].minimap = createIconFrame(i, 1)
-	if i >= 63 then
-		addon.mapIcons[i].index = 63
-	else
-		addon.mapIcons[i].index = i
-	end
+	addon.mapIcons[i].index = i
 	addon.mapIcons[i].inUse = false
 	return addon.mapIcons[i]
 end
@@ -97,8 +94,12 @@ end
 local function showMapIcon(mapIcon)
 	if mapIcon ~= nil and mapIcon.inUse then
 		local x, y, instance = HBD:GetWorldCoordinatesFromZone(mapIcon.x / 100, mapIcon.y / 100, mapIcon.mapID)
-		HBDPins:AddWorldMapIconWorld(addon, mapIcon, instance, x, y, 3)
-		HBDPins:AddMinimapIconWorld(addon, mapIcon.minimap, instance, x, y, true, true)
+		if x ~= nil then
+			HBDPins:AddWorldMapIconWorld(addon, mapIcon, instance, x, y, 3)
+			HBDPins:AddMinimapIconWorld(addon, mapIcon.minimap, instance, x, y, true, true)
+		elseif addon.debugging then
+			print("LIME: error transforming coordinates", mapIcon.x, mapIcon.y, mapIcon.mapID)
+		end
 	end
 end
 
@@ -106,6 +107,14 @@ function addon.showMapIcons()
 	for i = #addon.mapIcons, 0, -1 do
 		showMapIcon(addon.mapIcons[i])
 	end
+end
+
+function addon.getMapMarkerText(element)
+	local index = element.mapIndex
+	if index >= 64 then index = 63 end
+	return "|T" .. addon.icons.MAP_MARKER .. ":15:15:0:1:512:512:" .. 
+		index % 8 * 64 .. ":" .. (index % 8 + 1) * 64 .. ":" .. 
+		math.floor(index / 8) * 64 .. ":" .. (math.floor(index / 8) + 1) * 64 .. ":::|t"
 end
 
 function addon.setArrowTexture()
@@ -119,6 +128,18 @@ function addon.setArrowTexture()
 		addon.arrowFrame.texture:SetVertexColor(0.5,1,0.2)
 		addon.arrowFrame:SetHeight(42)
 		addon.arrowFrame:SetWidth(56)
+	end
+end
+
+function addon.getArrowIconText()
+	if GuidelimeData.arrowStyle == 1 then
+		return "|T" .. addon.icons.MAP_LIME_ARROW .. ":15:15:0:1:512:512:" .. 
+			addon.arrowFrame.col * 64 .. ":" .. (addon.arrowFrame.col + 1) * 64 .. ":" .. 
+			addon.arrowFrame.row * 64 .. ":" .. (addon.arrowFrame.row + 1) * 64 .. ":::|t"
+	elseif GuidelimeData.arrowStyle == 2 then
+		return "|T" .. addon.icons.MAP_ARROW .. ":15:15:0:1:512:512:" .. 
+			addon.arrowFrame.col * 56 .. ":" .. (addon.arrowFrame.col + 1) * 56 .. ":" .. 
+			addon.arrowFrame.row * 42 .. ":" .. (addon.arrowFrame.row + 1) * 42 .. ":127:255:51|t"
 	end
 end
 
@@ -139,18 +160,6 @@ function addon.updateArrow()
 			addon.arrowFrame.row = math.floor(index / 9)
 			addon.arrowFrame.texture:SetTexCoord(addon.arrowFrame.col * 56 / 512, (addon.arrowFrame.col + 1) * 56 / 512, addon.arrowFrame.row * 42 / 512, (addon.arrowFrame.row + 1) * 42 / 512)
 		end
-	end
-end
-
-function addon.getArrowIconText()
-	if GuidelimeData.arrowStyle == 1 then
-		return "|T" .. addon.icons.MAP_LIME_ARROW .. ":15:15:0:1:512:512:" .. 
-			addon.arrowFrame.col * 64 .. ":" .. (addon.arrowFrame.col + 1) * 64 .. ":" .. 
-			addon.arrowFrame.row * 64 .. ":" .. (addon.arrowFrame.row + 1) * 64 .. ":::|t"
-	elseif GuidelimeData.arrowStyle == 2 then
-		return "|T" .. addon.icons.MAP_ARROW .. ":15:15:0:1:512:512:" .. 
-			addon.arrowFrame.col * 56 .. ":" .. (addon.arrowFrame.col + 1) * 56 .. ":" .. 
-			addon.arrowFrame.row * 42 .. ":" .. (addon.arrowFrame.row + 1) * 42 .. ":127:255:51|t"
 	end
 end
 

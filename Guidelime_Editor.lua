@@ -25,17 +25,27 @@ local function setQuestInfo(id)
 			if names ~= nil then
 				if first then text = text .. "\n" end
 				first = false
-				text = text .. L["QUEST_"..key] .. " "
+				text = text .. L["QUEST_"..key.."_POS"] .. " "
+				local count = 0
 				for index, name in ipairs(names) do
 					text = text .. addon.COLOR_WHITE .. name
 					local positions = addon.getQuestPositions(id, key, index)
 					if positions ~= nil and #positions > 0 then
 						text = text .. "|r " .. L.AT .. addon.COLOR_WHITE .. "\n"
 						for i, pos in ipairs(positions) do
-							text = text .. "(" .. pos.x .. "," .. pos.y .. " " .. pos.zone .. ") "
+							addon.addMapIcon(pos, false, true)
+							text = text .. addon.getMapMarkerText(pos) ..
+								"(" .. pos.x .. "," .. pos.y .. " " .. pos.zone .. ") "
 						end
+						count = count + #positions
 					end
 					text = text .. "|r\n"
+				end
+				if count > 1 then
+					local pos = addon.getQuestPosition(id, key)
+					addon.addMapIcon(pos, false, true)
+					text = text .. "\n-> " .. addon.COLOR_WHITE .. addon.getMapMarkerText(pos) .. 
+						"(" .. pos.x .. "," .. pos.y .. " " .. pos.zone .. ")|r\n"
 				end
 			end
 		end
@@ -44,8 +54,6 @@ local function setQuestInfo(id)
 end
 
 local function setEditorMapIcons(guide)
-	addon.removeMapIcons()
-	addon.hideArrow()
 	local highlight = true
 	local prev
 	if addon.editorFrame.gotoInfo ~= nil then
@@ -87,7 +95,6 @@ local function setEditorMapIcons(guide)
 			end
 		end
 	end
-	addon.showMapIcons()
 end
 
 local function getElementByPos(pos, guide)
@@ -109,14 +116,19 @@ local function parseGuide()
 	addon.editorFrame.linesBox:SetText(table.concat(lines, "\n"))
 	local pos = addon.editorFrame.textBox:GetCursorPosition() + 1
 	addon.editorFrame.selection = getElementByPos(pos, guide)
+
+	addon.removeMapIcons()
+	addon.hideArrow()
 	if addon.editorFrame.selection ~= nil then setQuestInfo(addon.editorFrame.selection.questId) end
 	setEditorMapIcons(guide)
+	addon.showMapIcons()
 	return guide
 end
 
 local function insertCode(typ, text, replace, firstElement, lastElement)
 	if lastElement == nil then lastElement = firstElement end
-	local newCode = "[" .. addon.codes[typ] .. (text or "") .. "]"
+	local newCode = (text or "")
+	if typ ~= nil then newCode = "[" .. addon.codes[typ] .. newCode .. "]" end
 	if firstElement ~= nil then
 		local oldText = addon.editorFrame.textBox:GetText()
 		local newText = oldText:sub(1, firstElement.startPos - 1) .. newCode .. oldText:sub(lastElement.endPos + 1)
@@ -425,8 +437,10 @@ function addon.showEditPopupQUEST(typ, guide, selection)
 			if text == "" then text = addon.getQuestNameById(id) end
 		end
 		local objective = ""
-		if (popup.key == "C" or popup.key == "W") and tonumber(popup.textboxObjective:GetText()) ~= nil then
-			objective = "," .. popup.textboxObjective:GetText()
+		local objectiveIndex
+		if (popup.key == "COMPLETE") and tonumber(popup.textboxObjective:GetText()) ~= nil then
+			objectiveIndex = tonumber(popup.textboxObjective:GetText())
+			objective = "," .. objectiveIndex
 		end
 		local applies = ""
 		if addon.questsDB[id].races ~= nil or addon.questsDB[id].faction ~= nil then
@@ -489,13 +503,20 @@ function addon.showEditPopupQUEST(typ, guide, selection)
 			end
 		end
 		if applies ~= "" then 
-			applies = "][A " .. applies 
+			applies = "[A " .. applies .. "]"
 			if selection.step.elements[selection.index + 1].t == "APPLIES" then lastElement = selection.step.elements[selection.index + 1] end
 		end
-		insertCode("QUEST", popup.key .. id .. objective .. text .. applies, false, firstElement, lastElement)
-	end, 180)
+		local coords = ""
+		if popup.checkboxCoords:GetChecked() then
+			local pos = addon.getQuestPosition(id, popup.key, objectiveIndex)
+			if pos ~= nil then
+				coords = "[G" .. pos.x .. "," .. pos.y .. pos.zone .. "]"
+			end
+		end
+		insertCode(nil, coords .. "[" .. addon.codes["QUEST"] .. popup.key:sub(1, 1) .. id .. objective .. text .. "]" .. applies, false, firstElement, lastElement)
+	end, 210)
 	popup.checkboxes = {}
-	for i, key in ipairs({"A", "C", "T", "S"}) do
+	for i, key in ipairs({"ACCEPT", "COMPLETE", "TURNIN", "SKIP"}) do
 		popup.checkboxes[key] = addon.addCheckbox(popup, L["QUEST_" .. key], L["QUEST_" .. key .. "_TOOLTIP"])
 		popup.checkboxes[key]:SetPoint("TOPLEFT", -110 + i * 130, -10)
 		popup.checkboxes[key]:SetScript("OnClick", function()
@@ -503,7 +524,7 @@ function addon.showEditPopupQUEST(typ, guide, selection)
 				box:SetChecked(k == key)
 			end
 			popup.key = key
-			if key == "C" then
+			if key == "COMPLETE" then
 				popup.textboxObjective:Show()
 				popup.textboxObjective.text:Show()
 			else
@@ -512,8 +533,8 @@ function addon.showEditPopupQUEST(typ, guide, selection)
 			end
 		end)
 	end
-	popup.key = "A"
-	if selection ~= nil then popup.key = selection.t:sub(1, 1) end
+	popup.key = "ACCEPT"
+	if selection ~= nil then popup.key = selection.t end
 	popup.checkboxes[popup.key]:SetChecked(true)
 	popup.textboxId = addon.addTextbox(popup, L.QUEST_ID, 100, L.QUEST_ID_TOOLTIP)
 	popup.textboxId.text:SetPoint("TOPLEFT", 20, -50)
@@ -526,20 +547,31 @@ function addon.showEditPopupQUEST(typ, guide, selection)
 	end
 	popup.textboxId:SetScript("OnTextChanged", function(self) 
 		popup.textQuestname:SetText(addon.getQuestNameById(tonumber(popup.textboxId:GetText())) or "")
+		addon.removeMapIcons()
+		addon.hideArrow()
 		setQuestInfo(tonumber(popup.textboxId:GetText()))
+		addon.showMapIcons()
 	end)
 	popup.textboxName = addon.addTextbox(popup, L.QUEST_NAME, 370, L.QUEST_NAME_TOOLTIP)
 	popup.textboxName.text:SetPoint("TOPLEFT", 20, -80)
 	popup.textboxName:SetPoint("TOPLEFT", 170, -80)
-	if selection ~= nil then if selection.title == "" then popup.textboxName:SetText("-") else popup.textboxName:SetText(selection.title) end end
+	if selection ~= nil then 
+		if selection.title == "" then 
+			popup.textboxName:SetText("-") 
+		else 
+			popup.textboxName:SetText(selection.title or "") 
+		end 
+	end
 	popup.textboxObjective = addon.addTextbox(popup, L.QUEST_OBJECTIVE, 100, L.QUEST_OBJECTIVE_TOOLTIP)
 	popup.textboxObjective.text:SetPoint("TOPLEFT", 20, -110)
 	popup.textboxObjective:SetPoint("TOPLEFT", 170, -110)
-	if popup.key ~= "C" then
+	if popup.key ~= "COMPLETE" then
 		popup.textboxObjective:Hide()
 		popup.textboxObjective.text:Hide()
 	end
 	if selection ~= nil then popup.textboxObjective:SetText(selection.objective or "") end
+	popup.checkboxCoords = addon.addCheckbox(popup, L.QUEST_ADD_COORDINATES, L.QUEST_ADD_COORDINATES_TOOLTIP)
+	popup.checkboxCoords:SetPoint("TOPLEFT", 20, -140)
 	popup:Show()
 end
 

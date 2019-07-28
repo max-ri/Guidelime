@@ -327,9 +327,7 @@ local function updateStepText(i)
 			if element.mapIndex == 0 and addon.arrowFrame ~= nil and GuidelimeDataChar.showArrow then
 				text = text .. addon.getArrowIconText()
 			elseif element.mapIndex ~= nil then
-				text = text .. "|T" .. addon.icons.MAP_MARKER .. ":15:15:0:1:512:512:" ..
-					element.mapIndex % 8 * 64 .. ":" .. (element.mapIndex % 8 + 1) * 64 .. ":" ..
-					math.floor(element.mapIndex / 8) * 64 .. ":" .. (math.floor(element.mapIndex / 8) + 1) * 64 .. ":::|t"
+				text = text .. addon.getMapMarkerText(element)
 			else
 				text = text .. "|T" .. addon.icons.MAP .. ":12|t"
 			end

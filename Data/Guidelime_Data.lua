@@ -86,7 +86,7 @@ function addon.getQuestObjective(id)
 	end
 end
 
-function addon.getQuestPositions(id, typ, index, objective)
+function addon.getQuestPositions(id, typ, index, world)
 	if id == nil or addon.questsDB[id] == nil then return end
 	local quest
 	if typ == "ACCEPT" then 
@@ -96,22 +96,69 @@ function addon.getQuestPositions(id, typ, index, objective)
 	else
 		return
 	end
-	if quest == nil or #quest < index then return end
-	local element = quest[index]
-	if element.positions == nil then return end
+	if quest == nil then return end
 	local positions = {}
-	for i, pos in ipairs(element.positions) do
-		local x, y, zone = addon.GetZoneCoordinatesFromWorld(pos.x, pos.y, pos.mapid)
-		if x ~= nil then
-			table.insert(positions, {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, zone = zone})
-		else
-			error("error transforming (" .. pos.x .. "," .. pos.y .. " " .. pos.mapid .. ") into zone coordinates for quest #" .. id)
+	for i in ipairs(quest) do
+		local element = quest[i]
+		if element.positions ~= nil and (index == nil or index == i) then
+			for i, pos in ipairs(element.positions) do
+				if world then
+					table.insert(positions, {x = pos.x, y = pos.y, mapid = pos.mapid})
+				else
+					local x, y, zone = addon.GetZoneCoordinatesFromWorld(pos.x, pos.y, pos.mapid)
+					if x ~= nil then
+						table.insert(positions, {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, zone = zone, 	mapID = addon.mapIDs[zone]})
+					else
+						error("error transforming (" .. pos.x .. "," .. pos.y .. " " .. pos.mapid .. ") into zone coordinates for quest #" .. id)
+					end
+				end
+			end
 		end
-	end
+	end	
 	return positions
 end
 
-function addon.getQuestTargetNames(id, typ, objective)
+local CLUSTER_DIST = 120
+
+local function findCluster(clusters, x, y, mapid)
+	for i, cluster in ipairs(clusters) do
+		if mapid == cluster.mapid and (x - cluster.x) * (x - cluster.x) + (y - cluster.y) * (y - cluster.y) < CLUSTER_DIST * CLUSTER_DIST then
+			return cluster
+		end
+	end
+	local cluster = {x = 0, y = 0, mapid = mapid, count = 0}
+	clusters[#clusters + 1] = cluster
+	return cluster
+end
+
+local function addToCluster(cluster, x, y)
+	cluster.x = (cluster.x * cluster.count + x) / (cluster.count + 1)
+	cluster.y = (cluster.y * cluster.count + y) / (cluster.count + 1)
+	cluster.count = cluster.count + 1
+	return cluster
+end
+
+function addon.getQuestPosition(id, typ, index)
+	local clusters = {}
+	local maxCluster	
+	local positions = addon.getQuestPositions(id, typ, index, true)
+	if positions == nil then return end
+	for i, pos in ipairs(positions) do
+		local cluster = addToCluster(findCluster(clusters, pos.x, pos.y, pos.mapid), pos.x, pos.y)
+		if maxCluster == nil or cluster.count > maxCluster.count then maxCluster = cluster end
+	end
+	if maxCluster ~= nil then
+		if addon.debugging and maxCluster.count > 1 then print("LIME: biggest cluster of " .. maxCluster.count .. " at " .. maxCluster.x .. ", " .. maxCluster.y .. ", " .. maxCluster.mapid) end
+		local x, y, zone = addon.GetZoneCoordinatesFromWorld(maxCluster.x, maxCluster.y, maxCluster.mapid)
+		if x ~= nil then
+			return {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, zone = zone, 	mapID = addon.mapIDs[zone]}
+		else
+			error("error transforming (" .. maxCluster.x .. "," .. maxCluster.y .. " " .. maxCluster.mapid .. ") into zone coordinates for quest #" .. id)
+		end
+	end
+end
+
+function addon.getQuestTargetNames(id, typ)
 	if id == nil or addon.questsDB[id] == nil then return end
 	local quest
 	if typ == "ACCEPT" then 
