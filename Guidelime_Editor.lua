@@ -504,13 +504,18 @@ function addon.showEditPopupQUEST(typ, guide, selection)
 		end
 		if applies ~= "" then 
 			applies = "[A " .. applies .. "]"
-			if selection.step.elements[selection.index + 1].t == "APPLIES" then lastElement = selection.step.elements[selection.index + 1] end
+			if #selection.step.elements > selection.index and selection.step.elements[selection.index + 1].t == "APPLIES" then 
+				lastElement = selection.step.elements[selection.index + 1] 
+			end
 		end
 		local coords = ""
 		if popup.checkboxCoords:GetChecked() then
 			local pos = addon.getQuestPosition(id, popup.key, objectiveIndex)
 			if pos ~= nil then
 				coords = "[G" .. pos.x .. "," .. pos.y .. pos.zone .. "]"
+				if selection.index > 1 and selection.step.elements[selection.index - 1].t == "GOTO" then 
+					firstElement = selection.step.elements[selection.index - 1] 
+				end
 			end
 		end
 		insertCode(nil, coords .. "[" .. addon.codes["QUEST"] .. popup.key:sub(1, 1) .. id .. objective .. text .. "]" .. applies, false, firstElement, lastElement)
@@ -576,6 +581,12 @@ function addon.showEditPopupQUEST(typ, guide, selection)
 end
 
 function addon.showEditPopupGOTO(typ, guide, selection)
+	if selection ~= nil and 
+		#selection.step.elements > selection.index and 
+		addon.getSuperCode(selection.step.elements[selection.index + 1].t) == "QUEST" then 
+		addon.showEditPopupQUEST("QUEST", guide, selection.step.elements[selection.index + 1])
+		return
+	end
 	local popup = createEditPopup(function(popup)
 		local x = tonumber(popup.textboxX:GetText())
 		if x == nil then 
