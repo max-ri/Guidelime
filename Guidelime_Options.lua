@@ -163,6 +163,14 @@ function addon.fillOptions()
 	end)
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = checkbox
+
+	checkbox = addon.addCheckOption(addon.optionsFrame, GuidelimeData, "skipCutscenes", L.SKIP_CUTSCENES, nil, function()
+		if GuidelimeDataChar.mainFrameShowing then
+			addon.updateStepsText()
+		end
+	end)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	prev = checkbox
 end
 
 function addon.isOptionsShowing()

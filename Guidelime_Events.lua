@@ -260,3 +260,11 @@ function addon.frame:QUEST_COMPLETE()
 		end
 	end
 end
+
+addon.frame:RegisterEvent('CINEMATIC_START')
+function addon.frame:CINEMATIC_START()
+	if addon.debugging then print ("LIME: CINEMATIC_START") end
+	if GuidelimeData.skipCutscenes then
+		StopCinematic()
+	end
+end

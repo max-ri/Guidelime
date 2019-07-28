@@ -121,6 +121,7 @@ L.NEXT = "Next" -- as in next quest
 L.PREVIOUS = "Previous" -- as in previous quest
 L.OBJECTIVE = "Objective"
 L.ENGLISH_NAME = "English name"
+L.SKIP_CUTSCENES = "Skip cutscenes"
 L.Alliance = "Alliance"
 L.Horde = "Horde"
 
