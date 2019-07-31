@@ -5,18 +5,6 @@ HBD = LibStub("HereBeDragons-2.0")
 
 -- TODO: items in CHANGEME_Questie4_ItemDB ?
 
-function addon.getQuestNumOfObjectivesQuestie(id)
-	if id == nil or Questie == nil then return end
-	local quest = qData[id]
-	if quest == nil then return nil end
-	local count = 0
-	for i = 1, 4 do
-		count = count + #quest[10][i]
-	end
-	if addon.debugging then print("LIME: num of objectives", #quest[10]) end
-	return #quest[10]
-end
-
 function addon.getQuestTargetNamesQuestie(id, typ, objective)
 	if id == nil or Questie == nil then return end
 	local quest = qData[id]
