@@ -42,8 +42,14 @@ local function createMapIcon(i)
 	if i == nil then
 		i = #addon.mapIcons + 1
 	end
-	addon.mapIcons[i] = createIconFrame(i, 0)
-	addon.mapIcons[i].minimap = createIconFrame(i, 1)
+	addon.mapIcons[i] = {}
+	--if i >= 64 then
+	--	addon.mapIcons[i].map = addon.mapIcons[63].map
+	--	addon.mapIcons[i].minimap = addon.mapIcons[63].minimap
+	--else	
+		addon.mapIcons[i].map = createIconFrame(i, 0)
+		addon.mapIcons[i].minimap = createIconFrame(i, 1)
+	--end
 	addon.mapIcons[i].index = i
 	addon.mapIcons[i].inUse = false
 	return addon.mapIcons[i]
@@ -95,7 +101,7 @@ local function showMapIcon(mapIcon)
 	if mapIcon ~= nil and mapIcon.inUse then
 		local x, y, instance = HBD:GetWorldCoordinatesFromZone(mapIcon.x / 100, mapIcon.y / 100, mapIcon.mapID)
 		if x ~= nil then
-			HBDPins:AddWorldMapIconWorld(addon, mapIcon, instance, x, y, 3)
+			HBDPins:AddWorldMapIconWorld(addon, mapIcon.map, instance, x, y, 3)
 			HBDPins:AddMinimapIconWorld(addon, mapIcon.minimap, instance, x, y, true, true)
 		elseif addon.debugging then
 			print("LIME: error transforming coordinates", mapIcon.x, mapIcon.y, mapIcon.mapID)

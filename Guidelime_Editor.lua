@@ -2,7 +2,7 @@ local addonName, addon = ...
 local L = addon.L
 
 local function setQuestInfo(id)
-	if id == nil then return end
+	if id == nil or addon.getQuestNameById(id) == nil then return end
 	local text = L.NAME .. ": " .. addon.COLOR_WHITE .. addon.getQuestNameById(id) .. " (#" .. id .. ")|r\n"
 	local quest = addon.questsDB[id]
 	if quest ~= nil then
@@ -19,37 +19,37 @@ local function setQuestInfo(id)
 			if quest.next ~= nil then text = text .. L.NEXT .. ": " .. addon.COLOR_WHITE .. addon.getQuestNameById(quest.next) .. " (#" .. quest.next .. ")|r\n" end
 			if quest.prev ~= nil then text = text .. L.PREVIOUS .. ": " .. addon.COLOR_WHITE .. addon.getQuestNameById(quest.prev) .. " (#" .. quest.prev .. ")|r\n" end
 		end
-		local first = true
-		for _, key in ipairs({"ACCEPT", "COMPLETE", "TURNIN"}) do
-			local names = addon.getQuestTargetNames(id, key)
-			if names ~= nil then
-				if first then text = text .. "\n" end
-				first = false
-				text = text .. L["QUEST_"..key.."_POS"] .. " "
-				local count = 0
-				for index, name in ipairs(names) do
-					text = text .. addon.COLOR_WHITE .. name
-					local positions = addon.getQuestPositions(id, key, index)
-					if positions ~= nil and #positions > 0 then
-						text = text .. "|r " .. L.AT .. addon.COLOR_WHITE .. "\n"
-						for i, pos in ipairs(positions) do
-							addon.addMapIcon(pos, false, true)
-							text = text .. addon.getMapMarkerText(pos) ..
-								"(" .. pos.x .. "," .. pos.y .. " " .. pos.zone .. ") "
-						end
-						count = count + #positions
+	end
+	local first = true
+	for _, key in ipairs({"ACCEPT", "COMPLETE", "TURNIN"}) do
+		local names = addon.getQuestTargetNames(id, key)
+		if names ~= nil and #names > 0 then
+			if first then text = text .. "\n" end
+			first = false
+			text = text .. L["QUEST_"..key.."_POS"] .. " "
+			local count = 0
+			for index, name in ipairs(names) do
+				text = text .. addon.COLOR_WHITE .. name
+				local positions = addon.getQuestPositions(id, key, index)
+				if positions ~= nil and #positions > 0 then
+					text = text .. "|r " .. L.AT .. addon.COLOR_WHITE .. "\n"
+					for i, pos in ipairs(positions) do
+						addon.addMapIcon(pos, false, true)
+						text = text .. addon.getMapMarkerText(pos) ..
+							"(" .. pos.x .. "," .. pos.y .. " " .. pos.zone .. ") "
 					end
-					text = text .. "|r\n"
+					count = count + #positions
 				end
-				if count > 1 then
-					local pos = addon.getQuestPosition(id, key)
-					addon.addMapIcon(pos, false, true)
-					text = text .. "\n-> " .. addon.COLOR_WHITE .. addon.getMapMarkerText(pos) .. 
-						"(" .. pos.x .. "," .. pos.y .. " " .. pos.zone .. ")|r\n"
-				end
+				text = text .. "|r\n"
+			end
+			if count > 1 then
+				local pos = addon.getQuestPosition(id, key)
+				addon.addMapIcon(pos, false, true)
+				text = text .. "\n-> " .. addon.COLOR_WHITE .. addon.getMapMarkerText(pos) .. 
+					"(" .. pos.x .. "," .. pos.y .. " " .. pos.zone .. ")|r\n"
 			end
 		end
-	end	
+	end
 	addon.editorFrame.questInfo:SetText(text)
 end
 
@@ -126,16 +126,16 @@ local function parseGuide()
 end
 
 local function insertCode(typ, text, replace, firstElement, lastElement)
+	local oldText = addon.editorFrame.textBox:GetText()
+	local startPos = addon.editorFrame.textBox:GetCursorPosition() + 1
 	if lastElement == nil then lastElement = firstElement end
 	local newCode = (text or "")
 	if typ ~= nil then newCode = "[" .. addon.codes[typ] .. newCode .. "]" end
+	local newText
 	if firstElement ~= nil then
-		local oldText = addon.editorFrame.textBox:GetText()
-		local newText = oldText:sub(1, firstElement.startPos - 1) .. newCode .. oldText:sub(lastElement.endPos + 1)
+		startPos = firstElement.startPos
+		newText = oldText:sub(1, startPos - 1) .. newCode .. oldText:sub(lastElement.endPos + 1)
 		if addon.debugging then	print("LIME: replacing \"" .. oldText:sub(firstElement.startPos, lastElement.endPos) .. "\" with \"" .. newCode .. "\"") end
-		addon.editorFrame.textBox:SetText(newText)
-		addon.editorFrame.textBox:HighlightText(firstElement.startPos - 1, firstElement.startPos - 1 + #newCode)
-		addon.editorFrame.textBox:SetCursorPosition(firstElement.startPos - 1)
 	else
 		if replace then
 			if text == nil or text == "" then 
@@ -143,21 +143,22 @@ local function insertCode(typ, text, replace, firstElement, lastElement)
 			else 
 				replace = false 
 			end
+			local endPos
 			local s, e = addon.editorFrame.textBox:GetText():find("%[" .. addon.codes[typ] .. ".-%]")
 			if s ~= nil then
 				replace = true
-				local oldText = addon.editorFrame.textBox:GetText()
-				local newText = oldText:sub(1, s - 1) .. newCode .. oldText:sub(e + 1)
-				addon.editorFrame.textBox:SetText(newText)
-				addon.editorFrame.textBox:HighlightText(s, s + #newCode)
-				addon.editorFrame.textBox:SetCursorPosition(s)
+				startPos = s
+				newText = oldText:sub(1, startPos - 1) .. newCode .. oldText:sub(endPos + 1)
 			end
 		end
 		if not replace then
-			addon.editorFrame.textBox:Insert(newCode)
-			addon.editorFrame.textBox:HighlightText(addon.editorFrame.textBox:GetCursorPosition() - #newCode, addon.editorFrame.textBox:GetCursorPosition())
+			if startPos == nil then startPos = #oldText end
+			newText = oldText:sub(1, startPos - 1) .. newCode .. oldText:sub(startPos)
 		end
 	end
+	addon.editorFrame.textBox:SetText(newText)
+	addon.editorFrame.textBox:HighlightText(startPos - 1, startPos + #newCode - 1)
+	addon.editorFrame.textBox:SetCursorPosition(startPos - 1)
 	parseGuide()
 end
 
@@ -175,16 +176,16 @@ function addon.showEditPopupNAME(typ, guide)
 	local popup = createEditPopup(function(popup)
 		local min = tonumber(popup.textboxMinlevel:GetText())
 		if min == nil and popup.textboxMinlevel:GetText() ~= "" then 
-			addon.createPopupFrame(string.format(L.ERROR_NOT_A_NUMBER, L.MINIMUM_LEVEL))
+			addon.createPopupFrame(string.format(L.ERROR_NOT_A_NUMBER, L.MINIMUM_LEVEL)):Show()
 			return false
 		end
 		local max = tonumber(popup.textboxMaxlevel:GetText())
 		if max == nil and popup.textboxMaxlevel:GetText() ~= "" then 
-			addon.createPopupFrame(string.format(L.ERROR_NOT_A_NUMBER, L.MAXIMUM_LEVEL)) 
+			addon.createPopupFrame(string.format(L.ERROR_NOT_A_NUMBER, L.MAXIMUM_LEVEL)):Show() 
 			return false
 		end
 		if popup.textboxName:GetText() == "" then
-			addon.createPopupFrame(L.ERROR_GUIDE_HAS_NO_NAME) 
+			addon.createPopupFrame(L.ERROR_GUIDE_HAS_NO_NAME):Show() 
 			return false
 		end
 		insertCode(typ, (min or "") .. "-" .. (max or "") .. popup.textboxName:GetText(), true)
@@ -216,7 +217,7 @@ addon.showEditPopupNEXT = addon.showEditPopupNAME
 function addon.showEditPopupDETAILS(typ, guide)
 	local popup = createEditPopup(function(popup)
 		if popup.textboxName:GetText() == "" then
-			addon.createPopupFrame(L.ERROR_GUIDE_HAS_NO_NAME) 
+			addon.createPopupFrame(L.ERROR_GUIDE_HAS_NO_NAME):Show() 
 			return false
 		end
 		insertCode(typ, " " .. popup.textboxName:GetText(), true)
@@ -408,117 +409,36 @@ end
 addon.showEditPopupGUIDE_APPLIES = addon.showEditPopupAPPLIES
 
 function addon.showEditPopupQUEST(typ, guide, selection)
-	local firstElement, lastElement = selection, selection
 	local popup = createEditPopup(function(popup)
 		local text = popup.textboxName:GetText()
 		local id = tonumber(popup.textboxId:GetText())
 		if id == nil and popup.textboxId:GetText() ~= "" then 
-			addon.createPopupFrame(string.format(L.ERROR_NOT_A_NUMBER, L.QUEST_ID))
+			addon.createPopupFrame(string.format(L.ERROR_NOT_A_NUMBER, L.QUEST_ID)):Show()
 			return false
 		end
 		if id == nil then
 			local ids = addon.getPossibleQuestIdsByName(text, guide.faction, guide.race, guide.class)
 			if ids == nil or #ids == 0 then
-				addon.createPopupFrame(string.format(L.ERROR_QUEST_NOT_FOUND, text)) 
+				addon.createPopupFrame(string.format(L.ERROR_QUEST_NOT_FOUND, text)):Show()
 				return false
 			elseif #ids > 1 then
-				addon.createPopupFrame(string.format(L.ERROR_QUEST_NOT_UNIQUE, text) .. table.concat(ids, ", "))
+				addon.createPopupFrame(string.format(L.ERROR_QUEST_NOT_UNIQUE, text) .. table.concat(ids, ", ")):Show()
 				return false
 			elseif popup.textboxObjective:GetText() ~= "" and tonumber(popup.textboxObjective:GetText()) == nil then
-				addon.createPopupFrame(L.ERROR_NOT_A_NUMBER, L.QUEST_OBJECTIVE) 
+				addon.createPopupFrame(L.ERROR_NOT_A_NUMBER, L.QUEST_OBJECTIVE):Show()
 				return false
 			end
 			id = ids[1]
 		else
 			if addon.questsDB[id] == nil then 
-				addon.createPopupFrame(string.format(L.ERROR_QUEST_NOT_FOUND, id)) 
+				addon.createPopupFrame(string.format(L.ERROR_QUEST_NOT_FOUND, id)):Show() 
 				return false
 			end
 			if text == "" then text = addon.getQuestNameById(id) end
 		end
-		local objective = ""
-		local objectiveIndex
-		if (popup.key == "COMPLETE") and tonumber(popup.textboxObjective:GetText()) ~= nil then
-			objectiveIndex = tonumber(popup.textboxObjective:GetText())
-			objective = "," .. objectiveIndex
-		end
-		local applies = ""
-		if addon.questsDB[id].races ~= nil or addon.questsDB[id].faction ~= nil then
-			local races = {}
-			local qraces = addon.questsDB[id].races
-			if qraces == nil then qraces = addon.racesPerFaction[addon.questsDB[id].faction] end
-			if guide.race ~= nil then
-				for i, race in ipairs(guide.race) do
-					if addon.contains(qraces, race) then table.insert(races, race) end
-				end
-				if #races == #guide.race then races = nil end
-			elseif guide.faction ~= nil then
-				for i, race in ipairs(addon.racesPerFaction[guide.faction]) do
-					if addon.contains(qraces, race) then table.insert(races, race) end
-				end
-				if #races == #addon.racesPerFaction[guide.faction] then races = nil end
-			else
-				races = addon.questsDB[id].races
-			end
-			if races ~= nil then 
-				if #races == 0 then
-					local racesLoc = {}
-					for i, race in ipairs(qraces) do
-						table.insert(racesLoc, addon.getLocalizedRace(race))
-					end
-					addon.createPopupFrame(L.ERROR_QUEST_RACE_ONLY .. table.concat(racesLoc, ", "))
-					return false
-				end
-				applies = applies .. table.concat(races, ",")
-			end
-		end
-		if addon.questsDB[id].classes ~= nil or addon.questsDB[id].faction ~= nil then
-			local classes = {}
-			local qclasses = addon.questsDB[id].classes
-			if qclasses == nil then qclasses = addon.classesPerFaction[addon.questsDB[id].faction] end
-			if guide.class ~= nil then
-				for i, class in ipairs(guide.class) do
-					if addon.contains(qclasses, class) then table.insert(classes, class) end
-				end
-				if #classes == #guide.class then classes = nil end
-			elseif guide.faction ~= nil then
-				for i, class in ipairs(addon.classesPerFaction[guide.faction]) do
-					if addon.contains(qclasses, class) then table.insert(classes, class) end
-				end
-				if #classes == #addon.classesPerFaction[guide.faction] then classes = nil end
-			else
-				classes = addon.questsDB[id].classes
-			end
-			if classes ~= nil then
-				if #classes == 0 then
-					local classesLoc = {}
-					for i, class in ipairs(addon.questsDB[id].classes) do
-						table.insert(classesLoc, addon.getLocalizedClass(class))
-					end
-					addon.createPopupFrame(L.ERROR_QUEST_CLASS_ONLY .. table.concat(classesLoc, ", "))
-					return false
-				end
-				if applies ~= "" then applies = applies .. "," end
-				applies = applies .. table.concat(classes, ",")
-			end
-		end
-		if applies ~= "" then 
-			applies = "[A " .. applies .. "]"
-			if #selection.step.elements > selection.index and selection.step.elements[selection.index + 1].t == "APPLIES" then 
-				lastElement = selection.step.elements[selection.index + 1] 
-			end
-		end
-		local coords = ""
-		if popup.checkboxCoords:GetChecked() then
-			local pos = addon.getQuestPosition(id, popup.key, objectiveIndex)
-			if pos ~= nil then
-				coords = "[G" .. pos.x .. "," .. pos.y .. pos.zone .. "]"
-				if selection.index > 1 and selection.step.elements[selection.index - 1].t == "GOTO" then 
-					firstElement = selection.step.elements[selection.index - 1] 
-				end
-			end
-		end
-		insertCode(nil, coords .. "[" .. addon.codes["QUEST"] .. popup.key:sub(1, 1) .. id .. objective .. text .. "]" .. applies, false, firstElement, lastElement)
+		local newCode, firstElement, lastElement = addon.addQuestTag(guide, selection, id, popup.key, tonumber(popup.textboxObjective:GetText()), text, popup.checkboxCoords:GetChecked())
+		if newCode == nil then return false end
+		insertCode(nil, newCode, false, firstElement, lastElement)
 	end, 210)
 	popup.checkboxes = {}
 	for i, key in ipairs({"ACCEPT", "COMPLETE", "TURNIN", "SKIP"}) do
@@ -590,12 +510,12 @@ function addon.showEditPopupGOTO(typ, guide, selection)
 	local popup = createEditPopup(function(popup)
 		local x = tonumber(popup.textboxX:GetText())
 		if x == nil then 
-			addon.createPopupFrame(string.format(L.ERROR_NOT_A_NUMBER, "X"))
+			addon.createPopupFrame(string.format(L.ERROR_NOT_A_NUMBER, "X")):Show()
 			return false
 		end
 		local y = tonumber(popup.textboxY:GetText())
 		if y == nil then 
-			addon.createPopupFrame(string.format(L.ERROR_NOT_A_NUMBER, "Y")) 
+			addon.createPopupFrame(string.format(L.ERROR_NOT_A_NUMBER, "Y")):Show() 
 			return false
 		end
 		local zone = popup.textboxZone:GetText()
@@ -607,7 +527,7 @@ function addon.showEditPopupGOTO(typ, guide, selection)
 				msg = msg .. zone
 				first = false
 			end
-			addon.createPopupFrame(msg)
+			addon.createPopupFrame(msg):Show()
 			return false
 		end
 		insertCode(typ, x .. "," .. y .. zone, false, selection)
@@ -650,15 +570,15 @@ function addon.showEditPopupXP(typ, guide, selection)
 	local popup = createEditPopup(function(popup)
 		local level, xp = popupXPCodeValues(popup)
 		if level == nil then 
-			addon.createPopupFrame(string.format(L.ERROR_NOT_A_NUMBER, L.LEVEL))
+			addon.createPopupFrame(string.format(L.ERROR_NOT_A_NUMBER, L.LEVEL)):Show()
 			return false
 		end
 		if popup.key ~= "" and xp == nil then 
-			addon.createPopupFrame(string.format(L.ERROR_NOT_A_NUMBER, L["XP_LEVEL" .. popup.key])) 
+			addon.createPopupFrame(string.format(L.ERROR_NOT_A_NUMBER, L["XP_LEVEL" .. popup.key])):Show() 
 			return false
 		end
 		if popup.key == "%" and (xp < 0 or xp >= 100) then 
-			addon.createPopupFrame(string.format(L.ERROR_OUT_OF_RANGE, L["XP_LEVEL" .. popup.key], 0, 100))
+			addon.createPopupFrame(string.format(L.ERROR_OUT_OF_RANGE, L["XP_LEVEL" .. popup.key], 0, 100)):Show()
 			return false
 		end
 		local text = popup.textboxText:GetText()
@@ -915,7 +835,7 @@ function addon.showEditor()
 		end)
 
 		addon.editorFrame.saveBtn = CreateFrame("BUTTON", nil, addon.editorFrame, "UIPanelButtonTemplate")
-		addon.editorFrame.saveBtn:SetWidth(140)
+		addon.editorFrame.saveBtn:SetWidth(160)
 		addon.editorFrame.saveBtn:SetHeight(30)
 		addon.editorFrame.saveBtn:SetText(L.SAVE_GUIDE)
 		addon.editorFrame.saveBtn:SetPoint("BOTTOMLEFT", addon.editorFrame, "BOTTOMLEFT", 20, 20)
@@ -923,7 +843,7 @@ function addon.showEditor()
 			local guide = parseGuide()
 			if guide == nil then return end
 			if guide.title == nil or guide.title == "" then 
-				addon.createPopupFrame(L.ERROR_GUIDE_HAS_NO_NAME)
+				addon.createPopupFrame(L.ERROR_GUIDE_HAS_NO_NAME):Show()
 				return
 			end
 			local msg
@@ -941,7 +861,7 @@ function addon.showEditor()
 		end)
 
 		addon.editorFrame.mapBtn = CreateFrame("BUTTON", nil, addon.editorFrame, "UIPanelButtonTemplate")
-		addon.editorFrame.mapBtn:SetWidth(140)
+		addon.editorFrame.mapBtn:SetWidth(160)
 		addon.editorFrame.mapBtn:SetHeight(30)
 		addon.editorFrame.mapBtn:SetText(L.SHOW_MAP)
 		addon.editorFrame.mapBtn:SetPoint("TOPLEFT", addon.editorFrame.gotoInfoScrollFrame, "BOTTOMLEFT", 0, -10)
@@ -949,6 +869,64 @@ function addon.showEditor()
 			--addon.editorFrame.textBox:SetEnabled(false)
 			ToggleWorldMap()
 		end)
+
+		addon.editorFrame.discardBtn = CreateFrame("BUTTON", nil, addon.editorFrame, "UIPanelButtonTemplate")
+		addon.editorFrame.discardBtn:SetWidth(160)
+		addon.editorFrame.discardBtn:SetHeight(30)
+		addon.editorFrame.discardBtn:SetText(L.DISCARD_CHANGES)
+		addon.editorFrame.discardBtn:SetPoint("BOTTOMLEFT", addon.editorFrame, "BOTTOMLEFT", 200, 20)
+		addon.editorFrame.discardBtn:SetScript("OnClick", function()
+			if GuidelimeDataChar.currentGuide ~= nil and addon.guides[GuidelimeDataChar.currentGuide.name] ~= nil then
+				addon.editorFrame.textBox:SetText(addon.guides[GuidelimeDataChar.currentGuide.name].text)
+			else
+				addon.editorFrame.textBox:SetText("")
+			end
+			parseGuide()
+		end)
+
+		addon.editorFrame.addCoordinatesBtn = CreateFrame("BUTTON", nil, addon.editorFrame, "UIPanelButtonTemplate")
+		addon.editorFrame.addCoordinatesBtn:SetWidth(160)
+		addon.editorFrame.addCoordinatesBtn:SetHeight(30)
+		addon.editorFrame.addCoordinatesBtn:SetText(L.ADD_QUEST_COORDINATES)
+		addon.editorFrame.addCoordinatesBtn:SetPoint("BOTTOMLEFT", addon.editorFrame, "BOTTOMLEFT", 380, 20)
+		addon.editorFrame.addCoordinatesBtn:SetScript("OnClick", function()
+			addon.createPopupFrame(L.ADD_QUEST_COORDINATES_MESSAGE, function()
+			local guide = parseGuide()
+			if guide ~= nil then 
+				local text, count = addon.addQuestCoordinates(guide)
+				if count > 0 then
+					addon.editorFrame.textBox:SetText(text)
+					parseGuide()
+				end
+				C_Timer.After(0.2, function()
+					addon.createPopupFrame(string.format(L.ADDED_QUEST_COORDINATES_MESSAGE, count)):Show()
+				end)
+			end
+			end, true):Show()
+		end)
+
+		addon.editorFrame.removeCoordinatesBtn = CreateFrame("BUTTON", nil, addon.editorFrame, "UIPanelButtonTemplate")
+		addon.editorFrame.removeCoordinatesBtn:SetWidth(160)
+		addon.editorFrame.removeCoordinatesBtn:SetHeight(30)
+		addon.editorFrame.removeCoordinatesBtn:SetText(L.REMOVE_ALL_COORDINATES)
+		addon.editorFrame.removeCoordinatesBtn:SetPoint("BOTTOMLEFT", addon.editorFrame, "BOTTOMLEFT", 560, 20)
+		addon.editorFrame.removeCoordinatesBtn:SetScript("OnClick", function()
+			addon.createPopupFrame(L.REMOVE_ALL_COORDINATES_MESSAGE, function()
+			local guide = parseGuide()
+			if guide ~= nil then 
+				local text, count = addon.removeAllCoordinates(guide)
+				if count > 0 then
+					addon.editorFrame.textBox:SetText(text)
+					parseGuide()
+				end
+				C_Timer.After(0.2, function()
+					addon.createPopupFrame(string.format(L.REMOVE_COORDINATES_MESSAGE, count)):Show()
+				end)
+			end
+			end, true):Show()
+		end)
+
+
 	else
 		addon.popupFrame = addon.editorFrame
 	end

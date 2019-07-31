@@ -164,12 +164,46 @@ function addon.fillOptions()
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = checkbox
 
+	checkbox = addon.addCheckOption(addon.optionsFrame, GuidelimeData, "autoAddCoordinates", L.AUTO_ADD_COORDINATES, nil, function()
+		if GuidelimeDataChar.mainFrameShowing then
+			addon.loadCurrentGuide()
+			addon.updateSteps()
+		end
+	end)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
+	prev = checkbox
+	
+	checkbox = addon.addCheckOption(addon.optionsFrame, GuidelimeData, "dataSourceQuestie", L.USE_QUESTIE_AS_DATA_SOURCE, L.USE_QUESTIE_AS_DATA_SOURCE_TOOLTIP, function()
+		addon.optionsFrame.options.dataSourceInternal:SetChecked(not GuidelimeData.dataSourceQuestie)
+		if GuidelimeDataChar.mainFrameShowing and GuidelimeData.autoAddCoordinates then
+			addon.loadCurrentGuide()
+			addon.updateSteps()
+		end
+	end)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	checkbox:SetEnabled(Questie ~= nil)
+	if Questie == nil then checkbox.text:SetTextColor(0.4, 0.4, 0.4) end
+	prev = checkbox
+	
+	addon.optionsFrame.options.dataSourceInternal = addon.addCheckbox(addon.optionsFrame, L.USE_INTERNAL_DATA_SOURCE)
+	if not GuidelimeData.dataSourceQuestie then addon.optionsFrame.options.dataSourceInternal:SetChecked(true) end
+	addon.optionsFrame.options.dataSourceInternal:SetScript("OnClick", function()
+		GuidelimeData.dataSourceQuestie = Questie ~= nil and not addon.optionsFrame.options.dataSourceInternal:GetChecked() 
+		addon.optionsFrame.options.dataSourceInternal:SetChecked(not GuidelimeData.dataSourceQuestie)
+		addon.optionsFrame.options.dataSourceQuestie:SetChecked(GuidelimeData.dataSourceQuestie)
+		if GuidelimeDataChar.mainFrameShowing and GuidelimeData.autoAddCoordinates then
+			addon.loadCurrentGuide()
+			addon.updateSteps()
+		end
+	end)
+	addon.optionsFrame.options.dataSourceInternal:SetPoint("TOPLEFT", prev, "TOPLEFT", 270, 0)
+
 	checkbox = addon.addCheckOption(addon.optionsFrame, GuidelimeData, "skipCutscenes", L.SKIP_CUTSCENES, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateStepsText()
 		end
 	end)
-	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
 	prev = checkbox
 end
 

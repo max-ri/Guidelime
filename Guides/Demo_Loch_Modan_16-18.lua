@@ -45,7 +45,7 @@ Grind east until you reach the Hunters Lodge. Turn in [G81.76,61.66][QT385 Croco
 Should be very close to 18 now or already 18. Grind until [XP18].
 Once 18, die and spirit rez at Thelsamar. [F]Fly to Ironforge.
 [T]Train class abilities, INCLUDING LOCKPICKING AND BUY THIEVES TOOLS. LEVEL & TRAIN COOKING TO 50[A Rogue]
-[T]Train class abilities, INCLUDING LOCKPICKING AND BUY THIEVES TOOLS. LEVEL & TRAIN COOKING TO 50[A Warrior,Mage,Paladin,Warlock,Hunter,Priest,Druid]
+[T]Train class abilities. LEVEL & TRAIN COOKING TO 50[A Warrior,Mage,Paladin,Warlock,Hunter,Priest,Druid]
 [QT531 Turn in] Report to Ironforge
 Accept [G62.19,29.2Dun Morogh][QA2041 Speak with Shoni]
 Take the tram to Stormwind[OC]

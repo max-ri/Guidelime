@@ -100,6 +100,9 @@ function addon.loadData()
 		maxNumOfMarkers = 10,
 		maxNumOfSteps = 0,
 		arrowStyle = 1,
+		skipCutscenes = true,
+		dataSourceQuestie = false,
+		autoAddCoordinates = false,
 		version = GetAddOnMetadata(addonName, "version")
 	}
 	local defaultOptionsChar = {
@@ -206,36 +209,56 @@ function addon.loadCurrentGuide()
 		if #step.elements == 0 then loadLine = false end
 		if loadLine then
 			table.insert(addon.currentGuide.steps, step)
-			for _, element in ipairs(step.elements) do
-				element.available = true
-
-				if element.t == "ACCEPT" or element.t == "COMPLETE" or element.t == "TURNIN" or element.t == "LEVEL" then
-					if step.manual == nil then step.manual = false end
-					if element.optional == nil or not element.optional then step.completeWithNext = false end
-				elseif element.t == "TRAIN" or element.t == "VENDOR" or element.t == "REPAIR" or element.t == "SET_HEARTH" or element.t == "GET_FLIGHT_POINT" then
-					step.manual = true
-					if step.completeWithNext == nil then step.completeWithNext = false end
-				elseif element.t == "GOTO" then
-					if step.manual == nil then step.manual = false end
-					if step.completeWithNext == nil then step.completeWithNext = true end
-				elseif element.t == "FLY" or element.t == "HEARTH" then
-					if step.completeWithNext == nil then step.completeWithNext = true end
-				end
-				if element.questId ~= nil then
-					if addon.quests[element.questId] == nil then
-						if addon.quests[element.questId] == nil then addon.quests[element.questId] = {} end
-						addon.quests[element.questId].title = element.title
-						addon.quests[element.questId].completed = completed[element.questId] ~= nil and completed[element.questId]
-						addon.quests[element.questId].finished = addon.quests[element.questId].completed
-						if addon.questsDB[element.questId] ~= nil and addon.questsDB[element.questId].prequests ~= nil then
-							for _, id in ipairs(addon.questsDB[element.questId].prequests) do
-								if addon.quests[id] == nil then addon.quests[id] = {} end
-								addon.quests[id].completed = completed[id] ~= nil and completed[id]
-								if addon.quests[id].followup == nil then addon.quests[id].followup = {} end
-								table.insert(addon.quests[id].followup, element.questId)
+			local i = 1
+			while i <= #step.elements do
+				local element = step.elements[i]
+				if element.generated then
+					table.remove(step.elements, i)
+				else
+					element.available = true
+	
+					if element.t == "ACCEPT" or element.t == "COMPLETE" or element.t == "TURNIN" or element.t == "LEVEL" then
+						if step.manual == nil then step.manual = false end
+						if element.optional == nil or not element.optional then step.completeWithNext = false end
+					elseif element.t == "TRAIN" or element.t == "VENDOR" or element.t == "REPAIR" or element.t == "SET_HEARTH" or element.t == "GET_FLIGHT_POINT" then
+						step.manual = true
+						if step.completeWithNext == nil then step.completeWithNext = false end
+					elseif element.t == "GOTO" then
+						if step.manual == nil then step.manual = false end
+						if step.completeWithNext == nil then step.completeWithNext = true end
+					elseif element.t == "FLY" or element.t == "HEARTH" then
+						if step.completeWithNext == nil then step.completeWithNext = true end
+					end
+					if element.questId ~= nil then
+						if addon.quests[element.questId] == nil then
+							if addon.quests[element.questId] == nil then addon.quests[element.questId] = {} end
+							addon.quests[element.questId].title = element.title
+							addon.quests[element.questId].completed = completed[element.questId] ~= nil and completed[element.questId]
+							addon.quests[element.questId].finished = addon.quests[element.questId].completed
+							if addon.questsDB[element.questId] ~= nil and addon.questsDB[element.questId].prequests ~= nil then
+								for _, id in ipairs(addon.questsDB[element.questId].prequests) do
+									if addon.quests[id] == nil then addon.quests[id] = {} end
+									addon.quests[id].completed = completed[id] ~= nil and completed[id]
+									if addon.quests[id].followup == nil then addon.quests[id].followup = {} end
+									table.insert(addon.quests[id].followup, element.questId)
+								end
 							end
 						end
+						if GuidelimeData.autoAddCoordinates and not step.hasGoto then
+							local gotoElement = addon.getQuestPosition(element.questId, element.t, element.objective)
+							if gotoElement ~= nil then
+								gotoElement.t = "GOTO"
+								gotoElement.radius = addon.DEFAULT_GOTO_RADIUS
+								gotoElement.generated = true
+								table.insert(step.elements, i, gotoElement)
+								for j = i, #step.elements do
+									step.elements[j].index = j
+								end
+								i = i + 1
+							end						
+						end
 					end
+					i = i + 1
 				end
 			end
 			if step.manual == nil then step.manual = true end

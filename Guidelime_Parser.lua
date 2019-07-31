@@ -64,7 +64,7 @@ function addon.parseGuide(guide, group)
 		local pos = 1
 		guide.lines = 1
 		guide.steps = {}
-		local t = guide.text:gsub("([^\n]-)\n", function(c)
+		local t = guide.text:gsub("([^\n\r]-)[\n\r]", function(c)
 			if c ~= nil and c ~= "" then
 				local step = {text = c:gsub("\\\\"," \n"), startPos = pos, line = guide.lines, guide = guide}
 				table.insert(guide.steps, step)
@@ -245,6 +245,7 @@ function addon.parseLine(step, guide)
 					addon.createPopupFrame(string.format(L.ERROR_CODE_ZONE_NOT_FOUND, guide.name or "", code, (step.line or "") .. " " .. step.text))
 					err = true
 				end
+				step.hasGoto = true
 				table.insert(step.elements, element)
 			end, 1)
 		elseif code:sub(1, 1) == addon.codes.LOC then
