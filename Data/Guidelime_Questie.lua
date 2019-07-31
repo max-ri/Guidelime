@@ -97,22 +97,36 @@ function addon.getQuestPositionsQuestie(id, typ, index)
 		--if addon.debugging then print("LIME: item", items[j] .. " " .. item[6]) end
 		if item ~= nil then
 			for i = 1, #item[3] do
-				table.insert(npcs, item[3][i])
+				if not addon.contains(npcs, item[3][i]) then table.insert(npcs, item[3][i]) end
 			end
 			for i = 1, #item[4] do
-				table.insert(objects, item[4][i])
+				if not addon.contains(objects, item[4][i]) then table.insert(objects, item[4][i]) end
 			end
 		end
 	end
 	local positions = {}
+	local filterZone
+	if addon.zoneDataClassicReverse == nil then
+		addon.zoneDataClassicReverse = {}
+		for id, zone in pairs(zoneDataClassic) do
+			addon.zoneDataClassicReverse[zone] = id
+		end
+	end
+	if addon.questsDB[id] ~= nil then filterZone = addon.zoneDataClassicReverse[addon.questsDB[id].sort] end
 	for j = 1, #npcs do
 		local npc = npcData[npcs[j]]
 		--if npc == nil then error("npc " .. npcs[j] .. " not found for quest " .. questid .. typ) end
 		--if addon.debugging then print("LIME: npc", npc[1]) end
 		if npc ~= nil then
-			for zone, posList in pairs(npc[7]) do
-				for _, pos in ipairs(posList) do
-					table.insert(positions, {x = pos[1], y = pos[2], zone = zoneDataClassic[zone]})
+			if filterZone == nil then
+				for zone, posList in pairs(npc[7]) do
+					for _, pos in ipairs(posList) do
+						table.insert(positions, {x = pos[1], y = pos[2], zone = zoneDataClassic[zone] or zone})
+					end
+				end
+			elseif npc[7][filterZone] ~= nil then
+				for _, pos in ipairs(npc[7][filterZone]) do
+					table.insert(positions, {x = pos[1], y = pos[2], zone = zoneDataClassic[filterZone]})
 				end
 			end
 		end
@@ -121,23 +135,34 @@ function addon.getQuestPositionsQuestie(id, typ, index)
 		local object = objData[objects[j]]
 		if object == nil then error("object " .. objects[j] .. " not found for quest " .. questid .. typ) end
 		--if addon.debugging then print("LIME: object", object[1]) end
-		for zone, posList in pairs(object[4]) do
-			for _, pos in ipairs(posList) do
-				table.insert(positions, {x = pos[1], y = pos[2], zone = zoneDataClassic[zone] or zone})
+		if filterZone == nil then
+			for zone, posList in pairs(object[4]) do
+				for _, pos in ipairs(posList) do
+					table.insert(positions, {x = pos[1], y = pos[2], zone = zoneDataClassic[zone] or zone})
+				end
+			end
+		elseif object[4][filterZone] ~= nil then
+			for _, pos in ipairs(object[4][filterZone]) do
+				table.insert(positions, {x = pos[1], y = pos[2], zone = zoneDataClassic[filterZone]})
 			end
 		end
 	end
 	local i = 1
 	repeat
 		local pos = positions[i]
-		pos.mapID = addon.mapIDs[pos.zone]
-		pos.wx, pos.wy, pos.instance = HBD:GetWorldCoordinatesFromZone(pos.x / 100, pos.y / 100, pos.mapID)
-		--if addon.debugging then print("LIME: found position", pos.wx, pos.wy, pos.instance) end
-		if pos.wx == nil then
-			if addon.debugging then print("LIME: error transforming (" .. pos.x .. "," .. pos.y .. " " .. pos.zone .. " " .. addon.mapIDs[pos.zone] .. ") into world coordinates for quest #" .. id) end
+		if pos.wx == -1 and pos.wy == -1 then
+			-- locations inside instances are marked with -1,-1
 			table.remove(positions, i)
 		else
-			i = i + 1
+			pos.mapID = addon.mapIDs[pos.zone]
+			pos.wx, pos.wy, pos.instance = HBD:GetWorldCoordinatesFromZone(pos.x / 100, pos.y / 100, pos.mapID)
+			--if addon.debugging then print("LIME: found position", pos.wx, pos.wy, pos.instance) end
+			if pos.wx == nil then
+				if addon.debugging then print("LIME: error transforming (", pos.x, ",", pos.y, pos.zone, addon.mapIDs[pos.zone], ") into world coordinates for quest #", id) end
+				table.remove(positions, i)
+			else
+				i = i + 1
+			end
 		end
 	until i > #positions
 	--if addon.debugging then print("LIME: found ", #positions, "positions") end
