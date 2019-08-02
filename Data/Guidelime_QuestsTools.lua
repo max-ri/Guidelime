@@ -48,6 +48,12 @@ function addon.getQuestTargetNames(id, typ)
 	return names
 end	
 
+function addon.getQuestObjectives(id)
+	if GuidelimeData.dataSourceQuestie and Questie ~= nil then return addon.getQuestObjectivesQuestie(id, typ) end
+	-- list of target names for each quest objective is not available in the database
+	return {}
+end
+
 function addon.getQuestPositions(id, typ, objective)
 	if GuidelimeData.dataSourceQuestie and Questie ~= nil then return addon.getQuestPositionsQuestie(id, typ, objective) end
 	if id == nil or addon.questsDB[id] == nil then return end
@@ -149,38 +155,78 @@ function addon.getQuestPosition(id, typ, index)
 	end
 end
 
-function addon.getPossibleQuestIdsByName(name, faction, race, class)
-	if addon.questsDBReverse == nil then
-		addon.questsDBReverse = {}
-		for id, quest in pairs(addon.questsDB) do
-			local n = addon.getQuestNameById(id):upper()
-			if addon.questsDBReverse[n] == nil then addon.questsDBReverse[n] = {} end
-			table.insert(addon.questsDBReverse[n], id)
-			if quest.series ~= nil then
-				local n2 = n .. " " .. L.PART:upper() .. " " .. quest.series
-				if addon.questsDBReverse[n2] == nil then addon.questsDBReverse[n2] = {} end
-				table.insert(addon.questsDBReverse[n2], id)
-			end
-			if n:upper() ~= addon.questsDB[id].name:upper() then
-				n = addon.questsDB[id].name:upper()
-				if addon.questsDBReverse[n] == nil then addon.questsDBReverse[n] = {} end
-				table.insert(addon.questsDBReverse[n], id)
-				if quest.series ~= nil then
-					local n2 = n .. " PART " .. quest.series
-					if addon.questsDBReverse[n2] == nil then addon.questsDBReverse[n2] = {} end
-					table.insert(addon.questsDBReverse[n2], id)
-				end
+function addon.findInLists(line, wordLists, first, startPos, endPos)
+	local s, e, w, result
+	local lower = " " .. line:lower() .. " "
+	startPos = (startPos or 1)
+	endPos = (endPos or #lower)
+	for wordList, r in pairs(wordLists) do
+		for word in wordList:gmatch("[^;]+") do
+			local s2, e2 = lower:find(word:gsub(" ", "[%%s%%p]"), startPos)
+			if s2 ~= nil and s2 < endPos and (s == nil or s ~= s2 or #word > #w) then
+				if first == nil or first then endPos = e2 else startPos = s2 end		
+				s = s2
+				e = e2
+				w = word
+				result = r
 			end
 		end
 	end
-	local filteredName = name:gsub("%(",""):gsub("%)",""):gsub("pt%.","part"):upper()
-	local ids = addon.questsDBReverse[filteredName]
-	if ids == nil and filteredName:sub(#filteredName - 5, #filteredName - 1) == "PART " then 
-		ids = addon.getPossibleQuestIdsByName(filteredName:sub(1, #filteredName - 7))
-		-- looking for part 2 without specifying so and only getting 1 quest? not good return nil
-		if tonumber(filteredName:sub(#filteredName - 1, #filteredName)) > 1 and ids ~= nil and #ids == 1 then ids = nil end
+	if s ~= nil then 
+		if type(result) == "function" then
+			return result(s - 1, e - 1, lower:match(w:gsub(" ", "[%%s%%p]")))
+		else
+			return result, s - 1, e - 1
+		end
 	end
-	if ids ~= nil and (faction ~= nil or race ~= nil or class ~= nil) then
+end
+
+function addon.getPossibleQuestIdsByName(name, part, faction, race, class)
+	if addon.questsDBReverse == nil then
+		addon.questsDBReverse = {}
+		for id, quest in pairs(addon.questsDB) do
+			local n = addon.getQuestNameById(id):lower()
+			if addon.questsDBReverse[n] == nil then addon.questsDBReverse[n] = {} end
+			table.insert(addon.questsDBReverse[n], id)
+			-- if localized quest name is different from english name also include english name
+			if n:lower() ~= addon.questsDB[id].name:lower() then
+				n = addon.questsDB[id].name:lower()
+				if addon.questsDBReverse[n] == nil then addon.questsDBReverse[n] = {} end
+				table.insert(addon.questsDBReverse[n], id)
+			end
+		end
+	end
+	local filteredName = name:lower():gsub("%(",""):gsub("%)","")
+	if part == nil then
+		addon.findInLists(" " .. filteredName .. " ", {[L.WORD_LIST_PART_N] = function(s, e, n)
+			filteredName = filteredName:sub(1, s - 2)
+			part = tonumber(n)
+		end})
+		if part == nil and GetLocale() ~= "enUS" then
+			addon.findInLists(" " .. filteredName .. " ", {[addon.defaultL.WORD_LIST_PART_N] = function(s, e, n)
+				filteredName = filteredName:sub(1, s - 2)
+				part = tonumber(n)
+			end})
+		end
+	end	
+	
+	local ids = addon.questsDBReverse[filteredName]
+	if ids == nil then ids = {} end
+	if #ids > 0 and part ~= nil then
+		if part > 1 and #ids == 1 then 
+			-- looking for part > 1 and only getting 1 quest? not good return nil
+			return {}
+		elseif #ids > 1 then
+			local filteredIds = {}
+			for i, id in ipairs(ids) do
+				if addon.questsDB[id].series == part then
+					table.insert(filteredIds, id)		
+				end
+			end
+			if #filteredIds > 0 then ids = filteredIds end
+		end
+	end
+	if faction ~= nil or race ~= nil or class ~= nil then
 		local filteredIds = {}
 		for i, id in ipairs(ids) do
 			local match = faction == nil or addon.questsDB[id].faction == nil or faction == addon.questsDB[id].faction
@@ -198,7 +244,7 @@ function addon.getPossibleQuestIdsByName(name, faction, race, class)
 			end	
 			if match then table.insert(filteredIds, id) end
 		end
-		return filteredIds
+		ids = filteredIds
 	end
 	return ids
 end

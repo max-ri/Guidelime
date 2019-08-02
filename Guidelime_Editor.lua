@@ -912,20 +912,32 @@ function addon.showEditor()
 		addon.editorFrame.removeCoordinatesBtn:SetPoint("BOTTOMLEFT", addon.editorFrame, "BOTTOMLEFT", 560, 20)
 		addon.editorFrame.removeCoordinatesBtn:SetScript("OnClick", function()
 			addon.createPopupFrame(L.REMOVE_ALL_COORDINATES_MESSAGE, function()
-			local guide = parseGuide()
-			if guide ~= nil then 
-				local text, count = addon.removeAllCoordinates(guide)
-				if count > 0 then
-					addon.editorFrame.textBox:SetText(text)
-					parseGuide()
+				local guide = parseGuide()
+				if guide ~= nil then 
+					local text, count = addon.removeAllCoordinates(guide)
+					if count > 0 then
+						addon.editorFrame.textBox:SetText(text)
+						parseGuide()
+					end
+					C_Timer.After(0.2, function()
+						addon.createPopupFrame(string.format(L.REMOVE_COORDINATES_MESSAGE, count)):Show()
+					end)
 				end
-				C_Timer.After(0.2, function()
-					addon.createPopupFrame(string.format(L.REMOVE_COORDINATES_MESSAGE, count)):Show()
-				end)
-			end
 			end, true):Show()
 		end)
 
+		addon.editorFrame.importBtn = CreateFrame("BUTTON", nil, addon.editorFrame, "UIPanelButtonTemplate")
+		addon.editorFrame.importBtn:SetWidth(160)
+		addon.editorFrame.importBtn:SetHeight(30)
+		addon.editorFrame.importBtn:SetText(L.IMPORT_GUIDE)
+		addon.editorFrame.importBtn:SetPoint("BOTTOMLEFT", addon.editorFrame, "BOTTOMLEFT", 740, 20)
+		addon.editorFrame.importBtn:SetScript("OnClick", function()
+			addon.createPopupFrame(L.IMPORT_GUIDE_MESSAGE, function()
+				local text = addon.importPlainText(addon.editorFrame.textBox:GetText())
+				addon.editorFrame.textBox:SetText(text)
+				parseGuide()
+			end, true):Show()
+		end)
 
 	else
 		addon.popupFrame = addon.editorFrame

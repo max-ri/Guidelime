@@ -1,11 +1,9 @@
 local addonName, addon = ...
 
-local defaultLocale = "enUS"
-
 function getLocalizedStrings(locale)
 local L = {}
 
-if locale == defaultLocale then
+if locale == "enUS" then
 
 L.TITLE = addonName
 L.SHOW_MAINFRAME = "Show window"
@@ -134,6 +132,8 @@ L.REMOVE_ALL_COORDINATES_MESSAGE = "All coordinate steps ([G...]) will be remove
 L.REMOVED_COORDINATES_MESSAGE = "%s coordinates have been removed."
 L.AUTO_ADD_COORDINATES = "Automatically add coordinates to quest steps without coordinates"
 L.DISCARD_CHANGES = "Discard changes"
+L.IMPORT_GUIDE = "Import guide"
+L.IMPORT_GUIDE_MESSAGE = "Import a guide written in plain text. Quest names should be in quotation marks(\"). Occasionally correct quest IDs have to be added manually. Lines with missing IDs or other errors will be marked."
 L.Alliance = "Alliance"
 L.Horde = "Horde"
 
@@ -175,9 +175,9 @@ z.B.: "[GA Dwarf,Gnome]"]=]
 L["EDITOR_TOOLTIP_HEARTH"] = [=[Der Spieler soll den Ruhestein verwenden
 d.h.: "[H]"]=]
 L["EDITOR_TOOLTIP_LOC"] = "Koordinaten eines zusätzlichen Punktes hinzufügen\\nz.B.: \\\"[L 29.93,71.2 Dun Morogh]\\\""
-L["EDITOR_TOOLTIP_NAME"] = [=[Namen und Levelbereich des Guides angeben
+L["EDITOR_TOOLTIP_NAME"] = [=[Namen und Stufenbereich des Guides angeben
 z.B.: "[N1-6Coldridgetal]"]=]
-L["EDITOR_TOOLTIP_NEXT"] = [=[Namen und Levelbereich des Guides angeben der auf diesen folgt
+L["EDITOR_TOOLTIP_NEXT"] = [=[Namen und Stufenbereich des Guides angeben der auf diesen folgt
 z.B.: "[NX6-12Dun Morogh]"]=]
 L["EDITOR_TOOLTIP_OPTIONAL"] = [=[Den aktuellen Schritt als optional markieren
 d.h.: "[O]"]=]
@@ -193,8 +193,8 @@ L["EDITOR_TOOLTIP_TRAIN"] = [=[Der Spieler soll den Trainer aufsuchen
 d.h.: "[T]"]=]
 L["EDITOR_TOOLTIP_VENDOR"] = [=[Der Spieler soll verkaufen / sich neu ausrüsten
 d.h.: "[V]"]=]
-L["EDITOR_TOOLTIP_XP"] = [=[Bei diesem Schritt wird vom Spieler erwartet, dass ein bestimmter Level / ein bestimmtes Maß an Erfahrung erreicht worden ist
-z.B.: "[XP8.5 die Hälfte des Levels bis 9]"]=]
+L["EDITOR_TOOLTIP_XP"] = [=[Bei diesem Schritt wird vom Spieler erwartet, dass eine bestimmter Stufe / ein bestimmtes Maß an Erfahrung erreicht worden ist
+z.B.: "[XP8.5 die Hälfte der Stufe bis 9]"]=]
 L["EDITOR_TOOLTIP_ZONE"] = "Diese Angabe ist nur für die ersten Koordinaten erforderlich. Wenn keine Zone angegeben wird, wird angenommen, dass die Zone dieselbe ist wie bei vorangehenden Koordinaten."
 L["ENGLISH_NAME"] = "Name (Englisch)"
 L["ERROR_CODE_NOT_RECOGNIZED"] = "Lese Guide \"%s\": Code [%s] nicht erkannt in Zeile \"%s\""
@@ -213,7 +213,7 @@ L["GUIDE_FINISHED_NEXT"] = "Der aktuelle Guide ist abgeschlossen. Klicke hier um
 L["HIDE_COMPLETED_STEPS"] = "Abgeschlossene Schritte verstecken"
 L["HIDE_UNAVAILABLE_STEPS"] = "Nicht verfügbare Schritte verstecken"
 L["Horde"] = "Horde"
-L["LEVEL"] = "Level"
+L["LEVEL"] = "Stufe"
 L["LOAD_GUIDE"] = "Guide laden"
 L["LOAD_MESSAGE"] = "Guidelime: Lade Guide \"%s\""
 L["LOCK_MAINFRAME"] = "Fenster feststellen"
@@ -222,8 +222,8 @@ L["MAIN_FRAME_HEIGHT"] = "Fensterhöhe"
 L["MAIN_FRAME_WIDTH"] = "Fensterbreite"
 L["MAX_NUM_OF_MARKERS"] = "Kartenmarkierungen (0 = unbegrenzt)"
 L["MAX_NUM_OF_STEPS"] = "Angezeigte Schritte (0 = unbegrenzt)"
-L["MAXIMUM_LEVEL"] = "Maximal-Level"
-L["MINIMUM_LEVEL"] = "Minimal-Level"
+L["MAXIMUM_LEVEL"] = "Maximal-Stufe"
+L["MINIMUM_LEVEL"] = "Minimal-Stufe"
 L["MISSING_PREQUEST"] = "Folgende Quest wurde übersprungen:"
 L["MISSING_PREQUESTS"] = "Folgende Quests wurden übersprungen:"
 L["NAME"] = "Name"
@@ -248,7 +248,7 @@ L["QUEST_NAME"] = "Quest-Name"
 L["QUEST_NAME_TOOLTIP"] = "Angezeigter Text. Wenn nich angegeben wird der Name der Quest angezeigt. Wird \"-\" angegeben wird kein Text angezeigt."
 L["QUEST_OBJECTIVE"] = "Questziel"
 L["QUEST_OBJECTIVE_TOOLTIP"] = "Nummer des Questziel welches vervollständigt werden soll (1 für das Erste, 2 für das Zweite, ...). Kann angegeben werden wenn nur ein einzelnes Ziel verfolgt wird. Wenn es nicht angegeben wird, sind alle Ziele erforderlich."
-L["QUEST_REQUIRED_LEVEL"] = "Mindestlevel für %s ist %s"
+L["QUEST_REQUIRED_LEVEL"] = "Mindeststufe für %s ist %s"
 L["QUEST_S_TOOLTIP"] = "Verwenden wenn der Spieler darauf aufmerksam gemacht werden soll eine bestimmte Quest nicht anzunehmen"
 L["QUEST_SKIP"] = "Überspringen"
 L["QUEST_TURNIN"] = "Abgeben"
@@ -262,29 +262,29 @@ L["SAVE_MSG"] = "Guide speichern als \"%s\"?"
 L["SHOW_ARROW"] = "Richtungspfeil anzeigen"
 L["SHOW_MAINFRAME"] = "Fenster anzeigen"
 L["SHOW_MAP"] = "Auf der Karte anzeigen"
-L["SHOW_MINIMUM_QUEST_LEVELS"] = "Erforderlichen Level einer Quest anzeigen"
-L["SHOW_QUEST_LEVELS"] = "Quest-Level anzeigen"
-L["SHOW_SUGGESTED_QUEST_LEVELS"] = "Empfohlenen Level einer Quest anzeigen"
+L["SHOW_MINIMUM_QUEST_LEVELS"] = "Erforderliche Stufe einer Quest anzeigen"
+L["SHOW_QUEST_LEVELS"] = "Quest-Stufe anzeigen"
+L["SHOW_SUGGESTED_QUEST_LEVELS"] = "Empfohlene Stufe einer Quest anzeigen"
 L["SHOW_TOOLTIPS"] = "Tooltips anzeigen"
 L["SKIP_CUTSCENES"] = "Zwischensequenzen überspringen"
 L["STEP_FOLLOWUP_QUEST"] = "Wenn du %s überspringst, kannst du folgende Quest später nicht erledigen"
 L["STEP_FOLLOWUP_QUESTS"] = "Wenn du %s überspringst, kannst du folgende Quests nicht erledigen"
 L["STEP_MANUAL"] = "Hier klicken, wenn dieser Schritt erledigt ist"
 L["STEP_SKIP"] = "Hier klicken, um diesen Schritt zu überspringen"
-L["SUGGESTED_LEVEL"] = "Empfohlener Level"
+L["SUGGESTED_LEVEL"] = "Empfohlene Stufe"
 L["TYPE"] = "Art"
 L["URL"] = "URL"
 L["USE_INTERNAL_DATA_SOURCE"] = "Interne Quest-Datenbank verwenden"
 L["USE_QUESTIE_AS_DATA_SOURCE"] = "'Questie' als Datenquelle verwenden"
 L["USE_QUESTIE_AS_DATA_SOURCE_TOOLTIP"] = [=[Wenn das Addon 'Questie' installiert ist, kann dieses als Datenquelle für Quest-Koordinaten genutzt werden.
 Dort sind eventuell Informationen vorhanden, die in der internen Quest-Datenbank nicht zur Verfügung stehen, wie beispielsweise Koordinaten von Quest-Gegnern.]=]
-L["XP_LEVEL"] = "Nur Level"
+L["XP_LEVEL"] = "Nur Stufe"
 L["XP_LEVEL-"] = "Verbleibende Punkte"
 L["XP_LEVEL%"] = "Prozentualer Anteil"
-L["XP_LEVEL%_TOOLTIP"] = "Der Spieler muss den angegeben Level sowie zusätzlich den angebenen prozentualen Anteil an Erfahrungspunkten bis zum Erreichen des nächsten Levels erreicht haben"
-L["XP_LEVEL-_TOOLTIP"] = "Dem Spieler dürfen höchstens die angegebene Anzahl Erfharungspunkte bis zum Erreichen des angegebenen Levels fehlen"
+L["XP_LEVEL%_TOOLTIP"] = "Der Spieler muss die angegebene Stufe sowie zusätzlich den angebenen prozentualen Anteil an Erfahrungspunkten bis zum Erreichen der nächsten Stufe erreicht haben"
+L["XP_LEVEL-_TOOLTIP"] = "Dem Spieler dürfen höchstens die angegebene Anzahl Erfahrungspunkte bis zum Erreichen der angegebenen Stufe fehlen"
 L["XP_LEVEL+"] = "Erhaltene Punkte"
-L["XP_LEVEL+_TOOLTIP"] = "Der Spieler muss den angegebenen Level sowie zusätzlich die angegebene Anzahl Erfahrungspunkte erreicht haben"
+L["XP_LEVEL+_TOOLTIP"] = "Der Spieler muss die angegebene Stufe sowie zusätzlich die angegebene Anzahl Erfahrungspunkte erreicht haben"
 L["XP_TEXT"] = "Text"
 L["XP_TEXT_TOOLTIP"] = "Angezeigter Text. Wenn kein Text angegeben wird, wird \"%s\" angezeigt."
 L["ZONE"] = "Zone"
@@ -412,16 +412,15 @@ end
 return L
 end
 
-local defaultL = getLocalizedStrings(defaultLocale)
-
-addon.L = setmetatable(getLocalizedStrings(GetLocale()), {__index = defaultL})
+addon.defaultL = getLocalizedStrings("enUS")
+addon.L = setmetatable(getLocalizedStrings(GetLocale()), {__index = addon.defaultL})
 
 function addon.testLocalization()
 	if not addon.debugging then return end
 	for i, locale in ipairs({"deDE", "enGB", "enUS", "esES", "esMX", "frFR", "itIT", "koKR", "ptBR", "ruRU", "zhCN", "zhTW"}) do
 		local L = getLocalizedStrings(locale)
 		if next(L) ~= nil then
-			for key, value in pairs(defaultL) do
+			for key, value in pairs(addon.defaultL) do
 				if L[key] == nil then
 					print("LIME: " .. locale .. " L." .. key .. " is missing")
 				end

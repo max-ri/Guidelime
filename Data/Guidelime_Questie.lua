@@ -54,6 +54,13 @@ function addon.getQuestTargetNamesQuestie(id, typ, objective)
 	return names
 end
 
+local function reverseZoneData()
+	addon.zoneDataClassicReverse = {}
+	for id, zone in pairs(zoneDataClassic) do
+		addon.zoneDataClassicReverse[zone] = id
+	end
+end
+
 function addon.getQuestPositionsQuestie(id, typ, index)
 	if id == nil or Questie == nil then return end
 	local quest = qData[id]
@@ -106,12 +113,7 @@ function addon.getQuestPositionsQuestie(id, typ, index)
 	end
 	local positions = {}
 	local filterZone
-	if addon.zoneDataClassicReverse == nil then
-		addon.zoneDataClassicReverse = {}
-		for id, zone in pairs(zoneDataClassic) do
-			addon.zoneDataClassicReverse[zone] = id
-		end
-	end
+	if addon.zoneDataClassicReverse == nil then reverseZoneData() end
 	if addon.questsDB[id] ~= nil then filterZone = addon.zoneDataClassicReverse[addon.questsDB[id].sort] end
 	for j = 1, #npcs do
 		local npc = npcData[npcs[j]]
@@ -148,7 +150,7 @@ function addon.getQuestPositionsQuestie(id, typ, index)
 		end
 	end
 	local i = 1
-	repeat
+	while i <= #positions do
 		local pos = positions[i]
 		if pos.wx == -1 and pos.wy == -1 then
 			-- locations inside instances are marked with -1,-1
@@ -164,8 +166,51 @@ function addon.getQuestPositionsQuestie(id, typ, index)
 				i = i + 1
 			end
 		end
-	until i > #positions
+	end
 	--if addon.debugging then print("LIME: found ", #positions, "positions") end
 	return positions
+end
+
+function addon.getQuestObjectivesQuestie(id)
+	if Questie == nil then return end
+	local objectives = {}
+	if qData[id][10][1] ~= nil then
+		for j = 1, #qData[id][10][1] do
+			local npc = npcData[qData[id][10][1][j][1]]
+			if npc ~= nil then
+				table.insert(objectives, {npc[1]})
+			end
+		end
+	end
+	if qData[id][10][2] ~= nil then
+		for j = 1, #qData[id][10][2] do
+			if objectives[id] == nil then objectives[id] = {} end
+			local obj = objData[qData[id][10][2][j][1]]
+			if obj ~= nil then
+				table.insert(objectives, {obj[1]})
+			end
+		end
+	end
+	if qData[id][10][3] ~= nil then
+		for j = 1, #qData[id][10][3] do
+			local item = CHANGEME_Questie4_ItemDB[qData[id][10][3][j][1] ]
+			if item ~= nil then
+				local objList = {}
+				for i = 1, #item[3] do
+					local npc = npcData[item[3][i] ]
+					if npc ~= nil then
+						table.insert(objList, npc[1])
+					end
+				end
+				for i = 1, #item[4] do
+					local obj = objData[item[4][i] ]
+					table.insert(objList, obj[1])
+				end
+				table.insert(objList, item[1])
+				table.insert(objectives, objList)
+			end
+		end
+	end
+	return objectives
 end
 
