@@ -160,11 +160,11 @@ function addon.findInLists(line, wordLists, first, startPos, endPos)
 	local lower = " " .. line:lower() .. " "
 	startPos = (startPos or 1)
 	endPos = (endPos or #lower)
+	if first == nil then first = true end
 	for wordList, r in pairs(wordLists) do
 		for word in wordList:gmatch("[^;]+") do
 			local s2, e2 = lower:find(word:gsub(" ", "[%%s%%p]"), startPos)
-			if s2 ~= nil and s2 < endPos and (s == nil or s ~= s2 or #word > #w) then
-				if first == nil or first then endPos = e2 else startPos = s2 end		
+			if s2 ~= nil and s2 < endPos and (s == nil or (first and s > s2) or (not first and s < s2) or (s == s2 and #word > #w)) then
 				s = s2
 				e = e2
 				w = word
