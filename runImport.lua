@@ -31,8 +31,6 @@ assert(loadfile "..\\QuestieDev-master\\Database\\objectDB.lua")(nil, addon)
 -- this file looks like it might change in upcoming questie?
 assert(loadfile "..\\QuestieDev-master\\Database\\TEMP_questie4items.lua")(nil, addon)
 
-local L = addon.L
-
 local f = io.open(arg[1], "r")
 local text = f:read("*all")
 f:close()
