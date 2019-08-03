@@ -163,7 +163,8 @@ function addon.findInLists(line, wordLists, first, startPos, endPos)
 	if first == nil then first = true end
 	for wordList, r in pairs(wordLists) do
 		for word in wordList:gmatch("[^;]+") do
-			local s2, e2 = lower:find(word:gsub(" ", "[%%s%%p]"), startPos)
+			word = word:gsub(" ", "[%%s%%p]")
+			local s2, e2 = lower:find(word, startPos)
 			if s2 ~= nil and s2 < endPos and (s == nil or (first and s > s2) or (not first and s < s2) or (s == s2 and #word > #w)) then
 				s = s2
 				e = e2
@@ -174,9 +175,9 @@ function addon.findInLists(line, wordLists, first, startPos, endPos)
 	end
 	if s ~= nil then 
 		if type(result) == "function" then
-			return result(s - 1, e - 1, lower:match(w:gsub(" ", "[%%s%%p]")))
+			return result(s - 1, e - 1, lower:match(w, startPos))
 		else
-			return result, s - 1, e - 1
+			return result, s - 1, e - 1, lower:match(w, startPos)
 		end
 	end
 end
@@ -185,18 +186,18 @@ function addon.getPossibleQuestIdsByName(name, part, faction, race, class)
 	if addon.questsDBReverse == nil then
 		addon.questsDBReverse = {}
 		for id, quest in pairs(addon.questsDB) do
-			local n = addon.getQuestNameById(id):lower()
+			local n = addon.getQuestNameById(id):lower():gsub("[%(%)\"%s%p]","")
 			if addon.questsDBReverse[n] == nil then addon.questsDBReverse[n] = {} end
 			table.insert(addon.questsDBReverse[n], id)
 			-- if localized quest name is different from english name also include english name
-			if n:lower() ~= addon.questsDB[id].name:lower() then
-				n = addon.questsDB[id].name:lower()
+			if addon.getQuestNameById(id) ~= addon.questsDB[id].name then
+				n = addon.questsDB[id].name:lower():gsub("[%(%)\"%s%p]",""):gsub("  ", " ")
 				if addon.questsDBReverse[n] == nil then addon.questsDBReverse[n] = {} end
 				table.insert(addon.questsDBReverse[n], id)
 			end
 		end
 	end
-	local filteredName = name:lower():gsub("%(",""):gsub("%)","")
+	local filteredName = name:lower():gsub("[%(%)\"%s%p]","")
 	if part == nil then
 		addon.findInLists(" " .. filteredName .. " ", {[L.WORD_LIST_PART_N] = function(s, e, n)
 			filteredName = filteredName:sub(1, s - 2)
