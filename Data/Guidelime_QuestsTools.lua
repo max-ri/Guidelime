@@ -198,20 +198,27 @@ function addon.getPossibleQuestIdsByName(name, part, faction, race, class)
 		end
 	end
 	local filteredName = name:lower():gsub("[%(%)\"%s%p]","")
-	if part == nil then
-		addon.findInLists(" " .. filteredName .. " ", {[L.WORD_LIST_PART_N] = function(s, e, n)
-			filteredName = filteredName:sub(1, s - 2)
-			part = tonumber(n)
-		end})
-		if part == nil and GetLocale() ~= "enUS" then
-			addon.findInLists(" " .. filteredName .. " ", {[addon.defaultL.WORD_LIST_PART_N] = function(s, e, n)
-				filteredName = filteredName:sub(1, s - 2)
-				part = tonumber(n)
-			end})
-		end
-	end	
-	
 	local ids = addon.questsDBReverse[filteredName]
+	if ids == nil or #ids == 0 and part == nil then
+		print(filteredName)
+		local wordListMap = {}
+		wordListMap[L.WORD_LIST_PART_N] = function(s, e, n) filteredName = filteredName:sub(1, s - 1); part = tonumber(n) end
+		if GetLocale() ~= "enUS" then wordListMap[addon.defaultL.WORD_LIST_PART_N] = function(s, e, n) filteredName = filteredName:sub(1, s - 1); part = tonumber(n) end end
+		local i = 1
+		while L["WORD_LIST_PART_" .. i] ~= nil do
+			local ii = i
+			wordListMap[L["WORD_LIST_PART_" .. i]] = function(s, e) filteredName = filteredName:sub(1, s - 1); part = ii end
+			if GetLocale() ~= "enUS" then wordListMap[addon.defaultL["WORD_LIST_PART_" .. i]] = function(s, e) filteredName = filteredName:sub(1, s - 1); part = ii end end
+			i = i + 1
+		end
+		addon.findInLists(filteredName, wordListMap, false)
+		if part == nil then
+			addon.findInLists(filteredName, {["(%d+) "] = function(s, e, n) filteredName = filteredName:sub(1, s - 1); part = tonumber(n) end}, false)
+		end
+		print(filteredName, part)
+		ids = addon.questsDBReverse[filteredName]
+	end	
+
 	if ids == nil then ids = {} end
 	if #ids > 0 and part ~= nil then
 		if part > 1 and #ids == 1 then 

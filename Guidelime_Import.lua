@@ -19,8 +19,9 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 		wordListMap[L.WORD_LIST_PART_N] = function(...) s, e, part = ...; q = questname; part = tonumber(part) end
 		local i = 1
 		while L["WORD_LIST_PART_" .. i] ~= nil do
-			wordListMap[" " .. questPattern .. L["WORD_LIST_PART_" .. i]:gsub(";", "; " .. questPattern)] = function(...) s, e, q = ...; part = i end
-			wordListMap[L["WORD_LIST_PART_".. i]] = function(...) s, e = ...; q = questname; part = i end
+			local ii = i
+			wordListMap[" " .. questPattern .. L["WORD_LIST_PART_" .. i]:gsub(";", "; " .. questPattern)] = function(...) s, e, q = ...; part = ii end
+			wordListMap[L["WORD_LIST_PART_".. i]] = function(...) s, e = ...; q = questname; part = ii end
 			i = i + 1
 		end
 		wordListMap[L.WORD_LIST_NEXT_PART] = function(...) s, e = ...; q = questname

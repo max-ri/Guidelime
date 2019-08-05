@@ -35,8 +35,12 @@ local function setQuestInfo(id)
 					text = text .. "|r " .. L.AT .. addon.COLOR_WHITE .. "\n"
 					for i, pos in ipairs(positions) do
 						addon.addMapIcon(pos, false, true)
-						text = text .. addon.getMapMarkerText(pos) ..
-							"(" .. pos.x .. "," .. pos.y .. " " .. pos.zone .. ") "
+						if i <= 10 then
+							text = text .. addon.getMapMarkerText(pos) ..
+								"(" .. pos.x .. "," .. pos.y .. " " .. pos.zone .. ") "
+						elseif i == 11 then
+							text = text .. (#positions - 10) .. " " .. L.MORE_POSITIONS
+						end
 					end
 					count = count + #positions
 				end

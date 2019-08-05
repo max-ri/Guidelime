@@ -103,6 +103,7 @@ L.QUEST_ACCEPT_POS = "Started by"
 L.QUEST_COMPLETE_POS = "Completed with"
 L.QUEST_TURNIN_POS = "Turned in at"
 L.AT = "at" -- as in npc xyz at (12,34)
+L.MORE_POSITIONS = "more positions"
 L.ERROR_CODE_NOT_RECOGNIZED = "Parsing guide \"%s\": code [%s] not recognized in line \"%s\""
 L.ERROR_GUIDE_HAS_NO_NAME = "Guide has no name"
 L.ERROR_CODE_ZONE_NOT_FOUND = "Parsing guide \"%s\": zone not found in code [%s] in line \"%s\""
@@ -149,12 +150,13 @@ L.WORD_LIST_TURN_IN = " turn in ; turn .- in ; deliver "
 L.WORD_LIST_SKIP = " skip ; ignore "
 
 -- Word lists for detecting when a quest name is followed by its part in a quest series there is a general case (N) and as much specific ones as needed (1-...)
-L.WORD_LIST_PART_N = " part (%d) ; (%d)th part " -- the part number must be captured with ()
-L.WORD_LIST_PART_1 = " first part ; 1st part "
-L.WORD_LIST_PART_2 = " second part ; 2nd part "
-L.WORD_LIST_PART_3 = " third part ; 3rd part "
-L.WORD_LIST_PART_4 = " fourth part "
-L.WORD_LIST_NEXT_PART = " next part "
+-- all of these should work without any whitespace (except at the end) to make finding quests more stable
+L.WORD_LIST_PART_N = " *part ?(%d); *(%d)th ?part ; *p ?(%d)" -- the part number must be captured with ()
+L.WORD_LIST_PART_1 = " *first ?part ; *1st ?part "
+L.WORD_LIST_PART_2 = " *second ?part ; *2nd ?part "
+L.WORD_LIST_PART_3 = " *third ?part ; *3rd ?part "
+L.WORD_LIST_PART_4 = " *fourth ?part "
+L.WORD_LIST_NEXT_PART = " *next ?part "
 
 -- Word lists for detecting when previous quest steps are being referenced
 -- prefix and suffix which should not be part of the resulting quest tag can be captured with ()
