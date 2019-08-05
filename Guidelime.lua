@@ -375,6 +375,11 @@ local function updateStepText(i)
 				for _, id in ipairs(newSkipQuests) do
 					skipText = skipText .. "\n|T" .. addon.icons.UNAVAILABLE .. ":12|t" .. getQuestText(id)
 				end
+				if #newSkipQuests == 1 then
+					skipText = skipText .. "\n" .. L.STEP_FOLLOWUP_QUEST_CONT:format(getQuestText(element.questId))
+				else
+					skipText = skipText .. "\n" .. L.STEP_FOLLOWUP_QUESTS_CONT:format(getQuestText(element.questId))
+				end
 			end
 			if element.t == "COMPLETE" or element.t == "TURNIN" then
 				if element.objective == nil then
