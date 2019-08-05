@@ -137,15 +137,16 @@ L.IMPORT_GUIDE_MESSAGE = "Import a guide written in plain text. Quest names shou
 L.Alliance = "Alliance"
 L.Horde = "Horde"
 
--- word lists used by the plain text parser
+-- Word lists used by the plain text parser
+-- Spaces at the start and end of each word will make it so that a match cannot occur in the middle of a word. Spaces will match any whitespace or punctuation marks.
 
--- word lists for detecting the type of a quest. matched expression can run over the quest itself but it has to start before the quest e.g. `turn "xyz" in`
+-- Word lists for detecting the type of a quest. matched expression can run over the quest itself but it has to start before the quest e.g. `turn "xyz" in`
 L.WORD_LIST_ACCEPT = " accept ; get ; pick up ; pick .- up ; take "
 L.WORD_LIST_COMPLETE = " do ; complete ; kill ; loot ; finish "
 L.WORD_LIST_TURN_IN = " turn in ; turn .- in ; deliver "
 L.WORD_LIST_SKIP = " skip ; ignore "
 
--- word lists for detecting when a quest name is followed by its part in a quest series there is a general case (N) and as much specific ones as needed (1-...)
+-- Word lists for detecting when a quest name is followed by its part in a quest series there is a general case (N) and as much specific ones as needed (1-...)
 L.WORD_LIST_PART_N = " part (%d) ; (%d)th part " -- the part number must be captured with ()
 L.WORD_LIST_PART_1 = " first part ; 1st part "
 L.WORD_LIST_PART_2 = " second part ; 2nd part "
@@ -153,22 +154,22 @@ L.WORD_LIST_PART_3 = " third part ; 3rd part "
 L.WORD_LIST_PART_4 = " fourth part "
 L.WORD_LIST_NEXT_PART = " next part "
 
--- word lists for detecting when previous quest steps are being referenced
+-- Word lists for detecting when previous quest steps are being referenced
 -- prefix and suffix which should not be part of the resulting quest tag can be captured with ()
 L.WORD_LIST_COMPLETE_LAST = "( complete )it( );( finish )it( )"
 L.WORD_LIST_TURN_IN_LAST = "( turn )it( in )"
 L.WORD_LIST_COMPLETE_LAST_TWO = "( complete )both( );( finish )both( )"
 L.WORD_LIST_TURN_IN_LAST_TWO = "( turn )both( in )"
 
--- word lists for catching the word quest when no specific quest tag could be found e.g. `turn in all remaining quests`
+-- Word lists for catching the word quest when no specific quest tag could be found e.g. `turn in all remaining quests`
 L.WORD_LIST_QUESTS = " quests "
 L.WORD_LIST_QUEST = " quest "
 
--- word lists for detecting non-quest steps
--- prefix and suffix which should not be part of the resulting quest tag can be captured with ()
+-- Word lists for detecting non-quest steps
+-- Prefix and suffix which should not be part of the resulting quest tag can be captured with ()
 L.WORD_LIST_XP = "( level )%d+( );( grind until )%d+( );( req. )%d+( )"
-L.WORD_LIST_SET_HEARTH = "( set hearth in )%a+( );( set hearth to )%a+( );( set hearthstone in )%a+( );( set hearthstone to )%a+( );( )(set hearth );( )(set hearthstone )" 
-L.WORD_LIST_HEARTH = "( hearth to )%a+( );( )(hearth )"
+L.WORD_LIST_SET_HEARTH = "( set hearth in )%a+( );( set hearth to )%a+( );( set hearthstone in )%a+( );( set hearthstone to )%a+( );( )(set hearth );( )(set hearthstone );( )(set hs);( set hs in )%a+( )"
+L.WORD_LIST_HEARTH = "( hearth to )%a+( );( )(hearth );( use .- )(hs );( use )(hs);( use .- )(hearthstone );( use )(hearthstone)"
 L.WORD_LIST_FLY = "( fly to )%a+( );( )(fly )"
 L.WORD_LIST_GET_FLIGHT_POINT = "( get flight ?point in )%a+( );( activate flight ?point in )%a+( );( get flight ?point )%a+( );( activate flight ?point )%a+( );( get )%a+( flight ?point );( activate )%a+( flight ?point );( )(flight ?point )"
 L.WORD_LIST_VENDOR = " purchase ; buy ; vendor"
