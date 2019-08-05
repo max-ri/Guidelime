@@ -6,16 +6,15 @@ HBDPins = LibStub("HereBeDragons-Pins-2.0")
 
 addon.mapIcons = {}
 
-local function createIconFrame(index, minimap)
-    local f = CreateFrame("Button", addonName .. index .. minimap, nil)
-
+local function createIconFrame(t, index, minimap)
+    local f = CreateFrame("Button", addonName .. t .. index .. minimap, nil)
     f:SetFrameStrata("TOOLTIP")
 	f:SetFrameLevel(index)
     f:SetWidth(16)
     f:SetHeight(16)
     f.texture = f:CreateTexture(nil, "TOOLTIP")
     f.texture:SetTexture(addon.icons.MAP_MARKER)
-	if index >= 64 then index = 63 end
+	if index >= 64 or t == "LOC" then index = 63 end
 	f.texture:SetTexCoord((index % 8) / 8, (index % 8 + 1) / 8, math.floor(index / 8) / 8, (math.floor(index / 8) + 1) / 8)
     f.texture:SetWidth(16)
     f.texture:SetHeight(16)
@@ -38,57 +37,62 @@ local function createIconFrame(index, minimap)
     return f
 end
 
-local function createMapIcon(i)
+local function createMapIcon(t, i)
 	if i == nil then
-		i = #addon.mapIcons + 1
+		i = #addon.mapIcons[t] + 1
 	end
-	addon.mapIcons[i] = {}
-	--if i >= 64 then
-	--	addon.mapIcons[i].map = addon.mapIcons[63].map
-	--	addon.mapIcons[i].minimap = addon.mapIcons[63].minimap
-	--else	
-		addon.mapIcons[i].map = createIconFrame(i, 0)
-		addon.mapIcons[i].minimap = createIconFrame(i, 1)
-	--end
-	addon.mapIcons[i].index = i
-	addon.mapIcons[i].inUse = false
-	return addon.mapIcons[i]
+	addon.mapIcons[t][i] = {}
+	addon.mapIcons[t][i].map = createIconFrame(t, i, 0)
+	addon.mapIcons[t][i].minimap = createIconFrame(t, i, 1)
+	addon.mapIcons[t][i].index = i
+	addon.mapIcons[t][i].inUse = false
+	return addon.mapIcons[t][i]
 end
 
 local function getMapIcon(element, highlight)
+	if addon.mapIcons[element.t] == nil then addon.mapIcons[element.t] = {} end
 	if highlight then 
-		if addon.mapIcons[0] == nil then createMapIcon(0) end
-		return addon.mapIcons[0] 
+		if addon.mapIcons[element.t][0] == nil then createMapIcon(element.t, 0) end
+		return addon.mapIcons[element.t][0] 
 	end
-	for i, mapIcon in ipairs(addon.mapIcons) do
-		if mapIcon.inUse then 
-			if mapIcon.mapID == element.mapID and mapIcon.x == element.x and mapIcon.y == element.y then
+	if addon.mapIcons[element.t] ~= nil then
+		for i, mapIcon in ipairs(addon.mapIcons[element.t]) do
+			if mapIcon.inUse then 
+				if mapIcon.mapID == element.mapID and mapIcon.x == element.x and mapIcon.y == element.y then
+					return mapIcon
+				end
+			else
 				return mapIcon
 			end
-		else
-			return mapIcon
 		end
 	end
-	return createMapIcon()		
+	return createMapIcon(element.t)		
 end
 
 function addon.addMapIcon(element, highlight, ignoreMaxNumOfMarkers)
 	local mapIcon = getMapIcon(element, highlight)
-	if mapIcon ~= nil and (ignoreMaxNumOfMarkers or GuidelimeData.maxNumOfMarkers == 0 or mapIcon.index < GuidelimeData.maxNumOfMarkers) then
-		mapIcon.inUse = true
-		mapIcon.mapID = element.mapID
-		mapIcon.x = assert(element.x)
-		mapIcon.y = assert(element.y)
-		element.mapIndex = mapIcon.index
-		--if addon.debugging then print("LIME : addMapIcon", element.mapID, element.x / 100, element.y / 100, highlight) end
+	if mapIcon == nil then return end
+	if not ignoreMaxNumOfMarkers and 
+		not element.step.active and 
+		GuidelimeData["maxNumOfSteps" .. element.t] ~= 0 and 
+		element.step.index - addon.currentGuide.lastActiveIndex >= GuidelimeData["maxNumOfSteps" .. element.t] then 
+		return 
 	end
+	mapIcon.inUse = true
+	mapIcon.mapID = element.mapID
+	mapIcon.x = assert(element.x)
+	mapIcon.y = assert(element.y)
+	element.mapIndex = mapIcon.index
+	--if addon.debugging then print("LIME : addMapIcon", element.mapID, element.x / 100, element.y / 100, highlight) end
 end
 
 function addon.removeMapIcons()
 	HBDPins:RemoveAllWorldMapIcons(addon)
 	HBDPins:RemoveAllMinimapIcons(addon)
-	for i, mapIcon in pairs(addon.mapIcons) do
-		mapIcon.inUse = false
+	for _, icons in pairs(addon.mapIcons) do
+		for i, mapIcon in pairs(icons) do
+			mapIcon.inUse = false
+		end
 	end
 	for i, step in ipairs(addon.currentGuide.steps) do
 		for j, element in ipairs(step.elements) do
@@ -110,14 +114,16 @@ local function showMapIcon(mapIcon)
 end
 
 function addon.showMapIcons()
-	for i = #addon.mapIcons, 0, -1 do
-		showMapIcon(addon.mapIcons[i])
+	for _, icons in pairs(addon.mapIcons) do
+		for i = #icons, 0, -1 do
+			showMapIcon(icons[i])
+		end
 	end
 end
 
 function addon.getMapMarkerText(element)
 	local index = element.mapIndex
-	if index >= 64 then index = 63 end
+	if index >= 64 or element.t == "LOC" then index = 63 end
 	return "|T" .. addon.icons.MAP_MARKER .. ":15:15:0:1:512:512:" .. 
 		index % 8 * 64 .. ":" .. (index % 8 + 1) * 64 .. ":" .. 
 		math.floor(index / 8) * 64 .. ":" .. (math.floor(index / 8) + 1) * 64 .. ":::|t"

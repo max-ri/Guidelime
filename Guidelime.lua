@@ -97,8 +97,9 @@ function addon.loadData()
 		showQuestLevels = false,
 		showMinimumQuestLevels = false,
 		showTooltips = true,
-		maxNumOfMarkers = 10,
 		maxNumOfSteps = 0,
+		maxNumOfStepsGOTO = 0,
+		maxNumOfStepsLOC = 1,
 		arrowStyle = 1,
 		skipCutscenes = true,
 		dataSourceQuestie = false,
@@ -138,20 +139,27 @@ function addon.loadData()
 
 	addon.debugging = GuidelimeData.debugging
 
-	if GuidelimeData.customGuides ~= nil then
-		GuidelimeData.version:gsub("(%d+).(%d+)", function(major, minor)
-			if tonumber(major) == 0 and tonumber(minor) < 10 then
-				-- before 0.010 custom guides were saved with a key prefixed with L.CUSTOM_GUIDES. This produces different keys when language is changed. Therefore remove.
+	GuidelimeData.version:gsub("(%d+).(%d+)", function(major, minor)
+		if tonumber(major) == 0 and tonumber(minor) < 18 then
+			-- maxNumOfMarkers is deprecated
+			GuidelimeData.maxNumOfMarkers = nil
+			GuidelimeData.version = GetAddOnMetadata(addonName, "version")
+		end
+		if tonumber(major) == 0 and tonumber(minor) < 10 then
+			-- before 0.010 custom guides were saved with a key prefixed with L.CUSTOM_GUIDES. This produces different keys when language is changed. Therefore remove.
+			if GuidelimeData.customGuides ~= nil then
 				local guides = GuidelimeData.customGuides
 				GuidelimeData.customGuides = {}
 				for name, guide in pairs(guides) do
 					if name:sub(1, 14) == "Custom guides " then name = name:sub(15) end
 					GuidelimeData.customGuides[name] = guide
 				end
-				GuidelimeData.version = GetAddOnMetadata(addonName, "version")
 			end
-		end, 1)
+			GuidelimeData.version = GetAddOnMetadata(addonName, "version")
+		end
+	end, 1)
 
+	if GuidelimeData.customGuides ~= nil then
 		for _, guide in pairs(GuidelimeData.customGuides) do
 			Guidelime.registerGuide(guide, L.CUSTOM_GUIDES)
 		end
@@ -209,6 +217,7 @@ function addon.loadCurrentGuide()
 		if #step.elements == 0 then loadLine = false end
 		if loadLine then
 			table.insert(addon.currentGuide.steps, step)
+			step.index = #addon.currentGuide.steps
 			local i = 1
 			while i <= #step.elements do
 				local element = step.elements[i]
@@ -248,6 +257,7 @@ function addon.loadCurrentGuide()
 							local gotoElement = addon.getQuestPosition(element.questId, element.t, element.objective)
 							if gotoElement ~= nil then
 								gotoElement.t = "GOTO"
+								gotoElement.step = step
 								gotoElement.radius = addon.DEFAULT_GOTO_RADIUS
 								gotoElement.generated = true
 								table.insert(step.elements, i, gotoElement)
@@ -298,7 +308,7 @@ local function getQuestText(id, title, colored)
 		q = q .. "]"
 	end
 	if colored == nil or colored then q = q .. addon.COLOR_QUEST_DEFAULT end
-	q = q .. (title or addon.getQuestNameById(id))
+	q = q .. (title or addon.getQuestNameById(id) or id)
 	if colored == nil or colored then q = q .. "|r" end
 	return q
 end
@@ -334,6 +344,7 @@ local function updateStepText(i)
 	else
 		skipTooltip = L.STEP_SKIP
 	end
+	local prevElement
 	for _, element in ipairs(step.elements) do
 		if not element.available then
 			text = text .. "|T" .. addon.icons.UNAVAILABLE .. ":12|t"
@@ -347,12 +358,12 @@ local function updateStepText(i)
 		elseif element.t == "TURNIN" and not element.finished then
 			text = text .. "|T" .. addon.icons.TURNIN_INCOMPLETE .. ":12|t"
 		elseif element.t == "LOC" or element.t == "GOTO" then
-			if element.mapIndex == 0 and addon.arrowFrame ~= nil and GuidelimeDataChar.showArrow then
+			if element.t == "LOC" and prevElement ~= nil and prevElement.t == "LOC" then
+				-- dont show an icon for subsequent LOC elements
+			elseif element.mapIndex == 0 and addon.arrowFrame ~= nil and GuidelimeDataChar.showArrow then
 				text = text .. addon.getArrowIconText()
 			elseif element.mapIndex ~= nil then
 				text = text .. addon.getMapMarkerText(element)
-			else
-				text = text .. "|T" .. addon.icons.MAP .. ":12|t"
 			end
 		elseif addon.icons[element.t] ~= nil then
 			text = text .. "|T" .. addon.icons[element.t] .. ":12|t"
@@ -389,6 +400,7 @@ local function updateStepText(i)
 				end
 			end
 		end
+		prevElement = element
 	end
 	if step.missingPrequests ~= nil and #step.missingPrequests > 0 then
 		if tooltip ~= "" then tooltip = tooltip .. "\n" end
@@ -752,9 +764,10 @@ function addon.updateSteps(completedIndexes)
 	if completedIndexes == nil then completedIndexes = {} end
 	updateStepsCompletion(completedIndexes)
 	updateStepsActivation()
-	addon.updateStepsMapIcons()
 	fadeoutStep(completedIndexes)
-	addon.updateStepsText(updateFirstActiveIndex())
+	local scrollToFirstActive = updateFirstActiveIndex()
+	addon.updateStepsMapIcons()
+	addon.updateStepsText(scrollToFirstActive)
 end
 
 local function showContextMenu()
@@ -839,12 +852,10 @@ function addon.updateMainFrame()
 		addon.updateSteps()
 
 		local prev = nil
-		local count = 0
 		for i, step in ipairs(addon.currentGuide.steps) do
 			if ((not step.completed and not step.skip) or not GuidelimeDataChar.hideCompletedSteps) and
 				(step.available or not GuidelimeDataChar.hideUnavailableSteps) then
-				if not step.active and i > addon.currentGuide.lastActiveIndex then count = count + 1 end
-				if step.active or GuidelimeData.maxNumOfSteps == 0 or count < GuidelimeData.maxNumOfSteps then
+				if step.active or GuidelimeData.maxNumOfSteps == 0 or i - addon.currentGuide.lastActiveIndex < GuidelimeData.maxNumOfSteps then
 					addon.mainFrame.steps[i] = addon.addCheckbox(addon.mainFrame.scrollChild, nil, "")
 					table.insert(addon.mainFrame.allSteps, addon.mainFrame.steps[i])
 					if prev == nil then

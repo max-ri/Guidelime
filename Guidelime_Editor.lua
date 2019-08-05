@@ -34,6 +34,7 @@ local function setQuestInfo(id)
 				if positions ~= nil and #positions > 0 then
 					text = text .. "|r " .. L.AT .. addon.COLOR_WHITE .. "\n"
 					for i, pos in ipairs(positions) do
+						pos.t = "GOTO"
 						addon.addMapIcon(pos, false, true)
 						if i <= 10 then
 							text = text .. addon.getMapMarkerText(pos) ..
@@ -48,6 +49,7 @@ local function setQuestInfo(id)
 			end
 			if count > 1 then
 				local pos = addon.getQuestPosition(id, key)
+				pos.t = "GOTO"
 				addon.addMapIcon(pos, false, true)
 				text = text .. "\n-> " .. addon.COLOR_WHITE .. addon.getMapMarkerText(pos) .. 
 					"(" .. pos.x .. "," .. pos.y .. " " .. pos.zone .. ")|r\n"
@@ -70,7 +72,10 @@ local function setEditorMapIcons(guide)
 		for j, element in ipairs(step.elements) do
 			if element.t == "LOC" or element.t == "GOTO" then
 				addon.addMapIcon(element, addon.editorFrame.selection == element, true)
-				
+				if element.mapIndex == nil then
+					print(element.step.text)
+					return
+				end
 				local text = CreateFrame("EditBox", nil, addon.editorFrame.gotoInfoContent)
 				text:SetEnabled(false)
 				text:SetWidth(200)
@@ -782,10 +787,12 @@ function addon.showEditor()
 		addon.editorFrame.textBox:SetScript("OnMouseUp", function(self, button)
 			if not addon.editorFrame.textBox:IsEnabled() then return end
 			local guide = parseGuide()
-			if addon.editorFrame.selection ~= nil and addon.isDoubleClick(self) then
+			if guide ~= nil and addon.editorFrame.selection ~= nil and addon.isDoubleClick(self) then
 				local showPopup = addon["showEditPopup" .. addon.getSuperCode(addon.editorFrame.selection.t)]
 				if showPopup ~= nil then
 					showPopup(addon.editorFrame.selection.t, guide, addon.editorFrame.selection)
+				else
+					addon.editorFrame.textBox:HighlightText(addon.editorFrame.selection.startPos - 1, addon.editorFrame.selection.endPos)
 				end
 			end
 		end)

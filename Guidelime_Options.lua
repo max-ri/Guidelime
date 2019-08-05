@@ -57,7 +57,7 @@ function addon.fillOptions()
 	end)
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -90)
 	
-	slider = addon.addSliderOption(addon.optionsFrame, GuidelimeData, "maxNumOfSteps", 0, 20, 1, L.MAX_NUM_OF_STEPS)
+	slider = addon.addSliderOption(addon.optionsFrame, GuidelimeData, "maxNumOfSteps", 0, 50, 1, L.MAX_NUM_OF_STEPS)
 	slider:SetScript("OnMouseUp", function()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateMainFrame()
@@ -132,13 +132,21 @@ function addon.fillOptions()
 	end)
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -50)
 
-	slider = addon.addSliderOption(addon.optionsFrame, GuidelimeData, "maxNumOfMarkers", 0, 62, 1, L.MAX_NUM_OF_MARKERS)
+	slider = addon.addSliderOption(addon.optionsFrame, GuidelimeData, "maxNumOfStepsGOTO", 0, 50, 1, L.MAX_NUM_OF_STEPS_GOTO)
 	slider:SetScript("OnMouseUp", function()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateSteps()
 		end
 	end)
-	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -90)
+	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -110)
+
+	slider = addon.addSliderOption(addon.optionsFrame, GuidelimeData, "maxNumOfStepsLOC", 0, 50, 1, L.MAX_NUM_OF_STEPS_LOC)
+	slider:SetScript("OnMouseUp", function()
+		if GuidelimeDataChar.mainFrameShowing then
+			addon.updateSteps()
+		end
+	end)
+	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -170)
 	
 	checkbox = addon.addCheckOption(addon.optionsFrame, GuidelimeData, "showQuestLevels", L.SHOW_SUGGESTED_QUEST_LEVELS, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
@@ -170,7 +178,7 @@ function addon.fillOptions()
 			addon.updateSteps()
 		end
 	end)
-	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -70)
 	prev = checkbox
 	
 	checkbox = addon.addCheckOption(addon.optionsFrame, GuidelimeData, "dataSourceQuestie", L.USE_QUESTIE_AS_DATA_SOURCE, L.USE_QUESTIE_AS_DATA_SOURCE_TOOLTIP, function()
