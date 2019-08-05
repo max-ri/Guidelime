@@ -376,9 +376,9 @@ local function updateStepText(i)
 					skipText = skipText .. "\n|T" .. addon.icons.UNAVAILABLE .. ":12|t" .. getQuestText(id)
 				end
 				if #newSkipQuests == 1 then
-					skipText = skipText .. "\n" .. L.STEP_FOLLOWUP_QUEST_CONT:format(getQuestText(element.questId))
+					skipText = skipText .. "\n\n" .. L.STEP_FOLLOWUP_QUEST_CONT:format(getQuestText(element.questId))
 				else
-					skipText = skipText .. "\n" .. L.STEP_FOLLOWUP_QUESTS_CONT:format(getQuestText(element.questId))
+					skipText = skipText .. "\n\n" .. L.STEP_FOLLOWUP_QUESTS_CONT:format(getQuestText(element.questId))
 				end
 			end
 			if element.t == "COMPLETE" or element.t == "TURNIN" then
@@ -563,7 +563,7 @@ local function updateStepAvailability(i, changedIndexes, skipped)
 		if element.t == "ACCEPT" or element.t == "COMPLETE" or element.t == "TURNIN" then
 			if not step.skip and element.available then
 				skipped[element.t][element.questId] = false
-			elseif skipped[element.t][element.questId] == nil and (step.skip or not element.available) then
+			elseif skipped[element.t][element.questId] == nil and (step.skip or not element.available) and not element.completed then
 				skipped[element.t][element.questId] = true
 			end
 			if not element.completed then step.available = step.available or element.available end
