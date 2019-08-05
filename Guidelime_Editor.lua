@@ -417,7 +417,7 @@ function addon.showEditPopupQUEST(typ, guide, selection)
 			return false
 		end
 		if id == nil then
-			local ids = addon.getPossibleQuestIdsByName(text, guide.faction, guide.race, guide.class)
+			local ids = addon.getPossibleQuestIdsByName(text, nil, guide.faction, guide.race, guide.class)
 			if ids == nil or #ids == 0 then
 				addon.createPopupFrame(string.format(L.ERROR_QUEST_NOT_FOUND, text)):Show()
 				return false
