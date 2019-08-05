@@ -54,7 +54,8 @@ function addon.getSuperCode(code)
 	return code
 end
 
-function addon.parseGuide(guide, group)
+function addon.parseGuide(guide, group, strict)
+	if strict == nil then strict = true end
 	if type(guide) == "string" then
 		guide = {text = guide}
 	elseif #guide > 0 then
@@ -85,7 +86,7 @@ function addon.parseGuide(guide, group)
 	end
 	guide.currentZone = nil
 	for i, step in ipairs(guide.steps) do
-		if not addon.parseLine(step, guide) then return end
+		if not addon.parseLine(step, guide, strict) then return end
 	end
 	if group ~= nil and group:sub(1,10) == "Guidelime_" then
 		guide.group = group:sub(11)
@@ -101,10 +102,14 @@ function addon.parseGuide(guide, group)
 	end
 	if guide.group ~= nil then guide.name = guide.group .. " " .. guide.name end
 	
-	return guide
+	if strict and guide.title == nil or guide.title == "" then 
+		addon.createPopupFrame(L.ERROR_GUIDE_HAS_NO_NAME):Show()
+	else	
+		return guide
+	end
 end
 
-function addon.parseLine(step, guide)
+function addon.parseLine(step, guide, strict)
 	if step.text == nil then return end
 	step.elements = {}
 	local lastAutoStep
@@ -167,20 +172,27 @@ function addon.parseLine(step, guide)
 				element.t = "COMPLETE"
 				element.optional = true
 			else
-				addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, (step.line or "") .. " " .. step.text))
+				addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, (step.line or "") .. " " .. step.text)):Show()
 				err = true
 			end
-			code:sub(3):gsub("%s*(%d+),?(%d*)%s*(.*)", function(id, objective, title)
+			code:sub(3):gsub("%s*([%d/%?]+),?(%d*)%s*(.*)", function(id, objective, title)
 				element.questId = tonumber(id)
+				if element.questId == nil then
+					if strict then 
+						addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, (step.line or "") .. " " .. step.text)):Show()
+					else
+						element.questId = id
+					end
+				end
 				if objective ~= "" then element.objective = tonumber(objective) end
 				if title == "-" then
 					element.title = ""
 				elseif title ~= "" then
 					element.title = title
 				end
-				if addon.debugging and addon.questsDB[element.questId] == nil then 
-					print("LIME: loading guide \"" .. (guide.name or "") .. "\": unknown quest id " .. element.questId .. "\" in line \"" .. (step.line or "") .. " " .. step.text .. "\"") 
-				end
+				--if addon.debugging and addon.questsDB[element.questId] == nil then 
+				--	print("LIME: loading guide \"" .. (guide.name or "") .. "\": unknown quest id " .. (element.questId or "") .. "\" in line \"" .. (step.line or "") .. " " .. step.text .. "\"") 
+				--end
 				--elseif addon.debugging and addon.questsDB[element.questId].name ~= element.title:sub(1, #addon.questsDB[element.questId].name) then
 				--	error("loading guide \"" .. GuidelimeDataChar.currentGuide.name .. "\": wrong title for quest " .. element.questId .. " \"" .. element.title .. "\" instead of \"" .. addon.questsDB[element.questId].name .. "\" in line \"" .. step.text .. "\"")
 				--end
@@ -212,7 +224,7 @@ function addon.parseLine(step, guide)
 				elseif addon.isFaction(c) then
 					guide.faction = addon.getFaction(c)
 				else
-					addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, (step.line or "") .. " " .. step.text))
+					addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, (step.line or "") .. " " .. step.text)):Show()
 					err = true
 				end
 			end)
@@ -227,7 +239,7 @@ function addon.parseLine(step, guide)
 				elseif addon.isFaction(c) then
 					step.faction = addon.getFaction(c)
 				else
-					addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, (step.line or "") .. " " .. step.text))
+					addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, (step.line or "") .. " " .. step.text)):Show()
 					err = true
 				end
 				element.t = "APPLIES"
@@ -242,7 +254,7 @@ function addon.parseLine(step, guide)
 				if zone ~= "" then guide.currentZone = addon.mapIDs[zone] end
 				element.mapID = guide.currentZone
 				if element.mapID == nil then 
-					addon.createPopupFrame(string.format(L.ERROR_CODE_ZONE_NOT_FOUND, guide.name or "", code, (step.line or "") .. " " .. step.text))
+					addon.createPopupFrame(string.format(L.ERROR_CODE_ZONE_NOT_FOUND, guide.name or "", code, (step.line or "") .. " " .. step.text)):Show()
 					err = true
 				end
 				step.hasGoto = true
@@ -256,7 +268,7 @@ function addon.parseLine(step, guide)
 				if zone ~= "" then guide.currentZone = addon.mapIDs[zone] end
 				element.mapID = guide.currentZone
 				if element.mapID == nil then 
-					addon.createPopupFrame(string.format(L.ERROR_CODE_ZONE_NOT_FOUND, guide.name or "", code, (step.line or "") .. " " .. step.text))
+					addon.createPopupFrame(string.format(L.ERROR_CODE_ZONE_NOT_FOUND, guide.name or "", code, (step.line or "") .. " " .. step.text)):Show()
 					err = true
 				end
 				table.insert(step.elements, element)
@@ -323,7 +335,7 @@ function addon.parseLine(step, guide)
 				end
 			end
 			if not found then 
-				addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, (step.line or "") .. " " .. step.text))
+				addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, (step.line or "") .. " " .. step.text)):Show()
 				err = true
 			end
 		end

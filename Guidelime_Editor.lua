@@ -108,8 +108,8 @@ local function getElementByPos(pos, guide)
 	end
 end
 
-local function parseGuide()
-	local guide = addon.parseGuide(addon.editorFrame.textBox:GetText())
+local function parseGuide(strict)
+	local guide = addon.parseGuide(addon.editorFrame.textBox:GetText(), nil, strict or false)
 	if guide == nil then return end
 	local lines = {}
 	for i = 1, guide.lines do lines[i] = i end
@@ -461,7 +461,7 @@ function addon.showEditPopupQUEST(typ, guide, selection)
 	popup.key = "ACCEPT"
 	if selection ~= nil then popup.key = selection.t end
 	popup.checkboxes[popup.key]:SetChecked(true)
-	popup.textboxId = addon.addTextbox(popup, L.QUEST_ID, 100, L.QUEST_ID_TOOLTIP)
+	popup.textboxId = addon.addTextbox(popup, L.QUEST_ID, 370, L.QUEST_ID_TOOLTIP)
 	popup.textboxId.text:SetPoint("TOPLEFT", 20, -50)
 	popup.textboxId:SetPoint("TOPLEFT", 170, -50)
 	popup.textQuestname = popup:CreateFontString(nil, popup, "GameFontNormal")
@@ -487,7 +487,7 @@ function addon.showEditPopupQUEST(typ, guide, selection)
 			popup.textboxName:SetText(selection.title or "") 
 		end 
 	end
-	popup.textboxObjective = addon.addTextbox(popup, L.QUEST_OBJECTIVE, 100, L.QUEST_OBJECTIVE_TOOLTIP)
+	popup.textboxObjective = addon.addTextbox(popup, L.QUEST_OBJECTIVE, 370, L.QUEST_OBJECTIVE_TOOLTIP)
 	popup.textboxObjective.text:SetPoint("TOPLEFT", 20, -110)
 	popup.textboxObjective:SetPoint("TOPLEFT", 170, -110)
 	if popup.key ~= "COMPLETE" then
@@ -693,8 +693,8 @@ function addon.showEditor()
 	InterfaceOptionsFrame:Hide() 
 
 	if addon.editorFrame == nil then
-		addon.editorFrame = addon.createPopupFrame(nil, nil, false, 800)
-		addon.editorFrame:SetWidth(1500)
+		addon.editorFrame = addon.createPopupFrame(nil, nil, false, 700)
+		addon.editorFrame:SetWidth(1220)
 		addon.editorFrame:SetPoint(GuidelimeDataChar.editorFrameRelative, UIParent, GuidelimeDataChar.editorFrameRelative, GuidelimeDataChar.editorFrameX, GuidelimeDataChar.editorFrameY)
 		addon.editorFrame:SetScript("OnHide", function(self)
 			addon.updateStepsMapIcons()
@@ -820,7 +820,8 @@ function addon.showEditor()
 		
 	    addon.editorFrame.gotoInfoScrollFrame = CreateFrame("ScrollFrame", nil, addon.editorFrame, "UIPanelScrollFrameTemplate")
 	    addon.editorFrame.gotoInfoScrollFrame:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
-	    addon.editorFrame.gotoInfoScrollFrame:SetPoint("BOTTOMRIGHT", prev, "BOTTOMLEFT", 260, -405)
+	    addon.editorFrame.gotoInfoScrollFrame:SetPoint("RIGHT", prev, "LEFT", 260, 0)
+	    addon.editorFrame.gotoInfoScrollFrame:SetPoint("BOTTOM", addon.editorFrame, "BOTTOMLEFT", 0, 60)
 	    addon.editorFrame.gotoInfoContent = CreateFrame("Frame", nil, addon.editorFrame.gotoInfoScrollFrame) 
 	    addon.editorFrame.gotoInfoContent:SetSize(1, 1) 
 	    addon.editorFrame.gotoInfoScrollFrame:SetScrollChild(addon.editorFrame.gotoInfoContent)
@@ -840,12 +841,8 @@ function addon.showEditor()
 		addon.editorFrame.saveBtn:SetText(L.SAVE_GUIDE)
 		addon.editorFrame.saveBtn:SetPoint("BOTTOMLEFT", addon.editorFrame, "BOTTOMLEFT", 20, 20)
 		addon.editorFrame.saveBtn:SetScript("OnClick", function()
-			local guide = parseGuide()
+			local guide = parseGuide(true)
 			if guide == nil then return end
-			if guide.title == nil or guide.title == "" then 
-				addon.createPopupFrame(L.ERROR_GUIDE_HAS_NO_NAME):Show()
-				return
-			end
 			local msg
 			if GuidelimeData.customGuides == nil or GuidelimeData.customGuides[guide.name] == nil then
 				msg = string.format(L.SAVE_MSG, guide.name)
