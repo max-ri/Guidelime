@@ -161,17 +161,25 @@ function addon.parseLine(step, guide, strict)
 			print("LIME: parsing guide \"[" .. step.text:sub(element.startPos - step.startPos + 1, element.endPos - step.startPos + 1) .. "]\" should be \"" .. code .. "\" at " .. element.startPos .. "-" .. element.endPos .. " in " .. pos0 .. "->" .. step.text)
 		end
 		if element.t == "NEXT" then
-			tag:gsub("%s*(%d*)%s*-%s*(%d*)%s*(.*)", function (minLevel, maxLevel, title)
+			local _, c = tag:gsub("%s*(%d*)%s*-%s*(%d*)%s*(.*)", function (minLevel, maxLevel, title)
 				--print("LIME: \"".. (group or "") .. "\",\"" .. minLevel .. "\",\"" .. maxLevel .. "\",\"" .. title .. "\"")
 				guide.next = minLevel .. "-" .. maxLevel .. " " .. title
 			end, 1)
+			if c ~= 1 then
+				addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, (step.line or "") .. " " .. step.text)):Show()
+				err = true
+			end
 		elseif element.t == "NAME" then
-			tag:gsub("%s*(%d*)%s*-%s*(%d*)%s*(.*)", function (minLevel, maxLevel, title)
+			local _, c = tag:gsub("%s*(%d*)%s*-%s*(%d*)%s*(.*)", function (minLevel, maxLevel, title)
 				--print("LIME: \"".. (group or "") .. "\",\"" .. minLevel .. "\",\"" .. maxLevel .. "\",\"" .. title .. "\"")
 				guide.minLevel = tonumber(minLevel)
 				guide.maxLevel = tonumber(maxLevel)
 				guide.title = title
 			end, 1)
+			if c ~= 1 then
+				addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, (step.line or "") .. " " .. step.text)):Show()
+				err = true
+			end
 		elseif element.t == "DETAILS" then
 			guide.detailsRaw = tag:gsub("%s*(.*)", "%1", 1)
 			guide.details = guide.detailsRaw
@@ -187,7 +195,7 @@ function addon.parseLine(step, guide, strict)
 				element.t = "COMPLETE"
 				element.optional = true
 			end
-			tag:gsub("%s*([%d/%?]+),?(%d*)%s*(.*)", function(id, objective, title)
+			local _, c = tag:gsub("%s*([%d/%?]+),?(%d*)%s*(.*)", function(id, objective, title)
 				element.questId = tonumber(id)
 				if element.questId == nil then
 					if strict then 
@@ -224,6 +232,10 @@ function addon.parseLine(step, guide, strict)
 				end
 				if element.t ~= "SKIP" then lastAutoStep = element end
 			end, 1)
+			if c ~= 1 then
+				addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, (step.line or "") .. " " .. step.text)):Show()
+				err = true
+			end
 		elseif element.t == "GUIDE_APPLIES" then
 			tag:upper():gsub(" ",""):gsub("([^,]+)", function(c)
 				if addon.isClass(c) then
@@ -255,7 +267,7 @@ function addon.parseLine(step, guide, strict)
 				end
 			end)
 		elseif element.t == "GOTO" then
-			tag:gsub("%s*(%d+%.?%d*),%s?(%d+%.?%d*),?%s?(%d*%.?%d*)%s?(.*)", function(x, y, radius, zone)
+			local _, c = tag:gsub("%s*(%d+%.?%d*)%s?,%s?(%d+%.?%d*)%s?,?%s?(%d*%.?%d*)%s?(.*)", function(x, y, radius, zone)
 				element.x = tonumber(x)
 				element.y = tonumber(y)
 				if radius ~= "" then element.radius = tonumber(radius) else element.radius = addon.DEFAULT_GOTO_RADIUS end
@@ -267,8 +279,12 @@ function addon.parseLine(step, guide, strict)
 				end
 				step.hasGoto = true
 			end, 1)
+			if c ~= 1 then
+				addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, (step.line or "") .. " " .. step.text .. c)):Show()
+				err = true
+			end
 		elseif element.t == "LOC" then
-			tag:gsub("%s*(%d+%.?%d*),%s?(%d+%.?%d*)%s?(.*)", function(x, y, zone)
+			local _, c = tag:gsub("%s*(%d+%.?%d*)%s?,%s?(%d+%.?%d*)%s?(.*)", function(x, y, zone)
 				element.x = tonumber(x)
 				element.y = tonumber(y)
 				if zone ~= "" then guide.currentZone = addon.mapIDs[zone] end
@@ -278,8 +294,12 @@ function addon.parseLine(step, guide, strict)
 					err = true
 				end
 			end, 1)
+			if c ~= 1 then
+				addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, (step.line or "") .. " " .. step.text)):Show()
+				err = true
+			end
 		elseif element.t == "XP" then
-			tag:gsub("%s*(%d+)([%+%-%.]?)(%d*)(.*)", function(level, t, xp, text)
+			local _, c = tag:gsub("%s*(%d+)([%+%-%.]?)(%d*)(.*)", function(level, t, xp, text)
 				element.level = tonumber(level)
 				if text ~= "" then
 					element.text = text:gsub("%s*(.*)", "%1", 1)
@@ -301,6 +321,10 @@ function addon.parseLine(step, guide, strict)
 				end
 				lastAutoStep = element
 			end, 1)
+			if c ~= 1 then
+				addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, (step.line or "") .. " " .. step.text)):Show()
+				err = true
+			end
 		elseif element.t == "OPTIONAL_COMPLETE_WITH_NEXT" then
 			element.text = tag
 			step.completeWithNext = true
