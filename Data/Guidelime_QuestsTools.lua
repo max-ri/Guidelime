@@ -195,7 +195,7 @@ function addon.getQuestPositions(id, typ, objective)
 					x, y, zone = addon.GetZoneCoordinatesFromWorld(pos.y, pos.x, pos.mapid)
 				else
 					zone = filterZone
-					x, y = HBD:GetZoneCoordinatesFromWorld(x, y, addon.mapIDs[filterZone], true)
+					x, y = HBD:GetZoneCoordinatesFromWorld(pos.y, pos.x, addon.mapIDs[filterZone], true)
 					if x ~= nil and (x > 1 or x < 0 or y > 1 or y < 0) then x = nil end
 				end
 				if x ~= nil then
