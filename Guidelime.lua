@@ -103,7 +103,7 @@ function addon.loadData()
 		arrowStyle = 1,
 		skipCutscenes = true,
 		dataSourceQuestie = false,
-		autoAddCoordinates = false,
+		autoAddCoordinates = true,
 		version = GetAddOnMetadata(addonName, "version")
 	}
 	local defaultOptionsChar = {
@@ -140,7 +140,11 @@ function addon.loadData()
 	addon.debugging = GuidelimeData.debugging
 
 	GuidelimeData.version:gsub("(%d+).(%d+)", function(major, minor)
-		if tonumber(major) == 0 and tonumber(minor) < 18 then
+		if tonumber(major) == 0 and tonumber(minor) < 21 then
+			--autoAddCoordinates default changed to true; reset for everyone
+			GuidelimeData.autoAddCoordinates = true
+			GuidelimeData.version = GetAddOnMetadata(addonName, "version")
+		elseif tonumber(major) == 0 and tonumber(minor) < 18 then
 			-- maxNumOfMarkers is deprecated
 			GuidelimeData.maxNumOfMarkers = nil
 			GuidelimeData.version = GetAddOnMetadata(addonName, "version")
