@@ -126,7 +126,7 @@ L.OBJECTIVE = "Objective"
 L.ENGLISH_NAME = "English name"
 L.SKIP_CUTSCENES = "Skip cutscenes"
 L.USE_QUESTIE_AS_DATA_SOURCE = "Use 'Questie' as data source"
-L.USE_QUESTIE_AS_DATA_SOURCE_TOOLTIP = "When the addon 'Questie' is installed, it can be used as data source for quest coordinates.\nIt might contain more information than the internal quest database such as quest mob spawn locations."
+L.USE_QUESTIE_AS_DATA_SOURCE_TOOLTIP = "When the addon 'Questie' is installed, it can be used as data source for quest coordinates.\nIt might contain different information than the internal quest database e.g. for quest mob spawn locations."
 L.USE_INTERNAL_DATA_SOURCE = "Use internal quest data source"
 L.ADD_QUEST_COORDINATES = "Add quest coordinates"
 L.ADD_QUEST_COORDINATES_MESSAGE = "Adds quest coordinates to all quest steps if available in the quest database. Existing quest coordinates will be replaced."
@@ -323,7 +323,7 @@ L["URL"] = "URL"
 L["USE_INTERNAL_DATA_SOURCE"] = "Interne Quest-Datenbank verwenden"
 L["USE_QUESTIE_AS_DATA_SOURCE"] = "'Questie' als Datenquelle verwenden"
 L["USE_QUESTIE_AS_DATA_SOURCE_TOOLTIP"] = [=[Wenn das Addon 'Questie' installiert ist, kann dieses als Datenquelle für Quest-Koordinaten genutzt werden.
-Dort sind eventuell Informationen vorhanden, die in der internen Quest-Datenbank nicht zur Verfügung stehen, wie beispielsweise Koordinaten von Quest-Gegnern.]=]
+Dort sind eventuell teilweise andere Informationen vorhanden, z.B. für Koordinaten von Quest-Gegnern.]=]
 L["XP_LEVEL"] = "Nur Stufe"
 L["XP_LEVEL-"] = "Verbleibende Punkte"
 L["XP_LEVEL%"] = "Prozentualer Anteil"

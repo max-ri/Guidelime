@@ -29,47 +29,179 @@ function addon.getQuestObjective(id)
 	end
 end
 
-function addon.getQuestTargetNames(id, typ)
-	if GuidelimeData.dataSourceQuestie and Questie ~= nil then return addon.getQuestTargetNamesQuestie(id, typ) end
-	if id == nil or addon.questsDB[id] == nil then return end
-	local quest
-	if typ == "ACCEPT" then 
-		quest = addon.questsDB[id].source
-	elseif typ == "TURNIN" then
-		quest = addon.questsDB[id].deliver
-	else
-		return
-	end
-	if quest == nil or type(quest) == "string" then return end
-	local names = {}
-	for _, element in ipairs(quest) do
-		table.insert(names, element.name)
-	end
-	return names
-end	
-
-function addon.getQuestObjectives(id)
+-- returns a list of synonyms for quest source / each objective / turn in; e.g. {{"Dealt with The Hogger Situation", "Huge Gnoll Claw", "Hogger"}} for id = 176, typ = "COMPLETE"
+function addon.getQuestObjectives(id, typ)
+	if id == nil then return end
+	if typ == nil then typ = "COMPLETE" end
 	if GuidelimeData.dataSourceQuestie and Questie ~= nil then return addon.getQuestObjectivesQuestie(id, typ) end
-	-- list of target names for each quest objective is not available in the database
-	return {}
+	if addon.questsDB[id] == nil then return end
+	local locale = GetLocale()
+	local ids = {}
+	if typ == "ACCEPT" then 
+		if addon.questsDB[id].source ~= nil then
+			for i, e in ipairs(addon.questsDB[id].source) do
+				ids[i] = {[e.type] = {e.id}}
+			end
+		end
+	elseif typ == "TURNIN" then
+		if addon.questsDB[id].deliver ~= nil then
+			for i, e in ipairs(addon.questsDB[id].deliver) do
+				ids[i] = {[e.type] = {e.id}}
+			end
+		end
+	elseif typ == "COMPLETE" then
+		local c = 1
+		if addon.questsDB[id].kill ~= nil then
+			for i, id in ipairs(addon.questsDB[id].kill) do
+				ids[c] = {npc = {id}}
+				c = c + 1
+			end
+		end
+		if addon.questsDB[id].interact ~= nil then
+			for i, id in ipairs(addon.questsDB[id].interact) do
+				ids[c] = {object = {id}}
+				c = c + 1
+			end
+		end
+		if addon.questsDB[id].gather ~= nil then
+			for i, id in ipairs(addon.questsDB[id].gather) do
+				ids[c] = {item = {id}}
+				c = c + 1
+			end
+		end
+	end
+	local names = {}
+	for i, objectiveIds in ipairs(ids) do
+		names[i] = {}
+		if objectiveIds.item ~= nil then
+			for _, itemId in ipairs(objectiveIds.item) do
+				local item = addon.itemsDB[itemId]
+				if item ~= nil then
+					if item["name_" .. locale] ~= nil then
+						table.insert(names[i], item["name_" .. locale])
+					end
+					if not addon.contains(names[i], item.name) then table.insert(names[i], item.name) end
+					if item.drop ~= nil then
+						for _, npcId in ipairs(item.drop) do
+							if objectiveIds.npc == nil then objectiveIds.npc = {} end
+							table.insert(objectiveIds.npc, npcId)
+						end
+					end
+					if item.object ~= nil then
+						for _, objectId in ipairs(item.object) do
+							if objectiveIds.object == nil then objectiveIds.object = {} end
+							table.insert(objectiveIds.object, objectId)
+						end
+					end
+				end
+			end
+		end
+		if objectiveIds.npc ~= nil then
+			for _, npcId in ipairs(objectiveIds.npc) do
+				local creature = addon.creaturesDB[npcId]
+				if creature ~= nil then
+					if creature["name_" .. locale] ~= nil then
+						if not addon.contains(names[i], creature["name_" .. locale]) then table.insert(names[i], creature["name_" .. locale]) end
+					end
+					if not addon.contains(names[i], creature.name) then table.insert(names[i], creature.name) end
+				end
+			end
+		end
+		if objectiveIds.object ~= nil then
+			for _, objectId in ipairs(objectiveIds.object) do
+				local object = addon.objectsDB[objectId]
+				if object ~= nil then
+					if object["name_" .. locale] ~= nil then
+						if not addon.contains(names[i], object["name_" .. locale]) then table.insert(names[i], object["name_" .. locale]) end
+					end
+					if not addon.contains(names[i], object.name) then table.insert(names[i], object.name) end
+				end
+			end
+		end
+	end	
+	return names
 end
 
 function addon.getQuestPositions(id, typ, objective)
 	if GuidelimeData.dataSourceQuestie and Questie ~= nil then return addon.getQuestPositionsQuestie(id, typ, objective) end
 	if id == nil or addon.questsDB[id] == nil then return end
-	local quest
+	local ids = {npc = {}, object = {}, item = {}}
 	if typ == "ACCEPT" then 
-		quest = addon.questsDB[id].source
+		if addon.questsDB[id].source ~= nil then
+			for i, e in ipairs(addon.questsDB[id].source) do
+				if objective == nil or objective == i then
+					table.insert(ids[e.type], e.id)
+				end
+			end
+		end
 	elseif typ == "TURNIN" then
-		quest = addon.questsDB[id].deliver
-	else
-		return
+		if addon.questsDB[id].deliver ~= nil then
+			for i, e in ipairs(addon.questsDB[id].deliver) do
+				if objective == nil or objective == i then
+					table.insert(ids[e.type], e.id)
+				end
+			end
+		end
+	elseif typ == "COMPLETE" then
+		local c = 1
+		if addon.questsDB[id].kill ~= nil then
+			for i, id in ipairs(addon.questsDB[id].kill) do
+				if objective == nil or objective == c then
+					table.insert(ids.npc, id)
+				end
+				c = c + 1
+			end
+		end
+		if addon.questsDB[id].interact ~= nil then
+			for i, id in ipairs(addon.questsDB[id].interact) do
+				if objective == nil or objective == c then
+					table.insert(ids.object, id)
+				end
+				c = c + 1
+			end
+		end
+		if addon.questsDB[id].gather ~= nil then
+			for i, id in ipairs(addon.questsDB[id].gather) do
+				if objective == nil or objective == c then
+					table.insert(ids.item, id)
+				end
+				c = c + 1
+			end
+		end
 	end
-	if quest == nil or type(quest) == "string" then return end
+	for _, itemId in ipairs(ids.item) do
+		if addon.itemsDB[itemId] ~= nil then
+			if addon.itemsDB[itemId].drop ~= nil then
+				for _, npcId in ipairs(addon.itemsDB[itemId].drop) do
+					table.insert(ids.npc, npcId)
+				end
+			end
+			if addon.itemsDB[itemId].object ~= nil then
+				for _, objectId in ipairs(addon.itemsDB[itemId].object) do
+					table.insert(ids.object, objectId)
+				end
+			end
+		end
+	end
 	local positions = {}
-	for i in ipairs(quest) do
-		local element = quest[i]
-		if element.positions ~= nil and (objective == nil or objective == i) then
+	for _, npcId in ipairs(ids.npc) do
+		local element = addon.creaturesDB[npcId]
+		if element ~= nil and element.positions ~= nil then
+			for i, pos in ipairs(element.positions) do
+				-- TODO: x/y are still switched in db
+				local x, y, zone = addon.GetZoneCoordinatesFromWorld(pos.y, pos.x, pos.mapid)
+				if x ~= nil then
+					table.insert(positions, {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, zone = zone, 	mapID = addon.mapIDs[zone], 
+						wx = pos.y, wy = pos.x, instance = pos.mapid})
+				else
+					error("error transforming (" .. pos.x .. "," .. pos.y .. " " .. pos.mapid .. ") into zone coordinates for quest #" .. id)
+				end
+			end
+		end
+	end	
+	for _, objectId in ipairs(ids.object) do
+		local element = addon.objectsDB[objectId]
+		if element ~= nil and element.positions ~= nil then
 			for i, pos in ipairs(element.positions) do
 				-- TODO: x/y are still switched in db
 				local x, y, zone = addon.GetZoneCoordinatesFromWorld(pos.y, pos.x, pos.mapid)
