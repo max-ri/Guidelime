@@ -937,7 +937,7 @@ function addon.showEditor()
 						parseGuide()
 					end
 					C_Timer.After(0.2, function()
-						addon.createPopupFrame(string.format(L.REMOVE_COORDINATES_MESSAGE, count)):Show()
+						addon.createPopupFrame(string.format(L.REMOVED_COORDINATES_MESSAGE, count)):Show()
 					end)
 				end
 			end, true):Show()
