@@ -6,7 +6,7 @@ local function findQuestType(line, pos)
 	if typ ~= nil and s <= pos then return typ end
 end
 
-local function parseLine(l, line, questids, previds, questname, activeQuests, turnedInQuests)
+local function parseLine(l, line, questids, previds, questname, activeQuests, turnedInQuests, zone)
 	local pos, err
 	-- find quest 
 	while true do
@@ -210,6 +210,14 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 		end
 	end
 
+	addon.findInLists(line, {
+		[L.WORD_LIST_GOTO] = function(s, e, pre, x, y, post)
+			if pre ~= nil then s = s + #pre elseif s == 0 or line:sub(s, s):match("[%s%p]") then s = s + 1 end
+			if post ~= nil then e = e - #post elseif e > #line or line:sub(e, e):match("[%s%p]") then e = e - 1 end
+			line = line:sub(1, s - 1) .. "[G " .. x .. "," .. y .. (zone or "") .. "]" .. line:sub(e + 1)
+		end
+	})
+
 	local code, s, e, pre, post = addon.findInLists(line, {
 		[L.WORD_LIST_XP] = "XP",
 		[L.WORD_LIST_SET_HEARTH] = "S",
@@ -218,10 +226,11 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 		[L.WORD_LIST_GET_FLIGHT_POINT] = "P",
 		[L.WORD_LIST_VENDOR] = "V",
 		[L.WORD_LIST_REPAIR] = "R",
-		[L.WORD_LIST_TRAIN] = "T"
+		[L.WORD_LIST_TRAIN] = "T",
+		[L.WORD_LIST_OPTIONAL_COMPLETE_WITH_NEXT] = "OC"
 	})
 	if code ~= nil and line:find("%[".. code) == nil then
-		if pre ~= nil then s = s + #pre elseif s == 0 or line:sub(s, s):match("[%s%p]") then s = s + 1 end
+		if pre ~= nil and #pre <= e - s then s = s + #pre elseif s == 0 or line:sub(s, s):match("[%s%p]") then s = s + 1 end
 		if post ~= nil then e = e - #post elseif e > #line or line:sub(e, e):match("[%s%p]") then e = e - 1 end
 		if e > s then code = code .. " " end
 		line = line:sub(1, s - 1) .. "[" .. code .. line:sub(s, e) .. "]" .. line:sub(e + 1)
@@ -235,7 +244,7 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 	return line, questids, previds, questname, activeQuests, turnedInQuests
 end
 
-function addon.importPlainText(text)
+function addon.importPlainText(text, zone)
 	local l = 0
 	local questids
 	local previds
@@ -248,7 +257,7 @@ function addon.importPlainText(text)
 		l = l + 1
 		if line ~= "" then
 			if line:sub(1, 6) == "ERROR " or line:sub(1, 6) == "      " then line = line:sub(7) end
-			line, questids, previds, questname, activeQuests, turnedInQuests = parseLine(l, line, questids, previds, questname, activeQuests, turnedInQuests)
+			line, questids, previds, questname, activeQuests, turnedInQuests = parseLine(l, line, questids, previds, questname, activeQuests, turnedInQuests, zone)
 			if line:sub(1, 6) == "ERROR " then hasErrors = true end
 			return line
 		end

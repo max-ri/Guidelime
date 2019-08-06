@@ -177,10 +177,11 @@ L.WORD_LIST_SET_HEARTH = "( set hearth in )%a+( );( set hearth to )%a+( );( set 
 L.WORD_LIST_HEARTH = "( hearth to )%a+( );( )(hearth );( use .- )(hs );( use )(hs);( use .- )(hearthstone );( use )(hearthstone)"
 L.WORD_LIST_FLY = "( fly to )%a+( );( )(fly )"
 L.WORD_LIST_GET_FLIGHT_POINT = "( get flight ?point in )%a+( );( activate flight ?point in )%a+( );( get flight ?point )%a+( );( activate flight ?point )%a+( );( get )%a+( flight ?point );( activate )%a+( flight ?point );( )(flight ?point )"
-L.WORD_LIST_VENDOR = " purchase ; buy ; vendor"
+L.WORD_LIST_VENDOR = " purchase ; buy ; vendor "
 L.WORD_LIST_REPAIR = " repair "
 L.WORD_LIST_TRAIN = " train ; skills "
-
+L.WORD_LIST_OPTIONAL_COMPLETE_WITH_NEXT = " grind towards ; grind north ; grind south ; grind east ; grind west ; grind northwest ; grind northeast ; grind southwest ; grind southeast "
+L.WORD_LIST_GOTO = "( )at (%d+%.?%d*) ?, ?(%d+%.?%d*)( );( )@ (%d+%.?%d*) ?, ?(%d+%.?%d*)( );( )at (%d+) ?%. ?(%d+)( );( )@ (%d+) ?%. ?(%d+)( )"
 
 elseif locale == "deDE" then
 
