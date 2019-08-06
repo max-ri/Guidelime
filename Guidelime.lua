@@ -214,6 +214,16 @@ function addon.loadCurrentGuide()
 			if not addon.contains(step.class, addon.class) then loadLine = false end
 		end
 		if step.faction ~= nil and step.faction ~= addon.faction then loadLine = false end
+		local filteredElements = {}
+		for _, element in ipairs(step.elements) do
+			if not element.generated and
+				(element.text ~= nil and element.text ~= "") or 
+				(element.t ~= "TEXT" and element.t ~= "NAME" and element.t ~= "NEXT" and element.t ~= "DETAILS" and element.t ~= "GUIDE_APPLIES" and element.t ~= "APPLIES")
+			then
+				table.insert(filteredElements, element)
+			end
+		end
+		step.elements = filteredElements
 		if #step.elements == 0 then loadLine = false end
 		if loadLine then
 			table.insert(addon.currentGuide.steps, step)
@@ -221,55 +231,51 @@ function addon.loadCurrentGuide()
 			local i = 1
 			while i <= #step.elements do
 				local element = step.elements[i]
-				if element.generated then
-					table.remove(step.elements, i)
-				else
-					element.available = true
-	
-					if element.t == "ACCEPT" or element.t == "COMPLETE" or element.t == "TURNIN" or element.t == "LEVEL" then
-						if step.manual == nil then step.manual = false end
-						if element.optional == nil or not element.optional then step.completeWithNext = false end
-					elseif element.t == "TRAIN" or element.t == "VENDOR" or element.t == "REPAIR" or element.t == "SET_HEARTH" or element.t == "GET_FLIGHT_POINT" then
-						step.manual = true
-						if step.completeWithNext == nil then step.completeWithNext = false end
-					elseif element.t == "GOTO" then
-						if step.manual == nil then step.manual = false end
-						if step.completeWithNext == nil then step.completeWithNext = true end
-					elseif element.t == "FLY" or element.t == "HEARTH" then
-						if step.completeWithNext == nil then step.completeWithNext = true end
-					end
-					if element.questId ~= nil then
-						if addon.quests[element.questId] == nil then
-							if addon.quests[element.questId] == nil then addon.quests[element.questId] = {} end
-							addon.quests[element.questId].title = element.title
-							addon.quests[element.questId].completed = completed[element.questId] ~= nil and completed[element.questId]
-							addon.quests[element.questId].finished = addon.quests[element.questId].completed
-							if addon.questsDB[element.questId] ~= nil and addon.questsDB[element.questId].prequests ~= nil then
-								for _, id in ipairs(addon.questsDB[element.questId].prequests) do
-									if addon.quests[id] == nil then addon.quests[id] = {} end
-									addon.quests[id].completed = completed[id] ~= nil and completed[id]
-									if addon.quests[id].followup == nil then addon.quests[id].followup = {} end
-									table.insert(addon.quests[id].followup, element.questId)
-								end
+				element.available = true
+
+				if element.t == "ACCEPT" or element.t == "COMPLETE" or element.t == "TURNIN" or element.t == "XP" then
+					if step.manual == nil then step.manual = false end
+					if element.optional == nil or not element.optional then step.completeWithNext = false end
+				elseif element.t == "TRAIN" or element.t == "VENDOR" or element.t == "REPAIR" or element.t == "SET_HEARTH" or element.t == "GET_FLIGHT_POINT" then
+					step.manual = true
+					if step.completeWithNext == nil then step.completeWithNext = false end
+				elseif element.t == "GOTO" then
+					if step.manual == nil then step.manual = false end
+					if step.completeWithNext == nil then step.completeWithNext = true end
+				elseif element.t == "FLY" or element.t == "HEARTH" then
+					if step.completeWithNext == nil then step.completeWithNext = true end
+				end
+				if element.questId ~= nil then
+					if addon.quests[element.questId] == nil then
+						if addon.quests[element.questId] == nil then addon.quests[element.questId] = {} end
+						addon.quests[element.questId].title = element.title
+						addon.quests[element.questId].completed = completed[element.questId] ~= nil and completed[element.questId]
+						addon.quests[element.questId].finished = addon.quests[element.questId].completed
+						if addon.questsDB[element.questId] ~= nil and addon.questsDB[element.questId].prequests ~= nil then
+							for _, id in ipairs(addon.questsDB[element.questId].prequests) do
+								if addon.quests[id] == nil then addon.quests[id] = {} end
+								addon.quests[id].completed = completed[id] ~= nil and completed[id]
+								if addon.quests[id].followup == nil then addon.quests[id].followup = {} end
+								table.insert(addon.quests[id].followup, element.questId)
 							end
 						end
-						if GuidelimeData.autoAddCoordinates and not step.hasGoto then
-							local gotoElement = addon.getQuestPosition(element.questId, element.t, element.objective)
-							if gotoElement ~= nil then
-								gotoElement.t = "GOTO"
-								gotoElement.step = step
-								gotoElement.radius = addon.DEFAULT_GOTO_RADIUS
-								gotoElement.generated = true
-								table.insert(step.elements, i, gotoElement)
-								for j = i, #step.elements do
-									step.elements[j].index = j
-								end
-								i = i + 1
-							end						
-						end
 					end
-					i = i + 1
+					if GuidelimeData.autoAddCoordinates and not step.hasGoto then
+						local gotoElement = addon.getQuestPosition(element.questId, element.t, element.objective)
+						if gotoElement ~= nil then
+							gotoElement.t = "GOTO"
+							gotoElement.step = step
+							gotoElement.radius = addon.DEFAULT_GOTO_RADIUS
+							gotoElement.generated = true
+							table.insert(step.elements, i, gotoElement)
+							for j = i, #step.elements do
+								step.elements[j].index = j
+							end
+							i = i + 1
+						end						
+					end
 				end
+				i = i + 1
 			end
 			if step.manual == nil then step.manual = true end
 			if step.completeWithNext == nil then step.compleWithNext = not step.manual end
@@ -491,7 +497,7 @@ local function updateStepCompletion(i, completedIndexes)
 				element.finished = addon.quests[element.questId].finished
 				element.completed = addon.quests[element.questId].completed
 				if step.completed == nil or not element.completed then step.completed = element.completed end
-			elseif element.t == "LEVEL" then
+			elseif element.t == "XP" then
 				element.completed = element.level <= addon.level
 				if element.xp ~= nil and element.level == addon.level then
 					if element.xpType == "REMAINING" then
@@ -579,7 +585,7 @@ local function updateStepAvailability(i, changedIndexes, skipped)
 				skipped[element.t][element.questId] = true
 			end
 			if not element.completed then step.available = step.available or element.available end
-		elseif element.t == "LEVEL" then
+		elseif element.t == "XP" then
 			if not element.completed then step.available = true end
 		end
 	end

@@ -32,6 +32,10 @@ addon.codes = {
 	OPTIONAL = "O",
 	OPTIONAL_COMPLETE_WITH_NEXT = "OC",
 	QUEST = "Q",
+		ACCEPT = "QA",
+		COMPLETE = "QC",
+		TURNIN = "QT",
+		SKIP = "QS",
 	GOTO = "G",
 	LOC = "L",
 	XP = "XP",
@@ -44,13 +48,20 @@ addon.codes = {
 	REPAIR = "R",
 --deprecated
 	COMPLETE_WITH_NEXT = "C", -- same as OC
+	PICKUP = "QP", -- same as QA
+	WORK = "QW", -- same as QC but optional
 }
+
+addon.codesReverse = {}
+for k, v in pairs(addon.codes) do addon.codesReverse[v] = k end
 
 function addon.getSuperCode(code)
 	if code == "ACCEPT" then return "QUEST" end
 	if code == "TURNIN" then return "QUEST" end
 	if code == "COMPLETE" then return "QUEST" end
 	if code == "SKIP" then return "QUEST" end
+	if code == "PICKUP" then return "QUEST" end
+	if code == "WORK" then return "QUEST" end
 	return code
 end
 
@@ -136,46 +147,47 @@ function addon.parseLine(step, guide, strict)
 		element.endPos = pos - 1
 		element.index = #step.elements + 1
 		element.step = step
+		element.t = addon.codesReverse[code:sub(1, 2)]
+		if element.t == nil then element.t = addon.codesReverse[code:sub(1, 1)] end
+		if element.t == nil then 
+			addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, (step.line or "") .. " " .. step.text)):Show()
+			err = true
+			return ""
+		end		
+		table.insert(step.elements, element)
+		local tag = code:sub(#addon.codes[element.t] + 1)
+		
 		if addon.debugging and step.text:sub(element.startPos - step.startPos + 1, element.endPos - step.startPos + 1) ~= ("["..code.."]") then
 			print("LIME: parsing guide \"[" .. step.text:sub(element.startPos - step.startPos + 1, element.endPos - step.startPos + 1) .. "]\" should be \"" .. code .. "\" at " .. element.startPos .. "-" .. element.endPos .. " in " .. pos0 .. "->" .. step.text)
 		end
-		if code:sub(1, 2) == addon.codes.NEXT then
-			code:sub(2):gsub("%s*(%d*)%s*-%s*(%d*)%s*(.*)", function (minLevel, maxLevel, title)
+		if element.t == "NEXT" then
+			tag:gsub("%s*(%d*)%s*-%s*(%d*)%s*(.*)", function (minLevel, maxLevel, title)
 				--print("LIME: \"".. (group or "") .. "\",\"" .. minLevel .. "\",\"" .. maxLevel .. "\",\"" .. title .. "\"")
 				guide.next = minLevel .. "-" .. maxLevel .. " " .. title
 			end, 1)
-		elseif code:sub(1, 1) == addon.codes.NAME then
-			code:sub(2):gsub("%s*(%d*)%s*-%s*(%d*)%s*(.*)", function (minLevel, maxLevel, title)
+		elseif element.t == "NAME" then
+			tag:gsub("%s*(%d*)%s*-%s*(%d*)%s*(.*)", function (minLevel, maxLevel, title)
 				--print("LIME: \"".. (group or "") .. "\",\"" .. minLevel .. "\",\"" .. maxLevel .. "\",\"" .. title .. "\"")
 				guide.minLevel = tonumber(minLevel)
 				guide.maxLevel = tonumber(maxLevel)
 				guide.title = title
 			end, 1)
-		elseif code:sub(1, 1) == addon.codes.DETAILS then
-			guide.detailsRaw = code:sub(2):gsub("%s*(.*)", "%1", 1)
+		elseif element.t == "DETAILS" then
+			guide.detailsRaw = tag:gsub("%s*(.*)", "%1", 1)
 			guide.details = guide.detailsRaw
 				:gsub("(https://[%w%./#%-%?]*)", function(url) guide.detailsUrl = url; return "|cFFAAAAAA" .. url .. "|r" end)
 				:gsub("(http://[%w%./#%-%?]*)", function(url) guide.detailsUrl = url; return "|cFFAAAAAA" .. url .. "|r" end)
 				:gsub("(www%.[%w%./#%-%?]*)", function(url) if guide.detailsUrl == nil then guide.detailsUrl = url end; return "|cFFAAAAAA" .. url .. "|r" end)
 				:gsub("%*([^%*]+)%*", "|cFFFFD100%1|r")
 				:gsub("%*%*","%*")
-		elseif code:sub(1, 1) == addon.codes.QUEST then
-			if code:sub(2, 2) == "A" or code:sub(2, 2) == "P" then
+		elseif addon.getSuperCode(element.t) == "QUEST" then
+			if element.t == "PICKUP" then
 				element.t = "ACCEPT"
-			elseif code:sub(2, 2) == "T" then
-				element.t = "TURNIN"
-			elseif code:sub(2, 2) == "C" then
-				element.t = "COMPLETE"
-			elseif code:sub(2, 2) == "S" then
-				element.t = "SKIP"
-			elseif code:sub(2, 2) == "W" then
+			elseif element.t == "WORK" then
 				element.t = "COMPLETE"
 				element.optional = true
-			else
-				addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, (step.line or "") .. " " .. step.text)):Show()
-				err = true
 			end
-			code:sub(3):gsub("%s*([%d/%?]+),?(%d*)%s*(.*)", function(id, objective, title)
+			tag:gsub("%s*([%d/%?]+),?(%d*)%s*(.*)", function(id, objective, title)
 				element.questId = tonumber(id)
 				if element.questId == nil then
 					if strict then 
@@ -210,11 +222,10 @@ function addon.parseLine(step, guide, strict)
 						guide.currentZone = addon.mapIDs[addon.questsDB[element.questId].sort] 
 					end
 				end
-				table.insert(step.elements, element)
 				if element.t ~= "SKIP" then lastAutoStep = element end
 			end, 1)
-		elseif code:sub(1, 2) == addon.codes.GUIDE_APPLIES then
-			code:sub(3):upper():gsub(" ",""):gsub("([^,]+)", function(c)
+		elseif element.t == "GUIDE_APPLIES" then
+			tag:upper():gsub(" ",""):gsub("([^,]+)", function(c)
 				if addon.isClass(c) then
 					if guide.class == nil then guide.class = {} end
 					table.insert(guide.class, addon.getClass(c))
@@ -228,8 +239,8 @@ function addon.parseLine(step, guide, strict)
 					err = true
 				end
 			end)
-		elseif code:sub(1, 1) == addon.codes.APPLIES then
-			code:sub(2):upper():gsub(" ",""):gsub("([^,]+)", function(c)
+		elseif element.t == "APPLIES" then
+			tag:upper():gsub(" ",""):gsub("([^,]+)", function(c)
 				if addon.isClass(c) then
 					if step.class == nil then step.class = {} end
 					table.insert(step.class, addon.getClass(c))
@@ -242,12 +253,9 @@ function addon.parseLine(step, guide, strict)
 					addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, (step.line or "") .. " " .. step.text)):Show()
 					err = true
 				end
-				element.t = "APPLIES"
-				table.insert(step.elements, element)
 			end)
-		elseif code:sub(1, 1) == addon.codes.GOTO then
-			code:gsub("G%s*(%d+%.?%d*),%s?(%d+%.?%d*),?%s?(%d*%.?%d*)%s?(.*)", function(x, y, radius, zone)
-				element.t = "GOTO"
+		elseif element.t == "GOTO" then
+			tag:gsub("%s*(%d+%.?%d*),%s?(%d+%.?%d*),?%s?(%d*%.?%d*)%s?(.*)", function(x, y, radius, zone)
 				element.x = tonumber(x)
 				element.y = tonumber(y)
 				if radius ~= "" then element.radius = tonumber(radius) else element.radius = addon.DEFAULT_GOTO_RADIUS end
@@ -258,11 +266,9 @@ function addon.parseLine(step, guide, strict)
 					err = true
 				end
 				step.hasGoto = true
-				table.insert(step.elements, element)
 			end, 1)
-		elseif code:sub(1, 1) == addon.codes.LOC then
-			code:gsub("L%s*(%d+%.?%d*),%s?(%d+%.?%d*)%s?(.*)", function(x, y, zone)
-				element.t = "LOC"
+		elseif element.t == "LOC" then
+			tag:gsub("%s*(%d+%.?%d*),%s?(%d+%.?%d*)%s?(.*)", function(x, y, zone)
 				element.x = tonumber(x)
 				element.y = tonumber(y)
 				if zone ~= "" then guide.currentZone = addon.mapIDs[zone] end
@@ -271,11 +277,9 @@ function addon.parseLine(step, guide, strict)
 					addon.createPopupFrame(string.format(L.ERROR_CODE_ZONE_NOT_FOUND, guide.name or "", code, (step.line or "") .. " " .. step.text)):Show()
 					err = true
 				end
-				table.insert(step.elements, element)
 			end, 1)
-		elseif code:sub(1, 2) == addon.codes.XP then
-			code:gsub("XP%s*(%d+)([%+%-%.]?)(%d*)(.*)", function(level, t, xp, text)
-				element.t = "LEVEL"
+		elseif element.t == "XP" then
+			tag:gsub("%s*(%d+)([%+%-%.]?)(%d*)(.*)", function(level, t, xp, text)
 				element.level = tonumber(level)
 				if text ~= "" then
 					element.text = text:gsub("%s*(.*)", "%1", 1)
@@ -295,51 +299,24 @@ function addon.parseLine(step, guide, strict)
 					element.xp = tonumber("0." .. xp)
 					step.xp = true
 				end
-				table.insert(step.elements, element)
 				lastAutoStep = element
 			end, 1)
-		elseif code:sub(1, 2) == addon.codes.OPTIONAL_COMPLETE_WITH_NEXT then
-			element.t = "TEXT"
-			element.text = code:sub(3)
-			if element.text ~= "" then 
-				table.insert(step.elements, element)
-			end
+		elseif element.t == "OPTIONAL_COMPLETE_WITH_NEXT" then
+			element.text = tag
 			step.completeWithNext = true
-		elseif code:sub(1, 1) == addon.codes.COMPLETE_WITH_NEXT then
-			element.t = "TEXT"
-			element.text = code:sub(2)
-			if element.text ~= "" then 
-				table.insert(step.elements, element)
-			end
+		elseif element. t == "COMPLETE_WITH_NEXT" then
+			element.text = tag
 			step.completeWithNext = true
-		elseif code:sub(1, 1) == addon.codes.OPTIONAL then
-			element.t = "TEXT"
-			element.text = code:sub(2)
-			if element.text ~= "" then 
-				table.insert(step.elements, element)
-			end
+		elseif element.t == "OPTIONAL" then
+			element.text = tag
 			if lastAutoStep ~= nil then
 				lastAutoStep.optional = true
 			else
 				step.optional = true
 			end
 		else
-			local found = false
-			for k, v in pairs(addon.codes) do
-				if code:sub(1, 1) == v then
-					element.t = k
-					element.text = code:sub(2)
-					table.insert(step.elements, element)
-					found = true
-					break
-				end
-			end
-			if not found then 
-				addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.name or "", code, (step.line or "") .. " " .. step.text)):Show()
-				err = true
-			end
+			element.text = tag
 		end
-		found = true
 		return ""
 	end)
 	if err then return end

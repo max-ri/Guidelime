@@ -654,7 +654,6 @@ function addon.showEditPopupXP(typ, guide, selection)
 	if selection ~= nil then popup.textboxText:SetText(selection.text) end
 	popup:Show()
 end
-addon.showEditPopupLEVEL = addon.showEditPopupXP
 
 local function addEditButton(typ, prev, point, offsetX, offsetY)
 	local button = CreateFrame("BUTTON", nil, addon.editorFrame, "UIPanelButtonTemplate")
@@ -794,8 +793,16 @@ function addon.showEditor()
 				local showPopup = addon["showEditPopup" .. addon.getSuperCode(addon.editorFrame.selection.t)]
 				if showPopup ~= nil then
 					showPopup(addon.editorFrame.selection.t, guide, addon.editorFrame.selection)
-				--else
-				--	addon.editorFrame.textBox:HighlightText(addon.editorFrame.selection.startPos - 1, addon.editorFrame.selection.endPos)
+				elseif addon.editorFrame.selection.t == "TEXT" then
+					local text = addon.editorFrame.selection.text
+					local pos = addon.editorFrame.textBox:GetCursorPosition() - addon.editorFrame.selection.startPos + 2
+					local wordEnd = text:find("[%s%p]", pos)
+					if wordEnd == nil then wordEnd = #text else wordEnd = wordEnd - 1 end
+					local wordStart = text:reverse():find("[%s%p]", #text + 1 - pos)
+					if wordStart == nil then wordStart = 1 else wordStart = #text + 2 - wordStart end
+					addon.editorFrame.textBox:HighlightText(addon.editorFrame.selection.startPos + wordStart - 2, addon.editorFrame.selection.startPos + wordEnd - 1)
+				else
+					addon.editorFrame.textBox:HighlightText(addon.editorFrame.selection.startPos - 1, addon.editorFrame.selection.endPos)
 				end
 			end
 		end)
@@ -877,7 +884,6 @@ function addon.showEditor()
 		addon.editorFrame.mapBtn:SetText(L.SHOW_MAP)
 		addon.editorFrame.mapBtn:SetPoint("TOPLEFT", addon.editorFrame.gotoInfoScrollFrame, "BOTTOMLEFT", 0, -10)
 		addon.editorFrame.mapBtn:SetScript("OnClick", function()
-			--addon.editorFrame.textBox:SetEnabled(false)
 			ToggleWorldMap()
 		end)
 
