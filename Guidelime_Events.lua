@@ -268,3 +268,20 @@ function addon.frame:CINEMATIC_START()
 		StopCinematic()
 	end
 end
+
+addon.frame:RegisterEvent('TAXIMAP_OPENED')
+function addon.frame:CINEMATIC_START()
+	if addon.debugging then 
+		print ("LIME: TAXIMAP_OPENED") 
+		local mapID = C_Map.GetBestMapForUnit("player")
+		if not mapID then return end -- no mapID for player found
+		
+		-- https://wow.gamepedia.com/API_C_TaxiMap.GetAllTaxiNodes
+		local taxiNodes = C_TaxiMap.GetAllTaxiNodes(mapID)
+		for i = 1, #taxiNodes do
+			local taxiNodeData = taxiNodes[i]
+			print(taxiNodeData.name, taxiNodeData.state)
+		end
+	end
+end
+
