@@ -65,7 +65,7 @@ function addon.getQuestPositionsQuestie(id, typ, index)
 	local positions = {}
 	local filterZone
 	if addon.zoneDataClassicReverse == nil then reverseZoneData() end
-	if addon.questsDB[id] ~= nil then filterZone = addon.zoneDataClassicReverse[addon.questsDB[id].sort] end
+	if addon.questsDB[id] ~= nil and addon.questsDB[id].zone ~= nil then filterZone = addon.zoneDataClassicReverse[addon.questsDB[id].zone] end
 	for j = 1, #npcs do
 		local npc = npcData[npcs[j]]
 		--if npc == nil then error("npc " .. npcs[j] .. " not found for quest " .. questid .. typ) end

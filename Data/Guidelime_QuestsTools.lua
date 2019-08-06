@@ -184,16 +184,24 @@ function addon.getQuestPositions(id, typ, objective)
 		end
 	end
 	local positions = {}
+	if addon.questsDB[id] ~= nil and addon.questsDB[id].zone ~= nil then filterZone = addon.questsDB[id].zone end
 	for _, npcId in ipairs(ids.npc) do
 		local element = addon.creaturesDB[npcId]
 		if element ~= nil and element.positions ~= nil then
 			for i, pos in ipairs(element.positions) do
 				-- TODO: x/y are still switched in db
-				local x, y, zone = addon.GetZoneCoordinatesFromWorld(pos.y, pos.x, pos.mapid)
-				if x ~= nil then
-					table.insert(positions, {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, zone = zone, 	mapID = addon.mapIDs[zone], 
-						wx = pos.y, wy = pos.x, instance = pos.mapid})
+				local x, y, zone
+				if filterZone == nil then
+					x, y, zone = addon.GetZoneCoordinatesFromWorld(pos.y, pos.x, pos.mapid)
 				else
+					zone = filterZone
+					x, y = HBD:GetZoneCoordinatesFromWorld(x, y, addon.mapIDs[filterZone], true)
+					if x ~= nil and (x > 1 or x < 0 or y > 1 or y < 0) then x = nil end
+				end
+				if x ~= nil then
+					table.insert(positions, {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, zone = zone, mapID = addon.mapIDs[zone], 
+						wx = pos.y, wy = pos.x, instance = pos.mapid})
+				elseif filterZone == nil then
 					error("error transforming (" .. pos.x .. "," .. pos.y .. " " .. pos.mapid .. ") into zone coordinates for quest #" .. id)
 				end
 			end
@@ -206,7 +214,7 @@ function addon.getQuestPositions(id, typ, objective)
 				-- TODO: x/y are still switched in db
 				local x, y, zone = addon.GetZoneCoordinatesFromWorld(pos.y, pos.x, pos.mapid)
 				if x ~= nil then
-					table.insert(positions, {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, zone = zone, 	mapID = addon.mapIDs[zone], 
+					table.insert(positions, {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, zone = zone, mapID = addon.mapIDs[zone], 
 						wx = pos.y, wy = pos.x, instance = pos.mapid})
 				else
 					error("error transforming (" .. pos.x .. "," .. pos.y .. " " .. pos.mapid .. ") into zone coordinates for quest #" .. id)
