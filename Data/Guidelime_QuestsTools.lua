@@ -40,7 +40,7 @@ function addon.getQuestTargetNames(id, typ)
 	else
 		return
 	end
-	if quest == nil then return end
+	if quest == nil or type(quest) == "string" then return end
 	local names = {}
 	for _, element in ipairs(quest) do
 		table.insert(names, element.name)
@@ -65,7 +65,7 @@ function addon.getQuestPositions(id, typ, objective)
 	else
 		return
 	end
-	if quest == nil then return end
+	if quest == nil or type(quest) == "string" then return end
 	local positions = {}
 	for i in ipairs(quest) do
 		local element = quest[i]
