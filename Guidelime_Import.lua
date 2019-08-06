@@ -214,7 +214,7 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 		[L.WORD_LIST_GOTO] = function(s, e, pre, x, y, post)
 			if pre ~= nil then s = s + #pre elseif s == 0 or line:sub(s, s):match("[%s%p]") then s = s + 1 end
 			if post ~= nil then e = e - #post elseif e > #line or line:sub(e, e):match("[%s%p]") then e = e - 1 end
-			line = line:sub(1, s - 1) .. "[G " .. x .. "," .. y .. (zone or "") .. "]" .. line:sub(e + 1)
+			line = line:sub(1, s - 1) .. "[G" .. x .. "," .. y .. (zone or "") .. "]" .. line:sub(e + 1)
 		end
 	})
 

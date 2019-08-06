@@ -180,7 +180,7 @@ L.WORD_LIST_GET_FLIGHT_POINT = "( get flight ?point in )%a+( );( activate flight
 L.WORD_LIST_VENDOR = " purchase ; buy ; vendor "
 L.WORD_LIST_REPAIR = " repair "
 L.WORD_LIST_TRAIN = " train ; skills "
-L.WORD_LIST_OPTIONAL_COMPLETE_WITH_NEXT = " grind towards ; grind north ; grind south ; grind east ; grind west ; grind northwest ; grind northeast ; grind southwest ; grind southeast "
+L.WORD_LIST_OPTIONAL_COMPLETE_WITH_NEXT = "( grind towards)( );( grind north)( );( grind south)( );( grind east)( );( grind west)( );( grind northwest)( );( grind northeast)( );( grind southwest)( );( grind southeast)( )"
 L.WORD_LIST_GOTO = "( )at (%d+%.?%d*) ?, ?(%d+%.?%d*)( );( )@ (%d+%.?%d*) ?, ?(%d+%.?%d*)( );( )at (%d+) ?%. ?(%d+)( );( )@ (%d+) ?%. ?(%d+)( )"
 
 elseif locale == "deDE" then
