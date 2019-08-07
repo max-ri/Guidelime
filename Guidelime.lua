@@ -221,8 +221,8 @@ function addon.loadCurrentGuide()
 		local filteredElements = {}
 		for _, element in ipairs(step.elements) do
 			if not element.generated and
-				(element.text ~= nil and element.text ~= "") or 
-				(element.t ~= "TEXT" and element.t ~= "NAME" and element.t ~= "NEXT" and element.t ~= "DETAILS" and element.t ~= "GUIDE_APPLIES" and element.t ~= "APPLIES")
+				((element.text ~= nil and element.text ~= "") or 
+				(element.t ~= "TEXT" and element.t ~= "NAME" and element.t ~= "NEXT" and element.t ~= "DETAILS" and element.t ~= "GUIDE_APPLIES" and element.t ~= "APPLIES"))
 			then
 				table.insert(filteredElements, element)
 			end
@@ -772,12 +772,20 @@ function addon.updateSteps(completedIndexes)
 	if addon.mainFrame == nil then return end
 	if addon.currentGuide == nil then return end
 	if completedIndexes == nil then completedIndexes = {} end
+	local time
+	if addon.debugging then time = debugprofilestop() end
 	updateStepsCompletion(completedIndexes)
+	if addon.debugging then print("LIME: updateStepsCompletion " .. (debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	updateStepsActivation()
+	if addon.debugging then print("LIME: updateStepsActivation " .. (debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	fadeoutStep(completedIndexes)
+	if addon.debugging then print("LIME: fadeoutStep " .. (debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	local scrollToFirstActive = updateFirstActiveIndex()
+	if addon.debugging then print("LIME: updateFirstActiveIndex " .. (debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	addon.updateStepsMapIcons()
+	if addon.debugging then print("LIME: updateStepsMapIcons " .. (debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	addon.updateStepsText(scrollToFirstActive)
+	if addon.debugging then print("LIME: updateStepsText " .. (debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 end
 
 local function showContextMenu()

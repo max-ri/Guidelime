@@ -1,0 +1,6 @@
+[submodule "Guides/Horde/Ettern"]
+	path = Guides/Horde/Ettern
+	url = https://github.com/ettern/Guidelime-guides
+[submodule "Guides/Alliance/MarkyMark"]
+	path = Guides/Alliance/MarkyMark
+	url = https://github.com/max-ri/Guidelime_MarkyMark
