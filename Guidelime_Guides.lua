@@ -106,7 +106,13 @@ function addon.fillGuides()
 	addon.guidesFrame.guides = {}
 	for _, group, guides in ipairs(groupNames) do
 		local guides = groups[group]
-		table.sort(guides)
+		table.sort(guides, function(a, b)
+			local ga = addon.guides[a]
+			local gb = addon.guides[b]
+			if (ga.minLevel ~= nil or gb.minLevel ~= nil) and ga.minLevel ~= gb.minLevel then return (ga.minLevel or 0) < (gb.minLevel or 0) end
+			if (ga.maxLevel ~= nil or gb.maxLevel ~= nil) and ga.maxLevel ~= gb.maxLevel then return (ga.maxLevel or 0) < (gb.maxLevel or 0) end
+			return (ga.name or "") < (gb.name or "")
+		end)
 		addon.guidesFrame.groups[group] = content:CreateFontString(nil, content, "GameFontNormal")
 		addon.guidesFrame.groups[group]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 		addon.guidesFrame.groups[group]:SetText(group)
