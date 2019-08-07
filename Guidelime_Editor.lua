@@ -693,6 +693,14 @@ local function addEditButton(typ, prev, point, offsetX, offsetY)
 	return button
 end
 
+local function customGuideLoaded()
+	if GuidelimeDataChar.currentGuide == nil or GuidelimeDataChar.currentGuide.name == nil or GuidelimeData.customGuides == nil then return end
+	if not GuidelimeDataChar.currentGuide.name:sub(1, #L.CUSTOM_GUIDES) == L.CUSTOM_GUIDES then return end
+	local name = GuidelimeDataChar.currentGuide.name:sub(#L.CUSTOM_GUIDES + 2)
+	if GuidelimeData.customGuides[name] == nil then return end
+	return name
+end
+
 function addon.showEditor()
 	if not addon.dataLoaded then loadData() end
 
@@ -842,7 +850,7 @@ function addon.showEditor()
 	    addon.editorFrame.gotoInfoScrollFrame = CreateFrame("ScrollFrame", nil, addon.editorFrame, "UIPanelScrollFrameTemplate")
 	    addon.editorFrame.gotoInfoScrollFrame:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
 	    addon.editorFrame.gotoInfoScrollFrame:SetPoint("RIGHT", prev, "LEFT", 260, 0)
-	    addon.editorFrame.gotoInfoScrollFrame:SetPoint("BOTTOM", addon.editorFrame, "BOTTOMLEFT", 0, 60)
+	    addon.editorFrame.gotoInfoScrollFrame:SetPoint("BOTTOM", addon.editorFrame, "BOTTOMLEFT", 0, 100)
 	    addon.editorFrame.gotoInfoContent = CreateFrame("Frame", nil, addon.editorFrame.gotoInfoScrollFrame) 
 	    addon.editorFrame.gotoInfoContent:SetSize(1, 1) 
 	    addon.editorFrame.gotoInfoScrollFrame:SetScrollChild(addon.editorFrame.gotoInfoContent)
@@ -854,6 +862,15 @@ function addon.showEditor()
 			elseif key == "ENTER" or key == "]" then
 				C_Timer.After(0.01, parseGuide)
 			end
+		end)
+
+		addon.editorFrame.mapBtn = CreateFrame("BUTTON", nil, addon.editorFrame, "UIPanelButtonTemplate")
+		addon.editorFrame.mapBtn:SetWidth(160)
+		addon.editorFrame.mapBtn:SetHeight(30)
+		addon.editorFrame.mapBtn:SetText(L.SHOW_MAP)
+		addon.editorFrame.mapBtn:SetPoint("TOPLEFT", addon.editorFrame.gotoInfoScrollFrame, "BOTTOMLEFT", 0, -10)
+		addon.editorFrame.mapBtn:SetScript("OnClick", function()
+			ToggleWorldMap()
 		end)
 
 		addon.editorFrame.saveBtn = CreateFrame("BUTTON", nil, addon.editorFrame, "UIPanelButtonTemplate")
@@ -878,20 +895,25 @@ function addon.showEditor()
 			end, true):Show()
 		end)
 
-		addon.editorFrame.mapBtn = CreateFrame("BUTTON", nil, addon.editorFrame, "UIPanelButtonTemplate")
-		addon.editorFrame.mapBtn:SetWidth(160)
-		addon.editorFrame.mapBtn:SetHeight(30)
-		addon.editorFrame.mapBtn:SetText(L.SHOW_MAP)
-		addon.editorFrame.mapBtn:SetPoint("TOPLEFT", addon.editorFrame.gotoInfoScrollFrame, "BOTTOMLEFT", 0, -10)
-		addon.editorFrame.mapBtn:SetScript("OnClick", function()
-			ToggleWorldMap()
+		addon.editorFrame.deleteBtn = CreateFrame("BUTTON", nil, addon.editorFrame, "UIPanelButtonTemplate")
+		addon.editorFrame.deleteBtn:SetWidth(160)
+		addon.editorFrame.deleteBtn:SetHeight(30)
+		addon.editorFrame.deleteBtn:SetText(L.DELETE_GUIDE)
+		addon.editorFrame.deleteBtn:SetPoint("BOTTOMLEFT", addon.editorFrame, "BOTTOMLEFT", 200, 20)
+		addon.editorFrame.deleteBtn:SetScript("OnClick", function()
+			if customGuideLoaded() then
+				addon.createPopupFrame(string.format(L.DELETE_MSG, customGuideLoaded()), function()
+					GuidelimeData.customGuides[customGuideLoaded()] = nil
+					ReloadUI()
+				end, true):Show()
+			end
 		end)
-
+		
 		addon.editorFrame.discardBtn = CreateFrame("BUTTON", nil, addon.editorFrame, "UIPanelButtonTemplate")
 		addon.editorFrame.discardBtn:SetWidth(160)
 		addon.editorFrame.discardBtn:SetHeight(30)
 		addon.editorFrame.discardBtn:SetText(L.DISCARD_CHANGES)
-		addon.editorFrame.discardBtn:SetPoint("BOTTOMLEFT", addon.editorFrame, "BOTTOMLEFT", 200, 20)
+		addon.editorFrame.discardBtn:SetPoint("BOTTOMLEFT", addon.editorFrame, "BOTTOMLEFT", 380, 20)
 		addon.editorFrame.discardBtn:SetScript("OnClick", function()
 			if GuidelimeDataChar.currentGuide ~= nil and addon.guides[GuidelimeDataChar.currentGuide.name] ~= nil then
 				addon.editorFrame.textBox:SetText(addon.guides[GuidelimeDataChar.currentGuide.name].text)
@@ -905,7 +927,7 @@ function addon.showEditor()
 		addon.editorFrame.addCoordinatesBtn:SetWidth(160)
 		addon.editorFrame.addCoordinatesBtn:SetHeight(30)
 		addon.editorFrame.addCoordinatesBtn:SetText(L.ADD_QUEST_COORDINATES)
-		addon.editorFrame.addCoordinatesBtn:SetPoint("BOTTOMLEFT", addon.editorFrame, "BOTTOMLEFT", 380, 20)
+		addon.editorFrame.addCoordinatesBtn:SetPoint("BOTTOMLEFT", addon.editorFrame, "BOTTOMLEFT", 560, 20)
 		addon.editorFrame.addCoordinatesBtn:SetScript("OnClick", function()
 			addon.createPopupFrame(L.ADD_QUEST_COORDINATES_MESSAGE, function()
 			local guide = parseGuide()
@@ -926,7 +948,7 @@ function addon.showEditor()
 		addon.editorFrame.removeCoordinatesBtn:SetWidth(160)
 		addon.editorFrame.removeCoordinatesBtn:SetHeight(30)
 		addon.editorFrame.removeCoordinatesBtn:SetText(L.REMOVE_ALL_COORDINATES)
-		addon.editorFrame.removeCoordinatesBtn:SetPoint("BOTTOMLEFT", addon.editorFrame, "BOTTOMLEFT", 560, 20)
+		addon.editorFrame.removeCoordinatesBtn:SetPoint("BOTTOMLEFT", addon.editorFrame, "BOTTOMLEFT", 740, 20)
 		addon.editorFrame.removeCoordinatesBtn:SetScript("OnClick", function()
 			addon.createPopupFrame(L.REMOVE_ALL_COORDINATES_MESSAGE, function()
 				local guide = parseGuide()
@@ -947,7 +969,7 @@ function addon.showEditor()
 		addon.editorFrame.importBtn:SetWidth(160)
 		addon.editorFrame.importBtn:SetHeight(30)
 		addon.editorFrame.importBtn:SetText(L.IMPORT_GUIDE)
-		addon.editorFrame.importBtn:SetPoint("BOTTOMLEFT", addon.editorFrame, "BOTTOMLEFT", 740, 20)
+		addon.editorFrame.importBtn:SetPoint("BOTTOMLEFT", addon.editorFrame, "BOTTOMLEFT", 920, 20)
 		addon.editorFrame.importBtn:SetScript("OnClick", function()
 			addon.createPopupFrame(L.IMPORT_GUIDE_MESSAGE, function()
 				local text = addon.importPlainText(addon.editorFrame.textBox:GetText())
@@ -960,6 +982,7 @@ function addon.showEditor()
 		addon.popupFrame = addon.editorFrame
 	end
 	addon.editorFrame:Show()
+	addon.editorFrame.deleteBtn:SetEnabled(customGuideLoaded())
 	parseGuide()
 end
 
