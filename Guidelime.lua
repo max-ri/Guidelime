@@ -339,7 +339,7 @@ end
 
 local function updateStepText(i)
 	local step = addon.currentGuide.steps[i]
-	if addon.mainFrame.steps == nil or addon.mainFrame.steps[i] == nil or addon.mainFrame.steps[i].textBox == nil then return end
+	if addon.mainFrame.steps == nil or addon.mainFrame.steps[i] == nil or addon.mainFrame.steps[i].textBox == nil or not addon.mainFrame.steps[i].visible then return end
 	local text = ""
 	local tooltip = ""
 	local skipTooltip = ""
@@ -451,7 +451,9 @@ local function updateStepText(i)
 			end
 		end
 	end
-	addon.mainFrame.steps[i].textBox:SetText(text)
+	if text ~= addon.mainFrame.steps[i].textBox:GetText() then
+		addon.mainFrame.steps[i].textBox:SetText(text)
+	end
 	addon.mainFrame.steps[i].skipText = skipText
 	if GuidelimeData.showTooltips then
 		addon.mainFrame.steps[i].textBox.tooltip = tooltip
@@ -618,7 +620,7 @@ local function updateStepsCompletion(changedIndexes)
 		for i, step in ipairs(addon.currentGuide.steps) do
 			updateStepCompletion(i, changedIndexes)
 			updateStepAvailability(i, changedIndexes, skipped)
-			if addon.mainFrame.steps ~= nil and addon.mainFrame.steps[i] ~= nil then
+			if addon.mainFrame.steps ~= nil and addon.mainFrame.steps[i] ~= nil and addon.mainFrame.steps[i].visible then
 				addon.mainFrame.steps[i]:SetChecked(step.completed or step.skip)
 				addon.mainFrame.steps[i]:SetEnabled((not step.completed and step.available) or step.skip)
 			end
@@ -642,14 +644,14 @@ local function keepFading()
 					update = true
 				else
 					step.fading = step.fading - 0.05
-					if addon.mainFrame.steps ~= nil and addon.mainFrame.steps[i] ~= nil then
+					if addon.mainFrame.steps ~= nil and addon.mainFrame.steps[i] ~= nil and addon.mainFrame.steps[i].visible then
 						addon.mainFrame.steps[i]:SetAlpha(step.fading)
 					end
 					isFading = true
 				end
 			else
 				step.fading = nil
-				if addon.mainFrame.steps ~= nil and addon.mainFrame.steps[i] ~= nil then addon.mainFrame.steps[i]:SetAlpha(1) end
+				if addon.mainFrame.steps ~= nil and addon.mainFrame.steps[i] ~= nil and addon.mainFrame.steps[i].visible then addon.mainFrame.steps[i]:SetAlpha(1) end
 			end
 		end
 	end
@@ -775,17 +777,17 @@ function addon.updateSteps(completedIndexes)
 	local time
 	if addon.debugging then time = debugprofilestop() end
 	updateStepsCompletion(completedIndexes)
-	if addon.debugging then print("LIME: updateStepsCompletion " .. (debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
+	if addon.debugging then print("LIME: updateStepsCompletion " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	updateStepsActivation()
-	if addon.debugging then print("LIME: updateStepsActivation " .. (debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
+	if addon.debugging then print("LIME: updateStepsActivation " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	fadeoutStep(completedIndexes)
-	if addon.debugging then print("LIME: fadeoutStep " .. (debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
+	if addon.debugging then print("LIME: fadeoutStep " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	local scrollToFirstActive = updateFirstActiveIndex()
-	if addon.debugging then print("LIME: updateFirstActiveIndex " .. (debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
+	if addon.debugging then print("LIME: updateFirstActiveIndex " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	addon.updateStepsMapIcons()
-	if addon.debugging then print("LIME: updateStepsMapIcons " .. (debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
+	if addon.debugging then print("LIME: updateStepsMapIcons " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	addon.updateStepsText(scrollToFirstActive)
-	if addon.debugging then print("LIME: updateStepsText " .. (debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
+	if addon.debugging then print("LIME: updateStepsText " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 end
 
 local function showContextMenu()
@@ -821,13 +823,16 @@ function addon.updateMainFrame()
 	if addon.debugging then print("LIME: updating main frame") end
 
 	GameTooltip:Hide()
-	if addon.mainFrame.allSteps ~= nil then
-		for _, step in pairs(addon.mainFrame.allSteps) do
-			step:Hide()
+	if addon.mainFrame.steps == nil then
+		addon.mainFrame.steps = {}
+	else
+		for _, step in ipairs(addon.mainFrame.steps) do
+			if step.visible then
+				step.visible = false
+				step:Hide()
+			end
 		end
 	end
-	addon.mainFrame.steps = {}
-	addon.mainFrame.allSteps = {}
 	if addon.mainFrame.message ~= nil then
 		addon.mainFrame.message:Hide()
 		addon.mainFrame.message = nil
@@ -869,13 +874,17 @@ function addon.updateMainFrame()
 
 		addon.updateSteps()
 
+		local time
+		if addon.debugging then time = debugprofilestop() end
+
 		local prev = nil
 		for i, step in ipairs(addon.currentGuide.steps) do
 			if ((not step.completed and not step.skip) or not GuidelimeDataChar.hideCompletedSteps) and
 				(step.available or not GuidelimeDataChar.hideUnavailableSteps) then
 				if step.active or GuidelimeData.maxNumOfSteps == 0 or i - addon.currentGuide.lastActiveIndex < GuidelimeData.maxNumOfSteps then
-					addon.mainFrame.steps[i] = addon.addCheckbox(addon.mainFrame.scrollChild, nil, "")
-					table.insert(addon.mainFrame.allSteps, addon.mainFrame.steps[i])
+					if addon.mainFrame.steps[i] == nil then addon.mainFrame.steps[i] = addon.addCheckbox(addon.mainFrame.scrollChild, nil, "") end
+					addon.mainFrame.steps[i]:Show()
+					addon.mainFrame.steps[i].visible = true
 					if prev == nil then
 						addon.mainFrame.steps[i]:SetPoint("TOPLEFT", addon.mainFrame.scrollChild, "TOPLEFT", 0, -14)
 					else
@@ -897,11 +906,14 @@ function addon.updateMainFrame()
 						end
 					end)
 
-					addon.mainFrame.steps[i].textBox = addon.addMultilineText(addon.mainFrame.steps[i], nil, addon.mainFrame.scrollChild:GetWidth() - 40, "", function(self, button)
-						if (button == "RightButton") then
-							showContextMenu()
-						end
-					end)
+					if addon.mainFrame.steps[i].textBox == nil then
+						addon.mainFrame.steps[i].textBox = addon.addMultilineText(addon.mainFrame.steps[i], nil, addon.mainFrame.scrollChild:GetWidth() - 40, "", function(self, button)
+							if (button == "RightButton") then
+								showContextMenu()
+							end
+						end)
+					end
+					addon.mainFrame.steps[i].textBox:Show()
 					addon.mainFrame.steps[i].textBox:SetPoint("TOPLEFT", addon.mainFrame.steps[i], "TOPLEFT", 35, -9)
 					updateStepText(i)
 
@@ -914,6 +926,8 @@ function addon.updateMainFrame()
 		else
 			addon.mainFrame.message:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -25, -15)
 		end
+		
+		if addon.debugging then print("LIME: updateMainFrame " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	end
 end
 
