@@ -1029,5 +1029,28 @@ SLASH_Guidelime1 = "/lime"
 function SlashCmdList.Guidelime(msg)
 	if msg == '' then addon.showMainFrame()
 	elseif msg == 'debug true' and not addon.debugging then GuidelimeData.debugging = true; ReloadUI()
-	elseif msg == 'debug false' and addon.debugging then GuidelimeData.debugging = false; ReloadUI() end
+	elseif msg == 'debug false' and addon.debugging then GuidelimeData.debugging = false; ReloadUI()
+	elseif msg == 'complete' then
+		if addon.currentGuide ~= nil and addon.currentGuide.firstActiveIndex ~= nil and
+			addon.currentGuide.lastActiveIndex ~= nil then
+			for i = addon.currentGuide.firstActiveIndex, addon.currentGuide.lastActiveIndex do
+				local step = addon.currentGuide.steps[i]
+				for _, element in ipairs(step.elements) do
+					if not element.completed then
+						if element.t == "ACCEPT" then
+							if addon.quests[element.questId] == nil then addon.quests[element.questId] = {} end
+							addon.quests[element.questId].logIndex = 1
+						elseif element.t == "COMPLETE" then
+							if addon.quests[element.questId] == nil then addon.quests[element.questId] = {} end
+							addon.quests[element.questId].finished = true
+						elseif element.t == "TURNIN" then
+							if addon.quests[element.questId] == nil then addon.quests[element.questId] = {} end
+							addon.quests[element.questId].completed = true
+						end
+					end
+				end
+			end
+			addon.updateSteps()
+		end
+	end
 end
