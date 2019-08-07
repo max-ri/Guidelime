@@ -773,6 +773,7 @@ function addon.updateSteps(completedIndexes)
 	--if addon.debugging then print("LIME: update steps") end
 	if addon.mainFrame == nil then return end
 	if addon.currentGuide == nil then return end
+	GameTooltip:Hide()
 	if completedIndexes == nil then completedIndexes = {} end
 	local time
 	if addon.debugging then time = debugprofilestop() end
