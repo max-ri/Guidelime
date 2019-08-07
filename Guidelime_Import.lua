@@ -13,6 +13,7 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 		local q, typ, objective, s, e, part, pre, post, lastTwo, skip
 		local wordListMap = {}
 		wordListMap["%[q([acts])%s*([%d/%?]+).-%]"] = function(...) s, e, typ, q = ...; typ = typ:upper(); skip = true end
+		wordListMap["%[[^q].-]"] = function(...) s, e = ...; skip = true end
 		local questPattern = "\"([^\"]+)\""
 		wordListMap[" " .. questPattern .. " "] = function(...) s, e, q = ... end
 		wordListMap[" " .. questPattern .. L.WORD_LIST_PART_N:gsub(";", "; " .. questPattern)] = function(...) s, e, q, part = ...; part = tonumber(part) end
@@ -48,14 +49,16 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 		end
 		addon.findInLists(line, wordListMap, true, pos)
 		if skip then
-			previds = questids
-			questids = {}
-			for id in q:gmatch("[^/]+") do
-				if tonumber(id) ~= nil then 
-					table.insert(questids, tonumber(q))
+			if q ~= nil then
+				previds = questids
+				questids = {}
+				for id in q:gmatch("[^/]+") do
+					if tonumber(id) ~= nil then 
+						table.insert(questids, tonumber(q))
+					end
 				end
+				if #questids ~= 1 then err = "" end
 			end
-			if #questids ~= 1 then err = "" end
 			pos = e
 		else
 			if s == nil then break end
