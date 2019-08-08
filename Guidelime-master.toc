@@ -1,6 +1,6 @@
 ## Title: Guidelime
 ## Author: Borick of Arthas(EU)
-## Version: 0.023-Beta
+## Version: 0.022-Beta
 ## Interface: 11302  # change to 80200 for BFA
 ## SavedVariables: GuidelimeData
 ## SavedVariablesPerCharacter: GuidelimeDataChar
@@ -82,3 +82,5 @@ Guides\Horde\Demo_Durotar_1-4.lua
 
 Guides\Horde\Ettern\Ettern_1-6_Durotar.lua
 Guides\Horde\Ettern\Ettern_6-12_Durotar.lua
+
+Guides\Horde\SevenLeaves\1-12.lua
