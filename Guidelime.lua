@@ -83,7 +83,7 @@ addon.queryingPositions = false
 addon.dataLoaded = false
 
 function Guidelime.registerGuide(guide, group)
-	guide = addon.parseGuide(guide, group)
+	guide = addon.parseGuide(guide, group, nil, true)
 	if guide == nil then error("There were errors parsing the guide \"" .. guide.name .. "\"") end
 	if addon.debugging then print("LIME: ", guide.name) end
 	if addon.guides[guide.name] ~= nil then error("There is more than one guide with the name \"" .. guide.name .. "\"") end
@@ -190,7 +190,10 @@ function addon.loadCurrentGuide()
 	addon.currentGuide.name = GuidelimeDataChar.currentGuide.name
 	addon.currentGuide.steps = {}
 	addon.quests = {}
-	if addon.guides[GuidelimeDataChar.currentGuide.name] == nil then
+	
+	local guide = addon.guides[GuidelimeDataChar.currentGuide.name]
+	
+	if guide == nil then
 		if addon.debugging then
 			print("LIME: available guides:")
 			for name in pairs(addon.guides) do
@@ -202,14 +205,16 @@ function addon.loadCurrentGuide()
 		addon.currentGuide.name = nil
 		return
 	end
-	addon.currentGuide.next = addon.guides[GuidelimeDataChar.currentGuide.name].next
-	addon.currentGuide.group = addon.guides[GuidelimeDataChar.currentGuide.name].group
+	addon.currentGuide.next = guide.next
+	addon.currentGuide.group = guide.group
 
 	--print(format(L.LOAD_MESSAGE, addon.currentGuide.name))
+	guide = addon.parseGuide(guide, guide.group)
+	addon.guides[GuidelimeDataChar.currentGuide.name] = guide
 
 	local completed = GetQuestsCompleted()
 
-	for _, step in ipairs(addon.guides[GuidelimeDataChar.currentGuide.name].steps) do
+	for _, step in ipairs(guide.steps) do
 		local loadLine = true
 		if step.race ~= nil then
 			if not addon.contains(step.race, addon.race) then loadLine = false end
@@ -305,6 +310,14 @@ local function getQuestText(id, title, colored)
 		q = q .. "["
 		if GuidelimeData.showMinimumQuestLevels then
 			q = q .. addon.COLOR_LIGHT_BLUE ..addon.questsDB[id].req
+		end
+		if GuidelimeData.showMinimumQuestLevels and GuidelimeData.showQuestLevels then
+			if colored == true then
+				q = q .. "|r"
+			else
+				q = q .. addon.COLOR_INACTIVE
+			end
+			q = q .. "-"
 		end
 		if GuidelimeData.showQuestLevels then
 			q = q .. addon.getLevelColor(addon.questsDB[id].level) .. addon.questsDB[id].level
