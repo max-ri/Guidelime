@@ -124,6 +124,8 @@ function addon.parseLine(step, guide, strict, nameOnly)
 	if step.text == nil then return end
 	step.elements = {}
 	local lastAutoStep
+	local previousAutoStep
+	local autoStepOptional
 	local err = false
 	local pos = step.startPos
 	local t = step.text:gsub("(.-)%[(.-)%]", function(text, code)
@@ -232,7 +234,10 @@ function addon.parseLine(step, guide, strict, nameOnly)
 						guide.currentZone = addon.mapIDs[addon.questsDB[element.questId].sort] 
 					end
 				end
-				if element.t ~= "SKIP" then lastAutoStep = element end
+				if element.t ~= "SKIP" then 
+					previousAutoStep = lastAutoStep
+					lastAutoStep = element 
+				end
 			end, 1)
 			if c ~= 1 then
 				addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
@@ -337,6 +342,8 @@ function addon.parseLine(step, guide, strict, nameOnly)
 			element.text = tag
 			if lastAutoStep ~= nil then
 				lastAutoStep.optional = true
+				lastAutoStep = previousAutoStep
+				autoStepOptional = true
 			else
 				step.optional = true
 			end
@@ -345,6 +352,7 @@ function addon.parseLine(step, guide, strict, nameOnly)
 		end
 		return ""
 	end)
+	if autoStepOptional and lastAutoStep == nil then step.optional = true end
 	if err then return end
 	if t ~= nil and t ~= "" then
 		local element = {}
@@ -356,5 +364,5 @@ function addon.parseLine(step, guide, strict, nameOnly)
 		element.step = step
 		table.insert(step.elements, element)
 	end
-	return not err
+	return true
 end
