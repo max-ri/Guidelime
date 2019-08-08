@@ -163,6 +163,10 @@ function addon.fillGuides()
 				end
 			end)
 			addon.guidesFrame.guides[name]:SetScript("OnLeave", function(self)
+				if GuidelimeDataChar.currentGuide ~= nil and addon.guides[GuidelimeDataChar.currentGuide.name] ~= nil then
+					addon.guidesFrame.textDetails:SetText(addon.guides[GuidelimeDataChar.currentGuide.name].details or "")
+					addon.guidesFrame.textDetails.url = addon.guides[GuidelimeDataChar.currentGuide.name].detailsUrl or ""
+				end
 				if self.name ~= GuidelimeDataChar.currentGuide.name then
 					self:SetBackdropColor(0,0,0,0)	
 				end
@@ -187,7 +191,10 @@ function addon.fillGuides()
     scrollFrame:SetScrollChild(content)
 
 	addon.guidesFrame.textDetails = addon.addMultilineText(content, nil, 550, nil, function()
-		if addon.guidesFrame.textDetails.url ~= nil then showUrlPopup(addon.guidesFrame.textDetails.url) end
+		if addon.guidesFrame.textDetails.url ~= nil and addon.isDoubleClick(addon.guidesFrame.textDetails) then 
+			InterfaceOptionsFrame:Hide()
+			showUrlPopup(addon.guidesFrame.textDetails.url) 
+		end
 	end)
 	addon.guidesFrame.textDetails:SetPoint("TOPLEFT", content, "BOTTOMLEFT", 0, 0)
 	addon.guidesFrame.textDetails:SetTextColor(255,255,255,255)
