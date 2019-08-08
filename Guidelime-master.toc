@@ -31,6 +31,54 @@ Data\Guidelime_ObjectsDB.lua
 Data\Guidelime_ItemsDB.lua
 Data\Guidelime_QuestsTools.lua
 Data\Guidelime_Questie.lua
-Guides\Demo_Coldridge_Valley_1-6.lua
-Guides\Demo_Loch_Modan_16-18.lua
-Guides\Demo_Durotar_1-4.lua
+
+Guides\Alliance\Demo_Coldridge_Valley_1-6.lua
+
+Guides\Alliance\Hakurai - Cowcium\Hakurai_Darkshore_20-22.lua
+Guides\Alliance\Hakurai - Cowcium\Hakurai_Elwynn_Forest_1-12.lua
+Guides\Alliance\Hakurai - Cowcium\Hakurai_Loch_Modan_+_Darkshore_12-16.lua
+Guides\Alliance\Hakurai - Cowcium\Hakurai_Redridge_Mountains_+_Duskwood_22-25.lua
+Guides\Alliance\Hakurai - Cowcium\Hakurai_Redridge_Mountains_+_Duskwood_27-30.lua
+Guides\Alliance\Hakurai - Cowcium\Hakurai_Westfall_16-20.lua
+Guides\Alliance\Hakurai - Cowcium\Hakurai_Wetlands_25-27.lua
+
+Guides\Alliance\Hakurai - Shikushiku\Hakurai1-6.lua
+Guides\Alliance\Hakurai - Shikushiku\Hakurai10-12.lua
+Guides\Alliance\Hakurai - Shikushiku\Hakurai12-14.lua
+Guides\Alliance\Hakurai - Shikushiku\Hakurai14-16.lua
+Guides\Alliance\Hakurai - Shikushiku\Hakurai16-20.lua
+Guides\Alliance\Hakurai - Shikushiku\Hakurai20-22.lua
+Guides\Alliance\Hakurai - Shikushiku\Hakurai22-25.lua
+Guides\Alliance\Hakurai - Shikushiku\Hakurai25-27.lua
+Guides\Alliance\Hakurai - Shikushiku\Hakurai27-30.lua
+Guides\Alliance\Hakurai - Shikushiku\Hakurai6-10.lua
+
+Guides\Alliance\Judgement\1-15_Judgement_leveling_guide.lua
+
+Guides\Alliance\MarkyMark\Darkshore 12-16.lua
+Guides\Alliance\MarkyMark\Dun Morogh 1-5.lua
+Guides\Alliance\MarkyMark\Dun Morogh_Loch Modan 11-12.lua
+Guides\Alliance\MarkyMark\Dun Morogh_Loch Modan 5-12.lua
+Guides\Alliance\MarkyMark\Elwynn Forest 1-5.lua
+Guides\Alliance\MarkyMark\Elwynn Forest 5-11.lua
+Guides\Alliance\MarkyMark\Loch Modan 16-18.lua
+Guides\Alliance\MarkyMark\Redridge 18-20.lua
+Guides\Alliance\MarkyMark\Teldrassil 1-5.lua
+Guides\Alliance\MarkyMark\Teldrassil 5-11.lua
+
+Guides\Alliance\Sage\Sage_Guide_1-10_Dun_Morogh.lua
+Guides\Alliance\Sage\Sage_Guide_1-10_Elwynn_Forest.lua
+Guides\Alliance\Sage\Sage_Guide_1-11_Teldrassil.lua
+Guides\Alliance\Sage\Sage_Guide_10-12_Loch_Modan.lua
+Guides\Alliance\Sage\Sage_Guide_11-15_Darkshore.lua
+Guides\Alliance\Sage\Sage_Guide_12-14_Westfall.lua
+Guides\Alliance\Sage\Sage_Guide_14-17_Loch_Modan.lua
+
+Guides\Alliance\TUGs\1-9Dwarf,Gnome Starting Zone.lua
+Guides\Alliance\TUGs\1-9Human Starting Zone.lua
+Guides\Alliance\TUGs\9-18Dun Morogh, Loch Modan, Darkshore.lua
+
+Guides\Horde\Demo_Durotar_1-4.lua
+
+Guides\Horde\Ettern\Ettern_1-6_Durotar.lua
+Guides\Horde\Ettern\Ettern_6-12_Durotar.lua
