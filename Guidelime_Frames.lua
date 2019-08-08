@@ -39,8 +39,8 @@ function addon.addSliderOption(frame, optionsTable, option, min, max, step, text
     end)
 	if tooltip ~= nil then
 		slider.tooltip = tooltip
-		slider:SetScript("OnEnter", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32);  GameTooltip:SetText(self.tooltip); GameTooltip:Show() end end)
-		slider:SetScript("OnLeave", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:Hide() end end)
+		slider:SetScript("OnEnter", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32);  GameTooltip:SetText(self.tooltip); GameTooltip:Show(); addon.showingTooltip = true end end)
+		slider:SetScript("OnLeave", function(self) if self.tooltip ~= nil and self.tooltip ~= "" and addon.showingTooltip then GameTooltip:Hide(); addon.showingTooltip = false end end)
 	end
     return slider
 end
@@ -53,8 +53,8 @@ function addon.addCheckbox(frame, text, tooltip)
 	end
 	if tooltip ~= nil then
 		checkbox.tooltip = tooltip
-		checkbox:SetScript("OnEnter", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32);  GameTooltip:SetText(self.tooltip); GameTooltip:Show() end end)
-		checkbox:SetScript("OnLeave", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:Hide() end end)
+		checkbox:SetScript("OnEnter", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32);  GameTooltip:SetText(self.tooltip); GameTooltip:Show(); addon.showingTooltip = true end end)
+		checkbox:SetScript("OnLeave", function(self) if self.tooltip ~= nil and self.tooltip ~= "" and addon.showingTooltip then GameTooltip:Hide(); addon.showingTooltip = false end end)
 	end
 	return checkbox
 end
@@ -88,8 +88,8 @@ function addon.addMultilineText(frame, text, width, tooltip, clickFunc, doubleCl
 	if text ~= nil then textbox:SetText(text) end
 	if tooltip ~= nil then
 		textbox.tooltip = tooltip
-		textbox:SetScript("OnEnter", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32);  GameTooltip:SetText(self.tooltip); GameTooltip:Show() end end)
-		textbox:SetScript("OnLeave", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:Hide() end end)
+		textbox:SetScript("OnEnter", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32); GameTooltip:SetText(self.tooltip); GameTooltip:Show(); addon.showingTooltip = true end end)
+		textbox:SetScript("OnLeave", function(self) if self.tooltip ~= nil and self.tooltip ~= "" and addon.showingTooltip then GameTooltip:Hide(); addon.showingTooltip = false end end)
 	end
 	if clickFunc ~= nil or doubleClickFunc ~= nil then
 		textbox:SetScript("OnMouseUp", function(self, button)
@@ -116,8 +116,8 @@ function addon.addTextbox(frame, text, width, tooltip)
 	textbox:SetTextColor(1,1,1,1)
 	if tooltip ~= nil then
 		textbox.tooltip = tooltip
-		textbox:SetScript("OnEnter", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32);  GameTooltip:SetText(self.tooltip); GameTooltip:Show() end end)
-		textbox:SetScript("OnLeave", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:Hide() end end)
+		textbox:SetScript("OnEnter", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32);  GameTooltip:SetText(self.tooltip); GameTooltip:Show(); addon.showingTooltip = true end end)
+		textbox:SetScript("OnLeave", function(self) if self.tooltip ~= nil and self.tooltip ~= "" and addon.showingTooltip then GameTooltip:Hide(); addon.showingTooltip = false end end)
 	end
 	return textbox
 end

@@ -786,7 +786,7 @@ function addon.updateSteps(completedIndexes)
 	--if addon.debugging then print("LIME: update steps") end
 	if addon.mainFrame == nil then return end
 	if addon.currentGuide == nil then return end
-	GameTooltip:Hide()
+	if addon.showingTooltip then GameTooltip:Hide(); addon.showingTooltip = false end
 	if completedIndexes == nil then completedIndexes = {} end
 	local time
 	if addon.debugging then time = debugprofilestop() end
@@ -836,7 +836,7 @@ function addon.updateMainFrame()
 	if addon.mainFrame == nil then return end
 	if addon.debugging then print("LIME: updating main frame") end
 
-	GameTooltip:Hide()
+	if addon.showingTooltip then GameTooltip:Hide(); addon.showingTooltip = false end
 	if addon.mainFrame.steps == nil then
 		addon.mainFrame.steps = {}
 	else
