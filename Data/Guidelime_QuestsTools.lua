@@ -340,7 +340,6 @@ function addon.getPossibleQuestIdsByName(name, part, faction, race, class)
 	local filteredName = name:lower():gsub("[%(%)\"%s%p]","")
 	local ids = addon.questsDBReverse[filteredName]
 	if ids == nil or #ids == 0 and part == nil then
-		print(filteredName)
 		local wordListMap = {}
 		wordListMap[L.WORD_LIST_PART_N] = function(s, e, n) filteredName = filteredName:sub(1, s - 1); part = tonumber(n) end
 		if GetLocale() ~= "enUS" then wordListMap[addon.defaultL.WORD_LIST_PART_N] = function(s, e, n) filteredName = filteredName:sub(1, s - 1); part = tonumber(n) end end
@@ -355,7 +354,6 @@ function addon.getPossibleQuestIdsByName(name, part, faction, race, class)
 		if part == nil then
 			addon.findInLists(filteredName, {["(%d+) "] = function(s, e, n) filteredName = filteredName:sub(1, s - 1); part = tonumber(n) end}, false)
 		end
-		print(filteredName, part)
 		ids = addon.questsDBReverse[filteredName]
 	end	
 
