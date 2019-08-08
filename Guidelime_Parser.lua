@@ -65,7 +65,7 @@ function addon.getSuperCode(code)
 	return code
 end
 
-function addon.parseGuide(guide, group, strict)
+function addon.parseGuide(guide, group, strict, nameOnly)
 	if strict == nil then strict = true end
 	if type(guide) == "string" then
 		guide = {text = guide}
@@ -97,7 +97,7 @@ function addon.parseGuide(guide, group, strict)
 	end
 	guide.currentZone = nil
 	for i, step in ipairs(guide.steps) do
-		if not addon.parseLine(step, guide, strict) then return end
+		if not addon.parseLine(step, guide, strict, nameOnly) then return end
 	end
 	if group ~= nil and group:sub(1,10) == "Guidelime_" then
 		guide.group = group:sub(11)
@@ -120,7 +120,7 @@ function addon.parseGuide(guide, group, strict)
 	end
 end
 
-function addon.parseLine(step, guide, strict)
+function addon.parseLine(step, guide, strict, nameOnly)
 	if step.text == nil then return end
 	step.elements = {}
 	local lastAutoStep
@@ -188,6 +188,8 @@ function addon.parseLine(step, guide, strict)
 				:gsub("(www%.[%w%./#%-%?]*)", function(url) if guide.detailsUrl == nil then guide.detailsUrl = url end; return "|cFFAAAAAA" .. url .. "|r" end)
 				:gsub("%*([^%*]+)%*", "|cFFFFD100%1|r")
 				:gsub("%*%*","%*")
+		elseif nameOnly then
+			return ""
 		elseif addon.getSuperCode(element.t) == "QUEST" then
 			if element.t == "PICKUP" then
 				element.t = "ACCEPT"
@@ -207,7 +209,7 @@ function addon.parseLine(step, guide, strict)
 				if objective ~= "" then element.objective = tonumber(objective) end
 				if title == "-" then
 					element.title = ""
-				elseif title ~= "" then
+				elseif title ~= "" and title ~= addon.getQuestNameById(id) then
 					element.title = title
 				end
 				--if addon.debugging and addon.questsDB[element.questId] == nil then 
