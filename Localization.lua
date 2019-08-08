@@ -178,12 +178,14 @@ L.WORD_LIST_XP = "( level )%d+( );( grind until )%d+( );( req. )%d+( )"
 L.WORD_LIST_SET_HEARTH = "( set hearth in )%a+( );( set hearth to )%a+( );( set hearthstone in )%a+( );( set hearthstone to )%a+( );( )(set hearth );( )(set hearthstone );( )(set hs);( set hs in )%a+( )"
 L.WORD_LIST_HEARTH = "( hearth to )%a+( );( )(hearth );( use .- )(hs );( use )(hs);( use .- )(hearthstone );( use )(hearthstone)"
 L.WORD_LIST_FLY = "( fly to )%a+( );( )(fly )"
-L.WORD_LIST_GET_FLIGHT_POINT = "( get flight ?point in )%a+( );( activate flight ?point in )%a+( );( get flight ?point )%a+( );( activate flight ?point )%a+( );( get )%a+( flight ?point );( activate )%a+( flight ?point );( )(flight ?point )"
+L.WORD_LIST_GET_FLIGHT_POINT = "( get flight ?point in )%a+( );( activate flight ?point in )%a+( );( get flight ?point )%a+( );( activate flight ?point )%a+( );( get )%a+( flight ?point );( activate )%a+( flight ?point );( )(flight ?point );" ..
+	"( get flight ?path in )%a+( );( activate flight ?path in )%a+( );( get flight ?path )%a+( );( activate flight ?path )%a+( );( get )%a+( flight ?path );( activate )%a+( flight ?path );( )(flight ?path );" ..
+	"( get fp in )%a+( );( activate fp in )%a+( );( get fp )%a+( );( activate fp )%a+( );( get the )(fp );( get )%a+( fp );( activate )%a+( fp )"
 L.WORD_LIST_VENDOR = " purchase ; buy ; vendor "
 L.WORD_LIST_REPAIR = " repair "
 L.WORD_LIST_TRAIN = " train ; skills "
-L.WORD_LIST_OPTIONAL_COMPLETE_WITH_NEXT = "( grind towards)( );( grind north)( );( grind south)( );( grind east)( );( grind west)( );( grind northwest)( );( grind northeast)( );( grind southwest)( );( grind southeast)( )"
-L.WORD_LIST_GOTO = "( )at (%d+%.?%d*) ?, ?(%d+%.?%d*)( );( )@ (%d+%.?%d*) ?, ?(%d+%.?%d*)( );( )at (%d+) ?%. ?(%d+)( );( )@ (%d+) ?%. ?(%d+)( )"
+L.WORD_LIST_OPTIONAL_COMPLETE_WITH_NEXT = "( grind towards)( );( grind north)( );( grind south)( );( grind east)( );( grind west)( );( grind northwest)( );( grind northeast)( );( grind southwest)( );( grind southeast)( );( run into)( );( run through)( );( run to)( );( grind up to)( );( grind down to)( )"
+L.WORD_LIST_GOTO = "( at )(%d+%.?%d*) ?, ?(%d+%.?%d*)( );( )@ ?(%d+%.?%d*) ?, ?(%d+%.?%d*)( );( at )(%d+) ?%. ?(%d+)( );( )@ ?(%d+) ?%. ?(%d+)( );( to )(%d+%.?%d*) ?, ?(%d+%.?%d*)( );( to )(%d+) ?%. ?(%d+)( )"
 
 elseif locale == "deDE" then
 

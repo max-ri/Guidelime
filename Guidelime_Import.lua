@@ -2,17 +2,18 @@ local addonName, addon = ...
 local L = addon.L
 
 local function findQuestType(line, pos)
-	local typ, s = addon.findInLists(line, {[L.WORD_LIST_ACCEPT] = "A", [L.WORD_LIST_COMPLETE] = "C", [L.WORD_LIST_TURN_IN] = "T", [L.WORD_LIST_SKIP] = "S"}, false)
-	if typ ~= nil and s <= pos then return typ end
+	return addon.findInLists(line, {[L.WORD_LIST_ACCEPT] = "A", [L.WORD_LIST_COMPLETE] = "C", [L.WORD_LIST_TURN_IN] = "T", [L.WORD_LIST_SKIP] = "S"}, false, 1, pos)
 end
 
 local function parseLine(l, line, questids, previds, questname, activeQuests, turnedInQuests, zone)
 	local pos, err
+	local count = 0
 	-- find quest 
 	while true do
 		local q, typ, objective, s, e, part, pre, post, lastTwo, skip
 		local wordListMap = {}
 		wordListMap["%[q([acts])%s*([%d/%?]+).-%]"] = function(...) s, e, typ, q = ...; typ = typ:upper(); skip = true end
+		wordListMap["%[[^q].-%]"] = function(...) s, e = ...; skip = true end
 		local questPattern = "\"([^\"]+)\""
 		wordListMap[" " .. questPattern .. " "] = function(...) s, e, q = ... end
 		wordListMap[" " .. questPattern .. L.WORD_LIST_PART_N:gsub(";", "; " .. questPattern)] = function(...) s, e, q, part = ...; part = tonumber(part) end
@@ -48,27 +49,31 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 		end
 		addon.findInLists(line, wordListMap, true, pos)
 		if skip then
-			previds = questids
-			questids = {}
-			for id in q:gmatch("[^/]+") do
-				if tonumber(id) ~= nil then 
-					table.insert(questids, tonumber(q))
+			if q ~= nil then
+				count = count + 1
+				previds = questids
+				questids = {}
+				for id in q:gmatch("[^/]+") do
+					if tonumber(id) ~= nil then 
+						table.insert(questids, tonumber(q))
+					end
 				end
+				if #questids ~= 1 then err = "" end
 			end
-			if #questids ~= 1 then err = "" end
 			pos = e
 		else
 			if s == nil then break end
 			if pre ~= nil then s = s + #pre elseif s == 0 or line:sub(s, s):match("[%s%p]") then s = s + 1 end
 			if post ~= nil then e = e - #post elseif e > #line or line:sub(e, e):match("[%s%p]") then e = e - 1 end
-			
+			count = count + 1
+
 			if typ == nil then 
 				typ = findQuestType(line, s) 
 				if typ == nil then 
 					typ = "C"
 				end
 			end
-	
+
 			-- when quest to be completed is followed by a single digit interpret this is an objective #
 			local title = line:sub(s,e):gsub("\"", "")
 			if typ == "C" and objective == nil and tonumber(line:sub(e + 1, e + 1)) ~= nil then
@@ -82,6 +87,16 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 			elseif q ~= nil then
 				previds = questids
 				questids = addon.getPossibleQuestIdsByName(q, part) 
+			end
+			if #questids > 1 and zone ~= nil then
+				-- found more than one? only search in given zone
+				local ids2 = {}
+				for i, id in ipairs(questids) do
+					if addon.questsDB[id].zone == zone then
+						table.insert(ids2, id)
+					end
+				end
+				if #ids2 > 0 then questids = ids2 end
 			end
 			if typ ~= "A" and #questids > 1 then
 				-- found more than one? only search in active quests
@@ -159,25 +174,27 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 			pos = #line
 			line = line .. rest
 		end
-		for _, id in ipairs(questids) do
-			if typ == "A" then
-				if turnedInQuests[id] then err = "accept quest " .. id .. " after turn in" end
-				activeQuests[id] = true
-			elseif typ == "T" then
-				if turnedInQuests[id] then err = "quest " .. id .. " turned in twice" end
-				if line:find("%[OC?%]") then 
-					activeQuests[id] = nil 
-					if #questids == 1 then turnedInQuests[id] = true end
+		if typ == "A" or typ == "C" or typ == "T" then
+			for _, id in ipairs(questids) do
+				if typ == "A" then
+					if turnedInQuests[id] then err = "accept quest " .. id .. " after turn in" end
+					activeQuests[id] = true
+				elseif typ == "T" then
+					if turnedInQuests[id] then err = "quest " .. id .. " turned in twice" end
+					if line:find("%[OC?%]") then 
+						activeQuests[id] = nil 
+						if #questids == 1 then turnedInQuests[id] = true end
+					end
+				elseif typ == "C" then
+					if turnedInQuests[id] then err = "complete quest " .. id .. " after turn in" end
 				end
-			elseif typ == "C" then
-				if turnedInQuests[id] then err = "complete quest " .. id .. " after turn in" end
 			end
 		end
 	end
 	
 	--found the word quest(/s) but no quest tags were created? ids have to be added manually unless completing/turning in only one/two remaining active quests
 	if count == 0 then
-		local s, e, count
+		local s, e
 		addon.findInLists(line, {
 			[L.WORD_LIST_QUESTS] = function(...) s, e = ...; count = 2 end,
 			[L.WORD_LIST_QUEST] = function(...) s, e = ...; count = 1 end
@@ -200,42 +217,73 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 						activeQuests[id1] = nil; turnedInQuests[id1] = true
 						if id2 ~= nil then activeQuests[id2] = nil; turnedInQuests[id2] = true end
 					end
+				else
+					err = ""
 				end
 				if count == 2 then
 					line = line .. "[Q" .. typ .. id2 .. " -]" 
 				end
 				line = line .. "[Q" .. typ .. id1 .. " " .. title .. "]" 
 				line = line .. rest
+			else
+				count = 0
 			end
 		end
 	end
 
-	addon.findInLists(line, {
+	while addon.findInLists(line, {
 		[L.WORD_LIST_GOTO] = function(s, e, pre, x, y, post)
 			if pre ~= nil then s = s + #pre elseif s == 0 or line:sub(s, s):match("[%s%p]") then s = s + 1 end
 			if post ~= nil then e = e - #post elseif e > #line or line:sub(e, e):match("[%s%p]") then e = e - 1 end
 			line = line:sub(1, s - 1) .. "[G" .. x .. "," .. y .. (zone or "") .. "]" .. line:sub(e + 1)
-		end
-	})
+			return true
+		end}) 
+	do end
 
-	local code, s, e, pre, post = addon.findInLists(line, {
+	-- each of these tags can appear once per line
+	for list, result in pairs({
 		[L.WORD_LIST_XP] = "XP",
 		[L.WORD_LIST_SET_HEARTH] = "S",
 		[L.WORD_LIST_HEARTH] = "H",
 		[L.WORD_LIST_FLY] = "F",
 		[L.WORD_LIST_GET_FLIGHT_POINT] = "P",
-		[L.WORD_LIST_VENDOR] = "V",
-		[L.WORD_LIST_REPAIR] = "R",
-		[L.WORD_LIST_TRAIN] = "T",
 		[L.WORD_LIST_OPTIONAL_COMPLETE_WITH_NEXT] = "OC"
-	})
-	if code ~= nil and line:find("%[".. code) == nil then
-		if pre ~= nil and #pre <= e - s then s = s + #pre elseif s == 0 or line:sub(s, s):match("[%s%p]") then s = s + 1 end
-		if post ~= nil then e = e - #post elseif e > #line or line:sub(e, e):match("[%s%p]") then e = e - 1 end
-		if e > s then code = code .. " " end
-		line = line:sub(1, s - 1) .. "[" .. code .. line:sub(s, e) .. "]" .. line:sub(e + 1)
+	}) do
+		local code, s, e, pre, post = addon.findInLists(line, {[list] = result})
+		if code ~= nil and line:find("%[".. code) == nil and (count == 0 or code ~= "OC") then
+			if pre ~= nil and #pre <= e - s then s = s + #pre elseif s == 0 or line:sub(s, s):match("[%s%p]") then s = s + 1 end
+			if post ~= nil then e = e - #post elseif e > #line or line:sub(e, e):match("[%s%p]") then e = e - 1 end
+			if e > s then code = code .. " " end
+			line = line:sub(1, s - 1) .. "[" .. code .. line:sub(s, e) .. "]" .. line:sub(e + 1)
+		end
 	end
 	
+	-- these tags can appear multiple times
+	for list, result in pairs({
+			[L.WORD_LIST_VENDOR] = "V",
+			[L.WORD_LIST_REPAIR] = "R",
+			[L.WORD_LIST_TRAIN] = "T"
+	}) do
+		local pos = 1
+		while pos ~= nil do
+			local code, s, e, pre, post = addon.findInLists(line, {[list] = result}, true, pos)
+			pos = nil
+			if code ~= nil then
+				if pre ~= nil and #pre <= e - s then s = s + #pre elseif s == 0 or line:sub(s, s):match("[%s%p]") then s = s + 1 end
+				if post ~= nil then e = e - #post elseif e > #line or line:sub(e, e):match("[%s%p]") then e = e - 1 end
+				if e > s then code = code .. " " end
+				if line:sub(s - 1 - #code , s - 1) ~= "[" .. code then
+					local rest = line:sub(e + 1)
+					line = line:sub(1, s - 1) .. "[" .. code .. line:sub(s, e) .. "]"
+					pos = #line
+					line = line .. rest
+				else
+					pos = e
+				end
+			end
+		end
+	end
+
 	if err == "" then 
 		line = "ERROR " .. line 
 	elseif err ~= nil then
