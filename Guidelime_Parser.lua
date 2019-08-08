@@ -190,6 +190,21 @@ function addon.parseLine(step, guide, strict, nameOnly)
 				:gsub("(www%.[%w%./#%-%?]*)", function(url) if guide.detailsUrl == nil then guide.detailsUrl = url end; return "|cFFAAAAAA" .. url .. "|r" end)
 				:gsub("%*([^%*]+)%*", "|cFFFFD100%1|r")
 				:gsub("%*%*","%*")
+		elseif element.t == "GUIDE_APPLIES" then
+			tag:upper():gsub(" ",""):gsub("([^,]+)", function(c)
+				if addon.isClass(c) then
+					if guide.class == nil then guide.class = {} end
+					table.insert(guide.class, addon.getClass(c))
+				elseif addon.isRace(c) then
+					if guide.race == nil then guide.race = {} end
+					table.insert(guide.race, addon.getRace(c))
+				elseif addon.isFaction(c) then
+					guide.faction = addon.getFaction(c)
+				else
+					addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
+					err = true
+				end
+			end)
 		elseif nameOnly then
 			return ""
 		elseif addon.getSuperCode(element.t) == "QUEST" then
@@ -211,7 +226,7 @@ function addon.parseLine(step, guide, strict, nameOnly)
 				if objective ~= "" then element.objective = tonumber(objective) end
 				if title == "-" then
 					element.title = ""
-				elseif title ~= "" and title ~= addon.getQuestNameById(id) then
+				elseif title ~= "" and (addon.questsDB[id] == nil or title ~= addon.questsDB[id].name) then
 					element.title = title
 				end
 				--if addon.debugging and addon.questsDB[element.questId] == nil then 
@@ -243,21 +258,6 @@ function addon.parseLine(step, guide, strict, nameOnly)
 				addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
 				err = true
 			end
-		elseif element.t == "GUIDE_APPLIES" then
-			tag:upper():gsub(" ",""):gsub("([^,]+)", function(c)
-				if addon.isClass(c) then
-					if guide.class == nil then guide.class = {} end
-					table.insert(guide.class, addon.getClass(c))
-				elseif addon.isRace(c) then
-					if guide.race == nil then guide.race = {} end
-					table.insert(guide.race, addon.getRace(c))
-				elseif addon.isFaction(c) then
-					guide.faction = addon.getFaction(c)
-				else
-					addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
-					err = true
-				end
-			end)
 		elseif element.t == "APPLIES" then
 			tag:upper():gsub(" ",""):gsub("([^,]+)", function(c)
 				if addon.isClass(c) then
