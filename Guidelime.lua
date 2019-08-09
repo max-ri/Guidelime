@@ -17,7 +17,7 @@ addon.COLOR_LEVEL_GRAY = "|cFF808080"
 addon.COLOR_WHITE = "|cFFFFFFFF"
 addon.COLOR_LIGHT_BLUE = "|cFF99CCFF"
 addon.MAINFRAME_ALPHA_MAX = 85
-addon.AUTO_COMPLETE_DELAY = 1.7
+addon.AUTO_COMPLETE_DELAY = 0.5
 addon.DEFAULT_GOTO_RADIUS = 0.3
 
 function addon.getLevelColor(level)
@@ -787,7 +787,7 @@ function addon.updateSteps(completedIndexes)
 	--if addon.debugging then print("LIME: update steps") end
 	if addon.mainFrame == nil then return end
 	if addon.currentGuide == nil then return end
-	if addon.showingTooltip then GameTooltip:Hide(); addon.showingTooltip = false end
+	GameTooltip:Hide()
 	if completedIndexes == nil then completedIndexes = {} end
 	local time
 	if addon.debugging then time = debugprofilestop() end
@@ -837,7 +837,7 @@ function addon.updateMainFrame()
 	if addon.mainFrame == nil then return end
 	if addon.debugging then print("LIME: updating main frame") end
 
-	if addon.showingTooltip then GameTooltip:Hide(); addon.showingTooltip = false end
+	GameTooltip:Hide()
 	if addon.mainFrame.steps == nil then
 		addon.mainFrame.steps = {}
 	else
