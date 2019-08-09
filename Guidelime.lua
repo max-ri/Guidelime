@@ -738,7 +738,7 @@ end
 function addon.updateStepsMapIcons()
 	if addon.isEditorShowing() or addon.currentGuide == nil then return end
 	addon.removeMapIcons()
-	addon.hideArrow()
+	local hideArrow = true
 	local highlight = true
 	for _, step in ipairs(addon.currentGuide.steps) do
 		if not step.skip and not step.completed and step.available then
@@ -746,7 +746,7 @@ function addon.updateStepsMapIcons()
 				if element.t == "GOTO" and step.active and not element.completed then
 					addon.addMapIcon(element, highlight)
 					if highlight then
-						if GuidelimeDataChar.showArrow then addon.showArrow(element) end
+						if GuidelimeDataChar.showArrow then addon.showArrow(element); hideArrow = false end
 						queryPosition()
 						highlight = false
 					end
@@ -756,6 +756,7 @@ function addon.updateStepsMapIcons()
 			end
 		end
 	end
+	if hideArrow then addon.hideArrow() end
 	addon.showMapIcons()
 end
 
@@ -887,7 +888,6 @@ function addon.updateMainFrame()
 					if addon.mainFrame.steps[i] == nil then 
 						addon.mainFrame.steps[i] = addon.addCheckbox(addon.mainFrame.scrollChild, nil, "") 
 						addon.mainFrame.steps[i]:SetScript("OnClick", function()
-							print(addon.mainFrame.steps[i].textBox:GetText())
 							if not addon.mainFrame.steps[i]:GetChecked() or addon.mainFrame.steps[i].skipText == nil or addon.mainFrame.steps[i].skipText == "" then
 								setStepSkip(i, addon.mainFrame.steps[i]:GetChecked())
 							else
