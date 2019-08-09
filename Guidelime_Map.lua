@@ -106,7 +106,7 @@ local function showMapIcon(mapIcon)
 		local x, y, instance = HBD:GetWorldCoordinatesFromZone(mapIcon.x / 100, mapIcon.y / 100, mapIcon.mapID)
 		if x ~= nil then
 			HBDPins:AddWorldMapIconWorld(addon, mapIcon.map, instance, x, y, 3)
-			HBDPins:AddMinimapIconWorld(addon, mapIcon.minimap, instance, x, y, true, true)
+			HBDPins:AddMinimapIconWorld(addon, mapIcon.minimap, instance, x, y, mapIcon.index == 0)
 		elseif addon.debugging then
 			print("LIME: error transforming coordinates", mapIcon.x, mapIcon.y, mapIcon.mapID)
 		end
