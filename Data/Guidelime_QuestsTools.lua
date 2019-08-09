@@ -193,6 +193,7 @@ function addon.getQuestPositions(id, typ, objective)
 				local x, y, zone
 				if filterZone == nil then
 					x, y, zone = addon.GetZoneCoordinatesFromWorld(pos.y, pos.x, pos.mapid)
+					if x == nil and addon.debugging then print("LIME: error transforming (" .. pos.x .. "," .. pos.y .. " " .. pos.mapid .. ") into zone coordinates for quest #" .. id) end
 				else
 					zone = filterZone
 					x, y = HBD:GetZoneCoordinatesFromWorld(pos.y, pos.x, addon.mapIDs[filterZone], true)
@@ -201,8 +202,6 @@ function addon.getQuestPositions(id, typ, objective)
 				if x ~= nil then
 					table.insert(positions, {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, zone = zone, mapID = addon.mapIDs[zone], 
 						wx = pos.y, wy = pos.x, instance = pos.mapid})
-				elseif filterZone == nil then
-					error("error transforming (" .. pos.x .. "," .. pos.y .. " " .. pos.mapid .. ") into zone coordinates for quest #" .. id)
 				end
 			end
 		end
@@ -217,7 +216,7 @@ function addon.getQuestPositions(id, typ, objective)
 					table.insert(positions, {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, zone = zone, mapID = addon.mapIDs[zone], 
 						wx = pos.y, wy = pos.x, instance = pos.mapid})
 				else
-					error("error transforming (" .. pos.x .. "," .. pos.y .. " " .. pos.mapid .. ") into zone coordinates for quest #" .. id)
+					if addon.debugging then print("error transforming (" .. pos.x .. "," .. pos.y .. " " .. pos.mapid .. ") into zone coordinates for quest #" .. id) end
 				end
 			end
 		end
