@@ -270,7 +270,7 @@ function addon.frame:CINEMATIC_START()
 end
 
 addon.frame:RegisterEvent('TAXIMAP_OPENED')
-function addon.frame:CINEMATIC_START()
+function addon.frame:TAXIMAP_OPENED()
 	if addon.debugging then 
 		print ("LIME: TAXIMAP_OPENED") 
 		local mapID = C_Map.GetBestMapForUnit("player")

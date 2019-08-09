@@ -3,8 +3,8 @@ Guidelime.registerGuide(
 [N9-18 Dun Morogh, Loch Modan, Darkshore]
 [NX18-30 Redridge Mountains,DM,Duskwood,Stockades+]
 [GAAlliance]
-[D This guide was written by TUGs and is totally free,\\but if you want to support my work use:\\https://paypal.me/TugsTV1337]
-This guide was written by TUGs and is totally free, but if you want to support my work use: https://paypal.me/TugsTV1337
+[D This guide was written by TUGs and is totally free,\\but if you want to support my work subscribe to:\\https://www.youtube.com/user/HydroxXTV]
+This guide was written by TUGs and is totally free, but if you want to support my work subscribe to: https://www.youtube.com/user/HydroxXTV
 Accept: [G70.27,48.15Dun Morogh][QA314]
 Do: [G69.81,44.33Dun Morogh][QC314]
 TurnIn: [G70.27,48.15Dun Morogh][QT314]

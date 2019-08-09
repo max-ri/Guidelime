@@ -2,9 +2,9 @@ Guidelime.registerGuide(
 [[
 [N1-9Dwarf&Gnome]
 [NX9-18 Dun Morogh, Loch Modan, Darkshore]
-[D This guide was written by TUGs and is totally free,\\but if you want to support my work use:\\https://paypal.me/TugsTV1337]
+[D This guide was written by TUGs and is totally free,\\but if you want to support my work subscribe to:\\https://www.youtube.com/user/HydroxXTV]
 [GADwarf,Gnome]
-This guide was written by TUGs and is totally free, but if you want to support my work use: https://paypal.me/TugsTV1337
+This guide was written by TUGs and is totally free, but if you want to support my subscribe to: https://www.youtube.com/user/HydroxXTV
 Accept: [G67.48,39.2Dun Morogh][QA179]
 Do: [G62.63,55.9Dun Morogh][QC179]
 TurnIn: [G67.48,39.2Dun Morogh][QT179]

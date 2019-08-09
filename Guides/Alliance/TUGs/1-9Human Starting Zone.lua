@@ -2,9 +2,9 @@ Guidelime.registerGuide(
 [[
 [N1-9Human]
 [NX9-18 Dun Morogh, Loch Modan, Darkshore]
-[D This guide was written by TUGs and is totally free,\\but if you want to support my work use:\\https://paypal.me/TugsTV1337]
+[D This guide was written by TUGs and is totally free,\\but if you want to support my work subscribe to:\\https://www.youtube.com/user/HydroxXTV]
 [GAHuman]
-This guide was written by TUGs and is totally free, but if you want to support my work use: https://paypal.me/TugsTV1337
+This guide was written by TUGs and is totally free, but if you want to support my work subscribe to:  https://www.youtube.com/user/HydroxXTV
 Accept: [QA783]
 TurnIn: [QT783]
 Accept: [QA7]
