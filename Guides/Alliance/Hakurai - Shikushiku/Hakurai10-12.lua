@@ -2,7 +2,8 @@ Guidelime.registerGuide(
 [[
 [N Part3 10 - 12 Elwynn Forest]
 [GA Alliance]
-[D Hakurai's Guide - brought to you by *Shikushiku*\\https://www.guilded.gg/KOABD\\www.twitch.tv/hakurai]
+[D Made from Hakurai's Video Guide \\ Our guild is recruiting! \\ https://www.guilded.gg/KOABD]
+Try not to do steps out of order, the guide will tell you when to turn in each quest, any XP requirements will automatically move to the next step once you finish them![OC]
 [G41,65.8Elwynn Forest][T]Train skills and Accept [QA1638][A Warrior]
 [G43.4,65.6Elwynn Forest][T]Train skills and Accept [QA5635][A Priest]
 [G44.4,66.2Elwynn Forest][T]Train skills and Accept [QA1685][A Warlock]
@@ -84,7 +85,7 @@ Accept[QA1689][A Warlock]
 [G25,77]Down the spiral stairs, down the stairs, turn right, right, right, left, and in the middle of the corridor you turn left.[QC1689][A Warlock]
 [G25.4,78.4]Back to Gakin, turn in[QT1689][A Warlock]
 [G51.6,12.4]Turn in[QT1097]
-[NX 12 - 14 Loch Modan
+[NX Part4 12 - 14 Loch Modan
 ]],"Hakurai - by Shikushiku")
 
 

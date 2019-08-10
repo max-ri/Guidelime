@@ -1,9 +1,10 @@
 Guidelime.registerGuide(
 [[
 [N Part1 1 - 6 Elwynn Forest]
-[GA Human]
-[D Hakurai's Guide - brought to you by *Shikushiku*\\https://www.guilded.gg/KOABD\\www.twitch.tv/hakurai]
-Accept [QA783]
+[GA Alliance]
+[D Made from Hakurai's Video Guide \\ Our guild is recruiting! \\ https://www.guilded.gg/KOABD]
+Try not to do steps out of order, the guide will tell you when to turn in each quest, any XP requirements will automatically move to the next step once you finish them![OC]
+Accept [QA783] in front of you
 [G48.8,41.6Elwynn Forest]Turn in [QT783]
 Accept [QA7]
 [G48.2,42.8] Accept [QA5261]
@@ -26,8 +27,8 @@ Accept[QA15]
 [G50.4,39.8]Turn in [QT3102] and [T]Train[A Rogue]
 [G50.4,42]Turn in[QT3101] and [T]Train[A Paladin]
 [G48.2,42.8]Accept [QA18]
-[G47,43.4]Kill all wolves and finish [QC33] and hit level 3 [XP3]
-[G53,49]Kill Defias to complete [QC18] Make sure you are above 75% to level 4. [XP3.75]
+[G47,43.4]Kill all wolves and finish [QC33] and hit level [XP3]
+[G53,49]Kill Defias to complete [QC18] Make sure you are above 75% to level 4. -- [XP3.75]
 [G47.2,41.8][V]Sell trash
 [G48.2,42.8]Turn in [QT18]
 Accept[QA3903]
@@ -47,7 +48,7 @@ Accept [QA21]
 Accept [QA3904]
 [G57.4,48.2]Carefully kill Garrick and loot him[QC6]
 [G55.1,49]Loot grapes while grinding [QC3904]
-Make sure you're 1300xp into level 5. [XP5+1300]
+Make sure you're 1300xp into level 5. -- [XP5+1300]
 [G50.6,39.4]Turn in [QT3904]
 Accept [QA3905]
 [G48.8,41.6]Inside the building Turn in [QT21]
@@ -56,7 +57,7 @@ Accept [QA54]
 [G48.2,42.8]Turn in [QT6]
 [G47.2,41.8][V]Vendor trash
 [G45.6,47.8]Accept [QA2158]
-[NX 6 - 10 Elwynn Forest]
+[NX Part2 6 - 10 Elwynn Forest]
 
 ]],"Hakurai - by Shikushiku")
 
