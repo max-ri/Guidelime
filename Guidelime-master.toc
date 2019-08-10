@@ -1,6 +1,6 @@
 ## Title: Guidelime
 ## Author: Borick of Arthas(EU)
-## Version: 0.025-Beta
+## Version: 0.026-Beta
 ## Interface: 11302  # change to 80200 for BFA
 ## SavedVariables: GuidelimeData
 ## SavedVariablesPerCharacter: GuidelimeDataChar
