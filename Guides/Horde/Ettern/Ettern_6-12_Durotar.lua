@@ -36,7 +36,7 @@ Jump down and finish: \\[QC784 Vanquish the Betrayers] \\[QC791 Carry Your Weigh
 [G52,43.4]Turn in [QC784 Vanquish the Betrayers] and [QC830 The Admiral's Orders (part 1)]. \\Accept [QA825 From The Wreckage....] \\Accept [QA831 The Admiral's Orders (part 2)]
 [G49.9,40.4]Go up to the top of the watchtower, and turn in [QT791 Carry Your Weight].
 [G54.3,42.9]Turn in [QT5648 Garments of Spirituality]
-[G61.79,42.38]Go east to the beach and in the water do [QC818 A solvent Spirit] along with [QC825 From The Wreckage....]: \\ - Kill/loot the crabs and makrura mobs and loot the Gnomish Toolboxes.
+[G62.02,46.35Durotar]Go east to the beach and in the water do [QC818 A solvent Spirit] along with [QC825 From The Wreckage....]: \\ - Kill/loot the crabs and makrura mobs and loot the Gnomish Toolboxes.
 Go just SW of Razor Hill and do the first half of [QC837 Encroachment][OC] [G50.02,49.37]: \\ - Kill Razormane Quilboars and Razormane Scouts.
 Grind here or close to Razor Hill until you're [XP8-600 600 XP from level 8][A Warlock,Warrior,Hunter,Rogue,Shaman,Priest]
 [G52,43.4]Go back to Razor Hill and turn in [QT825 From The Wreckage....].
@@ -72,7 +72,7 @@ Keep grinding up north (near Orgrimmar's entrance) until you reach level [XP10].
 Grind your way back to Razor Hill until you're [XP10-600 600 XP from level 10].[A Warlock, Warrior, Rogue, Hunter, Priest]
 [G52,43.4]In Razor Hill, turn in [QT837 Encroachment].[A Warlock, Rogue, Hunter, Warrior, Priest]
 [G54.3,42.9]Accept [QA5655 Hex of Weakness]. |cFFFFFFFF[T]Learn new skills: \\ - Lesser Heal (Rank 3) \\ - Resurrection (Rank 1) \\ - Mind Blast (Rank 1) \\ - Shadow Word:Pain (Rank 2)|r[A Priest]
-[G51.98,43.67]Accept [QA1859 Therzok][A Rogue]
+[G51.98,43.67]Accept [QA1859 Therzok][A Orc, Rogue]
 [G51.98,43.67]|cFFFFF569[T]Learn new skills inside the bunker.|r[A Rogue]
 [G54.4,41.3]Accept [QA1506 Gan'rul's Summons][A Warlock]
 [G54.4,41.19]|cFF9482C9[T]Learn new skills:\\ - Drain Soul (Rank 1) \\ - Demon Skin (Rank 2) \\ - Create Healthstone(minor) \\ - Immolate (Rank 2)|r[A Warlock]
@@ -112,7 +112,8 @@ Learn professions (optional): \\ - [T]Tailoring[G62.9,49.2 Orgrimmar] \\ - [T]Sk
 [G31.81,37.78Orgrimmar]Go to Thrall and accept [QA5726 Hidden Enemies (part 1)].
 [G32.2,35.78Orgrimmar]Next to you, turn in [QT831 The Admiral's Orders].
 [G46.98,53.71 Orgrimmar]Go into Cleft of Shadow and accept [QA813 Finding the Antidote].
-[G42.7,53.5 Orgrimmar]Turn in [QT1859 Therzok][A Rogue]. \\Accept [QT1963 The Shattered Hand]
+[G42.7,53.5 Orgrimmar]Turn in [QT1859 Therzok][A Orc, Rogue].
+Accept [QT1963 The Shattered Hand][A Rogue]
 [G48.2,45.3 Orgrimmar]Turn in [QT1506 Gan'rul's Summons]. \\Accept [QA1501 Creature of the Void][A Warlock]
 Enter Ragefire Chasm[G52.53,49.08Orgrimmar] and die on purpose. Then resurrect at the spirit healer[G47.32,17.87Durotar] outside Orgrimmar.[O]
 [G53.85,25.09Durotar]Do [QC835 Securing the Lines].
@@ -155,6 +156,6 @@ Upgrade First Aid to skillevel 40, then learn Heavy Linen Bandage.
 [G50.8,43.6]Accept [QA840 Conscript of the Horde][A Warlock,Mage,Priest,Rogue,Hunter,Shaman]
 [G62.3,19.33The Barrens]Run west into the Barrens
 Congratulations, you reached the end of this demo created by |cFF69CCF0Ettern - Dreamstate|r
-[NX 12-14 Barrens]
+[NX 12-16 Barrens]
 
 ]], "Ettern")

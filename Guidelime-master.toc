@@ -82,5 +82,6 @@ Guides\Horde\Demo_Durotar_1-4.lua
 
 Guides\Horde\Ettern\Ettern_1-6_Durotar.lua
 Guides\Horde\Ettern\Ettern_6-12_Durotar.lua
+Guides\Horde\Ettern\Ettern_12-16_Barrens.lua
 
 Guides\Horde\SevenLeaves\1-12.lua
