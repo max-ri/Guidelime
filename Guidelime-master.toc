@@ -78,6 +78,9 @@ Guides\Alliance\TUGs\1-9Dwarf,Gnome Starting Zone.lua
 Guides\Alliance\TUGs\1-9Human Starting Zone.lua
 Guides\Alliance\TUGs\9-18Dun Morogh, Loch Modan, Darkshore.lua
 
+Guides\Alliance\WillScarlettOhara\WillScarlettOhara_-_NElf_Hunter_1-6.lua
+Guides\Alliance\WillScarlettOhara\WillScarlettOhara_-_NElf_Hunter_6-12.lua
+
 Guides\Horde\Demo_Durotar_1-4.lua
 
 Guides\Horde\Ettern\Ettern_1-6_Durotar.lua
