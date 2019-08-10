@@ -100,6 +100,7 @@ Guides\Alliance\TUGs\49-50Searing Gorge.lua
 Guides\Alliance\WillScarlettOhara\WillScarlettOhara_-_NElf_Hunter_1-6.lua
 Guides\Alliance\WillScarlettOhara\WillScarlettOhara_-_NElf_Hunter_6-12.lua
 
+
 Guides\Horde\Demo_Durotar_1-4.lua
 
 Guides\Horde\Ettern\Ettern_1-6_Durotar.lua
@@ -107,3 +108,5 @@ Guides\Horde\Ettern\Ettern_6-12_Durotar.lua
 Guides\Horde\Ettern\Ettern_12-16_Barrens.lua
 
 Guides\Horde\SevenLeaves\1-12.lua
+
+Guides\Horde\CauthonLuck\CauthonLuck1-10.lua
