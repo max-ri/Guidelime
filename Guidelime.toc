@@ -1,7 +1,7 @@
 ## Title: Guidelime
 ## Author: Borick of Arthas(EU)
-## Version: 0.025-Beta
-## Interface: 11302  # change to 80200 for BFA
+## Version: 0.027-Beta
+## Interface: 11302
 ## SavedVariables: GuidelimeData
 ## SavedVariablesPerCharacter: GuidelimeDataChar
 ## Notes: Leveling guides with automatic progress updates 
@@ -76,11 +76,37 @@ Guides\Alliance\Sage\Sage_Guide_14-17_Loch_Modan.lua
 
 Guides\Alliance\TUGs\1-9Dwarf,Gnome Starting Zone.lua
 Guides\Alliance\TUGs\1-9Human Starting Zone.lua
-Guides\Alliance\TUGs\9-18Dun Morogh, Loch Modan, Darkshore.lua
+Guides\Alliance\TUGs\9-11 Dun Morogh, Loch Modan.lua
+Guides\Alliance\TUGs\11-15 Darkshore.lua
+Guides\Alliance\TUGs\15-22 DM,Redridge Mountains.lua
+Guides\Alliance\TUGs\22-23 Duskwood.lua
+Guides\Alliance\TUGs\23-25Ashenvale.lua
+Guides\Alliance\TUGs\25-30Wetlands.lua
+Guides\Alliance\TUGs\30-31 Duskwood,Wetlands.lua
+Guides\Alliance\TUGs\31-33Hillsbrad Foothills.lua
+Guides\Alliance\TUGs\33-34Stranglethorn Vale.lua
+Guides\Alliance\TUGs\34-36Desolace.lua
+Guides\Alliance\TUGs\36-38Stranglethorn Vale.lua
+Guides\Alliance\TUGs\38-38 Arathi Highlands.lua
+Guides\Alliance\TUGs\38-39Dustwallow Marsh.lua
+Guides\Alliance\TUGs\39-40Stranglethorn Vale.lua
+Guides\Alliance\TUGs\40-43Badlands,Uldaman.lua
+Guides\Alliance\TUGs\43-44Swamp of Sorrows.lua
+Guides\Alliance\TUGs\44-45STV,Tanaris.lua
+Guides\Alliance\TUGs\45-48Feralas,ZF.lua
+Guides\Alliance\TUGs\48-49Hinterlands,Tanaris.lua
+Guides\Alliance\TUGs\49-50Searing Gorge.lua
+
+Guides\Alliance\WillScarlettOhara\WillScarlettOhara_-_NElf_Hunter_1-6.lua
+Guides\Alliance\WillScarlettOhara\WillScarlettOhara_-_NElf_Hunter_6-12.lua
+
 
 Guides\Horde\Demo_Durotar_1-4.lua
 
 Guides\Horde\Ettern\Ettern_1-6_Durotar.lua
 Guides\Horde\Ettern\Ettern_6-12_Durotar.lua
+Guides\Horde\Ettern\Ettern_12-16_Barrens.lua
 
 Guides\Horde\SevenLeaves\1-12.lua
+
+Guides\Horde\CauthonLuck\CauthonLuck1-10.lua
