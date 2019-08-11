@@ -335,9 +335,11 @@ function addon.parseLine(step, guide, strict, nameOnly)
 		elseif element.t == "OPTIONAL_COMPLETE_WITH_NEXT" then
 			element.text = tag
 			step.completeWithNext = true
-		elseif element. t == "COMPLETE_WITH_NEXT" then
+			step.optional = true
+		elseif element.t == "COMPLETE_WITH_NEXT" then
 			element.text = tag
 			step.completeWithNext = true
+			step.optional = true
 		elseif element.t == "OPTIONAL" then
 			element.text = tag
 			if lastAutoStep ~= nil then

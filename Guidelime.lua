@@ -244,7 +244,7 @@ function addon.loadCurrentGuide()
 
 				if element.t == "ACCEPT" or element.t == "COMPLETE" or element.t == "TURNIN" or element.t == "XP" then
 					if step.manual == nil then step.manual = false end
-					if not element.optional then step.completeWithNext = false end
+					if not element.optional and not step.optional then step.completeWithNext = false end
 				elseif element.t == "TRAIN" or element.t == "VENDOR" or element.t == "REPAIR" or element.t == "SET_HEARTH" or element.t == "GET_FLIGHT_POINT" then
 					step.manual = true
 					if step.completeWithNext == nil then step.completeWithNext = false end
