@@ -1,0 +1,112 @@
+Guidelime.registerGuide(
+[[
+[GA Alliance]
+[N53-55Winterspring,Un'Goro]
+[NX55-56BS,WPL]
+[D This guide was written by TUGs and is totally free, but if you want to support my work use: https://www.youtube.com/user/HydroxXTV]
+This guide was written by TUGs and is totally free, but if you want to support my work use: https://www.youtube.com/user/HydroxXTV
+TurnIn: [QT3909]
+Accept: [QA3912]
+TurnIn: [G31.26,45.16Winterspring][QT6603]
+Accept: [G31.26,45.16Winterspring][QA5082]
+Do: [G31.67,36.42Winterspring][QC5082]
+Do: [G31.67,36.42Winterspring][QC6241]
+Do: [G31.67,36.42Winterspring][QC6241]
+Do: [G31.67,36.42Winterspring][QC5082]
+Do: [G31.67,36.42Winterspring][QC6241]
+Do: [G31.67,36.42Winterspring][QC5082]
+Accept: [G67.25,36.74Winterspring][QA5083]
+Accept: [G61.34,38.97Winterspring][QA6030]
+Accept: [G61.34,38.97Winterspring][QA6028]
+TurnIn: [G31.26,45.16Winterspring][QT5082]
+TurnIn: [G31.26,45.16Winterspring][QT5083]
+Accept: [G31.26,45.16Winterspring][QA5084]
+TurnIn: [G27.73,34.49Winterspring][QT6241]
+TurnIn: [G60.2,5.9Felwood][QT5084]
+Accept: [G21.17,34.3Winterspring][QA5085]
+Fly to Ratchet
+TurnIn: [QT4502]
+TurnIn: [QT5158]
+Accept: [QA5159]
+Fly to Tanaris
+TurnIn: [QT4493]
+At [G 53.9,29.1] use your Videre Elixir and STAY DEAD!!!
+TurnIn: [G53.9,23.4Tanaris][QT3912]
+Accept: [G53.9,29.1Tanaris][QA3913]
+Ressurrect
+TurnIn: [G53.9,29.1Tanaris][QT3913]
+Accept: [G53.81,29.06Tanaris][QA3914]
+Fly to Un'Goro
+TurnIn: [G15.58,74.99Thousand Needles][QT3914]
+Accept: [G15.58,74.99Thousand Needles][QA3941]
+TurnIn: [G13.27,70.45Thousand Needles][QT3941]
+TurnIn: [QT3942]
+Accept: [G14.7,75.32Thousand Needles][QA4492]
+Accept: [G17.02,79.48Thousand Needles][QA4243]
+TurnIn: [G90.38,53.91Silithus][QT974]
+Accept: [G90.38,53.91Silithus][QA980]
+ESCORTQUEST INC! (make sure all people turn in before accepting)
+TurnIn: [G51.9,49.84Un'Goro Crater][QT4492]
+Accept: [G51.9,49.84Un'Goro Crater][QA4491]
+TurnIn: [G14.7,75.32Thousand Needles][QT4491]
+TurnIn: [G34.92,82.27Thousand Needles][QT4243]
+Accept: [G34.92,82.27Thousand Needles][QA4244]
+TurnIn: [G34.92,82.27Thousand Needles][QT4244]
+Accept: [G34.92,82.27Thousand Needles][QA4245]
+TurnIn: [G17.02,79.48Thousand Needles][QT4245]
+Use your [H] Hearthstone.
+Fly to Darkshore
+Set your [H] to Darkshore at [G37,40Darkshore]
+Fly to Ruth'Theran
+TurnIn: [G55.49,92.04Teldrassil][QT978]
+Accept: [G55.49,92.04Teldrassil][QA979]
+Do: [G39.4,84.9Darnassus][QC4441]
+Fly to Ashenvale
+TurnIn: [G13.89,96.07Winterspring][QT5159]
+TurnIn: [G14,95.58Winterspring][QT4441]
+TurnIn: [G14,95.58Winterspring][QT4906]
+Accept: [G14,95.58Winterspring][QA4442]
+TurnIn: [G14,95.58Winterspring][QT4442]
+Run to [G62.5,24.2Felwood]
+Fly to Winterspring
+Accept: [G61.11,38.43Winterspring][QA6604]
+TurnIn: [QT5250]
+Accept: [G51.97,30.38Winterspring][QA5244]
+TurnIn: [G52.13,30.42Winterspring][QT6604]
+TurnIn: [G52.13,30.42Winterspring][QT5244]
+Accept: [G52.13,30.42Winterspring][QA5245]
+Accept: [G52.13,30.42Winterspring][QA4861]
+TurnIn: [G31.26,45.16Winterspring][QT5085]
+TurnIn: [QT980]
+Accept: [G31.26,45.16Winterspring][QA4842]
+TurnIn: [G31.26,45.16Winterspring][QT4842]
+Do: [G52.2,42.21Winterspring][QC5245]
+Do: [G52.2,42.21Winterspring][QC5245]
+Do: [G52.2,42.21Winterspring][QC5245]
+Do: [G52.2,42.21Winterspring][QC5245]
+TurnIn: [G59,59.8Winterspring][QT4861]
+Accept: [G58.99,59.78Winterspring][QA4863]
+TurnIn: [G61.5,60.7Winterspring][QT4863]
+Accept: [G61.44,60.67Winterspring][QA4864]
+Do: [G65.13,60.81Winterspring][QC4864]
+Do: [G65.13,60.81Winterspring][QC4864]
+TurnIn: [G63,59Winterspring][QT979]
+Accept: [G63.07,59.47Winterspring][QA4901]
+TurnIn: [G52.13,30.42Winterspring][QT4864]
+Use your [H] Hearthstone.
+Fly to Ruth'theran
+TurnIn: [QT4901]
+Accept: [QA4902]
+TurnIn: [G35,9Darnassus][QT4902]
+Fly to Darkshore
+Take the boat to Wetlands
+Fly to Ironforge
+TurnIn: [G77.54,11.82Ironforge][QT2977]
+Accept: [G77.54,11.82Ironforge][QA2964]
+TurnIn: [G69.92,18.55Ironforge][QT2964]
+Accept: [G38.36,55.3Ironforge][QA3702]
+Do: [QC3702]
+TurnIn: [G38.36,55.3Ironforge][QT3702]
+Accept: [G38.36,55.3Ironforge][QA3701]
+Fly to Redridge
+]], "TUGs The Ultimate (Leveling) Guides")

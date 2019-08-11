@@ -1,7 +1,7 @@
 Guidelime.registerGuide(
 [[
 [GA Alliance]
-[N1-12Human TUGs Leveling Guide]
+[N1-9Human TUGs Leveling Guide]
 [NX9-11 Dun Morogh, Loch Modan]
 [D This guide was written by TUGs and is totally free, but if you want to support my work use: https://www.youtube.com/user/HydroxXTV]
 This guide was written by TUGs and is totally free, but if you want to support my work use: https://www.youtube.com/user/HydroxXTV

@@ -77,8 +77,8 @@ Guides\Alliance\Sage\Sage_Guide_14-17_Loch_Modan.lua
 Guides\Alliance\TUGs\1-9Dwarf,Gnome Starting Zone.lua
 Guides\Alliance\TUGs\1-9Human Starting Zone.lua
 Guides\Alliance\TUGs\9-11 Dun Morogh, Loch Modan.lua
-Guides\Alliance\TUGs\11-15 Darkshore.lua
-Guides\Alliance\TUGs\15-22 DM,Redridge Mountains.lua
+Guides\Alliance\TUGs\11-18 Darkshore.lua
+Guides\Alliance\TUGs\18-22 DM,Redridge Mountains.lua
 Guides\Alliance\TUGs\22-23 Duskwood.lua
 Guides\Alliance\TUGs\23-25Ashenvale.lua
 Guides\Alliance\TUGs\25-30Wetlands.lua
@@ -96,6 +96,12 @@ Guides\Alliance\TUGs\44-45STV,Tanaris.lua
 Guides\Alliance\TUGs\45-48Feralas,ZF.lua
 Guides\Alliance\TUGs\48-49Hinterlands,Tanaris.lua
 Guides\Alliance\TUGs\49-50Searing Gorge.lua
+Guides\Alliance\TUGs\50-51STV,Tanaris.lua
+Guides\Alliance\TUGs\51-52Un'Goro.lua
+Guides\Alliance\TUGs\52-53Felwood.lua
+Guides\Alliance\TUGs\53-55Winterspring,Un'Goro.lua
+Guides\Alliance\TUGs\55-56BS,WPL.lua
+Guides\Alliance\TUGs\56-60WPL,EPL,BS.lua
 
 Guides\Alliance\WillScarlettOhara\WillScarlettOhara_-_NElf_Hunter_1-6.lua
 Guides\Alliance\WillScarlettOhara\WillScarlettOhara_-_NElf_Hunter_6-12.lua

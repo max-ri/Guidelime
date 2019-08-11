@@ -1,7 +1,7 @@
 Guidelime.registerGuide(
 [[
 [GA Alliance]
-[N15-22 DM,Redridge Mountains]
+[N18-22 DM,Redridge Mountains]
 [NX22-23 Duskwood]
 [D This guide was written by TUGs and is totally free, but if you want to support my work use: https://www.youtube.com/user/HydroxXTV]
 This guide was written by TUGs and is totally free, but if you want to support my work use: https://www.youtube.com/user/HydroxXTV
