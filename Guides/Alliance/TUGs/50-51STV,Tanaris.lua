@@ -6,7 +6,7 @@ Guidelime.registerGuide(
 [D This guide was written by TUGs and is totally free, but if you want to support my work use: https://www.youtube.com/user/HydroxXTV]
 This guide was written by TUGs and is totally free, but if you want to support my work use: https://www.youtube.com/user/HydroxXTV
 Inventory time (sell it all) Were going into BRD soon
-Run to [G48.5,63.8Searing Gorge]]
+Run to [G48.5,63.8Searing Gorge]
 Die in the lava, no seriously, DIE! There is a quest that you can only obtain whilst dead!
 Run back to the Blackrock go into the middle part of it.
 Accept: [G48.6,64.2Searing Gorge][QA3801]
