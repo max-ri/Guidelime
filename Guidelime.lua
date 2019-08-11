@@ -789,20 +789,20 @@ function addon.updateSteps(completedIndexes)
 	if addon.currentGuide == nil then return end
 	if addon.showingTooltip then GameTooltip:Hide(); addon.showingTooltip = false end
 	if completedIndexes == nil then completedIndexes = {} end
-	local time
-	if addon.debugging then time = debugprofilestop() end
+	--local time
+	--if addon.debugging then time = debugprofilestop() end
 	updateStepsCompletion(completedIndexes)
-	if addon.debugging then print("LIME: updateStepsCompletion " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
+	--if addon.debugging then print("LIME: updateStepsCompletion " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	updateStepsActivation()
-	if addon.debugging then print("LIME: updateStepsActivation " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
+	--if addon.debugging then print("LIME: updateStepsActivation " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	fadeoutStep(completedIndexes)
-	if addon.debugging then print("LIME: fadeoutStep " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
+	--if addon.debugging then print("LIME: fadeoutStep " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	local scrollToFirstActive = updateFirstActiveIndex()
-	if addon.debugging then print("LIME: updateFirstActiveIndex " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
+	--if addon.debugging then print("LIME: updateFirstActiveIndex " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	addon.updateStepsMapIcons()
-	if addon.debugging then print("LIME: updateStepsMapIcons " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
+	--if addon.debugging then print("LIME: updateStepsMapIcons " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	addon.updateStepsText(scrollToFirstActive)
-	if addon.debugging then print("LIME: updateStepsText " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
+	--if addon.debugging then print("LIME: updateStepsText " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 end
 
 local function showContextMenu()
