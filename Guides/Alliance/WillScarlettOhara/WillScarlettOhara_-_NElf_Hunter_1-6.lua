@@ -4,6 +4,7 @@ Guidelime.registerGuide([[
 [GANightElf]
 [N1-6Teldrassil]
 [NX6-12Teldrassil]
+[OC]Keep in mind that inventory management is key in the early levels. Sell regularly if you want to be able to [V buy] items, learn your spells or tradeskills. This guide will bring you to Auberdine at lvl12 in about 3h30-4h. Have fun in WoW Classic !
 Accept [QA456] in front of you.
 Destroy Hearthstone[OC]
 Do [QC456]
@@ -26,7 +27,6 @@ Turn in [QT3519 A Friend in Need]
 Accept [QA3521 Iverron's Antidote]
 Go to [V vendor][OC] [G59.8,42.06Teldrassil] to sell
 Turn in [QT457 The Balance of Nature]
-Go to [V vendor] [G59.8,41Teldrassil] to sell[OC]
 Go to the ramp[OC][G57.61,41.66Teldrassil]
 Turn in [QT3117 Etched Sigil][A Hunter]
 Learn spells[T][OC] Serpent sting is a priority, then Aspect of the Monk. Track beast if you can afford it.
@@ -50,8 +50,8 @@ Accept [QA920 Tenaron's Summons]
 Turn in [QT920 Tenaron's Summons] at the top of the tree
 Accept [QA921 Crown of the Earth]
 Do [QC921 Crown of the Earth][G59,33Teldrassil] Jump of the roof
+[OC]Die with unstuck and rez OR go to the ramp on foot.
 Turn in [QT921 Crown of the Earth]
 Accept [QA928 Crown of the Earth part 2]
-[R Repair][OC] and [V]sell.[G59.4,41.06Teldrassil]
 Accept [QA2159 Dolanaar Delivery]
 ]],'Will Scarlett Ohara')
