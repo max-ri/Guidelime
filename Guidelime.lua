@@ -440,7 +440,7 @@ local function updateStepText(i)
 	for id, v in pairs(trackQuest) do
 		if addon.quests[id].logIndex ~= nil and addon.quests[id].objectives ~= nil then
 			if type(v) == "number" then
-				if addon.debugging then print("LIME: objective ", v) end
+				--if addon.debugging then print("LIME: objective", v) end
 				local o = addon.quests[id].objectives[v]
 				if o ~= nil and not o.done and o.desc ~= nil and o.desc ~= "" then
 					if step.active then
