@@ -1030,6 +1030,7 @@ end
 
 
 SLASH_Guidelime1 = "/lime"
+SLASH_Guidelime2 = "/guidelime"
 function SlashCmdList.Guidelime(msg)
 	if msg == '' then addon.showMainFrame()
 	elseif msg == 'debug true' and not addon.debugging then GuidelimeData.debugging = true; ReloadUI()
