@@ -31,8 +31,7 @@ function addon.fillOptions()
 			addon.mainFrame:SetWidth(GuidelimeDataChar.mainFrameWidth) 
 			addon.mainFrame.scrollChild:SetWidth(GuidelimeDataChar.mainFrameWidth)
 		end
-	end)
-	slider:SetScript("OnMouseUp", function()
+	end, function()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateMainFrame()
 		end
@@ -43,8 +42,7 @@ function addon.fillOptions()
 			addon.mainFrame:SetHeight(GuidelimeDataChar.mainFrameHeight) 
 			addon.mainFrame.scrollChild:SetWidth(GuidelimeDataChar.mainFrameWidth)
 		end
-	end)
-	slider:SetScript("OnMouseUp", function()
+	end, function()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateMainFrame()
 		end
@@ -57,8 +55,7 @@ function addon.fillOptions()
 	end)
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -90)
 	
-	slider = addon.addSliderOption(addon.optionsFrame, GuidelimeData, "maxNumOfSteps", 0, 50, 1, L.MAX_NUM_OF_STEPS)
-	slider:SetScript("OnMouseUp", function()
+	slider = addon.addSliderOption(addon.optionsFrame, GuidelimeData, "maxNumOfSteps", 0, 50, 1, L.MAX_NUM_OF_STEPS, nil, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateMainFrame()
 		end
@@ -114,8 +111,7 @@ function addon.fillOptions()
 	function(self)
 		self.editbox:SetText(L["ARROW_STYLE" .. GuidelimeData.arrowStyle])
     	self.editbox:SetCursorPosition(0)
-	end)
-	slider:SetScript("OnMouseUp", function()
+	end, function()
 		if addon.arrowFrame ~= nil then
 			addon.setArrowTexture()
 			addon.updateSteps() 
@@ -132,16 +128,14 @@ function addon.fillOptions()
 	end)
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -50)
 
-	slider = addon.addSliderOption(addon.optionsFrame, GuidelimeData, "maxNumOfStepsGOTO", 0, 50, 1, L.MAX_NUM_OF_STEPS_GOTO)
-	slider:SetScript("OnMouseUp", function()
+	slider = addon.addSliderOption(addon.optionsFrame, GuidelimeData, "maxNumOfStepsGOTO", 0, 50, 1, L.MAX_NUM_OF_STEPS_GOTO, nil, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateSteps()
 		end
 	end)
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -110)
 
-	slider = addon.addSliderOption(addon.optionsFrame, GuidelimeData, "maxNumOfStepsLOC", 0, 50, 1, L.MAX_NUM_OF_STEPS_LOC)
-	slider:SetScript("OnMouseUp", function()
+	slider = addon.addSliderOption(addon.optionsFrame, GuidelimeData, "maxNumOfStepsLOC", 0, 50, 1, L.MAX_NUM_OF_STEPS_LOC,nil, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateSteps()
 		end

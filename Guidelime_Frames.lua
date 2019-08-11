@@ -1,7 +1,7 @@
 local addonName, addon = ...
 local L = addon.L
 
-function addon.addSliderOption(frame, optionsTable, option, min, max, step, text, tooltip, updateFunction)
+function addon.addSliderOption(frame, optionsTable, option, min, max, step, text, tooltip, updateFunction, afterUpdateFunction)
     local slider = CreateFrame("Slider", addonName .. option, frame, "OptionsSliderTemplate")
 	frame.options[option] = slider
     slider.editbox = CreateFrame("EditBox", nil, slider, "InputBoxTemplate")
@@ -27,14 +27,21 @@ function addon.addSliderOption(frame, optionsTable, option, min, max, step, text
         slider.editbox:SetText(tostring(math.floor(slider:GetValue() * 100) / 100))
     	slider.editbox:SetCursorPosition(0)
 		optionsTable[option] = slider:GetValue()
+		if addon.debuggging then print("OnValueChanged", slider:GetValue()) end
 		if updateFunction ~= nil then updateFunction(self) end
     end)
+	slider:SetScript("OnMouseUp", function()
+		if afterUpdateFunction ~= nil then afterUpdateFunction(self) end
+	end)
     slider.editbox:SetScript("OnEnterPressed", function()
         local val = slider.editbox:GetText()
         if tonumber(val) then
-            slider:SetValue(val)
+            slider:SetValue(tonumber(val))
             slider.editbox:ClearFocus()
+			optionsTable[option] = slider:GetValue()
+			if addon.debuggging then print("OnEnterPressed", slider:GetValue()) end
 			if updateFunction ~= nil then updateFunction(self) end
+			if afterUpdateFunction ~= nil then afterUpdateFunction(self) end
         end
     end)
 	if tooltip ~= nil then
