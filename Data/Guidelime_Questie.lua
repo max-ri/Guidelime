@@ -12,6 +12,49 @@ local function reverseZoneData()
 	end
 end
 
+local function bit(p)
+  return 2 ^ (p - 1)  -- 1-based indexing
+end
+
+-- Typical call:  if hasbit(x, bit(3)) then ...
+local function hasbit(x, p)
+  return x % (p + p) >= p       
+end
+
+function addon.getQuestRaces(id)
+	if id == nil or Questie == nil or qData[id] == nil then return end
+	local bitmask = qData[id][6]
+	if bitmask == nil then return end
+	local races = {}
+	for i, race in ipairs({"Human", "Orc", "Dwarf", "NightElf", "Undead", "Troll", "Gnome", "Tauren"}) do
+		if hasbit(bitmask, bit(i)) then 
+			table.insert(races, race) 
+		end
+	end
+	return races
+end
+
+function addon.getQuestClasses(id)
+	if id == nil or Questie == nil or qData[id] == nil then return end
+	local bitmask = qData[id][7]
+	if bitmask == nil then return end
+	local races = {}
+	for i, race in pairs({"Warrior", "Paladin", "Hunter", "Rogue", "Priest", nil, "Shaman", "Mage", "Warlock", nil, "Druid"}) do
+		if hasbit(bitmask, bit(i)) then 
+			table.insert(races, race) 
+		end
+	end
+	return races
+end
+
+function addon.getQuestFaction(id)
+	if id == nil or Questie == nil or qData[id] == nil then return end
+	local bitmask = qData[id][6]
+	if bitmask == nil then return end
+	if bitmask == 77 then return "Alliance" end
+	if bitmask == 178 then return "Horde" end
+end
+
 function addon.getQuestPositionsQuestie(id, typ, index)
 	if id == nil or Questie == nil then return end
 	local quest = qData[id]
