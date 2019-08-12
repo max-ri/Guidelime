@@ -65,7 +65,11 @@ function addon.addQuestTag(guide, selection, id, key, objectiveIndex, text, addC
 	if addCoordinates then
 		local pos = addon.getQuestPosition(id, key, objectiveIndex)
 		if pos ~= nil then
-			coords = "[G" .. pos.x .. "," .. pos.y .. pos.zone .. "]"
+			if pos.radius == 0 then
+				coords = "[G" .. pos.x .. "," .. pos.y .. pos.zone .. "]"
+			else
+				coords = "[G" .. pos.x .. "," .. pos.y .. "," .. (pos.radius + addon.DEFAULT_GOTO_RADIUS) .. pos.zone .. "]"
+			end
 			if firstElement ~= nil and firstElement.index > 1 and firstElement.step.elements[firstElement.index - 1].t == "GOTO" then 
 				firstElement = firstElement.step.elements[firstElement.index - 1] 
 			elseif lastElement ~= nil and #lastElement.step.elements > lastElement.index and lastElement.step.elements[lastElement.index + 1].t == "GOTO" then 

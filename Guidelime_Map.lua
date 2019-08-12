@@ -4,7 +4,10 @@ local L = addon.L
 HBD = LibStub("HereBeDragons-2.0")
 HBDPins = LibStub("HereBeDragons-Pins-2.0")
 
+addon.MAX_MAP_INDEX = 59
+addon.SPECIAL_MAP_INDEX = {KILL = 60, LOOT = 61,  INTERACT = 62, LOC = 63}
 addon.mapIcons = {}
+
 
 local function createIconFrame(t, index, minimap)
     local f = CreateFrame("Button", addonName .. t .. index .. minimap, nil)
@@ -14,7 +17,11 @@ local function createIconFrame(t, index, minimap)
     f:SetHeight(16)
     f.texture = f:CreateTexture(nil, "TOOLTIP")
     f.texture:SetTexture(addon.icons.MAP_MARKER)
-	if index >= 64 or t == "LOC" then index = 63 end
+	if t ~= "GOTO" then
+		index = addon.SPECIAL_MAP_INDEX[t]
+	elseif index > addon.MAX_MAP_INDEX then
+		index = addon.SPECIAL_MAP_INDEX.LOC
+	end
 	f.texture:SetTexCoord((index % 8) / 8, (index % 8 + 1) / 8, math.floor(index / 8) / 8, (math.floor(index / 8) + 1) / 8)
     f.texture:SetWidth(16)
     f.texture:SetHeight(16)
@@ -123,7 +130,11 @@ end
 
 function addon.getMapMarkerText(element)
 	local index = element.mapIndex
-	if index >= 64 or element.t == "LOC" then index = 63 end
+	if element.t ~= "GOTO" then
+		index = addon.SPECIAL_MAP_INDEX[element.t]
+	elseif index > addon.MAX_MAP_INDEX then
+		index = addon.SPECIAL_MAP_INDEX.LOC
+	end
 	return "|T" .. addon.icons.MAP_MARKER .. ":15:15:0:1:512:512:" .. 
 		index % 8 * 64 .. ":" .. (index % 8 + 1) * 64 .. ":" .. 
 		math.floor(index / 8) * 64 .. ":" .. (math.floor(index / 8) + 1) * 64 .. ":::|t"
@@ -176,9 +187,8 @@ function addon.updateArrow()
 end
 
 function addon.showArrow(element)
-	if element.x == nil or element.y == nil or element.mapID == nil or addon.x == nil or addon.y == nil or addon.face == nil then return end
-	addon.arrowX, addon.arrowY = HBD:GetWorldCoordinatesFromZone(element.x / 100, element.y / 100, element.mapID)
-	if addon.arrowX == nil or addon.arrowY == nil then return end
+	if element.wx == nil or element.wy == nil or element.instance ~= addon.instance or addon.x == nil or addon.y == nil or addon.face == nil then return end
+	addon.arrowX, addon.arrowY = element.wx, element.wy
 	
 	if GuidelimeDataChar.showArrow then
 		if addon.arrowFrame == nil then

@@ -29,7 +29,25 @@ function addon.getQuestObjective(id)
 	end
 end
 
--- returns a list of synonyms for quest source / each objective / turn in; e.g. {{"Dealt with The Hogger Situation", "Huge Gnoll Claw", "Hogger"}} for id = 176, typ = "COMPLETE"
+function addon.getQuestRaces(id)
+	if GuidelimeData.dataSourceQuestie and Questie ~= nil then return addon.getQuestRacesQuestie(id) end
+	if id == nil or addon.questsDB[id] == nil then return end
+	return addon.questsDB[id].races
+end
+
+function addon.getQuestClasses(id)
+	if GuidelimeData.dataSourceQuestie and Questie ~= nil then return addon.getQuestClassesQuestie(id) end
+	if id == nil or addon.questsDB[id] == nil then return end
+	return addon.questsDB[id].classes
+end
+
+function addon.getQuestFaction(id)
+	if GuidelimeData.dataSourceQuestie and Questie ~= nil then return addon.getQuestFactionQuestie(id) end
+	if id == nil or addon.questsDB[id] == nil then return end
+	return addon.questsDB[id].faction
+end
+
+-- returns a type (npc/item/object) and a list of names for quest source / each objective / turn in; e.g. {{type="item", names={"Dealt with The Hogger Situation", "Huge Gnoll Claw", "Hogger"}} for id = 176, typ = "COMPLETE"
 function addon.getQuestObjectives(id, typ)
 	if id == nil then return end
 	if typ == nil then typ = "COMPLETE" end
@@ -37,89 +55,90 @@ function addon.getQuestObjectives(id, typ)
 	if addon.questsDB[id] == nil then return end
 	local locale = GetLocale()
 	local ids = {}
+	local objectives = {}
 	if typ == "ACCEPT" then 
 		if addon.questsDB[id].source ~= nil then
 			for i, e in ipairs(addon.questsDB[id].source) do
-				ids[i] = {[e.type] = {e.id}}
+				objectives[i] = {type = e.type, ids = {[e.type] = {e.id}}}
 			end
 		end
 	elseif typ == "TURNIN" then
 		if addon.questsDB[id].deliver ~= nil then
 			for i, e in ipairs(addon.questsDB[id].deliver) do
-				ids[i] = {[e.type] = {e.id}}
+				objectives[i] = {type = e.type, ids = {[e.type] = {e.id}}}
 			end
 		end
 	elseif typ == "COMPLETE" then
 		local c = 1
 		if addon.questsDB[id].kill ~= nil then
 			for i, id in ipairs(addon.questsDB[id].kill) do
-				ids[c] = {npc = {id}}
+				objectives[c] = {type = "monster", ids = {npc = {id}}}
 				c = c + 1
 			end
 		end
 		if addon.questsDB[id].interact ~= nil then
 			for i, id in ipairs(addon.questsDB[id].interact) do
+				objectives[c] = {type = "object", ids = {object = {id}}}
 				ids[c] = {object = {id}}
 				c = c + 1
 			end
 		end
 		if addon.questsDB[id].gather ~= nil then
 			for i, id in ipairs(addon.questsDB[id].gather) do
-				ids[c] = {item = {id}}
+				objectives[c] = {type = "item", ids = {item = {id}}}
 				c = c + 1
 			end
 		end
 	end
-	local names = {}
-	for i, objectiveIds in ipairs(ids) do
-		names[i] = {}
-		if objectiveIds.item ~= nil then
-			for _, itemId in ipairs(objectiveIds.item) do
+	for i, objective in ipairs(objectives) do
+		objective.names = {}
+		if objective.ids.item ~= nil then
+			for _, itemId in ipairs(objective.ids.item) do
 				local item = addon.itemsDB[itemId]
 				if item ~= nil then
 					if item["name_" .. locale] ~= nil then
-						table.insert(names[i], item["name_" .. locale])
+						table.insert(objective.names, item["name_" .. locale])
 					end
-					if not addon.contains(names[i], item.name) then table.insert(names[i], item.name) end
+					if not addon.contains(objective.names, item.name) then table.insert(objective.names, item.name) end
 					if item.drop ~= nil then
 						for _, npcId in ipairs(item.drop) do
-							if objectiveIds.npc == nil then objectiveIds.npc = {} end
-							table.insert(objectiveIds.npc, npcId)
+							if objective.ids.npc == nil then objective.ids.npc = {} end
+							table.insert(objective.ids.npc, npcId)
 						end
 					end
 					if item.object ~= nil then
 						for _, objectId in ipairs(item.object) do
-							if objectiveIds.object == nil then objectiveIds.object = {} end
-							table.insert(objectiveIds.object, objectId)
+							if objective.ids.object == nil then objective.ids.object = {} end
+							table.insert(objective.ids.object, objectId)
 						end
 					end
 				end
 			end
 		end
-		if objectiveIds.npc ~= nil then
-			for _, npcId in ipairs(objectiveIds.npc) do
+		if objective.ids.npc ~= nil then
+			for _, npcId in ipairs(objective.ids.npc) do
 				local creature = addon.creaturesDB[npcId]
 				if creature ~= nil then
 					if creature["name_" .. locale] ~= nil then
-						if not addon.contains(names[i], creature["name_" .. locale]) then table.insert(names[i], creature["name_" .. locale]) end
+						if not addon.contains(objective.names, creature["name_" .. locale]) then table.insert(objective.names, creature["name_" .. locale]) end
 					end
-					if not addon.contains(names[i], creature.name) then table.insert(names[i], creature.name) end
+					if not addon.contains(objective.names, creature.name) then table.insert(objective.names, creature.name) end
 				end
 			end
 		end
-		if objectiveIds.object ~= nil then
-			for _, objectId in ipairs(objectiveIds.object) do
+		if objective.ids.object ~= nil then
+			for _, objectId in ipairs(objective.ids.object) do
 				local object = addon.objectsDB[objectId]
 				if object ~= nil then
 					if object["name_" .. locale] ~= nil then
-						if not addon.contains(names[i], object["name_" .. locale]) then table.insert(names[i], object["name_" .. locale]) end
+						if not addon.contains(objective.names, object["name_" .. locale]) then table.insert(objective.names, object["name_" .. locale]) end
 					end
-					if not addon.contains(names[i], object.name) then table.insert(names[i], object.name) end
+					if not addon.contains(objective.names, object.name) then table.insert(objective.names, object.name) end
 				end
 			end
 		end
 	end	
-	return names
+	return objectives
 end
 
 function addon.getQuestPositions(id, typ, objective)
@@ -233,24 +252,27 @@ local function findCluster(clusters, x, y, instance)
 			local dist = (x - cluster.x) * (x - cluster.x) + (y - cluster.y) * (y - cluster.y)
 			if dist < CLUSTER_DIST * CLUSTER_DIST and (bestDist == nil or bestDist > dist) then
 				bestCluster = cluster
+				bestDist = dist
 			end
 		end
 	else
 		clusters[instance] = {}
 	end
 	if bestCluster == nil then
-		bestCluster = {x = 0, y = 0, count = 0, instance = instance}
+		bestCluster = {x = 0, y = 0, count = 0, radius = 0, instance = instance}
+		bestDist = 0
 		table.insert(clusters[instance], bestCluster)
 	end
-	return bestCluster
+	return bestCluster, bestDist
 end
 
-local function addToCluster(cluster, x, y)
+local function addToCluster(x, y, cluster, dist)
 	cluster.x = (cluster.x * cluster.count + x) / (cluster.count + 1)
 	cluster.y = (cluster.y * cluster.count + y) / (cluster.count + 1)
+	-- this is an approximation only
+	if cluster.radius < dist then cluster.radius = dist end	
 	cluster.count = cluster.count + 1
 	--if addon.debugging then print("LIME: adding to cluster ", cluster.count, cluster.x, cluster.y) end
-	return cluster
 end
 
 local function selectFurthestPosition(positions, clusters)
@@ -280,14 +302,17 @@ function addon.getQuestPosition(id, typ, index)
 		local pos = selectFurthestPosition(positions, clusters)
 		--if addon.debugging then print("LIME: found position", pos.wx, pos.wy, pos.instance) end
 		pos.selected = true
-		local cluster = addToCluster(findCluster(clusters, pos.wx, pos.wy, pos.instance), pos.wx, pos.wy)
+		local cluster, dist = findCluster(clusters, pos.wx, pos.wy, pos.instance)
+		addToCluster(pos.wx, pos.wy, cluster, dist)
 		if maxCluster == nil or cluster.count > maxCluster.count then maxCluster = cluster end
 	end
 	if maxCluster ~= nil then
 		if addon.debugging and maxCluster.count > 1 then print("LIME: biggest cluster of", maxCluster.count, "at", maxCluster.x, maxCluster.y, maxCluster.instance) end
 		local x, y, zone = addon.GetZoneCoordinatesFromWorld(maxCluster.x, maxCluster.y, maxCluster.instance)
 		if x ~= nil then
-			return {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, zone = zone, mapID = addon.mapIDs[zone]}
+			return {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, 
+				wx = maxCluster.x, wy = maxCluster.y, instance = maxCluster.instance,
+				zone = zone, mapID = addon.mapIDs[zone], radius = math.floor(math.sqrt(maxCluster.radius))}
 		else
 			error("error transforming (" .. maxCluster.x .. "," .. maxCluster.y .. " " .. maxCluster.instance .. ") into zone coordinates for quest #" .. id)
 		end

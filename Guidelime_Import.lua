@@ -42,7 +42,7 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 		end
 		for id, active in pairs(activeQuests) do
 			for i, objList in ipairs(addon.getQuestObjectives(id)) do
-				for j, object in ipairs(objList) do
+				for j, object in ipairs(objList.names) do
 					wordListMap[" " .. object:lower() .. "s? "] = function(...) s, e = ...; q = id; objective = i; typ = "C" end
 				end
 			end

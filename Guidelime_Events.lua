@@ -63,12 +63,12 @@ function addon.updateFromQuestLog()
 				q.name = questLog[id].name
 				--if addon.debugging then print("LIME: new log entry ".. id .. " finished", q.finished) end
 			end
-			if q.objectives == nil then q.objectives = {} end
+			if q.objectives == nil or #q.objectives ~= GetNumQuestLeaderBoards(q.logIndex) then q.objectives = {} end
 			for k = 1, GetNumQuestLeaderBoards(q.logIndex) do
-				local desc, _, done = GetQuestLogLeaderBoard(k, addon.quests[id].logIndex)
+				local desc, type, done = GetQuestLogLeaderBoard(k, addon.quests[id].logIndex)
 				if q.objectives[k] == nil or desc ~= q.objectives[k] or done ~= q.objectives[k].done then
 					questChanged = true
-					q.objectives[k] = {desc = desc, done = done}
+					q.objectives[k] = {desc = desc, done = done, type = type}
 				end					
 			end
 		else

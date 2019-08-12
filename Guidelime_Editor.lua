@@ -22,18 +22,23 @@ local function setQuestInfo(id)
 	end
 	local first = true
 	for _, key in ipairs({"ACCEPT", "COMPLETE", "TURNIN"}) do
-		local names = addon.getQuestObjectives(id, key)
-		if names ~= nil and #names > 0 then
+		local objectives = addon.getQuestObjectives(id, key)
+		if objectives ~= nil and #objectives > 0 then
 			if first then text = text .. "\n" end
 			first = false
 			text = text .. L["QUEST_"..key.."_POS"] .. " "
 			local count = 0
-			for index, name in ipairs(names) do
-				text = text .. addon.COLOR_WHITE .. name[1]
-				if #name > 1 then
+			for index, objective in ipairs(objectives) do
+				if objective.type ~= nil then
+					text = text .. "|T" .. addon.icons[objective.type] .. ":12|t"
+				else
+					text = text .. "|T" .. addon.icons[key] .. ":12|t"
+				end
+				text = text .. addon.COLOR_WHITE .. objective.names[1]
+				if #objective.names > 1 then
 					text = text .. "("
-					for i = 2, #name do
-						text = text .. ", " .. name[i]
+					for i = 2, #objective.names do
+						text = text .. ", " .. objective.names[i]
 					end
 					text = text .. ")"
 				end
