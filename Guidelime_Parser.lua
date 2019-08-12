@@ -236,15 +236,15 @@ function addon.parseLine(step, guide, strict, nameOnly)
 				--	error("loading guide \"" .. GuidelimeDataChar.currentGuide.title .. "\": wrong title for quest " .. element.questId .. " \"" .. element.title .. "\" instead of \"" .. addon.questsDB[element.questId].name .. "\" in line \"" .. step.text .. "\"")
 				--end
 				if addon.questsDB[element.questId] ~= nil then
-					if step.race == nil and addon.questsDB[element.questId].races ~= nil then 
+					if step.race == nil and addon.getQuestRaces(element.questId) ~= nil then 
 						step.race = {}
-						for i, r in pairs(addon.questsDB[element.questId].races) do step.race[i] = r end
+						for i, r in pairs(addon.getQuestRaces(element.questId)) do step.race[i] = r end
 					end
-					if step.class == nil and addon.questsDB[element.questId].classes ~= nil then 
+					if step.class == nil and addon.getQuestClasses(element.questId) ~= nil then 
 						step.class = {}
-						for i, r in pairs(addon.questsDB[element.questId].classes) do step.class[i] = r end
+						for i, r in pairs(addon.getQuestClasses(element.questId)) do step.class[i] = r end
 					end
-					if step.faction == nil and addon.questsDB[element.questId].faction ~= nil then step.faction = addon.questsDB[element.questId].faction end
+					if step.faction == nil and addon.getQuestFaction(element.questId) ~= nil then step.faction = addon.getQuestFaction(element.questId) end
 					if addon.questsDB[element.questId].sort ~= nil and addon.mapIDs[addon.questsDB[element.questId].sort] ~= nil then 
 						guide.currentZone = addon.mapIDs[addon.questsDB[element.questId].sort] 
 					end
