@@ -1,6 +1,6 @@
+enable-nolib-creation: no
 package-as: Guidelime
 
 move-folders:
-   Guidelime: .
+   Guidelime/Guidelime : Guidelime
 
-enable-nolib-creation: no
