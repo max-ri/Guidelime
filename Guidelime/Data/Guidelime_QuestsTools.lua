@@ -11,8 +11,8 @@ function addon.getQuestNameById(id)
 	local locale = GetLocale()
 	if addon.questsDB[id] == nil then
 		return nil
-	elseif addon.questsDB[id]["name_" .. locale] ~= nil then
-		return addon.questsDB[id]["name_"..locale]
+	elseif addon["questsDB_" .. locale] ~= nil and addon["questsDB_" .. locale][id] ~= nil and addon["questsDB_" .. locale][id].name ~= nil then
+		return addon["questsDB_" .. locale][id].name
 	else
 		return addon.questsDB[id].name
 	end
@@ -22,8 +22,8 @@ function addon.getQuestObjective(id)
 	local locale = GetLocale()
 	if id == nil or addon.questsDB[id] == nil then
 		return
-	elseif addon.questsDB[id]["objective_" .. locale] ~= nil then
-		return addon.questsDB[id]["objective_"..locale]
+	elseif addon["questsDB_" .. locale] ~= nil and addon["questsDB_" .. locale][id] ~= nil and addon["questsDB_" .. locale][id].objective ~= nil then
+		return addon["questsDB_" .. locale][id].objective
 	else
 		return addon.questsDB[id].objective
 	end
@@ -94,11 +94,11 @@ function addon.getQuestObjectives(id, typ)
 		objective.names = {}
 		if objective.ids.item ~= nil then
 			for _, itemId in ipairs(objective.ids.item) do
+				if addon["itemsDB_" .. locale] ~= nil and addon["itemsDB_" .. locale][itemId] ~= nil then
+					table.insert(objective.names, addon["questsDB_" .. locale][id])
+				end
 				local item = addon.itemsDB[itemId]
 				if item ~= nil then
-					if item["name_" .. locale] ~= nil then
-						table.insert(objective.names, item["name_" .. locale])
-					end
 					if not addon.contains(objective.names, item.name) then table.insert(objective.names, item.name) end
 					if item.drop ~= nil then
 						for _, npcId in ipairs(item.drop) do
@@ -117,22 +117,22 @@ function addon.getQuestObjectives(id, typ)
 		end
 		if objective.ids.npc ~= nil then
 			for _, npcId in ipairs(objective.ids.npc) do
+				if addon["creaturesDB_" .. locale] ~= nil and addon["creaturesDB_" .. locale][npcId] ~= nil then
+					if not addon.contains(objective.names, addon["creaturesDB_" .. locale][npcId]) then table.insert(objective.names, addon["creaturesDB_" .. locale][npcId]) end
+				end
 				local creature = addon.creaturesDB[npcId]
 				if creature ~= nil then
-					if creature["name_" .. locale] ~= nil then
-						if not addon.contains(objective.names, creature["name_" .. locale]) then table.insert(objective.names, creature["name_" .. locale]) end
-					end
 					if not addon.contains(objective.names, creature.name) then table.insert(objective.names, creature.name) end
 				end
 			end
 		end
 		if objective.ids.object ~= nil then
 			for _, objectId in ipairs(objective.ids.object) do
+				if addon["objectsDB_" .. locale] ~= nil and addon["objectsDB_" .. locale][objectId] ~= nil then
+					if not addon.contains(objective.names, addon["objectsDB_" .. locale][objectId]) then table.insert(objective.names, addon["objectsDB_" .. locale][objectId]) end
+				end
 				local object = addon.objectsDB[objectId]
 				if object ~= nil then
-					if object["name_" .. locale] ~= nil then
-						if not addon.contains(objective.names, object["name_" .. locale]) then table.insert(objective.names, object["name_" .. locale]) end
-					end
 					if not addon.contains(objective.names, object.name) then table.insert(objective.names, object.name) end
 				end
 			end

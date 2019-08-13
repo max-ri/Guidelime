@@ -29,6 +29,10 @@ Data\Guidelime_QuestsDB.lua
 Data\Guidelime_CreaturesDB.lua
 Data\Guidelime_ObjectsDB.lua
 Data\Guidelime_ItemsDB.lua
+Data\Guidelime_QuestsDB_Locales.lua
+Data\Guidelime_CreaturesDB_Locales.lua
+Data\Guidelime_ObjectsDB_Locales.lua
+Data\Guidelime_ItemsDB_Locales.lua
 Data\Guidelime_QuestsTools.lua
 Data\Guidelime_Questie.lua
 
@@ -77,8 +81,8 @@ Guides\Alliance\Sage\Sage_Guide_14-17_Loch_Modan.lua
 Guides\Alliance\TUGs\1-9Dwarf,Gnome Starting Zone.lua
 Guides\Alliance\TUGs\1-9Human Starting Zone.lua
 Guides\Alliance\TUGs\9-11 Dun Morogh, Loch Modan.lua
-Guides\Alliance\TUGs\11-15 Darkshore.lua
-Guides\Alliance\TUGs\15-22 DM,Redridge Mountains.lua
+Guides\Alliance\TUGs\11-18 Darkshore.lua
+Guides\Alliance\TUGs\18-22 DM,Redridge Mountains.lua
 Guides\Alliance\TUGs\22-23 Duskwood.lua
 Guides\Alliance\TUGs\23-25Ashenvale.lua
 Guides\Alliance\TUGs\25-30Wetlands.lua
