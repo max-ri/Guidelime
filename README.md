@@ -15,6 +15,10 @@ your favorite guide.
 
 *This is for WoW Classic. It will not run on private servers and/or BFA. (If you only want to take a look at the editor e.g., it will load on BFA if you select "load out of date addons".)*
 
+## Where do I find guides for the addon?
+
+See [list of all available guides](GuideList) for a complete list of guides that have been written for Guidelime so far.
+
 ## How do I write a guide?
 
 <a href="https://github.com/max-ri/Guidelime/wiki/WriteAGuide">How do I write a guide?</a>
