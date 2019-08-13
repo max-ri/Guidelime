@@ -699,9 +699,9 @@ local function addEditButton(typ, prev, point, offsetX, offsetY)
 end
 
 local function customGuideLoaded()
-	if GuidelimeDataChar.currentGuide == nil or GuidelimeDataChar.currentGuide.name == nil or GuidelimeData.customGuides == nil then return end
-	if not GuidelimeDataChar.currentGuide.name:sub(1, #L.CUSTOM_GUIDES) == L.CUSTOM_GUIDES then return end
-	local name = GuidelimeDataChar.currentGuide.name:sub(#L.CUSTOM_GUIDES + 2)
+	if GuidelimeDataChar.currentGuide == nil or GuidelimeData.customGuides == nil then return end
+	if not GuidelimeDataChar.currentGuide:sub(1, #L.CUSTOM_GUIDES) == L.CUSTOM_GUIDES then return end
+	local name = GuidelimeDataChar.currentGuide:sub(#L.CUSTOM_GUIDES + 2)
 	if GuidelimeData.customGuides[name] == nil then return end
 	return name
 end
@@ -752,11 +752,7 @@ function addon.showEditor()
 		local prev = addon.editorFrame.title
 		
 		addon.editorFrame.text1 = addon.editorFrame:CreateFontString(nil, addon.editorFrame, "GameFontNormal")
-		if GuidelimeDataChar.currentGuide ~= nil then
-			addon.editorFrame.text1:SetText(L.CURRENT_GUIDE .. ": |cFFFFFFFF" .. (GuidelimeDataChar.currentGuide.name or "") .. "\n")
-		else
-			addon.editorFrame.text1:SetText(L.CURRENT_GUIDE .. ":\n")
-		end
+		addon.editorFrame.text1:SetText(L.CURRENT_GUIDE .. ": |cFFFFFFFF" .. (GuidelimeDataChar.currentGuide or "") .. "\n")
 		addon.editorFrame.text1:SetPoint("TOPLEFT", prev, "TOPLEFT", 0, -30)
 		prev = addon.editorFrame.text1
 		
@@ -895,7 +891,7 @@ function addon.showEditor()
 			addon.createPopupFrame(msg, function()
 				if GuidelimeData.customGuides == nil then GuidelimeData.customGuides = {} end
 				GuidelimeData.customGuides[guide.name] = guide.text
-				GuidelimeDataChar.currentGuide = {name = L.CUSTOM_GUIDES .. " " .. guide.name, skip = {}}
+				GuidelimeDataChar.currentGuide = L.CUSTOM_GUIDES .. " " .. guide.name
 				ReloadUI()
 			end, true):Show()
 		end)
@@ -920,8 +916,8 @@ function addon.showEditor()
 		addon.editorFrame.discardBtn:SetText(L.DISCARD_CHANGES)
 		addon.editorFrame.discardBtn:SetPoint("BOTTOMLEFT", addon.editorFrame, "BOTTOMLEFT", 380, 20)
 		addon.editorFrame.discardBtn:SetScript("OnClick", function()
-			if GuidelimeDataChar.currentGuide ~= nil and addon.guides[GuidelimeDataChar.currentGuide.name] ~= nil then
-				addon.editorFrame.textBox:SetText(addon.guides[GuidelimeDataChar.currentGuide.name].text)
+			if GuidelimeDataChar.currentGuide ~= nil and addon.guides[GuidelimeDataChar.currentGuide] ~= nil then
+				addon.editorFrame.textBox:SetText(addon.guides[GuidelimeDataChar.currentGuide].text)
 			else
 				addon.editorFrame.textBox:SetText("")
 			end

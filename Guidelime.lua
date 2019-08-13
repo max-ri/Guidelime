@@ -130,6 +130,8 @@ function addon.loadData()
 		editorFrameX = 0,
 		editorFrameY = 0,
 		editorFrameRelative = "CENTER",
+		guideSkip = {},
+		guideSize = {},
 		version = GetAddOnMetadata(addonName, "version")
 	}
 	if GuidelimeData == nil then GuidelimeData = {} end
@@ -143,6 +145,13 @@ function addon.loadData()
 
 	addon.debugging = GuidelimeData.debugging
 
+	GuidelimeDataChar.version:gsub("(%d+).(%d+)", function(major, minor)
+		if tonumber(major) == 0 and tonumber(minor) < 28 then
+			--GuidelimeDataChar.currentGuide.skip was replaced with GuidelimeDataChar.guideSkip and GuidelimeDataChar.currentGuide.name with GuidelimeDataChar.currentGuide. Therefore remove.
+			if GuidelimeDataChar.currentGuide ~= nil then GuidelimeDataChar.currentGuide = nil end
+			GuidelimeDataChar.version = GetAddOnMetadata(addonName, "version")
+		end
+	end, 1)
 	GuidelimeData.version:gsub("(%d+).(%d+)", function(major, minor)
 		if tonumber(major) == 0 and tonumber(minor) < 21 then
 			--autoAddCoordinates default changed to true; reset for everyone
@@ -185,17 +194,12 @@ end
 
 function addon.loadCurrentGuide()
 
-	if GuidelimeDataChar.currentGuide == nil then GuidelimeDataChar.currentGuide = {} end
-	if GuidelimeDataChar.currentGuide.skip == nil then
-		GuidelimeDataChar.currentGuide.skip = {}
-	end
-
 	addon.currentGuide = {}
-	addon.currentGuide.name = GuidelimeDataChar.currentGuide.name
+	addon.currentGuide.name = GuidelimeDataChar.currentGuide
 	addon.currentGuide.steps = {}
 	addon.quests = {}
 	
-	local guide = addon.guides[GuidelimeDataChar.currentGuide.name]
+	local guide = addon.guides[GuidelimeDataChar.currentGuide]
 	
 	if guide == nil then
 		if addon.debugging then
@@ -203,18 +207,22 @@ function addon.loadCurrentGuide()
 			for name in pairs(addon.guides) do
 				print("LIME: " .. name)
 			end
-			print("LIME: guide \"" .. (GuidelimeDataChar.currentGuide.name or "") .. "\" not found")
+			print("LIME: guide \"" .. (GuidelimeDataChar.currentGuide or "") .. "\" not found")
 		end
-		GuidelimeDataChar.currentGuide.name = nil
+		GuidelimeDataChar.currentGuide = nil
 		addon.currentGuide.name = nil
 		return
 	end
 	addon.currentGuide.next = guide.next
 	addon.currentGuide.group = guide.group
+	if GuidelimeDataChar.guideSkip[GuidelimeDataChar.currentGuide] == nil or GuidelimeDataChar.guideSize[GuidelimeDataChar.currentGuide] ~= #guide.steps then
+		GuidelimeDataChar.guideSkip[GuidelimeDataChar.currentGuide] = {}
+		GuidelimeDataChar.guideSize[GuidelimeDataChar.currentGuide] = #guide.steps
+	end
 
 	--print(format(L.LOAD_MESSAGE, addon.currentGuide.name))
 	guide = addon.parseGuide(guide, guide.group)
-	addon.guides[GuidelimeDataChar.currentGuide.name] = guide
+	addon.guides[GuidelimeDataChar.currentGuide] = guide
 
 	local completed = GetQuestsCompleted()
 
@@ -301,18 +309,12 @@ function addon.loadCurrentGuide()
 			if step.completeWithNext == nil then step.compleWithNext = not step.manual end
 			if step.completeWithNext then step.optional = true end
 			if step.optional == nil then step.optional = false end
-			step.skip = GuidelimeDataChar.currentGuide.skip[#addon.currentGuide.steps] ~= nil and GuidelimeDataChar.currentGuide.skip[#addon.currentGuide.steps]
+			step.skip = GuidelimeDataChar.guideSkip[addon.currentGuide.name][#addon.currentGuide.steps] or false
 			step.active = false
 			step.completed = false
 			step.available = true
 		end
 	end
-
-	-- output complete parsed guide for debugging only
-	--if addon.debugging then
-	--	addon.currentGuide.skip = GuidelimeDataChar.currentGuide.skip
-	--	GuidelimeDataChar.currentGuide = addon.currentGuide
-	--end
 end
 
 local function getQuestText(id, title, colored)
@@ -361,13 +363,19 @@ local function getSkipQuests(id, skipQuests, newSkipQuests)
 	return newSkipQuests
 end
 
-local function getQuestObjectiveIcon(o)
-	if o.done then
-		return "|T" .. addon.icons.COMPLETED .. ":12|t"
-	elseif o.type ~= nil then
-		return "|T" .. addon.icons[o.type] .. ":12|t"
-	else
-		return "|T" .. addon.icons.COMPLETE .. ":12|t"
+local function getQuestObjectiveIcons(id, a, b)
+	if a == nil then a = 1; b = #addon.quests[id].objectives end
+	if b == nil then b = a end
+	local text = {}
+	for i = a, b do
+		local o = addon.quests[id].objectives[i]
+		if not o.done then
+			if o.type ~= nil then
+				table.insert(text, "|T" .. addon.icons[o.type] .. ":12|t")
+			else
+				table.insert(text, "|T" .. addon.icons.COMPLETE .. ":12|t")
+			end
+		end
 	end
 	return text
 end
@@ -403,16 +411,7 @@ local function updateStepText(i)
 		elseif element.t == "TURNIN" and not element.finished then
 			text = text .. "|T" .. addon.icons.TURNIN_INCOMPLETE .. ":12|t"
 		elseif element.t == "COMPLETE" then
-			if element.objective ~= nil then
-				local o = addon.quests[element.questId].objectives[element.objective]
-				text = text .. getQuestObjectiveIcon(o)
-			else
-				for _, o in ipairs(addon.quests[element.questId].objectives) do
-					if not o.done then
-						text = text .. getQuestObjectiveIcon(o)
-					end
-				end
-			end
+			text = text .. table.concat(getQuestObjectiveIcons(element.questId, element.objective), "")
 		elseif element.t == "LOC" or element.t == "GOTO" then
 			if element.t == "LOC" and prevElement ~= nil and prevElement.t == "LOC" then
 				-- dont show an icon for subsequent LOC elements
@@ -472,26 +471,15 @@ local function updateStepText(i)
 	end
 	for id, v in pairs(trackQuest) do
 		if addon.quests[id].logIndex ~= nil and addon.quests[id].objectives ~= nil then
-			if type(v) == "number" then
-				--if addon.debugging then print("LIME: objective", v) end
+			if v == true then v = nil end
+			for i, icon in pairs(getQuestObjectiveIcons(id, v)) do
 				local o = addon.quests[id].objectives[v]
-				if o ~= nil and not o.done and o.desc ~= nil and o.desc ~= "" then
+				if not o.done and o.desc ~= nil and o.desc ~= "" then
 					if step.active then
-						text = text .. "\n    - " .. getQuestObjectiveIcon(o) .. o.desc
+						text = text .. "\n    - " .. icon .. o.desc
 					else
 						if tooltip ~= "" then tooltip = tooltip .. "\n" end
-						tooltip = tooltip .. "- " .. getQuestObjectiveIcon(o) .. o.desc
-					end
-				end
-			else
-				for _, o in ipairs(addon.quests[id].objectives) do
-					if not o.done and o.desc ~= nil and o.desc ~= "" then
-						if step.active then
-							text = text .. "\n    - " .. getQuestObjectiveIcon(o) .. o.desc
-						else
-							if tooltip ~= "" then tooltip = tooltip .. "\n" end
-							tooltip = tooltip .. "- " .. getQuestObjectiveIcon(o) .. o.desc
-						end
+						tooltip = tooltip .. "- " .. icon .. o.desc
 					end
 				end
 			end
@@ -855,14 +843,27 @@ local function showContextMenu()
 	}, CreateFrame("Frame", nil, nil, "UIDropDownMenuTemplate"), "cursor", 0 , 0, "MENU");
 end
 
-local function setStepSkip(i, value)
-	local step = addon.currentGuide.steps[i]
-	step.skip = value
-	GuidelimeDataChar.currentGuide.skip[i] = step.skip
-	if not step.skip and GuidelimeDataChar.hideUnavailableSteps then
+local function setStepSkip(value, a, b)
+	if a == nil then a = 1; b = #addon.currentGuide.steps end
+	if b == nil then b = a end
+	local indexes = {}
+	for i = a, b do
+		local step = addon.currentGuide.steps[i]
+		step.skip = value
+		GuidelimeDataChar.guideSkip[addon.currentGuide.name][i] = step.skip
+		table.insert(indexes, i)
+	end
+	if not value and GuidelimeDataChar.hideUnavailableSteps then
 		addon.updateMainFrame()
 	else
-		addon.updateSteps({i})
+		addon.updateSteps(indexes)
+	end
+end
+
+local function skipCurrentSteps()
+	if addon.currentGuide ~= nil and addon.currentGuide.firstActiveIndex ~= nil and
+		addon.currentGuide.lastActiveIndex ~= nil then
+		setStepSkip(true, addon.currentGuide.firstActiveIndex, addon.currentGuide.lastActiveIndex)
 	end
 end
 
@@ -923,14 +924,14 @@ function addon.updateMainFrame()
 						addon.mainFrame.steps[i] = addon.addCheckbox(addon.mainFrame.scrollChild, nil, "") 
 						addon.mainFrame.steps[i]:SetScript("OnClick", function()
 							if not addon.mainFrame.steps[i]:GetChecked() or addon.mainFrame.steps[i].skipText == nil or addon.mainFrame.steps[i].skipText == "" then
-								setStepSkip(i, addon.mainFrame.steps[i]:GetChecked())
+								setStepSkip(addon.mainFrame.steps[i]:GetChecked(), i)
 							else
 								addon.mainFrame.steps[i]:SetChecked(false)
 								local _, lines = addon.mainFrame.steps[i].skipText:gsub("\n", "\n")
 								--if addon.debugging then print("LIME: " .. addon.mainFrame.steps[i].skipText .. lines) end
 								addon.createPopupFrame(addon.mainFrame.steps[i].skipText, function()
 									addon.mainFrame.steps[i]:SetChecked(true)
-									setStepSkip(i, true)
+									setStepSkip(true, i)
 								end, true, 120 + lines * 10):Show()
 							end
 						end)
@@ -1086,22 +1087,6 @@ local function simulateCompleteCurrentSteps()
 		addon.updateSteps()
 	end
 end
-
-local function skipCurrentSteps()
-	if addon.currentGuide ~= nil and addon.currentGuide.firstActiveIndex ~= nil and
-		addon.currentGuide.lastActiveIndex ~= nil then
-		if addon.debugging then print(addon.currentGuide.firstActiveIndex, addon.currentGuide.lastActiveIndex) end
-		for i = addon.currentGuide.firstActiveIndex, addon.currentGuide.lastActiveIndex do
-			local step = addon.currentGuide.steps[i]
-			if not step.completed then
-				step.skip = true
-				GuidelimeDataChar.currentGuide.skip[i] = true
-			end
-		end
-		addon.updateSteps()
-	end
-end
-
 
 SLASH_Guidelime1 = "/lime"
 SLASH_Guidelime2 = "/guidelime"

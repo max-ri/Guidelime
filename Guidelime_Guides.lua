@@ -4,18 +4,18 @@ local L = addon.L
 function addon.loadGuide(name)
 	if addon.debugging then print("LIME: load guide", name) end
 	
-	if GuidelimeDataChar.currentGuide.name ~= nil then
-		addon.guidesFrame.guides[GuidelimeDataChar.currentGuide.name]:SetBackdropColor(0,0,0,0)	
+	if GuidelimeDataChar.currentGuide ~= nil then
+		addon.guidesFrame.guides[GuidelimeDataChar.currentGuide]:SetBackdropColor(0,0,0,0)	
 	end
 	addon.guidesFrame.guides[name]:SetBackdropColor(1,1,0,1)
-	GuidelimeDataChar.currentGuide = {name = name, skip = {}}
+	GuidelimeDataChar.currentGuide = name
 	if addon.guidesFrame ~= nil then
 		addon.guidesFrame.text1:SetText(L.CURRENT_GUIDE .. ": |cFFFFFFFF" .. name .. "\n")
 	end
 	if addon.editorFrame ~= nil then
 		addon.editorFrame.text1:SetText(L.CURRENT_GUIDE .. ": |cFFFFFFFF" .. name .. "\n")
-		if addon.guides[GuidelimeDataChar.currentGuide.name] ~= nil then
-			addon.editorFrame.textBox:SetText(addon.guides[GuidelimeDataChar.currentGuide.name].text)
+		if addon.guides[GuidelimeDataChar.currentGuide] ~= nil then
+			addon.editorFrame.textBox:SetText(addon.guides[GuidelimeDataChar.currentGuide].text)
 		end
 	end
 	addon.loadCurrentGuide()
@@ -30,7 +30,8 @@ function addon.loadGuide(name)
 end
 
 local function resetGuide() 
-	addon.loadGuide(GuidelimeDataChar.currentGuide.name)
+	GuidelimeDataChar.guideSkip[GuidelimeDataChar.currentGuide] = {}
+	addon.loadGuide(GuidelimeDataChar.currentGuide)
 end
 
 local function showUrlPopup(url)
@@ -56,11 +57,7 @@ function addon.fillGuides()
 	local prev = addon.guidesFrame.title
 	
 	addon.guidesFrame.text1 = addon.guidesFrame:CreateFontString(nil, addon.guidesFrame, "GameFontNormal")
-	if GuidelimeDataChar.currentGuide ~= nil then
-		addon.guidesFrame.text1:SetText(L.CURRENT_GUIDE .. ": |cFFFFFFFF" .. (GuidelimeDataChar.currentGuide.name or "") .. "\n")
-	else
-		addon.guidesFrame.text1:SetText(L.CURRENT_GUIDE .. ":\n")
-	end
+	addon.guidesFrame.text1:SetText(L.CURRENT_GUIDE .. ": |cFFFFFFFF" .. (GuidelimeDataChar.currentGuide or "") .. "\n")
 	addon.guidesFrame.text1:SetPoint("TOPLEFT", prev, "TOPLEFT", 0, -30)
 	prev = addon.guidesFrame.text1
 	
@@ -150,7 +147,7 @@ function addon.fillGuides()
 			})
 			addon.guidesFrame.guides[name].name = name
 			addon.guidesFrame.guides[name].guide = guide
-			if name == GuidelimeDataChar.currentGuide.name then
+			if name == GuidelimeDataChar.currentGuide then
 				addon.guidesFrame.guides[name]:SetBackdropColor(1,1,0,1)	
 			else
 				addon.guidesFrame.guides[name]:SetBackdropColor(0,0,0,0)	
@@ -158,16 +155,16 @@ function addon.fillGuides()
 			addon.guidesFrame.guides[name]:SetScript("OnEnter", function(self)
 				addon.guidesFrame.textDetails:SetText(self.guide.details or "")
 				addon.guidesFrame.textDetails.url = self.guide.detailsUrl or ""
-				if self.name ~= GuidelimeDataChar.currentGuide.name then
+				if self.name ~= GuidelimeDataChar.currentGuide then
 					self:SetBackdropColor(0.5,0.5,1,1)	
 				end
 			end)
 			addon.guidesFrame.guides[name]:SetScript("OnLeave", function(self)
-				if GuidelimeDataChar.currentGuide ~= nil and addon.guides[GuidelimeDataChar.currentGuide.name] ~= nil then
-					addon.guidesFrame.textDetails:SetText(addon.guides[GuidelimeDataChar.currentGuide.name].details or "")
-					addon.guidesFrame.textDetails.url = addon.guides[GuidelimeDataChar.currentGuide.name].detailsUrl or ""
+				if GuidelimeDataChar.currentGuide ~= nil and addon.guides[GuidelimeDataChar.currentGuide] ~= nil then
+					addon.guidesFrame.textDetails:SetText(addon.guides[GuidelimeDataChar.currentGuide].details or "")
+					addon.guidesFrame.textDetails.url = addon.guides[GuidelimeDataChar.currentGuide].detailsUrl or ""
 				end
-				if self.name ~= GuidelimeDataChar.currentGuide.name then
+				if self.name ~= GuidelimeDataChar.currentGuide then
 					self:SetBackdropColor(0,0,0,0)	
 				end
 			end)
@@ -198,9 +195,9 @@ function addon.fillGuides()
 	end)
 	addon.guidesFrame.textDetails:SetPoint("TOPLEFT", content, "BOTTOMLEFT", 0, 0)
 	addon.guidesFrame.textDetails:SetTextColor(255,255,255,255)
-	if addon.guides[GuidelimeDataChar.currentGuide.name] ~= nil and addon.guides[GuidelimeDataChar.currentGuide.name].details ~= nil then
-		addon.guidesFrame.textDetails:SetText(addon.guides[GuidelimeDataChar.currentGuide.name].details)
-		addon.guidesFrame.textDetails.url = addon.guides[GuidelimeDataChar.currentGuide.name].detailsUrl or ""
+	if addon.guides[GuidelimeDataChar.currentGuide] ~= nil and addon.guides[GuidelimeDataChar.currentGuide].details ~= nil then
+		addon.guidesFrame.textDetails:SetText(addon.guides[GuidelimeDataChar.currentGuide].details)
+		addon.guidesFrame.textDetails.url = addon.guides[GuidelimeDataChar.currentGuide].detailsUrl or ""
 	end
 	
 	addon.guidesFrame.loadBtn = CreateFrame("BUTTON", nil, addon.guidesFrame, "UIPanelButtonTemplate")
