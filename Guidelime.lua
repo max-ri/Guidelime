@@ -429,22 +429,24 @@ local function updateStepText(i)
 		if addon.quests[element.questId] ~= nil then
 			text = text .. getQuestText(element.questId, element.title, step.active)
 		end
-		if element.available and not element.completed and element.questId ~= nil and not element.optional then
-			local newSkipQuests = getSkipQuests(element.questId, skipQuests)
-			if #newSkipQuests > 0 then
-				if skipText ~= "" then skipText = skipText .. "\n\n" end
-				if #newSkipQuests == 1 then
-					skipText = skipText .. L.STEP_FOLLOWUP_QUEST:format(getQuestText(element.questId)) ..":\n"
-				else
-					skipText = skipText .. L.STEP_FOLLOWUP_QUESTS:format(getQuestText(element.questId)) ..":\n"
-				end
-				for _, id in ipairs(newSkipQuests) do
-					skipText = skipText .. "\n|T" .. addon.icons.UNAVAILABLE .. ":12|t" .. getQuestText(id)
-				end
-				if #newSkipQuests == 1 then
-					skipText = skipText .. "\n\n" .. L.STEP_FOLLOWUP_QUEST_CONT:format(getQuestText(element.questId))
-				else
-					skipText = skipText .. "\n\n" .. L.STEP_FOLLOWUP_QUESTS_CONT:format(getQuestText(element.questId))
+		if element.available and not element.completed and element.questId ~= nil then
+			if not element.optional then
+				local newSkipQuests = getSkipQuests(element.questId, skipQuests)
+				if #newSkipQuests > 0 then
+					if skipText ~= "" then skipText = skipText .. "\n\n" end
+					if #newSkipQuests == 1 then
+						skipText = skipText .. L.STEP_FOLLOWUP_QUEST:format(getQuestText(element.questId)) ..":\n"
+					else
+						skipText = skipText .. L.STEP_FOLLOWUP_QUESTS:format(getQuestText(element.questId)) ..":\n"
+					end
+					for _, id in ipairs(newSkipQuests) do
+						skipText = skipText .. "\n|T" .. addon.icons.UNAVAILABLE .. ":12|t" .. getQuestText(id)
+					end
+					if #newSkipQuests == 1 then
+						skipText = skipText .. "\n\n" .. L.STEP_FOLLOWUP_QUEST_CONT:format(getQuestText(element.questId))
+					else
+						skipText = skipText .. "\n\n" .. L.STEP_FOLLOWUP_QUESTS_CONT:format(getQuestText(element.questId))
+					end
 				end
 			end
 			if element.t == "COMPLETE" or element.t == "TURNIN" then
