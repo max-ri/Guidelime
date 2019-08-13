@@ -21,7 +21,7 @@ local function hasbit(x, p)
   return x % (p + p) >= p       
 end
 
-function addon.getQuestRaces(id)
+function addon.getQuestRacesQuestie(id)
 	if id == nil or Questie == nil or qData[id] == nil then return end
 	local bitmask = qData[id][6]
 	if bitmask == nil then return end
@@ -34,7 +34,7 @@ function addon.getQuestRaces(id)
 	return races
 end
 
-function addon.getQuestClasses(id)
+function addon.getQuestClassesQuestie(id)
 	if id == nil or Questie == nil or qData[id] == nil then return end
 	local bitmask = qData[id][7]
 	if bitmask == nil then return end
@@ -47,7 +47,7 @@ function addon.getQuestClasses(id)
 	return races
 end
 
-function addon.getQuestFaction(id)
+function addon.getQuestFactionQuestie(id)
 	if id == nil or Questie == nil or qData[id] == nil then return end
 	local bitmask = qData[id][6]
 	if bitmask == nil then return end
@@ -165,6 +165,7 @@ function addon.getQuestPositionsQuestie(id, typ, index)
 	return positions
 end
 
+-- returns a type (npc/item/object) and a list of names for quest source / each objective / turn in; e.g. {{type="item", names={"Dealt with The Hogger Situation", "Huge Gnoll Claw", "Hogger"}} for id = 176, typ = "COMPLETE"
 function addon.getQuestObjectivesQuestie(id, typ)
 	if Questie == nil then return end
 	local quest = qData[id]
@@ -191,7 +192,11 @@ function addon.getQuestObjectivesQuestie(id, typ)
 				table.insert(objList, list[1][j][2])
 			end
 			if npc ~= nil and not addon.contains(objList, npc[1]) then table.insert(objList, npc[1]) end
-			table.insert(objectives, objList)
+			if typ == "COMPLETE" then
+				table.insert(objectives, {type = "monster", names = objList})
+			else
+				table.insert(objectives, {type = "npc", names = objList})
+			end
 		end
 	end
 	if list[2] ~= nil then
@@ -205,7 +210,7 @@ function addon.getQuestObjectivesQuestie(id, typ)
 				table.insert(objList, list[2][j][2])
 			end
 			if obj ~= nil and not addon.contains(objList, obj[1]) then table.insert(objList, obj[1]) end
-			table.insert(objectives, objList)
+			table.insert(objectives, {type = "object", names = objList})
 		end
 	end
 	if list[3] ~= nil then
@@ -231,7 +236,7 @@ function addon.getQuestObjectivesQuestie(id, typ)
 					if not addon.contains(objList, obj[1]) then table.insert(objList, obj[1]) end
 				end
 			end
-			table.insert(objectives, objList)
+			table.insert(objectives, {type = "item", names = objList})
 		end
 	end
 	return objectives
