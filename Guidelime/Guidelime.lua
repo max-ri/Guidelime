@@ -475,7 +475,7 @@ local function updateStepText(i)
 		if addon.quests[id].logIndex ~= nil and addon.quests[id].objectives ~= nil then
 			if v == true then v = nil end
 			for i, icon in pairs(getQuestObjectiveIcons(id, v)) do
-				local o = addon.quests[id].objectives[v]
+				local o = addon.quests[id].objectives[i]
 				if not o.done and o.desc ~= nil and o.desc ~= "" then
 					if step.active then
 						text = text .. "\n    - " .. icon .. o.desc
