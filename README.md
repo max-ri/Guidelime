@@ -17,7 +17,7 @@ your favorite guide.
 
 ## Where do I find guides for the addon?
 
-See [list of all available guides](GuideList) for a complete list of guides that have been written for Guidelime so far.
+See <a href="https://github.com/max-ri/Guidelime/wiki/GuideList">list of all available guides</a> for a complete list of guides that have been written for Guidelime so far.
 
 ## How do I write a guide?
 
