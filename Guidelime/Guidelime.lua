@@ -943,7 +943,7 @@ function addon.updateMainFrame()
 						addon.mainFrame.steps[i].textBox = addon.addMultilineText(addon.mainFrame.steps[i], nil, addon.mainFrame.scrollChild:GetWidth() - 40, "", function(self, button)
 							if button == "RightButton" then
 								showContextMenu()
-							elseif self.url ~= nil and addon.isDoubleClick(self) then
+							elseif self.url ~= nil then
 								addon.showUrlPopup(self.url) 
 							end
 						end)

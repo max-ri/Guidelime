@@ -177,7 +177,7 @@ function addon.fillGuides()
     scrollFrame:SetScrollChild(content)
 
 	addon.guidesFrame.textDetails = addon.addMultilineText(content, nil, 550, nil, function()
-		if addon.guidesFrame.textDetails.url ~= nil and addon.isDoubleClick(addon.guidesFrame.textDetails) then 
+		if addon.guidesFrame.textDetails.url ~= nil then 
 			InterfaceOptionsFrame:Hide()
 			addon.showUrlPopup(addon.guidesFrame.textDetails.url) 
 		end
