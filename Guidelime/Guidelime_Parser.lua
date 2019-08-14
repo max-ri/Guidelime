@@ -232,7 +232,7 @@ function addon.parseLine(step, guide, strict, nameOnly)
 				if objective ~= "" then element.objective = tonumber(objective) end
 				if title == "-" then
 					element.title = ""
-				elseif title ~= "" and (addon.questsDB[id] == nil or title ~= addon.questsDB[id].name) then
+				elseif title ~= "" and (addon.questsDB[element.questId] == nil or title ~= addon.questsDB[element.questId].name) then
 					element.title = title
 				end
 				--if addon.debugging and addon.questsDB[element.questId] == nil then 

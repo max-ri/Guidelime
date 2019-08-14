@@ -95,7 +95,7 @@ function addon.getQuestObjectives(id, typ)
 		if objective.ids.item ~= nil then
 			for _, itemId in ipairs(objective.ids.item) do
 				if addon["itemsDB_" .. locale] ~= nil and addon["itemsDB_" .. locale][itemId] ~= nil then
-					table.insert(objective.names, addon["questsDB_" .. locale][id])
+					table.insert(objective.names, addon["itemsDB_" .. locale][itemId])
 				end
 				local item = addon.itemsDB[itemId]
 				if item ~= nil then
