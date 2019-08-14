@@ -78,13 +78,11 @@ function addon.addCheckOption(frame, optionsTable, option, text, tooltip, update
 end
 
 function addon.isDoubleClick(frame)
-	if frame.timer ~= nil and frame.timer < time() then
-	    frame.timer = nil
-	elseif frame.timer ~= nil and frame.timer == time() then
+	if frame.timer == nil or frame.timer < GetTime() - 1 then
+	    frame.timer = GetTime()
+	elseif frame.timer ~= nil then
 	    frame.timer = nil
 		return true
-	else
-	    frame.timer = time()
 	end
 end
 
