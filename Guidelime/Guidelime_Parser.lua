@@ -120,6 +120,16 @@ function addon.parseGuide(guide, group, strict, nameOnly)
 	end
 end
 
+local function textFormatting(text, color)
+	local url
+	local formatted = text:gsub("(https://[%w%./#%-%?]*)", function(...) url = ...; return "|cFFAAAAAA" .. url .. "|r" end)
+		:gsub("(http://[%w%./#%-%?]*)", function(...) url = ...; return "|cFFAAAAAA" .. url .. "|r" end)
+		:gsub("(www%.[%w%./#%-%?]*)", function(...) if url == nil then url = ... end; return "|cFFAAAAAA" .. url .. "|r" end)
+		:gsub("%*([^%*]+)%*", (color or "|cFFFFD100") .. "%1|r")
+		:gsub("%*%*","%*")
+	return formatted, url
+end
+
 function addon.parseLine(step, guide, strict, nameOnly)
 	if step.text == nil then return end
 	step.elements = {}
@@ -133,6 +143,7 @@ function addon.parseLine(step, guide, strict, nameOnly)
 			local element = {}
 			element.t = "TEXT"
 			element.text = text
+			element.text, element.url = textFormatting(text, addon.COLOR_WHITE)
 			element.startPos = pos
 			pos = pos + #text
 			element.endPos = pos - 1
@@ -184,12 +195,7 @@ function addon.parseLine(step, guide, strict, nameOnly)
 			end
 		elseif element.t == "DETAILS" then
 			guide.detailsRaw = tag:gsub("%s*(.*)", "%1", 1)
-			guide.details = guide.detailsRaw
-				:gsub("(https://[%w%./#%-%?]*)", function(url) guide.detailsUrl = url; return "|cFFAAAAAA" .. url .. "|r" end)
-				:gsub("(http://[%w%./#%-%?]*)", function(url) guide.detailsUrl = url; return "|cFFAAAAAA" .. url .. "|r" end)
-				:gsub("(www%.[%w%./#%-%?]*)", function(url) if guide.detailsUrl == nil then guide.detailsUrl = url end; return "|cFFAAAAAA" .. url .. "|r" end)
-				:gsub("%*([^%*]+)%*", "|cFFFFD100%1|r")
-				:gsub("%*%*","%*")
+			guide.details, guide.detailsUrl = textFormatting(guide.detailsRaw)
 		elseif element.t == "GUIDE_APPLIES" then
 			tag:upper():gsub(" ",""):gsub("([^,]+)", function(c)
 				if addon.isClass(c) then
@@ -359,7 +365,7 @@ function addon.parseLine(step, guide, strict, nameOnly)
 	if t ~= nil and t ~= "" then
 		local element = {}
 		element.t = "TEXT"
-		element.text = t
+		element.text, element.url = textFormatting(t, addon.COLOR_WHITE)
 		element.startPos = pos 
 		element.endPos = pos + #t - 1
 		element.index = #step.elements + 1

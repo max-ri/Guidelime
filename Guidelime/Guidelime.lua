@@ -389,6 +389,7 @@ local function updateStepText(i)
 	local skipText = ""
 	local skipQuests = {}
 	local trackQuest = {}
+	local url
 	if addon.debugging then text = text .. step.line .. " " end
 	if not step.active then
 		text = text .. addon.COLOR_INACTIVE
@@ -425,6 +426,7 @@ local function updateStepText(i)
 		end
 		if element.text ~= nil then
 			text = text .. element.text
+			if element.url ~= nil then url = element.url end
 		end
 		if addon.quests[element.questId] ~= nil then
 			text = text .. getQuestText(element.questId, element.title, step.active)
@@ -490,6 +492,7 @@ local function updateStepText(i)
 	if text ~= addon.mainFrame.steps[i].textBox:GetText() then
 		addon.mainFrame.steps[i].textBox:SetText(text)
 	end
+	addon.mainFrame.steps[i].textBox.url = url
 	addon.mainFrame.steps[i].skipText = skipText
 	if GuidelimeData.showTooltips then
 		addon.mainFrame.steps[i].textBox.tooltip = tooltip
@@ -938,8 +941,10 @@ function addon.updateMainFrame()
 							end
 						end)
 						addon.mainFrame.steps[i].textBox = addon.addMultilineText(addon.mainFrame.steps[i], nil, addon.mainFrame.scrollChild:GetWidth() - 40, "", function(self, button)
-							if (button == "RightButton") then
+							if button == "RightButton" then
 								showContextMenu()
+							elseif self.url ~= nil and addon.isDoubleClick(self) then
+								addon.showUrlPopup(self.url) 
 							end
 						end)
 						addon.mainFrame.steps[i].textBox:SetPoint("TOPLEFT", addon.mainFrame.steps[i], "TOPLEFT", 35, -9)

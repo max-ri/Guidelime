@@ -190,3 +190,14 @@ function addon.createPopupFrame(message, okFunc, hasCancel, height)
 
 	return addon.popupFrame
 end
+
+function addon.showUrlPopup(url)
+	local popup = addon.createPopupFrame(nil, nil, false, 80)
+	popup.textboxName = addon.addTextbox(popup, L.URL, 420)
+	popup.textboxName.text:SetPoint("TOPLEFT", 20, -20)
+	popup.textboxName:SetPoint("TOPLEFT", 120, -20)
+	popup.textboxName:SetText(url)
+	popup.textboxName:SetFocus()
+	popup.textboxName:HighlightText(false)
+	popup:Show()
+end

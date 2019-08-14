@@ -34,17 +34,6 @@ local function resetGuide()
 	addon.loadGuide(GuidelimeDataChar.currentGuide)
 end
 
-local function showUrlPopup(url)
-	local popup = addon.createPopupFrame(nil, nil, false, 80)
-	popup.textboxName = addon.addTextbox(popup, L.URL, 420)
-	popup.textboxName.text:SetPoint("TOPLEFT", 20, -20)
-	popup.textboxName:SetPoint("TOPLEFT", 120, -20)
-	popup.textboxName:SetText(url)
-	popup.textboxName:SetFocus()
-	popup.textboxName:HighlightText(false)
-	popup:Show()
-end
-
 function addon.fillGuides()
     addon.guidesFrame = CreateFrame("Frame", nil, UIParent)
     addon.guidesFrame.name = GetAddOnMetadata(addonName, "title")
@@ -190,7 +179,7 @@ function addon.fillGuides()
 	addon.guidesFrame.textDetails = addon.addMultilineText(content, nil, 550, nil, function()
 		if addon.guidesFrame.textDetails.url ~= nil and addon.isDoubleClick(addon.guidesFrame.textDetails) then 
 			InterfaceOptionsFrame:Hide()
-			showUrlPopup(addon.guidesFrame.textDetails.url) 
+			addon.showUrlPopup(addon.guidesFrame.textDetails.url) 
 		end
 	end)
 	addon.guidesFrame.textDetails:SetPoint("TOPLEFT", content, "BOTTOMLEFT", 0, 0)
