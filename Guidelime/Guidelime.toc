@@ -100,6 +100,12 @@ Guides\Alliance\TUGs\44-45STV,Tanaris.lua
 Guides\Alliance\TUGs\45-48Feralas,ZF.lua
 Guides\Alliance\TUGs\48-49Hinterlands,Tanaris.lua
 Guides\Alliance\TUGs\49-50Searing Gorge.lua
+Guides\Alliance\TUGs\50-51STV,Tanaris.lua
+Guides\Alliance\TUGs\51-52Un'Goro.lua
+Guides\Alliance\TUGs\52-53Felwood.lua
+Guides\Alliance\TUGs\53-55Winterspring,Un'Goro.lua
+Guides\Alliance\TUGs\55-56BS,WPL.lua
+Guides\Alliance\TUGs\56-60WPL,EPL,BS.lua
 
 Guides\Alliance\WillScarlettOhara\WillScarlettOhara_-_NElf_Hunter_1-6.lua
 Guides\Alliance\WillScarlettOhara\WillScarlettOhara_-_NElf_Hunter_6-12.lua
