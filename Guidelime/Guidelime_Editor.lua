@@ -787,8 +787,8 @@ function addon.showEditor()
 	    addon.editorFrame.scrollFrame:SetScrollChild(content)
 		
 		addon.editorFrame.textBox = CreateFrame("EditBox", nil, content)
-		if GuidelimeDataChar.currentGuide ~= nil and addon.guides[GuidelimeDataChar.currentGuide.name] ~= nil then
-			addon.editorFrame.textBox:SetText(addon.guides[GuidelimeDataChar.currentGuide.name].text)
+		if GuidelimeDataChar.currentGuide ~= nil and addon.guides[GuidelimeDataChar.currentGuide] ~= nil then
+			addon.editorFrame.textBox:SetText(addon.guides[GuidelimeDataChar.currentGuide].text)
 		end
 		addon.editorFrame.textBox:SetMultiLine(true)
 		addon.editorFrame.textBox:SetFontObject("ChatFontNormal")
