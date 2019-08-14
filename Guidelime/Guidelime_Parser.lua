@@ -122,9 +122,9 @@ end
 
 local function textFormatting(text, color)
 	local url
-	local formatted = text:gsub("(https://[%w%./#%-%?]*)", function(...) url = ...; return "|cFFAAAAAA" .. url .. "|r" end)
-		:gsub("(http://[%w%./#%-%?]*)", function(...) url = ...; return "|cFFAAAAAA" .. url .. "|r" end)
-		:gsub("(www%.[%w%./#%-%?]*)", function(...) if url == nil then url = ... end; return "|cFFAAAAAA" .. url .. "|r" end)
+	local formatted = text:gsub("(https://[%w%./#%-%?=#]*)", function(...) url = ...; return "|cFFAAAAAA" .. url .. "|r" end)
+		:gsub("(http://[%w%./#%-%?=#]*)", function(...) url = ...; return "|cFFAAAAAA" .. url .. "|r" end)
+		:gsub("(www%.[%w%./#%-%?=#]*)", function(...) if url == nil then url = ... end; return "|cFFAAAAAA" .. url .. "|r" end)
 		:gsub("%*([^%*]+)%*", (color or "|cFFFFD100") .. "%1|r")
 		:gsub("%*%*","%*")
 	return formatted, url
