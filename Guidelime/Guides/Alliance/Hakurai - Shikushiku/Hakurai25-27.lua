@@ -1,8 +1,9 @@
 Guidelime.registerGuide(
 [[
-[N Part9 25 - 27 Wetlands]
+[N 25 - 27 Wetlands]
 [GA Alliance]
-[D Hakurai's Guide - brought to you by *Shikushiku*\\https://www.guilded.gg/KOABD\\www.twitch.tv/hakurai]
+[D Made from Hakurai's Video Guide\\ https://twitch.tv/hakurai \\ Our guild is recruiting! \\ https://www.guilded.gg/KOABD]
+Always grind mobs that give you xp in between locations, ALWAYS GRIND MOBS OR YOU WILL FALL BEHIND IN XP![OC]
 [G10.8,59.6Wetlands]Accept [QA463]
 Accept [QA288]
 [G10.6,61]Set hearth to [S Menethil Harbor]

@@ -1,8 +1,9 @@
 Guidelime.registerGuide(
 [[
-[N Part7 20 - 22 Darkshore]
+[N 20 - 22 Darkshore]
 [GA Alliance]
-[D Hakurai's Guide - brought to you by *Shikushiku*\\https://www.guilded.gg/KOABD\\www.twitch.tv/hakurai]
+[D Made from Hakurai's Video Guide\\ https://twitch.tv/hakurai \\ Our guild is recruiting! \\ https://www.guilded.gg/KOABD]
+Always grind mobs that give you xp in between locations, ALWAYS GRIND MOBS OR YOU WILL FALL BEHIND IN XP![OC]
 Only the Warrior Class Quest will be coevered from here on out, other classes wont even see the steps involved in it. If you want to do your class quest take a break from the guide at any point to do it.[OC]
 [G37,81.4Stormwind City][T]Train Mage Skills [A Mage][OC]
 [G25.4,78.4Stormwind City][T]Train Warlock Skills[A Warlock][OC]

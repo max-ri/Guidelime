@@ -1,9 +1,9 @@
 Guidelime.registerGuide(
 [[
-[N Part4 12 - 14 Loch Modan]
+[N 12 - 14 Loch Modan]
 [GA Alliance]
-[D Hakurai's Guide - brought to you by *Shikushiku*\\https://www.guilded.gg/KOABD\\www.twitch.tv/hakurai]
-[G51.6,12.4Stormwind City]Accept [QA353]
+[D Made from Hakurai's Video Guide\\ https://twitch.tv/hakurai \\ Our guild is recruiting! \\ https://www.guilded.gg/KOABD]
+Always grind mobs that give you xp in between locations, ALWAYS GRIND MOBS OR YOU WILL FALL BEHIND IN XP![OC]
 Enter the Deeprun Tram and Ride it to Ironforge. [OC]
 On the IF side accept [QA6661]
 Complete [QC6661]
@@ -20,7 +20,8 @@ Head into the Quarry and complete [QC433] and [QC432]
 [G68.8,55.8][V] Vendor and Repair 
 [G23.4,74.6Loch Modan]Accept [QA224]
 Accept [QA267]
-[G29,59.4]Kill troggs for [QC224] and [QC267]
+YOU PROBABLY WANT ANOTHER PERSON TO HELP WITH THIS QUEST[OC]
+[G29,72]Head into the valley to Kill troggs for [QC224] and [QC267]
 [G23.4,76.2]Turn in[QT224]
 Turn in[QT267]
 Accept [QA237]

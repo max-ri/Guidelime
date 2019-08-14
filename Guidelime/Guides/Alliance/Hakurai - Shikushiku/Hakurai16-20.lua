@@ -1,8 +1,9 @@
 Guidelime.registerGuide(
 [[
-[N Part6 16 - 20 Westfall]
+[N 16 - 20 Westfall]
 [GA Alliance]
-[D Hakurai's Guide - brought to you by *Shikushiku*\\https://www.guilded.gg/KOABD\\www.twitch.tv/hakurai]
+[D Made from Hakurai's Video Guide\\ https://twitch.tv/hakurai \\ Our guild is recruiting! \\ https://www.guilded.gg/KOABD]
+Always grind mobs that give you xp in between locations, ALWAYS GRIND MOBS OR YOU WILL FALL BEHIND IN XP![OC]
 [G52,40.2Moonglade][T]Druids Teleport the Moonglade and train your skills before continuing the guide.[A Druid]
 [H]Hearth to Ironforge
 [G25.2,10.2Ironforge][T]Train Priest skills[A Priest]

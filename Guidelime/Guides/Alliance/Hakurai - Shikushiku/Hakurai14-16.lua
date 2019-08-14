@@ -1,8 +1,9 @@
 Guidelime.registerGuide(
 [[
-[N Part5 14 - 16 Darkshore]
+[N 14 - 16 Darkshore]
 [GA Alliance]
-[D Hakurai's Guide - brought to you by *Shikushiku*\\https://www.guilded.gg/KOABD\\www.twitch.tv/hakurai]
+[D Made from Hakurai's Video Guide\\ https://twitch.tv/hakurai \\ Our guild is recruiting! \\ https://www.guilded.gg/KOABD]
+Always grind mobs that give you xp in between locations, ALWAYS GRIND MOBS OR YOU WILL FALL BEHIND IN XP![OC]
 [G35.8,43.6Darkshore]Accept [QA963]
 [G36.7,46.3]Accept [QA983]
 [G37.4,40.2]Accept [QA954]
@@ -81,5 +82,5 @@ Grind to [XP16]If you aren't yet
 [G36.6,45.4]Turn in[QT4723]
 [G37,41.2][V]Sell trash and repair, keep your murloc eyes
 [G37.3,43.8]Mail your herbs to your alt[OC]
-[NX 16-20 Westfall]
+[NX Westfall 16-20]
 ]],"Hakurai - by Shikushiku")

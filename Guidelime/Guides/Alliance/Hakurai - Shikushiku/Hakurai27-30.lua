@@ -1,8 +1,9 @@
 Guidelime.registerGuide(
 [[
-[N Part11 27 - 30 Redridge]
+[N 27 - 30 Redridge]
 [GA Alliance]
-[D Hakurai's Guide - brought to you by *Shikushiku*\\https://www.guilded.gg/KOABD\\www.twitch.tv/hakurai]
+[D Made from Hakurai's Video Guide\\ https://twitch.tv/hakurai \\ Our guild is recruiting! \\ https://www.guilded.gg/KOABD]
+Always grind mobs that give you xp in between locations, ALWAYS GRIND MOBS OR YOU WILL FALL BEHIND IN XP![OC]
 [G31.6,57.8Redridge Mountains]Accept [QA128]
 [G31,47.4]Accept [QA126]
 [G29.6,44.4]Accept [QA91]
@@ -138,5 +139,5 @@ Accept [QA270]
 Accept [QA1248]
 Try to do stockades now if possible, but you'll have one more chance later[OC]
 [G66.2,62.4]Fly to [F Wetlands]
-[NX 30 - 30 Various]
+[NX 30 - 33 Various]
 ]],"Hakurai - by Shikushiku")

@@ -46,8 +46,7 @@ Guides\Alliance\Hakurai - Cowcium\Hakurai_Redridge_Mountains_+_Duskwood_27-30.lu
 Guides\Alliance\Hakurai - Cowcium\Hakurai_Westfall_16-20.lua
 Guides\Alliance\Hakurai - Cowcium\Hakurai_Wetlands_25-27.lua
 
-Guides\Alliance\Hakurai - Shikushiku\Hakurai1-6.lua
-Guides\Alliance\Hakurai - Shikushiku\Hakurai10-12.lua
+Guides\Alliance\Hakurai - Shikushiku\Hakurai1-12.lua
 Guides\Alliance\Hakurai - Shikushiku\Hakurai12-14.lua
 Guides\Alliance\Hakurai - Shikushiku\Hakurai14-16.lua
 Guides\Alliance\Hakurai - Shikushiku\Hakurai16-20.lua
@@ -55,7 +54,14 @@ Guides\Alliance\Hakurai - Shikushiku\Hakurai20-22.lua
 Guides\Alliance\Hakurai - Shikushiku\Hakurai22-25.lua
 Guides\Alliance\Hakurai - Shikushiku\Hakurai25-27.lua
 Guides\Alliance\Hakurai - Shikushiku\Hakurai27-30.lua
-Guides\Alliance\Hakurai - Shikushiku\Hakurai6-10.lua
+Guides\Alliance\Hakurai - Shikushiku\Hakurai30-33.lua
+Guides\Alliance\Hakurai - Shikushiku\Hakurai33-36.lua
+Guides\Alliance\Hakurai - Shikushiku\Hakurai36-37.lua
+Guides\Alliance\Hakurai - Shikushiku\Hakurai37-39.lua
+Guides\Alliance\Hakurai - Shikushiku\Hakurai39-42.lua
+Guides\Alliance\Hakurai - Shikushiku\Hakurai42-45.lua
+Guides\Alliance\Hakurai - Shikushiku\Hakurai45-47.lua
+Guides\Alliance\Hakurai - Shikushiku\Hakurai47-49.lua
 
 Guides\Alliance\Judgement\1-15_Judgement_leveling_guide.lua
 

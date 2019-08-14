@@ -1,8 +1,9 @@
 Guidelime.registerGuide(
 [[
-[N Part8 22 - 25 Redridge]
+[N 22 - 25 Redridge]
 [GA Alliance]
-[D Hakurai's Guide - brought to you by *Shikushiku*\\https://www.guilded.gg/KOABD\\www.twitch.tv/hakurai]
+[D Made from Hakurai's Video Guide\\ https://twitch.tv/hakurai \\ Our guild is recruiting! \\ https://www.guilded.gg/KOABD]
+Always grind mobs that give you xp in between locations, ALWAYS GRIND MOBS OR YOU WILL FALL BEHIND IN XP![OC]
 [G33.4,49Redridge Mountains]Accept [QA20]
 [G32.2,48.6]Accept [QA125]
 Accept [QA89]
