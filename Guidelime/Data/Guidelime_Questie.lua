@@ -113,7 +113,7 @@ function addon.getQuestPositionsQuestie(id, typ, index)
 		local npc = npcData[npcs[j]]
 		--if npc == nil then error("npc " .. npcs[j] .. " not found for quest " .. questid .. typ) end
 		--if addon.debugging then print("LIME: npc", npc[1]) end
-		if npc ~= nil then
+		if npc ~= nil and npc[7] ~= nil then
 			if filterZone == nil then
 				for zone, posList in pairs(npc[7]) do
 					for _, pos in ipairs(posList) do
@@ -131,15 +131,17 @@ function addon.getQuestPositionsQuestie(id, typ, index)
 		local object = objData[objects[j]]
 		if object == nil then error("object " .. objects[j] .. " not found for quest " .. questid .. typ) end
 		--if addon.debugging then print("LIME: object", object[1]) end
-		if filterZone == nil then
-			for zone, posList in pairs(object[4]) do
-				for _, pos in ipairs(posList) do
-					table.insert(positions, {x = pos[1], y = pos[2], zone = zoneDataClassic[zone] or zone})
+		if object[4] ~= nil then
+			if filterZone == nil then
+				for zone, posList in pairs(object[4]) do
+					for _, pos in ipairs(posList) do
+						table.insert(positions, {x = pos[1], y = pos[2], zone = zoneDataClassic[zone] or zone})
+					end
 				end
-			end
-		elseif object[4][filterZone] ~= nil then
-			for _, pos in ipairs(object[4][filterZone]) do
-				table.insert(positions, {x = pos[1], y = pos[2], zone = zoneDataClassic[filterZone]})
+			elseif object[4][filterZone] ~= nil then
+				for _, pos in ipairs(object[4][filterZone]) do
+					table.insert(positions, {x = pos[1], y = pos[2], zone = zoneDataClassic[filterZone]})
+				end
 			end
 		end
 	end
