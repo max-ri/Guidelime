@@ -211,7 +211,7 @@ L["DETAILS"] = "Details"
 L["DISCARD_CHANGES"] = "Änderungen verwerfen"
 L["EDIT_GUIDE"] = "Guide bearbeiten"
 L["EDITOR"] = "Editor"
-L["EDITOR_TOOLTIP_APPLIES"] = [=[Einstellen für welche Faktion/Rassen/Klassen der aktuelle Schritt gültig ist
+L["EDITOR_TOOLTIP_APPLIES"] = [=[Einstellen für welche Faktion/Rassen/Klassen der aktuelle Schritt gültig ist (englische Bezeichnungen)
 z.B.: "[A Dwarf,Rogue]"]=]
 L["EDITOR_TOOLTIP_DETAILS"] = [=[Detaillierte Guidebeschreibung eingeben
 z.B.: "[D Mein eigener Guide für das Startgebiet der Gnome und Zwerge]"]=]
@@ -219,13 +219,13 @@ L["EDITOR_TOOLTIP_FLY"] = [=[Der Spieler soll eine Flugroute nehmen
 d.h.: "[F]"]=]
 L["EDITOR_TOOLTIP_GET_FLIGHT_POINT"] = [=[Der Spieler soll einen neuen Flugpunkt aktivieren
 d.h.: "[P]"]=]
-L["EDITOR_TOOLTIP_GOTO"] = [=[Koordinaten eines Zielpunktes hinzufügen
+L["EDITOR_TOOLTIP_GOTO"] = [=[Koordinaten eines Zielpunktes hinzufügen (englischer Zonenname)
 z.B.: "[G 29.93,71.2 Dun Morogh]"]=]
 L["EDITOR_TOOLTIP_GUIDE_APPLIES"] = [=[Einstellen für welche Faktion/Rassen/Klassen der Guide verwendet werden kann (englische Bezeichnungen)
 z.B.: "[GA Dwarf,Gnome]"]=]
 L["EDITOR_TOOLTIP_HEARTH"] = [=[Der Spieler soll den Ruhestein verwenden
 d.h.: "[H]"]=]
-L["EDITOR_TOOLTIP_LOC"] = "Koordinaten eines zusätzlichen Punktes hinzufügen\\nz.B.: \\\"[L 29.93,71.2 Dun Morogh]\\\""
+L["EDITOR_TOOLTIP_LOC"] = "Koordinaten eines zusätzlichen Punktes hinzufügen (englischer Zonenname)\\nz.B.: \\\"[L 29.93,71.2 Dun Morogh]\\\""
 L["EDITOR_TOOLTIP_NAME"] = [=[Namen und Stufenbereich des Guides angeben
 z.B.: "[N1-6Coldridgetal]"]=]
 L["EDITOR_TOOLTIP_NEXT"] = [=[Namen und Stufenbereich des Guides angeben der auf diesen folgt
@@ -466,8 +466,9 @@ L["XP_TEXT"] = "Texte"
 L["XP_TEXT_TOOLTIP"] = "Texte à afficher. Si omis, cette élément s'affichera comme \"%s\"."
 L["ZONE"] = "Zone"
 
-elseif locale == "ruRU"
+elseif locale == "ruRU" then
 
+L.TITLE = addonName
 L["ADD_QUEST_COORDINATES"] = "Добавить координаты заданий"
 L["ADD_QUEST_COORDINATES_MESSAGE"] = "Добавляет координаты ко всем шагам задания, если они доступны в базе данных. Существующие координаты заданий будут заменены."
 L["ADDED_QUEST_COORDINATES_MESSAGE"] = "%s координаты задания добавлены."
@@ -489,12 +490,12 @@ L["DETAILS"] = "Описание:"
 L["DISCARD_CHANGES"] = "Отменить последнее действие"
 L["EDIT_GUIDE"] = "Редактировать"
 L["EDITOR"] = "Редактирование"
-L["EDITOR_TOOLTIP_APPLIES"] = "Укажите, к какой фракции/рассе/классу применяется текущий шаг, например: «[A Дворф, Разбойник]»"
+L["EDITOR_TOOLTIP_APPLIES"] = "Укажите, к какой фракции/рассе/классу применяется текущий шаг, например: «[A Dwarf,Rogue]»"
 L["EDITOR_TOOLTIP_DETAILS"] = "Введите подробное описание руководства, например: «[D Моё личное руководство по начальной локации Дворфа/Разбойника]»"
 L["EDITOR_TOOLTIP_FLY"] = "Игрок должен воспользоваться воздушным такси. \"[F]\""
 L["EDITOR_TOOLTIP_GET_FLIGHT_POINT"] = "Игрок должен выучить новую точку полёта. \"[P]\""
 L["EDITOR_TOOLTIP_GOTO"] = "Добавить маркер со стрелкой, например: \"[G 29.93,71.2 Dun Morogh]\""
-L["EDITOR_TOOLTIP_GUIDE_APPLIES"] = "Укажите, к какой фракции/рассе/классу относится это руководство, например: \"[GA Дворф, Разбойник]\""
+L["EDITOR_TOOLTIP_GUIDE_APPLIES"] = "Укажите, к какой фракции/рассе/классу относится это руководство, например: \"[GA Dwarf,Rogue]\""
 L["EDITOR_TOOLTIP_HEARTH"] = "Игрок должен воспользоваться камнем возвращения. \"[H]\""
 L["EDITOR_TOOLTIP_LOC"] = "Добавить маркер без стрелки, например: \"[L 29.93,71.2 Dun Morogh]\""
 L["EDITOR_TOOLTIP_NAME"] = "Укажите название и диапазон уровней для руководства, например: \"[N1-6Дун Морог]\""
