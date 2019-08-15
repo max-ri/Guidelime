@@ -128,7 +128,7 @@ end
 local function parseGuide(strict)
 	local guide = addon.parseGuide(addon.editorFrame.textBox:GetText(), nil, strict or false)
 	local l = 0
-	local textWithLines = addon.editorFrame.textBox:GetText():gsub("([^\n\r]-)[\n\r]", function(t)
+	local textWithLines = (addon.editorFrame.textBox:GetText() .. "\n"):gsub("([^\n\r]-)[\n\r]", function(t)
 		l = l + 1 
 		return l .. "|c00000000" .. t:sub(#("" .. l) + 1) .. "|r\n"
 	end)
@@ -170,7 +170,7 @@ local function insertCode(typ, text, replace, firstElement, lastElement)
 			if s ~= nil then
 				replace = true
 				startPos = s
-				newText = oldText:sub(1, startPos - 1) .. newCode .. oldText:sub(endPos + 1)
+				newText = oldText:sub(1, startPos - 1) .. newCode .. oldText:sub(e + 1)
 			end
 		end
 		if not replace then
