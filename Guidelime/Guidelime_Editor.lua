@@ -127,10 +127,15 @@ end
 
 local function parseGuide(strict)
 	local guide = addon.parseGuide(addon.editorFrame.textBox:GetText(), nil, strict or false)
+	local l = 0
+	local textWithLines = addon.editorFrame.textBox:GetText():gsub("([^\n\r]-)[\n\r]", function(t)
+		l = l + 1 
+		return l .. "|c00000000" .. t:sub(#("" .. l) + 1) .. "|r\n"
+	end)
+	addon.editorFrame.linesBox:SetText(textWithLines)
+	
 	if guide == nil then return end
-	local lines = {}
-	for i = 1, guide.lines do lines[i] = i end
-	addon.editorFrame.linesBox:SetText(table.concat(lines, "\n"))
+	
 	local pos = addon.editorFrame.textBox:GetCursorPosition() + 1
 	addon.editorFrame.selection = getElementByPos(pos, guide)
 
@@ -822,7 +827,8 @@ function addon.showEditor()
 		addon.editorFrame.linesBox:SetFontObject("ChatFontNormal")
 		addon.editorFrame.linesBox:SetPoint("TOPLEFT", content, "TOPLEFT", 0, 0)
 		addon.editorFrame.linesBox:SetTextColor(0.6,0.8,1,1)
-		addon.editorFrame.linesBox:SetWidth(25)
+		addon.editorFrame.linesBox:SetWidth(addon.editorFrame:GetWidth() - 390)
+		addon.editorFrame.linesBox:SetFrameLevel(0)
 		
 		addon.editorFrame.questInfoText = addon.editorFrame:CreateFontString(nil, addon.editorFrame, "GameFontNormal")
 		addon.editorFrame.questInfoText:SetText(L.QUEST_INFO)
