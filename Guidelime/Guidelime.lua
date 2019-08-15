@@ -222,6 +222,7 @@ function addon.loadCurrentGuide()
 
 	--print(format(L.LOAD_MESSAGE, addon.currentGuide.name))
 	guide = addon.parseGuide(guide, guide.group)
+	if guide == nil then return end
 	addon.guides[GuidelimeDataChar.currentGuide] = guide
 
 	local completed = GetQuestsCompleted()
