@@ -27,6 +27,7 @@ addon.codes = {
 	NAME = "N",
 	NEXT = "NX",
 	DETAILS = "D",
+	DOWNLOAD = "DL",
 	GUIDE_APPLIES = "GA",
 	APPLIES = "A",
 	OPTIONAL = "O",
@@ -196,6 +197,8 @@ function addon.parseLine(step, guide, strict, nameOnly)
 		elseif element.t == "DETAILS" then
 			guide.detailsRaw = tag:gsub("%s*(.*)", "%1", 1)
 			guide.details, guide.detailsUrl = textFormatting(guide.detailsRaw)
+		elseif element.t == "DOWNLOAD" then
+			guide.download = tag
 		elseif element.t == "GUIDE_APPLIES" then
 			tag:upper():gsub(" ",""):gsub("([^,]+)", function(c)
 				if addon.isClass(c) then
