@@ -364,22 +364,24 @@ local function getSkipQuests(id, skipQuests, newSkipQuests)
 	return newSkipQuests
 end
 
-local function getQuestObjectiveIcons(id, a, b)
-	if a == nil then a = 1; b = #addon.quests[id].objectives end
-	if b == nil then b = a end
-	local text = {}
+local function getQuestObjectiveIcon(id, objective)
+	local a, b = objective, objective
+	if objective == nil then a = 1; b = #addon.quests[id].objectives end
+	local text = ""
+	local icons = {}
 	for i = a, b do
 		local o = addon.quests[id].objectives[i]
 		if not o.done then
-			if o.type ~= nil then
-				table.insert(text, "|T" .. addon.icons[o.type] .. ":12|t")
-			else
-				table.insert(text, "|T" .. addon.icons.COMPLETE .. ":12|t")
+			local type = o.type
+			if type == nil then type = addon.icons.COMPLETE end
+			if icons[type] == nil then
+				text = text .. "|T" .. addon.icons[o.type] .. ":12|t"
+				icons[type] = true
 			end
 		end
 	end
 	return text
-end
+end	
 
 local function updateStepText(i)
 	local step = addon.currentGuide.steps[i]
@@ -413,7 +415,7 @@ local function updateStepText(i)
 		elseif element.t == "TURNIN" and not element.finished then
 			text = text .. "|T" .. addon.icons.TURNIN_INCOMPLETE .. ":12|t"
 		elseif element.t == "COMPLETE" then
-			text = text .. table.concat(getQuestObjectiveIcons(element.questId, element.objective), "")
+			text = text .. getQuestObjectiveIcon(element.questId, element.objective)
 		elseif element.t == "LOC" or element.t == "GOTO" then
 			if element.t == "LOC" and prevElement ~= nil and prevElement.t == "LOC" then
 				-- dont show an icon for subsequent LOC elements
@@ -476,10 +478,12 @@ local function updateStepText(i)
 	end
 	for id, v in pairs(trackQuest) do
 		if addon.quests[id].logIndex ~= nil and addon.quests[id].objectives ~= nil then
-			if v == true then v = nil end
-			for i, icon in pairs(getQuestObjectiveIcons(id, v)) do
+			local a, b = v, v
+			if v == true then a = 1; b = #addon.quests[id].objectives end
+			for i = a, b do
 				local o = addon.quests[id].objectives[i]
 				if not o.done and o.desc ~= nil and o.desc ~= "" then
+					local icon = getQuestObjectiveIcon(id, i)
 					if step.active then
 						text = text .. "\n    - " .. icon .. o.desc
 					else
