@@ -117,11 +117,13 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 				end
 				if #ids2 > 0 then questids = ids2 end
 			end
+			-- bad idea
+			--[[
 			if q ~= nil and #questids > 1 and part == nil then
 				--more than 1 found and no part given? assume part 1
 				local ids2 = addon.getPossibleQuestIdsByName(q, 1)
 				if ids2 ~= nil and #ids2 > 0 then questids = ids2 end
-			end
+			end]]
 			if #questids ~= 1 then err = "" end
 			
 			if #questids ~= 0 then
