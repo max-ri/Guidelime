@@ -23,6 +23,14 @@ See <a href="https://github.com/max-ri/Guidelime/wiki/GuideList">list of all ava
 
 <a href="https://github.com/max-ri/Guidelime/wiki/WriteAGuide">How do I write a guide?</a>
 
+## How do I install the addon?
+
+When you download the zip file from this page (click "Clone or Download" then "Download Zip") you will find a *Guidelime* folder (inside the *Guidelime-master* folder). Copy this folder into your *Addons* folder.
+
+By using this method you will always get to most recent version of the addon (*master*) including all changes that are being made as soon as they are published.
+
+Alternatively you can also download the addon from https://www.curseforge.com/wow/addons/guidelime or install it via the Twitch client. This way you will get the latest stable release. (Which currently is also being updated in average once a day.)
+
 ## What is missing?
 
 #### More guides
