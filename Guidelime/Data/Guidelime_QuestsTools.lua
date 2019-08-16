@@ -203,6 +203,7 @@ function addon.getQuestPositions(id, typ, objective)
 		end
 	end
 	local positions = {}
+	local filterZone
 	if addon.questsDB[id] ~= nil and addon.questsDB[id].zone ~= nil then filterZone = addon.questsDB[id].zone end
 	for _, npcId in ipairs(ids.npc) do
 		local element = addon.creaturesDB[npcId]
@@ -210,21 +211,36 @@ function addon.getQuestPositions(id, typ, objective)
 			for i, pos in ipairs(element.positions) do
 				-- TODO: x/y are still switched in db
 				local x, y, zone
-				if filterZone == nil then
-					x, y, zone = addon.GetZoneCoordinatesFromWorld(pos.y, pos.x, pos.mapid)
-					if x == nil and addon.debugging then print("LIME: error transforming (" .. pos.x .. "," .. pos.y .. " " .. pos.mapid .. ") into zone coordinates for quest #" .. id) end
-				else
+				if filterZone then
 					zone = filterZone
-					x, y = HBD:GetZoneCoordinatesFromWorld(pos.y, pos.x, addon.mapIDs[filterZone], true)
-					if x ~= nil and (x > 1 or x < 0 or y > 1 or y < 0) then x = nil end
+					x, y = HBD:GetZoneCoordinatesFromWorld(pos.y, pos.x, addon.mapIDs[filterZone], false)
+					if x == nil or (x > 1 or x < 0 or y > 1 or y < 0) then --zone coordinates out of bounds
+						x = nil
+						x, y, zone = addon.GetZoneCoordinatesFromWorld(pos.y, pos.x, pos.mapid)
+					end
+				else
+					x, y, zone = addon.GetZoneCoordinatesFromWorld(pos.y, pos.x, pos.mapid)
 				end
 				if x ~= nil then
-					table.insert(positions, {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, zone = zone, mapID = addon.mapIDs[zone], 
+					table.insert(positions, {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, zone = zone, mapID = addon.mapIDs[zone],
 						wx = pos.y, wy = pos.x, instance = pos.mapid})
+				else
+					if addon.debugging then print("LIME: error transforming (" .. pos.x .. "," .. pos.y .. " " .. pos.mapid .. ") into zone coordinates for quest #" .. id) end
 				end
 			end
 		end
-	end	
+	end
+	local filteredPositions = {}
+	for index,position in ipairs(positions) do
+		--filter to positions in the quest zone
+		if positions.zone == addon.questsDB[id].zone then
+			table.insert(filteredPositions,position)
+		end
+	end
+	--Only apply filter if there are still remaining positions after filtering.
+	if #filteredPositions > 0 then
+		positions=filteredPositions
+	end
 	for _, objectId in ipairs(ids.object) do
 		local element = addon.objectsDB[objectId]
 		if element ~= nil and element.positions ~= nil then
