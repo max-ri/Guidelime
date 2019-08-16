@@ -37681,7 +37681,6 @@ addon.questsDB = {
 	      };
 	   };
 	   ["name"] = "Deviate Hides";
-	   ["faction"] = "Alliance";
 	   ["level"] = 17;
 	   ["source"] = {
 	      [1] = {
@@ -42432,7 +42431,6 @@ addon.questsDB = {
 	         ["type"] = "npc";
 	      };
 	   };
-	   ["faction"] = "Alliance";
 	   ["name"] = "The Old Ways";
 	   ["level"] = 40;
 	   ["source"] = {
@@ -57895,7 +57893,6 @@ addon.questsDB = {
 	};
 	[8883] = {
 	   ["objective"] = "Use your Lunar Festival Invitation in the moonlight to travel to Moonglade. Speak with Valadar Starsong in Nighthaven when you arrive.";
-	   ["faction"] = "Alliance";
 	   ["name"] = "Valadar Starsong";
 	   ["sort"] = "Lunar Festival";
 	   ["deliver"] = {
@@ -61820,7 +61817,6 @@ addon.questsDB = {
 	         ["type"] = "npc";
 	      };
 	   };
-	   ["faction"] = "Alliance";
 	   ["name"] = "The Origins of Smithing";
 	   ["level"] = 40;
 	   ["source"] = {
@@ -102062,7 +102058,6 @@ addon.questsDB = {
 	[2757] = {
 	   ["objective"] = "Speak with McGavan in Booty Bay.";
 	   ["next"] = 2760;
-	   ["faction"] = "Alliance";
 	   ["name"] = "Booty Bay or Bust!";
 	   ["gather"] = {
 	      [1] = 8663;
@@ -110815,7 +110810,6 @@ addon.questsDB = {
 	[3512] = {
 	   ["objective"] = "Travel to the eastern part of Winterspring and speak with Umbranse the Spiritspeaker.";
 	   ["zone"] = "Swamp of Sorrows";
-	   ["faction"] = "Alliance";
 	   ["name"] = "In Eranikus' Own Words";
 	   ["sort"] = "Swamp of Sorrows";
 	   ["deliver"] = {
@@ -111261,7 +111255,6 @@ addon.questsDB = {
 	[2759] = {
 	   ["objective"] = "Speak with McGavan in Booty Bay.";
 	   ["next"] = 2760;
-	   ["faction"] = "Alliance";
 	   ["name"] = "In Search of Galvan";
 	   ["gather"] = {
 	      [1] = 8663;
@@ -113475,7 +113468,6 @@ addon.questsDB = {
 	};
 	[3321] = {
 	   ["objective"] = "Wait for Trenton to finish his work.";
-	   ["faction"] = "Alliance";
 	   ["name"] = "Did You Lose This?";
 	   ["reward"] = {
 	      [1] = 10418;
