@@ -457,7 +457,7 @@ local function updateStepText(i)
 			if element.t == "COMPLETE" or element.t == "TURNIN" then
 				if element.objective == nil then
 					trackQuest[element.questId] = true
-				else
+				elseif trackQuest[element.questId] ~= true then
 					if trackQuest[element.questId] == nil then trackQuest[element.questId] = {} end
 					if not addon.contains(trackQuest[element.questId], element.objective) then table.insert(trackQuest[element.questId], element.objective) end
 				end
