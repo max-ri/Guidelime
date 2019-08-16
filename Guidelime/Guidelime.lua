@@ -373,7 +373,7 @@ local function getQuestObjectiveIcon(id, objective)
 		local o = addon.quests[id].objectives[i]
 		if not o.done then
 			local type = o.type
-			if o.type == nil or addon.icons[o.type] then o.type = addon.icons.COMPLETE end
+			if o.type == nil or addon.icons[o.type] == nil then o.type = addon.icons.COMPLETE end
 			if icons[type] == nil then
 				text = text .. "|T" .. addon.icons[o.type] .. ":12|t"
 				icons[type] = true
