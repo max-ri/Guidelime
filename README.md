@@ -35,8 +35,7 @@ Alternatively you can also download the addon from https://www.curseforge.com/wo
 
 #### More guides
 
-Right now there are only demo guides for testing out the addon. Guides for 1-60 Alliance will likely be released shortly after launch. Horde
-guides will be added later on.
+Right now there is only a limited amount of guides available for the addon. At least for alliance full 1-60 guides are available. A complete Horde guide will be added later on.
 
 If you are a guide creator and you have your own guides that you would like to see in Guidelime feel free to contact me.
 
