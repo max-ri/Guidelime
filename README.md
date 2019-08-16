@@ -23,6 +23,10 @@ See <a href="https://github.com/max-ri/Guidelime/wiki/GuideList">list of all ava
 
 <a href="https://github.com/max-ri/Guidelime/wiki/WriteAGuide">How do I write a guide?</a>
 
+## How do I publish a guide?
+
+<a href="https://github.com/max-ri/Guidelime/wiki/PublishAGuide">How do I publish a guide?</a>
+
 ## How do I install the addon?
 
 When you download the zip file from this page (click "Clone or Download" then "Download Zip") you will find a *Guidelime* folder (inside the *Guidelime-master* folder). Copy this folder into your *Addons* folder.
