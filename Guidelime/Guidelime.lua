@@ -456,7 +456,8 @@ local function updateStepText(i)
 			end
 			if element.t == "COMPLETE" or element.t == "TURNIN" then
 				if element.objective == nil then
-					trackQuest[element.questId] = true
+					trackQuest[element.questId] = {}
+					for i = 1; #addon.quests[id].objectives do trackQuest[element.questId][i] = i end
 				else
 					trackQuest[element.questId] = element.objective
 				end
@@ -478,9 +479,7 @@ local function updateStepText(i)
 	end
 	for id, v in pairs(trackQuest) do
 		if addon.quests[id].logIndex ~= nil and addon.quests[id].objectives ~= nil then
-			local a, b = v, v
-			if v == true then a = 1; b = #addon.quests[id].objectives end
-			for i = a, b do
+			for _, i in ipairs(v) do
 				local o = addon.quests[id].objectives[i]
 				if not o.done and o.desc ~= nil and o.desc ~= "" then
 					local icon = getQuestObjectiveIcon(id, i)
