@@ -90,7 +90,9 @@ function Guidelime.registerGuide(guide, group)
 	guide = addon.parseGuide(guide, group, nil, true)
 	if guide == nil then error("There were errors parsing the guide \"" .. guide.name .. "\"") end
 	if addon.debugging then print("LIME: ", guide.name) end
-	if addon.guides[guide.name] ~= nil then error("There is more than one guide with the name \"" .. guide.name .. "\"") end
+	if addon.debugging and addon.guides[guide.name] ~= nil then 
+		print("Guide \"" .. guide.name .. "\" was overwritten") 
+	end
 	addon.guides[guide.name] = guide
 	return guide
 end
@@ -458,7 +460,8 @@ local function updateStepText(i)
 				if element.objective == nil then
 					trackQuest[element.questId] = true
 				else
-					trackQuest[element.questId] = element.objective
+					if trackQuest[element.questId] == nil then trackQuest[element.questId] = {} end
+					table.insert(trackQuest[element.questId], element.objective)
 				end
 			end
 		end
@@ -478,9 +481,8 @@ local function updateStepText(i)
 	end
 	for id, v in pairs(trackQuest) do
 		if addon.quests[id].logIndex ~= nil and addon.quests[id].objectives ~= nil then
-			local a, b = v, v
-			if v == true then a = 1; b = #addon.quests[id].objectives end
-			for i = a, b do
+			if v == true then v = {} for i = 1, #addon.quests[id].objectives do v[i] = i end end
+			for _, i in ipairs(v) do
 				local o = addon.quests[id].objectives[i]
 				if not o.done and o.desc ~= nil and o.desc ~= "" then
 					local icon = getQuestObjectiveIcon(id, i)
