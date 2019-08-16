@@ -480,7 +480,7 @@ local function updateStepText(i)
 	for id, v in pairs(trackQuest) do
 		if addon.quests[id].logIndex ~= nil and addon.quests[id].objectives ~= nil then
 			if v == true then
-				v = {};	for i = 1, #addon.quests[element.questId].objectives do v[i] = i end
+				v = {};	for i = 1, #addon.quests[id].objectives do v[i] = i end
 			end
 			for _, i in ipairs(v) do
 				local o = addon.quests[id].objectives[i]
