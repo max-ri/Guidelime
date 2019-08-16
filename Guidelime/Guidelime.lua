@@ -455,10 +455,10 @@ local function updateStepText(i)
 				end
 			end
 			if element.t == "COMPLETE" or element.t == "TURNIN" then
-				if trackQuest[element.questId] == nil then trackQuest[element.questId] = {} end
 				if element.objective == nil then
-					for i = 1, #addon.quests[element.questId].objectives do trackQuest[element.questId][i] = i end
+					trackQuest[element.questId] = true
 				else
+					if trackQuest[element.questId] == nil then trackQuest[element.questId] = {} end
 					if not addon.contains(trackQuest[element.questId], element.objective) then table.insert(trackQuest[element.questId], element.objective) end
 				end
 			end
@@ -479,6 +479,9 @@ local function updateStepText(i)
 	end
 	for id, v in pairs(trackQuest) do
 		if addon.quests[id].logIndex ~= nil and addon.quests[id].objectives ~= nil then
+			if v == true then
+				v = {};	for i = 1, #addon.quests[element.questId].objectives do v[i] = i end
+			end
 			for _, i in ipairs(v) do
 				local o = addon.quests[id].objectives[i]
 				if not o.done and o.desc ~= nil and o.desc ~= "" then
