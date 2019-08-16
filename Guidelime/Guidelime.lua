@@ -756,10 +756,12 @@ local function updateFirstActiveIndex()
 		end
 	end
 	if addon.mainFrame.message ~= nil then
-		if addon.currentGuide.firstActiveIndex ~= nil then
-			addon.mainFrame.message:Hide()
-		else
-			addon.mainFrame.message:Show()
+		for _, message in ipairs(addon.mainFrame.message) do
+			if addon.currentGuide.firstActiveIndex ~= nil then
+				message:Hide()
+			else
+				message:Show()
+			end
 		end
 	end
 	--if addon.debugging then print("LIME: firstActiveIndex ", addon.currentGuide.firstActiveIndex) end
@@ -892,33 +894,56 @@ function addon.updateMainFrame()
 			end
 		end
 	end
-	if addon.mainFrame.message == nil then
-		addon.mainFrame.message = addon.addMultilineText(addon.mainFrame.scrollChild, "", addon.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
-			if (button == "RightButton") then
-				showContextMenu()
-			elseif addon.currentGuide == nil or addon.currentGuide.name == nil or addon.currentGuide.next == nil then
-				addon.showGuides()
-			else
-				addon.loadGuide(addon.currentGuide.group .. " " .. addon.currentGuide.next)
-			end
-		end)
+	if addon.mainFrame.message ~= nil then
+		for _, message in ipairs(addon.mainFrame.message) do
+			message:Hide()
+		end
 	end
+	addon.mainFrame.message = {}
 	stopFading()
 
-	if addon.currentGuide.name == nil then
+	if addon.currentGuide == nil or addon.currentGuide.name == nil then
 		if addon.debugging then print("LIME: No guide loaded") end
-		addon.mainFrame.message:SetText(L.NO_GUIDE_LOADED)
-		addon.mainFrame.message:SetPoint("TOPLEFT", addon.mainFrame.scrollChild, "TOPLEFT", 10, -25)
-		addon.mainFrame.message:Show()
+		addon.mainFrame.message[1] = addon.addMultilineText(addon.mainFrame.scrollChild, L.NO_GUIDE_LOADED, addon.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
+			if (button == "RightButton") then
+				showContextMenu()
+			else
+				addon.showGuides()
+			end
+		end)
+		addon.mainFrame.message[1]:SetPoint("TOPLEFT", addon.mainFrame.scrollChild, "TOPLEFT", 10, -25)
+		addon.mainFrame.message[1]:Show()
 	else
-		--if addon.debugging then print("LIME: Showing guide " .. addon.currentGuide.name) end
-		if addon.currentGuide.next == nil then
-			addon.mainFrame.message:SetText(L.GUIDE_FINISHED)
+		addon.mainFrame.message = {}
+		if addon.currentGuide.next == nil or #addon.currentGuide.next == 0 then
+			addon.mainFrame.message[1] = addon.addMultilineText(addon.mainFrame.scrollChild, L.GUIDE_FINISHED, addon.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
+				if (button == "RightButton") then
+					showContextMenu()
+				else
+					addon.showGuides()
+				end
+			end)
+			addon.mainFrame.message[1]:Hide()
 		else
-			addon.mainFrame.message:SetText(L.GUIDE_FINISHED_NEXT:format(addon.COLOR_WHITE .. addon.currentGuide.next .. "|r"))
+			for i, next in ipairs(addon.currentGuide.next) do
+				local msg
+				if i == 1 then
+					msg = L.GUIDE_FINISHED_NEXT:format(addon.COLOR_WHITE .. next .. "|r")
+				else
+					msg = L.GUIDE_FINISHED_NEXT_ALT:format(addon.COLOR_WHITE .. next .. "|r")
+				end
+				addon.mainFrame.message[i] = addon.addMultilineText(addon.mainFrame.scrollChild, msg, addon.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
+					if (button == "RightButton") then
+						showContextMenu()
+					else
+						addon.loadGuide(addon.currentGuide.group .. " " .. next)
+					end
+				end)
+				addon.mainFrame.message[i]:Hide()
+			end
 		end
-		addon.mainFrame.message:Hide()
-
+		
+		--if addon.debugging then print("LIME: Showing guide " .. addon.currentGuide.name) end
 		addon.updateSteps()
 
 		local time
@@ -968,10 +993,14 @@ function addon.updateMainFrame()
 				end
 			end
 		end
-		if prev == nil then
-			addon.mainFrame.message:SetPoint("TOPLEFT", addon.mainFrame.scrollChild, "TOPLEFT", 10, -25)
-		else
-			addon.mainFrame.message:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -25, -15)
+
+		for i, message in ipairs(addon.mainFrame.message) do
+			if i == 1 then
+				message:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -25, -15)
+			else
+				message:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -15)
+			end
+			prev = message
 		end
 		
 		if addon.debugging then print("LIME: updateMainFrame " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end

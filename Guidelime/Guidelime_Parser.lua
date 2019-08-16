@@ -77,6 +77,7 @@ function addon.parseGuide(guide, group, strict, nameOnly)
 		local pos = 1
 		guide.lines = 1
 		guide.steps = {}
+		guide.next = {}
 		local t = guide.text:gsub("([^\n\r]-)[\n\r]", function(c)
 			if c ~= nil and c ~= "" then
 				local step = {text = c:gsub("\\\\"," \n"), startPos = pos, line = guide.lines, guide = guide}
@@ -177,7 +178,8 @@ function addon.parseLine(step, guide, strict, nameOnly)
 		if element.t == "NEXT" then
 			local _, c = tag:gsub("%s*(%d*)%s*-%s*(%d*)%s*(.*)", function (minLevel, maxLevel, title)
 				--print("LIME: \"".. (group or "") .. "\",\"" .. minLevel .. "\",\"" .. maxLevel .. "\",\"" .. title .. "\"")
-				guide.next = minLevel .. "-" .. maxLevel .. " " .. title
+				if guide.next == nil then guide.next = {} end
+				table.insert(guide.next, minLevel .. "-" .. maxLevel .. " " .. title)
 			end, 1)
 			if c ~= 1 then
 				addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
