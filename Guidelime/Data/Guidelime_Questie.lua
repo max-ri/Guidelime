@@ -55,7 +55,7 @@ function addon.getQuestFactionQuestie(id)
 	if bitmask == 178 then return "Horde" end
 end
 
-function addon.getQuestPositionsQuestie(id, typ, index)
+function addon.getQuestPositionsQuestie(id, typ, index, filterZone)
 	if id == nil or Questie == nil then return end
 	local quest = qData[id]
 	if quest == nil then return nil end
@@ -108,7 +108,7 @@ function addon.getQuestPositionsQuestie(id, typ, index)
 	local positions = {}
 	local filterZone
 	if addon.zoneDataClassicReverse == nil then reverseZoneData() end
-	if addon.questsDB[id] ~= nil and addon.questsDB[id].zone ~= nil then filterZone = addon.zoneDataClassicReverse[addon.questsDB[id].zone] end
+	if filterZone ~= nil then filterZone = addon.zoneDataClassicReverse[filterZone] end
 	for j = 1, #npcs do
 		local npc = npcData[npcs[j]]
 		--if npc == nil then error("npc " .. npcs[j] .. " not found for quest " .. questid .. typ) end

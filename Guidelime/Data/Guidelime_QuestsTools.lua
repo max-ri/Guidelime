@@ -141,8 +141,8 @@ function addon.getQuestObjectives(id, typ)
 	return objectives
 end
 
-function addon.getQuestPositions(id, typ, objective)
-	if GuidelimeData.dataSourceQuestie and Questie ~= nil then return addon.getQuestPositionsQuestie(id, typ, objective) end
+function addon.getQuestPositions(id, typ, objective, filterZone)
+	if GuidelimeData.dataSourceQuestie and Questie ~= nil then return addon.getQuestPositionsQuestie(id, typ, objective, filterZone) end
 	if id == nil or addon.questsDB[id] == nil then return end
 	local ids = {npc = {}, object = {}, item = {}}
 	if typ == "ACCEPT" then 
@@ -203,7 +203,6 @@ function addon.getQuestPositions(id, typ, objective)
 		end
 	end
 	local positions = {}
-	if addon.questsDB[id] ~= nil and addon.questsDB[id].zone ~= nil then filterZone = addon.questsDB[id].zone end
 	for _, npcId in ipairs(ids.npc) do
 		local element = addon.creaturesDB[npcId]
 		if element ~= nil and element.positions ~= nil then
@@ -296,8 +295,13 @@ end
 function addon.getQuestPosition(id, typ, index)
 	local clusters = {}
 	local maxCluster	
-	local positions = addon.getQuestPositions(id, typ, index)
+	local filterZone
+	if addon.questsDB[id] ~= nil and addon.questsDB[id].zone ~= nil then filterZone = addon.questsDB[id].zone end
+	local positions = addon.getQuestPositions(id, typ, index, filterZone)
 	if positions == nil then return end
+	if #positions == 0 and filterZone ~= nil then
+		positions = addon.getQuestPositions(id, typ, index)
+	end
 	for i = 1, #positions do 
 		local pos = selectFurthestPosition(positions, clusters)
 		--if addon.debugging then print("LIME: found position", pos.wx, pos.wy, pos.instance) end
