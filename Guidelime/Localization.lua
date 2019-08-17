@@ -628,7 +628,7 @@ function addon.testLocalization()
 		local L = getLocalizedStrings(locale)
 		if next(L) ~= nil then
 			for key, value in pairs(addon.defaultL) do
-				if L[key] == nil then
+				if key:sub(1, 9) ~= "WORD_LIST" and L[key] == nil then
 					print("LIME: " .. locale .. " L." .. key .. " is missing")
 				end
 			end
