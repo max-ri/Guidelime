@@ -34,7 +34,7 @@ local function setQuestInfo(id)
 				else
 					text = text .. "|T" .. addon.icons[key] .. ":12|t"
 				end
-				text = text .. addon.COLOR_WHITE .. objective.names[1]
+				text = text .. addon.COLOR_WHITE .. (objective.names[1] or "?")
 				if #objective.names > 1 then
 					text = text .. "("
 					for i = 2, #objective.names do
@@ -802,8 +802,10 @@ function addon.showEditor()
 		addon.editorFrame.textBox:SetWidth(addon.editorFrame:GetWidth() - 390)
 		addon.editorFrame.textBox:SetScript("OnMouseUp", function(self, button)
 			if not addon.editorFrame.textBox:IsEnabled() then return end
+			local lastSelectionPos
+			if addon.editorFrame.selection ~= nil then lastSelectionPos = addon.editorFrame.selection.startPos end
 			local guide = parseGuide()
-			if guide ~= nil and addon.editorFrame.selection ~= nil and addon.isDoubleClick(self) then
+			if guide ~= nil and addon.editorFrame.selection ~= nil and addon.isDoubleClick(self) and lastSelectionPos == addon.editorFrame.selection.startPos then
 				local showPopup = addon["showEditPopup" .. addon.getSuperCode(addon.editorFrame.selection.t)]
 				if showPopup ~= nil then
 					showPopup(addon.editorFrame.selection.t, guide, addon.editorFrame.selection)
