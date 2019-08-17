@@ -430,7 +430,11 @@ local function updateStepText(i)
 			text = text .. "|T" .. addon.icons[element.t] .. ":12|t"
 		end
 		if element.text ~= nil then
-			text = text .. element.text
+			if step.active then
+				text = text .. element.text
+			else
+				text = text .. element.textInactive
+			end
 			if element.url ~= nil then url = element.url end
 		end
 		if addon.quests[element.questId] ~= nil then

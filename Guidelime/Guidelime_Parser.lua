@@ -129,7 +129,8 @@ local function textFormatting(text, color)
 		:gsub("(www%.[%w%./#%-%?=#]*)", function(...) if url == nil then url = ... end; return "|cFFAAAAAA" .. url .. "|r" end)
 		:gsub("%*([^%*]+)%*", (color or "|cFFFFD100") .. "%1|r")
 		:gsub("%*%*","%*")
-	return formatted, url
+	local formattedInactive = formatted:gsub("|r", addon.COLOR_INACTIVE)
+	return formatted, formattedInactive, url
 end
 
 function addon.parseLine(step, guide, strict, nameOnly)
@@ -144,8 +145,7 @@ function addon.parseLine(step, guide, strict, nameOnly)
 		if text ~= "" then
 			local element = {}
 			element.t = "TEXT"
-			element.text = text
-			element.text, element.url = textFormatting(text, addon.COLOR_WHITE)
+			element.text, element.textInactive, element.url = textFormatting(text, addon.COLOR_WHITE)
 			element.startPos = pos
 			pos = pos + #text
 			element.endPos = pos - 1
@@ -176,8 +176,7 @@ function addon.parseLine(step, guide, strict, nameOnly)
 			print("LIME: parsing guide \"[" .. step.text:sub(element.startPos - step.startPos + 1, element.endPos - step.startPos + 1) .. "]\" should be \"" .. code .. "\" at " .. element.startPos .. "-" .. element.endPos .. " in " .. pos0 .. "->" .. step.text)
 		end
 		if element.t == "NEXT" then
-			local _, c = tag:gsub("%s*(%d*)%s*-%s*(%d*)%s*(.*)", function (minLevel, maxLevel, title)
-				--print("LIME: \"".. (group or "") .. "\",\"" .. minLevel .. "\",\"" .. maxLevel .. "\",\"" .. title .. "\"")
+			local _, c = tag:gsub("%s*(%d*%.?%d*)%s*%-?%s*(%d*%.?%d*)%s*(.*)", function (minLevel, maxLevel, title)
 				if guide.next == nil then guide.next = {} end
 				table.insert(guide.next, minLevel .. "-" .. maxLevel .. " " .. title)
 			end, 1)
@@ -186,21 +185,30 @@ function addon.parseLine(step, guide, strict, nameOnly)
 				err = true
 			end
 		elseif element.t == "NAME" then
-			local _, c = tag:gsub("%s*(%d*)%s*-%s*(%d*)%s*(.*)", function (minLevel, maxLevel, title)
-				--print("LIME: \"".. (group or "") .. "\",\"" .. minLevel .. "\",\"" .. maxLevel .. "\",\"" .. title .. "\"")
+			local rest, c = tag:gsub("%s*(%d*%.?%d*)(%s*%-?%s*)(%d*%.?%d*)%s*(.*)", function (minLevel, hash, maxLevel, title)
+				print(minLevel, hash, maxLevel, title)
 				guide.minLevel = tonumber(minLevel)
 				guide.maxLevel = tonumber(maxLevel)
 				guide.title = title
+				return ""
 			end, 1)
-			if c ~= 1 then
+			if c ~= 1 or rest ~= "" then
 				addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
 				err = true
 			end
 		elseif element.t == "DETAILS" then
 			guide.detailsRaw = tag:gsub("%s*(.*)", "%1", 1)
-			guide.details, guide.detailsUrl = textFormatting(guide.detailsRaw)
+			guide.details, _, guide.detailsUrl = textFormatting(guide.detailsRaw)
 		elseif element.t == "DOWNLOAD" then
-			guide.download = tag
+			local _, c = tag:gsub("%s*(%d*%.?%d*)%s*%-?%s*(%d*%.?%d*)%s*(.*)", function (minLevel, maxLevel, title)
+				guide.downloadMinLevel = tonumber(minLevel)
+				guide.downloadMaxLevel = tonumber(maxLevel)
+				guide.download = title
+			end, 1)
+			if c ~= 1 then
+				addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
+				err = true
+			end
 		elseif element.t == "GUIDE_APPLIES" then
 			tag:upper():gsub(" ",""):gsub("([^,]+)", function(c)
 				if addon.isClass(c) then
@@ -320,9 +328,10 @@ function addon.parseLine(step, guide, strict, nameOnly)
 			local _, c = tag:gsub("%s*(%d+)([%+%-%.]?)(%d*)(.*)", function(level, t, xp, text)
 				element.level = tonumber(level)
 				if text ~= "" then
-					element.text = text:gsub("%s*(.*)", "%1", 1)
+					element.text, element.textInactive, _ = textFormatting(text:gsub("%s*(.*)", "%1", 1))
 				else
 					element.text = level .. t .. xp
+					element.textInactive = element.text
 				end
 				if t == "+" then
 					element.xp = tonumber(xp)
@@ -344,15 +353,15 @@ function addon.parseLine(step, guide, strict, nameOnly)
 				err = true
 			end
 		elseif element.t == "OPTIONAL_COMPLETE_WITH_NEXT" then
-			element.text = tag
+			element.text, element.textInactive, _ = textFormatting(tag)
 			step.completeWithNext = true
 			step.optional = true
 		elseif element.t == "COMPLETE_WITH_NEXT" then
-			element.text = tag
+			element.text, element.textInactive, _ = textFormatting(tag)
 			step.completeWithNext = true
 			step.optional = true
 		elseif element.t == "OPTIONAL" then
-			element.text = tag
+			element.text, element.textInactive, _ = textFormatting(tag)
 			if lastAutoStep ~= nil then
 				lastAutoStep.optional = true
 				lastAutoStep = previousAutoStep
@@ -361,7 +370,7 @@ function addon.parseLine(step, guide, strict, nameOnly)
 				step.optional = true
 			end
 		else
-			element.text = tag
+			element.text, element.textInactive, _ = textFormatting(tag)
 		end
 		return ""
 	end)
@@ -370,7 +379,7 @@ function addon.parseLine(step, guide, strict, nameOnly)
 	if t ~= nil and t ~= "" then
 		local element = {}
 		element.t = "TEXT"
-		element.text, element.url = textFormatting(t, addon.COLOR_WHITE)
+		element.text, element.textInactive, element.url = textFormatting(t, addon.COLOR_WHITE)
 		element.startPos = pos 
 		element.endPos = pos + #t - 1
 		element.index = #step.elements + 1
