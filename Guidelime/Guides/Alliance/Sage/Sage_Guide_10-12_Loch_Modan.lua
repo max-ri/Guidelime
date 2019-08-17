@@ -1,5 +1,6 @@
 Guidelime.registerGuide(
 [[
+[DL1-60 Guidelime_Sage https://www.curseforge.com/wow/addons/guidelime_sage]
 [N 10-12 Loch Modan]
 [D Sage Guide: 10-12 Loch Modan\\Website: https://sage-guide.netlify.com\\Speed runners whose videos helped make this guide possible include Varrak, Xrewz, Bornlesszero and Judgement so make sure to check them out.]
 [GA Alliance]

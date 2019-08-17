@@ -923,7 +923,8 @@ function addon.updateMainFrame()
 		addon.mainFrame.message[1]:Show()
 	else
 		addon.mainFrame.message = {}
-		if addon.currentGuide.next == nil or #addon.currentGuide.next == 0 then
+		if addon.currentGuide.next == nil or #addon.currentGuide.next == 0 or 
+			addon.guides[addon.currentGuide.group .. " " .. addon.currentGuide.next[1]] == nil then
 			addon.mainFrame.message[1] = addon.addMultilineText(addon.mainFrame.scrollChild, L.GUIDE_FINISHED, addon.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
 				if (button == "RightButton") then
 					showContextMenu()
@@ -932,6 +933,20 @@ function addon.updateMainFrame()
 				end
 			end)
 			addon.mainFrame.message[1]:Hide()
+			local guide = addon.guides[addon.currentGuide.name]
+			if addon.guides[addon.currentGuide.group .. " " .. addon.currentGuide.next[1]] == nil and
+				guide.download ~= nil then
+				addon.mainFrame.message[2] = addon.addMultilineText(addon.mainFrame.scrollChild, 
+					string.format(L.DOWNLOAD_FULL_GUIDE, guide.downloadMinLevel, guide.downloadMaxLevel, guide.download, "\n|cFFAAAAAA" .. guide.downloadUrl), 
+					addon.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
+					if (button == "RightButton") then
+						showContextMenu()
+					else
+						addon.showUrlPopup(guide.downloadUrl) 
+					end
+				end)
+				addon.mainFrame.message[2]:Hide()
+			end
 		else
 			for i, next in ipairs(addon.currentGuide.next) do
 				local msg

@@ -1,5 +1,6 @@
 Guidelime.registerGuide(
 [[
+[DL1-55 Guidelime_Shiku https://www.curseforge.com/wow/addons/guidelime_shiku]
 [N 1-12 Elwynn Forest]
 [GA Alliance]
 [D Made from Hakurai's Video Guide\\ https://twitch.tv/hakurai \\ Our guild is recruiting! \\ https://www.guilded.gg/KOABD]

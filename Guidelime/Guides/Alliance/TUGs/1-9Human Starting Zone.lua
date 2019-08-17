@@ -1,5 +1,6 @@
 Guidelime.registerGuide(
 [[
+[DL1-60 Guidelime_TUGs https://www.curseforge.com/wow/addons/guidelime_tugs]
 [GA Alliance]
 [N1-9Human TUGs Leveling Guide]
 [NX9-11 Dun Morogh, Loch Modan]

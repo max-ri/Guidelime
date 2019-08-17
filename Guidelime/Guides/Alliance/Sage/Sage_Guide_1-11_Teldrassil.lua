@@ -1,5 +1,6 @@
 Guidelime.registerGuide(
 [[
+[DL1-60 Guidelime_Sage https://www.curseforge.com/wow/addons/guidelime_sage]
 [N 1-11 Teldrassil]
 [D Sage Guide: 1-11 Teldrassil\\Website: https://sage-guide.netlify.com\\Speed runners whose videos helped make this guide possible include Varrak, Xrewz, Bornlesszero and Judgement so make sure to check them out.]
 [GA Alliance]

@@ -1,5 +1,6 @@
 Guidelime.registerGuide(
 [[
+[DL1-60 Guidelime_TUGs https://www.curseforge.com/wow/addons/guidelime_tugs]
 [GA Alliance]
 [N9-11 Dun Morogh, Loch Modan]
 [NX11-15 Darkshore]

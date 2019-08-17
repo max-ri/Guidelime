@@ -1,6 +1,8 @@
 local addonName, addon = ...
 local L = addon.L
 
+addon.GUIDE_LIST_URL = "https://github.com/max-ri/guidelime/wiki/GuideList"
+
 function addon.loadGuide(name)
 	if addon.debugging then print("LIME: load guide", name) end
 	
@@ -90,7 +92,7 @@ function addon.fillGuides()
 	
 	addon.guidesFrame.groups = {}
 	addon.guidesFrame.guides = {}
-	for _, group, guides in ipairs(groupNames) do
+	for i, group in ipairs(groupNames) do
 		local guides = groups[group]
 		table.sort(guides, function(a, b)
 			local ga = addon.guides[a]
@@ -100,15 +102,23 @@ function addon.fillGuides()
 			return (ga.name or "") < (gb.name or "")
 		end)
 		addon.guidesFrame.groups[group] = content:CreateFontString(nil, content, "GameFontNormal")
-		addon.guidesFrame.groups[group]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+		if i == 1 then
+			addon.guidesFrame.groups[group]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
+		else
+			addon.guidesFrame.groups[group]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -10, -10)
+		end
 		addon.guidesFrame.groups[group]:SetText(group)
 		prev = addon.guidesFrame.groups[group]
-
+		
+		local downloadMinLevel, downloadMaxLevel, download, downloadUrl
 		for j, name in ipairs(guides) do
 			local guide = addon.guides[name]
 			--if addon.debugging then print("LIME: guide", group, name) end
 			
-			local text = "    "
+			if guide.next ~= nil and #guide.next > 0 and addon.guides[group .. guide.next[1]] == nil and guide.download ~= nil then
+				downloadMinLevel, downloadMaxLevel, download, downloadUrl = guide.downloadMinLevel, guide.downloadMaxLevel, guide.download, guide.downloadUrl 	
+			end
+			local text = ""
 			if guide.minLevel ~= nil then
 				text = text .. addon.getLevelColor(guide.minLevel) .. guide.minLevel .. "|r"
 			end
@@ -127,7 +137,11 @@ function addon.fillGuides()
 			addon.guidesFrame.guides[name] = addon.addMultilineText(content, text, 550, nil, function(self)
 				addon.loadGuide(self.name)
 			end)
-			addon.guidesFrame.guides[name]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+			if j == 1 then
+				addon.guidesFrame.guides[name]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 10, -5)
+			else
+				addon.guidesFrame.guides[name]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+			end
 			addon.guidesFrame.guides[name]:SetTextColor(255,255,255,255)
 			addon.guidesFrame.guides[name]:SetBackdrop({
 				--bgFile = "Interface\\QuestFrame\\UI-QuestLogTitleHighlight",
@@ -159,7 +173,26 @@ function addon.fillGuides()
 			end)
 			prev = addon.guidesFrame.guides[name]
 		end
+		if download ~= nil then
+			local demoMessage = addon.addMultilineText(content, 
+				string.format(L.DOWNLOAD_FULL_GUIDE, downloadMinLevel, downloadMaxLevel, download, "\n|cFFAAAAAA" .. downloadUrl), 
+				550, nil, function()
+					InterfaceOptionsFrame:Hide()
+					addon.showUrlPopup(downloadUrl) 
+				end)
+			demoMessage:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -5)
+			prev = demoMessage
+		end
 	end
+
+	local guideListMessage = addon.addMultilineText(content, 
+		string.format(L.GUIDE_LIST, "|cFFAAAAAA" .. addon.GUIDE_LIST_URL), 
+		550, nil, function()
+			InterfaceOptionsFrame:Hide()
+			addon.showUrlPopup(addon.GUIDE_LIST_URL) 
+		end)
+	guideListMessage:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -10, -20)
+	
 	prev = scrollFrame
 	
 	addon.guidesFrame.text3 = addon.guidesFrame:CreateFontString(nil, addon.guidesFrame, "GameFontNormal")

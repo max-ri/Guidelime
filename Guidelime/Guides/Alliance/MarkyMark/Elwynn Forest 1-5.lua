@@ -1,5 +1,6 @@
 local addonName, addon = ...
 Guidelime.registerGuide([[
+[DL1-27 Guidelime_MarkyMark https://www.curseforge.com/wow/addons/guidelime_markymark]
 [D*MarkyMark*'s 1-60 guide\\https://www.twitch.tv/darealmarkymark\\(best suited for a group of at least 2, if not 3+)]
 [GA Human]
 [N1-5Elwynn Forest]

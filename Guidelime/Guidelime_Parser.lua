@@ -185,8 +185,7 @@ function addon.parseLine(step, guide, strict, nameOnly)
 				err = true
 			end
 		elseif element.t == "NAME" then
-			local rest, c = tag:gsub("%s*(%d*%.?%d*)(%s*%-?%s*)(%d*%.?%d*)%s*(.*)", function (minLevel, hash, maxLevel, title)
-				print(minLevel, hash, maxLevel, title)
+			local rest, c = tag:gsub("%s*(%d*%.?%d*)%s*%-?%s*(%d*%.?%d*)%s*(.*)", function (minLevel, maxLevel, title)
 				guide.minLevel = tonumber(minLevel)
 				guide.maxLevel = tonumber(maxLevel)
 				guide.title = title
@@ -200,10 +199,11 @@ function addon.parseLine(step, guide, strict, nameOnly)
 			guide.detailsRaw = tag:gsub("%s*(.*)", "%1", 1)
 			guide.details, _, guide.detailsUrl = textFormatting(guide.detailsRaw)
 		elseif element.t == "DOWNLOAD" then
-			local _, c = tag:gsub("%s*(%d*%.?%d*)%s*%-?%s*(%d*%.?%d*)%s*(.*)", function (minLevel, maxLevel, title)
+			local _, c = tag:gsub("%s*(%d*%.?%d*)%s*%-?%s*(%d*%.?%d*)%s*([^%s]*)%s(.*)", function (minLevel, maxLevel, name, url)
 				guide.downloadMinLevel = tonumber(minLevel)
 				guide.downloadMaxLevel = tonumber(maxLevel)
-				guide.download = title
+				guide.download = name
+				guide.downloadUrl = url
 			end, 1)
 			if c ~= 1 then
 				addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
