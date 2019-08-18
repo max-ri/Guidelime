@@ -34,7 +34,7 @@ function addon.isClass(class)
 end
 function addon.getRace(race)
 	race = race:upper():gsub(" ","")
-	if race == "SCOURCE" then return "Undead" end
+	if race == "SCOURGE" then return "Undead" end
 	for r, f in pairs(addon.races) do
 		if r:upper() == race then return r end
 	end
