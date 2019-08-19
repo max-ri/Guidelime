@@ -208,18 +208,12 @@ function addon.getQuestPositions(id, typ, objective, filterZone)
 		if element ~= nil and element.positions ~= nil then
 			for i, pos in ipairs(element.positions) do
 				-- TODO: x/y are still switched in db
-				local x, y, zone
-				if filterZone == nil then
-					x, y, zone = addon.GetZoneCoordinatesFromWorld(pos.y, pos.x, pos.mapid)
-					if x == nil and addon.debugging then print("LIME: error transforming (" .. pos.x .. "," .. pos.y .. " " .. pos.mapid .. ") into zone coordinates for quest #" .. id) end
-				else
-					zone = filterZone
-					x, y = HBD:GetZoneCoordinatesFromWorld(pos.y, pos.x, addon.mapIDs[filterZone], true)
-					if x ~= nil and (x > 1 or x < 0 or y > 1 or y < 0) then x = nil end
-				end
+				local x, y, zone = addon.GetZoneCoordinatesFromWorld(pos.y, pos.x, pos.mapid, filterZone)
 				if x ~= nil then
 					table.insert(positions, {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, zone = zone, mapID = addon.mapIDs[zone], 
 						wx = pos.y, wy = pos.x, instance = pos.mapid})
+				elseif addon.debugging then
+					print("LIME: error transforming (" .. pos.x .. "," .. pos.y .. "," .. pos.mapid .. ") into zone coordinates for quest #" .. id .. " npc #" .. npcId)
 				end
 			end
 		end
@@ -229,12 +223,12 @@ function addon.getQuestPositions(id, typ, objective, filterZone)
 		if element ~= nil and element.positions ~= nil then
 			for i, pos in ipairs(element.positions) do
 				-- TODO: x/y are still switched in db
-				local x, y, zone = addon.GetZoneCoordinatesFromWorld(pos.y, pos.x, pos.mapid)
+				local x, y, zone = addon.GetZoneCoordinatesFromWorld(pos.y, pos.x, pos.mapid, filterZone)
 				if x ~= nil then
 					table.insert(positions, {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, zone = zone, mapID = addon.mapIDs[zone], 
 						wx = pos.y, wy = pos.x, instance = pos.mapid})
-				else
-					if addon.debugging then print("error transforming (" .. pos.x .. "," .. pos.y .. " " .. pos.mapid .. ") into zone coordinates for quest #" .. id) end
+				elseif addon.debugging then 
+					print("error transforming (" .. pos.x .. "," .. pos.y .. "," .. pos.mapid .. ") into zone coordinates for quest #" .. id .. " object #" .. objectId)
 				end
 			end
 		end
@@ -317,8 +311,8 @@ function addon.getQuestPosition(id, typ, index)
 			return {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, 
 				wx = maxCluster.x, wy = maxCluster.y, instance = maxCluster.instance,
 				zone = zone, mapID = addon.mapIDs[zone], radius = math.floor(math.sqrt(maxCluster.radius))}
-		else
-			error("error transforming (" .. maxCluster.x .. "," .. maxCluster.y .. " " .. maxCluster.instance .. ") into zone coordinates for quest #" .. id)
+		elseif addon.debugging then
+			print("error transforming (" .. maxCluster.x .. "," .. maxCluster.y .. "," .. maxCluster.instance .. ") into zone coordinates for quest #" .. id)
 		end
 	end
 end
@@ -423,19 +417,24 @@ function addon.getPossibleQuestIdsByName(name, part, faction, race, class)
 	return ids
 end
 
-function addon.GetZoneCoordinatesFromWorld(worldX, worldY, instance)
-	for name, id in pairs(addon.mapIDs) do
-		local x, y = HBD:GetZoneCoordinatesFromWorld(worldX, worldY, id, false)
+function addon.GetZoneCoordinatesFromWorld(worldX, worldY, instance, zone)
+	if zone ~= nil then
+		local x, y = HBD:GetZoneCoordinatesFromWorld(worldX, worldY, addon.mapIDs[zone], true)
 		if x ~= nil and x > 0 and x < 1 and y ~= nil and y > 0 and y < 1 then
-			local checkX, checkY, checkInstance = HBD:GetWorldCoordinatesFromZone(x, y, id)
+			local _, _, checkInstance = HBD:GetWorldCoordinatesFromZone(x, y, addon.mapIDs[zone])
 			if checkInstance == instance then
 				-- hack for some bfa zone names
 				do
-					local e = name:find("[@!]")
-					if e ~= nil then name = name:sub(1, e - 1) end
+					local e = zone:find("[@!]")
+					if e ~= nil then zone = zone:sub(1, e - 1) end
 				end
-				return x, y, name
+				return x, y, zone
 			end
+		end
+	else
+		for zone, _ in pairs(addon.mapIDs) do
+			local x, y, z = addon.GetZoneCoordinatesFromWorld(worldX, worldY, instance, zone)
+			if x ~= nil then return x, y, z end
 		end
 	end
 end

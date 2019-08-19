@@ -61,10 +61,12 @@ local function setQuestInfo(id)
 			end
 			if count > 1 then
 				local pos = addon.getQuestPosition(id, key)
-				pos.t = "GOTO"
-				addon.addMapIcon(pos, false, true)
-				text = text .. "\n-> " .. addon.COLOR_WHITE .. addon.getMapMarkerText(pos) .. 
-					"(" .. pos.x .. "," .. pos.y .. " " .. pos.zone .. ")|r\n"
+				if pos ~= nil then
+					pos.t = "GOTO"
+					addon.addMapIcon(pos, false, true)
+					text = text .. "\n-> " .. addon.COLOR_WHITE .. addon.getMapMarkerText(pos) .. 
+						"(" .. pos.x .. "," .. pos.y .. " " .. pos.zone .. ")|r\n"
+				end
 			end
 		end
 	end
