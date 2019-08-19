@@ -128,9 +128,9 @@ local function getElementByPos(pos, guide)
 end
 
 local function parseGuide(strict)
-	local guide = addon.parseGuide(addon.editorFrame.textBox:GetText(), nil, strict or false)
+	local guide = addon.parseGuide(addon.editorFrame.textBox:GetText():gsub("¦","|"), nil, strict or false)
 	local l = 0
-	local textWithLines = (addon.editorFrame.textBox:GetText() .. "\n"):gsub("([^\n\r]-)[\n\r]", function(t)
+	local textWithLines = (addon.editorFrame.textBox:GetText():gsub("[¦|]",",") .. "\n"):gsub("([^\n\r]-)[\n\r]", function(t)
 		l = l + 1 
 		return l .. "|c00000000" .. t:sub(#("" .. l) + 1) .. "|r\n"
 	end)
@@ -180,7 +180,7 @@ local function insertCode(typ, text, replace, firstElement, lastElement)
 			newText = oldText:sub(1, startPos - 1) .. newCode .. oldText:sub(startPos)
 		end
 	end
-	addon.editorFrame.textBox:SetText(newText)
+	addon.editorFrame.textBox:SetText(newText:gsub("|","¦"))
 	addon.editorFrame.textBox:HighlightText(startPos - 1, startPos + #newCode - 1)
 	addon.editorFrame.textBox:SetCursorPosition(startPos - 1)
 	parseGuide()
@@ -795,7 +795,7 @@ function addon.showEditor()
 		
 		addon.editorFrame.textBox = CreateFrame("EditBox", nil, content)
 		if GuidelimeDataChar.currentGuide ~= nil and addon.guides[GuidelimeDataChar.currentGuide] ~= nil then
-			addon.editorFrame.textBox:SetText(addon.guides[GuidelimeDataChar.currentGuide].text)
+			addon.editorFrame.textBox:SetText(addon.guides[GuidelimeDataChar.currentGuide].text:gsub("|","¦"))
 		end
 		addon.editorFrame.textBox:SetMultiLine(true)
 		addon.editorFrame.textBox:SetFontObject("ChatFontNormal")
@@ -822,6 +822,14 @@ function addon.showEditor()
 				else
 					addon.editorFrame.textBox:HighlightText(addon.editorFrame.selection.startPos - 1, addon.editorFrame.selection.endPos)
 				end
+			end
+		end)
+		addon.editorFrame:SetScript("OnKeyDown", nil)
+		addon.editorFrame.textBox:SetScript("OnKeyDown", function(self,key) 
+			if key == "ESCAPE" then
+				addon.editorFrame:Hide()
+			elseif key == "ENTER" or key == "UP" or key == "DOWN" or key == "LEFT" or key == "RIGHT" then
+				C_Timer.After(0.01, parseGuide)
 			end
 		end)
 
@@ -865,15 +873,6 @@ function addon.showEditor()
 	    addon.editorFrame.gotoInfoContent = CreateFrame("Frame", nil, addon.editorFrame.gotoInfoScrollFrame) 
 	    addon.editorFrame.gotoInfoContent:SetSize(1, 1) 
 	    addon.editorFrame.gotoInfoScrollFrame:SetScrollChild(addon.editorFrame.gotoInfoContent)
-
-		addon.editorFrame:SetScript("OnKeyDown", nil)
-		addon.editorFrame.textBox:SetScript("OnKeyDown", function(self,key) 
-			if key == "ESCAPE" then
-				addon.editorFrame:Hide()
-			elseif key == "ENTER" or key == "]" then
-				C_Timer.After(0.01, parseGuide)
-			end
-		end)
 
 		addon.editorFrame.mapBtn = CreateFrame("BUTTON", nil, addon.editorFrame, "UIPanelButtonTemplate")
 		addon.editorFrame.mapBtn:SetWidth(160)
@@ -927,7 +926,7 @@ function addon.showEditor()
 		addon.editorFrame.discardBtn:SetPoint("BOTTOMLEFT", addon.editorFrame, "BOTTOMLEFT", 380, 20)
 		addon.editorFrame.discardBtn:SetScript("OnClick", function()
 			if GuidelimeDataChar.currentGuide ~= nil and addon.guides[GuidelimeDataChar.currentGuide] ~= nil then
-				addon.editorFrame.textBox:SetText(addon.guides[GuidelimeDataChar.currentGuide].text)
+				addon.editorFrame.textBox:SetText(addon.guides[GuidelimeDataChar.currentGuide].text:gsub("|","¦"))
 			else
 				addon.editorFrame.textBox:SetText("")
 			end
@@ -945,7 +944,7 @@ function addon.showEditor()
 			if guide ~= nil then 
 				local text, count = addon.addQuestCoordinates(guide)
 				if count > 0 then
-					addon.editorFrame.textBox:SetText(text)
+					addon.editorFrame.textBox:SetText(text:gsub("|","¦"))
 					parseGuide()
 				end
 				C_Timer.After(0.2, function()
@@ -966,7 +965,7 @@ function addon.showEditor()
 				if guide ~= nil then 
 					local text, count = addon.removeAllCoordinates(guide)
 					if count > 0 then
-						addon.editorFrame.textBox:SetText(text)
+						addon.editorFrame.textBox:SetText(text:gsub("|","¦"))
 						parseGuide()
 					end
 					C_Timer.After(0.2, function()
@@ -984,7 +983,7 @@ function addon.showEditor()
 		addon.editorFrame.importBtn:SetScript("OnClick", function()
 			addon.createPopupFrame(L.IMPORT_GUIDE_MESSAGE, function()
 				local text = addon.importPlainText(addon.editorFrame.textBox:GetText())
-				addon.editorFrame.textBox:SetText(text)
+				addon.editorFrame.textBox:SetText(text:gsub("|","¦"))
 				parseGuide()
 			end, true):Show()
 		end)

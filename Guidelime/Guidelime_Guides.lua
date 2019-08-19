@@ -17,7 +17,7 @@ function addon.loadGuide(name)
 	if addon.editorFrame ~= nil then
 		addon.editorFrame.text1:SetText(L.CURRENT_GUIDE .. ": |cFFFFFFFF" .. name .. "\n")
 		if addon.guides[GuidelimeDataChar.currentGuide] ~= nil then
-			addon.editorFrame.textBox:SetText(addon.guides[GuidelimeDataChar.currentGuide].text)
+			addon.editorFrame.textBox:SetText(addon.guides[GuidelimeDataChar.currentGuide].text:gsub("|","¦"))
 		end
 	end
 	addon.loadCurrentGuide()
