@@ -5,7 +5,8 @@ local function findQuestType(line, pos)
 	return addon.findInLists(line, {[L.WORD_LIST_ACCEPT] = "A", [L.WORD_LIST_COMPLETE] = "C", [L.WORD_LIST_TURN_IN] = "T", [L.WORD_LIST_SKIP] = "S"}, false, 1, pos)
 end
 
-local function parseLine(l, line, questids, previds, questname, activeQuests, turnedInQuests, zone)
+local function parseLine(l, line, questids, previds, questname, activeQuests, turnedInQuests, zone, newQuestIds)
+	if newQuestIds ~= nil then print(l, table.concat(newQuestIds,",")) end
 	local pos, err
 	local count = 0
 	-- find quest 
@@ -98,7 +99,16 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 				end
 				if #ids2 > 0 then questids = ids2 end
 			end
-			if typ ~= "A" and #questids > 1 then
+			if typ == "A" and newQuestIds ~= nil then
+				if newQuestIds[1] == nil then 
+					err = "non matching number of quest ids specified"
+				elseif #questids == 0 or addon.contains(questids, newQuestIds[1]) or (#questids == 1 and addon.questsDB[questids[1]].name == addon.questsDB[newQuestIds[1]].name) then
+					questids = {newQuestIds[1]}
+					table.remove(newQuestIds, 1)
+				else
+					err = "non matching quest id " .. newQuestIds[1] .. " specified"
+				end
+			elseif typ ~= "A" and #questids > 1 then
 				-- found more than one? only search in active quests
 				local ids2 = {}
 				for i, id in ipairs(questids) do
@@ -182,8 +192,8 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 					if turnedInQuests[id] then err = "accept quest " .. id .. " after turn in" end
 					activeQuests[id] = true
 				elseif typ == "T" then
-					if turnedInQuests[id] then err = "quest " .. id .. " turned in twice" end
-					if line:find("%[OC?%]") then 
+					if #questids == 1 and turnedInQuests[id] then err = "quest " .. id .. " turned in twice" end
+					if line:find("%[OC?%]") == nil then 
 						activeQuests[id] = nil 
 						if #questids == 1 then turnedInQuests[id] = true end
 					end
@@ -231,6 +241,10 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 				count = 0
 			end
 		end
+	end
+	
+	if err == nil and newQuestIds ~= nil and #newQuestIds > 0 then 
+		err = "non matching number of quest ids specified for line " .. l
 	end
 
 	while addon.findInLists(line, {
@@ -294,7 +308,7 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 	return line, questids, previds, questname, activeQuests, turnedInQuests
 end
 
-function addon.importPlainText(text, zone)
+function addon.importPlainText(text, zone, newQuestIdsPerLine)
 	local l = 0
 	local questids
 	local previds
@@ -302,12 +316,13 @@ function addon.importPlainText(text, zone)
 	local activeQuests = {}
 	local turnedInQuests = {}
 	local hasErrors = false
+	if newQuestIdsPerLine == nil then newQuestIdsPerLine = {} end
 	
 	text = text:gsub("([^\n]+)", function(line)
 		l = l + 1
 		if line ~= "" then
 			if line:sub(1, 6) == "ERROR " or line:sub(1, 6) == "      " then line = line:sub(7) end
-			line, questids, previds, questname, activeQuests, turnedInQuests = parseLine(l, line, questids, previds, questname, activeQuests, turnedInQuests, zone)
+			line, questids, previds, questname, activeQuests, turnedInQuests = parseLine(l, line, questids, previds, questname, activeQuests, turnedInQuests, zone, newQuestIdsPerLine[l])
 			if line:sub(1, 6) == "ERROR " then hasErrors = true end
 			return line
 		end

@@ -7,7 +7,6 @@ HBD = LibStub("HereBeDragons-2.0")
 addon.frame = CreateFrame("Frame", addonName .. "Frame", UIParent)
 Guidelime = {}
 
-addon.COLOR_INACTIVE = "|cFF666666"
 addon.COLOR_QUEST_DEFAULT = "|cFF59C4F1"
 addon.COLOR_LEVEL_RED = "|cFFFF1400"
 addon.COLOR_LEVEL_ORANGE = "|cFFFFA500"

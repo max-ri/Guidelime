@@ -53,6 +53,8 @@ addon.codes = {
 	WORK = "QW", -- same as QC but optional
 }
 
+addon.COLOR_INACTIVE = "|cFF666666"
+
 addon.codesReverse = {}
 for k, v in pairs(addon.codes) do addon.codesReverse[v] = k end
 
