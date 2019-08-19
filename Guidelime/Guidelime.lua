@@ -934,7 +934,8 @@ function addon.updateMainFrame()
 			end)
 			addon.mainFrame.message[1]:Hide()
 			local guide = addon.guides[addon.currentGuide.name]
-			if addon.guides[addon.currentGuide.group .. " " .. addon.currentGuide.next[1]] == nil and
+			if addon.currentGuide.next ~= nil and #addon.currentGuide.next > 0 and 
+				addon.guides[addon.currentGuide.group .. " " .. addon.currentGuide.next[1]] == nil and
 				guide.download ~= nil then
 				addon.mainFrame.message[2] = addon.addMultilineText(addon.mainFrame.scrollChild, 
 					string.format(L.DOWNLOAD_FULL_GUIDE, guide.downloadMinLevel, guide.downloadMaxLevel, guide.download, "\n|cFFAAAAAA" .. guide.downloadUrl), 
