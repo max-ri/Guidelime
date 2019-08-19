@@ -1076,6 +1076,7 @@ function addon.showMainFrame()
 		end
 
 		addon.mainFrame.doneBtn = CreateFrame("BUTTON", "doneBtn", addon.mainFrame)
+		addon.mainFrame.doneBtn:SetFrameLevel(9999)
 		addon.mainFrame.doneBtn:SetSize(24, 24)
 		addon.mainFrame.doneBtn:SetNormalTexture("Interface/Buttons/UI-Panel-MinimizeButton-Up")
 		addon.mainFrame.doneBtn:SetHighlightTexture("Interface/Buttons/UI-Panel-MinimizeButton-Highlight")
@@ -1089,6 +1090,7 @@ function addon.showMainFrame()
 		end)
 
 		addon.mainFrame.lockBtn = CreateFrame("BUTTON", "lockBtn", addon.mainFrame)
+		addon.mainFrame.lockBtn:SetFrameLevel(9999)
 		addon.mainFrame.lockBtn:SetSize(24, 24)
 		addon.mainFrame.lockBtn:SetPoint("TOPRIGHT", addon.mainFrame, "TOPRIGHT", -20,0)
 		if GuidelimeDataChar.mainFrameLocked then
@@ -1112,6 +1114,7 @@ function addon.showMainFrame()
 
 		if addon.debugging then
 			addon.mainFrame.reloadBtn = CreateFrame("BUTTON", nil, addon.mainFrame, "UIPanelButtonTemplate")
+			addon.mainFrame.reloadBtn:SetFrameLevel(9999)
 			addon.mainFrame.reloadBtn:SetWidth(12)
 			addon.mainFrame.reloadBtn:SetHeight(16)
 			addon.mainFrame.reloadBtn:SetText( "R" )
