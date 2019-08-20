@@ -5,7 +5,7 @@ local function findQuestType(line, pos)
 	return addon.findInLists(line, {[L.WORD_LIST_ACCEPT] = "A", [L.WORD_LIST_COMPLETE] = "C", [L.WORD_LIST_TURN_IN] = "T", [L.WORD_LIST_SKIP] = "S"}, false, 1, pos)
 end
 
-local function parseLine(l, line, questids, previds, questname, activeQuests, turnedInQuests, zone, newQuestIds)
+local function parseLine(l, line, questids, previds, questname, activeQuests, turnedInQuests, faction, zone, newQuestIds)
 	if newQuestIds ~= nil then print(l, table.concat(newQuestIds,",")) end
 	local pos, err
 	local count = 0
@@ -88,6 +88,16 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 			elseif q ~= nil then
 				previds = questids
 				questids = addon.getPossibleQuestIdsByName(q, part) 
+			end
+			if #questids > 1 and faction ~= nil then
+				-- found more than one? only search correct faction
+				local ids2 = {}
+				for i, id in ipairs(questids) do
+					if (addon.getQuestFaction(id) or faction) == faction then
+						table.insert(ids2, id)
+					end
+				end
+				if #ids2 > 0 then questids = ids2 end
 			end
 			if #questids > 1 and zone ~= nil then
 				-- found more than one? only search in given zone
@@ -308,7 +318,7 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 	return line, questids, previds, questname, activeQuests, turnedInQuests
 end
 
-function addon.importPlainText(text, zone, newQuestIdsPerLine)
+function addon.importPlainText(text, faction, zone, newQuestIdsPerLine)
 	local l = 0
 	local questids
 	local previds
@@ -322,7 +332,7 @@ function addon.importPlainText(text, zone, newQuestIdsPerLine)
 		l = l + 1
 		if line ~= "" then
 			if line:sub(1, 6) == "ERROR " or line:sub(1, 6) == "      " then line = line:sub(7) end
-			line, questids, previds, questname, activeQuests, turnedInQuests = parseLine(l, line, questids, previds, questname, activeQuests, turnedInQuests, zone, newQuestIdsPerLine[l])
+			line, questids, previds, questname, activeQuests, turnedInQuests = parseLine(l, line, questids, previds, questname, activeQuests, turnedInQuests, faction, zone, newQuestIdsPerLine[l])
 			if line:sub(1, 6) == "ERROR " then hasErrors = true end
 			return line
 		end
