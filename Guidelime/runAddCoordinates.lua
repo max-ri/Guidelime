@@ -53,7 +53,7 @@ local f = io.open(arg[1], "r")
 local text = f:read("*all")
 f:close()
 
-local guide = addon.parseGuide(text)
+local guide = addon.parseGuide(text, nil, false)
 local text, count = addon.addQuestCoordinates(guide)
 
 print(text)
