@@ -286,8 +286,11 @@ function addon.loadCurrentGuide()
 					end
 					if element.t == "COMPLETE" and addon.quests[element.questId].objectives == nil then
 						addon.quests[element.questId].objectives = {}
-						for i, objective in ipairs(addon.getQuestObjectives(element.questId)) do
-							addon.quests[element.questId].objectives[i] = {type = objective.type, desc = objective.names[1]}
+						local objectives = addon.getQuestObjectives(element.questId)
+						if objectives ~= nil then
+							for i, objective in ipairs(objectives) do
+								addon.quests[element.questId].objectives[i] = {type = objective.type, desc = objective.names[1]}
+							end
 						end
 					end
 					if GuidelimeData.autoAddCoordinates and not step.hasGoto and not element.optional then
