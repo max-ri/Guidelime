@@ -52,6 +52,7 @@ function addon.isFaction(faction)
 	return addon.getFaction(faction) ~= nil
 end
 function addon.getLocalizedRace(race)
+	if C_CreatureInfo == nil then return race end
 	return C_CreatureInfo.GetRaceInfo(addon.raceIDs[race]).raceName
 end
 function addon.getLocalizedClass(class)

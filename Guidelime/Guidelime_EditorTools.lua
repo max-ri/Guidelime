@@ -101,7 +101,7 @@ function addon.addQuestTag(guide, selection, id, key, objectiveIndex, text, addC
 				for i, race in ipairs(qraces) do
 					table.insert(racesLoc, addon.getLocalizedRace(race))
 				end
-				addon.createPopupFrame(L.ERROR_QUEST_RACE_ONLY .. table.concat(racesLoc, ", ")):Show()
+				addon.createPopupFrame(L.ERROR_QUEST_RACE_ONLY .. table.concat(racesLoc, ", ") .. " (#" .. id .. ")"):Show()
 				return
 			end
 			applies = applies .. table.concat(races, ",")
