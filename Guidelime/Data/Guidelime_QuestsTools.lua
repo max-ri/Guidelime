@@ -293,6 +293,52 @@ function addon.getQuestPosition(id, typ, index)
 	if addon.questsDB[id] ~= nil and addon.questsDB[id].zone ~= nil then filterZone = addon.questsDB[id].zone end
 	local positions = addon.getQuestPositions(id, typ, index, filterZone)
 	if positions == nil then return end
+	if next(positions) ~= nil then
+		supertempXmax = nil
+		supertempXmin = nil
+		supertempYmax = nil
+		supertempYmin = nil
+		for _, pos in ipairs(positions) do
+			if supertempXmax == nil then
+				supertempXmax = pos.x
+			else
+				if pos.x > supertempXmax then
+					supertempXmax = pos.x
+				end
+			end
+			if supertempXmin == nil then
+				supertempXmin = pos.x
+			else
+				if pos.x < supertempXmin then
+					supertempXmin = pos.x
+				end
+			end
+
+			if supertempYmax == nil then
+				supertempYmax = pos.y
+			else
+				if pos.y > supertempYmax then
+					supertempYmax = pos.y
+				end
+			end
+			if supertempYmin == nil then
+				supertempYmin = pos.y
+			else
+				if pos.y < supertempYmin then
+					supertempYmin = pos.y
+				end
+			end
+
+		end
+		if (supertempXmax - supertempXmin) >= 20 then
+			print("To big of an X varience for " .. typ .. " quest: ".. id)
+		end
+		if (supertempYmax - supertempYmin) >= 20 then
+			print("To big of an Y varience for " .. typ .. " quest: ".. id)
+		end
+	else
+		print("Can't find coord for " .. typ .. " " .. id)
+	end
 	if #positions == 0 and filterZone ~= nil then
 		positions = addon.getQuestPositions(id, typ, index)
 	end
