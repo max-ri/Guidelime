@@ -53,7 +53,7 @@ The editor will soon be complemented with powerful features for importing guides
 
 #### Localization
 
-The German version will be finished soon. A Spanish version will follow afterwards. If anyone would volunteer to do translations for other languages please contact me.
+The addon is currently available in English, German, French and Russian. If anyone would volunteer to do translations for other languages please contact me.
 
 The guides itself are language specific. The guides I am currently working on are in English language only. But using the editor you can create guides in your own language.
 
