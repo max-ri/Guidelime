@@ -1,6 +1,33 @@
 local addonName, addon = ...
 local L = addon.L
 
+local function HexToRGB(hex)
+	local rhex, ghex, bhex = string.sub(hex, 5, 6), string.sub(hex, 7, 8), string.sub(hex, 9, 10)
+	return tonumber(rhex, 16) / 255, tonumber(ghex, 16) / 255, tonumber(bhex, 16) / 255
+end
+
+local function RGBToHex(r, g, b)
+	r = r <= 1 and r >= 0 and r or 0
+	g = g <= 1 and g >= 0 and g or 0
+	b = b <= 1 and b >= 0 and b or 0
+	return string.format("|cFF%02x%02x%02x", r*255, g*255, b*255)
+end
+
+local function showColorPicker(color, callback)
+	ColorPickerFrame.hasOpacity, ColorPickerFrame.opacity = false, nil;
+	local r,g,b = HexToRGB(color)
+	ColorPickerFrame.previousValues = {r,g,b,1};
+	ColorPickerFrame.func, ColorPickerFrame.opacityFunc, ColorPickerFrame.cancelFunc = callback, nil, nil;
+	ColorPickerFrame:SetColorRGB(r,g,b);
+	ColorPickerFrame:Hide(); -- Need to run the OnShow handler.
+	ColorPickerFrame:Show();
+end
+
+local function getColorPickerColor()
+	local r, g, b = ColorPickerFrame:GetColorRGB()
+	return RGBToHex(r, g, b)
+end
+
 function addon.fillOptions()
 	addon.optionsFrame = CreateFrame("FRAME", nil, addon.guidesFrame)
 	addon.optionsFrame.name = GAMEOPTIONS_MENU
@@ -13,8 +40,26 @@ function addon.fillOptions()
 	addon.optionsFrame.title:SetFontObject("GameFontNormalLarge")
 	local prev = addon.optionsFrame.title
 
-	addon.optionsFrame.options = {}		
-	local checkbox = addon.addCheckOption(addon.optionsFrame, GuidelimeDataChar, "mainFrameShowing", L.SHOW_MAINFRAME, nil, function()
+    local scrollFrame = CreateFrame("ScrollFrame", nil, addon.optionsFrame, "UIPanelScrollFrameTemplate")
+    scrollFrame:SetPoint("TOPLEFT", prev, "TOPLEFT", 0, -20)
+    scrollFrame:SetPoint("RIGHT", addon.optionsFrame, "RIGHT", -30, 0)
+    scrollFrame:SetPoint("BOTTOM", addon.optionsFrame, "BOTTOM", 0, 10)
+
+    local content = CreateFrame("Frame", nil, scrollFrame) 
+    content:SetSize(1, 1) 
+    scrollFrame:SetScrollChild(content)
+	prev = content
+
+	-- Guide window options
+
+	addon.optionsFrame.titleGuideWindow = content:CreateFontString(nil, content, "GameFontNormal")
+	addon.optionsFrame.titleGuideWindow:SetText("|cFFFFFFFF___ " .. L.GUIDE_WINDOW .. " _______________________________________________________")
+	addon.optionsFrame.titleGuideWindow:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
+	addon.optionsFrame.titleGuideWindow:SetFontObject("GameFontNormalLarge")
+	local prev = addon.optionsFrame.titleGuideWindow
+
+	content.options = {}		
+	local checkbox = addon.addCheckOption(content, GuidelimeDataChar, "mainFrameShowing", L.SHOW_MAINFRAME, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.showMainFrame()
 		elseif addon.mainFrame ~= nil then
@@ -26,18 +71,18 @@ function addon.fillOptions()
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
 	prev = checkbox
 	
-	local slider = addon.addSliderOption(addon.optionsFrame, GuidelimeDataChar, "mainFrameWidth", 50, 800, 1, L.MAIN_FRAME_WIDTH, nil, function()
+	local slider = addon.addSliderOption(content, GuidelimeDataChar, "mainFrameWidth", 50, 800, 1, L.MAIN_FRAME_WIDTH, nil, function()
 		if addon.mainFrame ~= nil then 
 			addon.mainFrame:SetWidth(GuidelimeDataChar.mainFrameWidth) 
 			addon.mainFrame.scrollChild:SetWidth(GuidelimeDataChar.mainFrameWidth)
 		end
 	end, function()
 		if GuidelimeDataChar.mainFrameShowing then
-			addon.updateMainFrame()
+			addon.updateMainFrame(true)
 		end
 	end)
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -10)
-	slider = addon.addSliderOption(addon.optionsFrame, GuidelimeDataChar, "mainFrameHeight", 50, 600, 1, L.MAIN_FRAME_HEIGHT, nil, function()
+	slider = addon.addSliderOption(content, GuidelimeDataChar, "mainFrameHeight", 50, 600, 1, L.MAIN_FRAME_HEIGHT, nil, function()
 		if addon.mainFrame ~= nil then 
 			addon.mainFrame:SetHeight(GuidelimeDataChar.mainFrameHeight) 
 			addon.mainFrame.scrollChild:SetWidth(GuidelimeDataChar.mainFrameWidth)
@@ -48,21 +93,28 @@ function addon.fillOptions()
 		end
 	end)
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -50)
-	local slider = addon.addSliderOption(addon.optionsFrame, GuidelimeDataChar, "mainFrameAlpha", 0, 1, 0.01, L.MAIN_FRAME_ALPHA, nil, function()
+	slider = addon.addSliderOption(content, GuidelimeDataChar, "mainFrameAlpha", 0, 1, 0.01, L.MAIN_FRAME_ALPHA, nil, function()
 		if addon.mainFrame ~= nil then 
 			addon.mainFrame:SetBackdropColor(1,1,1,GuidelimeDataChar.mainFrameAlpha)
 		end
 	end)
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -90)
 	
-	slider = addon.addSliderOption(addon.optionsFrame, GuidelimeData, "maxNumOfSteps", 0, 50, 1, L.MAX_NUM_OF_STEPS, nil, nil, function()
+	slider = addon.addSliderOption(content, GuidelimeData, "maxNumOfSteps", 0, 50, 1, L.MAX_NUM_OF_STEPS, nil, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateMainFrame()
 		end
 	end)
-	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -130)
+	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -140)
 	
-	local checkbox = addon.addCheckOption(addon.optionsFrame, GuidelimeDataChar, "mainFrameLocked", L.LOCK_MAINFRAME, nil, function()
+	slider = addon.addSliderOption(content, GuidelimeDataChar, "mainFrameFontSize", 12, 18, 2, L.MAIN_FRAME_FONT_SIZE, nil, nil, function()
+		if GuidelimeDataChar.mainFrameShowing then
+			addon.updateMainFrame()
+		end
+	end)
+	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -180)
+
+	checkbox = addon.addCheckOption(content, GuidelimeDataChar, "mainFrameLocked", L.LOCK_MAINFRAME, nil, function()
 		if GuidelimeDataChar.mainFrameLocked then
 	    	addon.mainFrame.lockBtn:SetPushedTexture("Interface/Buttons/LockButton-Unlocked-Down")
 	    	addon.mainFrame.lockBtn:SetNormalTexture("Interface/Buttons/LockButton-Locked-Up")
@@ -74,27 +126,97 @@ function addon.fillOptions()
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = checkbox
 	
-	checkbox = addon.addCheckOption(addon.optionsFrame, GuidelimeDataChar, "autoCompleteQuest", L.AUTO_COMPLETE_QUESTS)
-	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
+	checkbox = addon.addCheckOption(content, GuidelimeDataChar, "showCompletedSteps", L.SHOW_COMPLETED_STEPS, nil, function()
+		if GuidelimeDataChar.mainFrameShowing then
+			addon.updateMainFrame()
+		end
+	end)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	prev = checkbox
+	
+	checkbox = addon.addCheckOption(content, GuidelimeDataChar, "showUnavailableSteps", L.SHOW_UNAVAILABLE_STEPS, nil, function()
+		if GuidelimeDataChar.mainFrameShowing then
+			addon.updateMainFrame()
+		end
+	end)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = checkbox
 
-	checkbox = addon.addCheckOption(addon.optionsFrame, GuidelimeDataChar, "hideCompletedSteps", L.HIDE_COMPLETED_STEPS, nil, function()
+	checkbox = addon.addCheckOption(content, GuidelimeData, "showQuestLevels", L.SHOW_SUGGESTED_QUEST_LEVELS, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
-			addon.updateMainFrame()
+			addon.updateStepsText()
 		end
 	end)
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = checkbox
-	
-	checkbox = addon.addCheckOption(addon.optionsFrame, GuidelimeDataChar, "hideUnavailableSteps", L.HIDE_UNAVAILABLE_STEPS, nil, function()
+
+	checkbox = addon.addCheckOption(content, GuidelimeData, "showMinimumQuestLevels", L.SHOW_MINIMUM_QUEST_LEVELS, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
-			addon.updateMainFrame()
+			addon.updateStepsText()
 		end
 	end)
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = checkbox
-	
-	checkbox = addon.addCheckOption(addon.optionsFrame, GuidelimeDataChar, "showArrow", L.SHOW_ARROW, nil, function()
+
+	text = content:CreateFontString(nil, content, "GameFontNormal")
+	text:SetText(L.SELECT_COLORS)
+	text:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 30, -8)
+	prev = text
+
+	local button = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
+	button:SetWidth(100)
+	button:SetHeight(20)
+	button:SetText(GuidelimeData.fontColorACCEPT .. L.QUEST_ACCEPT)
+	button:SetPoint("TOPLEFT", checkbox, "BOTTOMLEFT", 110, -4)
+	button:SetScript("OnClick", function()
+		showColorPicker(GuidelimeData.fontColorACCEPT, function()
+			GuidelimeData.fontColorACCEPT = getColorPickerColor()
+			button:SetText(GuidelimeData.fontColorACCEPT .. L.QUEST_ACCEPT)
+		end)
+	end)
+	local button = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
+	button:SetWidth(100)
+	button:SetHeight(20)
+	button:SetText(GuidelimeData.fontColorCOMPLETE .. L.QUEST_COMPLETE)
+	button:SetPoint("TOPLEFT", checkbox, "BOTTOMLEFT", 210, -4)
+	button:SetScript("OnClick", function()
+		showColorPicker(GuidelimeData.fontColorCOMPLETE, function()
+			GuidelimeData.fontColorCOMPLETE = getColorPickerColor()
+			button:SetText(GuidelimeData.fontColorCOMPLETE .. L.QUEST_COMPLETE)
+		end)
+	end)
+	local button = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
+	button:SetWidth(100)
+	button:SetHeight(20)
+	button:SetText(GuidelimeData.fontColorTURNIN .. L.QUEST_TURNIN)
+	button:SetPoint("TOPLEFT", checkbox, "BOTTOMLEFT", 110, -24)
+	button:SetScript("OnClick", function()
+		showColorPicker(GuidelimeData.fontColorTURNIN, function()
+			GuidelimeData.fontColorTURNIN = getColorPickerColor()
+			button:SetText(GuidelimeData.fontColorTURNIN .. L.QUEST_TURNIN)
+		end)
+	end)
+	local button = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
+	button:SetWidth(100)
+	button:SetHeight(20)
+	button:SetText(GuidelimeData.fontColorSKIP .. L.QUEST_SKIP)
+	button:SetPoint("TOPLEFT", checkbox, "BOTTOMLEFT", 210, -24)
+	button:SetScript("OnClick", function()
+		showColorPicker(GuidelimeData.fontColorSKIP, function()
+			GuidelimeData.fontColorSKIP = getColorPickerColor()
+			button:SetText(GuidelimeData.fontColorSKIP .. L.QUEST_SKIP)
+		end)
+	end)
+
+	-- Arrow options
+
+	addon.optionsFrame.titleArrow = content:CreateFontString(nil, content, "GameFontNormal")
+	addon.optionsFrame.titleArrow:SetText("|cFFFFFFFF___ " .. L.ARROW .. " _____________________________________________________________________")
+	addon.optionsFrame.titleArrow:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -30, -30)
+	addon.optionsFrame.titleArrow:SetFontObject("GameFontNormalLarge")
+	prev = addon.optionsFrame.titleArrow
+
+	checkbox = addon.addCheckOption(content, GuidelimeDataChar, "showArrow", L.SHOW_ARROW, nil, function()
 		if addon.arrowFrame ~= nil then
 			if GuidelimeDataChar.showArrow then
 				addon.arrowFrame:Show()
@@ -107,9 +229,9 @@ function addon.fillOptions()
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
 	prev = checkbox
 	
-	slider = addon.addSliderOption(addon.optionsFrame, GuidelimeData, "arrowStyle", 1, 2, 1, L.ARROW_STYLE, nil, 
+	slider = addon.addSliderOption(content, GuidelimeData, "arrowStyle", 1, 2, 1, L.ARROW_STYLE, nil, 
 	function(self)
-		self.editbox:SetText(L["ARROW_STYLE" .. GuidelimeData.arrowStyle])
+		self.editbox:SetText("   " .. addon.getArrowIconText())
     	self.editbox:SetCursorPosition(0)
 	end, function()
 		if addon.arrowFrame ~= nil then
@@ -117,65 +239,141 @@ function addon.fillOptions()
 			addon.updateSteps() 
 		end
 	end)
-	slider.editbox:SetText(L["ARROW_STYLE" .. GuidelimeData.arrowStyle])
+	slider.editbox:SetText("   " .. addon.getArrowIconText())
     slider.editbox:SetCursorPosition(0)
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -10)
 
-	slider = addon.addSliderOption(addon.optionsFrame, GuidelimeDataChar, "arrowAlpha", 0, 1, 0.01, L.ARROW_ALPHA, nil, function()
+	slider = addon.addSliderOption(content, GuidelimeDataChar, "arrowAlpha", 0, 1, 0.01, L.ARROW_ALPHA, nil, function()
 		if addon.arrowFrame ~= nil then 
 			addon.arrowFrame:SetAlpha(GuidelimeDataChar.arrowAlpha)
 		end
 	end)
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -50)
 
-	slider = addon.addSliderOption(addon.optionsFrame, GuidelimeData, "maxNumOfStepsGOTO", 0, 50, 1, L.MAX_NUM_OF_STEPS_GOTO, nil, nil, function()
-		if GuidelimeDataChar.mainFrameShowing then
-			addon.updateSteps()
-		end
-	end)
-	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -110)
+	checkbox = addon.addCheckOption(content, GuidelimeData, "arrowDistance", L.SHOW_DISTANCE)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	prev = checkbox
 
-	slider = addon.addSliderOption(addon.optionsFrame, GuidelimeData, "maxNumOfStepsLOC", 0, 50, 1, L.MAX_NUM_OF_STEPS_LOC,nil, nil, function()
+	-- Map marker options
+
+	addon.optionsFrame.titleMapMarkers = content:CreateFontString(nil, content, "GameFontNormal")
+	addon.optionsFrame.titleMapMarkers:SetText("|cFFFFFFFF___ " .. L.MAP_MARKERS .. " _______________________________________________________")
+	addon.optionsFrame.titleMapMarkers:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
+	addon.optionsFrame.titleMapMarkers:SetFontObject("GameFontNormalLarge")
+	prev = addon.optionsFrame.titleMapMarkers
+
+	text = content:CreateFontString(nil, content, "GameFontNormal")
+	text:SetText(string.format(L.SHOW_MARKERS_GOTO_ON, addon.getMapMarkerText({t = "GOTO", mapIndex = 1}) .. "," .. addon.getMapMarkerText({t = "GOTO", mapIndex = 2}) .. "," .. addon.getMapMarkerText({t = "GOTO", mapIndex = 3})))
+	text:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -20)
+	prev = text
+
+	slider = addon.addSliderOption(content, GuidelimeData, "maxNumOfMarkersGOTO", 0, 50, 1, L.MAX_NUM_OF_MARKERS_GOTO, nil, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateSteps()
 		end
 	end)
-	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -170)
+	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -30)
+
+	slider = addon.addSliderOption(content, GuidelimeData, "maxNumOfMarkersLOC", 0, 50, 1, L.MAX_NUM_OF_MARKERS_LOC,nil, nil, function()
+		if GuidelimeDataChar.mainFrameShowing then
+			addon.updateSteps()
+		end
+	end)
+	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -80)
+
+	slider = addon.addSliderOption(content, GuidelimeData, "mapMarkerStyle", 1, 3, 1, L.MAP_MARKER_STYLE)
+	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -120)
+
+	slider = addon.addSliderOption(content, GuidelimeData, "mapMarkerSize", 10, 40, 1, L.MAP_MARKER_SIZE)
+	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -160)
+
+	checkbox = addon.addCheckOption(content, GuidelimeData, "showMapMarkersGOTO", L.MAP)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	prev = checkbox
 	
-	checkbox = addon.addCheckOption(addon.optionsFrame, GuidelimeData, "showQuestLevels", L.SHOW_SUGGESTED_QUEST_LEVELS, nil, function()
-		if GuidelimeDataChar.mainFrameShowing then
-			addon.updateStepsText()
-		end
-	end)
+	checkbox = addon.addCheckOption(content, GuidelimeData, "showMinimapMarkersGOTO", L.MINIMAP)
+	checkbox:SetPoint("TOPLEFT", text, "BOTTOMLEFT", 80, 0)
+
+	text = content:CreateFontString(nil, content, "GameFontNormal")
+	text:SetText(string.format(L.SHOW_MARKERS_LOC_ON, addon.getMapMarkerText({t = "KILL"}) .. "," .. addon.getMapMarkerText({t = "LOOT"}) .. "," .. addon.getMapMarkerText({t = "INTERACT"})))
+	text:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
+	prev = text
+
+	checkbox = addon.addCheckOption(content, GuidelimeData, "showMapMarkersLOC", L.MAP)
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = checkbox
 
-	checkbox = addon.addCheckOption(addon.optionsFrame, GuidelimeData, "showMinimumQuestLevels", L.SHOW_MINIMUM_QUEST_LEVELS, nil, function()
-		if GuidelimeDataChar.mainFrameShowing then
-			addon.updateStepsText()
-		end
-	end)
-	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
-	prev = checkbox
+	checkbox = addon.addCheckOption(content, GuidelimeData, "showMinimapMarkersLOC", L.MINIMAP)
+	checkbox:SetPoint("TOPLEFT", text, "BOTTOMLEFT", 80, 0)
 
-	checkbox = addon.addCheckOption(addon.optionsFrame, GuidelimeData, "showTooltips", L.SHOW_TOOLTIPS, nil, function()
-		if GuidelimeDataChar.mainFrameShowing then
-			addon.updateStepsText()
-		end
-	end)
-	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
-	prev = checkbox
+	-- General options
+	
+	addon.optionsFrame.titleGeneral = content:CreateFontString(nil, content, "GameFontNormal")
+	addon.optionsFrame.titleGeneral:SetText("|cFFFFFFFF___ " .. L.GENERAL_OPTIONS .. " _______________________________________________________")
+	addon.optionsFrame.titleGeneral:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -80)
+	addon.optionsFrame.titleGeneral:SetFontObject("GameFontNormalLarge")
+	prev = addon.optionsFrame.titleGeneral
 
-	checkbox = addon.addCheckOption(addon.optionsFrame, GuidelimeData, "autoAddCoordinates", L.AUTO_ADD_COORDINATES, nil, function()
+	checkbox = addon.addCheckOption(content, GuidelimeData, "autoAddCoordinates", L.AUTO_ADD_COORDINATES, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.loadCurrentGuide()
 			addon.updateSteps()
 		end
 	end)
-	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -70)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
 	prev = checkbox
-	
-	checkbox = addon.addCheckOption(addon.optionsFrame, GuidelimeData, "dataSourceQuestie", L.USE_QUESTIE_AS_DATA_SOURCE, L.USE_QUESTIE_AS_DATA_SOURCE_TOOLTIP, function()
+
+	checkbox = addon.addCheckOption(content, GuidelimeDataChar, "autoCompleteQuest", L.AUTO_COMPLETE_QUESTS)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	prev = checkbox
+
+	checkbox = addon.addCheckOption(content, GuidelimeData, "skipCutscenes", L.SKIP_CUTSCENES, nil, function()
+		if GuidelimeDataChar.mainFrameShowing then
+			addon.updateStepsText()
+		end
+	end)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	prev = checkbox
+
+	checkbox = addon.addCheckOption(content, GuidelimeData, "displayDemoGuide", L.DISPLAY_DEMO_GUIDES)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	prev = checkbox
+
+	checkbox = addon.addCheckOption(content, GuidelimeData, "showTooltips", L.SHOW_TOOLTIPS, nil, function()
+		if GuidelimeDataChar.mainFrameShowing then
+			addon.updateStepsText()
+		end
+	end)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	prev = checkbox
+
+	-- Debugging options
+
+	addon.optionsFrame.titleDebugging = content:CreateFontString(nil, content, "GameFontNormal")
+	addon.optionsFrame.titleDebugging:SetText("|cFFFFFFFF___ " .. L.DEBUGGING_OPTIONS .. " _______________________________________________________")
+	addon.optionsFrame.titleDebugging:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
+	addon.optionsFrame.titleDebugging:SetFontObject("GameFontNormalLarge")
+	prev = addon.optionsFrame.titleDebugging
+
+	checkbox = addon.addCheckOption(content, GuidelimeData, "debugging", L.DEBUGGING, nil, function()
+		addon.debugging = GuidelimeData.debugging
+		if GuidelimeDataChar.mainFrameShowing then
+			addon.updateMainFrame()
+		end
+	end)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
+	prev = checkbox
+
+	checkbox = addon.addCheckOption(content, GuidelimeData, "showLineNumbers", L.SHOW_LINE_NUMBERS, nil, function()
+		addon.debugging = GuidelimeData.debugging
+		if GuidelimeDataChar.mainFrameShowing then
+			addon.updateStepsText()
+		end
+	end)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	prev = checkbox
+
+	checkbox = addon.addCheckOption(content, GuidelimeData, "dataSourceQuestie", L.USE_QUESTIE_AS_DATA_SOURCE, L.USE_QUESTIE_AS_DATA_SOURCE_TOOLTIP, function()
 		addon.optionsFrame.options.dataSourceInternal:SetChecked(not GuidelimeData.dataSourceQuestie)
 		if GuidelimeDataChar.mainFrameShowing and GuidelimeData.autoAddCoordinates then
 			addon.loadCurrentGuide()
@@ -187,26 +385,18 @@ function addon.fillOptions()
 	if Questie == nil then checkbox.text:SetTextColor(0.4, 0.4, 0.4) end
 	prev = checkbox
 	
-	addon.optionsFrame.options.dataSourceInternal = addon.addCheckbox(addon.optionsFrame, L.USE_INTERNAL_DATA_SOURCE)
-	if not GuidelimeData.dataSourceQuestie then addon.optionsFrame.options.dataSourceInternal:SetChecked(true) end
-	addon.optionsFrame.options.dataSourceInternal:SetScript("OnClick", function()
-		GuidelimeData.dataSourceQuestie = Questie ~= nil and not addon.optionsFrame.options.dataSourceInternal:GetChecked() 
-		addon.optionsFrame.options.dataSourceInternal:SetChecked(not GuidelimeData.dataSourceQuestie)
-		addon.optionsFrame.options.dataSourceQuestie:SetChecked(GuidelimeData.dataSourceQuestie)
+	content.options.dataSourceInternal = addon.addCheckbox(content, L.USE_INTERNAL_DATA_SOURCE)
+	if not GuidelimeData.dataSourceQuestie then content.options.dataSourceInternal:SetChecked(true) end
+	content.options.dataSourceInternal:SetScript("OnClick", function()
+		GuidelimeData.dataSourceQuestie = Questie ~= nil and not content.options.dataSourceInternal:GetChecked() 
+		content.options.dataSourceInternal:SetChecked(not GuidelimeData.dataSourceQuestie)
+		content.options.dataSourceQuestie:SetChecked(GuidelimeData.dataSourceQuestie)
 		if GuidelimeDataChar.mainFrameShowing and GuidelimeData.autoAddCoordinates then
 			addon.loadCurrentGuide()
 			addon.updateSteps()
 		end
 	end)
-	addon.optionsFrame.options.dataSourceInternal:SetPoint("TOPLEFT", prev, "TOPLEFT", 270, 0)
-
-	checkbox = addon.addCheckOption(addon.optionsFrame, GuidelimeData, "skipCutscenes", L.SKIP_CUTSCENES, nil, function()
-		if GuidelimeDataChar.mainFrameShowing then
-			addon.updateStepsText()
-		end
-	end)
-	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
-	prev = checkbox
+	content.options.dataSourceInternal:SetPoint("TOPLEFT", prev, "TOPLEFT", 270, 0)
 end
 
 function addon.isOptionsShowing()

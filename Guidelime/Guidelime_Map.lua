@@ -23,8 +23,8 @@ local function createIconFrame(t, index, minimap)
 		index = addon.SPECIAL_MAP_INDEX.LOC
 	end
 	f.texture:SetTexCoord((index % 8) / 8, (index % 8 + 1) / 8, math.floor(index / 8) / 8, (math.floor(index / 8) + 1) / 8)
-    f.texture:SetWidth(16)
-    f.texture:SetHeight(16)
+    f.texture:SetWidth(GuidelimeData.mapMarkerSize)
+    f.texture:SetHeight(GuidelimeData.mapMarkerSize)
     f.texture:SetAllPoints(f)
 
     f:SetPoint("CENTER", 0, 0)
@@ -80,9 +80,7 @@ function addon.addMapIcon(element, highlight, ignoreMaxNumOfMarkers)
 	local mapIcon = getMapIcon(element, highlight)
 	if mapIcon == nil then return end
 	if not ignoreMaxNumOfMarkers and 
-		not element.step.active and 
-		GuidelimeData["maxNumOfSteps" .. element.t] ~= 0 and 
-		element.step.index - addon.currentGuide.lastActiveIndex >= GuidelimeData["maxNumOfSteps" .. element.t] then 
+		(mapIcon.index >= GuidelimeData["maxNumOfMarkers" .. element.t] or (not element.step.active and element.t ~= "GOTO")) then 
 		return 
 	end
 	mapIcon.inUse = true
@@ -155,14 +153,17 @@ function addon.setArrowTexture()
 end
 
 function addon.getArrowIconText()
+	local col, row = 0, 0
+	if addon.arrowFrame ~= nil and addon.arrowFrame.col ~= nil then col = addon.arrowFrame.col end
+	if addon.arrowFrame ~= nil and addon.arrowFrame.row ~= nil then row = addon.arrowFrame.row end
 	if GuidelimeData.arrowStyle == 1 then
 		return "|T" .. addon.icons.MAP_LIME_ARROW .. ":15:15:0:1:512:512:" .. 
-			addon.arrowFrame.col * 64 .. ":" .. (addon.arrowFrame.col + 1) * 64 .. ":" .. 
-			addon.arrowFrame.row * 64 .. ":" .. (addon.arrowFrame.row + 1) * 64 .. ":::|t"
+			col * 64 .. ":" .. (col + 1) * 64 .. ":" .. 
+			row * 64 .. ":" .. (row + 1) * 64 .. ":::|t"
 	elseif GuidelimeData.arrowStyle == 2 then
 		return "|T" .. addon.icons.MAP_ARROW .. ":15:15:0:1:512:512:" .. 
-			addon.arrowFrame.col * 56 .. ":" .. (addon.arrowFrame.col + 1) * 56 .. ":" .. 
-			addon.arrowFrame.row * 42 .. ":" .. (addon.arrowFrame.row + 1) * 42 .. ":127:255:51|t"
+			col * 56 .. ":" .. (col + 1) * 56 .. ":" .. 
+			row * 42 .. ":" .. (row + 1) * 42 .. ":127:255:51|t"
 	end
 end
 

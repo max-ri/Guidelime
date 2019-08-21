@@ -99,16 +99,29 @@ end
 function addon.loadData()
 	local defaultOptions = {
 		debugging = false,
+		showLineNumbers = false,
 		showQuestLevels = false,
 		showMinimumQuestLevels = false,
 		showTooltips = true,
 		maxNumOfSteps = 0,
-		maxNumOfStepsGOTO = 0,
-		maxNumOfStepsLOC = 1,
+		mapMarkerStyle = 1,
+		mapMarkerSize = 16,
+		showMapMarkersGOTO = true,
+		showMapMarkersLOC = true,
+		showMinimapMarkersGOTO = true,
+		showMinimapMarkersLOC = true,
+		maxNumOfMarkersGOTO = 20,
+		maxNumOfMarkersLOC = 20,
 		arrowStyle = 1,
+		arrowDistance = false,
 		skipCutscenes = true,
 		dataSourceQuestie = false,
 		autoAddCoordinates = true,
+		displayDemoGuides = true,
+		fontColorACCEPT = addon.COLOR_QUEST_DEFAULT,
+		fontColorCOMPLETE = addon.COLOR_QUEST_DEFAULT,
+		fontColorTURNIN = addon.COLOR_QUEST_DEFAULT,
+		fontColorSKIP = addon.COLOR_QUEST_DEFAULT,
 		version = GetAddOnMetadata(addonName, "version")
 	}
 	local defaultOptionsChar = {
@@ -120,8 +133,9 @@ function addon.loadData()
 		mainFrameWidth = 350,
 		mainFrameHeight = 400,
 		mainFrameAlpha = 0.5,
-		hideCompletedSteps = true,
-		hideUnavailableSteps = true,
+		mainFrameFontSize = 14,
+		showCompletedSteps = false,
+		showUnavailableSteps = false,
 		autoCompleteQuest = true,
 		showArrow = true,
 		arrowX = 0,
@@ -154,6 +168,14 @@ function addon.loadData()
 		end
 	end, 1)
 	GuidelimeData.version:gsub("(%d+).(%d+)", function(major, minor)
+		if tonumber(major) == 0 and tonumber(minor) < 36 then
+			--options reworked; remove everything old
+			GuidelimeData.hideCompletedSteps = nil
+			GuidelimeData.hideUnavailableSteps = nil
+			GuidelimeData.maxNumOfStepsGOTO = nil
+			GuidelimeData.maxNumOfStepsLOC = nil
+			GuidelimeData.version = GetAddOnMetadata(addonName, "version")
+		end
 		if tonumber(major) == 0 and tonumber(minor) < 21 then
 			--autoAddCoordinates default changed to true; reset for everyone
 			GuidelimeData.autoAddCoordinates = true
@@ -397,7 +419,7 @@ local function updateStepText(i)
 	local skipQuests = {}
 	local trackQuest = {}
 	local url
-	if addon.debugging then text = text .. step.line .. " " end
+	if GuidelimeData.showLineNumbers then text = text .. step.line .. " " end
 	if not step.active then
 		text = text .. addon.COLOR_INACTIVE
 	elseif step.manual then
@@ -688,8 +710,8 @@ local function keepFading()
 	local isFading = false
 	for i, step in ipairs(addon.currentGuide.steps)	do
 		if step.fading ~= nil then
-			if (GuidelimeDataChar.hideCompletedSteps and (step.completed or step.skip)) or
-			   (GuidelimeDataChar.hideUnavailableSteps and not step.available) then
+			if (not GuidelimeDataChar.showCompletedSteps and (step.completed or step.skip)) or
+			   (not GuidelimeDataChar.showUnavailableSteps and not step.available) then
 				step.active = false
 				--if addon.debugging then print("LIME: fade out", i, step.fading) end
 				if step.fading <= 0 then
@@ -713,7 +735,7 @@ local function keepFading()
 		C_Timer.After(0.1, function()
 			keepFading()
 		end)
-	elseif update and (GuidelimeDataChar.hideCompletedSteps or GuidelimeDataChar.hideUnavailableSteps) then
+	elseif update and (not GuidelimeDataChar.showCompletedSteps or not GuidelimeDataChar.showUnavailableSteps) then
 		addon.updateMainFrame()
 	end
 end
@@ -853,12 +875,10 @@ local function showContextMenu()
 		{text = L.AVAILABLE_GUIDES .. "...", checked = addon.isGuidesShowing(), func = addon.showGuides},
 		{text = GAMEOPTIONS_MENU .. "...", checked = addon.isOptionsShowing(), func = addon.showOptions},
 		{text = L.EDITOR .. "...", checked = addon.isEditorShowing(), func = addon.showEditor},
-		{text = L.HIDE_COMPLETED_STEPS, checked = GuidelimeDataChar.hideCompletedSteps or GuidelimeDataChar.hideUnavailableSteps, func = function()
-			GuidelimeDataChar.hideCompletedSteps = not GuidelimeDataChar.hideCompletedSteps and not GuidelimeDataChar.hideUnavailableSteps
-			GuidelimeDataChar.hideUnavailableSteps = GuidelimeDataChar.hideCompletedSteps
+		{text = L.SHOW_COMPLETED_STEPS, checked = GuidelimeDataChar.showCompletedSteps, func = function()
+			GuidelimeDataChar.showCompletedSteps = not GuidelimeDataChar.showCompletedSteps
 			if addon.optionsFrame ~= nil then
-				addon.optionsFrame.options.hideCompletedSteps:SetChecked(GuidelimeDataChar.hideCompletedSteps)
-				addon.optionsFrame.options.hideUnavailableSteps:SetChecked(GuidelimeDataChar.hideUnavailableSteps)
+				addon.optionsFrame.options.showCompletedSteps:SetChecked(GuidelimeDataChar.showCompletedSteps)
 			end
 			addon.updateMainFrame()
 		end}
@@ -875,7 +895,7 @@ local function setStepSkip(value, a, b)
 		GuidelimeDataChar.guideSkip[addon.currentGuide.name][i] = step.skip
 		table.insert(indexes, i)
 	end
-	if not value and GuidelimeDataChar.hideUnavailableSteps then
+	if not value and not GuidelimeDataChar.showUnavailableSteps then
 		addon.updateMainFrame()
 	else
 		addon.updateSteps(indexes)
@@ -889,7 +909,7 @@ local function skipCurrentSteps()
 	end
 end
 
-function addon.updateMainFrame()
+function addon.updateMainFrame(reset)
 	if addon.mainFrame == nil then return end
 	if addon.debugging then print("LIME: updating main frame") end
 
@@ -903,6 +923,7 @@ function addon.updateMainFrame()
 				step:Hide()
 			end
 		end
+		if reset then addon.mainFrame.steps = {} end
 	end
 	if addon.mainFrame.message ~= nil then
 		for _, message in ipairs(addon.mainFrame.message) do
@@ -978,8 +999,8 @@ function addon.updateMainFrame()
 		addon.mainFrame.titleBox:SetText(addon.currentGuide.name)
 		local prev = addon.mainFrame.titleBox
 		for i, step in ipairs(addon.currentGuide.steps) do
-			if ((not step.completed and not step.skip) or not GuidelimeDataChar.hideCompletedSteps) and
-				(step.available or not GuidelimeDataChar.hideUnavailableSteps) then
+			if ((not step.completed and not step.skip) or GuidelimeDataChar.showCompletedSteps) and
+				(step.available or GuidelimeDataChar.showUnavailableSteps) then
 				if step.active or GuidelimeData.maxNumOfSteps == 0 or i - addon.currentGuide.lastActiveIndex < GuidelimeData.maxNumOfSteps then
 					if addon.mainFrame.steps[i] == nil then 
 						addon.mainFrame.steps[i] = addon.addCheckbox(addon.mainFrame.scrollChild, nil, "") 
@@ -1135,10 +1156,10 @@ end
 local function simulateCompleteCurrentSteps()
 	if addon.currentGuide ~= nil and addon.currentGuide.firstActiveIndex ~= nil and
 		addon.currentGuide.lastActiveIndex ~= nil then
-		if addon.debugging then print(addon.currentGuide.firstActiveIndex, addon.currentGuide.lastActiveIndex) end
+		if addon.debugging then print("LIME:", addon.currentGuide.firstActiveIndex, addon.currentGuide.lastActiveIndex) end
 		for i = addon.currentGuide.firstActiveIndex, addon.currentGuide.lastActiveIndex do
 			local step = addon.currentGuide.steps[i]
-			if addon.debugging then print(step.text, step.optional) end
+			if addon.debugging then print("LIME:", step.text, step.optional) end
 			for _, element in ipairs(step.elements) do
 				if not element.completed then
 					if element.t == "ACCEPT" then
