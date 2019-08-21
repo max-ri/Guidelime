@@ -100,14 +100,14 @@ function addon.fillOptions()
 	end)
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -90)
 	
-	slider = addon.addSliderOption(content, GuidelimeData, "maxNumOfSteps", 0, 50, 1, L.MAX_NUM_OF_STEPS, nil, nil, function()
+	slider = addon.addSliderOption(content, GuidelimeDataChar, "mainFrameFontSize", 12, 18, 2, L.MAIN_FRAME_FONT_SIZE, nil, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateMainFrame()
 		end
 	end)
-	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -140)
-	
-	slider = addon.addSliderOption(content, GuidelimeDataChar, "mainFrameFontSize", 12, 18, 2, L.MAIN_FRAME_FONT_SIZE, nil, nil, function()
+	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -130)
+
+	slider = addon.addSliderOption(content, GuidelimeData, "maxNumOfSteps", 0, 50, 1, L.MAX_NUM_OF_STEPS, nil, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateMainFrame()
 		end
