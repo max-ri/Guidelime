@@ -46,7 +46,8 @@ local function setQuestInfo(id)
 				if positions ~= nil and #positions > 0 then
 					text = text .. "|r " .. L.AT .. addon.COLOR_WHITE .. "\n"
 					for i, pos in ipairs(positions) do
-						pos.t = "GOTO"
+						pos.t = "LOC"
+						pos.markerTyp = objective.type
 						addon.addMapIcon(pos, false, true)
 						if i <= 10 then
 							text = text .. addon.getMapMarkerText(pos) ..
@@ -92,10 +93,7 @@ local function setEditorMapIcons(guide)
 				text:SetMultiLine(true)
 				text:SetFontObject("GameFontNormal")
 				text:SetTextColor(1,1,1,1)
-				text:SetText(addon.COLOR_LIGHT_BLUE .. step.line .. "|r " .. element.x .. ", " .. element.y .. " |T" .. addon.icons.MAP_MARKER .. ":15:15:0:1:512:512:" .. 
-					element.mapIndex % 8 * 64 .. ":" .. (element.mapIndex % 8 + 1) * 64 .. ":" .. 
-					math.floor(element.mapIndex / 8) * 64 .. ":" .. (math.floor(element.mapIndex / 8) + 1) * 64 .. ":::|t")
-
+				text:SetText(addon.COLOR_LIGHT_BLUE .. step.line .. "|r " .. element.x .. ", " .. element.y .. " " .. addon.getMapMarkerText(element))
 				if prev == nil then
 					text:SetPoint("TOPLEFT", addon.editorFrame.gotoInfoContent, "TOPLEFT", 0, 0)
 				else

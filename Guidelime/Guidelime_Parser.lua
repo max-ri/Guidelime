@@ -321,6 +321,7 @@ function addon.parseLine(step, guide, strict, nameOnly)
 					addon.createPopupFrame(string.format(L.ERROR_CODE_ZONE_NOT_FOUND, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
 					err = true
 				end
+				step.hasLoc = true
 			end, 1)
 			if c ~= 1 then
 				addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()

@@ -126,13 +126,13 @@ function addon.fillOptions()
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = checkbox
 	
-	checkbox = addon.addCheckOption(content, GuidelimeDataChar, "showCompletedSteps", L.SHOW_COMPLETED_STEPS, nil, function()
+	addon.optionsFrame.showCompletedSteps = addon.addCheckOption(content, GuidelimeDataChar, "showCompletedSteps", L.SHOW_COMPLETED_STEPS, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateMainFrame()
 		end
 	end)
-	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
-	prev = checkbox
+	addon.optionsFrame.showCompletedSteps:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	prev = addon.optionsFrame.showCompletedSteps
 	
 	checkbox = addon.addCheckOption(content, GuidelimeDataChar, "showUnavailableSteps", L.SHOW_UNAVAILABLE_STEPS, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
@@ -291,8 +291,9 @@ function addon.fillOptions()
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -20)
 
 	slider = addon.addSliderOption(content, GuidelimeData, "maxNumOfMarkersLOC", 0, 50, 1, L.MAX_NUM_OF_MARKERS_LOC, nil, nil, function()
+		addon.loadCurrentGuide()
 		if GuidelimeDataChar.mainFrameShowing then
-			addon.updateSteps()
+			addon.updateMainFrame()
 		end
 	end)
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -70)
@@ -301,7 +302,7 @@ function addon.fillOptions()
 		self.editbox:SetText(addon.getMapMarkerText({t = "GOTO", mapIndex = 0}) .. addon.getMapMarkerText({t = "GOTO", mapIndex = 1}))
     	self.editbox:SetCursorPosition(0)
 		addon.optionsFrame.textShowMarkersGOTO:SetText(string.format(L.SHOW_MARKERS_GOTO_ON, addon.getMapMarkerText({t = "GOTO", mapIndex = 1}) .. "," .. addon.getMapMarkerText({t = "GOTO", mapIndex = 2}) .. "," .. addon.getMapMarkerText({t = "GOTO", mapIndex = 3})))
-		addon.optionsFrame.textShowMarkersLOC:SetText(string.format(L.SHOW_MARKERS_LOC_ON, addon.getMapMarkerText({t = "KILL"}) .. "," .. addon.getMapMarkerText({t = "LOOT"}) .. "," .. addon.getMapMarkerText({t = "INTERACT"})))
+		addon.optionsFrame.textShowMarkersLOC:SetText(string.format(L.SHOW_MARKERS_LOC_ON, addon.getMapMarkerText({t = "monster"}) .. "," .. addon.getMapMarkerText({t = "item"}) .. "," .. addon.getMapMarkerText({t = "object"})))
 	end, function()
 		addon.setMapIconTextures()
 		addon.updateSteps() 
@@ -330,10 +331,10 @@ function addon.fillOptions()
 			addon.updateSteps()
 		end
 	end)
-	checkbox:SetPoint("TOPLEFT", text, "BOTTOMLEFT", 80, 0)
+	checkbox:SetPoint("TOPLEFT", addon.optionsFrame.textShowMarkersGOTO, "BOTTOMLEFT", 80, 0)
 
 	addon.optionsFrame.textShowMarkersLOC = content:CreateFontString(nil, content, "GameFontNormal")
-	addon.optionsFrame.textShowMarkersLOC:SetText(string.format(L.SHOW_MARKERS_LOC_ON, addon.getMapMarkerText({t = "KILL"}) .. "," .. addon.getMapMarkerText({t = "LOOT"}) .. "," .. addon.getMapMarkerText({t = "INTERACT"})))
+	addon.optionsFrame.textShowMarkersLOC:SetText(string.format(L.SHOW_MARKERS_LOC_ON, addon.getMapMarkerText({t = "monster"}) .. "," .. addon.getMapMarkerText({t = "item"}) .. "," .. addon.getMapMarkerText({t = "object"})))
 	addon.optionsFrame.textShowMarkersLOC:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
 	prev = addon.optionsFrame.textShowMarkersLOC
 
@@ -350,7 +351,7 @@ function addon.fillOptions()
 			addon.updateSteps()
 		end
 	end)
-	checkbox:SetPoint("TOPLEFT", text, "BOTTOMLEFT", 80, 0)
+	checkbox:SetPoint("TOPLEFT", addon.optionsFrame.textShowMarkersLOC, "BOTTOMLEFT", 80, 0)
 
 	-- General options
 	

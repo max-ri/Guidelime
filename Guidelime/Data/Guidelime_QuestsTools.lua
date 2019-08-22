@@ -263,11 +263,12 @@ local function addToCluster(x, y, cluster, dist)
 	cluster.x = (cluster.x * cluster.count + x) / (cluster.count + 1)
 	cluster.y = (cluster.y * cluster.count + y) / (cluster.count + 1)
 	-- this is an approximation only
-	if cluster.radius < dist then cluster.radius = dist end	
+	if dist ~= nil and cluster.radius < dist then cluster.radius = dist end	
 	cluster.count = cluster.count + 1
 	--if addon.debugging then print("LIME: adding to cluster ", cluster.count, cluster.x, cluster.y) end
 end
 
+-- approximation in order to find a position equally far away from previous clusters
 local function selectFurthestPosition(positions, clusters)
 	local maxPos, maxDist
 	for _, pos in ipairs(positions) do
@@ -275,9 +276,13 @@ local function selectFurthestPosition(positions, clusters)
 			if clusters[pos.instance] == nil then return pos end
 			local dist = 0
 			for _, cluster in ipairs(clusters[pos.instance]) do
-				dist = dist + (cluster.x - pos.wx) * (cluster.x - pos.wx) + (cluster.y - pos.wy) * (cluster.y - pos.wy) 
+				if cluster.x == pos.wx and cluster.y == pos.wy then
+					dist = nil
+				elseif dist ~= nil then
+					dist = dist + 1 / ((cluster.x - pos.wx) * (cluster.x - pos.wx) + (cluster.y - pos.wy) * (cluster.y - pos.wy)) 
+				end
 			end
-			if maxDist == nil or dist > maxDist then
+			if maxDist == nil or (dist ~= nil and dist < maxDist) then
 				maxPos, maxDist = pos, dist
 			end
 		end
@@ -315,6 +320,43 @@ function addon.getQuestPosition(id, typ, index)
 			print("error transforming (" .. maxCluster.x .. "," .. maxCluster.y .. "," .. maxCluster.instance .. ") into zone coordinates for quest #" .. id)
 		end
 	end
+end
+
+function addon.getQuestPositionsLimited(id, typ, index, maxNumber, onlyWorld)
+	local clusters = {}
+	local filterZone
+	if addon.questsDB[id] ~= nil and addon.questsDB[id].zone ~= nil then filterZone = addon.questsDB[id].zone end
+	local positions = addon.getQuestPositions(id, typ, index, filterZone)
+	if positions == nil then return end
+	if #positions == 0 and filterZone ~= nil then
+		positions = addon.getQuestPositions(id, typ, index)
+	end
+	if maxNumber > 0 and #positions > maxNumber then
+		local positions2 = {}
+		for i = 1, maxNumber do 
+			local pos = selectFurthestPosition(positions, clusters)
+			pos.selected = true
+			if clusters[pos.instance] == nil then clusters[pos.instance] = {} end
+			table.insert(clusters[pos.instance], {x = pos.wx, y = pos.wy, count = 1, instance = pos.instance})
+			table.insert(positions2, pos)
+		end
+		positions = positions2
+	end
+	if onlyWorld then return positions end
+	local result = {}
+	for _, pos in ipairs(positions) do
+		local x, y, zone = addon.GetZoneCoordinatesFromWorld(pos.wx, pos.wy, pos.instance)
+		if x ~= nil then
+			pos.x = math.floor(x * 10000) / 100
+			pos.y = math.floor(y * 10000) / 100
+			pos.zone = zone
+			pos.mapID = addon.mapIDs[zone]
+			table.insert(result, pos)
+		elseif addon.debugging then
+			print("error transforming (" .. maxCluster.x .. "," .. maxCluster.y .. "," .. maxCluster.instance .. ") into zone coordinates for quest #" .. id)
+		end
+	end
+	return result
 end
 
 function addon.findInLists(line, wordLists, first, startPos, endPos)

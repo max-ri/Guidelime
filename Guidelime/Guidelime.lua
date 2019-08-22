@@ -331,6 +331,28 @@ function addon.loadCurrentGuide()
 							i = i + 1
 						end						
 					end
+					if GuidelimeData.autoAddCoordinates and not step.hasLoc then
+						local a, b = element.objective, element.objective
+						local objectives = addon.getQuestObjectives(element.questId, element.t)						
+						if element.objective == nil then a = 1; b = #objectives end
+						for o = a, b do
+							local positions = addon.getQuestPositionsLimited(element.questId, element.t, o, GuidelimeData.maxNumOfMarkersLOC, true)
+							if positions ~= nil and #positions > 1 then
+								for _, locElement in ipairs(positions) do
+									locElement.t = "LOC"
+									locElement.markerTyp = objectives[o].type
+									locElement.step = step
+									locElement.generated = true
+									locElement.index = i
+									table.insert(step.elements, i, locElement)
+									i = i + 1
+								end
+							end
+						end
+						for j = i, #step.elements do
+							step.elements[j].index = j
+						end
+					end
 				end
 				i = i + 1
 			end
@@ -445,8 +467,8 @@ local function updateStepText(i)
 		elseif element.t == "COMPLETE" then
 			text = text .. getQuestObjectiveIcon(element.questId, element.objective)
 		elseif element.t == "LOC" or element.t == "GOTO" then
-			if element.t == "LOC" and prevElement ~= nil and prevElement.t == "LOC" then
-				-- dont show an icon for subsequent LOC elements
+			if element.t == "LOC" --[[and prevElement ~= nil and prevElement.t == "LOC"]] then
+				-- Dont show icons for LOC at all. Seems redundant with quest objective icons. ~~Dont show an icon for subsequent LOC elements~~
 			elseif element.mapIndex == 0 and addon.arrowFrame ~= nil and GuidelimeDataChar.showArrow then
 				text = text .. addon.getArrowIconText()
 			elseif element.mapIndex ~= nil then
@@ -880,7 +902,7 @@ local function showContextMenu()
 		{text = L.SHOW_COMPLETED_STEPS, checked = GuidelimeDataChar.showCompletedSteps, func = function()
 			GuidelimeDataChar.showCompletedSteps = not GuidelimeDataChar.showCompletedSteps
 			if addon.optionsFrame ~= nil then
-				addon.optionsFrame.options.showCompletedSteps:SetChecked(GuidelimeDataChar.showCompletedSteps)
+				addon.optionsFrame.showCompletedSteps:SetChecked(GuidelimeDataChar.showCompletedSteps)
 			end
 			addon.updateMainFrame()
 		end}

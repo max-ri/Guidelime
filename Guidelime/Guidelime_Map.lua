@@ -5,7 +5,7 @@ HBD = LibStub("HereBeDragons-2.0")
 HBDPins = LibStub("HereBeDragons-Pins-2.0")
 
 addon.MAX_MAP_INDEX = 59
-addon.SPECIAL_MAP_INDEX = {KILL = 60, LOOT = 61,  INTERACT = 62, LOC = 63}
+addon.SPECIAL_MAP_INDEX = {monster = 60, item = 61, object = 62, npc = 63, LOC = 63}
 addon.mapIcons = {}
 
 
@@ -71,14 +71,14 @@ local function createMapIcon(t, i)
 	return addon.mapIcons[t][i]
 end
 
-local function getMapIcon(element, highlight)
-	if addon.mapIcons[element.t] == nil then addon.mapIcons[element.t] = {} end
+local function getMapIcon(t, element, highlight)
+	if addon.mapIcons[t] == nil then addon.mapIcons[t] = {} end
 	if highlight then 
-		if addon.mapIcons[element.t][0] == nil then createMapIcon(element.t, 0) end
-		return addon.mapIcons[element.t][0] 
+		if addon.mapIcons[t][0] == nil then createMapIcon(t, 0) end
+		return addon.mapIcons[t][0] 
 	end
-	if addon.mapIcons[element.t] ~= nil then
-		for i, mapIcon in ipairs(addon.mapIcons[element.t]) do
+	if addon.mapIcons[t] ~= nil then
+		for i, mapIcon in ipairs(addon.mapIcons[t]) do
 			if mapIcon.inUse then 
 				if mapIcon.mapID == element.mapID and mapIcon.x == element.x and mapIcon.y == element.y then
 					return mapIcon
@@ -88,15 +88,15 @@ local function getMapIcon(element, highlight)
 			end
 		end
 	end
-	return createMapIcon(element.t)		
+	return createMapIcon(t)		
 end
 
 function addon.addMapIcon(element, highlight, ignoreMaxNumOfMarkers)
-	local mapIcon = getMapIcon(element, highlight)
+	local mapIcon = getMapIcon(element.markerTyp or element.t, element, highlight)
 	if mapIcon == nil then return end
-	if not ignoreMaxNumOfMarkers and 
-		(mapIcon.index >= GuidelimeData["maxNumOfMarkers" .. element.t] or (not element.step.active and element.t ~= "GOTO")) then 
-		return 
+	if not ignoreMaxNumOfMarkers then
+		if element.t == "GOTO" and mapIcon.index >= GuidelimeData.maxNumOfMarkersGOTO then return end
+		if not element.step.active and element.t ~= "GOTO" then return end
 	end
 	mapIcon.inUse = true
 	mapIcon.mapID = element.mapID
@@ -145,7 +145,7 @@ end
 function addon.getMapMarkerText(element)
 	local index = element.mapIndex
 	if element.t ~= "GOTO" then
-		index = addon.SPECIAL_MAP_INDEX[element.t]
+		index = addon.SPECIAL_MAP_INDEX[element.markerTyp or element.t]
 	elseif index > addon.MAX_MAP_INDEX then
 		index = addon.SPECIAL_MAP_INDEX.LOC
 	end
