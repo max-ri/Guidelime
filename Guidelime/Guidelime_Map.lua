@@ -95,7 +95,7 @@ function addon.addMapIcon(element, highlight, ignoreMaxNumOfMarkers)
 	local mapIcon = getMapIcon(element.markerTyp or element.t, element, highlight)
 	if mapIcon == nil then return end
 	if not ignoreMaxNumOfMarkers then
-		if element.t == "GOTO" and mapIcon.index >= GuidelimeData.maxNumOfMarkersGOTO then return end
+		if element.t == "GOTO" and mapIcon.index >= GuidelimeData.maxNumOfMarkersGOTO and GuidelimeData.maxNumOfMarkersGOTO > 0 then return end
 		if not element.step.active and element.t ~= "GOTO" then return end
 	end
 	mapIcon.inUse = true
