@@ -13,18 +13,14 @@ local function createIconFrame(t, index, minimap)
     local f = CreateFrame("Button", addonName .. t .. index .. minimap, nil)
     f:SetFrameStrata("TOOLTIP")
 	f:SetFrameLevel(index)
-    f:SetWidth(16)
-    f:SetHeight(16)
     f.texture = f:CreateTexture(nil, "TOOLTIP")
-    f.texture:SetTexture(addon.icons.MAP_MARKER)
+	addon.setMapIconTexture(f)
 	if t ~= "GOTO" then
 		index = addon.SPECIAL_MAP_INDEX[t]
 	elseif index > addon.MAX_MAP_INDEX then
 		index = addon.SPECIAL_MAP_INDEX.LOC
 	end
 	f.texture:SetTexCoord((index % 8) / 8, (index % 8 + 1) / 8, math.floor(index / 8) / 8, (math.floor(index / 8) + 1) / 8)
-    f.texture:SetWidth(GuidelimeData.mapMarkerSize)
-    f.texture:SetHeight(GuidelimeData.mapMarkerSize)
     f.texture:SetAllPoints(f)
 
     f:SetPoint("CENTER", 0, 0)
@@ -42,6 +38,25 @@ local function createIconFrame(t, index, minimap)
     end
     f:Hide()
     return f
+end
+
+function addon.setMapIconTexture(f)
+    f.texture:SetTexture(addon.icons["MAP_MARKER_" .. GuidelimeData.mapMarkerStyle])
+    f.texture:SetWidth(GuidelimeData.mapMarkerSize)
+    f.texture:SetHeight(GuidelimeData.mapMarkerSize)
+    f:SetWidth(GuidelimeData.mapMarkerSize)
+    f:SetHeight(GuidelimeData.mapMarkerSize)
+end
+
+function addon.setMapIconTextures()
+	for t, icons in pairs(addon.mapIcons) do
+		for i = 0, #icons do
+			if icons[i] ~= nil then
+				addon.setMapIconTexture(icons[i].map)
+				addon.setMapIconTexture(icons[i].minimap)
+			end
+		end
+	end
 end
 
 local function createMapIcon(t, i)
@@ -106,12 +121,13 @@ function addon.removeMapIcons()
 	end
 end
 
-local function showMapIcon(mapIcon)
+local function showMapIcon(mapIcon, t)
 	if mapIcon ~= nil and mapIcon.inUse then
+		if t ~= "GOTO" then t = "LOC" end
 		local x, y, instance = HBD:GetWorldCoordinatesFromZone(mapIcon.x / 100, mapIcon.y / 100, mapIcon.mapID)
 		if x ~= nil then
-			HBDPins:AddWorldMapIconWorld(addon, mapIcon.map, instance, x, y, 3)
-			HBDPins:AddMinimapIconWorld(addon, mapIcon.minimap, instance, x, y, mapIcon.index == 0)
+			if GuidelimeData["showMapMarkers" .. t] then HBDPins:AddWorldMapIconWorld(addon, mapIcon.map, instance, x, y, 3) end
+			if GuidelimeData["showMinimapMarkers" .. t] then HBDPins:AddMinimapIconWorld(addon, mapIcon.minimap, instance, x, y, mapIcon.index == 0) end
 		elseif addon.debugging then
 			print("LIME: error transforming coordinates", mapIcon.x, mapIcon.y, mapIcon.mapID)
 		end
@@ -119,9 +135,9 @@ local function showMapIcon(mapIcon)
 end
 
 function addon.showMapIcons()
-	for _, icons in pairs(addon.mapIcons) do
+	for t, icons in pairs(addon.mapIcons) do
 		for i = #icons, 0, -1 do
-			showMapIcon(icons[i])
+			showMapIcon(icons[i], t)
 		end
 	end
 end
@@ -133,7 +149,7 @@ function addon.getMapMarkerText(element)
 	elseif index > addon.MAX_MAP_INDEX then
 		index = addon.SPECIAL_MAP_INDEX.LOC
 	end
-	return "|T" .. addon.icons.MAP_MARKER .. ":15:15:0:1:512:512:" .. 
+	return "|T" .. addon.icons["MAP_MARKER_" .. GuidelimeData.mapMarkerStyle] .. ":15:15:0:1:512:512:" .. 
 		index % 8 * 64 .. ":" .. (index % 8 + 1) * 64 .. ":" .. 
 		math.floor(index / 8) * 64 .. ":" .. (math.floor(index / 8) + 1) * 64 .. ":::|t"
 end
@@ -184,6 +200,13 @@ function addon.updateArrow()
 			addon.arrowFrame.row = math.floor(index / 9)
 			addon.arrowFrame.texture:SetTexCoord(addon.arrowFrame.col * 56 / 512, (addon.arrowFrame.col + 1) * 56 / 512, addon.arrowFrame.row * 42 / 512, (addon.arrowFrame.row + 1) * 42 / 512)
 		end
+		if GuidelimeData.arrowDistance then
+		 	local dist = math.floor(math.sqrt((addon.x - addon.arrowX) * (addon.x - addon.arrowX) + (addon.y - addon.arrowY) * (addon.y - addon.arrowY)))
+			addon.arrowFrame.text:SetText(dist .. " " .. L.YARDS)
+			addon.arrowFrame.text:Show()
+		else
+			addon.arrowFrame.text:Hide()
+		end
 	end
 end
 
@@ -211,6 +234,8 @@ function addon.showArrow(element)
 				local _
 				_, _, GuidelimeDataChar.arrowRelative, GuidelimeDataChar.arrowX, GuidelimeDataChar.arrowY = addon.arrowFrame:GetPoint()
 			end)
+			addon.arrowFrame.text = addon.arrowFrame:CreateFontString(nil, addon.arrowFrame, "GameFontNormal")
+			addon.arrowFrame.text:SetPoint("TOP", addon.arrowFrame, "BOTTOM", 0, 0)
 		end
 		addon.arrowFrame:Show()
 	end

@@ -95,14 +95,14 @@ function addon.fillOptions()
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -50)
 	slider = addon.addSliderOption(content, GuidelimeDataChar, "mainFrameAlpha", 0, 1, 0.01, L.MAIN_FRAME_ALPHA, nil, function()
 		if addon.mainFrame ~= nil then 
-			addon.mainFrame:SetBackdropColor(1,1,1,GuidelimeDataChar.mainFrameAlpha)
+			addon.mainFrame.bg:SetColorTexture(0, 0, 0, GuidelimeDataChar.mainFrameAlpha)
 		end
 	end)
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -90)
 	
-	slider = addon.addSliderOption(content, GuidelimeDataChar, "mainFrameFontSize", 12, 18, 2, L.MAIN_FRAME_FONT_SIZE, nil, nil, function()
+	slider = addon.addSliderOption(content, GuidelimeDataChar, "mainFrameFontSize", 8, 24, 1, L.MAIN_FRAME_FONT_SIZE, nil, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
-			addon.updateMainFrame()
+			addon.updateMainFrame(true)
 		end
 	end)
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -130)
@@ -172,6 +172,9 @@ function addon.fillOptions()
 		showColorPicker(GuidelimeData.fontColorACCEPT, function()
 			GuidelimeData.fontColorACCEPT = getColorPickerColor()
 			button:SetText(GuidelimeData.fontColorACCEPT .. L.QUEST_ACCEPT)
+			if GuidelimeDataChar.mainFrameShowing then
+				addon.updateStepsText()
+			end
 		end)
 	end)
 	local button = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
@@ -183,6 +186,9 @@ function addon.fillOptions()
 		showColorPicker(GuidelimeData.fontColorCOMPLETE, function()
 			GuidelimeData.fontColorCOMPLETE = getColorPickerColor()
 			button:SetText(GuidelimeData.fontColorCOMPLETE .. L.QUEST_COMPLETE)
+			if GuidelimeDataChar.mainFrameShowing then
+				addon.updateStepsText()
+			end
 		end)
 	end)
 	local button = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
@@ -194,6 +200,9 @@ function addon.fillOptions()
 		showColorPicker(GuidelimeData.fontColorTURNIN, function()
 			GuidelimeData.fontColorTURNIN = getColorPickerColor()
 			button:SetText(GuidelimeData.fontColorTURNIN .. L.QUEST_TURNIN)
+			if GuidelimeDataChar.mainFrameShowing then
+				addon.updateStepsText()
+			end
 		end)
 	end)
 	local button = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
@@ -205,6 +214,9 @@ function addon.fillOptions()
 		showColorPicker(GuidelimeData.fontColorSKIP, function()
 			GuidelimeData.fontColorSKIP = getColorPickerColor()
 			button:SetText(GuidelimeData.fontColorSKIP .. L.QUEST_SKIP)
+			if GuidelimeDataChar.mainFrameShowing then
+				addon.updateStepsText()
+			end
 		end)
 	end)
 
@@ -250,7 +262,11 @@ function addon.fillOptions()
 	end)
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -50)
 
-	checkbox = addon.addCheckOption(content, GuidelimeData, "arrowDistance", L.SHOW_DISTANCE)
+	checkbox = addon.addCheckOption(content, GuidelimeData, "arrowDistance", L.SHOW_DISTANCE, nil, function()
+		if addon.arrowFrame ~= nil then 
+			addon.updateSteps() 
+		end
+	end)
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = checkbox
 
@@ -262,55 +278,85 @@ function addon.fillOptions()
 	addon.optionsFrame.titleMapMarkers:SetFontObject("GameFontNormalLarge")
 	prev = addon.optionsFrame.titleMapMarkers
 
-	text = content:CreateFontString(nil, content, "GameFontNormal")
-	text:SetText(string.format(L.SHOW_MARKERS_GOTO_ON, addon.getMapMarkerText({t = "GOTO", mapIndex = 1}) .. "," .. addon.getMapMarkerText({t = "GOTO", mapIndex = 2}) .. "," .. addon.getMapMarkerText({t = "GOTO", mapIndex = 3})))
-	text:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -20)
-	prev = text
+	addon.optionsFrame.textShowMarkersGOTO = content:CreateFontString(nil, content, "GameFontNormal")
+	addon.optionsFrame.textShowMarkersGOTO:SetText(string.format(L.SHOW_MARKERS_GOTO_ON, addon.getMapMarkerText({t = "GOTO", mapIndex = 1}) .. "," .. addon.getMapMarkerText({t = "GOTO", mapIndex = 2}) .. "," .. addon.getMapMarkerText({t = "GOTO", mapIndex = 3})))
+	addon.optionsFrame.textShowMarkersGOTO:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -20)
+	prev = addon.optionsFrame.textShowMarkersGOTO
 
 	slider = addon.addSliderOption(content, GuidelimeData, "maxNumOfMarkersGOTO", 0, 50, 1, L.MAX_NUM_OF_MARKERS_GOTO, nil, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateSteps()
 		end
 	end)
-	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -30)
+	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -20)
 
-	slider = addon.addSliderOption(content, GuidelimeData, "maxNumOfMarkersLOC", 0, 50, 1, L.MAX_NUM_OF_MARKERS_LOC,nil, nil, function()
+	slider = addon.addSliderOption(content, GuidelimeData, "maxNumOfMarkersLOC", 0, 50, 1, L.MAX_NUM_OF_MARKERS_LOC, nil, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateSteps()
 		end
 	end)
-	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -80)
+	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -70)
 
-	slider = addon.addSliderOption(content, GuidelimeData, "mapMarkerStyle", 1, 3, 1, L.MAP_MARKER_STYLE)
-	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -120)
+	slider = addon.addSliderOption(content, GuidelimeData, "mapMarkerStyle", 1, 3, 1, L.MAP_MARKER_STYLE, nil, function(self)
+		self.editbox:SetText(addon.getMapMarkerText({t = "GOTO", mapIndex = 0}) .. addon.getMapMarkerText({t = "GOTO", mapIndex = 1}))
+    	self.editbox:SetCursorPosition(0)
+		addon.optionsFrame.textShowMarkersGOTO:SetText(string.format(L.SHOW_MARKERS_GOTO_ON, addon.getMapMarkerText({t = "GOTO", mapIndex = 1}) .. "," .. addon.getMapMarkerText({t = "GOTO", mapIndex = 2}) .. "," .. addon.getMapMarkerText({t = "GOTO", mapIndex = 3})))
+		addon.optionsFrame.textShowMarkersLOC:SetText(string.format(L.SHOW_MARKERS_LOC_ON, addon.getMapMarkerText({t = "KILL"}) .. "," .. addon.getMapMarkerText({t = "LOOT"}) .. "," .. addon.getMapMarkerText({t = "INTERACT"})))
+	end, function()
+		addon.setMapIconTextures()
+		addon.updateSteps() 
+	end)
+	slider.editbox:SetText(addon.getMapMarkerText({t = "GOTO", mapIndex = 0}) .. addon.getMapMarkerText({t = "GOTO", mapIndex = 1}))
+    slider.editbox:SetCursorPosition(0)
+	
+	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -110)
 
-	slider = addon.addSliderOption(content, GuidelimeData, "mapMarkerSize", 10, 40, 1, L.MAP_MARKER_SIZE)
-	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -160)
+	slider = addon.addSliderOption(content, GuidelimeData, "mapMarkerSize", 8, 32, 1, L.MAP_MARKER_SIZE, nil, nil, function()
+		addon.setMapIconTextures()
+		addon.updateSteps() 
+	end)
+	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -150)
 
-	checkbox = addon.addCheckOption(content, GuidelimeData, "showMapMarkersGOTO", L.MAP)
+	checkbox = addon.addCheckOption(content, GuidelimeData, "showMapMarkersGOTO", L.MAP, nil, function()
+		if GuidelimeDataChar.mainFrameShowing then
+			addon.updateSteps()
+		end
+	end)
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = checkbox
 	
-	checkbox = addon.addCheckOption(content, GuidelimeData, "showMinimapMarkersGOTO", L.MINIMAP)
+	checkbox = addon.addCheckOption(content, GuidelimeData, "showMinimapMarkersGOTO", L.MINIMAP, nil, function()
+		if GuidelimeDataChar.mainFrameShowing then
+			addon.updateSteps()
+		end
+	end)
 	checkbox:SetPoint("TOPLEFT", text, "BOTTOMLEFT", 80, 0)
 
-	text = content:CreateFontString(nil, content, "GameFontNormal")
-	text:SetText(string.format(L.SHOW_MARKERS_LOC_ON, addon.getMapMarkerText({t = "KILL"}) .. "," .. addon.getMapMarkerText({t = "LOOT"}) .. "," .. addon.getMapMarkerText({t = "INTERACT"})))
-	text:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
-	prev = text
+	addon.optionsFrame.textShowMarkersLOC = content:CreateFontString(nil, content, "GameFontNormal")
+	addon.optionsFrame.textShowMarkersLOC:SetText(string.format(L.SHOW_MARKERS_LOC_ON, addon.getMapMarkerText({t = "KILL"}) .. "," .. addon.getMapMarkerText({t = "LOOT"}) .. "," .. addon.getMapMarkerText({t = "INTERACT"})))
+	addon.optionsFrame.textShowMarkersLOC:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
+	prev = addon.optionsFrame.textShowMarkersLOC
 
-	checkbox = addon.addCheckOption(content, GuidelimeData, "showMapMarkersLOC", L.MAP)
+	checkbox = addon.addCheckOption(content, GuidelimeData, "showMapMarkersLOC", L.MAP, nil, function()
+		if GuidelimeDataChar.mainFrameShowing then
+			addon.updateSteps()
+		end
+	end)
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = checkbox
 
-	checkbox = addon.addCheckOption(content, GuidelimeData, "showMinimapMarkersLOC", L.MINIMAP)
+	checkbox = addon.addCheckOption(content, GuidelimeData, "showMinimapMarkersLOC", L.MINIMAP, nil, function()
+		if GuidelimeDataChar.mainFrameShowing then
+			addon.updateSteps()
+		end
+	end)
 	checkbox:SetPoint("TOPLEFT", text, "BOTTOMLEFT", 80, 0)
 
 	-- General options
 	
 	addon.optionsFrame.titleGeneral = content:CreateFontString(nil, content, "GameFontNormal")
 	addon.optionsFrame.titleGeneral:SetText("|cFFFFFFFF___ " .. L.GENERAL_OPTIONS .. " _______________________________________________________")
-	addon.optionsFrame.titleGeneral:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -80)
+	addon.optionsFrame.titleGeneral:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -70)
 	addon.optionsFrame.titleGeneral:SetFontObject("GameFontNormalLarge")
 	prev = addon.optionsFrame.titleGeneral
 
@@ -335,7 +381,7 @@ function addon.fillOptions()
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = checkbox
 
-	checkbox = addon.addCheckOption(content, GuidelimeData, "displayDemoGuide", L.DISPLAY_DEMO_GUIDES)
+	checkbox = addon.addCheckOption(content, GuidelimeData, "displayDemoGuides", L.DISPLAY_DEMO_GUIDES, nil, addon.fillGuides)
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = checkbox
 
