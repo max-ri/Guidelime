@@ -1,0 +1,24 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..FrameXMLUI.xsd">
+	<Script file="Horde\Bustea's Horde Leveling guide\Bustea's Tauren Guide12-21.lua"/>
+	<Script file="Horde\Bustea's Horde Leveling guide\Bustea's Horde_Troll Guide12-21.lua"/>
+	<Script file="Horde\Bustea's Horde Leveling guide\Bustea's Undead Guide12-21.lua"/>
+	<Script file="Horde\Ouiwee\Tauren Horde1-12.lua"/>
+	<Script file="Alliance\Hakurai - by Shikushiku\Elwynn Forest1-12.lua"/>
+	<Script file="Alliance\Sage Guide\Elwynn Forest1-10.lua"/>
+	<Script file="Alliance\Sage Guide\Dun Morogh1-10.lua"/>
+	<Script file="Alliance\Sage Guide\Teldrassil1-11.lua"/>
+	<Script file="Alliance\Sage Guide\Loch Modan10-12.lua"/>
+	<Script file="Alliance\MarkyMark\Elwynn Forest1-5.lua"/>
+	<Script file="Alliance\MarkyMark\Dun Morogh1-5.lua"/>
+	<Script file="Alliance\MarkyMark\Teldrassil1-5.lua"/>
+	<Script file="Alliance\MarkyMark\Elwynn Forest5-10.lua"/>
+	<Script file="Alliance\MarkyMark\Dun Morogh_Loch Modan5-12.lua"/>
+	<Script file="Alliance\MarkyMark\Teldrassil5-11.lua"/>
+	<Script file="Alliance\MarkyMark\Dun Morogh_Loch Modan10-12.lua"/>
+	<Script file="Alliance\Judgements Alliance Leveling Guide\Elwynn Forest1-10.lua"/>
+	<Script file="Alliance\Judgements Alliance Leveling Guide\Darkshore Westfall Redridge10-20.lua"/>
+	<Script file="Alliance\ahmp\Teldrassil Trio Launch1-12.lua"/>
+	<Script file="Alliance\TUGs The Ultimate (Leveling) Guides\Dun Morogh, Loch Modan9-11.lua"/>
+	<Script file="Alliance\TUGs The Ultimate (Leveling) Guides\Human TUGs Leveling Guide1-9.lua"/>
+	<Script file="Alliance\TUGs The Ultimate (Leveling) Guides\Dwarf_Gnome TUGs Leveling Guide1-9.lua"/>
+</Ui>
