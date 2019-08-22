@@ -234,6 +234,8 @@ function addon.parseLine(step, guide, strict, nameOnly)
 			elseif element.t == "WORK" then
 				element.t = "COMPLETE"
 				element.optional = true
+			elseif element.t == "QUEST" then
+				element.t = "COMPLETE"
 			end
 			local _, c = tag:gsub("%s*([%d/%?]+),?(%d*)%s*(.*)", function(id, objective, title)
 				element.questId = tonumber(id)
