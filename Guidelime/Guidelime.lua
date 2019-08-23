@@ -246,7 +246,10 @@ function addon.loadCurrentGuide()
 	end
 
 	--print(format(L.LOAD_MESSAGE, addon.currentGuide.name))
+	local time
+	if addon.debugging then time = debugprofilestop() end
 	guide = addon.parseGuide(guide, guide.group)
+	if addon.debugging then print("LIME: parseGuide " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	if guide == nil then return end
 	addon.guides[GuidelimeDataChar.currentGuide] = guide
 
@@ -324,34 +327,13 @@ function addon.loadCurrentGuide()
 							gotoElement.step = step
 							gotoElement.radius = addon.DEFAULT_GOTO_RADIUS + gotoElement.radius
 							gotoElement.generated = true
+							gotoElement.available = true
 							table.insert(step.elements, i, gotoElement)
 							for j = i, #step.elements do
 								step.elements[j].index = j
 							end
 							i = i + 1
 						end						
-					end
-					if GuidelimeData.autoAddCoordinates and (GuidelimeData.showMapMarkersLOC or GuidelimeData.showMinimapMarkersLOC) and not step.hasLoc then
-						local a, b = element.objective, element.objective
-						local objectives = addon.getQuestObjectives(element.questId, element.t)						
-						if element.objective == nil then a = 1; b = #objectives end
-						for o = a, b do
-							local positions = addon.getQuestPositionsLimited(element.questId, element.t, o, GuidelimeData.maxNumOfMarkersLOC, true)
-							if positions ~= nil and #positions > 1 then
-								for _, locElement in ipairs(positions) do
-									locElement.t = "LOC"
-									locElement.markerTyp = objectives[o].type
-									locElement.step = step
-									locElement.generated = true
-									locElement.index = i
-									table.insert(step.elements, i, locElement)
-									i = i + 1
-								end
-							end
-						end
-						for j = i, #step.elements do
-							step.elements[j].index = j
-						end
 					end
 				end
 				i = i + 1
@@ -362,10 +344,49 @@ function addon.loadCurrentGuide()
 			if step.optional == nil then step.optional = false end
 			step.skip = GuidelimeDataChar.guideSkip[addon.currentGuide.name][#addon.currentGuide.steps] or false
 			step.active = false
+			step.wasActive = false
 			step.completed = false
 			step.available = true
 		end
 	end
+	if addon.debugging then print("LIME: loadCurrentGuide " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
+end
+
+local function loadStepOnActivation(i)
+	local time
+	if addon.debugging then time = debugprofilestop() end
+	local step = addon.currentGuide.steps[i]
+	if GuidelimeData.autoAddCoordinates and (GuidelimeData.showMapMarkersLOC or GuidelimeData.showMinimapMarkersLOC) and not step.hasLoc then
+		local j = 1
+		while j <= #step.elements do
+			local element = step.elements[j]
+			if element.questId ~= nil then
+				local a, b = element.objective, element.objective
+				local objectives = addon.getQuestObjectives(element.questId, element.t)						
+				if element.objective == nil then a = 1; b = #objectives end
+				for o = a, b do
+					local positions = addon.getQuestPositionsLimited(element.questId, element.t, o, GuidelimeData.maxNumOfMarkersLOC, true)
+					if positions ~= nil and #positions > 1 then
+						for _, locElement in ipairs(positions) do
+							locElement.t = "LOC"
+							locElement.markerTyp = objectives[o].type
+							locElement.step = step
+							locElement.generated = true
+							locElement.available = true
+							locElement.index = j
+							table.insert(step.elements, j, locElement)
+							j = j + 1
+						end
+					end
+				end
+				for k = j, #step.elements do
+					step.elements[k].index = k
+				end
+			end
+			j = j + 1
+		end
+	end
+	if addon.debugging then print("LIME: loadStepOnActivation " .. i .. " " .. math.floor(debugprofilestop() - time) .. " ms") end
 end
 
 local function getQuestText(id, t, title, colored)
@@ -796,6 +817,10 @@ local function updateStepsActivation()
 				if not element.completed and (element.t == "ACCEPT" or element.t == "TURNIN") then
 					table.insert(addon.currentGuide.activeQuests, element.questId)
 				end
+			end
+			if not step.wasActive then
+				loadStepOnActivation(i)
+				step.wasActive = true
 			end
 		end
 	end
