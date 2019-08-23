@@ -319,16 +319,18 @@ function addon.fillOptions()
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -150)
 
 	checkbox = addon.addCheckOption(content, GuidelimeData, "showMapMarkersGOTO", L.MAP, nil, function()
+		addon.loadCurrentGuide()
 		if GuidelimeDataChar.mainFrameShowing then
-			addon.updateSteps()
+			addon.updateMainFrame()
 		end
 	end)
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = checkbox
 	
 	checkbox = addon.addCheckOption(content, GuidelimeData, "showMinimapMarkersGOTO", L.MINIMAP, nil, function()
+		addon.loadCurrentGuide()
 		if GuidelimeDataChar.mainFrameShowing then
-			addon.updateSteps()
+			addon.updateMainFrame()
 		end
 	end)
 	checkbox:SetPoint("TOPLEFT", addon.optionsFrame.textShowMarkersGOTO, "BOTTOMLEFT", 80, 0)
@@ -339,16 +341,18 @@ function addon.fillOptions()
 	prev = addon.optionsFrame.textShowMarkersLOC
 
 	checkbox = addon.addCheckOption(content, GuidelimeData, "showMapMarkersLOC", L.MAP, nil, function()
+		addon.loadCurrentGuide()
 		if GuidelimeDataChar.mainFrameShowing then
-			addon.updateSteps()
+			addon.updateMainFrame()
 		end
 	end)
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = checkbox
 
 	checkbox = addon.addCheckOption(content, GuidelimeData, "showMinimapMarkersLOC", L.MINIMAP, nil, function()
+		addon.loadCurrentGuide()
 		if GuidelimeDataChar.mainFrameShowing then
-			addon.updateSteps()
+			addon.updateMainFrame()
 		end
 	end)
 	checkbox:SetPoint("TOPLEFT", addon.optionsFrame.textShowMarkersLOC, "BOTTOMLEFT", 80, 0)
@@ -362,9 +366,9 @@ function addon.fillOptions()
 	prev = addon.optionsFrame.titleGeneral
 
 	checkbox = addon.addCheckOption(content, GuidelimeData, "autoAddCoordinates", L.AUTO_ADD_COORDINATES, nil, function()
+		addon.loadCurrentGuide()
 		if GuidelimeDataChar.mainFrameShowing then
-			addon.loadCurrentGuide()
-			addon.updateSteps()
+			addon.updateMainFrame()
 		end
 	end)
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
