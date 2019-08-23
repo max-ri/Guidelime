@@ -222,7 +222,7 @@ function addon.loadCurrentGuide()
 	addon.currentGuide = {}
 	addon.currentGuide.name = GuidelimeDataChar.currentGuide
 	addon.currentGuide.steps = {}
-	addon.quests = {}
+	if addon.quests == nil then addon.quests = {} end
 	
 	local guide = addon.guides[GuidelimeDataChar.currentGuide]
 	
@@ -265,7 +265,7 @@ function addon.loadCurrentGuide()
 		for _, element in ipairs(step.elements) do
 			if not element.generated and
 				((element.text ~= nil and element.text ~= "") or 
-				(element.t ~= "TEXT" and element.t ~= "NAME" and element.t ~= "NEXT" and element.t ~= "DETAILS" and element.t ~= "GUIDE_APPLIES" and element.t ~= "APPLIES"))
+				(element.t ~= "TEXT" and element.t ~= "NAME" and element.t ~= "NEXT" and element.t ~= "DETAILS" and element.t ~= "GUIDE_APPLIES" and element.t ~= "APPLIES" and element.t ~= "DOWNLOAD"))
 			then
 				table.insert(filteredElements, element)
 			end
@@ -317,7 +317,7 @@ function addon.loadCurrentGuide()
 							end
 						end
 					end
-					if GuidelimeData.autoAddCoordinates and not step.hasGoto and not element.optional then
+					if GuidelimeData.autoAddCoordinates and (GuidelimeData.showMapMarkersGOTO or GuidelimeData.showMinimapMarkersGOTO) and not step.hasGoto and not element.optional then
 						local gotoElement = addon.getQuestPosition(element.questId, element.t, element.objective)
 						if gotoElement ~= nil then
 							gotoElement.t = "GOTO"
@@ -331,7 +331,7 @@ function addon.loadCurrentGuide()
 							i = i + 1
 						end						
 					end
-					if GuidelimeData.autoAddCoordinates and not step.hasLoc then
+					if GuidelimeData.autoAddCoordinates and (GuidelimeData.showMapMarkersLOC or GuidelimeData.showMinimapMarkersLOC) and not step.hasLoc then
 						local a, b = element.objective, element.objective
 						local objectives = addon.getQuestObjectives(element.questId, element.t)						
 						if element.objective == nil then a = 1; b = #objectives end
@@ -467,8 +467,8 @@ local function updateStepText(i)
 		elseif element.t == "COMPLETE" then
 			text = text .. getQuestObjectiveIcon(element.questId, element.objective)
 		elseif element.t == "LOC" or element.t == "GOTO" then
-			if element.t == "LOC" --[[and prevElement ~= nil and prevElement.t == "LOC"]] then
-				-- Dont show icons for LOC at all. Seems redundant with quest objective icons. ~~Dont show an icon for subsequent LOC elements~~
+			if element.t == "LOC" and ((prevElement ~= nil and prevElement.t == "LOC") or (element.markerTyp ~= nil)) then
+				-- Dont show an icon for subsequent LOC elements. Also dont show LOC for quest steps since there would be the same icon twice
 			elseif element.mapIndex == 0 and addon.arrowFrame ~= nil and GuidelimeDataChar.showArrow then
 				text = text .. addon.getArrowIconText()
 			elseif element.mapIndex ~= nil then
