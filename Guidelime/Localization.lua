@@ -196,7 +196,7 @@ L.WORD_LIST_QUEST = " quest "
 -- Word lists for detecting non-quest steps
 -- Prefix and suffix which should not be part of the resulting quest tag can be captured with ()
 L.WORD_LIST_XP = "( level )%d+( );( grind until )%d+( );( req. )%d+( )"
-L.WORD_LIST_SET_HEARTH = "( set hearth in )%a+( );( set hearth to )%a+( );( set hearthstone in )%a+( );( set hearthstone to )%a+( );( )(set hearth );( )(set hearthstone );( )(set hs);( set hs in )%a+( )"
+L.WORD_LIST_SET_HEARTH = "( set hearth in )%a+( );( set hearth to )%a+( );( set hearthstone in )%a+( );( set hearthstone to )%a+( );( )(set hearth );( )(set hearthstone );( )(set hs);( set hs in )%a+( );( set your hearth in )%a+( );( set your hearth to )%a+( )"
 L.WORD_LIST_HEARTH = "( hearth to )%a+( );( )(hearth );( use .- )(hs );( use )(hs);( use .- )(hearthstone );( use )(hearthstone)"
 L.WORD_LIST_FLY = "( fly to )%a+( );( )(fly )"
 L.WORD_LIST_GET_FLIGHT_POINT = [[
