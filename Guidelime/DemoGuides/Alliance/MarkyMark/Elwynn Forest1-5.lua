@@ -31,7 +31,7 @@ Accept [QA54 Report to Goldshire]
 Turn in [QT3905 Grape Manifest]
 Accept [QA2158 Rest and Relaxation]
 Turn in [QT2158 Rest and Relaxation] inside the inn
-Set your Hearth to [H Goldshire]
+Set your Hearth to [S Goldshire]
 [T Train] First Aid upstairs
 Accept [QA60 Kobold Candles]
 Turn in [QT54 Report to Goldshire]

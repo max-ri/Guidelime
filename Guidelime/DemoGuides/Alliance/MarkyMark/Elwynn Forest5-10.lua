@@ -68,7 +68,7 @@ Accept [QA6661 Deeprun Rat Roundup]
 Do [QC6661 Deeprun Rat Roundup]
 Turn in [QT6661 Deeprun Rat Roundup]
 Get the [P]FP
-Set your Hearth to [H Ironforge]
+Set your Hearth to [S Ironforge]
 Grind to Amberstill Ranch in Dun Morogh
 
 ]],'MarkyMark')

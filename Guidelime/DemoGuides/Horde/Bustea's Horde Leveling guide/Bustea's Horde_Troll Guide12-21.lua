@@ -1,5 +1,5 @@
 Guidelime.registerGuide([[
-[DL12-45 https://www.curseforge.com/wow/addons/guidelime-busteas-12-60-leveling Guidelime_Bustea's 12-60 leveling]
+[DL12-51 https://www.curseforge.com/wow/addons/guidelime-busteas-12-60-leveling Guidelime_Bustea's 12-60 leveling]
 
 [N12-21 Bustea's Horde/Troll Guide]
 [D Bustea's  Horde Leveling guide, this version is for Orcs and Trolls only! https://twitch.tv/bustea/ ]
@@ -170,4 +170,4 @@ Now to hit level 21, you should do either Wailing  Caverns or Shadowfang Keep, t
 You should be [XP21] now, if not grind a little or do another dungeon.
 
 
-]],"Bustea's Horde Leveling guide")
+]],'Bustea's Horde Leveling guide')

@@ -9,7 +9,7 @@ Accept [QA475 A Troubling Breeze]
 Run to the top of the tree, accept [QA2438 The Emerald Dreamcatcher] & [QA932 Twisted Hatred]
 [V Vendor], [T train] new abilities
 Turn in [QT2159 Dolanaar Delivery]
-Set your Hearth to [H Dolanaar]
+Set your Hearth to [S Dolanaar]
 Turn in [QT928 Crown of the Earth Part 2], accept [QA929 Part 3]
 Turn in [QT997 Denalan's Earth], accept [QA918 Timberling Seeds] & [QA919 Timberling Sprouts]
 Do [QC918 Timberling Seeds] &[QC919  Timberling Sprouts]
@@ -33,7 +33,7 @@ Grind west[OC] to the Pools of Arlithrien and use the 'Tourmaline Phial' at the 
 Grind to Gnarlpine Hold and loot the 'Strange Fruited Plant' for the 'Glowing Fruit', accept [QA930 The Glowing Fruit] [G43,76Teldrassil]
 Use untuck, spirit res at Dolanaar
 Turn in [QT933 Crown of the Earth Part 4], accept [QA7383 Part 5]
-Set your Hearth to [H Dolanaar] again
+Set your Hearth to [S Dolanaar] again
 Accept [QA487 The Road to Darnassus]
 Do [QC487 The Road to Darnassus]
 Turn in [QT922 Rellian Greenspyre], accept [QA923 Tumors]

@@ -7,7 +7,7 @@ Guidelime.registerGuide([[
 Turn in [QT420 Senir's Observations]
 Accept [QA384 Beer Basted Boar Ribs]
 Turn in [QT2160 Supplies to Tannok]
-Set your hearth to [H Kharanos]
+Set your hearth to [S Kharanos]
 Accept [QA400 Tools for Steelgrill]
 Accept [QA317 Stocking Jetsteam]
 Accept [QA313 The Grizzled Den]
@@ -69,7 +69,7 @@ Accept [QA237 In Defense of the King's Lands Part 2]
 Turn in [QT414 Stout to Kadrell]
 Accept [QA1339 Mountaineer Stormpikes Task]
 Accept [QA416 Rat Catching]
-Set your Hearth to [H Thelsamar]
+Set your Hearth to [S Thelsamar]
 Accept [QA418 Thelsamar Blood Sausages]
 Accept [QA6387 Honor Students]
 Turn in [QT6387 Honor Students]
@@ -97,7 +97,7 @@ Turn in [QT6392 Return to Brock]
 Fly to [F Ironforge]
 [T Train] Cooking, skill it up to 10+
 Go to the bag [V vendor] in Ironforge at [G37,76] & [V buy] bags if you don't have full bags yet
-Set your Hearth to [H Ironforge]
+Set your Hearth to [S Ironforge]
 [T Train] class abilities
 Run to[OC] [G31,34] in Dun Morogh. Walk up the mountain, die in the correct spot & spirit res in Menethil Harbor
 Get the [P]FP

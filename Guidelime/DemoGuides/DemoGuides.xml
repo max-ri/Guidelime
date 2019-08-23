@@ -8,6 +8,12 @@
 	<Script file="Alliance\Sage Guide\Dun Morogh1-10.lua"/>
 	<Script file="Alliance\Sage Guide\Teldrassil1-11.lua"/>
 	<Script file="Alliance\Sage Guide\Loch Modan10-12.lua"/>
+	<Script file="Alliance\TUGs The Ultimate (Leveling) Guides\Dun Morogh, Loch Modan9-11.lua"/>
+	<Script file="Alliance\TUGs The Ultimate (Leveling) Guides\Human TUGs Leveling Guide1-9.lua"/>
+	<Script file="Alliance\TUGs The Ultimate (Leveling) Guides\Dwarf_Gnome TUGs Leveling Guide1-9.lua"/>
+	<Script file="Alliance\ahmp\Teldrassil Trio Launch1-12.lua"/>
+	<Script file="Alliance\Judgements Alliance Leveling Guide\Elwynn Forest1-10.lua"/>
+	<Script file="Alliance\Judgements Alliance Leveling Guide\Darkshore Westfall Redridge10-20.lua"/>
 	<Script file="Alliance\MarkyMark\Elwynn Forest1-5.lua"/>
 	<Script file="Alliance\MarkyMark\Dun Morogh1-5.lua"/>
 	<Script file="Alliance\MarkyMark\Teldrassil1-5.lua"/>
@@ -15,10 +21,6 @@
 	<Script file="Alliance\MarkyMark\Dun Morogh_Loch Modan5-12.lua"/>
 	<Script file="Alliance\MarkyMark\Teldrassil5-11.lua"/>
 	<Script file="Alliance\MarkyMark\Dun Morogh_Loch Modan10-12.lua"/>
-	<Script file="Alliance\Judgements Alliance Leveling Guide\Elwynn Forest1-10.lua"/>
-	<Script file="Alliance\Judgements Alliance Leveling Guide\Darkshore Westfall Redridge10-20.lua"/>
-	<Script file="Alliance\ahmp\Teldrassil Trio Launch1-12.lua"/>
-	<Script file="Alliance\TUGs The Ultimate (Leveling) Guides\Dun Morogh, Loch Modan9-11.lua"/>
-	<Script file="Alliance\TUGs The Ultimate (Leveling) Guides\Human TUGs Leveling Guide1-9.lua"/>
-	<Script file="Alliance\TUGs The Ultimate (Leveling) Guides\Dwarf_Gnome TUGs Leveling Guide1-9.lua"/>
+	<Script file="both\Class Quests- by Shikushiku\Undead Warlock Class Quest20-20.lua"/>
+	<Script file="both\Class Quests- by Shikushiku\Warlock Class Quest20-20.lua"/>
 </Ui>
