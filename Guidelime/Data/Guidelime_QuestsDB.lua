@@ -937,19 +937,12 @@ addon.questsDB = {
 	   ["req"] = 39;
 	};
 	[33] = {
-	   ["faction"] = "Alliance";
-	   ["name"] = "Wolves Across the Border";
-	   ["source"] = {
-	      [1] = {
-	         ["id"] = 196;
-	         ["type"] = "npc";
-	      };
-	   };
+	   ["objective"] = "Bring 8 pieces of Tough Wolf Meat to Eagan Peltskinner outside Northshire Abbey.";
+	   ["zone"] = "Elwynn Forest";
+	   ["sort"] = "Northshire Valley";
 	   ["repgain"] = {
 	      [72] = 250;
 	   };
-	   ["objective"] = "Bring 8 pieces of Tough Wolf Meat to Eagan Peltskinner outside Northshire Abbey.";
-	   ["zone"] = "Elwynn Forest";
 	   ["gather"] = {
 	      [1] = 750;
 	   };
@@ -964,12 +957,15 @@ addon.questsDB = {
 	         ["type"] = "npc";
 	      };
 	   };
-	   ["prev"] = 5261;
-	   ["prequests"] = {
-	      [1] = 5261;
-	   };
+	   ["faction"] = "Alliance";
+	   ["name"] = "Wolves Across the Border";
 	   ["level"] = 2;
-	   ["sort"] = "Northshire Valley";
+	   ["source"] = {
+	      [1] = {
+	         ["id"] = 196;
+	         ["type"] = "npc";
+	      };
+	   };
 	   ["req"] = 1;
 	};
 	[34] = {
@@ -1070,6 +1066,12 @@ addon.questsDB = {
 	   };
 	   ["next"] = 45;
 	   ["sort"] = "Elwynn Forest";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 55;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 35;
 	   ["prequests"] = {
 	      [1] = 35;
@@ -1188,6 +1190,12 @@ addon.questsDB = {
 	   };
 	   ["next"] = 71;
 	   ["sort"] = "Elwynn Forest";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 56;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 37;
 	   ["prequests"] = {
 	      [1] = 37;
@@ -1202,34 +1210,38 @@ addon.questsDB = {
 	   ["req"] = 7;
 	};
 	[46] = {
-	   ["objective"] = "Bring 8 Torn Murloc Fins to Guard Thomas at the east Elwynn bridge.";
-	   ["zone"] = "Elwynn Forest";
-	   ["sort"] = "Elwynn Forest";
-	   ["gather"] = {
-	      [1] = 780;
+	   ["faction"] = "Alliance";
+	   ["source"] = {
+	      [1] = {
+	         ["id"] = 261;
+	         ["type"] = "npc";
+	      };
 	   };
 	   ["repgain"] = {
 	      [72] = 250;
 	   };
-	   ["reward"] = {
-	      [1] = 4840;
-	      [2] = 1158;
-	      [3] = 1008;
+	   ["name"] = "Bounty on Murlocs";
+	   ["objective"] = "Bring 8 Torn Murloc Fins to Guard Thomas at the east Elwynn bridge.";
+	   ["gather"] = {
+	      [1] = 780;
 	   };
+	   ["zone"] = "Elwynn Forest";
+	   ["sort"] = "Elwynn Forest";
 	   ["deliver"] = {
 	      [1] = {
 	         ["id"] = 261;
 	         ["type"] = "npc";
 	      };
 	   };
-	   ["faction"] = "Alliance";
-	   ["name"] = "Bounty on Murlocs";
+	   ["prev"] = 39;
+	   ["prequests"] = {
+	      [1] = 39;
+	   };
 	   ["level"] = 10;
-	   ["source"] = {
-	      [1] = {
-	         ["id"] = 261;
-	         ["type"] = "npc";
-	      };
+	   ["reward"] = {
+	      [1] = 4840;
+	      [2] = 1158;
+	      [3] = 1008;
 	   };
 	   ["req"] = 7;
 	};
@@ -1760,6 +1772,12 @@ addon.questsDB = {
 	   ["classes"] = {
 	      [1] = "Shaman";
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 113791;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 220;
 	   ["prequests"] = {
 	      [1] = 220;
@@ -1867,6 +1885,12 @@ addon.questsDB = {
 	   };
 	   ["next"] = 68;
 	   ["sort"] = "Duskwood";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 3643;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 66;
 	   ["prequests"] = {
 	      [1] = 66;
@@ -2016,6 +2040,12 @@ addon.questsDB = {
 	   ["name"] = "The Legend of Stalvan";
 	   ["next"] = 74;
 	   ["sort"] = "Duskwood";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 1561;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 70;
 	   ["prequests"] = {
 	      [1] = 70;
@@ -2674,6 +2704,12 @@ addon.questsDB = {
 	   };
 	   ["sort"] = "Redridge Mountains";
 	   ["next"] = 248;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 31;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["faction"] = "Alliance";
 	   ["name"] = "A Watchful Eye";
 	   ["level"] = 21;
@@ -2693,6 +2729,12 @@ addon.questsDB = {
 	      [72] = 75;
 	   };
 	   ["next"] = 230;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 59;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["faction"] = "Alliance";
 	   ["name"] = "Sven's Revenge";
 	   ["level"] = 25;
@@ -3915,6 +3957,12 @@ addon.questsDB = {
 	   ["objective"] = "Find Captain Sanders' footlocker and search it for the next clue.";
 	   ["zone"] = "Westfall";
 	   ["next"] = 138;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 35;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Captain Sander's Hidden Treasure";
 	   ["sort"] = "Westfall";
 	   ["level"] = 16;
@@ -3931,6 +3979,12 @@ addon.questsDB = {
 	   ["zone"] = "Westfall";
 	   ["sort"] = "Westfall";
 	   ["next"] = 139;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 36;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Captain Sander's Hidden Treasure (Part 2)";
 	   ["prev"] = 136;
 	   ["prequests"] = {
@@ -3950,6 +4004,12 @@ addon.questsDB = {
 	   ["zone"] = "Westfall";
 	   ["sort"] = "Westfall";
 	   ["next"] = 140;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 34;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Captain Sander's Hidden Treasure (Part 3)";
 	   ["prev"] = 138;
 	   ["prequests"] = {
@@ -3973,6 +4033,12 @@ addon.questsDB = {
 	      [2] = 3342;
 	      [3] = 3344;
 	      [4] = 3343;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 33;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Captain Sander's Hidden Treasure (Part 4)";
 	   ["prev"] = 139;
@@ -5784,6 +5850,12 @@ addon.questsDB = {
 	   };
 	   ["next"] = 328;
 	   ["sort"] = "Stranglethorn Vale";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 287;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 215;
 	   ["prequests"] = {
 	      [1] = 215;
@@ -6758,6 +6830,12 @@ addon.questsDB = {
 	      [1] = 2000;
 	   };
 	   ["sort"] = "Duskwood";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 61;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 229;
 	   ["prequests"] = {
 	      [1] = 229;
@@ -7187,6 +7265,12 @@ addon.questsDB = {
 	   };
 	   ["objective"] = "Climb the intact watch tower beside Stonewatch Keep.$B$BFind a suitable container to place the Glyph of Azora.";
 	   ["zone"] = "Redridge Mountains";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 76;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Looking Further";
 	   ["prev"] = 94;
 	   ["prequests"] = {
@@ -7240,6 +7324,12 @@ addon.questsDB = {
 	      [47] = 75;
 	   };
 	   ["next"] = 199;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 257;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["faction"] = "Alliance";
 	   ["name"] = "A Dark Threat Looms";
 	   ["level"] = 18;
@@ -7352,6 +7442,12 @@ addon.questsDB = {
 	[254] = {
 	   ["objective"] = "";
 	   ["zone"] = "Duskwood";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 51708;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Digging Through the Dirt";
 	   ["sort"] = "Duskwood";
 	   ["level"] = 35;
@@ -7588,6 +7684,12 @@ addon.questsDB = {
 	      [1] = 6145;
 	   };
 	   ["sort"] = "Thunder Bluff";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 24776;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["faction"] = "Horde";
 	   ["name"] = "Until Death Do Us Part";
 	   ["level"] = 15;
@@ -8058,6 +8160,7 @@ addon.questsDB = {
 	   ["req"] = 20;
 	};
 	[280] = {
+	   ["series"] = 6;
 	   ["source"] = {
 	      [1] = {
 	         ["id"] = 1093;
@@ -8065,14 +8168,19 @@ addon.questsDB = {
 	      };
 	   };
 	   ["next"] = 283;
-	   ["series"] = 6;
 	   ["faction"] = "Alliance";
+	   ["name"] = "A Dark Threat Looms";
 	   ["gather"] = {
 	      [1] = 2610;
 	   };
-	   ["name"] = "A Dark Threat Looms";
 	   ["objective"] = "Chief Engineer Hinderweir wants you to swim down to the base of the dam, locate the powder keg and stir in the Disarming Mixture to prevent an explosion.";
 	   ["zone"] = "Loch Modan";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 1585;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["sort"] = "Loch Modan";
 	   ["prev"] = 278;
 	   ["prequests"] = {
@@ -8099,6 +8207,12 @@ addon.questsDB = {
 	   };
 	   ["next"] = 284;
 	   ["sort"] = "Wetlands";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 261;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 279;
 	   ["prequests"] = {
 	      [1] = 279;
@@ -8191,6 +8305,12 @@ addon.questsDB = {
 	   };
 	   ["next"] = 285;
 	   ["sort"] = "Wetlands";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 142151;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 281;
 	   ["prequests"] = {
 	      [1] = 281;
@@ -8214,6 +8334,12 @@ addon.questsDB = {
 	   };
 	   ["next"] = 286;
 	   ["sort"] = "Wetlands";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 259;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 284;
 	   ["prequests"] = {
 	      [1] = 284;
@@ -8370,6 +8496,12 @@ addon.questsDB = {
 	      [72] = 75;
 	   };
 	   ["next"] = 292;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 112948;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Lifting the Curse";
 	   ["prev"] = 289;
 	   ["prequests"] = {
@@ -8960,6 +9092,12 @@ addon.questsDB = {
 	      [47] = 25;
 	   };
 	   ["next"] = 311;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 270;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["faction"] = "Alliance";
 	   ["name"] = "Bitter Rivals";
 	   ["level"] = 6;
@@ -9272,6 +9410,12 @@ addon.questsDB = {
 	      [72] = 25;
 	   };
 	   ["next"] = 324;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 2734;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Lightforge Iron";
 	   ["prev"] = 270;
 	   ["prequests"] = {
@@ -9434,6 +9578,12 @@ addon.questsDB = {
 	   };
 	   ["reward"] = {
 	      [1] = 4122;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 288;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["prev"] = 200;
 	   ["prequests"] = {
@@ -11601,6 +11751,12 @@ addon.questsDB = {
 	[403] = {
 	   ["objective"] = "";
 	   ["zone"] = "Dun Morogh";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 269;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Guarded Thunderbrew Barrel";
 	   ["sort"] = "Dun Morogh";
 	   ["level"] = 1;
@@ -11774,6 +11930,12 @@ addon.questsDB = {
 	   ["zone"] = "Tirisfal Glades";
 	   ["gather"] = {
 	      [1] = 3080;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 1557;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "The Dormant Shade";
 	   ["sort"] = "Tirisfal Glades";
@@ -12055,6 +12217,12 @@ addon.questsDB = {
 	      [47] = 75;
 	   };
 	   ["next"] = 417;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 2059;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["faction"] = "Alliance";
 	   ["name"] = "The Lost Pilot";
 	   ["level"] = 10;
@@ -12419,6 +12587,12 @@ addon.questsDB = {
 	   ["reward"] = {
 	      [1] = 3080;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 1586;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Candles of Beckoning";
 	   ["sort"] = "Tirisfal Glades";
 	   ["level"] = 10;
@@ -12612,6 +12786,12 @@ addon.questsDB = {
 	      [68] = 150;
 	   };
 	   ["next"] = 439;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 1593;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "The Decrepit Ferry";
 	   ["prev"] = 437;
 	   ["prequests"] = {
@@ -13302,6 +13482,12 @@ addon.questsDB = {
 	   ["repgain"] = {
 	      [68] = 75;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 1599;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Resting in Pieces";
 	   ["sort"] = "Silverpine Forest";
 	   ["level"] = 17;
@@ -13324,6 +13510,12 @@ addon.questsDB = {
 	      [68] = 75;
 	   };
 	   ["next"] = 491;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 112888;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "The Hidden Niche";
 	   ["prev"] = 460;
 	   ["prequests"] = {
@@ -13401,6 +13593,12 @@ addon.questsDB = {
 	      [47] = 150;
 	   };
 	   ["next"] = 474;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 1609;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Nek'rosh's Gambit";
 	   ["prev"] = 464;
 	   ["prequests"] = {
@@ -13728,6 +13926,12 @@ addon.questsDB = {
 	   ["next"] = 478;
 	   ["repgain"] = {
 	      [68] = 250;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 1627;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Border Crossings";
 	   ["sort"] = "Silverpine Forest";
@@ -15143,12 +15347,18 @@ addon.questsDB = {
 	      [68] = 500;
 	   };
 	   ["series"] = 5;
+	   ["faction"] = "Horde";
 	   ["gather"] = {
 	      [1] = 3520;
 	   };
-	   ["faction"] = "Horde";
 	   ["name"] = "Elixir of Agony";
 	   ["objective"] = "Place the Tainted Keg on the rug for the captured farmers.";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 1728;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["sort"] = "Hillsbrad Foothills";
 	   ["prev"] = 517;
 	   ["prequests"] = {
@@ -15986,6 +16196,7 @@ addon.questsDB = {
 	   ["req"] = 29;
 	};
 	[553] = {
+	   ["series"] = 2;
 	   ["interact"] = {
 	      [1] = 1768;
 	      [2] = 1769;
@@ -15993,7 +16204,7 @@ addon.questsDB = {
 	   };
 	   ["objective"] = "Charge the Rod of Helcular with the powers of the Flame of Azel, Flame of Veraz and the Flame of Uzel.$b$bDrive the charged rod into Helcular's grave in Southshore.";
 	   ["zone"] = "Hillsbrad Foothills";
-	   ["series"] = 2;
+	   ["faction"] = "Horde";
 	   ["objectivetext"] = {
 	      ["1"] = "Flame of Azel charged";
 	      ["3"] = "Flame of Uzel charged";
@@ -16002,7 +16213,6 @@ addon.questsDB = {
 	   ["gather"] = {
 	      [1] = 3710;
 	   };
-	   ["faction"] = "Horde";
 	   ["source"] = {
 	      [1] = {
 	         ["id"] = 2429;
@@ -16011,6 +16221,12 @@ addon.questsDB = {
 	   };
 	   ["repgain"] = {
 	      [68] = 350;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 1767;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Helcular's Revenge";
 	   ["prev"] = 552;
@@ -16957,6 +17173,12 @@ addon.questsDB = {
 	      [530] = 250;
 	   };
 	   ["sort"] = "Stranglethorn Vale";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 2076;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 582;
 	   ["prequests"] = {
 	      [1] = 582;
@@ -16985,6 +17207,12 @@ addon.questsDB = {
 	   };
 	   ["followup"] = 588;
 	   ["sort"] = "Stranglethorn Vale";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 2076;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 584;
 	   ["prequests"] = {
 	      [1] = 584;
@@ -17021,6 +17249,12 @@ addon.questsDB = {
 	      [3] = 783;
 	   };
 	   ["followup"] = 588;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 2076;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 584;
 	   ["prequests"] = {
 	      [1] = 584;
@@ -17270,6 +17504,12 @@ addon.questsDB = {
 	   ["next"] = 597;
 	   ["repgain"] = {
 	      [21] = 150;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 2083;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "The Bloodsail Buccaneers";
 	   ["sort"] = "Stranglethorn Vale";
@@ -17969,6 +18209,12 @@ addon.questsDB = {
 	      [1] = 4457;
 	      [2] = 4595;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 2289;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Enticing Negolash";
 	   ["sort"] = "Stranglethorn Vale";
 	   ["level"] = 52;
@@ -18080,6 +18326,12 @@ addon.questsDB = {
 	   ["zone"] = "Stranglethorn Vale";
 	   ["series"] = 1;
 	   ["next"] = 625;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 2553;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Cortello's Riddle";
 	   ["sort"] = "Stranglethorn Vale";
 	   ["level"] = 43;
@@ -18097,6 +18349,12 @@ addon.questsDB = {
 	   ["series"] = 2;
 	   ["sort"] = "Stranglethorn Vale";
 	   ["next"] = 626;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 2555;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Cortello's Riddle";
 	   ["prev"] = 624;
 	   ["prequests"] = {
@@ -18118,6 +18376,12 @@ addon.questsDB = {
 	   ["sort"] = "Stranglethorn Vale";
 	   ["reward"] = {
 	      [1] = 11324;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 2556;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Cortello's Riddle";
 	   ["prev"] = 625;
@@ -18268,6 +18532,12 @@ addon.questsDB = {
 	   ["repgain"] = {
 	      [47] = 250;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 2652;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "The Thandol Span";
 	   ["sort"] = "Wetlands";
 	   ["level"] = 31;
@@ -18377,6 +18647,12 @@ addon.questsDB = {
 	[635] = {
 	   ["objective"] = "Find the crystal from your vision.";
 	   ["zone"] = "Arathi Highlands";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 138492;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Crystal in the Mountains";
 	   ["sort"] = "Arathi Highlands";
 	   ["level"] = 35;
@@ -18551,6 +18827,12 @@ addon.questsDB = {
 	      [1] = 4435;
 	   };
 	   ["next"] = 651;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 2701;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "The Princess Trapped";
 	   ["sort"] = "Arathi Highlands";
 	   ["level"] = 37;
@@ -18639,6 +18921,12 @@ addon.questsDB = {
 	      [530] = 25;
 	   };
 	   ["next"] = 646;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 2703;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Trol'kalar";
 	   ["prev"] = 644;
 	   ["prequests"] = {
@@ -18808,6 +19096,12 @@ addon.questsDB = {
 	      [3] = 4485;
 	   };
 	   ["next"] = 652;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 2702;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Stones of Binding";
 	   ["prev"] = 642;
 	   ["prequests"] = {
@@ -18829,6 +19123,12 @@ addon.questsDB = {
 	   ["sort"] = "Arathi Highlands";
 	   ["gather"] = {
 	      [1] = 4469;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 2688;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Breaking the Keystone";
 	   ["prev"] = 651;
@@ -18941,6 +19241,12 @@ addon.questsDB = {
 	   };
 	   ["reward"] = {
 	      [1] = 4743;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 138492;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Summoning the Princess";
 	   ["prev"] = 692;
@@ -21450,6 +21756,12 @@ addon.questsDB = {
 	   };
 	   ["next"] = 739;
 	   ["sort"] = "Badlands";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 2875;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 707;
 	   ["prequests"] = {
 	      [1] = 707;
@@ -21742,6 +22054,12 @@ addon.questsDB = {
 	   ["next"] = 751;
 	   ["repgain"] = {
 	      [81] = 150;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 2908;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "The Ravaged Caravan";
 	   ["sort"] = "Mulgore";
@@ -22628,6 +22946,12 @@ addon.questsDB = {
 	      [3] = 4843;
 	   };
 	   ["sort"] = "Badlands";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 2933;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["faction"] = "Alliance";
 	   ["name"] = "Seal of the Earth";
 	   ["level"] = 50;
@@ -23097,6 +23421,12 @@ addon.questsDB = {
 	      [3] = 4843;
 	   };
 	   ["sort"] = "Badlands";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 2933;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["faction"] = "Horde";
 	   ["name"] = "Seal of the Earth";
 	   ["level"] = 50;
@@ -25653,6 +25983,12 @@ addon.questsDB = {
 	   ["repgain"] = {
 	      [470] = 150;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 4141;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Samophlange";
 	   ["sort"] = "The Barrens";
 	   ["level"] = 14;
@@ -25824,6 +26160,12 @@ addon.questsDB = {
 	      [470] = 75;
 	   };
 	   ["next"] = 901;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 4141;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Samophlange";
 	   ["prev"] = 894;
 	   ["prequests"] = {
@@ -25850,6 +26192,12 @@ addon.questsDB = {
 	      [470] = 150;
 	   };
 	   ["next"] = 902;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 4141;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Samophlange";
 	   ["prev"] = 900;
 	   ["prequests"] = {
@@ -26561,6 +26909,20 @@ addon.questsDB = {
 	   ["reward"] = {
 	      [1] = 4986;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 5619;
+	         ["type"] = "object";
+	      };
+	      [2] = {
+	         ["id"] = 5620;
+	         ["type"] = "object";
+	      };
+	      [3] = {
+	         ["id"] = 5621;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Flawed Power Stone";
 	   ["sort"] = "Durotar";
 	   ["level"] = 14;
@@ -27000,6 +27362,12 @@ addon.questsDB = {
 	   ["reward"] = {
 	      [1] = 5218;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 7923;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 927;
 	   ["prequests"] = {
 	      [1] = 927;
@@ -27082,6 +27450,12 @@ addon.questsDB = {
 	      [69] = 75;
 	   };
 	   ["next"] = 949;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 10076;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "The Master's Glaive";
 	   ["prev"] = 948;
 	   ["prequests"] = {
@@ -27187,6 +27561,12 @@ addon.questsDB = {
 	      [69] = 250;
 	   };
 	   ["next"] = 950;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 12666;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "The Twilight Camp";
 	   ["prev"] = 944;
 	   ["prequests"] = {
@@ -28171,6 +28551,12 @@ addon.questsDB = {
 	   ["repgain"] = {
 	      [54] = 250;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 17182;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Buzzbox 827";
 	   ["sort"] = "Darkshore";
 	   ["level"] = 10;
@@ -28452,6 +28838,12 @@ addon.questsDB = {
 	   ["reward"] = {
 	      [1] = 11950;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 164887;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Corrupted Windblossom";
 	   ["sort"] = "Felwood";
 	   ["level"] = 55;
@@ -28498,6 +28890,12 @@ addon.questsDB = {
 	   ["reward"] = {
 	      [1] = 11950;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 173327;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Corrupted Windblossom";
 	   ["sort"] = "Felwood";
 	   ["level"] = 55;
@@ -28542,6 +28940,12 @@ addon.questsDB = {
 	      [54] = 350;
 	   };
 	   ["next"] = 1002;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 17183;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Buzzbox 411";
 	   ["prev"] = 983;
 	   ["prequests"] = {
@@ -28567,6 +28971,12 @@ addon.questsDB = {
 	      [54] = 250;
 	   };
 	   ["next"] = 1003;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 17184;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Buzzbox 323";
 	   ["prev"] = 1001;
 	   ["prequests"] = {
@@ -28594,6 +29004,12 @@ addon.questsDB = {
 	   };
 	   ["repgain"] = {
 	      [54] = 250;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 17185;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Buzzbox 525";
 	   ["prev"] = 1002;
@@ -29898,6 +30314,12 @@ addon.questsDB = {
 	   ["reward"] = {
 	      [1] = 11951;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 164888;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Corrupted Whipper Root";
 	   ["sort"] = "Felwood";
 	   ["level"] = 55;
@@ -30282,6 +30704,12 @@ addon.questsDB = {
 	   ["objective"] = "";
 	   ["reward"] = {
 	      [1] = 21191;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 180743;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["sort"] = "Seasonal";
 	   ["name"] = "A Carefully Wrapped Present";
@@ -31307,6 +31735,12 @@ addon.questsDB = {
 	   };
 	   ["repgain"] = {
 	      [529] = 25;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 177289;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Dalson's Tears Cauldron";
 	   ["prequests"] = {
@@ -33278,6 +33712,12 @@ addon.questsDB = {
 	   ["gather"] = {
 	      [1] = 11516;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 171942;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Corrupted Songflower";
 	   ["sort"] = "Felwood";
 	   ["level"] = 55;
@@ -34484,6 +34924,12 @@ addon.questsDB = {
 	      [3] = 18424;
 	   };
 	   ["sort"] = "Dire Maul";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 179517;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "The Treasure of the Shen'dralar";
 	   ["prev"] = 7461;
 	   ["prequests"] = {
@@ -36006,6 +36452,12 @@ addon.questsDB = {
 	      [470] = 75;
 	   };
 	   ["next"] = 1194;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 20805;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Keeping Pace";
 	   ["prev"] = 1137;
 	   ["prequests"] = {
@@ -36597,6 +37049,12 @@ addon.questsDB = {
 	   };
 	   ["next"] = 5223;
 	   ["sort"] = "Western Plaguelands";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 176393;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 5220;
 	   ["prequests"] = {
 	      [1] = 5220;
@@ -37433,6 +37891,12 @@ addon.questsDB = {
 	   };
 	   ["next"] = 1455;
 	   ["sort"] = "Desolace";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 35251;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 1453;
 	   ["prequests"] = {
 	      [1] = 1453;
@@ -37842,6 +38306,12 @@ addon.questsDB = {
 	   };
 	   ["reward"] = {
 	      [1] = 11950;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 174599;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Corrupted Windblossom";
 	   ["sort"] = "Felwood";
@@ -39125,6 +39595,12 @@ addon.questsDB = {
 	   ["classes"] = {
 	      [1] = "Warrior";
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 89931;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["sort"] = "Warrior";
 	   ["name"] = "Essence of the Exile";
 	   ["level"] = 37;
@@ -39771,6 +40247,12 @@ addon.questsDB = {
 	      [3] = 18424;
 	   };
 	   ["sort"] = "Dire Maul";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 179517;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "The Treasure of the Shen'dralar";
 	   ["prev"] = 7461;
 	   ["prequests"] = {
@@ -40787,6 +41269,12 @@ addon.questsDB = {
 	   ["reward"] = {
 	      [1] = 11952;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 164885;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Corrupted Night Dragon";
 	   ["sort"] = "Felwood";
 	   ["level"] = 55;
@@ -40808,6 +41296,12 @@ addon.questsDB = {
 	   };
 	   ["next"] = 4265;
 	   ["sort"] = "Feralas";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 164954;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 4131;
 	   ["prequests"] = {
 	      [1] = 4131;
@@ -41217,6 +41711,12 @@ addon.questsDB = {
 	   };
 	   ["reward"] = {
 	      [1] = 11950;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 174603;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Corrupted Windblossom";
 	   ["sort"] = "Felwood";
@@ -42368,6 +42868,12 @@ addon.questsDB = {
 	      [1] = 13585;
 	   };
 	   ["next"] = 5464;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 176631;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Menethil's Gift";
 	   ["prev"] = 5462;
 	   ["prequests"] = {
@@ -44138,6 +44644,12 @@ addon.questsDB = {
 	   ["objective"] = "Find the Mysterious Artifact being guarded by the Twilight's Hammer Idolaters in the northwest quadrant of the Searing Gorge and bring it to the Altar of Suntara in the Slag Pit.\
 ";
 	   ["zone"] = "Searing Gorge";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 148498;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Release Them";
 	   ["prev"] = 3371;
 	   ["prequests"] = {
@@ -44890,6 +45402,12 @@ addon.questsDB = {
 	   ["zone"] = "Un'Goro Crater";
 	   ["series"] = 1;
 	   ["next"] = 3845;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 161504;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "It's a Secret to Everybody";
 	   ["sort"] = "Un'Goro Crater";
 	   ["level"] = 52;
@@ -45875,6 +46393,10 @@ addon.questsDB = {
 	      [1] = {
 	         ["id"] = 9536;
 	         ["type"] = "npc";
+	      };
+	      [2] = {
+	         ["id"] = 169294;
+	         ["type"] = "object";
 	      };
 	   };
 	   ["name"] = "Tablet of the Seven";
@@ -46879,6 +47401,12 @@ addon.questsDB = {
 	   ["repgain"] = {
 	      [529] = 25;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 176393;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Writhing Haunt Cauldron";
 	   ["prequests"] = {
 	      [1] = 5222;
@@ -47196,6 +47724,12 @@ addon.questsDB = {
 	   ["reward"] = {
 	      [1] = 15814;
 	      [2] = 15815;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 177675;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Hameya's Plea";
 	   ["sort"] = "Eastern Plaguelands";
@@ -48791,6 +49325,12 @@ addon.questsDB = {
 	   ["reward"] = {
 	      [1] = 19425;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 180055;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Your Fortune Awaits You...";
 	   ["sort"] = "Darkmoon Faire";
 	   ["level"] = 60;
@@ -49935,6 +50475,12 @@ addon.questsDB = {
 	   ["gather"] = {
 	      [1] = 9308;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 175084;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "The Sparklematic 5200!";
 	   ["sort"] = "Gnomeregan";
 	   ["level"] = 30;
@@ -50510,6 +51056,12 @@ addon.questsDB = {
 	   };
 	   ["next"] = 5226;
 	   ["sort"] = "Western Plaguelands";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 176392;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 5223;
 	   ["prequests"] = {
 	      [1] = 5223;
@@ -50646,6 +51198,12 @@ addon.questsDB = {
 	   ["reward"] = {
 	      [1] = 10659;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 141980;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Heroes of Old";
 	   ["prev"] = 2702;
 	   ["prequests"] = {
@@ -50697,6 +51255,12 @@ addon.questsDB = {
 	   };
 	   ["reward"] = {
 	      [1] = 8647;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 142071;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "The Super Egg-O-Matic";
 	   ["sort"] = "Tanaris";
@@ -52576,6 +53140,12 @@ addon.questsDB = {
 	   ["reward"] = {
 	      [1] = 10455;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 148512;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "The Essence of Eranikus";
 	   ["sort"] = "Sunken Temple";
 	   ["level"] = 55;
@@ -52857,6 +53427,10 @@ addon.questsDB = {
 	      [1] = {
 	         ["id"] = 8516;
 	         ["type"] = "npc";
+	      };
+	      [2] = {
+	         ["id"] = 152097;
+	         ["type"] = "object";
 	      };
 	   };
 	   ["name"] = "Extinguishing the Idol";
@@ -53377,6 +53951,10 @@ addon.questsDB = {
 	         ["id"] = 9136;
 	         ["type"] = "npc";
 	      };
+	      [2] = {
+	         ["id"] = 160445;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["faction"] = "Horde";
 	   ["name"] = "Dreadmaul Rock";
@@ -53804,6 +54382,12 @@ addon.questsDB = {
 	   };
 	   ["reward"] = {
 	      [1] = 19425;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 180056;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Your Fortune Awaits You...";
 	   ["sort"] = "Darkmoon Faire";
@@ -57439,6 +58023,12 @@ addon.questsDB = {
 	   ["repgain"] = {
 	      [609] = 10;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 180503;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Desert Recipe";
 	   ["sort"] = "Cooking";
 	   ["level"] = 57;
@@ -60718,6 +61308,12 @@ addon.questsDB = {
 	   ["reward"] = {
 	      [1] = 11951;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 173284;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Corrupted Whipper Root";
 	   ["sort"] = "Felwood";
 	   ["level"] = 55;
@@ -60898,6 +61494,12 @@ addon.questsDB = {
 	   ["type"] = "Dungeon";
 	   ["objective"] = "Speak with stone watcher and learn what ancient lore it keeps.  Once you have learned what lore it has to offer, activate the Discs of Norgannon.";
 	   ["zone"] = "Badlands";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 131474;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "The Platinum Discs";
 	   ["sort"] = "Uldaman";
 	   ["level"] = 47;
@@ -60919,6 +61521,12 @@ addon.questsDB = {
 	   };
 	   ["reward"] = {
 	      [1] = 9363;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 175084;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "More Sparklematic Action";
 	   ["prev"] = 4605;
@@ -61632,6 +62240,12 @@ addon.questsDB = {
 	   ["repgain"] = {
 	      [529] = 25;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 176392;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Gahrron's Withering Cauldron";
 	   ["prequests"] = {
 	      [1] = 5225;
@@ -61759,6 +62373,12 @@ addon.questsDB = {
 	      [530] = 250;
 	   };
 	   ["next"] = 2782;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 142127;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["faction"] = "Horde";
 	   ["name"] = "Rin'ji is Trapped!";
 	   ["level"] = 47;
@@ -62083,6 +62703,12 @@ addon.questsDB = {
 	   ["gather"] = {
 	      [1] = 11516;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 171939;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Corrupted Songflower";
 	   ["sort"] = "Feralas";
 	   ["level"] = 55;
@@ -62270,6 +62896,12 @@ addon.questsDB = {
 	   };
 	   ["zone"] = "Thunder Bluff";
 	   ["followup"] = 2954;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 142343;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Seeing What Happens";
 	   ["prev"] = 2965;
 	   ["prequests"] = {
@@ -62871,6 +63503,12 @@ addon.questsDB = {
 	      [910] = 10;
 	   };
 	   ["next"] = 8598;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 180652;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Draconic for Dummies";
 	   ["prev"] = 8576;
 	   ["prequests"] = {
@@ -63607,6 +64245,12 @@ addon.questsDB = {
 	      [1] = 10466;
 	   };
 	   ["followup"] = 3447;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 148836;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Into the Depths";
 	   ["prev"] = 3444;
 	   ["prequests"] = {
@@ -63628,6 +64272,12 @@ addon.questsDB = {
 	   ["sort"] = "Searing Gorge";
 	   ["reward"] = {
 	      [1] = 10515;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 149047;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "The Torch of Retribution";
 	   ["prev"] = 3453;
@@ -65476,6 +66126,12 @@ addon.questsDB = {
 	   ["reward"] = {
 	      [1] = 11951;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 174605;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Corrupted Whipper Root";
 	   ["sort"] = "Felwood";
 	   ["level"] = 55;
@@ -65964,6 +66620,12 @@ addon.questsDB = {
 	   };
 	   ["next"] = 4813;
 	   ["sort"] = "Darkshore";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 175524;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 4811;
 	   ["prequests"] = {
 	      [1] = 4811;
@@ -66080,6 +66742,12 @@ addon.questsDB = {
 	      [577] = 150;
 	   };
 	   ["next"] = 5085;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 176091;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Falling to Corruption";
 	   ["prev"] = 5083;
 	   ["prequests"] = {
@@ -66124,6 +66792,12 @@ addon.questsDB = {
 ";
 	   ["zone"] = "Western Plaguelands";
 	   ["sort"] = "Western Plaguelands";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 176192;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Catalogue of the Wayward";
 	   ["prev"] = 5162;
 	   ["prequests"] = {
@@ -68296,6 +68970,12 @@ addon.questsDB = {
 	   };
 	   ["next"] = 4127;
 	   ["sort"] = "Feralas";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 164909;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 4124;
 	   ["prequests"] = {
 	      [1] = 4124;
@@ -68443,6 +69123,12 @@ addon.questsDB = {
 	   };
 	   ["reward"] = {
 	      [1] = 11950;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 174601;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Corrupted Windblossom";
 	   ["sort"] = "Felwood";
@@ -68723,6 +69409,12 @@ addon.questsDB = {
 	   ["reward"] = {
 	      [1] = 11562;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 164955;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Crystal Restore";
 	   ["prev"] = 4321;
 	   ["prequests"] = {
@@ -68804,6 +69496,12 @@ addon.questsDB = {
 	   };
 	   ["reward"] = {
 	      [1] = 11951;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 174606;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Corrupted Whipper Root";
 	   ["sort"] = "Felwood";
@@ -69067,6 +69765,12 @@ addon.questsDB = {
 	   ["sort"] = "Gnomeregan";
 	   ["reward"] = {
 	      [1] = 9363;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 175084;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "The Sparklematic 5200!";
 	   ["prev"] = 4601;
@@ -69367,6 +70071,12 @@ addon.questsDB = {
 	   ["repgain"] = {
 	      [69] = 10;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 7510;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "The Sprouted Fronds";
 	   ["prev"] = 931;
 	   ["prequests"] = {
@@ -69419,6 +70129,12 @@ addon.questsDB = {
 	   ["series"] = 1;
 	   ["sort"] = "Winterspring";
 	   ["next"] = 4863;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 175587;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["faction"] = "Alliance";
 	   ["name"] = "Enraged Wildkin";
 	   ["level"] = 59;
@@ -69716,6 +70432,12 @@ addon.questsDB = {
 	   ["objective"] = "The ramblings of the ghostly woman indicated that she needed a package delivered.  She claimed that it was where her horse was.  As to where the horse is or where the package was to be delivered - the ghost remains incomprehensible.";
 	   ["zone"] = "Western Plaguelands";
 	   ["followup"] = 5023;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 175894;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Better Late Than Never";
 	   ["sort"] = "Western Plaguelands";
 	   ["level"] = 52;
@@ -70097,6 +70819,12 @@ addon.questsDB = {
 	   };
 	   ["next"] = 5230;
 	   ["sort"] = "Western Plaguelands";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 176361;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 5228;
 	   ["prequests"] = {
 	      [1] = 5228;
@@ -70481,6 +71209,12 @@ addon.questsDB = {
 	   ["zone"] = "Felwood";
 	   ["gather"] = {
 	      [1] = 11516;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 174595;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Corrupted Songflower";
 	   ["sort"] = "Felwood";
@@ -71004,6 +71738,12 @@ addon.questsDB = {
 	   ["reward"] = {
 	      [1] = 9307;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 144063;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 2943;
 	   ["prequests"] = {
 	      [1] = 2943;
@@ -71247,6 +71987,12 @@ addon.questsDB = {
 	   ["zone"] = "Dun Morogh";
 	   ["gather"] = {
 	      [1] = 9308;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 142487;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "The Sparklematic 5200!";
 	   ["sort"] = "Gnomeregan";
@@ -71503,6 +72249,12 @@ addon.questsDB = {
 	   ["reward"] = {
 	      [1] = 11951;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 174607;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Corrupted Whipper Root";
 	   ["sort"] = "Felwood";
 	   ["level"] = 55;
@@ -71669,6 +72421,12 @@ addon.questsDB = {
 	   ["sort"] = "Undercity";
 	   ["reward"] = {
 	      [1] = 15102;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 175265;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["faction"] = "Horde";
 	   ["name"] = "Testing for Impurities - Un'Goro Crater";
@@ -72755,6 +73513,12 @@ addon.questsDB = {
 	   ["reward"] = {
 	      [1] = 15103;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 174848;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["faction"] = "Horde";
 	   ["name"] = "Testing for Corruption - Felwood";
 	   ["level"] = 52;
@@ -72776,6 +73540,12 @@ addon.questsDB = {
 	      [47] = 250;
 	   };
 	   ["next"] = 3368;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 175704;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["faction"] = "Alliance";
 	   ["name"] = "Suntara Stones";
 	   ["level"] = 48;
@@ -73078,6 +73848,12 @@ addon.questsDB = {
 	   ["sort"] = "Sunken Temple";
 	   ["reward"] = {
 	      [1] = 10773;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 148838;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Secret of the Circle";
 	   ["prev"] = 3446;
@@ -74142,6 +74918,12 @@ addon.questsDB = {
 	   };
 	   ["next"] = 4135;
 	   ["sort"] = "Feralas";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 164953;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 4130;
 	   ["prequests"] = {
 	      [1] = 4130;
@@ -74933,6 +75715,12 @@ addon.questsDB = {
 	      [2] = 6670;
 	      [3] = 6671;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 19599;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "The Den";
 	   ["prev"] = 1088;
 	   ["prequests"] = {
@@ -75216,6 +76004,12 @@ addon.questsDB = {
 	   ["zone"] = "Felwood";
 	   ["gather"] = {
 	      [1] = 11516;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 174598;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Corrupted Songflower";
 	   ["sort"] = "Felwood";
@@ -75574,6 +76368,12 @@ addon.questsDB = {
 	   };
 	   ["reward"] = {
 	      [1] = 5462;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 19024;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["prev"] = 1027;
 	   ["prequests"] = {
@@ -76089,6 +76889,12 @@ addon.questsDB = {
 	   };
 	   ["reward"] = {
 	      [1] = 11563;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 164957;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Crystal Force";
 	   ["prev"] = 4321;
@@ -77074,6 +77880,12 @@ addon.questsDB = {
 	[5058] = {
 	   ["objective"] = "";
 	   ["zone"] = "Western Plaguelands";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 175926;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Mrs. Dalson's Diary";
 	   ["sort"] = "Western Plaguelands";
 	   ["level"] = 55;
@@ -78334,6 +79146,12 @@ addon.questsDB = {
 	   ["reward"] = {
 	      [1] = 9363;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 175085;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "More Sparklematic Action";
 	   ["prev"] = 4606;
 	   ["prequests"] = {
@@ -78868,6 +79686,12 @@ addon.questsDB = {
 	   ["name"] = "A Plague Upon Thee";
 	   ["next"] = 6390;
 	   ["sort"] = "Tirisfal Glades";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 177491;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 5901;
 	   ["prequests"] = {
 	      [1] = 5901;
@@ -79671,6 +80495,12 @@ addon.questsDB = {
 	   ["reward"] = {
 	      [1] = 16788;
 	      [2] = 16789;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 177786;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Claim Rackmore's Treasure!";
 	   ["sort"] = "Desolace";
@@ -80966,6 +81796,12 @@ addon.questsDB = {
 	   };
 	   ["next"] = 2903;
 	   ["sort"] = "Feralas";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 142195;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 2863;
 	   ["prequests"] = {
 	      [1] = 2863;
@@ -81754,6 +82590,12 @@ addon.questsDB = {
 	   };
 	   ["repgain"] = {
 	      [749] = 200;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 179551;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "A Hero's Reward";
 	   ["prequests"] = {
@@ -83648,6 +84490,12 @@ addon.questsDB = {
 	   ["reward"] = {
 	      [1] = 11564;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 164956;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Crystal Ward";
 	   ["prev"] = 4321;
 	   ["prequests"] = {
@@ -83730,6 +84578,12 @@ addon.questsDB = {
 	   };
 	   ["reward"] = {
 	      [1] = 11952;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 174684;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Corrupted Night Dragon";
 	   ["sort"] = "Felwood";
@@ -84541,6 +85395,12 @@ addon.questsDB = {
 	   ["name"] = "Enraged Wildkin";
 	   ["next"] = 4864;
 	   ["sort"] = "Winterspring";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 175586;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 4861;
 	   ["prequests"] = {
 	      [1] = 4861;
@@ -85238,6 +86098,12 @@ addon.questsDB = {
 	   };
 	   ["next"] = 5232;
 	   ["sort"] = "Western Plaguelands";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 177289;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 5230;
 	   ["prequests"] = {
 	      [1] = 5230;
@@ -86215,6 +87081,12 @@ addon.questsDB = {
 	      [1] = 15994;
 	      [2] = 3829;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 179485;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "A Broken Trap";
 	   ["sort"] = "Dire Maul";
 	   ["level"] = 60;
@@ -86389,6 +87261,10 @@ addon.questsDB = {
 	      [1] = {
 	         ["id"] = 3188;
 	         ["type"] = "npc";
+	      };
+	      [2] = {
+	         ["id"] = 142715;
+	         ["type"] = "object";
 	      };
 	   };
 	   ["name"] = "The Spider God";
@@ -87569,6 +88445,12 @@ addon.questsDB = {
 	   };
 	   ["reward"] = {
 	      [1] = 8647;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 142071;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "The Super Egg-O-Matic";
 	   ["prev"] = 2741;
@@ -89273,12 +90155,12 @@ addon.questsDB = {
 	   ["level"] = 60;
 	   ["source"] = {
 	      [1] = {
-	         ["id"] = 19973;
-	         ["type"] = "item";
-	      };
-	      [2] = {
 	         ["id"] = 180366;
 	         ["type"] = "object";
+	      };
+	      [2] = {
+	         ["id"] = 19973;
+	         ["type"] = "item";
 	      };
 	   };
 	   ["req"] = 58;
@@ -89378,6 +90260,12 @@ addon.questsDB = {
 	   };
 	   ["reward"] = {
 	      [1] = 11950;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 174602;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Corrupted Windblossom";
 	   ["sort"] = "Felwood";
@@ -90278,6 +91166,12 @@ addon.questsDB = {
 	   };
 	   ["reward"] = {
 	      [1] = 11952;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 174608;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Corrupted Night Dragon";
 	   ["sort"] = "Felwood";
@@ -91385,6 +92279,12 @@ addon.questsDB = {
 	   ["reward"] = {
 	      [1] = 11952;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 173324;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Corrupted Night Dragon";
 	   ["sort"] = "Felwood";
 	   ["level"] = 55;
@@ -91401,6 +92301,12 @@ addon.questsDB = {
 	   ["zone"] = "Felwood";
 	   ["gather"] = {
 	      [1] = 11516;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 174712;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Corrupted Songflower";
 	   ["sort"] = "Felwood";
@@ -91756,6 +92662,12 @@ addon.questsDB = {
 	   ["sort"] = "Gnomeregan";
 	   ["reward"] = {
 	      [1] = 9363;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 175085;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "The Sparklematic 5200!";
 	   ["prev"] = 4602;
@@ -92857,6 +93769,12 @@ addon.questsDB = {
 	   };
 	   ["next"] = 5217;
 	   ["sort"] = "Western Plaguelands";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 176361;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 5215;
 	   ["prequests"] = {
 	      [1] = 5215;
@@ -94227,6 +95145,12 @@ addon.questsDB = {
 	   ["name"] = "A Plague Upon Thee";
 	   ["next"] = 6389;
 	   ["sort"] = "Western Plaguelands";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 177491;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 5903;
 	   ["prequests"] = {
 	      [1] = 5903;
@@ -95164,6 +96088,12 @@ addon.questsDB = {
 	      [1] = "Rogue";
 	      [2] = "Warrior";
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 180746;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["sort"] = "Seasonal";
 	   ["name"] = "A Gently Shaken Gift";
 	   ["level"] = 1;
@@ -95660,6 +96590,12 @@ addon.questsDB = {
 	   ["reward"] = {
 	      [1] = 11951;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 174686;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Corrupted Whipper Root";
 	   ["sort"] = "Felwood";
 	   ["level"] = 55;
@@ -96128,6 +97064,12 @@ addon.questsDB = {
 	      [910] = 50;
 	   };
 	   ["next"] = 8519;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 180633;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Long Forgotten Memories";
 	   ["prev"] = 8303;
 	   ["prequests"] = {
@@ -96451,6 +97393,12 @@ addon.questsDB = {
 	   ["zone"] = "Felwood";
 	   ["gather"] = {
 	      [1] = 11516;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 174594;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Corrupted Songflower";
 	   ["sort"] = "Felwood";
@@ -96966,6 +97914,12 @@ addon.questsDB = {
 	   };
 	   ["reward"] = {
 	      [1] = 11950;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 174600;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Corrupted Windblossom";
 	   ["sort"] = "Felwood";
@@ -99088,6 +100042,12 @@ addon.questsDB = {
 	   ["reward"] = {
 	      [1] = 21310;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 180747;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["sort"] = "Seasonal";
 	   ["name"] = "A Gaily Wrapped Present";
 	   ["level"] = 20;
@@ -99115,6 +100075,10 @@ addon.questsDB = {
 	      [1] = {
 	         ["id"] = 6826;
 	         ["type"] = "npc";
+	      };
+	      [2] = {
+	         ["id"] = 112877;
+	         ["type"] = "object";
 	      };
 	   };
 	   ["name"] = "Find the Gems";
@@ -99198,6 +100162,12 @@ addon.questsDB = {
 	   ["kill"] = {
 	      [1] = 5839;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 173265;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Caught!";
 	   ["sort"] = "Searing Gorge";
 	   ["level"] = 45;
@@ -99214,6 +100184,12 @@ addon.questsDB = {
 	   ["zone"] = "Felwood";
 	   ["gather"] = {
 	      [1] = 11516;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 174713;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Corrupted Songflower";
 	   ["sort"] = "Felwood";
@@ -99433,6 +100409,12 @@ addon.questsDB = {
 	   };
 	   ["reward"] = {
 	      [1] = 11950;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 174604;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Corrupted Windblossom";
 	   ["sort"] = "Felwood";
@@ -100143,6 +101125,12 @@ addon.questsDB = {
 	      [2] = 3577;
 	      [3] = 6037;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 164869;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "The Spectral Chalice";
 	   ["sort"] = "Blackrock Depths";
 	   ["level"] = 55;
@@ -100375,6 +101363,12 @@ addon.questsDB = {
 	   ["zone"] = "Felwood";
 	   ["gather"] = {
 	      [1] = 11516;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 164886;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Corrupted Songflower";
 	   ["sort"] = "Felwood";
@@ -100679,6 +101673,12 @@ addon.questsDB = {
 	   };
 	   ["next"] = 5234;
 	   ["sort"] = "Western Plaguelands";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 176393;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 5232;
 	   ["prequests"] = {
 	      [1] = 5232;
@@ -100729,6 +101729,12 @@ addon.questsDB = {
 	      [1] = 13246;
 	      [2] = 13243;
 	      [3] = 13249;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 176317;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "The Argent Hold";
 	   ["prev"] = 5264;
@@ -101285,6 +102291,12 @@ addon.questsDB = {
 	   ["reward"] = {
 	      [1] = 11566;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 164955;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Crystal Charge";
 	   ["prev"] = 4321;
 	   ["prequests"] = {
@@ -101305,6 +102317,12 @@ addon.questsDB = {
 	   ["zone"] = "Dun Morogh";
 	   ["gather"] = {
 	      [1] = 9308;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 175085;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "The Sparklematic 5200!";
 	   ["sort"] = "Gnomeregan";
@@ -101681,6 +102699,12 @@ addon.questsDB = {
 	   };
 	   ["zone"] = "Ironforge";
 	   ["followup"] = 2954;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 142343;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Seeing What Happens";
 	   ["prev"] = 2963;
 	   ["prequests"] = {
@@ -101827,6 +102851,12 @@ addon.questsDB = {
 	   ["gather"] = {
 	      [1] = 9326;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 142487;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Grime-Encrusted Ring";
 	   ["sort"] = "Gnomeregan";
 	   ["level"] = 34;
@@ -101848,6 +102878,12 @@ addon.questsDB = {
 	   };
 	   ["reward"] = {
 	      [1] = 9363;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 142487;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "More Sparklematic Action";
 	   ["prev"] = 2952;
@@ -102663,6 +103699,12 @@ addon.questsDB = {
 	      [910] = 10;
 	   };
 	   ["next"] = 8578;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 180642;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Stewvul, Ex-B.F.F.";
 	   ["prev"] = 8576;
 	   ["prequests"] = {
@@ -102838,6 +103880,12 @@ addon.questsDB = {
 	   ["objective"] = "";
 	   ["reward"] = {
 	      [1] = 21327;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 180748;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["sort"] = "Seasonal";
 	   ["name"] = "A Ticking Present";
@@ -103931,6 +104979,12 @@ addon.questsDB = {
 	      [76] = 150;
 	   };
 	   ["next"] = 3506;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 151286;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Betrayed";
 	   ["prev"] = 3504;
 	   ["prequests"] = {
@@ -104083,6 +105137,12 @@ addon.questsDB = {
 	      [4] = 22278;
 	      [5] = 22280;
 	      [6] = 22276;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 181073;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["sort"] = "Seasonal";
 	   ["prequests"] = {
@@ -104743,6 +105803,12 @@ addon.questsDB = {
 	   };
 	   ["reward"] = {
 	      [1] = 11565;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 164956;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Crystal Yield";
 	   ["prev"] = 4321;
@@ -105624,6 +106690,12 @@ addon.questsDB = {
 	   };
 	   ["reward"] = {
 	      [1] = 19425;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 180025;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Your Fortune Awaits You...";
 	   ["sort"] = "Darkmoon Faire";
@@ -106807,6 +107879,12 @@ addon.questsDB = {
 	   };
 	   ["reward"] = {
 	      [1] = 11950;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 174708;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Corrupted Windblossom";
 	   ["sort"] = "Felwood";
@@ -108119,6 +109197,12 @@ addon.questsDB = {
 	   ["repgain"] = {
 	      [529] = 25;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 176361;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Felstone Field Cauldron";
 	   ["prequests"] = {
 	      [1] = 5229;
@@ -108727,6 +109811,12 @@ addon.questsDB = {
 	   ["reward"] = {
 	      [1] = 6828;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 32569;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Galen's Escape";
 	   ["sort"] = "Swamp of Sorrows";
 	   ["level"] = 38;
@@ -108772,6 +109862,12 @@ addon.questsDB = {
 	   ["sort"] = "Gnomeregan";
 	   ["reward"] = {
 	      [1] = 9363;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 142487;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "The Sparklematic 5200!";
 	   ["prev"] = 2951;
@@ -109044,6 +110140,12 @@ addon.questsDB = {
 	      [69] = 150;
 	   };
 	   ["next"] = 1465;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 50961;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["faction"] = "Alliance";
 	   ["name"] = "Vahlarriel's Search";
 	   ["level"] = 33;
@@ -110376,6 +111478,12 @@ addon.questsDB = {
 	   ["objective"] = "";
 	   ["reward"] = {
 	      [1] = 21363;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 180793;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["sort"] = "Seasonal";
 	   ["name"] = "A Festive Gift";
@@ -111841,6 +112949,12 @@ addon.questsDB = {
 	      [1] = 11136;
 	   };
 	   ["next"] = 3914;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 148504;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "A Grave Situation";
 	   ["prev"] = 3912;
 	   ["prequests"] = {
@@ -113130,6 +114244,12 @@ addon.questsDB = {
 	   ["reward"] = {
 	      [1] = 19425;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 180024;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Your Fortune Awaits You...";
 	   ["sort"] = "Darkmoon Faire";
 	   ["level"] = 60;
@@ -114221,6 +115341,12 @@ addon.questsDB = {
 	   ["gather"] = {
 	      [1] = 11818;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 173265;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "The Key to Freedom";
 	   ["sort"] = "Searing Gorge";
 	   ["level"] = 47;
@@ -114240,6 +115366,12 @@ addon.questsDB = {
 	   };
 	   ["reward"] = {
 	      [1] = 11950;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 174709;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Corrupted Windblossom";
 	   ["sort"] = "Felwood";
@@ -114519,6 +115651,12 @@ addon.questsDB = {
 	   ["sort"] = "Searing Gorge";
 	   ["reward"] = {
 	      [1] = 10569;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 149502;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Trinkets...";
 	   ["prev"] = 3463;
@@ -115314,6 +116452,12 @@ addon.questsDB = {
 	   ["gather"] = {
 	      [1] = 12738;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 175925;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Locked Away";
 	   ["sort"] = "Western Plaguelands";
 	   ["level"] = 55;
@@ -115589,6 +116733,12 @@ addon.questsDB = {
 	   };
 	   ["next"] = 5220;
 	   ["sort"] = "Western Plaguelands";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 177289;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 5217;
 	   ["prequests"] = {
 	      [1] = 5217;
@@ -115618,6 +116768,12 @@ addon.questsDB = {
 	   };
 	   ["next"] = 5236;
 	   ["sort"] = "Western Plaguelands";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 176392;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["prev"] = 5234;
 	   ["prequests"] = {
 	      [1] = 5234;
@@ -115786,6 +116942,12 @@ addon.questsDB = {
 	      [5] = "Priest";
 	      [6] = "Hunter";
 	      [7] = "Paladin";
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 180746;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["sort"] = "Seasonal";
 	   ["name"] = "A Gently Shaken Gift";
@@ -116521,6 +117683,12 @@ addon.questsDB = {
 	      [69] = 150;
 	   };
 	   ["next"] = 2867;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 142179;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["faction"] = "Alliance";
 	   ["name"] = "The Ruins of Solarsal ";
 	   ["level"] = 43;
@@ -116632,6 +117800,12 @@ addon.questsDB = {
 	   };
 	   ["reward"] = {
 	      [1] = 11567;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 164957;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Crystal Spire";
 	   ["prev"] = 4321;
@@ -116848,6 +118022,12 @@ addon.questsDB = {
 	   ["objective"] = "Learn the purpose of the Stone Watcher of Norgannon, and then interact with the Uldum Pedestal in the Tanaris desert.";
 	   ["zone"] = "Tanaris";
 	   ["sort"] = "Tanaris";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 142343;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "The Stone Watcher";
 	   ["prequests"] = {
 	      [1] = 2966;
@@ -118465,6 +119645,12 @@ addon.questsDB = {
 	   ["gather"] = {
 	      [1] = 18987;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 179880;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Blackhand's Command";
 	   ["sort"] = "Blackrock Spire";
 	   ["level"] = 60;
@@ -119155,6 +120341,12 @@ addon.questsDB = {
 	   };
 	   ["reward"] = {
 	      [1] = 9265;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 142194;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["sort"] = "Treasure Map";
 	   ["name"] = "Cuergo's Gold";
@@ -120004,6 +121196,12 @@ addon.questsDB = {
 	   ["reward"] = {
 	      [1] = 11000;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 164689;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Dark Iron Legacy";
 	   ["prev"] = 3801;
 	   ["prequests"] = {
@@ -120714,6 +121912,12 @@ addon.questsDB = {
 	   ["repgain"] = {
 	      [529] = 200;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 177544;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Hidden Treasures";
 	   ["prev"] = 5721;
 	   ["prequests"] = {
@@ -121140,6 +122344,12 @@ addon.questsDB = {
 	   ["zone"] = "Felwood";
 	   ["gather"] = {
 	      [1] = 11516;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 174596;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Corrupted Songflower";
 	   ["sort"] = "Felwood";
@@ -122945,6 +124155,12 @@ addon.questsDB = {
 	      [1] = 13474;
 	      [2] = 13475;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 175924;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Locked Away";
 	   ["sort"] = "Western Plaguelands";
 	   ["level"] = 55;
@@ -123941,6 +125157,7 @@ addon.questsDB = {
 	   ["req"] = 4;
 	};
 	[1526] = {
+	   ["series"] = 3;
 	   ["source"] = {
 	      [1] = {
 	         ["id"] = 5900;
@@ -123948,17 +125165,22 @@ addon.questsDB = {
 	      };
 	   };
 	   ["next"] = 1527;
-	   ["series"] = 3;
 	   ["faction"] = "Horde";
+	   ["name"] = "Call of Fire";
 	   ["gather"] = {
 	      [1] = 6653;
 	      [2] = 6655;
 	   };
-	   ["name"] = "Call of Fire";
+	   ["objective"] = "Defeat the Minor Manifestation of Fire, and place the Glowing Ember in the brazier atop the Shrine of Eternal Flame.";
 	   ["classes"] = {
 	      [1] = "Shaman";
 	   };
-	   ["objective"] = "Defeat the Minor Manifestation of Fire, and place the Glowing Ember in the brazier atop the Shrine of Eternal Flame.";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 61934;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["sort"] = "Shaman";
 	   ["prev"] = 1525;
 	   ["prequests"] = {
@@ -125037,6 +126259,12 @@ addon.questsDB = {
 	      [81] = 25;
 	      [530] = 25;
 	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 180570;
+	         ["type"] = "object";
+	      };
+	   };
 	   ["name"] = "Rotten Eggs";
 	   ["faction"] = "Horde";
 	   ["level"] = 60;
@@ -125449,6 +126677,12 @@ addon.questsDB = {
 	   };
 	   ["repgain"] = {
 	      [910] = 500;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 180718;
+	         ["type"] = "object";
+	      };
 	   };
 	   ["name"] = "Bang a Gong!";
 	   ["prev"] = 8742;
