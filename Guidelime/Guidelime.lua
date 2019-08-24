@@ -16,7 +16,7 @@ addon.COLOR_LEVEL_GRAY = "|cFF808080"
 addon.COLOR_WHITE = "|cFFFFFFFF"
 addon.COLOR_LIGHT_BLUE = "|cFF99CCFF"
 addon.MAINFRAME_ALPHA_MAX = 85
-addon.AUTO_COMPLETE_DELAY = 0.5
+addon.AUTO_COMPLETE_DELAY = 0.01
 addon.DEFAULT_GOTO_RADIUS = 10
 
 function addon.getLevelColor(level)
@@ -37,7 +37,9 @@ addon.icons = {
 	MAP = "Interface\\Addons\\" .. addonName .. "\\Icons\\lime",
 	MAP_ARROW = "Interface\\Addons\\" .. addonName .. "\\Icons\\Arrow",
 	MAP_LIME_ARROW = "Interface\\Addons\\" .. addonName .. "\\Icons\\lime_arrow",
-	MAP_MARKER = "Interface\\Addons\\" .. addonName .. "\\Icons\\lime_marker",
+	MAP_MARKER_1 = "Interface\\Addons\\" .. addonName .. "\\Icons\\lime_marker",
+	MAP_MARKER_2 = "Interface\\Addons\\" .. addonName .. "\\Icons\\lime_marker_friz_green",
+	MAP_MARKER_3 = "Interface\\Addons\\" .. addonName .. "\\Icons\\lime_marker_friz",
 	COMPLETED = "Interface\\Buttons\\UI-CheckBox-Check",
 	UNAVAILABLE = "Interface\\Buttons\\UI-GroupLoot-Pass-Up", -- or rather "Interface\\Buttons\\UI-StopButton" (yellow x) ?
 
@@ -220,7 +222,7 @@ function addon.loadCurrentGuide()
 	addon.currentGuide = {}
 	addon.currentGuide.name = GuidelimeDataChar.currentGuide
 	addon.currentGuide.steps = {}
-	addon.quests = {}
+	if addon.quests == nil then addon.quests = {} end
 	
 	local guide = addon.guides[GuidelimeDataChar.currentGuide]
 	
@@ -244,7 +246,10 @@ function addon.loadCurrentGuide()
 	end
 
 	--print(format(L.LOAD_MESSAGE, addon.currentGuide.name))
+	local time
+	if addon.debugging then time = debugprofilestop() end
 	guide = addon.parseGuide(guide, guide.group)
+	if addon.debugging then print("LIME: parseGuide " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	if guide == nil then return end
 	addon.guides[GuidelimeDataChar.currentGuide] = guide
 
@@ -263,7 +268,7 @@ function addon.loadCurrentGuide()
 		for _, element in ipairs(step.elements) do
 			if not element.generated and
 				((element.text ~= nil and element.text ~= "") or 
-				(element.t ~= "TEXT" and element.t ~= "NAME" and element.t ~= "NEXT" and element.t ~= "DETAILS" and element.t ~= "GUIDE_APPLIES" and element.t ~= "APPLIES"))
+				(element.t ~= "TEXT" and element.t ~= "NAME" and element.t ~= "NEXT" and element.t ~= "DETAILS" and element.t ~= "GUIDE_APPLIES" and element.t ~= "APPLIES" and element.t ~= "DOWNLOAD"))
 			then
 				table.insert(filteredElements, element)
 			end
@@ -315,13 +320,14 @@ function addon.loadCurrentGuide()
 							end
 						end
 					end
-					if GuidelimeData.autoAddCoordinates and not step.hasGoto and not element.optional then
+					if GuidelimeData.autoAddCoordinates and (GuidelimeData.showMapMarkersGOTO or GuidelimeData.showMinimapMarkersGOTO) and not step.hasGoto and not element.optional then
 						local gotoElement = addon.getQuestPosition(element.questId, element.t, element.objective)
 						if gotoElement ~= nil then
 							gotoElement.t = "GOTO"
 							gotoElement.step = step
 							gotoElement.radius = addon.DEFAULT_GOTO_RADIUS + gotoElement.radius
 							gotoElement.generated = true
+							gotoElement.available = true
 							table.insert(step.elements, i, gotoElement)
 							for j = i, #step.elements do
 								step.elements[j].index = j
@@ -338,13 +344,52 @@ function addon.loadCurrentGuide()
 			if step.optional == nil then step.optional = false end
 			step.skip = GuidelimeDataChar.guideSkip[addon.currentGuide.name][#addon.currentGuide.steps] or false
 			step.active = false
+			step.wasActive = false
 			step.completed = false
 			step.available = true
 		end
 	end
+	if addon.debugging then print("LIME: loadCurrentGuide " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 end
 
-local function getQuestText(id, title, colored)
+local function loadStepOnActivation(i)
+	local time
+	if addon.debugging then time = debugprofilestop() end
+	local step = addon.currentGuide.steps[i]
+	if GuidelimeData.autoAddCoordinates and (GuidelimeData.showMapMarkersLOC or GuidelimeData.showMinimapMarkersLOC) and not step.hasLoc then
+		local j = 1
+		while j <= #step.elements do
+			local element = step.elements[j]
+			if element.questId ~= nil then
+				local a, b = element.objective, element.objective
+				local objectives = addon.getQuestObjectives(element.questId, element.t)						
+				if element.objective == nil then a = 1; b = #objectives end
+				for o = a, b do
+					local positions = addon.getQuestPositionsLimited(element.questId, element.t, o, GuidelimeData.maxNumOfMarkersLOC, true)
+					if positions ~= nil and #positions > 1 then
+						for _, locElement in ipairs(positions) do
+							locElement.t = "LOC"
+							locElement.markerTyp = objectives[o].type
+							locElement.step = step
+							locElement.generated = true
+							locElement.available = true
+							locElement.index = j
+							table.insert(step.elements, j, locElement)
+							j = j + 1
+						end
+					end
+				end
+				for k = j, #step.elements do
+					step.elements[k].index = k
+				end
+			end
+			j = j + 1
+		end
+	end
+	if addon.debugging then print("LIME: loadStepOnActivation " .. i .. " " .. math.floor(debugprofilestop() - time) .. " ms") end
+end
+
+local function getQuestText(id, t, title, colored)
 	local q = ""
 	if GuidelimeData.showQuestLevels or GuidelimeData.showMinimumQuestLevels then
 		q = q .. "["
@@ -370,7 +415,7 @@ local function getQuestText(id, title, colored)
 		end
 		q = q .. "]"
 	end
-	if colored == nil or colored then q = q .. addon.COLOR_QUEST_DEFAULT end
+	if colored == nil or colored then q = q .. GuidelimeData["fontColor" .. (t or "ACCEPT")] end
 	q = q .. (title or addon.getQuestNameById(id) or id)
 	if colored == nil or colored then q = q .. "|r" end
 	return q
@@ -436,15 +481,15 @@ local function updateStepText(i)
 		elseif element.t == "ACCEPT" and addon.questsDB[element.questId] ~= nil and addon.questsDB[element.questId].req > addon.level then
 			text = text .. "|T" .. addon.icons.ACCEPT_UNAVAILABLE .. ":12|t"
 			if tooltip ~= "" then tooltip = tooltip .. "\n" end
-			local q = getQuestText(element.questId)
+			local q = getQuestText(element.questId, element.t)
 			tooltip = tooltip .. L.QUEST_REQUIRED_LEVEL:format(q, addon.questsDB[element.questId].req)
 		elseif element.t == "TURNIN" and not element.finished then
 			text = text .. "|T" .. addon.icons.TURNIN_INCOMPLETE .. ":12|t"
 		elseif element.t == "COMPLETE" then
 			text = text .. getQuestObjectiveIcon(element.questId, element.objective)
 		elseif element.t == "LOC" or element.t == "GOTO" then
-			if element.t == "LOC" and prevElement ~= nil and prevElement.t == "LOC" then
-				-- dont show an icon for subsequent LOC elements
+			if element.t == "LOC" and ((prevElement ~= nil and prevElement.t == "LOC") or (element.markerTyp ~= nil)) then
+				-- Dont show an icon for subsequent LOC elements. Also dont show LOC for quest steps since there would be the same icon twice
 			elseif element.mapIndex == 0 and addon.arrowFrame ~= nil and GuidelimeDataChar.showArrow then
 				text = text .. addon.getArrowIconText()
 			elseif element.mapIndex ~= nil then
@@ -462,7 +507,7 @@ local function updateStepText(i)
 			if element.url ~= nil then url = element.url end
 		end
 		if addon.quests[element.questId] ~= nil then
-			text = text .. getQuestText(element.questId, element.title, step.active)
+			text = text .. getQuestText(element.questId, element.t, element.title, step.active)
 		end
 		if element.available and not element.completed and element.questId ~= nil then
 			if not element.optional then
@@ -470,17 +515,17 @@ local function updateStepText(i)
 				if #newSkipQuests > 0 then
 					if skipText ~= "" then skipText = skipText .. "\n\n" end
 					if #newSkipQuests == 1 then
-						skipText = skipText .. L.STEP_FOLLOWUP_QUEST:format(getQuestText(element.questId)) ..":\n"
+						skipText = skipText .. L.STEP_FOLLOWUP_QUEST:format(getQuestText(element.questId, element.t)) ..":\n"
 					else
-						skipText = skipText .. L.STEP_FOLLOWUP_QUESTS:format(getQuestText(element.questId)) ..":\n"
+						skipText = skipText .. L.STEP_FOLLOWUP_QUESTS:format(getQuestText(element.questId, element.t)) ..":\n"
 					end
 					for _, id in ipairs(newSkipQuests) do
 						skipText = skipText .. "\n|T" .. addon.icons.UNAVAILABLE .. ":12|t" .. getQuestText(id)
 					end
 					if #newSkipQuests == 1 then
-						skipText = skipText .. "\n\n" .. L.STEP_FOLLOWUP_QUEST_CONT:format(getQuestText(element.questId))
+						skipText = skipText .. "\n\n" .. L.STEP_FOLLOWUP_QUEST_CONT:format(getQuestText(element.questId, element.t))
 					else
-						skipText = skipText .. "\n\n" .. L.STEP_FOLLOWUP_QUESTS_CONT:format(getQuestText(element.questId))
+						skipText = skipText .. "\n\n" .. L.STEP_FOLLOWUP_QUESTS_CONT:format(getQuestText(element.questId, element.t))
 					end
 				end
 			end
@@ -773,6 +818,10 @@ local function updateStepsActivation()
 					table.insert(addon.currentGuide.activeQuests, element.questId)
 				end
 			end
+			if not step.wasActive then
+				loadStepOnActivation(i)
+				step.wasActive = true
+			end
 		end
 	end
 end
@@ -878,7 +927,7 @@ local function showContextMenu()
 		{text = L.SHOW_COMPLETED_STEPS, checked = GuidelimeDataChar.showCompletedSteps, func = function()
 			GuidelimeDataChar.showCompletedSteps = not GuidelimeDataChar.showCompletedSteps
 			if addon.optionsFrame ~= nil then
-				addon.optionsFrame.options.showCompletedSteps:SetChecked(GuidelimeDataChar.showCompletedSteps)
+				addon.optionsFrame.showCompletedSteps:SetChecked(GuidelimeDataChar.showCompletedSteps)
 			end
 			addon.updateMainFrame()
 		end}
@@ -942,6 +991,7 @@ function addon.updateMainFrame(reset)
 				addon.showGuides()
 			end
 		end)
+		addon.mainFrame.message[1]:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize)
 		addon.mainFrame.message[1]:SetPoint("TOPLEFT", addon.mainFrame.scrollChild, "TOPLEFT", 10, -25)
 		addon.mainFrame.message[1]:Show()
 	else
@@ -955,6 +1005,7 @@ function addon.updateMainFrame(reset)
 					addon.showGuides()
 				end
 			end)
+			addon.mainFrame.message[1]:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize)
 			addon.mainFrame.message[1]:Hide()
 			local guide = addon.guides[addon.currentGuide.name]
 			if addon.currentGuide.next ~= nil and #addon.currentGuide.next > 0 and 
@@ -969,6 +1020,7 @@ function addon.updateMainFrame(reset)
 						addon.showUrlPopup(guide.downloadUrl) 
 					end
 				end)
+				addon.mainFrame.message[2]:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize)
 				addon.mainFrame.message[2]:Hide()
 			end
 		else
@@ -986,6 +1038,7 @@ function addon.updateMainFrame(reset)
 						addon.loadGuide(addon.currentGuide.group .. " " .. next)
 					end
 				end)
+				addon.mainFrame.message[i]:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize)
 				addon.mainFrame.message[i]:Hide()
 			end
 		end
@@ -997,6 +1050,7 @@ function addon.updateMainFrame(reset)
 		if addon.debugging then time = debugprofilestop() end
 
 		addon.mainFrame.titleBox:SetText(addon.currentGuide.name)
+		addon.mainFrame.titleBox:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize)
 		local prev = addon.mainFrame.titleBox
 		for i, step in ipairs(addon.currentGuide.steps) do
 			if ((not step.completed and not step.skip) or GuidelimeDataChar.showCompletedSteps) and
@@ -1024,6 +1078,7 @@ function addon.updateMainFrame(reset)
 								addon.showUrlPopup(self.url) 
 							end
 						end)
+						addon.mainFrame.steps[i].textBox:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize)
 						addon.mainFrame.steps[i].textBox:SetPoint("TOPLEFT", addon.mainFrame.steps[i], "TOPLEFT", 35, -9)
 					end
 					addon.mainFrame.steps[i]:SetAlpha(1)
@@ -1064,10 +1119,9 @@ function addon.showMainFrame()
 		addon.mainFrame:SetWidth(GuidelimeDataChar.mainFrameWidth)
 		addon.mainFrame:SetHeight(GuidelimeDataChar.mainFrameHeight)
 		addon.mainFrame:SetPoint(GuidelimeDataChar.mainFrameRelative, UIParent, GuidelimeDataChar.mainFrameRelative, GuidelimeDataChar.mainFrameX, GuidelimeDataChar.mainFrameY)
-		addon.mainFrame:SetBackdrop({
-			bgFile = "Interface/Addons/" .. addonName .. "/Icons/Black", tile = false
-		})
-		addon.mainFrame:SetBackdropColor(1,1,1,GuidelimeDataChar.mainFrameAlpha)
+		addon.mainFrame.bg = addon.mainFrame:CreateTexture(nil, "BACKGROUND")
+		addon.mainFrame.bg:SetAllPoints(addon.mainFrame)
+		addon.mainFrame.bg:SetColorTexture(0, 0, 0, GuidelimeDataChar.mainFrameAlpha)
 		addon.mainFrame:SetFrameLevel(999)
 		addon.mainFrame:SetMovable(true)
 		addon.mainFrame:EnableMouse(true)

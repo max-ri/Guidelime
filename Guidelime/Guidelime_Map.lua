@@ -5,7 +5,7 @@ HBD = LibStub("HereBeDragons-2.0")
 HBDPins = LibStub("HereBeDragons-Pins-2.0")
 
 addon.MAX_MAP_INDEX = 59
-addon.SPECIAL_MAP_INDEX = {KILL = 60, LOOT = 61,  INTERACT = 62, LOC = 63}
+addon.SPECIAL_MAP_INDEX = {monster = 60, item = 61, object = 62, npc = 63, LOC = 63}
 addon.mapIcons = {}
 
 
@@ -13,18 +13,14 @@ local function createIconFrame(t, index, minimap)
     local f = CreateFrame("Button", addonName .. t .. index .. minimap, nil)
     f:SetFrameStrata("TOOLTIP")
 	f:SetFrameLevel(index)
-    f:SetWidth(16)
-    f:SetHeight(16)
     f.texture = f:CreateTexture(nil, "TOOLTIP")
-    f.texture:SetTexture(addon.icons.MAP_MARKER)
+	addon.setMapIconTexture(f)
 	if t ~= "GOTO" then
 		index = addon.SPECIAL_MAP_INDEX[t]
 	elseif index > addon.MAX_MAP_INDEX then
 		index = addon.SPECIAL_MAP_INDEX.LOC
 	end
 	f.texture:SetTexCoord((index % 8) / 8, (index % 8 + 1) / 8, math.floor(index / 8) / 8, (math.floor(index / 8) + 1) / 8)
-    f.texture:SetWidth(GuidelimeData.mapMarkerSize)
-    f.texture:SetHeight(GuidelimeData.mapMarkerSize)
     f.texture:SetAllPoints(f)
 
     f:SetPoint("CENTER", 0, 0)
@@ -44,6 +40,25 @@ local function createIconFrame(t, index, minimap)
     return f
 end
 
+function addon.setMapIconTexture(f)
+    f.texture:SetTexture(addon.icons["MAP_MARKER_" .. GuidelimeData.mapMarkerStyle])
+    f.texture:SetWidth(GuidelimeData.mapMarkerSize)
+    f.texture:SetHeight(GuidelimeData.mapMarkerSize)
+    f:SetWidth(GuidelimeData.mapMarkerSize)
+    f:SetHeight(GuidelimeData.mapMarkerSize)
+end
+
+function addon.setMapIconTextures()
+	for t, icons in pairs(addon.mapIcons) do
+		for i = 0, #icons do
+			if icons[i] ~= nil then
+				addon.setMapIconTexture(icons[i].map)
+				addon.setMapIconTexture(icons[i].minimap)
+			end
+		end
+	end
+end
+
 local function createMapIcon(t, i)
 	if i == nil then
 		i = #addon.mapIcons[t] + 1
@@ -56,14 +71,14 @@ local function createMapIcon(t, i)
 	return addon.mapIcons[t][i]
 end
 
-local function getMapIcon(element, highlight)
-	if addon.mapIcons[element.t] == nil then addon.mapIcons[element.t] = {} end
+local function getMapIcon(t, element, highlight)
+	if addon.mapIcons[t] == nil then addon.mapIcons[t] = {} end
 	if highlight then 
-		if addon.mapIcons[element.t][0] == nil then createMapIcon(element.t, 0) end
-		return addon.mapIcons[element.t][0] 
+		if addon.mapIcons[t][0] == nil then createMapIcon(t, 0) end
+		return addon.mapIcons[t][0] 
 	end
-	if addon.mapIcons[element.t] ~= nil then
-		for i, mapIcon in ipairs(addon.mapIcons[element.t]) do
+	if addon.mapIcons[t] ~= nil then
+		for i, mapIcon in ipairs(addon.mapIcons[t]) do
 			if mapIcon.inUse then 
 				if mapIcon.mapID == element.mapID and mapIcon.x == element.x and mapIcon.y == element.y then
 					return mapIcon
@@ -73,15 +88,15 @@ local function getMapIcon(element, highlight)
 			end
 		end
 	end
-	return createMapIcon(element.t)		
+	return createMapIcon(t)		
 end
 
 function addon.addMapIcon(element, highlight, ignoreMaxNumOfMarkers)
-	local mapIcon = getMapIcon(element, highlight)
+	local mapIcon = getMapIcon(element.markerTyp or element.t, element, highlight)
 	if mapIcon == nil then return end
-	if not ignoreMaxNumOfMarkers and 
-		(mapIcon.index >= GuidelimeData["maxNumOfMarkers" .. element.t] or (not element.step.active and element.t ~= "GOTO")) then 
-		return 
+	if not ignoreMaxNumOfMarkers then
+		if element.t == "GOTO" and mapIcon.index >= GuidelimeData.maxNumOfMarkersGOTO and GuidelimeData.maxNumOfMarkersGOTO > 0 then return end
+		if not element.step.active and element.t ~= "GOTO" then return end
 	end
 	mapIcon.inUse = true
 	mapIcon.mapID = element.mapID
@@ -106,12 +121,13 @@ function addon.removeMapIcons()
 	end
 end
 
-local function showMapIcon(mapIcon)
+local function showMapIcon(mapIcon, t)
 	if mapIcon ~= nil and mapIcon.inUse then
+		if t ~= "GOTO" then t = "LOC" end
 		local x, y, instance = HBD:GetWorldCoordinatesFromZone(mapIcon.x / 100, mapIcon.y / 100, mapIcon.mapID)
 		if x ~= nil then
-			HBDPins:AddWorldMapIconWorld(addon, mapIcon.map, instance, x, y, 3)
-			HBDPins:AddMinimapIconWorld(addon, mapIcon.minimap, instance, x, y, mapIcon.index == 0)
+			if GuidelimeData["showMapMarkers" .. t] then HBDPins:AddWorldMapIconWorld(addon, mapIcon.map, instance, x, y, 3) end
+			if GuidelimeData["showMinimapMarkers" .. t] then HBDPins:AddMinimapIconWorld(addon, mapIcon.minimap, instance, x, y, mapIcon.index == 0) end
 		elseif addon.debugging then
 			print("LIME: error transforming coordinates", mapIcon.x, mapIcon.y, mapIcon.mapID)
 		end
@@ -119,9 +135,9 @@ local function showMapIcon(mapIcon)
 end
 
 function addon.showMapIcons()
-	for _, icons in pairs(addon.mapIcons) do
+	for t, icons in pairs(addon.mapIcons) do
 		for i = #icons, 0, -1 do
-			showMapIcon(icons[i])
+			showMapIcon(icons[i], t)
 		end
 	end
 end
@@ -129,11 +145,11 @@ end
 function addon.getMapMarkerText(element)
 	local index = element.mapIndex
 	if element.t ~= "GOTO" then
-		index = addon.SPECIAL_MAP_INDEX[element.t]
+		index = addon.SPECIAL_MAP_INDEX[element.markerTyp or element.t]
 	elseif index > addon.MAX_MAP_INDEX then
 		index = addon.SPECIAL_MAP_INDEX.LOC
 	end
-	return "|T" .. addon.icons.MAP_MARKER .. ":15:15:0:1:512:512:" .. 
+	return "|T" .. addon.icons["MAP_MARKER_" .. GuidelimeData.mapMarkerStyle] .. ":15:15:0:1:512:512:" .. 
 		index % 8 * 64 .. ":" .. (index % 8 + 1) * 64 .. ":" .. 
 		math.floor(index / 8) * 64 .. ":" .. (math.floor(index / 8) + 1) * 64 .. ":::|t"
 end
@@ -184,6 +200,13 @@ function addon.updateArrow()
 			addon.arrowFrame.row = math.floor(index / 9)
 			addon.arrowFrame.texture:SetTexCoord(addon.arrowFrame.col * 56 / 512, (addon.arrowFrame.col + 1) * 56 / 512, addon.arrowFrame.row * 42 / 512, (addon.arrowFrame.row + 1) * 42 / 512)
 		end
+		if GuidelimeData.arrowDistance then
+		 	local dist = math.floor(math.sqrt((addon.x - addon.arrowX) * (addon.x - addon.arrowX) + (addon.y - addon.arrowY) * (addon.y - addon.arrowY)))
+			addon.arrowFrame.text:SetText(dist .. " " .. L.YARDS)
+			addon.arrowFrame.text:Show()
+		else
+			addon.arrowFrame.text:Hide()
+		end
 	end
 end
 
@@ -211,6 +234,8 @@ function addon.showArrow(element)
 				local _
 				_, _, GuidelimeDataChar.arrowRelative, GuidelimeDataChar.arrowX, GuidelimeDataChar.arrowY = addon.arrowFrame:GetPoint()
 			end)
+			addon.arrowFrame.text = addon.arrowFrame:CreateFontString(nil, addon.arrowFrame, "GameFontNormal")
+			addon.arrowFrame.text:SetPoint("TOP", addon.arrowFrame, "BOTTOM", 0, 0)
 		end
 		addon.arrowFrame:Show()
 	end

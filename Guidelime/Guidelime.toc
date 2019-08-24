@@ -1,6 +1,6 @@
 ## Title: Guidelime
 ## Author: Borick of Arthas(EU)
-## Version: 0.035-Beta
+## Version: 0.037-Beta
 ## Interface: 11302
 ## SavedVariables: GuidelimeData
 ## SavedVariablesPerCharacter: GuidelimeDataChar
@@ -36,23 +36,7 @@ Data\Guidelime_ItemsDB_Locales.lua
 Data\Guidelime_QuestsTools.lua
 Data\Guidelime_Questie.lua
 
-Guides\Alliance\Hakurai - Shikushiku\Hakurai1-12.lua
-
-Guides\Alliance\MarkyMark\Dun Morogh 1-5.lua
-Guides\Alliance\MarkyMark\Dun Morogh_Loch Modan 5-12.lua
-Guides\Alliance\MarkyMark\Elwynn Forest 1-5.lua
-Guides\Alliance\MarkyMark\Elwynn Forest 5-11.lua
-Guides\Alliance\MarkyMark\Teldrassil 1-5.lua
-Guides\Alliance\MarkyMark\Teldrassil 5-11.lua
-
-Guides\Alliance\Sage\Sage_Guide_1-10_Dun_Morogh.lua
-Guides\Alliance\Sage\Sage_Guide_1-10_Elwynn_Forest.lua
-Guides\Alliance\Sage\Sage_Guide_1-11_Teldrassil.lua
-Guides\Alliance\Sage\Sage_Guide_10-12_Loch_Modan.lua
-
-Guides\Alliance\TUGs\1-9Dwarf,Gnome Starting Zone.lua
-Guides\Alliance\TUGs\1-9Human Starting Zone.lua
-Guides\Alliance\TUGs\9-11 Dun Morogh, Loch Modan.lua
+DemoGuides\DemoGuides.xml
 
 Guides\Alliance\WillScarlettOhara\WillScarlettOhara_-_NElf_Hunter_1-6.lua
 Guides\Alliance\WillScarlettOhara\WillScarlettOhara_-_NElf_Hunter_6-12.lua
@@ -63,4 +47,3 @@ Guides\Horde\Ettern\Ettern_12-16_Barrens.lua
 
 Guides\Horde\SevenLeaves\1-12.lua
 
-Guides\Horde\CauthonLuck\CauthonLuck1-10.lua

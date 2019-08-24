@@ -126,9 +126,9 @@ end
 
 local function textFormatting(text, color)
 	local url
-	local formatted = text:gsub("(https://[%w%./#%-%?=#]*)", function(...) url = ...; return "|cFFAAAAAA" .. url .. "|r" end)
-		:gsub("(http://[%w%./#%-%?=#]*)", function(...) url = ...; return "|cFFAAAAAA" .. url .. "|r" end)
-		:gsub("(www%.[%w%./#%-%?=#]*)", function(...) if url == nil then url = ... end; return "|cFFAAAAAA" .. url .. "|r" end)
+	local formatted = text:gsub("(https://[%w%./#%-%?=#]*)", function(u) url = u; return "|cFFAAAAAA" .. u .. "|r" end)
+		:gsub("(http://[%w%./#%-%?=#]*)", function(u) url = u; return "|cFFAAAAAA" .. u .. "|r" end)
+		:gsub("(www%.[%w%./#%-%?=#]*)", function(u) if url == nil then url = u end; return "|cFFAAAAAA" .. u .. "|r" end)
 		:gsub("%*([^%*]+)%*", (color or "|cFFFFD100") .. "%1|r")
 		:gsub("%*%*","%*")
 	local formattedInactive = formatted:gsub("|r", addon.COLOR_INACTIVE)
@@ -201,7 +201,7 @@ function addon.parseLine(step, guide, strict, nameOnly)
 			guide.detailsRaw = tag:gsub("%s*(.*)", "%1", 1)
 			guide.details, _, guide.detailsUrl = textFormatting(guide.detailsRaw)
 		elseif element.t == "DOWNLOAD" then
-			local _, c = tag:gsub("%s*(%d*%.?%d*)%s*%-?%s*(%d*%.?%d*)%s*([^%s]*)%s(.*)", function (minLevel, maxLevel, name, url)
+			local _, c = tag:gsub("%s*(%d*%.?%d*)%s*%-?%s*(%d*%.?%d*)%s*([^%s]*)%s(.*)", function (minLevel, maxLevel, url, name)
 				guide.downloadMinLevel = tonumber(minLevel)
 				guide.downloadMaxLevel = tonumber(maxLevel)
 				guide.download = name
@@ -234,6 +234,8 @@ function addon.parseLine(step, guide, strict, nameOnly)
 			elseif element.t == "WORK" then
 				element.t = "COMPLETE"
 				element.optional = true
+			elseif element.t == "QUEST" then
+				element.t = "COMPLETE"
 			end
 			local _, c = tag:gsub("%s*([%d/%?]+),?(%d*)%s*(.*)", function(id, objective, title)
 				element.questId = tonumber(id)
@@ -321,6 +323,7 @@ function addon.parseLine(step, guide, strict, nameOnly)
 					addon.createPopupFrame(string.format(L.ERROR_CODE_ZONE_NOT_FOUND, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
 					err = true
 				end
+				step.hasLoc = true
 			end, 1)
 			if c ~= 1 then
 				addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()

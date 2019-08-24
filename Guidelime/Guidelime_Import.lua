@@ -267,20 +267,25 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 	do end
 
 	-- each of these tags can appear once per line
-	for list, result in pairs({
-		[L.WORD_LIST_XP] = "XP",
-		[L.WORD_LIST_SET_HEARTH] = "S",
-		[L.WORD_LIST_HEARTH] = "H",
-		[L.WORD_LIST_FLY] = "F",
-		[L.WORD_LIST_GET_FLIGHT_POINT] = "P",
-		[L.WORD_LIST_OPTIONAL_COMPLETE_WITH_NEXT] = "OC"
+	for _, lists in ipairs({
+		{[L.WORD_LIST_XP] = "XP"},
+		{[L.WORD_LIST_SET_HEARTH] = "S", [L.WORD_LIST_HEARTH] = "H"},
+		{[L.WORD_LIST_FLY] = "F"},
+		{[L.WORD_LIST_GET_FLIGHT_POINT] = "P"},
+		{[L.WORD_LIST_OPTIONAL_COMPLETE_WITH_NEXT] = "OC"}
 	}) do
-		local code, s, e, pre, post = addon.findInLists(line, {[list] = result})
-		if code ~= nil and line:find("%[".. code) == nil and (count == 0 or code ~= "OC") then
-			if pre ~= nil and #pre <= e - s then s = s + #pre elseif s == 0 or line:sub(s, s):match("[%s%p]") then s = s + 1 end
-			if post ~= nil then e = e - #post elseif e > #line or line:sub(e, e):match("[%s%p]") then e = e - 1 end
-			if e > s then code = code .. " " end
-			line = line:sub(1, s - 1) .. "[" .. code .. line:sub(s, e) .. "]" .. line:sub(e + 1)
+		local found = false
+		for list, code in pairs(lists) do
+			if line:find("%[" .. code) ~= nil then found = true; break end
+		end
+		if not found then 
+			local code, s, e, pre, post = addon.findInLists(line, lists)
+			if code ~= nil and line:find("%[".. code) == nil and (count == 0 or code ~= "OC") then
+				if pre ~= nil and #pre <= e - s then s = s + #pre elseif s == 0 or line:sub(s, s):match("[%s%p]") then s = s + 1 end
+				if post ~= nil then e = e - #post elseif e > #line or line:sub(e, e):match("[%s%p]") then e = e - 1 end
+				if e > s then code = code .. " " end
+				line = line:sub(1, s - 1) .. "[" .. code .. line:sub(s, e) .. "]" .. line:sub(e + 1)
+			end
 		end
 	end
 	
