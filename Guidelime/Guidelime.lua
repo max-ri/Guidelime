@@ -1218,7 +1218,7 @@ local function simulateCompleteCurrentSteps()
 				if not element.completed then
 					if element.t == "ACCEPT" then
 						if addon.quests[element.questId] == nil then addon.quests[element.questId] = {} end
-						addon.quests[element.questId].logIndex = 1
+						addon.quests[element.questId].logIndex = -1
 					elseif element.t == "COMPLETE" then
 						if addon.quests[element.questId] == nil then addon.quests[element.questId] = {} end
 						addon.quests[element.questId].finished = true
