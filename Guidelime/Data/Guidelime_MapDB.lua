@@ -206,7 +206,7 @@ else
 	 ["Winterspring"]=83,
 	 ["Stormwind City"]=84,
 	 ["Orgrimmar"]=85,
-	 ["Cleft of Shadow@Orgrimmar!Dungeon"]=86,
+	 ["Cleft of Shadow"]=86,
 	 ["Ironforge!Eastern Kingdoms"]=87,
 	 ["Thunder Bluff"]=88,
 	 ["Darnassus"]=89,
