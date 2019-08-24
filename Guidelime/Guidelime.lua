@@ -1175,7 +1175,7 @@ function addon.showMainFrame()
 		end
 		addon.mainFrame.lockBtn:SetScript("OnClick", function()
 			GuidelimeDataChar.mainFrameLocked = not GuidelimeDataChar.mainFrameLocked
-			if addon.optionsFrame ~= nil then addon.optionsFrame.options.mainFrameLocked:SetChecked(GuidelimeDataChar.mainFrameLocked) end
+			if addon.optionsFrame ~= nil then addon.optionsFrame.mainFrameLocked:SetChecked(GuidelimeDataChar.mainFrameLocked) end
 			if GuidelimeDataChar.mainFrameLocked then
 				addon.mainFrame.lockBtn:SetPushedTexture("Interface/Buttons/LockButton-Unlocked-Down")
 				addon.mainFrame.lockBtn:SetNormalTexture("Interface/Buttons/LockButton-Locked-Up")
