@@ -148,6 +148,8 @@ end
 function addon.getQuestPositions(id, typ, objective, filterZone)
 	if GuidelimeData.dataSourceQuestie and Questie ~= nil then return addon.getQuestPositionsQuestie(id, typ, objective, filterZone) end
 	if id == nil or addon.questsDB[id] == nil then return end
+	local time
+	if addon.debugging then time = debugprofilestop() end
 	local ids = {npc = {}, object = {}, item = {}}
 	if typ == "ACCEPT" then 
 		if addon.questsDB[id].source ~= nil then
@@ -211,13 +213,16 @@ function addon.getQuestPositions(id, typ, objective, filterZone)
 		local element = addon.creaturesDB[npcId]
 		if element ~= nil and element.positions ~= nil then
 			for i, pos in ipairs(element.positions) do
-				-- TODO: x/y are still switched in db
-				local x, y, zone = addon.GetZoneCoordinatesFromWorld(pos.y, pos.x, pos.mapid, filterZone)
-				if x ~= nil then
-					table.insert(positions, {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, zone = zone, mapID = addon.mapIDs[zone], 
-						wx = pos.y, wy = pos.x, instance = pos.mapid})
-				elseif addon.debugging then
-					print("LIME: error transforming (" .. pos.x .. "," .. pos.y .. "," .. pos.mapid .. ") into zone coordinates for quest #" .. id .. " npc #" .. npcId)
+				-- filter all instances
+				if pos.mapid == 0 or pos.mapid == 1 then
+					-- TODO: x/y are still switched in db
+					local x, y, zone = addon.GetZoneCoordinatesFromWorld(pos.y, pos.x, pos.mapid, filterZone)
+					if x ~= nil then
+						table.insert(positions, {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, zone = zone, mapID = addon.mapIDs[zone], 
+							wx = pos.y, wy = pos.x, instance = pos.mapid})
+					elseif addon.debugging and filterZone == nil then
+						print("LIME: error transforming (", pos.x, pos.y, pos.mapid, ") into zone coordinates for quest #" .. id .. " npc #" .. npcId)
+					end
 				end
 			end
 		end
@@ -226,17 +231,21 @@ function addon.getQuestPositions(id, typ, objective, filterZone)
 		local element = addon.objectsDB[objectId]
 		if element ~= nil and element.positions ~= nil then
 			for i, pos in ipairs(element.positions) do
-				-- TODO: x/y are still switched in db
-				local x, y, zone = addon.GetZoneCoordinatesFromWorld(pos.y, pos.x, pos.mapid, filterZone)
-				if x ~= nil then
-					table.insert(positions, {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, zone = zone, mapID = addon.mapIDs[zone], 
-						wx = pos.y, wy = pos.x, instance = pos.mapid})
-				elseif addon.debugging then 
-					print("error transforming (" .. pos.x .. "," .. pos.y .. "," .. pos.mapid .. ") into zone coordinates for quest #" .. id .. " object #" .. objectId)
+				-- filter all instances
+				if pos.mapid == 0 or pos.mapid == 1 then
+					-- TODO: x/y are still switched in db
+					local x, y, zone = addon.GetZoneCoordinatesFromWorld(pos.y, pos.x, pos.mapid, filterZone)
+					if x ~= nil then
+						table.insert(positions, {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, zone = zone, mapID = addon.mapIDs[zone], 
+							wx = pos.y, wy = pos.x, instance = pos.mapid})
+					elseif addon.debugging and filterZone == nil then 
+						print("error transforming (" .. pos.x .. "," .. pos.y .. "," .. pos.mapid .. ") into zone coordinates for quest #" .. id .. " object #" .. objectId)
+					end
 				end
 			end
 		end
 	end	
+	if addon.debugging then print("LIME: getQuestPositions " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	return positions
 end
 
@@ -283,10 +292,11 @@ local function selectFurthestPosition(positions, clusters)
 				if cluster.x == pos.wx and cluster.y == pos.wy then
 					dist = nil
 				elseif dist ~= nil then
-					dist = dist + 1 / ((cluster.x - pos.wx) * (cluster.x - pos.wx) + (cluster.y - pos.wy) * (cluster.y - pos.wy)) 
+					--dist = dist + 1 / ((cluster.x - pos.wx) * (cluster.x - pos.wx) + (cluster.y - pos.wy) * (cluster.y - pos.wy)) 
+					dist = dist + ((cluster.x - pos.wx) * (cluster.x - pos.wx) + (cluster.y - pos.wy) * (cluster.y - pos.wy)) 
 				end
 			end
-			if maxDist == nil or (dist ~= nil and dist < maxDist) then
+			if maxDist == nil or (dist ~= nil and dist > maxDist) then
 				maxPos, maxDist = pos, dist
 			end
 		end
@@ -305,6 +315,8 @@ function addon.getQuestPosition(id, typ, index)
 	if #positions == 0 and filterZone ~= nil then
 		positions = addon.getQuestPositions(id, typ, index)
 	end
+	local time
+	if addon.debugging then time = debugprofilestop() end
 	for i = 1, #positions do 
 		local pos = selectFurthestPosition(positions, clusters)
 		--if addon.debugging then print("LIME: found position", pos.wx, pos.wy, pos.instance) end
@@ -313,10 +325,12 @@ function addon.getQuestPosition(id, typ, index)
 		addToCluster(pos.wx, pos.wy, cluster, dist)
 		if maxCluster == nil or cluster.count > maxCluster.count then maxCluster = cluster end
 	end
+	if addon.debugging then print("LIME: findCluster " .. #positions .. " positions " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	if maxCluster ~= nil then
 		if addon.debugging and maxCluster.count > 1 then print("LIME: biggest cluster of", maxCluster.count, "at", maxCluster.x, maxCluster.y, maxCluster.instance) end
 		local x, y, zone = addon.GetZoneCoordinatesFromWorld(maxCluster.x, maxCluster.y, maxCluster.instance)
 		if x ~= nil then
+			if addon.debugging then print("LIME: getQuestPosition " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 			return {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, 
 				wx = maxCluster.x, wy = maxCluster.y, instance = maxCluster.instance,
 				zone = zone, mapID = addon.mapIDs[zone], radius = math.floor(math.sqrt(maxCluster.radius))}
