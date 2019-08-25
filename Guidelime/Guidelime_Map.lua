@@ -92,7 +92,6 @@ local function getMapIcon(t, element, highlight)
 end
 
 function addon.addMapIcon(element, highlight, ignoreMaxNumOfMarkers)
-	print(element.wx, element.wy, element.instance, element.t, element.specialLocation)
 	local mapIcon = getMapIcon(element.markerTyp or element.t, element, highlight)
 	if mapIcon == nil then return end
 	if not ignoreMaxNumOfMarkers then
