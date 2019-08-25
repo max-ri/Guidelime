@@ -289,7 +289,6 @@ function addon.loadCurrentGuide()
 					step.manual = true
 				elseif element.t == "GOTO" then
 					if step.manual == nil then step.manual = false end
-					element.wx, element.wy, element.instance = HBD:GetWorldCoordinatesFromZone(element.x / 100, element.y / 100, element.mapID)
 				end
 				if element.questId ~= nil then
 					if addon.quests[element.questId] == nil then
@@ -328,8 +327,23 @@ function addon.loadCurrentGuide()
 								step.elements[j].index = j
 							end
 							i = i + 1
-						end						
-					end
+						end
+					end						
+				elseif element.t == "FLY" then
+					if GuidelimeData.autoAddCoordinates and (GuidelimeData.showMapMarkersGOTO or GuidelimeData.showMinimapMarkersGOTO) and not step.hasGoto and not element.optional then
+						local gotoElement = {}
+						gotoElement.t = "GOTO"
+						gotoElement.specialLocation = "NEAREST_FLIGHT_POINT"
+						gotoElement.step = step
+						gotoElement.radius = addon.DEFAULT_GOTO_RADIUS
+						gotoElement.generated = true
+						gotoElement.available = true
+						table.insert(step.elements, i, gotoElement)
+						for j = i, #step.elements do
+							step.elements[j].index = j
+						end
+						i = i + 1
+					end						
 				end
 				i = i + 1
 			end
@@ -853,13 +867,18 @@ function addon.updateStepsMapIcons()
 		if not step.skip and not step.completed and step.available then
 			for _, element in ipairs(step.elements) do
 				if element.t == "GOTO" and step.active and not element.completed then
-					addon.addMapIcon(element, highlight)
-					if highlight then
-						if GuidelimeDataChar.showArrow and addon.instance == element.instance then addon.showArrow(element); hideArrow = false end
-						queryPosition()
-						highlight = false
+					if element.specialLocation == "NEAREST_FLIGHT_POINT" then
+						element.wx, element.wy, element.instance = addon.getNearestFlightPoint(addon.x, addon.y, addon.instance, addon.faction)
 					end
-				elseif (element.t == "LOC" or element.t == "GOTO") and not element.completed then
+					if element.wx ~= nil then
+						addon.addMapIcon(element, highlight)
+						if highlight then
+							if GuidelimeDataChar.showArrow and addon.instance == element.instance then addon.showArrow(element); hideArrow = false end
+							queryPosition()
+							highlight = false
+						end
+					end
+				elseif (element.t == "LOC" or element.t == "GOTO") and not element.completed and element.specialLocation == nil then
 					addon.addMapIcon(element, false)
 				end
 			end

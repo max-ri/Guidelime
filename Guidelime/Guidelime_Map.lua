@@ -92,6 +92,7 @@ local function getMapIcon(t, element, highlight)
 end
 
 function addon.addMapIcon(element, highlight, ignoreMaxNumOfMarkers)
+	print(element.wx, element.wy, element.instance, element.t, element.specialLocation)
 	local mapIcon = getMapIcon(element.markerTyp or element.t, element, highlight)
 	if mapIcon == nil then return end
 	if not ignoreMaxNumOfMarkers then
@@ -99,9 +100,9 @@ function addon.addMapIcon(element, highlight, ignoreMaxNumOfMarkers)
 		if not element.step.active and element.t ~= "GOTO" then return end
 	end
 	mapIcon.inUse = true
-	mapIcon.mapID = element.mapID
-	mapIcon.x = assert(element.x)
-	mapIcon.y = assert(element.y)
+	mapIcon.instance = assert(element.instance)
+	mapIcon.wx = assert(element.wx)
+	mapIcon.wy = assert(element.wy)
 	element.mapIndex = mapIcon.index
 	--if addon.debugging then print("LIME : addMapIcon", element.mapID, element.x / 100, element.y / 100, highlight) end
 end
@@ -124,13 +125,8 @@ end
 local function showMapIcon(mapIcon, t)
 	if mapIcon ~= nil and mapIcon.inUse then
 		if t ~= "GOTO" then t = "LOC" end
-		local x, y, instance = HBD:GetWorldCoordinatesFromZone(mapIcon.x / 100, mapIcon.y / 100, mapIcon.mapID)
-		if x ~= nil then
-			if GuidelimeData["showMapMarkers" .. t] then HBDPins:AddWorldMapIconWorld(addon, mapIcon.map, instance, x, y, 3) end
-			if GuidelimeData["showMinimapMarkers" .. t] then HBDPins:AddMinimapIconWorld(addon, mapIcon.minimap, instance, x, y, mapIcon.index == 0) end
-		elseif addon.debugging then
-			print("LIME: error transforming coordinates", mapIcon.x, mapIcon.y, mapIcon.mapID)
-		end
+		if GuidelimeData["showMapMarkers" .. t] then HBDPins:AddWorldMapIconWorld(addon, mapIcon.map, mapIcon.instance, mapIcon.wx, mapIcon.wy, 3) end
+		if GuidelimeData["showMinimapMarkers" .. t] then HBDPins:AddMinimapIconWorld(addon, mapIcon.minimap, mapIcon.instance, mapIcon.wx, mapIcon.wy, mapIcon.index == 0) end
 	end
 end
 

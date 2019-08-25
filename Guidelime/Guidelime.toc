@@ -35,6 +35,7 @@ Data\Guidelime_ObjectsDB_Locales.lua
 Data\Guidelime_ItemsDB_Locales.lua
 Data\Guidelime_QuestsTools.lua
 Data\Guidelime_Questie.lua
+Data\Guidelime_FlightmasterDB.lua
 
 DemoGuides\DemoGuides.xml
 
