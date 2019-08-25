@@ -2617,7 +2617,7 @@ if locale == "esES" then
 		[9741] = "Gema de Serpentis",
 	}
 end
-if locale == "zhCN" then
+if locale == "zhCN" or locale == "zhTW" then
 	addon.itemsDB_zhCN = {
 		[20490] = "铁炉堡薄荷糖",
 		[16715] = "野性之心长靴",
@@ -15676,7 +15676,7 @@ if locale == "deDE" then
 		[9741] = "Edelstein von Serpentis",
 	}
 end
-if locale == "zhTW" or locale == "zhCN" then
+if locale == "zhTW" then
 	addon.itemsDB_zhTW = {
 		[20490] = "鐵爐堡薄荷糖",
 		[16715] = "野性之心長靴",

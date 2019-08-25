@@ -7608,7 +7608,7 @@ if locale == "esES" then
 		[16781] = "Celebrador del Solsticio de Verano",
 	}
 end
-if locale == "zhCN" then
+if locale == "zhCN" or locale == "zhTW" then
 	addon.creaturesDB_zhCN = {
 		[15475] = "甲壳虫",
 		[15539] = "佐格将军",
@@ -45563,7 +45563,7 @@ if locale == "deDE" then
 		[16781] = "Feiernder des Sonnenwendfests",
 	}
 end
-if locale == "zhTW" or locale == "zhCN" then
+if locale == "zhTW" then
 	addon.creaturesDB_zhTW = {
 		[15475] = "甲蟲",
 		[7770] = "溫基",
