@@ -82,7 +82,7 @@ local function getMapIcon(t, element, highlight)
 	if addon.mapIcons[t] ~= nil then
 		for i, mapIcon in ipairs(addon.mapIcons[t]) do
 			if mapIcon.inUse then 
-				if mapIcon.mapID == element.mapID and mapIcon.x == element.x and mapIcon.y == element.y then
+				if mapIcon.instance == element.instance and mapIcon.wx == element.wx and mapIcon.wy == element.wy then
 					return mapIcon
 				end
 			else
