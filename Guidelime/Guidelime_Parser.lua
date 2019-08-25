@@ -47,6 +47,8 @@ addon.codes = {
 	GET_FLIGHT_POINT = "P",
 	VENDOR = "V",
 	REPAIR = "R",
+	AUTO_ADD_COORDINATES_GOTO = "GG",
+	AUTO_ADD_COORDINATES_LOC = "GL",
 --deprecated
 	COMPLETE_WITH_NEXT = "C", -- same as OC
 	PICKUP = "QP", -- same as QA
@@ -80,6 +82,8 @@ function addon.parseGuide(guide, group, strict, nameOnly)
 		guide.lines = 1
 		guide.steps = {}
 		guide.next = {}
+		guide.autoAddCoordinatesGOTO = true
+		guide.autoAddCoordinatesLOC = true
 		local t = guide.text:gsub("([^\n\r]-)[\n\r]", function(c)
 			if c ~= nil and c ~= "" then
 				local step = {text = c:gsub("\\\\"," \n"), startPos = pos, line = guide.lines, guide = guide}
@@ -228,6 +232,24 @@ function addon.parseLine(step, guide, strict, nameOnly)
 			end)
 		elseif nameOnly then
 			return ""
+		elseif element.t == "AUTO_ADD_COORDINATES_GOTO" then
+			if tag:upper():gsub(" ","") == "ON" then
+				guide.autoAddCoordinatesGOTO = true
+			elseif tag:upper():gsub(" ","") == "OFF" then
+				guide.autoAddCoordinatesGOTO = false
+			else
+				addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
+				err = true
+			end
+		elseif element.t == "AUTO_ADD_COORDINATES_LOC" then
+			if tag:upper():gsub(" ","") == "ON" then
+				guide.autoAddCoordinatesGOTO = true
+			elseif tag:upper():gsub(" ","") == "OFF" then
+				guide.autoAddCoordinatesGOTO = false
+			else
+				addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
+				err = true
+			end
 		elseif addon.getSuperCode(element.t) == "QUEST" then
 			if element.t == "PICKUP" then
 				element.t = "ACCEPT"

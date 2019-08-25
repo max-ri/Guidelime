@@ -106,8 +106,12 @@ function addon.loadData()
 		showMinimumQuestLevels = false,
 		showTooltips = true,
 		maxNumOfSteps = 0,
-		mapMarkerStyle = 1,
-		mapMarkerSize = 16,
+		mapMarkerStyleGOTO = 1,
+		mapMarkerStyleLOC = 2,
+		mapMarkerAlphaGOTO = 1,
+		mapMarkerAlphaLOC = 0.5,
+		mapMarkerSizeGOTO = 16,
+		mapMarkerSizeLOC = 16,
 		showMapMarkersGOTO = true,
 		showMapMarkersLOC = true,
 		showMinimapMarkersGOTO = true,
@@ -171,6 +175,13 @@ function addon.loadData()
 		end
 	end, 1)
 	GuidelimeData.version:gsub("(%d+).(%d+)", function(major, minor)
+		if tonumber(major) == 0 and tonumber(minor) < 39 then
+			--removed options mapMarkerStyle, mapMarkerSize, autoAddCoordinates
+			GuidelimeData.mapMarkerStyle = nil
+			GuidelimeData.mapMarkerSize = nil
+			GuidelimeData.autoAddCoordinates = nil
+			GuidelimeData.version = GetAddOnMetadata(addonName, "version")
+		end
 		if tonumber(major) == 0 and tonumber(minor) < 36 then
 			--options reworked; remove everything old
 			GuidelimeData.hideCompletedSteps = nil
@@ -269,7 +280,7 @@ function addon.loadCurrentGuide()
 		for _, element in ipairs(step.elements) do
 			if not element.generated and
 				((element.text ~= nil and element.text ~= "") or 
-				(element.t ~= "TEXT" and element.t ~= "NAME" and element.t ~= "NEXT" and element.t ~= "DETAILS" and element.t ~= "GUIDE_APPLIES" and element.t ~= "APPLIES" and element.t ~= "DOWNLOAD"))
+				(element.t ~= "TEXT" and element.t ~= "NAME" and element.t ~= "NEXT" and element.t ~= "DETAILS" and element.t ~= "GUIDE_APPLIES" and element.t ~= "APPLIES" and element.t ~= "DOWNLOAD" and element.t ~= "AUTO_ADD_COORDINATES_GOTO" and element.t ~= "AUTO_ADD_COORDINATES_LOC"))
 			then
 				table.insert(filteredElements, element)
 			end
@@ -315,7 +326,7 @@ function addon.loadCurrentGuide()
 							end
 						end
 					end
-					if GuidelimeData.autoAddCoordinates and (GuidelimeData.showMapMarkersGOTO or GuidelimeData.showMinimapMarkersGOTO) and not step.hasGoto and not element.optional then
+					if guide.autoAddCoordinatesGOTO and (GuidelimeData.showMapMarkersGOTO or GuidelimeData.showMinimapMarkersGOTO) and not step.hasGoto and not element.optional then
 						local gotoElement = addon.getQuestPosition(element.questId, element.t, element.objective)
 						if gotoElement ~= nil then
 							gotoElement.t = "GOTO"
@@ -331,7 +342,7 @@ function addon.loadCurrentGuide()
 						end
 					end						
 				elseif element.t == "FLY" then
-					if GuidelimeData.autoAddCoordinates and (GuidelimeData.showMapMarkersGOTO or GuidelimeData.showMinimapMarkersGOTO) and not step.hasGoto and not element.optional then
+					if guide.autoAddCoordinatesGOTO and (GuidelimeData.showMapMarkersGOTO or GuidelimeData.showMinimapMarkersGOTO) and not step.hasGoto and not element.optional then
 						local gotoElement = {}
 						gotoElement.t = "GOTO"
 						gotoElement.specialLocation = "NEAREST_FLIGHT_POINT"
@@ -366,7 +377,7 @@ local function loadStepOnActivation(i)
 	local time
 	if addon.debugging then time = debugprofilestop() end
 	local step = addon.currentGuide.steps[i]
-	if GuidelimeData.autoAddCoordinates and (GuidelimeData.showMapMarkersLOC or GuidelimeData.showMinimapMarkersLOC) and not step.hasLoc then
+	if addon.guides[GuidelimeDataChar.currentGuide].autoAddCoordinatesLOC and (GuidelimeData.showMapMarkersLOC or GuidelimeData.showMinimapMarkersLOC) and not step.hasLoc then
 		local j = 1
 		while j <= #step.elements do
 			local element = step.elements[j]

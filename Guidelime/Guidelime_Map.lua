@@ -14,7 +14,7 @@ local function createIconFrame(t, index, minimap)
     f:SetFrameStrata("TOOLTIP")
 	f:SetFrameLevel(index)
     f.texture = f:CreateTexture(nil, "TOOLTIP")
-	addon.setMapIconTexture(f)
+	addon.setMapIconTexture(f, t)
 	if t ~= "GOTO" then
 		index = addon.SPECIAL_MAP_INDEX[t]
 	elseif index > addon.MAX_MAP_INDEX then
@@ -40,20 +40,22 @@ local function createIconFrame(t, index, minimap)
     return f
 end
 
-function addon.setMapIconTexture(f)
-    f.texture:SetTexture(addon.icons["MAP_MARKER_" .. GuidelimeData.mapMarkerStyle])
-    f.texture:SetWidth(GuidelimeData.mapMarkerSize)
-    f.texture:SetHeight(GuidelimeData.mapMarkerSize)
-    f:SetWidth(GuidelimeData.mapMarkerSize)
-    f:SetHeight(GuidelimeData.mapMarkerSize)
+function addon.setMapIconTexture(f, t)
+	if t ~= "GOTO" then t = "LOC" end
+    f.texture:SetTexture(addon.icons["MAP_MARKER_" .. GuidelimeData["mapMarkerStyle" .. t]])
+	f.texture:SetAlpha(GuidelimeData["mapMarkerAlpha" .. t])
+    f.texture:SetWidth(GuidelimeData["mapMarkerSize" .. t])
+    f.texture:SetHeight(GuidelimeData["mapMarkerSize" .. t])
+    f:SetWidth(GuidelimeData["mapMarkerSize" .. t])
+    f:SetHeight(GuidelimeData["mapMarkerSize" .. t])
 end
 
 function addon.setMapIconTextures()
 	for t, icons in pairs(addon.mapIcons) do
 		for i = 0, #icons do
 			if icons[i] ~= nil then
-				addon.setMapIconTexture(icons[i].map)
-				addon.setMapIconTexture(icons[i].minimap)
+				addon.setMapIconTexture(icons[i].map, t)
+				addon.setMapIconTexture(icons[i].minimap, t)
 			end
 		end
 	end
@@ -144,7 +146,9 @@ function addon.getMapMarkerText(element)
 	elseif index > addon.MAX_MAP_INDEX then
 		index = addon.SPECIAL_MAP_INDEX.LOC
 	end
-	return "|T" .. addon.icons["MAP_MARKER_" .. GuidelimeData.mapMarkerStyle] .. ":15:15:0:1:512:512:" .. 
+	local t = element.t
+	if t ~= "GOTO" then t = "LOC" end
+	return "|T" .. addon.icons["MAP_MARKER_" .. GuidelimeData["mapMarkerStyle" .. t]] .. ":15:15:0:1:512:512:" .. 
 		index % 8 * 64 .. ":" .. (index % 8 + 1) * 64 .. ":" .. 
 		math.floor(index / 8) * 64 .. ":" .. (math.floor(index / 8) + 1) * 64 .. ":::|t"
 end
