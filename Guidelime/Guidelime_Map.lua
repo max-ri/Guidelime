@@ -180,6 +180,7 @@ end
 
 function addon.updateArrow()
 	if addon.arrowFrame ~= nil and addon.arrowX ~= nil and addon.arrowY ~= nil then
+		addon.y, addon.x, addon.z, addon.instance = UnitPosition("player")
 		addon.face = GetPlayerFacing()
 		local angle = addon.face - math.atan2(addon.arrowX - addon.x, addon.arrowY - addon.y)
 		if GuidelimeData.arrowStyle == 1 then
