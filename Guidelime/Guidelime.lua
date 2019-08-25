@@ -285,16 +285,11 @@ function addon.loadCurrentGuide()
 
 				if element.t == "ACCEPT" or element.t == "COMPLETE" or element.t == "TURNIN" or element.t == "XP" then
 					if step.manual == nil then step.manual = false end
-					if not element.optional and not step.optional then step.completeWithNext = false end
 				elseif element.t == "TRAIN" or element.t == "VENDOR" or element.t == "REPAIR" or element.t == "SET_HEARTH" or element.t == "GET_FLIGHT_POINT" then
 					step.manual = true
-					if step.completeWithNext == nil then step.completeWithNext = false end
 				elseif element.t == "GOTO" then
 					if step.manual == nil then step.manual = false end
-					if step.completeWithNext == nil then step.completeWithNext = true end
 					element.wx, element.wy, element.instance = HBD:GetWorldCoordinatesFromZone(element.x / 100, element.y / 100, element.mapID)
-				elseif element.t == "FLY" or element.t == "HEARTH" then
-					if step.completeWithNext == nil then step.completeWithNext = true end
 				end
 				if element.questId ~= nil then
 					if addon.quests[element.questId] == nil then
@@ -339,7 +334,7 @@ function addon.loadCurrentGuide()
 				i = i + 1
 			end
 			if step.manual == nil then step.manual = true end
-			if step.completeWithNext == nil then step.compleWithNext = not step.manual end
+			if step.completeWithNext == nil then step.compleWithNext = false end
 			if step.completeWithNext then step.optional = true end
 			if step.optional == nil then step.optional = false end
 			step.skip = GuidelimeDataChar.guideSkip[addon.currentGuide.name][#addon.currentGuide.steps] or false
@@ -1180,7 +1175,7 @@ function addon.showMainFrame()
 		end
 		addon.mainFrame.lockBtn:SetScript("OnClick", function()
 			GuidelimeDataChar.mainFrameLocked = not GuidelimeDataChar.mainFrameLocked
-			if addon.optionsFrame ~= nil then addon.optionsFrame.options.mainFrameLocked:SetChecked(GuidelimeDataChar.mainFrameLocked) end
+			if addon.optionsFrame ~= nil then addon.optionsFrame.mainFrameLocked:SetChecked(GuidelimeDataChar.mainFrameLocked) end
 			if GuidelimeDataChar.mainFrameLocked then
 				addon.mainFrame.lockBtn:SetPushedTexture("Interface/Buttons/LockButton-Unlocked-Down")
 				addon.mainFrame.lockBtn:SetNormalTexture("Interface/Buttons/LockButton-Locked-Up")
@@ -1218,7 +1213,7 @@ local function simulateCompleteCurrentSteps()
 				if not element.completed then
 					if element.t == "ACCEPT" then
 						if addon.quests[element.questId] == nil then addon.quests[element.questId] = {} end
-						addon.quests[element.questId].logIndex = 1
+						addon.quests[element.questId].logIndex = -1
 					elseif element.t == "COMPLETE" then
 						if addon.quests[element.questId] == nil then addon.quests[element.questId] = {} end
 						addon.quests[element.questId].finished = true

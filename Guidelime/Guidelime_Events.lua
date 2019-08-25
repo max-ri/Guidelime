@@ -72,7 +72,7 @@ function addon.updateFromQuestLog()
 				end					
 			end
 		else
-			if q.logIndex ~= nil then
+			if q.logIndex ~= nil and q.logIndex ~= -1 then
 				checkCompleted = true
 				q.logIndex = nil
 				--if addon.debugging then print("LIME: removed log entry ".. id) end

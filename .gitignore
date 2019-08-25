@@ -1,12 +1,12 @@
 
-release.lua
-.luacheckrc
-MapCoords
-QuestieDev-master
-\!BugGrabber
-BugSack
-VendorPrice
-Guidelime_*
-TipTac*
-XpCounter
-Leatrix_Plus
+/release.lua
+/.luacheckrc
+/MapCoords
+/QuestieDev-master
+/\!BugGrabber
+/BugSack
+/VendorPrice
+/Guidelime_*
+/TipTac*
+/XpCounter
+/Leatrix_Plus

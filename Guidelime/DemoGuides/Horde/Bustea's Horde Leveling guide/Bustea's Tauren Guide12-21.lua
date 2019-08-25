@@ -165,4 +165,4 @@ Now to hit level 21, you should do either Wailing  Caverns or Shadowfang Keep, t
 You should be [XP21] now, if not grind a little or do another dungeon.
 
 
-]],'Bustea's Horde Leveling guide')
+]],"Bustea's Horde Leveling guide")
