@@ -295,7 +295,7 @@ local function selectFurthestPosition(positions, clusters)
 					dist = dist + 1 / ((cluster.x - pos.wx) * (cluster.x - pos.wx) + (cluster.y - pos.wy) * (cluster.y - pos.wy)) 
 				end
 			end
-			if maxDist == nil or (dist ~= nil and dist > maxDist) then
+			if maxDist == nil or (dist ~= nil and dist < maxDist) then
 				maxPos, maxDist = pos, dist
 			end
 		end
