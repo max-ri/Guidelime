@@ -64,6 +64,7 @@ addon.flightmasterDB = {
 	[16227] = {zone = "The Barrens", name = "Bragok", place = "Ratchet"},
 }
 
+-- TODO: x/y are still switched in db
 function addon.getNearestFlightPoint(x, y, instance, faction)
 	local minDist, minPos, minId
 	for id, master in pairs(addon.flightmasterDB) do
