@@ -1,6 +1,6 @@
 local addonName, addon = ...
 
--- source: https://github.com/TyrsDev/WoW-Classic-Quests
+-- source: https://github.com/TyrsDev/WoW-Classic-Database
 -- Thanks to TyrsDev!
 
 local locale = GetLocale()
@@ -15676,7 +15676,7 @@ if locale == "deDE" then
 		[9741] = "Edelstein von Serpentis",
 	}
 end
-if locale == "zhTW" then
+if locale == "zhTW" or locale == "zhCN" then
 	addon.itemsDB_zhTW = {
 		[20490] = "鐵爐堡薄荷糖",
 		[16715] = "野性之心長靴",

@@ -1,6 +1,6 @@
 local addonName, addon = ...
 
--- source: https://github.com/TyrsDev/WoW-Classic-Quests
+-- source: https://github.com/TyrsDev/WoW-Classic-Database
 -- Thanks to TyrsDev!
 
 local locale = GetLocale()
@@ -42453,7 +42453,7 @@ if locale == "deDE" then
 		[170476] = "Bank",
 	}
 end
-if locale == "zhTW" then
+if locale == "zhTW" or locale == "zhCN" then
 	addon.objectsDB_zhTW = {
 		[171769] = "矮人火盆",
 		[165626] = "椅子",

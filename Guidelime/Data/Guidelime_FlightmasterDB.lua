@@ -52,7 +52,7 @@ addon.flightmasterDB = {
 	[11901] = {zone = "Ashenvale", name = "Andruk", place = "Zoram'gar Outpost", faction = "Horde"},  
 	[12577] = {zone = "Azshara", name = "Jarrodenus", place = "Talrendis Point", faction = "Alliance"},
 	[12578] = {zone = "Felwood", name = "Mishellena", place = "Talonbranch Glade", faction = "Alliance"},
-	[12596] = {zone = "Western Plaguelands", name = "Bibilfaz Featherwhistle Chillwind Camp", faction = "Alliance"},
+	[12596] = {zone = "Western Plaguelands", name = "Bibilfaz Featherwhistle", place = "Chillwind Camp", faction = "Alliance"},
 	[12616] = {zone = "Ashenvale", name = "Vhulgra", place = "Splintertree Post", faction = "Horde"},  
 	[12617] = {zone = "Eastern Plaguelands", name = "Khaelyn Steelwing", place = "Light's Hope Chapel", faction = "Alliance"},
 	[12636] = {zone = "Eastern Plaguelands", name = "Georgia", place = "Light's Hope Chapel", faction = "Alliance"},
@@ -63,3 +63,22 @@ addon.flightmasterDB = {
 	[10583] = {zone = "Un'Goro Crater", name = "Gryfe", place = "Marshal's Refuge"},
 	[16227] = {zone = "The Barrens", name = "Bragok", place = "Ratchet"},
 }
+
+-- TODO: x/y are still switched in db
+function addon.getNearestFlightPoint(x, y, instance, faction)
+	local minDist, minPos, minId
+	for id, master in pairs(addon.flightmasterDB) do
+		local pos = addon.creaturesDB[id].positions[1]
+		if pos.mapid == instance and ((master.faction or faction) == faction) then
+			local dist = (y - pos.x) * (y - pos.x) + (x - pos.y) * (x - pos.y)
+			if minDist == nil or dist < minDist then
+				minDist = dist
+				minPos = pos
+				minId = id
+			end
+		end
+	end
+	if minPos == nil then return end
+	print(addon.flightmasterDB[minId].zone, addon.flightmasterDB[minId].place, addon.flightmasterDB[minId].faction)
+	return minPos.y, minPos.x, minPos.mapid
+end

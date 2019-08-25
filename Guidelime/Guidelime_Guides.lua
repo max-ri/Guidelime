@@ -6,7 +6,7 @@ addon.GUIDE_LIST_URL = "https://github.com/max-ri/guidelime/wiki/GuideList"
 function addon.loadGuide(name)
 	if addon.debugging then print("LIME: load guide", name) end
 	
-	if GuidelimeDataChar.currentGuide ~= nil then
+	if GuidelimeDataChar.currentGuide ~= nil and addon.guidesFrame.guides[GuidelimeDataChar.currentGuide] ~= nil then
 		addon.guidesFrame.guides[GuidelimeDataChar.currentGuide]:SetBackdropColor(0,0,0,0)	
 	end
 	addon.guidesFrame.guides[name]:SetBackdropColor(1,1,0,1)

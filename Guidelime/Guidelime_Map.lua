@@ -99,9 +99,9 @@ function addon.addMapIcon(element, highlight, ignoreMaxNumOfMarkers)
 		if not element.step.active and element.t ~= "GOTO" then return end
 	end
 	mapIcon.inUse = true
-	mapIcon.mapID = element.mapID
-	mapIcon.x = assert(element.x)
-	mapIcon.y = assert(element.y)
+	mapIcon.instance = assert(element.instance)
+	mapIcon.wx = assert(element.wx)
+	mapIcon.wy = assert(element.wy)
 	element.mapIndex = mapIcon.index
 	--if addon.debugging then print("LIME : addMapIcon", element.mapID, element.x / 100, element.y / 100, highlight) end
 end
@@ -124,13 +124,8 @@ end
 local function showMapIcon(mapIcon, t)
 	if mapIcon ~= nil and mapIcon.inUse then
 		if t ~= "GOTO" then t = "LOC" end
-		local x, y, instance = HBD:GetWorldCoordinatesFromZone(mapIcon.x / 100, mapIcon.y / 100, mapIcon.mapID)
-		if x ~= nil then
-			if GuidelimeData["showMapMarkers" .. t] then HBDPins:AddWorldMapIconWorld(addon, mapIcon.map, instance, x, y, 3) end
-			if GuidelimeData["showMinimapMarkers" .. t] then HBDPins:AddMinimapIconWorld(addon, mapIcon.minimap, instance, x, y, mapIcon.index == 0) end
-		elseif addon.debugging then
-			print("LIME: error transforming coordinates", mapIcon.x, mapIcon.y, mapIcon.mapID)
-		end
+		if GuidelimeData["showMapMarkers" .. t] then HBDPins:AddWorldMapIconWorld(addon, mapIcon.map, mapIcon.instance, mapIcon.wx, mapIcon.wy, 3) end
+		if GuidelimeData["showMinimapMarkers" .. t] then HBDPins:AddMinimapIconWorld(addon, mapIcon.minimap, mapIcon.instance, mapIcon.wx, mapIcon.wy, mapIcon.index == 0) end
 	end
 end
 
@@ -184,7 +179,8 @@ function addon.getArrowIconText()
 end
 
 function addon.updateArrow()
-	if addon.arrowFrame ~= nil then
+	if addon.arrowFrame ~= nil and addon.arrowX ~= nil and addon.arrowY ~= nil then
+		addon.face = GetPlayerFacing()
 		local angle = addon.face - math.atan2(addon.arrowX - addon.x, addon.arrowY - addon.y)
 		if GuidelimeData.arrowStyle == 1 then
 			local index = angle * 32 / math.pi
@@ -227,7 +223,7 @@ function addon.showArrow(element)
 			addon.arrowFrame:SetMovable(true)
 			addon.arrowFrame:EnableMouse(true)
 			addon.arrowFrame:SetScript("OnMouseDown", function(this) 
-				addon.arrowFrame:StartMoving()
+				if not GuidelimeDataChar.arrowLocked then addon.arrowFrame:StartMoving() end
 			end)
 			addon.arrowFrame:SetScript("OnMouseUp", function(this) 
 				addon.arrowFrame:StopMovingOrSizing() 
@@ -236,6 +232,8 @@ function addon.showArrow(element)
 			end)
 			addon.arrowFrame.text = addon.arrowFrame:CreateFontString(nil, addon.arrowFrame, "GameFontNormal")
 			addon.arrowFrame.text:SetPoint("TOP", addon.arrowFrame, "BOTTOM", 0, 0)
+			addon.arrowFrame.update = CreateFrame("frame")
+			addon.arrowFrame.update:SetScript("OnUpdate", addon.updateArrow)
 		end
 		addon.arrowFrame:Show()
 	end
