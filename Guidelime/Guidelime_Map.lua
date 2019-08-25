@@ -212,7 +212,7 @@ function addon.updateArrow()
 end
 
 function addon.showArrow(element)
-	if element.wx == nil or element.wy == nil or element.instance ~= addon.instance or addon.x == nil or addon.y == nil or addon.face == nil then return end
+	if element.wx == nil or element.wy == nil or element.instance ~= addon.instance or addon.x == nil or addon.y == nil then return end
 	addon.arrowX, addon.arrowY = element.wx, element.wy
 	
 	if GuidelimeDataChar.showArrow then
