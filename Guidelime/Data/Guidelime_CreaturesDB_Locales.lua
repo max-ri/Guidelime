@@ -1,6 +1,6 @@
 local addonName, addon = ...
 
--- source: https://github.com/TyrsDev/WoW-Classic-Quests
+-- source: https://github.com/TyrsDev/WoW-Classic-Database
 -- Thanks to TyrsDev!
 
 local locale = GetLocale()
@@ -45563,7 +45563,7 @@ if locale == "deDE" then
 		[16781] = "Feiernder des Sonnenwendfests",
 	}
 end
-if locale == "zhTW" then
+if locale == "zhTW" or locale == "zhCN" then
 	addon.creaturesDB_zhTW = {
 		[15475] = "甲蟲",
 		[7770] = "溫基",

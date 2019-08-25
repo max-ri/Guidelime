@@ -13,6 +13,8 @@ function addon.getQuestNameById(id)
 		return nil
 	elseif addon["questsDB_" .. locale] ~= nil and addon["questsDB_" .. locale][id] ~= nil and addon["questsDB_" .. locale][id].name ~= nil then
 		return addon["questsDB_" .. locale][id].name
+	elseif locale == "zhTW" and addon.questsDB_zhCN ~= nil and addon.questsDB_zhCN[id] ~= nil and addon.questsDB_zhCN[id].name ~= nil then
+		return addon.questsDB_zhCN[id].name
 	else
 		return addon.questsDB[id].name
 	end
@@ -24,6 +26,8 @@ function addon.getQuestObjective(id)
 		return
 	elseif addon["questsDB_" .. locale] ~= nil and addon["questsDB_" .. locale][id] ~= nil and addon["questsDB_" .. locale][id].objective ~= nil then
 		return addon["questsDB_" .. locale][id].objective
+	elseif locale == "zhTW" and addon.questsDB_zhCN ~= nil and addon.questsDB_zhCN[id] ~= nil and addon.questsDB_zhCN[id].objective ~= nil then
+		return addon.questsDB_zhCN[id].objective
 	else
 		return addon.questsDB[id].objective
 	end
