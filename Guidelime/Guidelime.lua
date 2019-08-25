@@ -143,6 +143,7 @@ function addon.loadData()
 		arrowX = 0,
 		arrowY = -20,
 		arrowRelative = "TOP",
+		arrowLocked = false,
 		arrowAlpha = 0.8,
 		editorFrameX = 0,
 		editorFrameY = 0,
@@ -597,7 +598,7 @@ end
 local function queryPosition()
 	if addon.queryingPosition then return end
 	addon.queryingPosition = true
-	C_Timer.After(0.2, function()
+	C_Timer.After(0.5, function()
 		addon.queryingPosition = false
 		local y, x, z, instance = UnitPosition("player")
 		local face = GetPlayerFacing()
@@ -607,7 +608,6 @@ local function queryPosition()
 			addon.y = y
 			addon.z = z
 			addon.instance = instance
-			addon.face = face
 			addon.updateSteps()
 		else
 			queryPosition()

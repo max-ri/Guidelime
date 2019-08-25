@@ -262,6 +262,10 @@ function addon.fillOptions()
 	end)
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -50)
 
+	checkbox = addon.addCheckOption(content, GuidelimeDataChar, "arrowLocked", L.LOCK_ARROW)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	prev = checkbox
+
 	checkbox = addon.addCheckOption(content, GuidelimeData, "arrowDistance", L.SHOW_DISTANCE, nil, function()
 		if addon.arrowFrame ~= nil then 
 			addon.updateSteps() 

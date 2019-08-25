@@ -179,7 +179,8 @@ function addon.getArrowIconText()
 end
 
 function addon.updateArrow()
-	if addon.arrowFrame ~= nil then
+	if addon.arrowFrame ~= nil and addon.arrowX ~= nil and addon.arrowY ~= nil then
+		addon.face = GetPlayerFacing()
 		local angle = addon.face - math.atan2(addon.arrowX - addon.x, addon.arrowY - addon.y)
 		if GuidelimeData.arrowStyle == 1 then
 			local index = angle * 32 / math.pi
@@ -222,7 +223,7 @@ function addon.showArrow(element)
 			addon.arrowFrame:SetMovable(true)
 			addon.arrowFrame:EnableMouse(true)
 			addon.arrowFrame:SetScript("OnMouseDown", function(this) 
-				addon.arrowFrame:StartMoving()
+				if not GuidelimeDataChar.arrowLocked then addon.arrowFrame:StartMoving() end
 			end)
 			addon.arrowFrame:SetScript("OnMouseUp", function(this) 
 				addon.arrowFrame:StopMovingOrSizing() 
@@ -231,6 +232,8 @@ function addon.showArrow(element)
 			end)
 			addon.arrowFrame.text = addon.arrowFrame:CreateFontString(nil, addon.arrowFrame, "GameFontNormal")
 			addon.arrowFrame.text:SetPoint("TOP", addon.arrowFrame, "BOTTOM", 0, 0)
+			addon.arrowFrame.update = CreateFrame("frame")
+			addon.arrowFrame.update:SetScript("OnUpdate", addon.updateArrow)
 		end
 		addon.arrowFrame:Show()
 	end
