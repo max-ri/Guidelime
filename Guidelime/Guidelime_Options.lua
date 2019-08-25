@@ -351,6 +351,7 @@ function addon.fillOptions()
 	prev = addon.optionsFrame.textShowMarkersGOTO
 
 	slider = addon.addSliderOption(content, GuidelimeData, "maxNumOfMarkersLOC", 0, 50, 1, L.MAX_NUM_OF_MARKERS, nil, nil, function()
+		addon.loadCurrentGuide()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateSteps()
 		end
