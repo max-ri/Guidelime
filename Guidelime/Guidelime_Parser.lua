@@ -398,6 +398,16 @@ function addon.parseLine(step, guide, strict, nameOnly)
 			else
 				step.optional = true
 			end
+		elseif element.t == "FLY" or element.t == "GET_FLIGHT_POINT" then
+			if tag:gsub(" ", "") ~= "" then
+				element.text, element.textInactive, _ = textFormatting(tag)
+				element.flightmaster = addon.getFlightmasterByPlace(tag, step.faction or guide.faction)
+--TODO: active this error check
+--				if element.flightmaster == nil then
+--					addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
+--					err = true
+--				end
+			end
 		else
 			element.text, element.textInactive, _ = textFormatting(tag)
 		end

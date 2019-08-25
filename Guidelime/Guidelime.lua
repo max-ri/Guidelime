@@ -356,6 +356,23 @@ function addon.loadCurrentGuide()
 						end
 						i = i + 1
 					end						
+				elseif element.t == "GET_FLIGHT_POINT" then
+					if guide.autoAddCoordinatesGOTO and (GuidelimeData.showMapMarkersGOTO or GuidelimeData.showMinimapMarkersGOTO) and not step.hasGoto and not element.optional then
+						local gotoElement = {}
+						gotoElement.wx, gotoElement.wy, gotoElement.instance = addon.getFlightPoint(element.flightmaster)
+						if gotoElement.wx ~= nil then
+							gotoElement.t = "GOTO"
+							gotoElement.step = step
+							gotoElement.radius = addon.DEFAULT_GOTO_RADIUS
+							gotoElement.generated = true
+							gotoElement.available = true
+							table.insert(step.elements, i, gotoElement)
+							for j = i, #step.elements do
+								step.elements[j].index = j
+							end
+							i = i + 1
+						end
+					end						
 				end
 				i = i + 1
 			end
