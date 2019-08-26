@@ -7078,7 +7078,7 @@ if locale == "esES" then
 		[170476] = "Banco",
 	}
 end
-if locale == "zhCN" then
+if locale == "zhCN" or locale == "zhTW" then
 	addon.objectsDB_zhCN = {
 		[171769] = "矮人火盆",
 		[165626] = "椅子",
@@ -42453,7 +42453,7 @@ if locale == "deDE" then
 		[170476] = "Bank",
 	}
 end
-if locale == "zhTW" or locale == "zhCN" then
+if locale == "zhTW" then
 	addon.objectsDB_zhTW = {
 		[171769] = "矮人火盆",
 		[165626] = "椅子",

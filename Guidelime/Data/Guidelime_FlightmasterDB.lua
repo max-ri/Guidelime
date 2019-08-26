@@ -79,6 +79,97 @@ function addon.getNearestFlightPoint(x, y, instance, faction)
 		end
 	end
 	if minPos == nil then return end
-	print(addon.flightmasterDB[minId].zone, addon.flightmasterDB[minId].place, addon.flightmasterDB[minId].faction)
 	return minPos.y, minPos.x, minPos.mapid
 end
+
+-- TODO: x/y are still switched in db
+function addon.getFlightPoint(id)
+	if id == nil then return end
+	local pos = addon.creaturesDB[id].positions[1]
+	if pos == nil then return end
+	return pos.y, pos.x, pos.mapid
+end
+
+function addon.getFlightmasterByPlace(place, faction)
+	local result
+	place = place:gsub(" ",""):lower()
+	for id, master in pairs(addon.flightmasterDB) do
+		if faction == nil or ((master.faction or faction) == faction) then
+			if master.zone:gsub(" ",""):lower() == place then
+				if result == nil then 
+					result = id 
+				else 
+					result = nil 
+					break
+				end
+			end
+		end
+	end
+	if result ~= nil then return result end
+	for id, master in pairs(addon.flightmasterDB) do
+		if faction == nil or ((master.faction or faction) == faction) then
+			if master.place ~= nil and master.place:gsub(" ",""):lower() == place then
+				if result == nil then 
+					result = id 
+				else 
+					result = nil 
+					break
+				end
+			end
+		end
+	end
+	if result ~= nil then return result end
+	for id, master in pairs(addon.flightmasterDB) do
+		if faction == nil or ((master.faction or faction) == faction) then
+			if master.zone:gsub(" ",""):lower():sub(1, #place) == place then
+				if result == nil then 
+					result = id 
+				else 
+					result = nil 
+					break
+				end
+			end
+		end
+	end
+	if result ~= nil then return result end
+	for id, master in pairs(addon.flightmasterDB) do
+		if faction == nil or ((master.faction or faction) == faction) then
+			if master.place ~= nil and master.place:gsub(" ",""):lower():sub(1, #place) == place then
+				if result == nil then 
+					result = id 
+				else 
+					result = nil 
+					break
+				end
+			end
+		end
+	end
+	if result ~= nil then return result end
+	for id, master in pairs(addon.flightmasterDB) do
+		if faction == nil or ((master.faction or faction) == faction) then
+			if master.zone:gsub(" ",""):lower() == place:sub(1, #master.zone:gsub(" ","")) then
+				if result == nil then 
+					result = id 
+				else 
+					result = nil 
+					break
+				end
+			end
+		end
+	end
+	if result ~= nil then return result end
+	for id, master in pairs(addon.flightmasterDB) do
+		if faction == nil or ((master.faction or faction) == faction) then
+			if master.place ~= nil and master.place:gsub(" ",""):lower() == place:sub(1, #master.place:gsub(" ","")) then
+				if result == nil then 
+					result = id 
+				else 
+					result = nil 
+					break
+				end
+			end
+		end
+	end
+	return result
+end
+

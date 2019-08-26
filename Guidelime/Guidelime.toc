@@ -1,6 +1,6 @@
 ## Title: Guidelime
 ## Author: Borick of Arthas(EU)
-## Version: 0.038-Beta
+## Version: 0.040-Beta
 ## Interface: 11302
 ## SavedVariables: GuidelimeData
 ## SavedVariablesPerCharacter: GuidelimeDataChar
@@ -38,13 +38,4 @@ Data\Guidelime_Questie.lua
 Data\Guidelime_FlightmasterDB.lua
 
 DemoGuides\DemoGuides.xml
-
-Guides\Alliance\WillScarlettOhara\WillScarlettOhara_-_NElf_Hunter_1-6.lua
-Guides\Alliance\WillScarlettOhara\WillScarlettOhara_-_NElf_Hunter_6-12.lua
-
-Guides\Horde\Ettern\Ettern_1-6_Durotar.lua
-Guides\Horde\Ettern\Ettern_6-12_Durotar.lua
-Guides\Horde\Ettern\Ettern_12-16_Barrens.lua
-
-Guides\Horde\SevenLeaves\1-12.lua
 

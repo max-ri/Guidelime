@@ -14,7 +14,7 @@ local function createIconFrame(t, index, minimap)
     f:SetFrameStrata("TOOLTIP")
 	f:SetFrameLevel(index)
     f.texture = f:CreateTexture(nil, "TOOLTIP")
-	addon.setMapIconTexture(f)
+	addon.setMapIconTexture(f, t)
 	if t ~= "GOTO" then
 		index = addon.SPECIAL_MAP_INDEX[t]
 	elseif index > addon.MAX_MAP_INDEX then
@@ -40,20 +40,22 @@ local function createIconFrame(t, index, minimap)
     return f
 end
 
-function addon.setMapIconTexture(f)
-    f.texture:SetTexture(addon.icons["MAP_MARKER_" .. GuidelimeData.mapMarkerStyle])
-    f.texture:SetWidth(GuidelimeData.mapMarkerSize)
-    f.texture:SetHeight(GuidelimeData.mapMarkerSize)
-    f:SetWidth(GuidelimeData.mapMarkerSize)
-    f:SetHeight(GuidelimeData.mapMarkerSize)
+function addon.setMapIconTexture(f, t)
+	if t ~= "GOTO" then t = "LOC" end
+    f.texture:SetTexture(addon.icons["MAP_MARKER_" .. GuidelimeData["mapMarkerStyle" .. t]])
+	f.texture:SetAlpha(GuidelimeData["mapMarkerAlpha" .. t])
+    f.texture:SetWidth(GuidelimeData["mapMarkerSize" .. t])
+    f.texture:SetHeight(GuidelimeData["mapMarkerSize" .. t])
+    f:SetWidth(GuidelimeData["mapMarkerSize" .. t])
+    f:SetHeight(GuidelimeData["mapMarkerSize" .. t])
 end
 
 function addon.setMapIconTextures()
 	for t, icons in pairs(addon.mapIcons) do
 		for i = 0, #icons do
 			if icons[i] ~= nil then
-				addon.setMapIconTexture(icons[i].map)
-				addon.setMapIconTexture(icons[i].minimap)
+				addon.setMapIconTexture(icons[i].map, t)
+				addon.setMapIconTexture(icons[i].minimap, t)
 			end
 		end
 	end
@@ -80,7 +82,7 @@ local function getMapIcon(t, element, highlight)
 	if addon.mapIcons[t] ~= nil then
 		for i, mapIcon in ipairs(addon.mapIcons[t]) do
 			if mapIcon.inUse then 
-				if mapIcon.mapID == element.mapID and mapIcon.x == element.x and mapIcon.y == element.y then
+				if mapIcon.instance == element.instance and mapIcon.wx == element.wx and mapIcon.wy == element.wy then
 					return mapIcon
 				end
 			else
@@ -144,7 +146,9 @@ function addon.getMapMarkerText(element)
 	elseif index > addon.MAX_MAP_INDEX then
 		index = addon.SPECIAL_MAP_INDEX.LOC
 	end
-	return "|T" .. addon.icons["MAP_MARKER_" .. GuidelimeData.mapMarkerStyle] .. ":15:15:0:1:512:512:" .. 
+	local t = element.t
+	if t ~= "GOTO" then t = "LOC" end
+	return "|T" .. addon.icons["MAP_MARKER_" .. GuidelimeData["mapMarkerStyle" .. t]] .. ":15:15:0:1:512:512:" .. 
 		index % 8 * 64 .. ":" .. (index % 8 + 1) * 64 .. ":" .. 
 		math.floor(index / 8) * 64 .. ":" .. (math.floor(index / 8) + 1) * 64 .. ":::|t"
 end
@@ -180,6 +184,7 @@ end
 
 function addon.updateArrow()
 	if addon.arrowFrame ~= nil and addon.arrowX ~= nil and addon.arrowY ~= nil then
+		addon.y, addon.x, addon.z, addon.instance = UnitPosition("player")
 		addon.face = GetPlayerFacing()
 		local angle = addon.face - math.atan2(addon.arrowX - addon.x, addon.arrowY - addon.y)
 		if GuidelimeData.arrowStyle == 1 then
@@ -207,7 +212,7 @@ function addon.updateArrow()
 end
 
 function addon.showArrow(element)
-	if element.wx == nil or element.wy == nil or element.instance ~= addon.instance or addon.x == nil or addon.y == nil or addon.face == nil then return end
+	if element.wx == nil or element.wy == nil or element.instance ~= addon.instance or addon.x == nil or addon.y == nil then return end
 	addon.arrowX, addon.arrowY = element.wx, element.wy
 	
 	if GuidelimeDataChar.showArrow then
