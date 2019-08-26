@@ -94,6 +94,10 @@ local function getMapIcon(t, element, highlight)
 end
 
 function addon.addMapIcon(element, highlight, ignoreMaxNumOfMarkers)
+	if element.wx == nil or element.wy == nil or elemen.instance == nil then
+		if addon.debugging then print("LIME : no world coordinates for map marker", element.mapID, element.x / 100, element.y / 100, highlight) end
+		return
+	end	
 	local mapIcon = getMapIcon(element.markerTyp or element.t, element, highlight)
 	if mapIcon == nil then return end
 	if not ignoreMaxNumOfMarkers then
@@ -101,9 +105,9 @@ function addon.addMapIcon(element, highlight, ignoreMaxNumOfMarkers)
 		if not element.step.active and element.t ~= "GOTO" then return end
 	end
 	mapIcon.inUse = true
-	mapIcon.instance = assert(element.instance)
-	mapIcon.wx = assert(element.wx)
-	mapIcon.wy = assert(element.wy)
+	mapIcon.instance = element.instance
+	mapIcon.wx = element.wx
+	mapIcon.wy = element.wy
 	element.mapIndex = mapIcon.index
 	--if addon.debugging then print("LIME : addMapIcon", element.mapID, element.x / 100, element.y / 100, highlight) end
 end
