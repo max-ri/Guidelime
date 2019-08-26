@@ -144,6 +144,32 @@ function addon.getFlightmasterByPlace(place, faction)
 			end
 		end
 	end
+	if result ~= nil then return result end
+	for id, master in pairs(addon.flightmasterDB) do
+		if faction == nil or ((master.faction or faction) == faction) then
+			if master.zone:gsub(" ",""):lower() == place:sub(1, #master.zone:gsub(" ","")) then
+				if result == nil then 
+					result = id 
+				else 
+					result = nil 
+					break
+				end
+			end
+		end
+	end
+	if result ~= nil then return result end
+	for id, master in pairs(addon.flightmasterDB) do
+		if faction == nil or ((master.faction or faction) == faction) then
+			if master.place ~= nil and master.place:gsub(" ",""):lower() == place:sub(1, #master.place:gsub(" ","")) then
+				if result == nil then 
+					result = id 
+				else 
+					result = nil 
+					break
+				end
+			end
+		end
+	end
 	return result
 end
 

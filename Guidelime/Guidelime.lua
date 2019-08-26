@@ -1000,6 +1000,44 @@ local function skipCurrentSteps()
 	end
 end
 
+function addon.completeSemiAutomaticByType(t)
+	if addon.currentGuide ~= nil and addon.currentGuide.firstActiveIndex ~= nil and
+		addon.currentGuide.lastActiveIndex ~= nil then
+		for i = addon.currentGuide.firstActiveIndex, addon.currentGuide.lastActiveIndex do
+			local step = addon.currentGuide.steps[i]
+			if addon.debugging then print("LIME:", step.text, step.optional) end
+			for _, element in ipairs(step.elements) do
+				if not element.completed and element.t == t then
+					addon.completeSemiAutomatic(element)
+					return
+				end
+			end
+		end
+	end
+end
+
+function addon.completeSemiAutomatic(element)
+	element.completed = true
+	local step = element.step
+	local complete = true
+	if not step.manual then
+		for _, element in ipairs(step.elements) do
+			if not element.optional then
+				if element.t == "ACCEPT" or
+					element.t == "COMPLETE" or
+					element.t == "TURNIN" or
+					element.t == "XP" then
+					if not element.completed then 
+						addon.updateSteps()
+						return
+					end
+				end
+			end
+		end
+	end
+	setStepSkip(true, step.index) 
+end
+
 function addon.updateMainFrame(reset)
 	if addon.mainFrame == nil then return end
 	if addon.debugging then print("LIME: updating main frame") end
