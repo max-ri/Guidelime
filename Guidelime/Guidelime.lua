@@ -128,6 +128,8 @@ function addon.loadData()
 		fontColorCOMPLETE = addon.COLOR_QUEST_DEFAULT,
 		fontColorTURNIN = addon.COLOR_QUEST_DEFAULT,
 		fontColorSKIP = addon.COLOR_QUEST_DEFAULT,
+		autoCompleteQuest = true,
+		autoSelectFlight = true,
 		version = GetAddOnMetadata(addonName, "version")
 	}
 	local defaultOptionsChar = {
@@ -142,7 +144,6 @@ function addon.loadData()
 		mainFrameFontSize = 14,
 		showCompletedSteps = false,
 		showUnavailableSteps = false,
-		autoCompleteQuest = true,
 		showArrow = true,
 		arrowX = 0,
 		arrowY = -20,
@@ -168,9 +169,13 @@ function addon.loadData()
 	addon.debugging = GuidelimeData.debugging
 
 	GuidelimeDataChar.version:gsub("(%d+).(%d+)", function(major, minor)
+		if tonumber(major) == 0 and tonumber(minor) < 41 then
+			GuidelimeDataChar.autoCompleteQuest = nil
+			GuidelimeDataChar.version = GetAddOnMetadata(addonName, "version")
+		end
 		if tonumber(major) == 0 and tonumber(minor) < 28 then
 			--GuidelimeDataChar.currentGuide.skip was replaced with GuidelimeDataChar.guideSkip and GuidelimeDataChar.currentGuide.name with GuidelimeDataChar.currentGuide. Therefore remove.
-			if GuidelimeDataChar.currentGuide ~= nil then GuidelimeDataChar.currentGuide = nil end
+			GuidelimeDataChar.currentGuide = nil
 			GuidelimeDataChar.version = GetAddOnMetadata(addonName, "version")
 		end
 	end, 1)

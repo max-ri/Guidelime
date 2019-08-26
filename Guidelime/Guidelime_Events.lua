@@ -134,7 +134,7 @@ end
 
 addon.frame:RegisterEvent('GOSSIP_SHOW')
 function addon.frame:GOSSIP_SHOW()
-	if GuidelimeDataChar.autoCompleteQuest and not IsShiftKeyDown() then 
+	if GuidelimeData.autoCompleteQuest and not IsShiftKeyDown() then 
 		if addon.debugging then print ("LIME: GOSSIP_SHOW", GetGossipActiveQuests()) end
 		if addon.debugging then print ("LIME: GOSSIP_SHOW", GetGossipAvailableQuests()) end
 		local q = { GetGossipActiveQuests() }
@@ -179,7 +179,7 @@ end
 
 addon.frame:RegisterEvent('QUEST_GREETING')
 function addon.frame:QUEST_GREETING()
-	if GuidelimeDataChar.autoCompleteQuest and not IsShiftKeyDown() then 
+	if GuidelimeData.autoCompleteQuest and not IsShiftKeyDown() then 
 		if addon.debugging then print ("LIME: QUEST_GREETING", GetNumActiveQuests()) end
 		if addon.debugging then print ("LIME: QUEST_GREETING", GetNumAvailableQuests()) end
 		local selectActive = nil
@@ -224,7 +224,7 @@ addon.frame:RegisterEvent('QUEST_DETAIL')
 function addon.frame:QUEST_DETAIL()
 	local id = GetQuestID()
 	if addon.debugging then print ("LIME: QUEST_DETAIL", id) end
-	if GuidelimeDataChar.autoCompleteQuest and not IsShiftKeyDown() and addon.currentGuide.activeQuests ~= nil and addon.contains(addon.currentGuide.activeQuests, id) then 
+	if GuidelimeData.autoCompleteQuest and not IsShiftKeyDown() and addon.currentGuide.activeQuests ~= nil and addon.contains(addon.currentGuide.activeQuests, id) then 
 		C_Timer.After(addon.AUTO_COMPLETE_DELAY, function() 
 			AcceptQuest()
 			if addon.openNpcAgain then 
@@ -238,7 +238,7 @@ addon.frame:RegisterEvent('QUEST_PROGRESS')
 function addon.frame:QUEST_PROGRESS()
 	local id = GetQuestID()
 	if addon.debugging then print ("LIME: QUEST_PROGRESS", id) end
-	if IsQuestCompletable() and GuidelimeDataChar.autoCompleteQuest and not IsShiftKeyDown() and addon.contains(addon.currentGuide.activeQuests, id) then 
+	if IsQuestCompletable() and GuidelimeData.autoCompleteQuest and not IsShiftKeyDown() and addon.contains(addon.currentGuide.activeQuests, id) then 
 		C_Timer.After(addon.AUTO_COMPLETE_DELAY, function() 
 			CompleteQuest()
 			if addon.openNpcAgain then 
@@ -251,7 +251,7 @@ end
 addon.frame:RegisterEvent('QUEST_COMPLETE')
 function addon.frame:QUEST_COMPLETE()
 	local id = GetQuestID()
-	if GuidelimeDataChar.autoCompleteQuest and not IsShiftKeyDown() and addon.contains(addon.currentGuide.activeQuests, id) then 
+	if GuidelimeData.autoCompleteQuest and not IsShiftKeyDown() and addon.contains(addon.currentGuide.activeQuests, id) then 
 		if addon.debugging then print ("LIME: QUEST_COMPLETE", id) end
 		if (GetNumQuestChoices() <= 1) then
 			C_Timer.After(addon.AUTO_COMPLETE_DELAY, function() 
@@ -272,7 +272,7 @@ end
 addon.frame:RegisterEvent('TAXIMAP_OPENED')
 function addon.frame:TAXIMAP_OPENED()
 	if addon.debugging then print ("LIME: TAXIMAP_OPENED") end
-	if addon.currentGuide ~= nil and addon.currentGuide.firstActiveIndex ~= nil and	addon.currentGuide.lastActiveIndex ~= nil then
+	if GuidelimeData.autoSelectFlight and not IsShiftKeyDown() and addon.currentGuide ~= nil and addon.currentGuide.firstActiveIndex ~= nil and	addon.currentGuide.lastActiveIndex ~= nil then
 		local mapID = C_Map.GetBestMapForUnit("player")
 		if not mapID then return end -- no mapID for player found
 		for i = addon.currentGuide.firstActiveIndex, addon.currentGuide.lastActiveIndex do

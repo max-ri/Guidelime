@@ -409,7 +409,11 @@ function addon.fillOptions()
 	addon.optionsFrame.titleGeneral:SetFontObject("GameFontNormalLarge")
 	prev = addon.optionsFrame.titleGeneral
 
-	checkbox = addon.addCheckOption(content, GuidelimeDataChar, "autoCompleteQuest", L.AUTO_COMPLETE_QUESTS)
+	checkbox = addon.addCheckOption(content, GuidelimeData, "autoCompleteQuest", L.AUTO_COMPLETE_QUESTS)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	prev = checkbox
+
+	checkbox = addon.addCheckOption(content, GuidelimeData, "autoSelectFlight", L.AUTO_SELECT_FLIGHT)
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = checkbox
 

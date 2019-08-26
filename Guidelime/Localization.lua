@@ -68,6 +68,7 @@ L.GUIDE_FINISHED_NEXT_ALT = "Alternatively you can choose to click here in order
 L.DOWNLOAD_FULL_GUIDE = "This is a demo only. In order to obtain the full %s-%s guide you will have to install this guide's addon module %s. It can be downloaded for free from: %s"
 L.GUIDE_LIST = "More guides are available on: %s"
 L.AUTO_COMPLETE_QUESTS = "Automatically accept/turn in quests"
+L.AUTO_SELECT_FLIGHT = "Automatically select a flight path"
 L.EDITOR = "Editor"
 L.SAVE_GUIDE = "Save guide"
 L.CUSTOM_GUIDES = "Custom guides"
