@@ -314,6 +314,7 @@ function addon.getQuestPosition(id, typ, index)
 	if #positions == 0 and filterZone ~= nil then
 		positions = addon.getQuestPositions(id, typ, index)
 	end
+	if #positions > 400 then return end
 	local time
 	if addon.debugging then time = debugprofilestop() end
 	for i = 1, #positions do 
