@@ -50,4 +50,4 @@ Summon the Succubus, fight her and subdue her[A Orc]
 [G48.2,45.6]Turn in[QT1513][A Orc]
 Grats you can summon a hot grill!
 
-]],'Class Quests- by Shikushiku')
+]],"Class Quests- by Shikushiku")
