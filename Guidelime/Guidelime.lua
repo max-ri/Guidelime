@@ -1244,7 +1244,7 @@ function addon.showMainFrame()
 			addon.mainFrame:Hide()
 			addon.removeMapIcons()
 			GuidelimeDataChar.mainFrameShowing = false
-			addon.optionsFrame.options.mainFrameShowing:SetChecked(false)
+			addon.optionsFrame.mainFrameShowing:SetChecked(false)
 		end)
 
 		addon.mainFrame.lockBtn = CreateFrame("BUTTON", "lockBtn", addon.mainFrame)
@@ -1285,6 +1285,7 @@ function addon.showMainFrame()
 	addon.mainFrame:Show()
 	addon.updateSteps()
 	GuidelimeDataChar.mainFrameShowing = true
+	if addon.optionsFrame ~= nil then addon.optionsFrame.mainFrameShowing:SetChecked(true) end
 end
 
 local function simulateCompleteCurrentSteps()

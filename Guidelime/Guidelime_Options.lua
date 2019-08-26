@@ -59,7 +59,7 @@ function addon.fillOptions()
 	local prev = addon.optionsFrame.titleGuideWindow
 
 	content.options = {}		
-	local checkbox = addon.addCheckOption(content, GuidelimeDataChar, "mainFrameShowing", L.SHOW_MAINFRAME, nil, function()
+	addon.optionsFrame.mainFrameShowing = addon.addCheckOption(content, GuidelimeDataChar, "mainFrameShowing", L.SHOW_MAINFRAME, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.showMainFrame()
 		elseif addon.mainFrame ~= nil then
@@ -68,8 +68,8 @@ function addon.fillOptions()
 			addon.mainFrame:Hide()
 		end
 	end)
-	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
-	prev = checkbox
+	addon.optionsFrame.mainFrameShowing:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
+	prev = addon.optionsFrame.mainFrameShowing
 	
 	local slider = addon.addSliderOption(content, GuidelimeDataChar, "mainFrameWidth", 50, 800, 1, L.MAIN_FRAME_WIDTH, nil, function()
 		if addon.mainFrame ~= nil then 
@@ -134,7 +134,7 @@ function addon.fillOptions()
 	addon.optionsFrame.showCompletedSteps:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = addon.optionsFrame.showCompletedSteps
 	
-	checkbox = addon.addCheckOption(content, GuidelimeDataChar, "showUnavailableSteps", L.SHOW_UNAVAILABLE_STEPS, nil, function()
+	local checkbox = addon.addCheckOption(content, GuidelimeDataChar, "showUnavailableSteps", L.SHOW_UNAVAILABLE_STEPS, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateMainFrame()
 		end
