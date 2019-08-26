@@ -279,16 +279,20 @@ function addon.frame:TAXIMAP_OPENED()
 			local step = addon.currentGuide.steps[i]
 			for _, element in ipairs(step.elements) do
 				if not element.completed then
-					if element.t == "FLY" and element.flightmaster ~= nil then
+					if element.flightmaster ~= nil then
 						local master = addon.flightmasterDB[element.flightmaster]
 						local taxiNodes = C_TaxiMap.GetAllTaxiNodes(mapID)
 						for i = 1, #taxiNodes do
 							local taxiNodeData = taxiNodes[i]
-							if master.place == taxiNodeData.name:sub(1, #master.place) --[[and taxiNodeData.state == Enum.FlightPathState.Reachable]] then
-								if IsMounted() then Dismount() end -- dismount before using the flightpoint
-								if addon.debugging then print ("LIME: Flying to " .. master.place) end
-								TakeTaxiNode(taxiNodeData.slotIndex)
-								addon.completeSemiAutomatic(element)
+							if master.place == taxiNodeData.name:sub(1, #master.place) then
+								if element.t == "FLY" and taxiNodeData.state == Enum.FlightPathState.Reachable then
+									if IsMounted() then Dismount() end -- dismount before using the flightpoint
+									if addon.debugging then print ("LIME: Flying to " .. master.place) end
+									TakeTaxiNode(taxiNodeData.slotIndex)
+									addon.completeSemiAutomatic(element)
+								elseif element.t == "GET_FLIGHT_POINT" and taxiNodeData.state == Enum.FlightPathState.Current then
+									addon.completeSemiAutomatic(element)
+								end
 								return
 							end
 						end
