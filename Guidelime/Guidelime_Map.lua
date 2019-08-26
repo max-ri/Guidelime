@@ -11,8 +11,6 @@ addon.mapIcons = {}
 
 local function createIconFrame(t, index, minimap)
     local f = CreateFrame("Button", addonName .. t .. index .. minimap, nil)
-    f:SetFrameStrata("TOOLTIP")
-	f:SetFrameLevel(index)
     f.texture = f:CreateTexture(nil, "TOOLTIP")
 	addon.setMapIconTexture(f, t)
 	if t ~= "GOTO" then
@@ -22,6 +20,15 @@ local function createIconFrame(t, index, minimap)
 	end
 	f.texture:SetTexCoord((index % 8) / 8, (index % 8 + 1) / 8, math.floor(index / 8) / 8, (math.floor(index / 8) + 1) / 8)
     f.texture:SetAllPoints(f)
+	local frameLevel, layer = -8, "BACKGROUND"
+	if t == "GOTO" then
+		frameLevel, layer = 7 - index, "OVERLAY"
+		if frameLevel < -8 then frameLevel = frameLevel + 16; layer = "ARTWORK" end
+		if frameLevel < -8 then frameLevel = frameLevel + 16; layer = "BORDER" end
+		if frameLevel < -8 then frameLevel = frameLevel + 16; layer = "BACKGROUND" end
+		if frameLevel < -7 then frameLevel = -7 end
+	end
+	f.texture:SetDrawLayer(layer, frameLevel)
 
     f:SetPoint("CENTER", 0, 0)
     f:EnableMouse(false)
@@ -94,6 +101,10 @@ local function getMapIcon(t, element, highlight)
 end
 
 function addon.addMapIcon(element, highlight, ignoreMaxNumOfMarkers)
+	if element.wx == nil or element.wy == nil or element.instance == nil then
+		if addon.debugging then print("LIME : no world coordinates for map marker", element.mapID, element.x / 100, element.y / 100, highlight) end
+		return
+	end	
 	local mapIcon = getMapIcon(element.markerTyp or element.t, element, highlight)
 	if mapIcon == nil then return end
 	if not ignoreMaxNumOfMarkers then
@@ -101,9 +112,9 @@ function addon.addMapIcon(element, highlight, ignoreMaxNumOfMarkers)
 		if not element.step.active and element.t ~= "GOTO" then return end
 	end
 	mapIcon.inUse = true
-	mapIcon.instance = assert(element.instance)
-	mapIcon.wx = assert(element.wx)
-	mapIcon.wy = assert(element.wy)
+	mapIcon.instance = element.instance
+	mapIcon.wx = element.wx
+	mapIcon.wy = element.wy
 	element.mapIndex = mapIcon.index
 	--if addon.debugging then print("LIME : addMapIcon", element.mapID, element.x / 100, element.y / 100, highlight) end
 end

@@ -55,7 +55,7 @@ addon.flightmasterDB = {
 	[12596] = {zone = "Western Plaguelands", name = "Bibilfaz Featherwhistle", place = "Chillwind Camp", faction = "Alliance"},
 	[12616] = {zone = "Ashenvale", name = "Vhulgra", place = "Splintertree Post", faction = "Horde"},  
 	[12617] = {zone = "Eastern Plaguelands", name = "Khaelyn Steelwing", place = "Light's Hope Chapel", faction = "Alliance"},
-	[12636] = {zone = "Eastern Plaguelands", name = "Georgia", place = "Light's Hope Chapel", faction = "Alliance"},
+	[12636] = {zone = "Eastern Plaguelands", name = "Georgia", place = "Light's Hope Chapel", faction = "Horde"},
 	[12740] = {zone = "Moonglade", name = "Faustron", faction = "Horde"},  
 	[13177] = {zone = "Burning Steppes", name = "Vahgruk", place = "Flame Crest", faction = "Horde"},  
 	[15177] = {zone = "Silithus", name = "Cloud Skydancer", place = "Cenarion Hold", faction = "Alliance"},
