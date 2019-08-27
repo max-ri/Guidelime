@@ -306,7 +306,6 @@ end
 addon.frame:RegisterEvent('UI_INFO_MESSAGE')
 function addon.frame:UI_INFO_MESSAGE(errorType, message)
 	if addon.debugging then print ("LIME: UI_INFO_MESSAGE", errorType, message) end
-	if errorType == ERR_NEWTAXIPATH then
 	if message == ERR_NEWTAXIPATH then
 		if addon.debugging then print ("LIME: ERR_NEWTAXIPATH") end
 		addon.completeSemiAutomaticByType("GET_FLIGHT_POINT")
