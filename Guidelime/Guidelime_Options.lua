@@ -473,7 +473,7 @@ function addon.fillOptions()
 	prev = checkbox
 
 	checkbox = addon.addCheckOption(content, GuidelimeData, "dataSourceQuestie", L.USE_QUESTIE_AS_DATA_SOURCE, L.USE_QUESTIE_AS_DATA_SOURCE_TOOLTIP, function()
-		addon.optionsFrame.options.dataSourceInternal:SetChecked(not GuidelimeData.dataSourceQuestie)
+		content.options.dataSourceInternal:SetChecked(not GuidelimeData.dataSourceQuestie)
 		if GuidelimeDataChar.mainFrameShowing and GuidelimeData.autoAddCoordinates then
 			addon.loadCurrentGuide()
 			addon.updateSteps()
