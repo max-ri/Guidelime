@@ -32,13 +32,19 @@ end
 
 function addon.updateFromQuestLog()
 	local questLog = {}
+	local isCollapsed = {}
+	local currentHeader
 	for i=1,GetNumQuestLogEntries() do
-		local name, _, _, header, _, completed, _, id = GetQuestLogTitle(i)
-		if not header then
+		local name, _, _, header, collapsed, completed, _, id = GetQuestLogTitle(i)
+		if header then
+			isCollapsed[name] = collapsed
+			currentHeader = name
+		else
 			questLog[id] = {}
 			questLog[id].index = i
 			questLog[id].finished = (completed == 1)
 			questLog[id].name = name
+			questLog[id].sort = currentHeader
 		end
 	end
 	
@@ -61,6 +67,7 @@ function addon.updateFromQuestLog()
 				q.logIndex = questLog[id].index
 				q.finished = questLog[id].finished
 				q.name = questLog[id].name
+				q.sort = questLog[id].sort
 				--if addon.debugging then print("LIME: new log entry ".. id .. " finished", q.finished) end
 			end
 			if q.objectives == nil or #q.objectives ~= GetNumQuestLeaderBoards(q.logIndex) then q.objectives = {} end
@@ -72,12 +79,19 @@ function addon.updateFromQuestLog()
 				end					
 			end
 		else
-			if q.logIndex ~= nil and q.logIndex ~= -1 then
+			if q.logIndex ~= nil and q.logIndex ~= -1 and not isCollapsed[q.sort] then
 				checkCompleted = true
 				q.logIndex = nil
 				--if addon.debugging then print("LIME: removed log entry ".. id) end
 			end
 		end
+	end
+	if GuidelimeData.showQuestIds then
+		local msg = "LIME: current quests: "
+		for id, q in pairs(questLog) do
+			msg = msg .. q.name .. "(#" .. id .. "), "
+		end
+		print(msg:sub(1, #msg - 2))
 	end
 	return checkCompleted, questChanged, questFound
 end
