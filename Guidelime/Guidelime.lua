@@ -700,7 +700,7 @@ local function updateStepCompletion(i, completedIndexes)
 		if element.t == "GOTO" then
 			if not wasCompleted and not step.completed and step.active and not step.skip and not element.completed then
 				--if addon.debugging then print("LIME : zone coordinates", x, y, element.mapID) end
-				if addon.x ~= nil and addon.y ~= nil and addon.instance == element.instance then
+				if addon.x ~= nil and addon.y ~= nil and element.wx ~= nil and element.wy ~= nil and addon.instance == element.instance then
 					element.completed = (addon.x - element.wx) * (addon.x - element.wx) + (addon.y - element.wy) * (addon.y - element.wy) <= element.radius * element.radius
 				else
 					element.completed = false
