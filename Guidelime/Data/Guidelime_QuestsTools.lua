@@ -367,7 +367,6 @@ function addon.getQuestPositionsLimited(id, typ, index, maxNumber, onlyWorld)
 				end
 			end
 		end
-		if #positions2 > 0 then print(positions2[1].x, positions2[1].y) end
 		for i = closestCount + 1, #positions2 do
 			positions2[i] = nil
 		end
