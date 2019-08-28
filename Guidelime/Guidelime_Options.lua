@@ -71,6 +71,20 @@ function addon.fillOptions()
 	addon.optionsFrame.mainFrameShowing:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
 	prev = addon.optionsFrame.mainFrameShowing
 	
+	local button = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
+	button:SetWidth(130)
+	button:SetHeight(24)
+	button:SetText(L.RESET_POSITION)
+	button:SetPoint("TOPLEFT", addon.optionsFrame.mainFrameShowing, "TOPLEFT", 180, -4)
+	button:SetScript("OnClick", function()
+		GuidelimeDataChar.mainFrameX = 0
+		GuidelimeDataChar.mainFrameY = 0
+		GuidelimeDataChar.mainFrameRelative = "RIGHT"
+		if addon.mainFrame ~= nil then
+			addon.mainFrame:SetPoint(GuidelimeDataChar.mainFrameRelative, UIParent, GuidelimeDataChar.mainFrameRelative, GuidelimeDataChar.mainFrameX, GuidelimeDataChar.mainFrameY)
+		end
+	end)
+
 	local slider = addon.addSliderOption(content, GuidelimeDataChar, "mainFrameWidth", 50, 800, 1, L.MAIN_FRAME_WIDTH, nil, function()
 		if addon.mainFrame ~= nil then 
 			addon.mainFrame:SetWidth(GuidelimeDataChar.mainFrameWidth) 
@@ -163,7 +177,7 @@ function addon.fillOptions()
 	text:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 30, -8)
 	prev = text
 
-	local button = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
+	button = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
 	button:SetWidth(100)
 	button:SetHeight(20)
 	button:SetText(GuidelimeData.fontColorACCEPT .. L.QUEST_ACCEPT)
@@ -241,6 +255,20 @@ function addon.fillOptions()
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
 	prev = checkbox
 	
+	button = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
+	button:SetWidth(130)
+	button:SetHeight(24)
+	button:SetText(L.RESET_POSITION)
+	button:SetPoint("TOPLEFT", checkbox, "TOPLEFT", 180, -4)
+	button:SetScript("OnClick", function()
+		GuidelimeDataChar.arrowX = 0
+		GuidelimeDataChar.arrowY = -20
+		GuidelimeDataChar.arrowRelative = "TOP"
+		if addon.arrowFrame ~= nil then
+			addon.arrowFrame:SetPoint(GuidelimeDataChar.arrowRelative, UIParent, GuidelimeDataChar.arrowRelative, GuidelimeDataChar.arrowX, GuidelimeDataChar.arrowY)
+		end
+	end)
+
 	slider = addon.addSliderOption(content, GuidelimeData, "arrowStyle", 1, 2, 1, L.ARROW_STYLE, nil, 
 	function(self)
 		self.editbox:SetText("   " .. addon.getArrowIconText())
