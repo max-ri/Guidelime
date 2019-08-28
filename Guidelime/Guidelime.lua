@@ -663,36 +663,34 @@ local function updateStepCompletion(i, completedIndexes)
 	local wasCompleted = step.completed
 	if not step.manual then	step.completed = nil end
 	for _, element in ipairs(step.elements) do
-		if not element.optional then
-			if element.t == "ACCEPT" then
-				element.completed = addon.quests[element.questId].completed or addon.quests[element.questId].logIndex ~= nil
-				if step.completed == nil or not element.completed then step.completed = element.completed end
-			elseif element.t == "COMPLETE" then
-				element.completed =
-					addon.quests[element.questId].completed or
-					addon.quests[element.questId].finished or
-					(element.objective ~= nil and 
-						addon.quests[element.questId].objectives ~= nil and 
-						addon.quests[element.questId].objectives[element.objective] ~= nil and
-						addon.quests[element.questId].objectives[element.objective].done)
-				if step.completed == nil or not element.completed then step.completed = element.completed end
-			elseif element.t == "TURNIN" then
-				element.finished = addon.quests[element.questId].finished
-				element.completed = addon.quests[element.questId].completed
-				if step.completed == nil or not element.completed then step.completed = element.completed end
-			elseif element.t == "XP" then
-				element.completed = element.level <= addon.level
-				if element.xp ~= nil and element.level == addon.level then
-					if element.xpType == "REMAINING" then
-						if element.xp < (addon.xpMax - addon.xp) then element.completed = false end
-					elseif element.xpType == "PERCENTAGE" then
-						if addon.xpMax == 0 or element.xp > (addon.xp / addon.xpMax) then element.completed = false end
-					else
-						if element.xp > addon.xp then element.completed = false end
-					end
+		if element.t == "ACCEPT" then
+			element.completed = addon.quests[element.questId].completed or addon.quests[element.questId].logIndex ~= nil
+			if step.completed == nil or not element.completed then step.completed = element.completed end
+		elseif element.t == "COMPLETE" then
+			element.completed =
+				addon.quests[element.questId].completed or
+				addon.quests[element.questId].finished or
+				(element.objective ~= nil and 
+					addon.quests[element.questId].objectives ~= nil and 
+					addon.quests[element.questId].objectives[element.objective] ~= nil and
+					addon.quests[element.questId].objectives[element.objective].done)
+			if step.completed == nil or not element.completed then step.completed = element.completed end
+		elseif element.t == "TURNIN" then
+			element.finished = addon.quests[element.questId].finished
+			element.completed = addon.quests[element.questId].completed
+			if step.completed == nil or not element.completed then step.completed = element.completed end
+		elseif element.t == "XP" then
+			element.completed = element.level <= addon.level
+			if element.xp ~= nil and element.level == addon.level then
+				if element.xpType == "REMAINING" then
+					if element.xp < (addon.xpMax - addon.xp) then element.completed = false end
+				elseif element.xpType == "PERCENTAGE" then
+					if addon.xpMax == 0 or element.xp > (addon.xp / addon.xpMax) then element.completed = false end
+				else
+					if element.xp > addon.xp then element.completed = false end
 				end
-				if step.completed == nil or not element.completed then step.completed = element.completed end
 			end
+			if step.completed == nil or not element.completed then step.completed = element.completed end
 		end
 	end
 	-- check goto last so that goto only matters when there are no other objectives completed
