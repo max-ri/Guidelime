@@ -1246,3 +1246,13 @@ addon.zoneNames = {}
 for zone, id in pairs(addon.mapIDs) do
 	addon.zoneNames[id] = zone
 end
+
+function addon.getZoneName(name)
+	name = name:lower():gsub(" ", "")
+	if name:sub(1, 3) == "the" then name = name:sub(4) end
+	for zone, _ in pairs(addon.mapIDs) do
+		local z = zone:lower():gsub(" ", "")
+		if z:sub(1, 3) == "the" then z = z:sub(4) end
+		if z == name then return zone end
+	end
+end
