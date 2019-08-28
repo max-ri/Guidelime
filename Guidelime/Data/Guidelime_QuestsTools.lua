@@ -351,7 +351,28 @@ function addon.getQuestPositionsLimited(id, typ, index, maxNumber, onlyWorld)
 	end
 	if maxNumber > 0 and #positions > maxNumber then
 		local positions2 = {}
-		for i = 1, maxNumber do 
+		local y, x, z, instance = UnitPosition("player")
+		-- fill part with the nearest positions
+		local closestCount = math.ceil(maxNumber / 5)
+		local minDist = {}
+		for _, pos in ipairs(positions) do
+			if pos.instance == instance then
+				local dist = (pos.wx - x) * (pos.wx - x) + (pos.wy - y) * (pos.wy - y)
+				for i = 1, closestCount do
+					if minDist[i] == nil or minDist[i] > dist then
+						table.insert(minDist, i, dist)
+						table.insert(positions2, i, pos)
+						break
+					end
+				end
+			end
+		end
+		if #positions2 > 0 then print(positions2[1].x, positions2[1].y) end
+		for i = closestCount + 1, #positions2 do
+			positions2[i] = nil
+		end
+		-- fill up with positions spread out
+		for i = #positions2 + 1, maxNumber do 
 			local pos = selectFurthestPosition(positions, clusters)
 			pos.selected = true
 			if clusters[pos.instance] == nil then clusters[pos.instance] = {} end
