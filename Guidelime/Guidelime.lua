@@ -410,26 +410,28 @@ local function loadStepOnActivation(i)
 		while j <= #step.elements do
 			local element = step.elements[j]
 			if element.questId ~= nil then
-				local a, b = element.objective, element.objective
 				local objectives = addon.getQuestObjectives(element.questId, element.t)						
-				if element.objective == nil then a = 1; b = #objectives end
-				for o = a, b do
-					local positions = addon.getQuestPositionsLimited(element.questId, element.t, o, GuidelimeData.maxNumOfMarkersLOC, true)
-					if positions ~= nil and #positions > 1 then
-						for _, locElement in ipairs(positions) do
-							locElement.t = "LOC"
-							locElement.markerTyp = objectives[o].type
-							locElement.step = step
-							locElement.generated = true
-							locElement.available = true
-							locElement.index = j
-							table.insert(step.elements, j, locElement)
-							j = j + 1
+				if objectives ~= nil then
+					local a, b = element.objective, element.objective
+					if element.objective == nil then a = 1; b = #objectives end
+					for o = a, b do
+						local positions = addon.getQuestPositionsLimited(element.questId, element.t, o, GuidelimeData.maxNumOfMarkersLOC, true)
+						if positions ~= nil and #positions > 1 then
+							for _, locElement in ipairs(positions) do
+								locElement.t = "LOC"
+								locElement.markerTyp = objectives[o].type
+								locElement.step = step
+								locElement.generated = true
+								locElement.available = true
+								locElement.index = j
+								table.insert(step.elements, j, locElement)
+								j = j + 1
+							end
 						end
 					end
-				end
-				for k = j, #step.elements do
-					step.elements[k].index = k
+					for k = j, #step.elements do
+						step.elements[k].index = k
+					end
 				end
 			end
 			j = j + 1
