@@ -492,7 +492,7 @@ local function getQuestObjectiveIcon(id, objective)
 	local icons = {}
 	for i = a, b do
 		local o = addon.quests[id].objectives[i]
-		if not o.done then
+		if o ~= nil and not o.done then
 			local type = o.type
 			if o.type == nil or addon.icons[o.type] == nil then type = "COMPLETE" end
 			if icons[type] == nil then
@@ -609,7 +609,7 @@ local function updateStepText(i)
 			end
 			for _, i in ipairs(v) do
 				local o = addon.quests[id].objectives[i]
-				if not o.done and o.desc ~= nil and o.desc ~= "" then
+				if o ~= nil and not o.done and o.desc ~= nil and o.desc ~= "" then
 					local icon = getQuestObjectiveIcon(id, i)
 					if step.active then
 						text = text .. "\n    - " .. icon .. o.desc
@@ -669,7 +669,10 @@ local function updateStepCompletion(i, completedIndexes)
 				element.completed =
 					addon.quests[element.questId].completed or
 					addon.quests[element.questId].finished or
-					(element.objective ~= nil and addon.quests[element.questId].objectives ~= nil and addon.quests[element.questId].objectives[element.objective].done)
+					(element.objective ~= nil and 
+						addon.quests[element.questId].objectives ~= nil and 
+						addon.quests[element.questId].objectives[element.objective] ~= nil and
+						addon.quests[element.questId].objectives[element.objective].done)
 				if step.completed == nil or not element.completed then step.completed = element.completed end
 			elseif element.t == "TURNIN" then
 				element.finished = addon.quests[element.questId].finished
