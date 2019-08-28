@@ -130,6 +130,7 @@ function addon.loadData()
 		fontColorSKIP = addon.COLOR_QUEST_DEFAULT,
 		autoCompleteQuest = true,
 		autoSelectFlight = true,
+		showQuestIds = false,
 		version = GetAddOnMetadata(addonName, "version")
 	}
 	local defaultOptionsChar = {
@@ -460,6 +461,7 @@ local function getQuestText(id, t, title, colored)
 	end
 	if colored == nil or colored then q = q .. GuidelimeData["fontColor" .. (t or "ACCEPT")] end
 	q = q .. (title or addon.getQuestNameById(id) or id)
+	if GuidelimeData.showQuestIds then q = q .. "(#" .. id .. ")" end
 	if colored == nil or colored then q = q .. "|r" end
 	return q
 end
