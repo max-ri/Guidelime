@@ -191,4 +191,4 @@ You should be 20 now, If you aren't 20, grind on something close by in Ashenvale
 This part of the guide is now finished, continue with the next part for levels 20-25.
 [NX20-25Ashenvale Wetlands Redridge Duskwood]
 
-]],'Judgements Alliance Leveling Guide')
+]],"Judgements Alliance Leveling Guide")

@@ -259,7 +259,7 @@ function addon.parseLine(step, guide, strict, nameOnly)
 			elseif element.t == "QUEST" then
 				element.t = "COMPLETE"
 			end
-			local _, c = tag:gsub("%s*([%d/%?]+),?(%d*)%s*(.*)", function(id, objective, title)
+			local _, c = tag:gsub("%s*([%d/%?]+),?(%d*)%s*(.-)%s*$", function(id, objective, title)
 				element.questId = tonumber(id)
 				if element.questId == nil then
 					if strict then 
@@ -322,8 +322,9 @@ function addon.parseLine(step, guide, strict, nameOnly)
 			local _, c = tag:gsub("%s*(%d+%.?%d*)%s?,%s?(%d+%.?%d*)%s?,?%s?(%d*%.?%d*)%s?(.*)", function(x, y, radius, zone)
 				element.x = tonumber(x)
 				element.y = tonumber(y)
-				if radius ~= "" then element.radius = tonumber(radius) else element.radius = addon.DEFAULT_GOTO_RADIUS end
-				if zone ~= "" then guide.currentZone = addon.mapIDs[zone] end
+				if radius ~= "" then element.radius = tonumber(radius) end
+				if element.radius == nil or element.radius == 0 then element.radius = addon.DEFAULT_GOTO_RADIUS end
+				if zone ~= "" then guide.currentZone = addon.mapIDs[addon.getZoneName(zone)] end
 				element.mapID = guide.currentZone
 				if element.mapID == nil then 
 					addon.createPopupFrame(string.format(L.ERROR_CODE_ZONE_NOT_FOUND, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
@@ -340,7 +341,7 @@ function addon.parseLine(step, guide, strict, nameOnly)
 			local _, c = tag:gsub("%s*(%d+%.?%d*)%s?,%s?(%d+%.?%d*)%s?(.*)", function(x, y, zone)
 				element.x = tonumber(x)
 				element.y = tonumber(y)
-				if zone ~= "" then guide.currentZone = addon.mapIDs[zone] end
+				if zone ~= "" then guide.currentZone = addon.mapIDs[addon.getZoneName(zone)] end
 				element.mapID = guide.currentZone
 				if element.mapID == nil then 
 					addon.createPopupFrame(string.format(L.ERROR_CODE_ZONE_NOT_FOUND, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()

@@ -35,4 +35,4 @@ Turn in [QT921 Crown of the Earth], accept [QA928 Part 2]
 Accept [QA2159 Dolanaar Delivery]
 Accept [QA488 Zenn's Bidding] - Save 'Small Spider Leg' you get for Cooking quest, need 7
 
-]],'MarkyMark')
+]],"MarkyMark")

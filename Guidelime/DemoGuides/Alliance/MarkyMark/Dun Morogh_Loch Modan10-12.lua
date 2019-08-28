@@ -31,9 +31,9 @@ Turn in [QT419 The Lost Pilot]
 Accept [QA417 A Pilot's Revenge]
 Do [QC417 A Pilot's Revenge]
 Turn in [QT417 A Pilot's Revenge]
-Run back to Loch Modan, once the zone changes use auto-unstuck to die and spirit res in Thelsamar
+If your [H]Hearth is down, run back to Loch Modan & once the zone changes use auto-unstuck to die and spirit res in Thelsamar - if your Hearth is up then just grind back to Thelsamar
 Turn in [QT416 Rat Catching]
-Hearth to [H Ironforge]
+Hearth to [H Ironforge] if it's up, if not then [F]fly
 [T Train] Class Abilities
 Check the Engineering [V Vendor] at [G68,46] and [V buy] Bronze Tubes if in stock & put it in the bank
 [T Train] 1h Maces if you weren't able to earlier [A Rogue]
@@ -44,4 +44,4 @@ Run to[OC] [G31,34] in Dun Morogh. Walk up the mountain, die in the correct spot
 Get the [P]FP
 Take the boat to Darkshore
 
-]],'MarkyMark')
+]],"MarkyMark")

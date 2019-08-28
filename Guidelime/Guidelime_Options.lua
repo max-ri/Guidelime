@@ -71,6 +71,20 @@ function addon.fillOptions()
 	addon.optionsFrame.mainFrameShowing:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
 	prev = addon.optionsFrame.mainFrameShowing
 	
+	local button = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
+	button:SetWidth(130)
+	button:SetHeight(24)
+	button:SetText(L.RESET_POSITION)
+	button:SetPoint("TOPLEFT", addon.optionsFrame.mainFrameShowing, "TOPLEFT", 180, -4)
+	button:SetScript("OnClick", function()
+		GuidelimeDataChar.mainFrameX = 0
+		GuidelimeDataChar.mainFrameY = 0
+		GuidelimeDataChar.mainFrameRelative = "RIGHT"
+		if addon.mainFrame ~= nil then
+			addon.mainFrame:SetPoint(GuidelimeDataChar.mainFrameRelative, UIParent, GuidelimeDataChar.mainFrameRelative, GuidelimeDataChar.mainFrameX, GuidelimeDataChar.mainFrameY)
+		end
+	end)
+
 	local slider = addon.addSliderOption(content, GuidelimeDataChar, "mainFrameWidth", 50, 800, 1, L.MAIN_FRAME_WIDTH, nil, function()
 		if addon.mainFrame ~= nil then 
 			addon.mainFrame:SetWidth(GuidelimeDataChar.mainFrameWidth) 
@@ -134,13 +148,13 @@ function addon.fillOptions()
 	addon.optionsFrame.showCompletedSteps:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = addon.optionsFrame.showCompletedSteps
 	
-	local checkbox = addon.addCheckOption(content, GuidelimeDataChar, "showUnavailableSteps", L.SHOW_UNAVAILABLE_STEPS, nil, function()
+	addon.optionsFrame.showUnavailableSteps = addon.addCheckOption(content, GuidelimeDataChar, "showUnavailableSteps", L.SHOW_UNAVAILABLE_STEPS, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateMainFrame()
 		end
 	end)
-	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
-	prev = checkbox
+	addon.optionsFrame.showUnavailableSteps:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	prev = addon.optionsFrame.showUnavailableSteps
 
 	checkbox = addon.addCheckOption(content, GuidelimeData, "showQuestLevels", L.SHOW_SUGGESTED_QUEST_LEVELS, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
@@ -163,7 +177,7 @@ function addon.fillOptions()
 	text:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 30, -8)
 	prev = text
 
-	local button = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
+	button = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
 	button:SetWidth(100)
 	button:SetHeight(20)
 	button:SetText(GuidelimeData.fontColorACCEPT .. L.QUEST_ACCEPT)
@@ -241,6 +255,20 @@ function addon.fillOptions()
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
 	prev = checkbox
 	
+	button = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
+	button:SetWidth(130)
+	button:SetHeight(24)
+	button:SetText(L.RESET_POSITION)
+	button:SetPoint("TOPLEFT", checkbox, "TOPLEFT", 180, -4)
+	button:SetScript("OnClick", function()
+		GuidelimeDataChar.arrowX = 0
+		GuidelimeDataChar.arrowY = -20
+		GuidelimeDataChar.arrowRelative = "TOP"
+		if addon.arrowFrame ~= nil then
+			addon.arrowFrame:SetPoint(GuidelimeDataChar.arrowRelative, UIParent, GuidelimeDataChar.arrowRelative, GuidelimeDataChar.arrowX, GuidelimeDataChar.arrowY)
+		end
+	end)
+
 	slider = addon.addSliderOption(content, GuidelimeData, "arrowStyle", 1, 2, 1, L.ARROW_STYLE, nil, 
 	function(self)
 		self.editbox:SetText("   " .. addon.getArrowIconText())
@@ -463,8 +491,17 @@ function addon.fillOptions()
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = checkbox
 
+	checkbox = addon.addCheckOption(content, GuidelimeData, "showQuestIds", L.SHOW_QUEST_IDS, nil, function()
+		addon.debugging = GuidelimeData.debugging
+		if GuidelimeDataChar.mainFrameShowing then
+			addon.updateStepsText()
+		end
+	end)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	prev = checkbox
+
 	checkbox = addon.addCheckOption(content, GuidelimeData, "dataSourceQuestie", L.USE_QUESTIE_AS_DATA_SOURCE, L.USE_QUESTIE_AS_DATA_SOURCE_TOOLTIP, function()
-		addon.optionsFrame.options.dataSourceInternal:SetChecked(not GuidelimeData.dataSourceQuestie)
+		content.options.dataSourceInternal:SetChecked(not GuidelimeData.dataSourceQuestie)
 		if GuidelimeDataChar.mainFrameShowing and GuidelimeData.autoAddCoordinates then
 			addon.loadCurrentGuide()
 			addon.updateSteps()

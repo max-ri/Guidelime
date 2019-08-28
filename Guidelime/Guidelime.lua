@@ -130,6 +130,7 @@ function addon.loadData()
 		fontColorSKIP = addon.COLOR_QUEST_DEFAULT,
 		autoCompleteQuest = true,
 		autoSelectFlight = true,
+		showQuestIds = false,
 		version = GetAddOnMetadata(addonName, "version")
 	}
 	local defaultOptionsChar = {
@@ -143,7 +144,7 @@ function addon.loadData()
 		mainFrameAlpha = 0.5,
 		mainFrameFontSize = 14,
 		showCompletedSteps = false,
-		showUnavailableSteps = false,
+		showUnavailableSteps = true,
 		showArrow = true,
 		arrowX = 0,
 		arrowY = -20,
@@ -169,6 +170,11 @@ function addon.loadData()
 	addon.debugging = GuidelimeData.debugging
 
 	GuidelimeDataChar.version:gsub("(%d+).(%d+)", function(major, minor)
+		if tonumber(major) == 1 and tonumber(minor) < 2 then
+			--changed default value for showUnavailableSteps
+			GuidelimeDataChar.showUnavailableSteps = true
+			GuidelimeDataChar.version = GetAddOnMetadata(addonName, "version")
+		end
 		if tonumber(major) == 0 and tonumber(minor) < 41 then
 			GuidelimeDataChar.autoCompleteQuest = nil
 			GuidelimeDataChar.version = GetAddOnMetadata(addonName, "version")
@@ -404,26 +410,28 @@ local function loadStepOnActivation(i)
 		while j <= #step.elements do
 			local element = step.elements[j]
 			if element.questId ~= nil then
-				local a, b = element.objective, element.objective
 				local objectives = addon.getQuestObjectives(element.questId, element.t)						
-				if element.objective == nil then a = 1; b = #objectives end
-				for o = a, b do
-					local positions = addon.getQuestPositionsLimited(element.questId, element.t, o, GuidelimeData.maxNumOfMarkersLOC, true)
-					if positions ~= nil and #positions > 1 then
-						for _, locElement in ipairs(positions) do
-							locElement.t = "LOC"
-							locElement.markerTyp = objectives[o].type
-							locElement.step = step
-							locElement.generated = true
-							locElement.available = true
-							locElement.index = j
-							table.insert(step.elements, j, locElement)
-							j = j + 1
+				if objectives ~= nil then
+					local a, b = element.objective, element.objective
+					if element.objective == nil then a = 1; b = #objectives end
+					for o = a, b do
+						local positions = addon.getQuestPositionsLimited(element.questId, element.t, o, GuidelimeData.maxNumOfMarkersLOC, true)
+						if positions ~= nil and #positions > 1 then
+							for _, locElement in ipairs(positions) do
+								locElement.t = "LOC"
+								locElement.markerTyp = objectives[o].type
+								locElement.step = step
+								locElement.generated = true
+								locElement.available = true
+								locElement.index = j
+								table.insert(step.elements, j, locElement)
+								j = j + 1
+							end
 						end
 					end
-				end
-				for k = j, #step.elements do
-					step.elements[k].index = k
+					for k = j, #step.elements do
+						step.elements[k].index = k
+					end
 				end
 			end
 			j = j + 1
@@ -460,6 +468,7 @@ local function getQuestText(id, t, title, colored)
 	end
 	if colored == nil or colored then q = q .. GuidelimeData["fontColor" .. (t or "ACCEPT")] end
 	q = q .. (title or addon.getQuestNameById(id) or id)
+	if GuidelimeData.showQuestIds then q = q .. "(#" .. id .. ")" end
 	if colored == nil or colored then q = q .. "|r" end
 	return q
 end
@@ -485,11 +494,11 @@ local function getQuestObjectiveIcon(id, objective)
 	local icons = {}
 	for i = a, b do
 		local o = addon.quests[id].objectives[i]
-		if not o.done then
+		if o ~= nil and not o.done then
 			local type = o.type
-			if o.type == nil or addon.icons[o.type] == nil then o.type = addon.icons.COMPLETE end
+			if o.type == nil or addon.icons[o.type] == nil then type = "COMPLETE" end
 			if icons[type] == nil then
-				text = text .. "|T" .. addon.icons[o.type] .. ":12|t"
+				text = text .. "|T" .. addon.icons[type] .. ":12|t"
 				icons[type] = true
 			end
 		end
@@ -602,7 +611,7 @@ local function updateStepText(i)
 			end
 			for _, i in ipairs(v) do
 				local o = addon.quests[id].objectives[i]
-				if not o.done and o.desc ~= nil and o.desc ~= "" then
+				if o ~= nil and not o.done and o.desc ~= nil and o.desc ~= "" then
 					local icon = getQuestObjectiveIcon(id, i)
 					if step.active then
 						text = text .. "\n    - " .. icon .. o.desc
@@ -662,7 +671,10 @@ local function updateStepCompletion(i, completedIndexes)
 				element.completed =
 					addon.quests[element.questId].completed or
 					addon.quests[element.questId].finished or
-					(element.objective ~= nil and addon.quests[element.questId].objectives ~= nil and addon.quests[element.questId].objectives[element.objective].done)
+					(element.objective ~= nil and 
+						addon.quests[element.questId].objectives ~= nil and 
+						addon.quests[element.questId].objectives[element.objective] ~= nil and
+						addon.quests[element.questId].objectives[element.objective].done)
 				if step.completed == nil or not element.completed then step.completed = element.completed end
 			elseif element.t == "TURNIN" then
 				element.finished = addon.quests[element.questId].finished
@@ -688,7 +700,7 @@ local function updateStepCompletion(i, completedIndexes)
 		if element.t == "GOTO" then
 			if not wasCompleted and not step.completed and step.active and not step.skip and not element.completed then
 				--if addon.debugging then print("LIME : zone coordinates", x, y, element.mapID) end
-				if addon.x ~= nil and addon.y ~= nil and addon.instance == element.instance then
+				if addon.x ~= nil and addon.y ~= nil and element.wx ~= nil and element.wy ~= nil and addon.instance == element.instance then
 					element.completed = (addon.x - element.wx) * (addon.x - element.wx) + (addon.y - element.wy) * (addon.y - element.wy) <= element.radius * element.radius
 				else
 					element.completed = false
@@ -752,6 +764,7 @@ local function updateStepAvailability(i, changedIndexes, skipped)
 				skipped[element.t][element.questId] = false
 			elseif skipped[element.t][element.questId] == nil and (step.skip or not element.available) and not element.completed then
 				skipped[element.t][element.questId] = true
+				element.available = false
 			end
 			if not element.completed then step.available = step.available or element.available end
 		elseif element.t == "XP" then
@@ -792,13 +805,17 @@ local function updateStepsCompletion(changedIndexes)
 	--if addon.debugging then print("LIME: changed", #changedIndexes) end
 end
 
+local function stepIsVisible(step)
+	return ((not step.completed and (not step.skip or not step.available)) or GuidelimeDataChar.showCompletedSteps) and
+			(step.available or GuidelimeDataChar.showUnavailableSteps)
+end
+
 local function keepFading()
 	local update = false
 	local isFading = false
 	for i, step in ipairs(addon.currentGuide.steps)	do
 		if step.fading ~= nil then
-			if (not GuidelimeDataChar.showCompletedSteps and (step.completed or step.skip)) or
-			   (not GuidelimeDataChar.showUnavailableSteps and not step.available) then
+			if not stepIsVisible(step) then
 				step.active = false
 				--if addon.debugging then print("LIME: fade out", i, step.fading) end
 				if step.fading <= 0 then
@@ -977,6 +994,13 @@ local function showContextMenu()
 				addon.optionsFrame.showCompletedSteps:SetChecked(GuidelimeDataChar.showCompletedSteps)
 			end
 			addon.updateMainFrame()
+		end},
+		{text = L.SHOW_UNAVAILABLE_STEPS, checked = GuidelimeDataChar.showUnavailableSteps, func = function()
+			GuidelimeDataChar.showUnavailableSteps = not GuidelimeDataChar.showUnavailableSteps
+			if addon.optionsFrame ~= nil then
+				addon.optionsFrame.showUnavailableSteps:SetChecked(GuidelimeDataChar.showUnavailableSteps)
+			end
+			addon.updateMainFrame()
 		end}
 	}, CreateFrame("Frame", nil, nil, "UIDropDownMenuTemplate"), "cursor", 0 , 0, "MENU");
 end
@@ -1138,8 +1162,7 @@ function addon.updateMainFrame(reset)
 		addon.mainFrame.titleBox:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize)
 		local prev = addon.mainFrame.titleBox
 		for i, step in ipairs(addon.currentGuide.steps) do
-			if ((not step.completed and not step.skip) or GuidelimeDataChar.showCompletedSteps) and
-				(step.available or GuidelimeDataChar.showUnavailableSteps) then
+			if stepIsVisible(step) then
 				if step.active or GuidelimeData.maxNumOfSteps == 0 or i - addon.currentGuide.lastActiveIndex < GuidelimeData.maxNumOfSteps then
 					if addon.mainFrame.steps[i] == nil then 
 						addon.mainFrame.steps[i] = addon.addCheckbox(addon.mainFrame.scrollChild, nil, "") 

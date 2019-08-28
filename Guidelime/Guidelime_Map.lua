@@ -194,31 +194,31 @@ function addon.getArrowIconText()
 end
 
 function addon.updateArrow()
-	if addon.arrowFrame ~= nil and addon.arrowX ~= nil and addon.arrowY ~= nil then
-		addon.y, addon.x, addon.z, addon.instance = UnitPosition("player")
-		addon.face = GetPlayerFacing()
-		local angle = addon.face - math.atan2(addon.arrowX - addon.x, addon.arrowY - addon.y)
-		if GuidelimeData.arrowStyle == 1 then
-			local index = angle * 32 / math.pi
-			if index >= 64 then index = index - 64 elseif index < 0 then index = index + 64 end
-			addon.arrowFrame.col = math.floor(index % 8)
-			addon.arrowFrame.row = math.floor(index / 8)
-			addon.arrowFrame.texture:SetTexCoord(addon.arrowFrame.col / 8, (addon.arrowFrame.col + 1) / 8, addon.arrowFrame.row / 8, (addon.arrowFrame.row + 1) / 8)
-		elseif GuidelimeData.arrowStyle == 2 then
-			local index = -angle * 54 / math.pi
-			if index < 0 then index = index + 108 end
-			if index < 0 then index = index + 108 end
-			addon.arrowFrame.col = math.floor(index % 9)
-			addon.arrowFrame.row = math.floor(index / 9)
-			addon.arrowFrame.texture:SetTexCoord(addon.arrowFrame.col * 56 / 512, (addon.arrowFrame.col + 1) * 56 / 512, addon.arrowFrame.row * 42 / 512, (addon.arrowFrame.row + 1) * 42 / 512)
-		end
-		if GuidelimeData.arrowDistance then
-		 	local dist = math.floor(math.sqrt((addon.x - addon.arrowX) * (addon.x - addon.arrowX) + (addon.y - addon.arrowY) * (addon.y - addon.arrowY)))
-			addon.arrowFrame.text:SetText(dist .. " " .. L.YARDS)
-			addon.arrowFrame.text:Show()
-		else
-			addon.arrowFrame.text:Hide()
-		end
+	if addon.arrowFrame == nil or addon.arrowX == nil or addon.arrowY == nil then return end
+	addon.y, addon.x, addon.z, addon.instance = UnitPosition("player")
+	addon.face = GetPlayerFacing()
+	if addon.x == nil or addon.y == nil or addon.face == nil then return end
+	local angle = addon.face - math.atan2(addon.arrowX - addon.x, addon.arrowY - addon.y)
+	if GuidelimeData.arrowStyle == 1 then
+		local index = angle * 32 / math.pi
+		if index >= 64 then index = index - 64 elseif index < 0 then index = index + 64 end
+		addon.arrowFrame.col = math.floor(index % 8)
+		addon.arrowFrame.row = math.floor(index / 8)
+		addon.arrowFrame.texture:SetTexCoord(addon.arrowFrame.col / 8, (addon.arrowFrame.col + 1) / 8, addon.arrowFrame.row / 8, (addon.arrowFrame.row + 1) / 8)
+	elseif GuidelimeData.arrowStyle == 2 then
+		local index = -angle * 54 / math.pi
+		if index < 0 then index = index + 108 end
+		if index < 0 then index = index + 108 end
+		addon.arrowFrame.col = math.floor(index % 9)
+		addon.arrowFrame.row = math.floor(index / 9)
+		addon.arrowFrame.texture:SetTexCoord(addon.arrowFrame.col * 56 / 512, (addon.arrowFrame.col + 1) * 56 / 512, addon.arrowFrame.row * 42 / 512, (addon.arrowFrame.row + 1) * 42 / 512)
+	end
+	if GuidelimeData.arrowDistance then
+	 	local dist = math.floor(math.sqrt((addon.x - addon.arrowX) * (addon.x - addon.arrowX) + (addon.y - addon.arrowY) * (addon.y - addon.arrowY)))
+		addon.arrowFrame.text:SetText(dist .. " " .. L.YARDS)
+		addon.arrowFrame.text:Show()
+	else
+		addon.arrowFrame.text:Hide()
 	end
 end
 

@@ -79,4 +79,4 @@ Run to Dwarven District and turn in [G59.72,33.76Stormwind City][QT1097]. Accept
 This part of the guide is now finished, continue with the next part for levels 10-20.
 [NX10-20Darkshore Westfall Redridge]
 
-]],'Judgements Alliance Leveling Guide')
+]],"Judgements Alliance Leveling Guide")

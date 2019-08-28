@@ -232,4 +232,4 @@ Accept[QA1689][A Warlock]
 Accept[QA353]
 [NX 12 - 14 Loch Modan]
 
-]],'Hakurai - by Shikushiku')
+]],"Hakurai - by Shikushiku")

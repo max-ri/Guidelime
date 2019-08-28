@@ -38,4 +38,4 @@ Turn in [QT54 Report to Goldshire]
 Accept [QA62 The Fargodeep Mine]
 Accept [QA47 Gold Dust Exchange]
 
-]],'MarkyMark')
+]],"MarkyMark")

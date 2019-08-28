@@ -1,5 +1,5 @@
 Guidelime.registerGuide([[
-[DL1-40 https://www.curseforge.com/wow/addons/guidelime_ouiwee Guidelime_Ouiwee]
+[DL1-45 https://www.curseforge.com/wow/addons/guidelime_ouiwee Guidelime_Ouiwee]
 [D Guide|cFF34EBAElime|r Guide Created by |cFF69CCF0Ouiwee|r\\www.twitch.tv/Fishfinnatic]
 [GA Tauren]
 [N1-12 Tauren Horde]
@@ -170,4 +170,4 @@ Turn In: [QT871]
 Accept: [QA872]
 [R] Repair & [V] Vendor [OC]
 
-]],'Ouiwee')
+]],"Ouiwee")
