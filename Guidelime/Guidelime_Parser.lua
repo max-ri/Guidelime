@@ -259,7 +259,7 @@ function addon.parseLine(step, guide, strict, nameOnly)
 			elseif element.t == "QUEST" then
 				element.t = "COMPLETE"
 			end
-			local _, c = tag:gsub("%s*([%d/%?]+),?(%d*)%s*(.*)", function(id, objective, title)
+			local _, c = tag:gsub("%s*([%d/%?]+),?(%d*)%s*(.-)%s*$", function(id, objective, title)
 				element.questId = tonumber(id)
 				if element.questId == nil then
 					if strict then 
