@@ -322,7 +322,8 @@ function addon.parseLine(step, guide, strict, nameOnly)
 			local _, c = tag:gsub("%s*(%d+%.?%d*)%s?,%s?(%d+%.?%d*)%s?,?%s?(%d*%.?%d*)%s?(.*)", function(x, y, radius, zone)
 				element.x = tonumber(x)
 				element.y = tonumber(y)
-				if radius ~= "" then element.radius = tonumber(radius) else element.radius = addon.DEFAULT_GOTO_RADIUS end
+				if radius ~= "" then element.radius = tonumber(radius) end
+				if element.radius == nil or element.radius == 0 then element.radius = addon.DEFAULT_GOTO_RADIUS end
 				if zone ~= "" then guide.currentZone = addon.mapIDs[addon.getZoneName(zone)] end
 				element.mapID = guide.currentZone
 				if element.mapID == nil then 
