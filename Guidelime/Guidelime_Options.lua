@@ -140,6 +140,16 @@ function addon.fillOptions()
 	addon.optionsFrame.mainFrameLocked:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = addon.optionsFrame.mainFrameLocked
 	
+	addon.optionsFrame.showCompletedSteps = addon.addCheckOption(content, GuidelimeDataChar, "mainFrameShowScrollBar", L.MAIN_FRAME_SHOW_SCROLLBAR, nil, function()
+		if GuidelimeDataChar.mainFrameShowScrollBar then
+			addon.mainFrame.scrollFrame.ScrollBar:SetAlpha(1)
+		else
+			addon.mainFrame.scrollFrame.ScrollBar:SetAlpha(0)
+		end
+	end)
+	addon.optionsFrame.showCompletedSteps:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	prev = addon.optionsFrame.showCompletedSteps
+
 	addon.optionsFrame.showCompletedSteps = addon.addCheckOption(content, GuidelimeDataChar, "showCompletedSteps", L.SHOW_COMPLETED_STEPS, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateMainFrame()

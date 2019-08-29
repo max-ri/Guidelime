@@ -143,6 +143,7 @@ function addon.loadData()
 		mainFrameHeight = 400,
 		mainFrameAlpha = 0.5,
 		mainFrameFontSize = 14,
+		mainFrameShowScrollBar = true,
 		showCompletedSteps = false,
 		showUnavailableSteps = true,
 		showArrow = true,
@@ -1251,6 +1252,8 @@ function addon.showMainFrame()
 		addon.mainFrame.scrollFrame:SetScrollChild(addon.mainFrame.scrollChild);
 		addon.mainFrame.scrollChild:SetWidth(GuidelimeDataChar.mainFrameWidth)
 		addon.mainFrame.scrollChild:SetHeight(addon.mainFrame:GetHeight())
+		
+		if not GuidelimeDataChar.mainFrameShowScrollBar then addon.mainFrame.scrollFrame.ScrollBar:SetAlpha(0) end
 
 		addon.mainFrame.titleBox = addon.addMultilineText(addon.mainFrame.scrollChild, nil, addon.mainFrame.scrollChild:GetWidth() - 40, "")
 		addon.mainFrame.titleBox:SetPoint("TOPLEFT", addon.mainFrame.scrollChild, "TOPLEFT", 35, -14)
