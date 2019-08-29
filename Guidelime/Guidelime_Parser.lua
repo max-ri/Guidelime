@@ -135,6 +135,7 @@ local function textFormatting(text, color)
 		:gsub("(www%.[%w%./#%-%?=#]*)", function(u) if url == nil then url = u end; return "|cFFAAAAAA" .. u .. "|r" end)
 		:gsub("%*([^%*]+)%*", (color or "|cFFFFD100") .. "%1|r")
 		:gsub("%*%*","%*")
+	if formatted:gsub("%s", "") == "" then return end
 	local formattedInactive = formatted:gsub("|r", addon.COLOR_INACTIVE)
 	return formatted, formattedInactive, url
 end
@@ -152,14 +153,16 @@ function addon.parseLine(step, guide, strict, nameOnly)
 			local element = {}
 			element.t = "TEXT"
 			element.text, element.textInactive, element.url = textFormatting(text, addon.COLOR_WHITE)
-			element.startPos = pos
-			pos = pos + #text
-			element.endPos = pos - 1
-			element.index = #step.elements + 1
-			element.step = step
-			table.insert(step.elements, element)
-			if addon.debugging and step.text:sub(element.startPos - step.startPos + 1, element.endPos - step.startPos + 1) ~= text then
-				print("LIME: parsing guide \"" .. step.text:sub(element.startPos - step.startPos + 1, element.endPos - step.startPos + 1) .. "\" should be \"" .. text .. "\" at " .. element.startPos .. "-" .. element.endPos .. " in " .. pos0 .. "->" .. step.text)
+			if element.text ~= nil then
+				element.startPos = pos
+				pos = pos + #text
+				element.endPos = pos - 1
+				element.index = #step.elements + 1
+				element.step = step
+				table.insert(step.elements, element)
+				if addon.debugging and step.text:sub(element.startPos - step.startPos + 1, element.endPos - step.startPos + 1) ~= text then
+					print("LIME: parsing guide \"" .. step.text:sub(element.startPos - step.startPos + 1, element.endPos - step.startPos + 1) .. "\" should be \"" .. text .. "\" at " .. element.startPos .. "-" .. element.endPos .. " in " .. pos0 .. "->" .. step.text)
+				end
 			end
 		end
 		local element = {}
@@ -359,7 +362,8 @@ function addon.parseLine(step, guide, strict, nameOnly)
 				element.level = tonumber(level)
 				if text ~= "" then
 					element.text, element.textInactive, _ = textFormatting(text:gsub("%s*(.*)", "%1", 1))
-				else
+				end
+				if element.text == nil then
 					element.text = level .. t .. xp
 					element.textInactive = element.text
 				end
@@ -420,11 +424,13 @@ function addon.parseLine(step, guide, strict, nameOnly)
 		local element = {}
 		element.t = "TEXT"
 		element.text, element.textInactive, element.url = textFormatting(t, addon.COLOR_WHITE)
-		element.startPos = pos 
-		element.endPos = pos + #t - 1
-		element.index = #step.elements + 1
-		element.step = step
-		table.insert(step.elements, element)
+		if element.text ~= nil then
+			element.startPos = pos 
+			element.endPos = pos + #t - 1
+			element.index = #step.elements + 1
+			element.step = step
+			table.insert(step.elements, element)
+		end
 	end
 	return true
 end
