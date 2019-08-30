@@ -160,9 +160,6 @@ function addon.parseLine(step, guide, strict, nameOnly)
 				element.index = #step.elements + 1
 				element.step = step
 				table.insert(step.elements, element)
-				if addon.debugging and step.text:sub(element.startPos - step.startPos + 1, element.endPos - step.startPos + 1) ~= text then
-					print("LIME: parsing guide \"" .. step.text:sub(element.startPos - step.startPos + 1, element.endPos - step.startPos + 1) .. "\" should be \"" .. text .. "\" at " .. element.startPos .. "-" .. element.endPos .. " in " .. pos0 .. "->" .. step.text)
-				end
 			end
 		end
 		local element = {}
@@ -181,9 +178,6 @@ function addon.parseLine(step, guide, strict, nameOnly)
 		table.insert(step.elements, element)
 		local tag = code:sub(#addon.codes[element.t] + 1)
 		
-		if addon.debugging and step.text:sub(element.startPos - step.startPos + 1, element.endPos - step.startPos + 1) ~= ("["..code.."]") then
-			print("LIME: parsing guide \"[" .. step.text:sub(element.startPos - step.startPos + 1, element.endPos - step.startPos + 1) .. "]\" should be \"" .. code .. "\" at " .. element.startPos .. "-" .. element.endPos .. " in " .. pos0 .. "->" .. step.text)
-		end
 		if element.t == "NEXT" then
 			local _, c = tag:gsub("%s*(%d*%.?%d*)%s*%-?%s*(%d*%.?%d*)%s*(.*)", function (minLevel, maxLevel, title)
 				if guide.next == nil then guide.next = {} end
