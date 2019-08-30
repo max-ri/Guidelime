@@ -774,14 +774,6 @@ local function updateStepAvailability(i, changedIndexes, skipped)
 	if step.available == nil then step.available = true end
 	if step.manual and not step.completed then step.available = true end
 
-	if i < #addon.currentGuide.steps and step.completeWithNext ~= nil and step.completeWithNext then
-		local nstep = addon.currentGuide.steps[i + 1]
-		if step.available ~= nstep.available then
-			--if addon.debugging then print("LIME: complete with next ", i, nstep.skip, nstep.available) end
-			step.available = nstep.available
-		end
-	end
-
 	if step.available ~= wasAvailable and not addon.contains(changedIndexes, i) then
 		table.insert(changedIndexes, i)
 	end
