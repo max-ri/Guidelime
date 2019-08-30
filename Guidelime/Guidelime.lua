@@ -476,7 +476,7 @@ end
 
 local function getSkipQuests(id, skipQuests, newSkipQuests)
 	if newSkipQuests == nil then newSkipQuests = {} end
-	if addon.quests[id].followup ~= nil and #addon.quests[id].followup > 0 then
+	if addon.quests[id] ~= nil and addon.quests[id].followup ~= nil and #addon.quests[id].followup > 0 then
 		for _, fid in ipairs(addon.quests[id].followup) do
 			if addon.currentGuide.unavailableQuests[fid] == nil and skipQuests[fid] == nil then
 				table.insert(newSkipQuests, fid)
@@ -489,6 +489,7 @@ local function getSkipQuests(id, skipQuests, newSkipQuests)
 end
 
 local function getQuestObjectiveIcon(id, objective)
+	if addon.quests[id] == nil then return "" end
 	local a, b = objective, objective
 	if objective == nil then a = 1; b = #addon.quests[id].objectives end
 	local text = ""
