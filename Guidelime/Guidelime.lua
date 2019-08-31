@@ -316,7 +316,7 @@ function addon.loadCurrentGuide()
 				end
 				if element.questId ~= nil then
 					if addon.quests[element.questId] == nil then
-						if addon.quests[element.questId] == nil then addon.quests[element.questId] = {} end
+						addon.quests[element.questId] = {}
 						addon.quests[element.questId].title = element.title
 						addon.quests[element.questId].completed = completed[element.questId] ~= nil and completed[element.questId]
 						addon.quests[element.questId].finished = addon.quests[element.questId].completed
@@ -725,17 +725,17 @@ local function updateStepCompletion(i, completedIndexes)
 	end
 end
 
-local function updateStepAvailability(i, changedIndexes, skipped)
+local function updateStepAvailability(i, changedIndexes, scheduled)
 	local step = addon.currentGuide.steps[i]
 	local wasAvailable = step.available
-	step.available = nil
+	step.available = true
 	step.missingPrequests = {}
 	for _, element in ipairs(step.elements) do
 		element.available = true
 		if element.t == "ACCEPT" then
 			if addon.questsDB[element.questId] ~= nil and addon.questsDB[element.questId].prequests ~= nil then
 				for _, id in ipairs(addon.questsDB[element.questId].prequests) do
-					if not addon.quests[id].completed and skipped.TURNIN[id] then
+					if not addon.quests[id].completed and not scheduled.TURNIN[id] then
 						element.available = false
 						if not addon.contains(step.missingPrequests, id) then
 							table.insert(step.missingPrequests, id)
@@ -745,14 +745,14 @@ local function updateStepAvailability(i, changedIndexes, skipped)
 				end
 			end
 		elseif element.t == "COMPLETE" then
-			if skipped.ACCEPT[element.questId] and not element.completed then
+			if not scheduled.ACCEPT[element.questId] and not element.completed then
 				element.available = false
 				if not addon.contains(step.missingPrequests, element.questId) then
 					table.insert(step.missingPrequests, element.questId)
 				end
 			end
 		elseif element.t == "TURNIN" then
-			if (skipped.ACCEPT[element.questId] or skipped.COMPLETE[element.questId]) and not element.completed then
+			if not scheduled.ACCEPT[element.questId] and not element.completed then
 				element.available = false
 				if not addon.contains(step.missingPrequests, element.questId) then
 					table.insert(step.missingPrequests, element.questId)
@@ -761,17 +761,13 @@ local function updateStepAvailability(i, changedIndexes, skipped)
 		end
 		if element.t == "ACCEPT" or element.t == "COMPLETE" or element.t == "TURNIN" then
 			if not step.skip and element.available then
-				skipped[element.t][element.questId] = false
-			elseif skipped[element.t][element.questId] == nil and (step.skip or not element.available) and not element.completed then
-				skipped[element.t][element.questId] = true
+				scheduled[element.t][element.questId] = true
+			elseif not scheduled[element.t][element.questId] and step.skip and not element.completed then
 				element.available = false
 			end
-			if not element.completed then step.available = step.available or element.available end
-		elseif element.t == "XP" then
-			if not element.completed then step.available = true end
+			if not element.completed then step.available = step.available and element.available end
 		end
 	end
-	if step.available == nil then step.available = true end
 	if step.manual and not step.completed then step.available = true end
 
 	if step.available ~= wasAvailable and not addon.contains(changedIndexes, i) then
@@ -784,10 +780,10 @@ local function updateStepsCompletion(changedIndexes)
 	addon.currentGuide.unavailableQuests = {}
 	repeat
 		local numNew = #changedIndexes
-		local skipped = {ACCEPT = {}, COMPLETE = {}, TURNIN = {}}
+		local scheduled = {ACCEPT = {}, COMPLETE = {}, TURNIN = {}}
 		for i, step in ipairs(addon.currentGuide.steps) do
 			updateStepCompletion(i, changedIndexes)
-			updateStepAvailability(i, changedIndexes, skipped)
+			updateStepAvailability(i, changedIndexes, scheduled)
 			if addon.mainFrame.steps ~= nil and addon.mainFrame.steps[i] ~= nil and addon.mainFrame.steps[i].visible then
 				addon.mainFrame.steps[i]:SetChecked(step.completed or step.skip)
 				addon.mainFrame.steps[i]:SetEnabled((not step.completed and step.available) or step.skip)
