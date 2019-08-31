@@ -320,7 +320,6 @@ function addon.loadCurrentGuide()
 						addon.quests[element.questId].title = element.title
 						addon.quests[element.questId].completed = completed[element.questId] ~= nil and completed[element.questId]
 						addon.quests[element.questId].finished = addon.quests[element.questId].completed
-						addon.quests[element.questId].lastStep = {}
 						if addon.questsDB[element.questId] ~= nil and addon.questsDB[element.questId].prequests ~= nil then
 							for _, id in ipairs(addon.questsDB[element.questId].prequests) do
 								if addon.quests[id] == nil then addon.quests[id] = {} end
@@ -330,6 +329,7 @@ function addon.loadCurrentGuide()
 							end
 						end
 					end
+					if addon.quests[element.questId].lastStep == nil then addon.quests[element.questId].lastStep = {} end
 					addon.quests[element.questId].lastStep[element.t] = element
 					if element.t == "COMPLETE" and addon.quests[element.questId].objectives == nil then
 						addon.quests[element.questId].objectives = {}
