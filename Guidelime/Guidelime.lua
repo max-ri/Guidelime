@@ -320,6 +320,7 @@ function addon.loadCurrentGuide()
 						addon.quests[element.questId].title = element.title
 						addon.quests[element.questId].completed = completed[element.questId] ~= nil and completed[element.questId]
 						addon.quests[element.questId].finished = addon.quests[element.questId].completed
+						addon.quests[element.questId].lastStep = {}
 						if addon.questsDB[element.questId] ~= nil and addon.questsDB[element.questId].prequests ~= nil then
 							for _, id in ipairs(addon.questsDB[element.questId].prequests) do
 								if addon.quests[id] == nil then addon.quests[id] = {} end
@@ -329,6 +330,7 @@ function addon.loadCurrentGuide()
 							end
 						end
 					end
+					addon.quests[element.questId].lastStep[element.t] = element
 					if element.t == "COMPLETE" and addon.quests[element.questId].objectives == nil then
 						addon.quests[element.questId].objectives = {}
 						local objectives = addon.getQuestObjectives(element.questId)
@@ -564,7 +566,7 @@ local function updateStepText(i)
 			text = text .. getQuestText(element.questId, element.t, element.title, step.active)
 		end
 		if element.available and not element.completed and element.questId ~= nil then
-			if not element.optional then
+			if addon.quests[element.questId].lastStep[element.t] == element then
 				local newSkipQuests = getSkipQuests(element.questId, skipQuests)
 				if #newSkipQuests > 0 then
 					if skipText ~= "" then skipText = skipText .. "\n\n" end
@@ -762,7 +764,7 @@ local function updateStepAvailability(i, changedIndexes, scheduled)
 		if element.t == "ACCEPT" or element.t == "COMPLETE" or element.t == "TURNIN" then
 			if not step.skip and element.available then
 				scheduled[element.t][element.questId] = true
-			elseif not scheduled[element.t][element.questId] and step.skip and not element.completed then
+			elseif not scheduled[element.t][element.questId] and step.skip and not element.completed and addon.quests[element.questId].lastStep[element.t] == element then
 				element.available = false
 			end
 			if not element.completed then step.available = step.available and element.available end
