@@ -747,14 +747,14 @@ local function updateStepAvailability(i, changedIndexes, scheduled)
 				end
 			end
 		elseif element.t == "COMPLETE" then
-			if not scheduled.ACCEPT[element.questId] and not element.completed then
+			if not scheduled.ACCEPT[element.questId] and not element.completed and addon.quests[element.questId].logIndex == nil then
 				element.available = false
 				if not addon.contains(step.missingPrequests, element.questId) then
 					table.insert(step.missingPrequests, element.questId)
 				end
 			end
 		elseif element.t == "TURNIN" then
-			if not scheduled.ACCEPT[element.questId] and not element.completed then
+			if not scheduled.ACCEPT[element.questId] and not element.completed and addon.quests[element.questId].logIndex == nil then
 				element.available = false
 				if not addon.contains(step.missingPrequests, element.questId) then
 					table.insert(step.missingPrequests, element.questId)
