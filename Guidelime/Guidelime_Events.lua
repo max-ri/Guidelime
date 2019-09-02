@@ -317,6 +317,13 @@ function addon.frame:TAXIMAP_OPENED()
 	end
 end
 
+addon.frame:RegisterEvent('PLAYER_CONTROL_LOST')
+function addon.frame:PLAYER_CONTROL_LOST(errorType, message)
+	if event == "PLAYER_CONTROL_LOST" and UnitOnTaxi("player") then
+		addon.completeSemiAutomaticByType("FLY")
+	end
+end
+
 addon.frame:RegisterEvent('UI_INFO_MESSAGE')
 function addon.frame:UI_INFO_MESSAGE(errorType, message)
 	if addon.debugging then print ("LIME: UI_INFO_MESSAGE", errorType, message) end
@@ -335,7 +342,7 @@ end
 
 addon.frame:RegisterEvent('UNIT_SPELLCAST_SUCCEEDED')
 function addon.frame:UNIT_SPELLCAST_SUCCEEDED(unitTarget, castGUID, spellID)
-	if addon.debugging then print ("LIME: UNIT_SPELLCAST_SUCCEEDED", unitTarget, castGUID, spellID) end
+	--if addon.debugging then print ("LIME: UNIT_SPELLCAST_SUCCEEDED", unitTarget, castGUID, spellID) end
 	-- hearthstone was used
 	if spellID == 8690 then
 		addon.completeSemiAutomaticByType("HEARTH")

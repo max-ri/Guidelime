@@ -19,6 +19,16 @@ local function createIconFrame(t, index, minimap)
 		index = addon.SPECIAL_MAP_INDEX.LOC
 	end
 	f.texture:SetTexCoord((index % 8) / 8, (index % 8 + 1) / 8, math.floor(index / 8) / 8, (math.floor(index / 8) + 1) / 8)
+	-- dont mess with my icon
+	f.texture.SetTexCoord = function() end
+	f.texture.SetBackdrop = function() end
+	f.texture.SetBackdropColor = function() end
+	f.texture.SetBackdropBorderColor = function() end
+	f.SetTexCoord = function() end
+	f.SetBackdrop = function() end
+	f.SetBackdropColor = function() end
+	f.SetBackdropBorderColor = function() end
+	f.isSkinned = true
     f.texture:SetAllPoints(f)
 	local frameLevel, layer = -8, "BACKGROUND"
 	if t == "GOTO" then
