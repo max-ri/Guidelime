@@ -1,8 +1,10 @@
 Guidelime.registerGuide([[
 [DL1-60 https://www.curseforge.com/wow/addons/guidelime-busteas-1-60-leveling Guidelime_Bustea's 1-60 leveling]
 [N6-12 Durotar_Orc]
-[GA Orc]
+[GA Horde,Orc]
 [D A guide created by |cFF69CCF0Ettern|r\\www.dreamstate.gg]
+[NX12-21 Bustea's Horde/Troll+Orc Guide]
+
 [G54.3,73.4 Durotar]Accept [QA786 Thwarting Kolkar Aggression](NPC patrols around).
 In Sen'jin Village accept the following quests: \\[QA817 Practical Prey][G56,73.9] (inside the hut) \\[QA818 A solvent Spirit][G55.9,74.4].
 Turn in [QT805 Accept Report to Sen'jin Village][G56,74.7]. \\Accept [QA808 Minshina's Skull] \\Accept [QA823 Report to Orgnil] \\Accept [QA826 Zalazane].
@@ -167,6 +169,6 @@ Enter Ragefire Chasm[G52.53,49.08Orgrimmar] and die on purpose. Then resurrect a
 [G41.53,18.6Durotar]Turn in [QT812 Need for a Cure] \\ - You will most likely have to abandon the quest and accept it again to turn it in.[A Warlock,Warrior,Rogue,Hunter,Shaman]
 Hearthstone to [H Razor Hill]
 Get First Aid to skillevel 40, then learn Heavy Linen Bandage.
-[NX12-21 Bustea's Horde/Troll Guide]
+
 
 ]],"Bustea's Horde Leveling guide")

@@ -1,7 +1,7 @@
 Guidelime.registerGuide([[
 [DL1-60 https://www.curseforge.com/wow/addons/guidelime-busteas-1-60-leveling Guidelime_Bustea's 1-60 leveling]
 [D1-6 Undead Deathknell to Brill - Based on twitch.tv/Cauthonluck Routing and Preparation. A guide created by *Freezy3*]
-[GA Horde, Undead]
+[GA Horde,Undead]
 [N1-6 Freezy3 Undead Starter]
 [NX6-12 Freezy3 Undead Starter]
 

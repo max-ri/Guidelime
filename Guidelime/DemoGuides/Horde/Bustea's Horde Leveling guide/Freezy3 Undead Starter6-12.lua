@@ -1,7 +1,7 @@
 Guidelime.registerGuide([[
 [DL1-60 https://www.curseforge.com/wow/addons/guidelime-busteas-1-60-leveling Guidelime_Bustea's 1-60 leveling]
 [D6-12 Undead - Based on twitch.tv/Cauthonluck Routing and Preparation. A guide created by *Freezy3*]
-[GA Horde, Undead]
+[GA Horde,Undead]
 [N6-12 Freezy3 Undead Starter]
 [NX12-21 Bustea's Undead Guide]
 
