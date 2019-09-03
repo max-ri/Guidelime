@@ -3,8 +3,6 @@ local L = addon.L
 
 HBD = LibStub("HereBeDragons-2.0")
 
--- TODO: items in CHANGEME_Questie4_ItemDB ?
-
 local function reverseZoneData()
 	addon.zoneDataClassicReverse = {}
 	for id, zone in pairs(zoneDataClassic) do
@@ -22,8 +20,8 @@ local function hasbit(x, p)
 end
 
 function addon.getQuestRacesQuestie(id)
-	if id == nil or Questie == nil or qData[id] == nil then return end
-	local bitmask = qData[id][6]
+	if id == nil or Questie == nil or QuestieDB.questData == nil or QuestieDB.questData[id] == nil then return end
+	local bitmask = QuestieDB.questData[id][6]
 	if bitmask == nil then return end
 	local races = {}
 	for i, race in ipairs({"Human", "Orc", "Dwarf", "NightElf", "Undead", "Troll", "Gnome", "Tauren"}) do
@@ -35,8 +33,8 @@ function addon.getQuestRacesQuestie(id)
 end
 
 function addon.getQuestClassesQuestie(id)
-	if id == nil or Questie == nil or qData[id] == nil then return end
-	local bitmask = qData[id][7]
+	if id == nil or Questie == nil or QuestieDB.questData == nil or QuestieDB.questData[id] == nil then return end
+	local bitmask = QuestieDB.questData[id][7]
 	if bitmask == nil then return end
 	local races = {}
 	for i, race in pairs({"Warrior", "Paladin", "Hunter", "Rogue", "Priest", nil, "Shaman", "Mage", "Warlock", nil, "Druid"}) do
@@ -48,16 +46,16 @@ function addon.getQuestClassesQuestie(id)
 end
 
 function addon.getQuestFactionQuestie(id)
-	if id == nil or Questie == nil or qData[id] == nil then return end
-	local bitmask = qData[id][6]
+	if id == nil or Questie == nil or QuestieDB.questData == nil or QuestieDB.questData[id] == nil then return end
+	local bitmask = QuestieDB.questData[id][6]
 	if bitmask == nil then return end
 	if bitmask == 77 then return "Alliance" end
 	if bitmask == 178 then return "Horde" end
 end
 
 function addon.getQuestPositionsQuestie(id, typ, index, filterZone)
-	if id == nil or Questie == nil then return end
-	local quest = qData[id]
+	if id == nil or Questie == nil or QuestieDB.questData == nil or QuestieDB.questData[id] == nil then return end
+	local quest = QuestieDB.questData[id]
 	if quest == nil then return nil end
 	local list
 	if typ == "ACCEPT" then 
@@ -93,15 +91,15 @@ function addon.getQuestPositionsQuestie(id, typ, index, filterZone)
 		end
 	end
 	for j = 1, #items do
-		local item = CHANGEME_Questie4_ItemDB[items[j]]
+		local item = QuestieDB.itemData[items[j]]
 		--if item == nil then error("item " .. items[j] .. " not found for quest " .. questid .. typ) end
 		--if addon.debugging then print("LIME: item", items[j] .. " " .. item[6]) end
 		if item ~= nil then
-			for i = 1, #item[3] do
-				if not addon.contains(npcs, item[3][i]) then table.insert(npcs, item[3][i]) end
+			for i = 1, #item[1] do
+				if not addon.contains(npcs, item[1][i][1]) then table.insert(npcs, item[1][i][1]) end
 			end
-			for i = 1, #item[4] do
-				if not addon.contains(objects, item[4][i]) then table.insert(objects, item[4][i]) end
+			for i = 1, #item[2] do
+				if not addon.contains(objects, item[2][i][1]) then table.insert(objects, item[2][i][1]) end
 			end
 		end
 	end
@@ -110,7 +108,7 @@ function addon.getQuestPositionsQuestie(id, typ, index, filterZone)
 	if addon.zoneDataClassicReverse == nil then reverseZoneData() end
 	if filterZone ~= nil then filterZone = addon.zoneDataClassicReverse[filterZone] end
 	for j = 1, #npcs do
-		local npc = npcData[npcs[j]]
+		local npc = QuestieDB.npcData[npcs[j]]
 		--if npc == nil then error("npc " .. npcs[j] .. " not found for quest " .. questid .. typ) end
 		--if addon.debugging then print("LIME: npc", npc[1]) end
 		if npc ~= nil and npc[7] ~= nil then
@@ -128,8 +126,8 @@ function addon.getQuestPositionsQuestie(id, typ, index, filterZone)
 		end
 	end
 	for j = 1, #objects do
-		local object = objData[objects[j]]
-		if object == nil then error("object " .. objects[j] .. " not found for quest " .. questid .. typ) end
+		local object = QuestieDB.objectData[objects[j]]
+		if object == nil then error("object " .. objects[j] .. " not found for quest " .. id .. typ) end
 		--if addon.debugging then print("LIME: object", object[1]) end
 		if object[4] ~= nil then
 			if filterZone == nil then
@@ -169,9 +167,8 @@ end
 
 -- returns a type (npc/item/object) and a list of names for quest source / each objective / turn in; e.g. {{type="item", names={"Dealt with The Hogger Situation", "Huge Gnoll Claw", "Hogger"}} for id = 176, typ = "COMPLETE"
 function addon.getQuestObjectivesQuestie(id, typ)
-	if Questie == nil then return end
-	local quest = qData[id]
-	if quest == nil then return nil end
+	if id == nil or Questie == nil or QuestieDB.questData == nil or QuestieDB.questData[id] == nil then return end
+	local quest = QuestieDB.questData[id]
 	local list
 	if typ == "ACCEPT" then 
 		list = quest[2]
@@ -188,9 +185,9 @@ function addon.getQuestObjectivesQuestie(id, typ)
 			local objList = {}
 			local npc
 			if type(list[1][j]) == "number" then 
-				npc = npcData[list[1][j]]
+				npc = QuestieDB.npcData[list[1][j]]
 			else 
-				npc = npcData[list[1][j][1]]
+				npc = QuestieDB.npcData[list[1][j][1]]
 				table.insert(objList, list[1][j][2])
 			end
 			if npc ~= nil and not addon.contains(objList, npc[1]) then table.insert(objList, npc[1]) end
@@ -206,9 +203,9 @@ function addon.getQuestObjectivesQuestie(id, typ)
 			local objList = {}
 			local obj
 			if type(list[2][j]) == "number" then 
-				obj = npcData[list[2][j]]
+				obj = QuestieDB.npcData[list[2][j]]
 			else 
-				obj = npcData[list[2][j][1]]
+				obj = QuestieDB.npcData[list[2][j][1]]
 				table.insert(objList, list[2][j][2])
 			end
 			if obj ~= nil and not addon.contains(objList, obj[1]) then table.insert(objList, obj[1]) end
@@ -220,21 +217,21 @@ function addon.getQuestObjectivesQuestie(id, typ)
 			local objList = {}
 			local item
 			if type(list[3][j]) == "number" then 
-				item = CHANGEME_Questie4_ItemDB[list[3][j]]
+				item = QuestieDB.itemData[list[3][j]]
 			else
-				item = CHANGEME_Questie4_ItemDB[list[3][j][1]]
+				item = QuestieDB.itemData[list[3][j][1]]
 				table.insert(objList, list[3][j][2])
 			end
 			if item ~= nil then
-				if not addon.contains(objList, item[1]) then table.insert(objList, item[1]) end
+				if not addon.contains(objList, item[6]) then table.insert(objList, item[6]) end
 				for i = 1, #item[3] do
-					local npc = npcData[item[3][i] ]
+					local npc = QuestieDB.npcData[item[1][i][1] ]
 					if npc ~= nil then
 						if not addon.contains(objList, npc[1]) then table.insert(objList, npc[1]) end
 					end
 				end
 				for i = 1, #item[4] do
-					local obj = objData[item[4][i] ]
+					local obj = QuestieDB.objectData[item[2][i][1] ]
 					if not addon.contains(objList, obj[1]) then table.insert(objList, obj[1]) end
 				end
 			end
