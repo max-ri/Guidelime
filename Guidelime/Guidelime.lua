@@ -315,18 +315,16 @@ function addon.loadCurrentGuide()
 					if step.manual == nil then step.manual = false end
 				end
 				if element.questId ~= nil then
-					if addon.quests[element.questId] == nil then
-						addon.quests[element.questId] = {}
-						addon.quests[element.questId].title = element.title
-						addon.quests[element.questId].completed = completed[element.questId] ~= nil and completed[element.questId]
-						addon.quests[element.questId].finished = addon.quests[element.questId].completed
-						if addon.questsDB[element.questId] ~= nil and addon.questsDB[element.questId].prequests ~= nil then
-							for _, id in ipairs(addon.questsDB[element.questId].prequests) do
-								if addon.quests[id] == nil then addon.quests[id] = {} end
-								addon.quests[id].completed = completed[id] ~= nil and completed[id]
-								if addon.quests[id].followup == nil then addon.quests[id].followup = {} end
-								table.insert(addon.quests[id].followup, element.questId)
-							end
+					if addon.quests[element.questId] == nil then addon.quests[element.questId] = {} end
+					addon.quests[element.questId].title = element.title
+					addon.quests[element.questId].completed = completed[element.questId] ~= nil and completed[element.questId]
+					addon.quests[element.questId].finished = addon.quests[element.questId].completed
+					if addon.questsDB[element.questId] ~= nil and addon.questsDB[element.questId].prequests ~= nil then
+						for _, id in ipairs(addon.questsDB[element.questId].prequests) do
+							if addon.quests[id] == nil then addon.quests[id] = {} end
+							addon.quests[id].completed = completed[id] ~= nil and completed[id]
+							if addon.quests[id].followup == nil then addon.quests[id].followup = {} end
+							table.insert(addon.quests[id].followup, element.questId)
 						end
 					end
 					if addon.quests[element.questId].lastStep == nil then addon.quests[element.questId].lastStep = {} end
@@ -517,17 +515,18 @@ function addon.getQuestObjectiveIcon(id, objective)
 end	
 
 function addon.getQuestObjectiveText(id, objectives, indent)
-	local text = ""
 	local objectiveList = addon.getQuestObjectives(id)
+	if objectiveList == nil then return "" end
 	if objectives == true then
 		objectives = {}; for i = 1, #objectiveList do objectives[i] = i end
 	end
+	local text = ""
 	for _, i in ipairs(objectives) do
 		local o
 		if addon.quests[id] ~= nil and addon.quests[id].logIndex ~= nil and addon.quests[id].objectives ~= nil then	o = addon.quests[id].objectives[i] end
 		if o == nil then
 			if text ~= "" then text = text .. "\n" end
-			text = text	.. (indent or "") .. "- " .. "|T" .. addon.icons[objectiveList[i].type] .. ":12|t" .. objectiveList[i].names[1]
+			text = text	.. (indent or "") .. "- " .. "|T" .. (addon.icons[objectiveList[i].type] or addon.icons.COMPLETE) .. ":12|t" .. (objectiveList[i].names[1] or "")
 		elseif not o.done and o.desc ~= nil and o.desc ~= "" then
 			local icon = addon.getQuestObjectiveIcon(id, i)
 			if text ~= "" then text = text .. "\n" end
@@ -545,7 +544,7 @@ function addon.getQuestIcon(questId, t, objective, finished)
 	elseif t == "COMPLETE" then
 		return addon.getQuestObjectiveIcon(questId, objective)
 	else
-		return "|T" .. addon.icons[t] .. ":12|t"
+		return "|T" .. (addon.icons[t] or addon.icons.COMPLETE) .. ":12|t"
 	end
 end
 
