@@ -348,6 +348,9 @@ function addon.loadCurrentGuide()
 							gotoElement.radius = addon.DEFAULT_GOTO_RADIUS + gotoElement.radius
 							gotoElement.generated = true
 							gotoElement.available = true
+							gotoElement.questId = element.questId
+							gotoElement.questType = element.t
+							gotoElement.objective = element.objective
 							table.insert(step.elements, i, gotoElement)
 							for j = i, #step.elements do
 								step.elements[j].index = j
@@ -427,6 +430,9 @@ local function loadStepOnActivation(i)
 								locElement.generated = true
 								locElement.available = true
 								locElement.index = j
+								locElement.questId = element.questId
+								locElement.questType = element.t
+								locElement.objective = element.objective
 								table.insert(step.elements, j, locElement)
 								j = j + 1
 							end
@@ -443,7 +449,7 @@ local function loadStepOnActivation(i)
 	if addon.debugging then print("LIME: loadStepOnActivation " .. i .. " " .. math.floor(debugprofilestop() - time) .. " ms") end
 end
 
-local function getQuestText(id, t, title, colored)
+function addon.getQuestText(id, t, title, colored)
 	local q = ""
 	if GuidelimeData.showQuestLevels or GuidelimeData.showMinimumQuestLevels then
 		q = q .. "["
@@ -490,8 +496,8 @@ local function getSkipQuests(id, skipQuests, newSkipQuests)
 	return newSkipQuests
 end
 
-local function getQuestObjectiveIcon(id, objective)
-	if addon.quests[id] == nil then return "" end
+function addon.getQuestObjectiveIcon(id, objective)
+	if addon.quests[id] == nil or addon.quests[id].objectives == nil then return "" end
 	local a, b = objective, objective
 	if objective == nil then a = 1; b = #addon.quests[id].objectives end
 	local text = ""
@@ -510,9 +516,62 @@ local function getQuestObjectiveIcon(id, objective)
 	return text
 end	
 
-local function updateStepText(i)
-	local step = addon.currentGuide.steps[i]
-	if addon.mainFrame.steps == nil or addon.mainFrame.steps[i] == nil or addon.mainFrame.steps[i].textBox == nil or not addon.mainFrame.steps[i].visible then return end
+function addon.getQuestObjectiveText(id, objectives, indent)
+	local text = ""
+	local objectiveList = addon.getQuestObjectives(id)
+	if objectives == true then
+		objectives = {}; for i = 1, #objectiveList do objectives[i] = i end
+	end
+	for _, i in ipairs(objectives) do
+		local o
+		if addon.quests[id] ~= nil and addon.quests[id].logIndex ~= nil and addon.quests[id].objectives ~= nil then	o = addon.quests[id].objectives[i] end
+		if o == nil then
+			if text ~= "" then text = text .. "\n" end
+			text = text	.. (indent or "") .. "- " .. "|T" .. addon.icons[objectiveList[i].type] .. ":12|t" .. objectiveList[i].names[1]
+		elseif not o.done and o.desc ~= nil and o.desc ~= "" then
+			local icon = addon.getQuestObjectiveIcon(id, i)
+			if text ~= "" then text = text .. "\n" end
+			text = text .. (indent or "") .. "- " .. icon .. o.desc
+		end
+	end
+	return text
+end
+
+function addon.getQuestIcon(questId, t, objective, finished)
+	if t == "ACCEPT" and addon.questsDB[questId] ~= nil and addon.questsDB[questId].req > addon.level then
+		return "|T" .. addon.icons.ACCEPT_UNAVAILABLE .. ":12|t"
+	elseif t == "TURNIN" and not finished then
+		return "|T" .. addon.icons.TURNIN_INCOMPLETE .. ":12|t"
+	elseif t == "COMPLETE" then
+		return addon.getQuestObjectiveIcon(questId, objective)
+	else
+		return "|T" .. addon.icons[t] .. ":12|t"
+	end
+end
+
+function addon.getElementIcon(element, prevElement)
+	if element.available == false then
+		return "|T" .. addon.icons.UNAVAILABLE .. ":12|t"
+	elseif element.completed and element.t ~= "GOTO" then
+		return "|T" .. addon.icons.COMPLETED .. ":12|t"
+	elseif addon.getSuperCode(element.t) == "QUEST" then
+		return addon.getQuestIcon(element.questId, element.t, element.objective, element.finished)
+	elseif element.t == "LOC" or element.t == "GOTO" then
+		if element.t == "LOC" and ((prevElement ~= nil and prevElement.t == "LOC") or (element.markerTyp ~= nil)) then
+			-- Dont show an icon for subsequent LOC elements. Also dont show LOC for quest steps since there would be the same icon twice
+			return ""
+		elseif element.mapIndex == 0 and addon.arrowFrame ~= nil and GuidelimeDataChar.showArrow then
+			return addon.getArrowIconText()
+		elseif element.mapIndex ~= nil then
+			return addon.getMapMarkerText(element)
+		end
+	elseif addon.icons[element.t] ~= nil then
+		return "|T" .. addon.icons[element.t] .. ":12|t"
+	end
+	return ""
+end
+
+function addon.getStepText(step)
 	local text = ""
 	local tooltip = ""
 	local skipTooltip = ""
@@ -530,29 +589,11 @@ local function updateStepText(i)
 	end
 	local prevElement
 	for _, element in ipairs(step.elements) do
-		if not element.available then
-			text = text .. "|T" .. addon.icons.UNAVAILABLE .. ":12|t"
-		elseif element.completed and element.t ~= "GOTO" then
-			text = text .. "|T" .. addon.icons.COMPLETED .. ":12|t"
-		elseif element.t == "ACCEPT" and addon.questsDB[element.questId] ~= nil and addon.questsDB[element.questId].req > addon.level then
-			text = text .. "|T" .. addon.icons.ACCEPT_UNAVAILABLE .. ":12|t"
+		text = text .. addon.getElementIcon(element, prevElement)
+		if element.available and not element.completed and element.t == "ACCEPT" and addon.questsDB[element.questId] ~= nil and addon.questsDB[element.questId].req > addon.level then
 			if tooltip ~= "" then tooltip = tooltip .. "\n" end
-			local q = getQuestText(element.questId, element.t)
+			local q = addon.getQuestText(element.questId, element.t)
 			tooltip = tooltip .. L.QUEST_REQUIRED_LEVEL:format(q, addon.questsDB[element.questId].req)
-		elseif element.t == "TURNIN" and not element.finished then
-			text = text .. "|T" .. addon.icons.TURNIN_INCOMPLETE .. ":12|t"
-		elseif element.t == "COMPLETE" then
-			text = text .. getQuestObjectiveIcon(element.questId, element.objective)
-		elseif element.t == "LOC" or element.t == "GOTO" then
-			if element.t == "LOC" and ((prevElement ~= nil and prevElement.t == "LOC") or (element.markerTyp ~= nil)) then
-				-- Dont show an icon for subsequent LOC elements. Also dont show LOC for quest steps since there would be the same icon twice
-			elseif element.mapIndex == 0 and addon.arrowFrame ~= nil and GuidelimeDataChar.showArrow then
-				text = text .. addon.getArrowIconText()
-			elseif element.mapIndex ~= nil then
-				text = text .. addon.getMapMarkerText(element)
-			end
-		elseif addon.icons[element.t] ~= nil then
-			text = text .. "|T" .. addon.icons[element.t] .. ":12|t"
 		end
 		if element.text ~= nil then
 			if step.active then
@@ -562,35 +603,35 @@ local function updateStepText(i)
 			end
 			if element.url ~= nil then url = element.url end
 		end
-		if addon.quests[element.questId] ~= nil then
-			text = text .. getQuestText(element.questId, element.t, element.title, step.active)
-		end
-		if element.available and not element.completed and element.questId ~= nil then
-			if addon.quests[element.questId].lastStep[element.t] == element then
-				local newSkipQuests = getSkipQuests(element.questId, skipQuests)
-				if #newSkipQuests > 0 then
-					if skipText ~= "" then skipText = skipText .. "\n\n" end
-					if #newSkipQuests == 1 then
-						skipText = skipText .. L.STEP_FOLLOWUP_QUEST:format(getQuestText(element.questId, element.t)) ..":\n"
-					else
-						skipText = skipText .. L.STEP_FOLLOWUP_QUESTS:format(getQuestText(element.questId, element.t)) ..":\n"
-					end
-					for _, id in ipairs(newSkipQuests) do
-						skipText = skipText .. "\n|T" .. addon.icons.UNAVAILABLE .. ":12|t" .. getQuestText(id)
-					end
-					if #newSkipQuests == 1 then
-						skipText = skipText .. "\n\n" .. L.STEP_FOLLOWUP_QUEST_CONT:format(getQuestText(element.questId, element.t))
-					else
-						skipText = skipText .. "\n\n" .. L.STEP_FOLLOWUP_QUESTS_CONT:format(getQuestText(element.questId, element.t))
+		if addon.getSuperCode(element.t) == "QUEST" then
+			text = text .. addon.getQuestText(element.questId, element.t, element.title, step.active)
+			if element.available and not element.completed then
+				if addon.quests[element.questId].lastStep[element.t] == element then
+					local newSkipQuests = getSkipQuests(element.questId, skipQuests)
+					if #newSkipQuests > 0 then
+						if skipText ~= "" then skipText = skipText .. "\n\n" end
+						if #newSkipQuests == 1 then
+							skipText = skipText .. L.STEP_FOLLOWUP_QUEST:format(addon.getQuestText(element.questId, element.t)) ..":\n"
+						else
+							skipText = skipText .. L.STEP_FOLLOWUP_QUESTS:format(addon.getQuestText(element.questId, element.t)) ..":\n"
+						end
+						for _, id in ipairs(newSkipQuests) do
+							skipText = skipText .. "\n|T" .. addon.icons.UNAVAILABLE .. ":12|t" .. addon.getQuestText(id)
+						end
+						if #newSkipQuests == 1 then
+							skipText = skipText .. "\n\n" .. L.STEP_FOLLOWUP_QUEST_CONT:format(addon.getQuestText(element.questId, element.t))
+						else
+							skipText = skipText .. "\n\n" .. L.STEP_FOLLOWUP_QUESTS_CONT:format(addon.getQuestText(element.questId, element.t))
+						end
 					end
 				end
-			end
-			if element.t == "COMPLETE" or element.t == "TURNIN" then
-				if element.objective == nil then
-					trackQuest[element.questId] = true
-				elseif trackQuest[element.questId] ~= true then
-					if trackQuest[element.questId] == nil then trackQuest[element.questId] = {} end
-					if not addon.contains(trackQuest[element.questId], element.objective) then table.insert(trackQuest[element.questId], element.objective) end
+				if element.t == "COMPLETE" or element.t == "TURNIN" then
+					if element.objective == nil then
+						trackQuest[element.questId] = true
+					elseif trackQuest[element.questId] ~= true then
+						if trackQuest[element.questId] == nil then trackQuest[element.questId] = {} end
+						if not addon.contains(trackQuest[element.questId], element.objective) then table.insert(trackQuest[element.questId], element.objective) end
+					end
 				end
 			end
 		end
@@ -605,28 +646,24 @@ local function updateStepText(i)
 			tooltip = tooltip .. L.MISSING_PREQUESTS
 		end
 		for _, id in ipairs(step.missingPrequests) do
-			tooltip = tooltip .. " " ..getQuestText(id)
+			tooltip = tooltip .. " " ..addon.getQuestText(id)
 		end
 	end
-	for id, v in pairs(trackQuest) do
-		if addon.quests[id].logIndex ~= nil and addon.quests[id].objectives ~= nil then
-			if v == true then
-				v = {};	for i = 1, #addon.quests[id].objectives do v[i] = i end
-			end
-			for _, i in ipairs(v) do
-				local o = addon.quests[id].objectives[i]
-				if o ~= nil and not o.done and o.desc ~= nil and o.desc ~= "" then
-					local icon = getQuestObjectiveIcon(id, i)
-					if step.active then
-						text = text .. "\n    - " .. icon .. o.desc
-					else
-						if tooltip ~= "" then tooltip = tooltip .. "\n" end
-						tooltip = tooltip .. "- " .. icon .. o.desc
-					end
-				end
-			end
+	for id, objectives in pairs(trackQuest) do
+		if step.active then
+			text = text .. "\n" .. addon.getQuestObjectiveText(id, objectives, "    ")
+		else
+			if tooltip ~= "" then tooltip = tooltip .. "\n" end
+			tooltip = tooltip .. addon.getQuestObjectiveText(id, objectives)
 		end
 	end
+	return text, tooltip, skipText, skipTooltip, url
+end
+
+local function updateStepText(i)
+	local step = addon.currentGuide.steps[i]
+	if addon.mainFrame.steps == nil or addon.mainFrame.steps[i] == nil or addon.mainFrame.steps[i].textBox == nil or not addon.mainFrame.steps[i].visible then return end
+	local text, tooltip, skipText, skipTooltip, url = addon.getStepText(step)
 	if text ~= addon.mainFrame.steps[i].textBox:GetText() then
 		addon.mainFrame.steps[i].textBox:SetText(text)
 	end
