@@ -767,7 +767,7 @@ end
 local function updateStepAvailability(i, changedIndexes, scheduled)
 	local step = addon.currentGuide.steps[i]
 	local wasAvailable = step.available
-	step.available = true
+	step.available = nil
 	step.missingPrequests = {}
 	for _, element in ipairs(step.elements) do
 		element.available = true
@@ -805,8 +805,12 @@ local function updateStepAvailability(i, changedIndexes, scheduled)
 				element.available = false
 			end
 			if not element.completed then step.available = step.available and element.available end
+			if not element.completed then step.available = step.available or element.available end
+		elseif element.t == "XP" then
+			if not element.completed then step.available = true end			
 		end
 	end
+	if step.available == nil then step.available = true end
 	if step.manual and not step.completed then step.available = true end
 
 	if step.available ~= wasAvailable and not addon.contains(changedIndexes, i) then
