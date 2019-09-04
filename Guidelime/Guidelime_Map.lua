@@ -124,7 +124,7 @@ local function getMapIcon(t, element, highlight)
 end
 
 local function getTooltip(element)
-	if not GuidelimeData.showTooltips return end
+	if not GuidelimeData.showTooltips then return end
 	local tooltip
 	if element.questId ~= nil then 
 		tooltip = addon.getQuestIcon(element.questId, element.questType, element.objective) .. 
