@@ -42,7 +42,6 @@ local function createIconFrame(t, index, minimap)
     f:SetPoint("CENTER", 0, 0)
     f:EnableMouse(false)
 	f:SetScript("OnEnter", function(self) 
-		print("tooltip ".. self.index)
 		if self.tooltip ~= nil and self.tooltip ~= "" then 
 			GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32)
 			GameTooltip:SetText(self.index .. self.tooltip); GameTooltip:Show()

@@ -51,6 +51,7 @@ function addon.updateFromQuestLog()
 	local checkCompleted = false
 	local questChanged = false
 	local questFound = false
+	local newQuest = false
 	for id, q in pairs(addon.quests) do
 		if questLog[id] ~= nil then
 			if q.logIndex ~= nil then
@@ -64,6 +65,7 @@ function addon.updateFromQuestLog()
 			else
 				questFound = true
 				questChanged = true
+				newQuest = true
 				q.logIndex = questLog[id].index
 				q.finished = questLog[id].finished
 				q.name = questLog[id].name
@@ -86,7 +88,7 @@ function addon.updateFromQuestLog()
 			end
 		end
 	end
-	if GuidelimeData.showQuestIds then
+	if GuidelimeData.showQuestIds and newQuest then
 		local msg = "LIME: current quests: "
 		for id, q in pairs(questLog) do
 			msg = msg .. q.name .. "(#" .. id .. "), "
