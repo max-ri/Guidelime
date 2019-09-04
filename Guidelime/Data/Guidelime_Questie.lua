@@ -20,7 +20,7 @@ local function hasbit(x, p)
 end
 
 function addon.getQuestRacesQuestie(id)
-	if id == nil or Questie == nil or QuestieDB.questData == nil or QuestieDB.questData[id] == nil then return end
+	if id == nil or QuestieDB == nil or QuestieDB.questData == nil or QuestieDB.questData[id] == nil then return end
 	local bitmask = QuestieDB.questData[id][6]
 	if bitmask == nil then return end
 	local races = {}
@@ -33,7 +33,7 @@ function addon.getQuestRacesQuestie(id)
 end
 
 function addon.getQuestClassesQuestie(id)
-	if id == nil or Questie == nil or QuestieDB.questData == nil or QuestieDB.questData[id] == nil then return end
+	if id == nil or QuestieDB == nil or QuestieDB.questData == nil or QuestieDB.questData[id] == nil then return end
 	local bitmask = QuestieDB.questData[id][7]
 	if bitmask == nil then return end
 	local races = {}
@@ -46,7 +46,7 @@ function addon.getQuestClassesQuestie(id)
 end
 
 function addon.getQuestFactionQuestie(id)
-	if id == nil or Questie == nil or QuestieDB.questData == nil or QuestieDB.questData[id] == nil then return end
+	if id == nil or QuestieDB == nil or QuestieDB.questData == nil or QuestieDB.questData[id] == nil then return end
 	local bitmask = QuestieDB.questData[id][6]
 	if bitmask == nil then return end
 	if bitmask == 77 then return "Alliance" end
@@ -54,7 +54,7 @@ function addon.getQuestFactionQuestie(id)
 end
 
 function addon.getQuestPositionsQuestie(id, typ, index, filterZone)
-	if id == nil or Questie == nil or QuestieDB.questData == nil or QuestieDB.questData[id] == nil then return end
+	if id == nil or QuestieDB == nil or QuestieDB.questData == nil or QuestieDB.questData[id] == nil then return end
 	local quest = QuestieDB.questData[id]
 	if quest == nil then return nil end
 	local list
@@ -167,7 +167,7 @@ end
 
 -- returns a type (npc/item/object) and a list of names for quest source / each objective / turn in; e.g. {{type="item", names={"Dealt with The Hogger Situation", "Huge Gnoll Claw", "Hogger"}} for id = 176, typ = "COMPLETE"
 function addon.getQuestObjectivesQuestie(id, typ)
-	if id == nil or Questie == nil or QuestieDB.questData == nil or QuestieDB.questData[id] == nil then return end
+	if id == nil or QuestieDB == nil or QuestieDB.questData == nil or QuestieDB.questData[id] == nil then return end
 	local quest = QuestieDB.questData[id]
 	local list
 	if typ == "ACCEPT" then 
@@ -224,13 +224,13 @@ function addon.getQuestObjectivesQuestie(id, typ)
 			end
 			if item ~= nil then
 				if not addon.contains(objList, item[6]) then table.insert(objList, item[6]) end
-				for i = 1, #item[3] do
+				for i = 1, #item[1] do
 					local npc = QuestieDB.npcData[item[1][i][1] ]
 					if npc ~= nil then
 						if not addon.contains(objList, npc[1]) then table.insert(objList, npc[1]) end
 					end
 				end
-				for i = 1, #item[4] do
+				for i = 1, #item[2] do
 					local obj = QuestieDB.objectData[item[2][i][1] ]
 					if not addon.contains(objList, obj[1]) then table.insert(objList, obj[1]) end
 				end
