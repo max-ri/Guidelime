@@ -37,14 +37,13 @@ local function createIconFrame(t, index, minimap)
 	if frameLevel < -8 then frameLevel = frameLevel + 16; layer = "BACKGROUND" end
 	if frameLevel < -8 then frameLevel = -8 end
 	f.texture:SetDrawLayer(layer, frameLevel)
-	f.index = index
 
     f:SetPoint("CENTER", 0, 0)
     f:EnableMouse(false)
 	f:SetScript("OnEnter", function(self) 
 		if self.tooltip ~= nil and self.tooltip ~= "" then 
 			GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32)
-			GameTooltip:SetText(self.index .. self.tooltip); GameTooltip:Show()
+			GameTooltip:SetText(self.tooltip); GameTooltip:Show()
 			addon.showingTooltip = true 
 		end 
 	end)
