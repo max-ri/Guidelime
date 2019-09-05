@@ -259,7 +259,18 @@ function addon.updateArrow()
 		addon.lastUpdate = GetTime()
 	end
 	
-	if addon.arrowFrame == nil or addon.arrowX == nil or addon.arrowY == nil then return end
+	if addon.arrowFrame == nil or addon.x == nil or addon.y == nil then return end
+	
+	local corpse
+	if not addon.alive then corpse = C_DeathInfo.GetCorpseMapPosition(HBD:GetPlayerZone()) end
+	if corpse ~= nil then
+		addon.arrowX, addon.arrowY = HBD:GetWorldCoordinatesFromZone(corpse.x, corpse.y, HBD:GetPlayerZone())
+	else
+		if addon.arrowFrame.element == nil or addon.arrowFrame.element.wx == nil or addon.arrowFrame.element.wy == nil or addon.arrowFrame.element.instance ~= addon.instance then return end
+		addon.arrowX, addon.arrowY = addon.arrowFrame.element.wx, addon.arrowFrame.element.wy
+	end
+	
+	if addon.arrowX == nil or addon.arrowY == nil then return end
 	local angle = addon.face - math.atan2(addon.arrowX - addon.x, addon.arrowY - addon.y)
 	if GuidelimeData.arrowStyle == 1 then
 		local index = angle * 32 / math.pi
@@ -285,9 +296,6 @@ function addon.updateArrow()
 end
 
 function addon.showArrow(element)
-	if element.wx == nil or element.wy == nil or element.instance ~= addon.instance or addon.x == nil or addon.y == nil then return end
-	addon.arrowX, addon.arrowY = element.wx, element.wy
-	
 	if GuidelimeDataChar.showArrow then
 		if addon.arrowFrame == nil then
 			addon.arrowFrame = CreateFrame("FRAME", nil, UIParent)
@@ -310,10 +318,27 @@ function addon.showArrow(element)
 			end)
 			addon.arrowFrame.text = addon.arrowFrame:CreateFontString(nil, addon.arrowFrame, "GameFontNormal")
 			addon.arrowFrame.text:SetPoint("TOP", addon.arrowFrame, "BOTTOM", 0, 0)
-			addon.arrowFrame:SetScript("OnEnter", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32); GameTooltip:SetText(self.tooltip); GameTooltip:Show(); addon.showingTooltip = true end end)
-			addon.arrowFrame:SetScript("OnLeave", function(self) if self.tooltip ~= nil and self.tooltip ~= "" and addon.showingTooltip then GameTooltip:Hide(); addon.showingTooltip = false end end)
+			addon.arrowFrame:SetScript("OnEnter", function(self) 
+				if addon.alive then
+					self.tooltip = getTooltip(self.element)
+				else
+					self.tooltip = L.ARROW_TOOLTIP_CORPSE
+				end
+				if self.tooltip ~= nil and self.tooltip ~= "" then 
+					GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32)
+					GameTooltip:SetText(self.tooltip)
+					GameTooltip:Show()
+					addon.showingTooltip = true 
+				end 
+			end)
+			addon.arrowFrame:SetScript("OnLeave", function(self) 
+				if self.tooltip ~= nil and self.tooltip ~= "" and addon.showingTooltip then 
+					GameTooltip:Hide()
+					addon.showingTooltip = false 
+				end 
+			end)
 		end
-		addon.arrowFrame.tooltip = getTooltip(element)
+		addon.arrowFrame.element = element 
 		addon.arrowFrame:Show()
 	end
 end

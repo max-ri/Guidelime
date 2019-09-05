@@ -11,6 +11,7 @@ function addon.frame:PLAYER_ENTERING_WORLD()
 	--if addon.debugging then print("LIME: Player entering world...") end
 	if not addon.dataLoaded then addon.loadData() end
 	if GuidelimeDataChar.mainFrameShowing then addon.showMainFrame() end
+	addon.alive = C_DeathInfo.GetCorpseMapPosition(HBD:GetPlayerZone()) == nil
 end
 
 addon.frame:RegisterEvent('PLAYER_LEVEL_UP')
@@ -349,4 +350,18 @@ function addon.frame:UNIT_SPELLCAST_SUCCEEDED(unitTarget, castGUID, spellID)
 	if spellID == 8690 then
 		addon.completeSemiAutomaticByType("HEARTH")
 	end
+end
+
+addon.frame:RegisterEvent('PLAYER_ALIVE')
+function addon.frame:PLAYER_ALIVE()
+	if addon.debugging then print ("LIME: PLAYER_ALIVE") end
+	C_Timer.After(0.1, function() 
+		addon.alive = C_DeathInfo.GetCorpseMapPosition(HBD:GetPlayerZone()) == nil
+	end)
+end
+
+addon.frame:RegisterEvent('PLAYER_UNGHOST')
+function addon.frame:PLAYER_UNGHOST()
+	if addon.debugging then print ("LIME: PLAYER_UNGHOST") end
+	addon.alive = true
 end

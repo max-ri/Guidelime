@@ -716,7 +716,7 @@ local function updateStepCompletion(i, completedIndexes)
 	for _, element in ipairs(step.elements) do
 		if not wasCompleted and element.t == "GOTO" and not step.completed and step.active and not step.skip then
 			--if addon.debugging then print("LIME : zone coordinates", x, y, element.mapID) end
-			if addon.x ~= nil and addon.y ~= nil and element.wx ~= nil and element.wy ~= nil and addon.instance == element.instance then
+			if addon.x ~= nil and addon.y ~= nil and element.wx ~= nil and element.wy ~= nil and addon.instance == element.instance and addon.alive then
 				local radius = element.radius * element.radius
 				-- add some hysteresis
 				if element.completed then radius = radius * 1.6 end
