@@ -1064,7 +1064,7 @@ function addon.completeSemiAutomaticByType(t)
 		addon.currentGuide.lastActiveIndex ~= nil then
 		for i = addon.currentGuide.firstActiveIndex, addon.currentGuide.lastActiveIndex do
 			local step = addon.currentGuide.steps[i]
-			if addon.debugging then print("LIME:", step.text, step.optional) end
+			--if addon.debugging then print("LIME:", step.text, step.optional) end
 			for _, element in ipairs(step.elements) do
 				if not element.completed and element.t == t then
 					addon.completeSemiAutomatic(element)
@@ -1351,10 +1351,10 @@ end
 local function simulateCompleteCurrentSteps()
 	if addon.currentGuide ~= nil and addon.currentGuide.firstActiveIndex ~= nil and
 		addon.currentGuide.lastActiveIndex ~= nil then
-		if addon.debugging then print("LIME:", addon.currentGuide.firstActiveIndex, addon.currentGuide.lastActiveIndex) end
+		--if addon.debugging then print("LIME:", addon.currentGuide.firstActiveIndex, addon.currentGuide.lastActiveIndex) end
 		for i = addon.currentGuide.firstActiveIndex, addon.currentGuide.lastActiveIndex do
 			local step = addon.currentGuide.steps[i]
-			if addon.debugging then print("LIME:", step.text, step.optional) end
+			--if addon.debugging then print("LIME:", step.text, step.optional) end
 			for _, element in ipairs(step.elements) do
 				if not element.completed then
 					if element.t == "ACCEPT" then
