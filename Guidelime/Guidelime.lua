@@ -503,7 +503,7 @@ function addon.getQuestObjectiveIcon(id, objective)
 		local o = addon.quests[id].objectives[i]
 		if o ~= nil and not o.done then
 			local type = o.type
-			if o.type == nil or addon.icons[o.type] == nil then type = "COMPLETE" end
+			if type == nil or addon.icons[type] == nil then type = "COMPLETE" end
 			if icons[type] == nil then
 				text = text .. "|T" .. addon.icons[type] .. ":12|t"
 				icons[type] = true
@@ -525,7 +525,9 @@ function addon.getQuestObjectiveText(id, objectives, indent)
 		if addon.quests[id] ~= nil and addon.quests[id].logIndex ~= nil and addon.quests[id].objectives ~= nil then	o = addon.quests[id].objectives[i] end
 		if o == nil then
 			if text ~= "" then text = text .. "\n" end
-			text = text	.. (indent or "") .. "- " .. "|T" .. (addon.icons[objectiveList[i].type] or addon.icons.COMPLETE) .. ":12|t" .. (objectiveList[i].names[1] or "")
+			local type = objectiveList[i].type
+			if type == nil or addon.icons[type] == nil then type = "COMPLETE" end
+			text = text	.. (indent or "") .. "- " .. "|T" .. addon.icons[type] .. ":12|t" .. (objectiveList[i].names[1] or "")
 		elseif not o.done and o.desc ~= nil and o.desc ~= "" then
 			local icon = addon.getQuestObjectiveIcon(id, i)
 			if text ~= "" then text = text .. "\n" end
