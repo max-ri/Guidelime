@@ -44,6 +44,7 @@ function addon.updateFromQuestLog()
 			questLog[id] = {}
 			questLog[id].index = i
 			questLog[id].finished = (completed == 1)
+			questLog[id].failed = (completed == -1)
 			questLog[id].name = name
 			questLog[id].sort = currentHeader
 		end
@@ -54,7 +55,7 @@ function addon.updateFromQuestLog()
 	local questFound = false
 	local newQuest = false
 	for id, q in pairs(addon.quests) do
-		if questLog[id] ~= nil then
+		if questLog[id] ~= nil and not questLog[id].failed then
 			if q.logIndex ~= nil then
 				questFound = true
 				if q.logIndex ~= questLog[id].index or q.finished ~= questLog[id].finished then
