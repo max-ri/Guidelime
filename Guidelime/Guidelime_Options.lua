@@ -62,10 +62,8 @@ function addon.fillOptions()
 	addon.optionsFrame.mainFrameShowing = addon.addCheckOption(content, GuidelimeDataChar, "mainFrameShowing", L.SHOW_MAINFRAME, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.showMainFrame()
-		elseif addon.mainFrame ~= nil then
-			HBDPins:RemoveAllWorldMapIcons(Guidelime)
-			HBDPins:RemoveAllMinimapIcons(Guidelime)
-			addon.mainFrame:Hide()
+		else
+			addon.hideMainFrame()
 		end
 	end)
 	addon.optionsFrame.mainFrameShowing:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)

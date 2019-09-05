@@ -199,6 +199,10 @@ function addon.showMapIcons()
 			showMapIcon(icons[i], t)
 		end
 	end
+	if addon.updateFrame == nil then
+		addon.updateFrame = CreateFrame("frame")
+		addon.updateFrame:SetScript("OnUpdate", addon.updateArrow)
+	end
 end
 
 function addon.getMapMarkerText(element)
@@ -245,10 +249,17 @@ function addon.getArrowIconText()
 end
 
 function addon.updateArrow()
-	if addon.arrowFrame == nil or addon.arrowX == nil or addon.arrowY == nil then return end
 	addon.y, addon.x, addon.z, addon.instance = UnitPosition("player")
 	addon.face = GetPlayerFacing()
 	if addon.x == nil or addon.y == nil or addon.face == nil then return end
+	
+	if (addon.lastUpdate == nil or GetTime() > addon.lastUpdate + 0.5 or GetTime() < addon.lastUpdate) and (addon.x ~= addon.lastX or addon.y ~= addon.lastY or addon.instance ~= addon.lastInstance) then
+		addon.updateSteps()
+		addon.lastX, addon.lastY, addon.lastInstance = addon.x, addon.y, addon.instance
+		addon.lastUpdate = GetTime()
+	end
+	
+	if addon.arrowFrame == nil or addon.arrowX == nil or addon.arrowY == nil then return end
 	local angle = addon.face - math.atan2(addon.arrowX - addon.x, addon.arrowY - addon.y)
 	if GuidelimeData.arrowStyle == 1 then
 		local index = angle * 32 / math.pi
@@ -299,15 +310,12 @@ function addon.showArrow(element)
 			end)
 			addon.arrowFrame.text = addon.arrowFrame:CreateFontString(nil, addon.arrowFrame, "GameFontNormal")
 			addon.arrowFrame.text:SetPoint("TOP", addon.arrowFrame, "BOTTOM", 0, 0)
-			addon.arrowFrame.update = CreateFrame("frame")
-			addon.arrowFrame.update:SetScript("OnUpdate", addon.updateArrow)
 			addon.arrowFrame:SetScript("OnEnter", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32); GameTooltip:SetText(self.tooltip); GameTooltip:Show(); addon.showingTooltip = true end end)
 			addon.arrowFrame:SetScript("OnLeave", function(self) if self.tooltip ~= nil and self.tooltip ~= "" and addon.showingTooltip then GameTooltip:Hide(); addon.showingTooltip = false end end)
 		end
 		addon.arrowFrame.tooltip = getTooltip(element)
 		addon.arrowFrame:Show()
 	end
-	addon.updateArrow()
 end
 
 function addon.hideArrow()

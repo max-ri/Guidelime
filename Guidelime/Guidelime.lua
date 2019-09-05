@@ -84,7 +84,6 @@ addon.y, addon.x, addon.z, addon.instance = UnitPosition("player")
 addon.face = GetPlayerFacing()
 
 addon.guides = {}
-addon.queryingPositions = false
 addon.dataLoaded = false
 
 function Guidelime.registerGuide(guide, group)
@@ -677,26 +676,6 @@ local function updateStepText(i)
 	end
 end
 
-local function queryPosition()
-	if addon.queryingPosition then return end
-	addon.queryingPosition = true
-	C_Timer.After(0.5, function()
-		addon.queryingPosition = false
-		local y, x, z, instance = UnitPosition("player")
-		local face = GetPlayerFacing()
-		--if addon.debugging then print("LIME : queryingPosition", x, y) end
-		if x ~= addon.x or y ~= addon.y or face ~= addon.face or addon.instance ~= instance then
-			addon.x = x
-			addon.y = y
-			addon.z = z
-			addon.instance = instance
-			addon.updateSteps()
-		else
-			queryPosition()
-		end
-	end)
-end
-
 local function updateStepCompletion(i, completedIndexes)
 	local step = addon.currentGuide.steps[i]
 
@@ -735,16 +714,17 @@ local function updateStepCompletion(i, completedIndexes)
 	end
 	-- check goto last so that goto only matters when there are no other objectives completed
 	for _, element in ipairs(step.elements) do
-		if element.t == "GOTO" then
-			if not wasCompleted and not step.completed and step.active and not step.skip and not element.completed then
-				--if addon.debugging then print("LIME : zone coordinates", x, y, element.mapID) end
-				if addon.x ~= nil and addon.y ~= nil and element.wx ~= nil and element.wy ~= nil and addon.instance == element.instance then
-					element.completed = (addon.x - element.wx) * (addon.x - element.wx) + (addon.y - element.wy) * (addon.y - element.wy) <= element.radius * element.radius
-				else
-					element.completed = false
-				end
-				if step.completed == nil or not element.completed then step.completed = element.completed end
+		if not wasCompleted and element.t == "GOTO" and not step.completed and step.active and not step.skip then
+			--if addon.debugging then print("LIME : zone coordinates", x, y, element.mapID) end
+			if addon.x ~= nil and addon.y ~= nil and element.wx ~= nil and element.wy ~= nil and addon.instance == element.instance then
+				local radius = element.radius * element.radius
+				-- add some hysteresis
+				if element.completed then radius = radius * 1.6 end
+				element.completed = (addon.x - element.wx) * (addon.x - element.wx) + (addon.y - element.wy) * (addon.y - element.wy) <= radius
+			else
+				element.completed = false
 			end
+			if step.completed == nil or not element.completed then step.completed = element.completed end
 		end
 	end
 	if step.completed == nil then step.completed = step.completeWithNext and wasCompleted end
@@ -953,8 +933,10 @@ function addon.updateStepsMapIcons()
 					if element.wx ~= nil then
 						addon.addMapIcon(element, highlight)
 						if highlight then
-							if GuidelimeDataChar.showArrow and addon.instance == element.instance then addon.showArrow(element); hideArrow = false end
-							queryPosition()
+							if GuidelimeDataChar.showArrow and addon.instance == element.instance then 
+								addon.showArrow(element)
+								hideArrow = false 
+							end
 							highlight = false
 						end
 					end
@@ -992,13 +974,13 @@ function addon.updateStepsText(scrollToFirstActive)
 end
 
 function addon.updateSteps(completedIndexes)
-	--if addon.debugging then print("LIME: update steps") end
 	if addon.mainFrame == nil then return end
 	if addon.currentGuide == nil then return end
 	if addon.showingTooltip then GameTooltip:Hide(); addon.showingTooltip = false end
 	if completedIndexes == nil then completedIndexes = {} end
 	--local time
 	--if addon.debugging then time = debugprofilestop() end
+	--if addon.debugging then print("LIME: update steps " .. GetTime()) end
 	updateStepsCompletion(completedIndexes)
 	--if addon.debugging then print("LIME: updateStepsCompletion " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	updateStepsActivation()
@@ -1301,10 +1283,7 @@ function addon.showMainFrame()
 		addon.mainFrame.doneBtn:SetPushedTexture("Interface/Buttons/UI-Panel-MinimizeButton-Down")
 		addon.mainFrame.doneBtn:SetPoint("TOPRIGHT", addon.mainFrame, "TOPRIGHT", 0,0)
 		addon.mainFrame.doneBtn:SetScript("OnClick", function()
-			addon.mainFrame:Hide()
-			addon.removeMapIcons()
-			GuidelimeDataChar.mainFrameShowing = false
-			addon.optionsFrame.mainFrameShowing:SetChecked(false)
+			addon.hideMainFrame()
 		end)
 
 		addon.mainFrame.lockBtn = CreateFrame("BUTTON", "lockBtn", addon.mainFrame)
@@ -1346,6 +1325,13 @@ function addon.showMainFrame()
 	addon.updateSteps()
 	GuidelimeDataChar.mainFrameShowing = true
 	if addon.optionsFrame ~= nil then addon.optionsFrame.mainFrameShowing:SetChecked(true) end
+end
+
+function addon.hideMainFrame()
+	if addon.mainFrame ~= nil then addon.mainFrame:Hide() end
+	addon.removeMapIcons()
+	GuidelimeDataChar.mainFrameShowing = false
+	if addon.optionsFrame ~= nil then addon.optionsFrame.mainFrameShowing:SetChecked(false) end
 end
 
 local function simulateCompleteCurrentSteps()
