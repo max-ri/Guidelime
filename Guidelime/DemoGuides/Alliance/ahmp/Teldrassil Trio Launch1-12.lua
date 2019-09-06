@@ -1,5 +1,5 @@
 Guidelime.registerGuide([[
-[DL1-50 https://www.curseforge.com/wow/addons/guidelime_ahmp Guidelime_ahmp]
+[DL1-60 https://www.curseforge.com/wow/addons/guidelime_ahmp Guidelime_ahmp]
 [D*ahmp*'s 12-60 guide]
 [GA NightElf]
 [N1-12Teldrassil Trio Launch]

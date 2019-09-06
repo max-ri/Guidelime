@@ -29,19 +29,30 @@ local function createIconFrame(t, index, minimap)
 	f.SetBackdropColor = function() end
 	f.SetBackdropBorderColor = function() end
 	f.isSkinned = true
+	
     f.texture:SetAllPoints(f)
-	local frameLevel, layer = -8, "BACKGROUND"
-	if t == "GOTO" then
-		frameLevel, layer = 7 - index, "OVERLAY"
-		if frameLevel < -8 then frameLevel = frameLevel + 16; layer = "ARTWORK" end
-		if frameLevel < -8 then frameLevel = frameLevel + 16; layer = "BORDER" end
-		if frameLevel < -8 then frameLevel = frameLevel + 16; layer = "BACKGROUND" end
-		if frameLevel < -7 then frameLevel = -7 end
-	end
+	local frameLevel, layer = 7 - index, "OVERLAY"
+	if frameLevel < -8 then frameLevel = frameLevel + 16; layer = "ARTWORK" end
+	if frameLevel < -8 then frameLevel = frameLevel + 16; layer = "BORDER" end
+	if frameLevel < -8 then frameLevel = frameLevel + 16; layer = "BACKGROUND" end
+	if frameLevel < -8 then frameLevel = -8 end
 	f.texture:SetDrawLayer(layer, frameLevel)
 
     f:SetPoint("CENTER", 0, 0)
     f:EnableMouse(false)
+	f:SetScript("OnEnter", function(self) 
+		if self.tooltip ~= nil and self.tooltip ~= "" then 
+			GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32)
+			GameTooltip:SetText(self.tooltip); GameTooltip:Show()
+			addon.showingTooltip = true 
+		end 
+	end)
+	f:SetScript("OnLeave", function(self) 
+		if self.tooltip ~= nil and self.tooltip ~= "" and addon.showingTooltip then 
+			GameTooltip:Hide()
+			addon.showingTooltip = false 
+		end 
+	end)
 
     function f:Unload()
         HBDPins:RemoveMinimapIcon(addon, self);
@@ -110,6 +121,28 @@ local function getMapIcon(t, element, highlight)
 	return createMapIcon(t)		
 end
 
+local function getTooltip(element)
+	if not GuidelimeData.showTooltips then return end
+	local tooltip
+	if element.questId ~= nil then 
+		tooltip = addon.getQuestIcon(element.questId, element.questType, element.objective) .. 
+			addon.getQuestText(element.questId, element.questType, nil, element.step and element.step.active) 
+		if element.questType ~= "ACCEPT" then
+			local objectives
+			if element.questType == "TURNIN" or element.objective == nil then
+				objectives = true
+			else
+				objectives = {element.objective}
+			end
+			local obj = addon.getQuestObjectiveText(element.questId, objectives, "    ")
+			if obj ~= "" then tooltip = tooltip .. "\n" .. obj end
+		end
+	end
+	if tooltip == nil and element.step ~= nil then tooltip = addon.getStepText(element.step) end
+	if element.estimate then if tooltip == nil then tooltip = L.ESTIMATE else tooltip = tooltip .. "\n" .. L.ESTIMATE end end
+	return tooltip
+end
+
 function addon.addMapIcon(element, highlight, ignoreMaxNumOfMarkers)
 	if element.wx == nil or element.wy == nil or element.instance == nil then
 		if addon.debugging then print("LIME : no world coordinates for map marker", element.mapID, element.x / 100, element.y / 100, highlight) end
@@ -121,10 +154,18 @@ function addon.addMapIcon(element, highlight, ignoreMaxNumOfMarkers)
 		if element.t == "GOTO" and mapIcon.index >= GuidelimeData.maxNumOfMarkersGOTO and GuidelimeData.maxNumOfMarkersGOTO > 0 then return end
 		if not element.step.active and element.t ~= "GOTO" then return end
 	end
-	mapIcon.inUse = true
 	mapIcon.instance = element.instance
 	mapIcon.wx = element.wx
 	mapIcon.wy = element.wy
+	local tooltip = getTooltip(element)
+	if not mapIcon.inUse then
+		mapIcon.map.tooltip = tooltip
+		mapIcon.minimap.tooltip = tooltip
+	elseif tooltip ~= nil then
+		mapIcon.map.tooltip = (mapIcon.map.tooltip or "") .. "\n" .. tooltip
+		mapIcon.minimap.tooltip = (mapIcon.minimap.tooltip or "") .. "\n" .. tooltip
+	end
+	mapIcon.inUse = true
 	element.mapIndex = mapIcon.index
 	--if addon.debugging then print("LIME : addMapIcon", element.mapID, element.x / 100, element.y / 100, highlight) end
 end
@@ -157,6 +198,10 @@ function addon.showMapIcons()
 		for i = #icons, 0, -1 do
 			showMapIcon(icons[i], t)
 		end
+	end
+	if addon.updateFrame == nil then
+		addon.updateFrame = CreateFrame("frame")
+		addon.updateFrame:SetScript("OnUpdate", addon.updateArrow)
 	end
 end
 
@@ -204,10 +249,28 @@ function addon.getArrowIconText()
 end
 
 function addon.updateArrow()
-	if addon.arrowFrame == nil or addon.arrowX == nil or addon.arrowY == nil then return end
 	addon.y, addon.x, addon.z, addon.instance = UnitPosition("player")
 	addon.face = GetPlayerFacing()
 	if addon.x == nil or addon.y == nil or addon.face == nil then return end
+	
+	if (addon.lastUpdate == nil or GetTime() > addon.lastUpdate + 0.5 or GetTime() < addon.lastUpdate) and (addon.x ~= addon.lastX or addon.y ~= addon.lastY or addon.instance ~= addon.lastInstance) then
+		addon.updateSteps()
+		addon.lastX, addon.lastY, addon.lastInstance = addon.x, addon.y, addon.instance
+		addon.lastUpdate = GetTime()
+	end
+	
+	if addon.arrowFrame == nil or addon.x == nil or addon.y == nil then return end
+	
+	local corpse
+	if not addon.alive then corpse = C_DeathInfo.GetCorpseMapPosition(HBD:GetPlayerZone()) end
+	if corpse ~= nil then
+		addon.arrowX, addon.arrowY = HBD:GetWorldCoordinatesFromZone(corpse.x, corpse.y, HBD:GetPlayerZone())
+	else
+		if addon.arrowFrame.element == nil or addon.arrowFrame.element.wx == nil or addon.arrowFrame.element.wy == nil or addon.arrowFrame.element.instance ~= addon.instance then return end
+		addon.arrowX, addon.arrowY = addon.arrowFrame.element.wx, addon.arrowFrame.element.wy
+	end
+	
+	if addon.arrowX == nil or addon.arrowY == nil then return end
 	local angle = addon.face - math.atan2(addon.arrowX - addon.x, addon.arrowY - addon.y)
 	if GuidelimeData.arrowStyle == 1 then
 		local index = angle * 32 / math.pi
@@ -233,9 +296,6 @@ function addon.updateArrow()
 end
 
 function addon.showArrow(element)
-	if element.wx == nil or element.wy == nil or element.instance ~= addon.instance or addon.x == nil or addon.y == nil then return end
-	addon.arrowX, addon.arrowY = element.wx, element.wy
-	
 	if GuidelimeDataChar.showArrow then
 		if addon.arrowFrame == nil then
 			addon.arrowFrame = CreateFrame("FRAME", nil, UIParent)
@@ -258,12 +318,29 @@ function addon.showArrow(element)
 			end)
 			addon.arrowFrame.text = addon.arrowFrame:CreateFontString(nil, addon.arrowFrame, "GameFontNormal")
 			addon.arrowFrame.text:SetPoint("TOP", addon.arrowFrame, "BOTTOM", 0, 0)
-			addon.arrowFrame.update = CreateFrame("frame")
-			addon.arrowFrame.update:SetScript("OnUpdate", addon.updateArrow)
+			addon.arrowFrame:SetScript("OnEnter", function(self) 
+				if addon.alive then
+					self.tooltip = getTooltip(self.element)
+				else
+					self.tooltip = L.ARROW_TOOLTIP_CORPSE
+				end
+				if self.tooltip ~= nil and self.tooltip ~= "" then 
+					GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32)
+					GameTooltip:SetText(self.tooltip)
+					GameTooltip:Show()
+					addon.showingTooltip = true 
+				end 
+			end)
+			addon.arrowFrame:SetScript("OnLeave", function(self) 
+				if self.tooltip ~= nil and self.tooltip ~= "" and addon.showingTooltip then 
+					GameTooltip:Hide()
+					addon.showingTooltip = false 
+				end 
+			end)
 		end
+		addon.arrowFrame.element = element 
 		addon.arrowFrame:Show()
 	end
-	addon.updateArrow()
 end
 
 function addon.hideArrow()

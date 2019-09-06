@@ -48,6 +48,9 @@ local function setQuestInfo(id)
 					for i, pos in ipairs(positions) do
 						pos.t = "LOC"
 						pos.markerTyp = objective.type
+						pos.questId = id
+						pos.questType = key
+						pos.objective = index
 						addon.addMapIcon(pos, false, true)
 						if i <= 10 then
 							text = text .. addon.getMapMarkerText(pos) ..
@@ -64,6 +67,8 @@ local function setQuestInfo(id)
 				local pos = addon.getQuestPosition(id, key)
 				if pos ~= nil then
 					pos.t = "GOTO"
+					pos.questId = id
+					pos.questType = key
 					addon.addMapIcon(pos, false, true)
 					text = text .. "\n-> " .. addon.COLOR_WHITE .. addon.getMapMarkerText(pos) .. 
 						"(" .. pos.x .. "," .. pos.y .. " " .. pos.zone .. ")|r\n"

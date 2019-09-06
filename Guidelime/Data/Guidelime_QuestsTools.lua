@@ -34,19 +34,19 @@ function addon.getQuestObjective(id)
 end
 
 function addon.getQuestRaces(id)
-	if GuidelimeData.dataSourceQuestie and Questie ~= nil then return addon.getQuestRacesQuestie(id) end
+	if GuidelimeData.dataSourceQuestie and QuestieDB ~= nil then return addon.getQuestRacesQuestie(id) end
 	if id == nil or addon.questsDB[id] == nil then return end
 	return addon.questsDB[id].races
 end
 
 function addon.getQuestClasses(id)
-	if GuidelimeData.dataSourceQuestie and Questie ~= nil then return addon.getQuestClassesQuestie(id) end
+	if GuidelimeData.dataSourceQuestie and QuestieDB ~= nil then return addon.getQuestClassesQuestie(id) end
 	if id == nil or addon.questsDB[id] == nil then return end
 	return addon.questsDB[id].classes
 end
 
 function addon.getQuestFaction(id)
-	if GuidelimeData.dataSourceQuestie and Questie ~= nil then return addon.getQuestFactionQuestie(id) end
+	if GuidelimeData.dataSourceQuestie and QuestieDB ~= nil then return addon.getQuestFactionQuestie(id) end
 	if id == nil or addon.questsDB[id] == nil then return end
 	return addon.questsDB[id].faction
 end
@@ -55,7 +55,13 @@ end
 function addon.getQuestObjectives(id, typ)
 	if id == nil then return end
 	if typ == nil then typ = "COMPLETE" end
-	if GuidelimeData.dataSourceQuestie and Questie ~= nil then return addon.getQuestObjectivesQuestie(id, typ) end
+	if addon.questObjectives == nil then addon.questObjectives = {} end
+	if addon.questObjectives[id] == nil then addon.questObjectives[id] = {} end
+	if addon.questObjectives[id][typ] ~= nil then return addon.questObjectives[id][typ] end
+	if GuidelimeData.dataSourceQuestie and QuestieDB ~= nil then 
+		addon.questObjectives[id][typ] = addon.getQuestObjectivesQuestie(id, typ) 
+		return addon.questObjectives[id][typ]
+	end
 	if addon.questsDB[id] == nil then return end
 	local locale = GetLocale()
 	local ids = {}
@@ -142,14 +148,17 @@ function addon.getQuestObjectives(id, typ)
 			end
 		end
 	end	
+	addon.questObjectives[id][typ] = objectives
 	return objectives
 end
 
 function addon.getQuestPositions(id, typ, objective, filterZone)
-	if GuidelimeData.dataSourceQuestie and Questie ~= nil then return addon.getQuestPositionsQuestie(id, typ, objective, filterZone) end
-	if id == nil or addon.questsDB[id] == nil then return end
-	local time
-	if addon.debugging then time = debugprofilestop() end
+	if id == nil then return end
+	if objective == 0 then objective = nil end
+	if GuidelimeData.dataSourceQuestie and QuestieDB ~= nil then return addon.getQuestPositionsQuestie(id, typ, objective, filterZone) end
+	if addon.questsDB[id] == nil then return end
+	--local time
+	--if addon.debugging then time = debugprofilestop() end
 	local ids = {npc = {}, object = {}, item = {}}
 	if typ == "ACCEPT" then 
 		if addon.questsDB[id].source ~= nil then
@@ -245,7 +254,7 @@ function addon.getQuestPositions(id, typ, objective, filterZone)
 			end
 		end
 	end	
-	if addon.debugging then print("LIME: getQuestPositions " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
+	--if addon.debugging then print("LIME: getQuestPositions " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	return positions
 end
 
@@ -305,6 +314,16 @@ local function selectFurthestPosition(positions, clusters)
 end
 
 function addon.getQuestPosition(id, typ, index)
+	if index == nil then index = 0 end
+	if addon.questPosition == nil then addon.questPosition = {} end
+	if addon.questPosition[id] == nil then addon.questPosition[id] = {} end
+	if addon.questPosition[id][typ] == nil then addon.questPosition[id][typ] = {} end
+	if addon.questPosition[id][typ][index] ~= nil then 
+		if addon.questPosition[id][typ][index] == false then return end
+		return addon.questPosition[id][typ][index] 
+	end
+
+	addon.questPosition[id][typ][index] = false
 	local clusters = {}
 	local maxCluster	
 	local filterZone
@@ -315,8 +334,8 @@ function addon.getQuestPosition(id, typ, index)
 		positions = addon.getQuestPositions(id, typ, index)
 	end
 	if #positions > 400 then return end
-	local time
-	if addon.debugging then time = debugprofilestop() end
+	--local time
+	--if addon.debugging then time = debugprofilestop() end
 	for i = 1, #positions do 
 		local pos = selectFurthestPosition(positions, clusters)
 		--if addon.debugging then print("LIME: found position", pos.wx, pos.wy, pos.instance) end
@@ -325,15 +344,16 @@ function addon.getQuestPosition(id, typ, index)
 		addToCluster(pos.wx, pos.wy, cluster, dist)
 		if maxCluster == nil or cluster.count > maxCluster.count then maxCluster = cluster end
 	end
-	if addon.debugging then print("LIME: findCluster " .. #positions .. " positions " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
+	--if addon.debugging then print("LIME: findCluster " .. #positions .. " positions " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	if maxCluster ~= nil then
 		if addon.debugging and maxCluster.count > 1 then print("LIME: biggest cluster of", maxCluster.count, "at", maxCluster.x, maxCluster.y, maxCluster.instance) end
 		local x, y, zone = addon.GetZoneCoordinatesFromWorld(maxCluster.x, maxCluster.y, maxCluster.instance)
 		if x ~= nil then
-			if addon.debugging then print("LIME: getQuestPosition " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
-			return {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, 
+			--if addon.debugging then print("LIME: getQuestPosition " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
+			addon.questPosition[id][typ][index] = {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, 
 				wx = maxCluster.x, wy = maxCluster.y, instance = maxCluster.instance,
-				zone = zone, mapID = addon.mapIDs[zone], radius = math.floor(math.sqrt(maxCluster.radius))}
+				zone = zone, mapID = addon.mapIDs[zone], radius = math.floor(math.sqrt(maxCluster.radius)), estimate = #positions > 1}
+			return addon.questPosition[id][typ][index]
 		elseif addon.debugging then
 			print("error transforming (" .. maxCluster.x .. "," .. maxCluster.y .. "," .. maxCluster.instance .. ") into zone coordinates for quest #" .. id)
 		end

@@ -11,6 +11,7 @@ function addon.frame:PLAYER_ENTERING_WORLD()
 	--if addon.debugging then print("LIME: Player entering world...") end
 	if not addon.dataLoaded then addon.loadData() end
 	if GuidelimeDataChar.mainFrameShowing then addon.showMainFrame() end
+	addon.alive = C_DeathInfo.GetCorpseMapPosition(HBD:GetPlayerZone()) == nil
 end
 
 addon.frame:RegisterEvent('PLAYER_LEVEL_UP')
@@ -43,6 +44,7 @@ function addon.updateFromQuestLog()
 			questLog[id] = {}
 			questLog[id].index = i
 			questLog[id].finished = (completed == 1)
+			questLog[id].failed = (completed == -1)
 			questLog[id].name = name
 			questLog[id].sort = currentHeader
 		end
@@ -51,8 +53,9 @@ function addon.updateFromQuestLog()
 	local checkCompleted = false
 	local questChanged = false
 	local questFound = false
+	local newQuest = false
 	for id, q in pairs(addon.quests) do
-		if questLog[id] ~= nil then
+		if questLog[id] ~= nil and not questLog[id].failed then
 			if q.logIndex ~= nil then
 				questFound = true
 				if q.logIndex ~= questLog[id].index or q.finished ~= questLog[id].finished then
@@ -64,6 +67,7 @@ function addon.updateFromQuestLog()
 			else
 				questFound = true
 				questChanged = true
+				newQuest = true
 				q.logIndex = questLog[id].index
 				q.finished = questLog[id].finished
 				q.name = questLog[id].name
@@ -86,7 +90,7 @@ function addon.updateFromQuestLog()
 			end
 		end
 	end
-	if GuidelimeData.showQuestIds then
+	if GuidelimeData.showQuestIds and newQuest then
 		local msg = "LIME: current quests: "
 		for id, q in pairs(questLog) do
 			msg = msg .. q.name .. "(#" .. id .. "), "
@@ -347,4 +351,18 @@ function addon.frame:UNIT_SPELLCAST_SUCCEEDED(unitTarget, castGUID, spellID)
 	if spellID == 8690 then
 		addon.completeSemiAutomaticByType("HEARTH")
 	end
+end
+
+addon.frame:RegisterEvent('PLAYER_ALIVE')
+function addon.frame:PLAYER_ALIVE()
+	if addon.debugging then print ("LIME: PLAYER_ALIVE") end
+	C_Timer.After(0.1, function() 
+		addon.alive = C_DeathInfo.GetCorpseMapPosition(HBD:GetPlayerZone()) == nil
+	end)
+end
+
+addon.frame:RegisterEvent('PLAYER_UNGHOST')
+function addon.frame:PLAYER_UNGHOST()
+	if addon.debugging then print ("LIME: PLAYER_UNGHOST") end
+	addon.alive = true
 end
