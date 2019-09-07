@@ -448,10 +448,10 @@ end
 
 function addon.getQuestText(id, t, title, colored)
 	local q = ""
-	if GuidelimeData.showQuestLevels or GuidelimeData.showMinimumQuestLevels then
+	if (GuidelimeData.showQuestLevels or GuidelimeData.showMinimumQuestLevels) and addon.questsDB[id] ~= nil then
 		q = q .. "["
 		if GuidelimeData.showMinimumQuestLevels then
-			q = q .. addon.COLOR_LIGHT_BLUE ..addon.questsDB[id].req
+			q = q .. addon.COLOR_LIGHT_BLUE .. (addon.questsDB[id].req or "")
 		end
 		if GuidelimeData.showMinimumQuestLevels and GuidelimeData.showQuestLevels then
 			if colored == true then
@@ -462,7 +462,7 @@ function addon.getQuestText(id, t, title, colored)
 			q = q .. "-"
 		end
 		if GuidelimeData.showQuestLevels then
-			q = q .. addon.getLevelColor(addon.questsDB[id].level) .. addon.questsDB[id].level
+			q = q .. addon.getLevelColor(addon.questsDB[id].level) .. (addon.questsDB[id].level or "")
 			if addon.questsDB[id].type == "Elite" then q = q .. "+" end
 		end
 		if colored == true then
