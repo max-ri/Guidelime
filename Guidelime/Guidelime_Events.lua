@@ -86,23 +86,24 @@ function addon.updateFromQuestLog()
 			if q.logIndex ~= nil and q.logIndex ~= -1 and not isCollapsed[q.sort] then
 				checkCompleted = true
 				q.logIndex = nil
+				newQuest = true
 				--if addon.debugging then print("LIME: removed log entry ".. id) end
 			end
 		end
 	end
 	if GuidelimeData.showQuestIds and newQuest then
 		local msg = "LIME: current quests: "
-		for id, q in pairs(questLog) do
-			msg = msg .. q.name .. "(#" .. id .. "), "
+		for id, q in pairs(addon.quests) do
+			if q.logIndex ~= nil then 
+				msg = msg .. q.name .. "(#" .. id .. "), "
+			end
 		end
 		print(msg:sub(1, #msg - 2))
 	end
 	return checkCompleted, questChanged, questFound
 end
 
-addon.frame:RegisterEvent('QUEST_LOG_UPDATE')
-function addon.frame:QUEST_LOG_UPDATE()
-	--if addon.debugging then print("LIME: QUEST_LOG_UPDATE", addon.firstLogUpdate) end
+local function doQuestUpdate()
 	addon.xp = UnitXP("player")
 	addon.xpMax = UnitXPMax("player")
 	addon.y, addon.x = UnitPosition("player")
@@ -123,7 +124,7 @@ function addon.frame:QUEST_LOG_UPDATE()
 				if questFound then
 					addon.updateStepsText()
 				end
-				C_Timer.After(1, function() 
+				C_Timer.After(0.1, function() 
 					local completed = GetQuestsCompleted()
 					local questCompleted = false
 					for id, q in pairs(addon.quests) do
@@ -133,7 +134,7 @@ function addon.frame:QUEST_LOG_UPDATE()
 							q.completed = true
 						end
 					end
-					if questCompleted == true or not GuidelimeDataChar.hideCompletedSteps then
+					if questCompleted == true or GuidelimeDataChar.showCompletedSteps then
 						addon.updateSteps()
 					else
 						-- quest was abandoned so redraw erverything since completed steps might have to be done again
@@ -148,6 +149,12 @@ function addon.frame:QUEST_LOG_UPDATE()
 		end
 	end
 	addon.firstLogUpdate = true
+end
+
+addon.frame:RegisterEvent('QUEST_LOG_UPDATE')
+function addon.frame:QUEST_LOG_UPDATE()
+	if addon.debugging then print("LIME: QUEST_LOG_UPDATE", addon.firstLogUpdate) end
+	doQuestUpdate()
 end
 
 addon.frame:RegisterEvent('GOSSIP_SHOW')
