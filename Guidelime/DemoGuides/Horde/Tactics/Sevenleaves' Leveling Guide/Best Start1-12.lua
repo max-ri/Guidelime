@@ -1,6 +1,5 @@
 Guidelime.registerGuide([[
-[DL1-60 https://github.com/SevenleavesWoW/Sevenleaves-Leveling-Route Guidelime_Sevenleaves_]
-[DL1-60 https://www.curseforge.com/wow/addons/sevenleaves-guidelime-route Guidelime_Sevenleaves]
+[DL1-60 https://github.com/SevenleavesWoW/Sevenleaves-Leveling-Route]
 [D |cffffffffA Guide made by|r |cffffff00Sevenleaves|r and |cffffff00Tactics|r \\ |cff00E5EEtwitch.tv/7leaves|r \\ |cff00E5EEtwitch.tv/tactics_lol|r \\ |cff00E5EEhttps://discordapp.com/invite/YgXQZj6|r]
 [N1-12 Best Start]
 [GA Orc,Troll]
