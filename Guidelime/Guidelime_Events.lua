@@ -200,6 +200,23 @@ function addon.frame:GOSSIP_SHOW()
 			end)
 		end
 	end
+	if GuidelimeData.autoSelectFlight and not IsShiftKeyDown() and addon.currentGuide ~= nil and addon.currentGuide.firstActiveIndex ~= nil and	addon.currentGuide.lastActiveIndex ~= nil then
+		for i = addon.currentGuide.firstActiveIndex, addon.currentGuide.lastActiveIndex do
+			local step = addon.currentGuide.steps[i]
+			for _, element in ipairs(step.elements) do
+				if not element.completed then
+					if element.t == "FLY" or element.t == "GET_FLIGHT_POINT" then
+						local gossip = {GetGossipOptions()}
+						for i = 1, GetNumGossipOptions() do
+							if gossip[i * 2] == "taxi" then
+								SelectGossipOption(i)
+							end
+						end
+					end
+				end
+			end
+		end
+	end
 end
 
 addon.frame:RegisterEvent('QUEST_GREETING')
@@ -298,24 +315,20 @@ addon.frame:RegisterEvent('TAXIMAP_OPENED')
 function addon.frame:TAXIMAP_OPENED()
 	if addon.debugging then print ("LIME: TAXIMAP_OPENED") end
 	if GuidelimeData.autoSelectFlight and not IsShiftKeyDown() and addon.currentGuide ~= nil and addon.currentGuide.firstActiveIndex ~= nil and	addon.currentGuide.lastActiveIndex ~= nil then
-		local mapID = C_Map.GetBestMapForUnit("player")
-		if not mapID then return end -- no mapID for player found
 		for i = addon.currentGuide.firstActiveIndex, addon.currentGuide.lastActiveIndex do
 			local step = addon.currentGuide.steps[i]
 			for _, element in ipairs(step.elements) do
 				if not element.completed then
 					if element.flightmaster ~= nil then
 						local master = addon.flightmasterDB[element.flightmaster]
-						local taxiNodes = C_TaxiMap.GetAllTaxiNodes(mapID)
-						for i = 1, #taxiNodes do
-							local taxiNodeData = taxiNodes[i]
-							if (master.place or master.zone) == taxiNodeData.name:sub(1, #(master.place or master.zone)) then
-								if element.t == "FLY" and taxiNodeData.state == Enum.FlightPathState.Reachable then
+						for i = 1, NumTaxiNodes() do
+							if (master.place or master.zone) == TaxiNodeName(i):sub(1, #(master.place or master.zone)) then
+								if element.t == "FLY" and TaxiNodeGetType(i) == "REACHABLE" then
 									if IsMounted() then Dismount() end -- dismount before using the flightpoint
 									if addon.debugging then print ("LIME: Flying to " .. (master.place or master.zone)) end
-									TakeTaxiNode(taxiNodeData.slotIndex)
+									TakeTaxiNode(i)
 									addon.completeSemiAutomatic(element)
-								elseif element.t == "GET_FLIGHT_POINT" and taxiNodeData.state == Enum.FlightPathState.Current then
+								elseif element.t == "GET_FLIGHT_POINT" and TaxiNodeGetType(i) == "CURRENT" then
 									addon.completeSemiAutomatic(element)
 								end
 								return
@@ -331,9 +344,12 @@ end
 addon.frame:RegisterEvent('PLAYER_CONTROL_LOST')
 function addon.frame:PLAYER_CONTROL_LOST()
 	if addon.debugging then print ("LIME: PLAYER_CONTROL_LOST") end
-	if UnitOnTaxi("player") then
-		addon.completeSemiAutomaticByType("FLY")
-	end
+	C_Timer.After(1, function() 
+		if UnitOnTaxi("player") then
+			if addon.debugging then print ("LIME: UnitOnTaxi") end
+			addon.completeSemiAutomaticByType("FLY")
+		end
+	end)
 end
 
 addon.frame:RegisterEvent('UI_INFO_MESSAGE')
