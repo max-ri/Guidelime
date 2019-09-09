@@ -363,7 +363,7 @@ end
 addon.frame:RegisterEvent('PLAYER_ALIVE')
 function addon.frame:PLAYER_ALIVE()
 	if addon.debugging then print ("LIME: PLAYER_ALIVE") end
-	C_Timer.After(0.1, function() 
+	C_Timer.After(1, function() 
 		addon.alive = HBD:GetPlayerZone() == nil or C_DeathInfo.GetCorpseMapPosition(HBD:GetPlayerZone()) == nil
 	end)
 end
