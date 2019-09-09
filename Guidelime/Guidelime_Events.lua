@@ -329,8 +329,9 @@ function addon.frame:TAXIMAP_OPENED()
 end
 
 addon.frame:RegisterEvent('PLAYER_CONTROL_LOST')
-function addon.frame:PLAYER_CONTROL_LOST(errorType, message)
-	if event == "PLAYER_CONTROL_LOST" and UnitOnTaxi("player") then
+function addon.frame:PLAYER_CONTROL_LOST()
+	if addon.debugging then print ("LIME: PLAYER_CONTROL_LOST") end
+	if UnitOnTaxi("player") then
 		addon.completeSemiAutomaticByType("FLY")
 	end
 end
