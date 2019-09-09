@@ -11,7 +11,7 @@ function addon.frame:PLAYER_ENTERING_WORLD()
 	--if addon.debugging then print("LIME: Player entering world...") end
 	if not addon.dataLoaded then addon.loadData() end
 	if GuidelimeDataChar.mainFrameShowing then addon.showMainFrame() end
-	addon.alive = C_DeathInfo.GetCorpseMapPosition(HBD:GetPlayerZone()) == nil
+	addon.alive = HBD:GetPlayerZone() == nil or C_DeathInfo.GetCorpseMapPosition(HBD:GetPlayerZone()) == nil
 end
 
 addon.frame:RegisterEvent('PLAYER_LEVEL_UP')
