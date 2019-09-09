@@ -309,10 +309,10 @@ function addon.frame:TAXIMAP_OPENED()
 						local taxiNodes = C_TaxiMap.GetAllTaxiNodes(mapID)
 						for i = 1, #taxiNodes do
 							local taxiNodeData = taxiNodes[i]
-							if master.place == taxiNodeData.name:sub(1, #master.place) then
+							if (master.place or master.zone) == taxiNodeData.name:sub(1, #(master.place or master.zone)) then
 								if element.t == "FLY" and taxiNodeData.state == Enum.FlightPathState.Reachable then
 									if IsMounted() then Dismount() end -- dismount before using the flightpoint
-									if addon.debugging then print ("LIME: Flying to " .. master.place) end
+									if addon.debugging then print ("LIME: Flying to " .. (master.place or master.zone)) end
 									TakeTaxiNode(taxiNodeData.slotIndex)
 									addon.completeSemiAutomatic(element)
 								elseif element.t == "GET_FLIGHT_POINT" and taxiNodeData.state == Enum.FlightPathState.Current then
