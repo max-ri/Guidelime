@@ -636,7 +636,7 @@ function addon.getStepText(step)
 				end
 			end
 		end
-		prevElement = element
+		if element.empty == nil or not element.empty then prevElement = element end
 	end
 	if step.missingPrequests ~= nil and #step.missingPrequests > 0 then
 		if tooltip ~= "" then tooltip = tooltip .. "\n" end

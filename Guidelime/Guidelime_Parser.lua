@@ -135,9 +135,8 @@ local function textFormatting(text, color)
 		:gsub("(www%.[%w%./#%-%?=#]*)", function(u) if url == nil then url = u end; return "|cFFAAAAAA" .. u .. "|r" end)
 		:gsub("%*([^%*]+)%*", (color or "|cFFFFD100") .. "%1|r")
 		:gsub("%*%*","%*")
-	if formatted:gsub("%s", "") == "" then return end
 	local formattedInactive = formatted:gsub("|r", addon.COLOR_INACTIVE)
-	return formatted, formattedInactive, url
+	return formatted, formattedInactive, url, formatted:gsub("%s", "") == ""
 end
 
 function addon.parseLine(step, guide, strict, nameOnly)
@@ -152,7 +151,7 @@ function addon.parseLine(step, guide, strict, nameOnly)
 		if text ~= "" then
 			local element = {}
 			element.t = "TEXT"
-			element.text, element.textInactive, element.url = textFormatting(text, addon.COLOR_WHITE)
+			element.text, element.textInactive, element.url, element.empty = textFormatting(text, addon.COLOR_WHITE)
 			if element.text ~= nil then
 				element.startPos = pos
 				pos = pos + #text
@@ -405,7 +404,7 @@ function addon.parseLine(step, guide, strict, nameOnly)
 			end
 		elseif element.t == "FLY" or element.t == "GET_FLIGHT_POINT" then
 			if tag:gsub(" ", "") ~= "" then
-				element.text, element.textInactive, _ = textFormatting(tag)
+				element.text, element.textInactive = textFormatting(tag)
 				element.flightmaster = addon.getFlightmasterByPlace(tag, step.faction or guide.faction)
 --TODO: active this error check
 --				if element.flightmaster == nil then
@@ -414,7 +413,7 @@ function addon.parseLine(step, guide, strict, nameOnly)
 --				end
 			end
 		else
-			element.text, element.textInactive, _ = textFormatting(tag)
+			element.text, element.textInactive = textFormatting(tag)
 		end
 		return ""
 	end)
@@ -423,7 +422,7 @@ function addon.parseLine(step, guide, strict, nameOnly)
 	if t ~= nil and t ~= "" then
 		local element = {}
 		element.t = "TEXT"
-		element.text, element.textInactive, element.url = textFormatting(t, addon.COLOR_WHITE)
+		element.text, element.textInactive, element.url, element.empty = textFormatting(t, addon.COLOR_WHITE)
 		if element.text ~= nil then
 			element.startPos = pos 
 			element.endPos = pos + #t - 1
