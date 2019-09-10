@@ -39,27 +39,21 @@ Alternatively you can also download the addon from https://www.curseforge.com/wo
 
 #### More guides
 
-Right now there is only a limited amount of guides available for the addon. At least for alliance full 1-60 guides are available. A complete Horde guide will be added later on.
-
 If you are a guide creator and you have your own guides that you would like to see in Guidelime feel free to contact me.
-
-#### Documentation
-
-Instructions on how to put your own guides into a separate addon will be added soon.
-
-#### Improved editor
-
-The editor will soon be complemented with powerful features for importing guides so that creating your own guides will be even easier.
 
 #### Localization
 
-The addon is currently available in English, German, French and Russian. If anyone would volunteer to do translations for other languages please contact me.
+The addon is currently available in English, German, French, Russian and Chinese. If anyone would volunteer to do translations for other languages please contact me.
 
 The guides itself are language specific. The guides I am currently working on are in English language only. But using the editor you can create guides in your own language.
 
 ## How do I open the window again after I closed it accidentally?
 
 Type `/lime` or go to *Interface Options*, *AddOns*, *Guidelime*, *Options* and click on show window.
+
+## FAQ
+
+Some more questions concerning this addon are answered in the <a href="https://github.com/max-ri/Guidelime/wiki/FAQ">FAQ</a>
 
 ## Contact 
 
