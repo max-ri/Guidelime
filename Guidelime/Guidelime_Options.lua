@@ -263,7 +263,7 @@ function addon.fillOptions()
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
 	prev = checkbox
 	
-	button = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
+	local button = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
 	button:SetWidth(130)
 	button:SetHeight(24)
 	button:SetText(L.RESET_POSITION)
