@@ -298,6 +298,14 @@ function addon.fillOptions()
 	end)
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -50)
 
+	slider = addon.addSliderOption(content, GuidelimeDataChar, "arrowSize", 16, 256, 1, L.ARROW_SIZE, nil, function()
+		if addon.arrowFrame ~= nil then 
+			addon.arrowFrame:SetWidth(GuidelimeDataChar.arrowSize)
+			addon.arrowFrame:SetHeight(GuidelimeDataChar.arrowSize)
+		end
+	end)
+	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -90)
+
 	checkbox = addon.addCheckOption(content, GuidelimeDataChar, "arrowLocked", L.LOCK_ARROW)
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = checkbox
@@ -314,7 +322,7 @@ function addon.fillOptions()
 
 	addon.optionsFrame.titleMapMarkersGoto = content:CreateFontString(nil, content, "GameFontNormal")
 	addon.optionsFrame.titleMapMarkersGoto:SetText("|cFFFFFFFF___ " .. string.format(L.MAP_MARKERS_GOTO, addon.getMapMarkerText({t = "GOTO", mapIndex = 0}) .. "," .. addon.getMapMarkerText({t = "GOTO", mapIndex = 1}) .. "," .. addon.getMapMarkerText({t = "GOTO", mapIndex = 2}) .. "," .. addon.getMapMarkerText({t = "GOTO", mapIndex = 3})) .. " _______________________________________________________")
-	addon.optionsFrame.titleMapMarkersGoto:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
+	addon.optionsFrame.titleMapMarkersGoto:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -20)
 	addon.optionsFrame.titleMapMarkersGoto:SetFontObject("GameFontNormalLarge")
 	prev = addon.optionsFrame.titleMapMarkersGoto
 

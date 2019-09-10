@@ -299,8 +299,8 @@ function addon.showArrow(element)
 	if GuidelimeDataChar.showArrow then
 		if addon.arrowFrame == nil then
 			addon.arrowFrame = CreateFrame("FRAME", nil, UIParent)
-			addon.arrowFrame:SetWidth(64)
-			addon.arrowFrame:SetHeight(64)
+			addon.arrowFrame:SetWidth(GuidelimeDataChar.arrowSize)
+			addon.arrowFrame:SetHeight(GuidelimeDataChar.arrowSize)
 			addon.arrowFrame:SetPoint(GuidelimeDataChar.arrowRelative, UIParent, GuidelimeDataChar.arrowRelative, GuidelimeDataChar.arrowX, GuidelimeDataChar.arrowY)
 		    addon.arrowFrame.texture = addon.arrowFrame:CreateTexture(nil, "OVERLAY")
 		    addon.setArrowTexture()

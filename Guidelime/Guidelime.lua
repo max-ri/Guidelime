@@ -151,6 +151,7 @@ function addon.loadData()
 		arrowRelative = "TOP",
 		arrowLocked = false,
 		arrowAlpha = 0.8,
+		arrowSize = 64,
 		editorFrameX = 0,
 		editorFrameY = 0,
 		editorFrameRelative = "CENTER",
