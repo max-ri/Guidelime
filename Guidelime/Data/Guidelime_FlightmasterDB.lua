@@ -1,7 +1,7 @@
 local addonName, addon = ...
 
 addon.flightmasterDB = {
-	[352] = {zone = "Stormwind City", name = "Dungar Longdrink", faction = "Alliance", localesIndex = 2},
+	[352] = {zone = "Stormwind City", name = "Dungar Longdrink", place = "Stormwind", faction = "Alliance", localesIndex = 2},
 	[523] = {zone = "Westfall", name = "Thor", place = "Sentinel Hill", faction = "Alliance", localesIndex = 4},
 	[931] = {zone = "Redridge Mountains", name = "Ariena Stormfeather", place = "Lakeshire", faction = "Alliance", localesIndex = 5},
 	[1387] = {zone = "Stranglethorn Vale", name = "Thysta", place = "Grom'gol Base Camp", faction = "Horde", localesIndex = 20},
