@@ -325,10 +325,12 @@ function addon.loadCurrentGuide()
 					addon.quests[element.questId].finished = addon.quests[element.questId].completed
 					if addon.questsDB[element.questId] ~= nil and addon.questsDB[element.questId].prequests ~= nil then
 						for _, id in ipairs(addon.questsDB[element.questId].prequests) do
-							if addon.quests[id] == nil then addon.quests[id] = {} end
-							addon.quests[id].completed = completed[id] ~= nil and completed[id]
-							if addon.quests[id].followup == nil then addon.quests[id].followup = {} end
-							table.insert(addon.quests[id].followup, element.questId)
+							if (addon.questsDB[id].faction or addon.faction) == addon.faction then
+								if addon.quests[id] == nil then addon.quests[id] = {} end
+								addon.quests[id].completed = completed[id] ~= nil and completed[id]
+								if addon.quests[id].followup == nil then addon.quests[id].followup = {} end
+								table.insert(addon.quests[id].followup, element.questId)
+							end
 						end
 					end
 					if addon.quests[element.questId].lastStep == nil then addon.quests[element.questId].lastStep = {} end
@@ -779,7 +781,7 @@ local function updateStepAvailability(i, changedIndexes, scheduled)
 		if element.t == "ACCEPT" then
 			if addon.questsDB[element.questId] ~= nil and addon.questsDB[element.questId].prequests ~= nil then
 				for _, id in ipairs(addon.questsDB[element.questId].prequests) do
-					if not addon.quests[id].completed and not scheduled.TURNIN[id] then
+					if (addon.questsDB[id].faction or addon.faction) == addon.faction and not addon.quests[id].completed and not scheduled.TURNIN[id] then
 						element.available = false
 						if not addon.contains(step.missingPrequests, id) then
 							table.insert(step.missingPrequests, id)
