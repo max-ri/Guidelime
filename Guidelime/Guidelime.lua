@@ -760,12 +760,6 @@ local function updateStepCompletion(i, completedIndexes)
 		end
 	end
 
-	if step.active then
-		for j, element in ipairs(step.elements) do
-			print(i, j ,element.completed, wasCompleted, step.completed)
-		end
-	end
-
 	if step.completed ~= wasCompleted and not addon.contains(completedIndexes, i) then
 		table.insert(completedIndexes, i)
 	end
