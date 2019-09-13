@@ -124,17 +124,17 @@ end
 local function getTooltip(element)
 	if not GuidelimeData.showTooltips then return end
 	local tooltip
-	if element.questId ~= nil then 
-		tooltip = addon.getQuestIcon(element.questId, element.questType, element.objective) .. 
-			addon.getQuestText(element.questId, element.questType, nil, element.step and element.step.active) 
-		if element.questType ~= "ACCEPT" then
+	if element.attached ~= nil and element.attached.questId ~= nil then 
+		tooltip = addon.getQuestIcon(element.attached.questId, element.attached.t, element.attached.objective) .. 
+			addon.getQuestText(element.attached.questId, element.attached.t, nil, element.step and element.step.active) 
+		if element.attached.t ~= "ACCEPT" then
 			local objectives
-			if element.questType == "TURNIN" or element.objective == nil then
+			if element.attached.t == "TURNIN" or element.attached.objective == nil then
 				objectives = true
 			else
-				objectives = {element.objective}
+				objectives = {element.attached.objective}
 			end
-			local obj = addon.getQuestObjectiveText(element.questId, objectives, "    ")
+			local obj = addon.getQuestObjectiveText(element.attached.questId, objectives, "    ")
 			if obj ~= "" then tooltip = tooltip .. "\n" .. obj end
 		end
 	end

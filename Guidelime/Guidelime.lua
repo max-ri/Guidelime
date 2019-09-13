@@ -303,6 +303,7 @@ function addon.loadCurrentGuide()
 			table.insert(addon.currentGuide.steps, step)
 			step.index = #addon.currentGuide.steps
 			local i = 1
+			local lastGoto
 			while i <= #step.elements do
 				local element = step.elements[i]
 				element.available = true
@@ -313,6 +314,9 @@ function addon.loadCurrentGuide()
 					step.manual = true
 				elseif element.t == "GOTO" then
 					if step.manual == nil then step.manual = false end
+					if lastGoto ~= nil then lastGoto.lastGoto = false end
+					element.lastGoto = true
+					lastGoto = element
 				end
 				if element.questId ~= nil then
 					if addon.quests[element.questId] == nil then addon.quests[element.questId] = {} end
@@ -346,14 +350,15 @@ function addon.loadCurrentGuide()
 							gotoElement.radius = addon.DEFAULT_GOTO_RADIUS + gotoElement.radius
 							gotoElement.generated = true
 							gotoElement.available = true
-							gotoElement.questId = element.questId
-							gotoElement.questType = element.t
-							gotoElement.objective = element.objective
+							gotoElement.attached = element
 							table.insert(step.elements, i, gotoElement)
 							for j = i, #step.elements do
 								step.elements[j].index = j
 							end
 							i = i + 1
+							if lastGoto ~= nil then lastGoto.lastGoto = false end
+							gotoElement.lastGoto = true
+							lastGoto = gotoElement
 						end
 					end						
 				elseif element.t == "FLY" then
@@ -365,11 +370,15 @@ function addon.loadCurrentGuide()
 						gotoElement.radius = addon.DEFAULT_GOTO_RADIUS
 						gotoElement.generated = true
 						gotoElement.available = true
+						gotoElement.attached = element
 						table.insert(step.elements, i, gotoElement)
 						for j = i, #step.elements do
 							step.elements[j].index = j
 						end
 						i = i + 1
+						if lastGoto ~= nil then lastGoto.lastGoto = false end
+						gotoElement.lastGoto = true
+						lastGoto = gotoElement
 					end						
 				elseif element.t == "GET_FLIGHT_POINT" then
 					if guide.autoAddCoordinatesGOTO and (GuidelimeData.showMapMarkersGOTO or GuidelimeData.showMinimapMarkersGOTO) and not step.hasGoto and not element.optional then
@@ -381,11 +390,15 @@ function addon.loadCurrentGuide()
 							gotoElement.radius = addon.DEFAULT_GOTO_RADIUS
 							gotoElement.generated = true
 							gotoElement.available = true
+							gotoElement.attached = element
 							table.insert(step.elements, i, gotoElement)
 							for j = i, #step.elements do
 								step.elements[j].index = j
 							end
 							i = i + 1
+							if lastGoto ~= nil then lastGoto.lastGoto = false end
+							gotoElement.lastGoto = true
+							lastGoto = gotoElement
 						end
 					end						
 				end
@@ -428,9 +441,7 @@ local function loadStepOnActivation(i)
 								locElement.generated = true
 								locElement.available = true
 								locElement.index = j
-								locElement.questId = element.questId
-								locElement.questType = element.t
-								locElement.objective = element.objective
+								locElement.attached = element
 								table.insert(step.elements, j, locElement)
 								j = j + 1
 							end
@@ -717,9 +728,15 @@ local function updateStepCompletion(i, completedIndexes)
 	end
 	-- check goto last so that goto only matters when there are no other objectives completed
 	for _, element in ipairs(step.elements) do
-		if not wasCompleted and element.t == "GOTO" and not step.completed and step.active and not step.skip then
+		if element.t == "GOTO"  then
 			--if addon.debugging then print("LIME : zone coordinates", x, y, element.mapID) end
-			if addon.x ~= nil and addon.y ~= nil and element.wx ~= nil and element.wy ~= nil and addon.instance == element.instance and addon.alive then
+			if wasCompleted or step.skip then
+				element.completed = true
+			elseif element.attached ~= nil and element.attached.completed then
+				element.completed = true
+			elseif element.completed and not element.lastGoto and element.attached == nil then
+				-- do not reactivate unless it is the last goto of the step
+			elseif addon.x ~= nil and addon.y ~= nil and element.wx ~= nil and element.wy ~= nil and addon.instance == element.instance and addon.alive and step.active then
 				local radius = element.radius * element.radius
 				-- add some hysteresis
 				if element.completed then radius = radius * 1.6 end
@@ -738,6 +755,12 @@ local function updateStepCompletion(i, completedIndexes)
 		if step.completed ~= c then
 			--if addon.debugging then print("LIME: complete with next ", i - 1, c, nstep.skip, nstep.available) end
 			step.completed = c
+		end
+	end
+
+	if step.active then
+		for j, element in ipairs(step.elements) do
+			print(i, j ,element.completed, wasCompleted, step.completed)
 		end
 	end
 
