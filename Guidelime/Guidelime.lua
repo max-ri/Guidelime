@@ -728,11 +728,12 @@ local function updateStepCompletion(i, completedIndexes)
 			if step.completed == nil or not element.completed then step.completed = element.completed end
 		end
 	end
-	-- check goto last so that goto only matters when there are no other objectives completed
+	-- check goto last so that go to does not matter when all other objectives are completed
+	local nonGotoCompleted = step.completed or wasCompleted
 	for _, element in ipairs(step.elements) do
 		if element.t == "GOTO"  then
 			--if addon.debugging then print("LIME : zone coordinates", x, y, element.mapID) end
-			if wasCompleted or step.skip then
+			if nonGotoCompleted or step.skip then
 				element.completed = true
 			elseif element.attached ~= nil and element.attached.completed then
 				element.completed = true
