@@ -950,7 +950,7 @@ function addon.updateStepsMapIcons()
 		if not step.skip and not step.completed and step.available then
 			for _, element in ipairs(step.elements) do
 				if element.t == "GOTO" and step.active and not element.completed then
-					if element.specialLocation == "NEAREST_FLIGHT_POINT" then
+					if element.specialLocation == "NEAREST_FLIGHT_POINT" and addon.x ~= nil and addon.y ~= nil then
 						element.wx, element.wy, element.instance = addon.getNearestFlightPoint(addon.x, addon.y, addon.instance, addon.faction)
 					end
 					if element.wx ~= nil then
