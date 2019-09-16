@@ -452,14 +452,16 @@ function addon.getPossibleQuestIdsByName(name, part, faction, race, class)
 	if addon.questsDBReverse == nil then
 		addon.questsDBReverse = {}
 		for id, quest in pairs(addon.questsDB) do
-			local n = addon.getQuestNameById(id):lower():gsub("[%(%)\"%s%p]","")
-			if addon.questsDBReverse[n] == nil then addon.questsDBReverse[n] = {} end
-			table.insert(addon.questsDBReverse[n], id)
-			-- if localized quest name is different from english name also include english name
-			if addon.getQuestNameById(id) ~= addon.questsDB[id].name then
-				n = addon.questsDB[id].name:lower():gsub("[%(%)\"%s%p]",""):gsub("  ", " ")
+			if quest.replacement == nil then
+				local n = addon.getQuestNameById(id):lower():gsub("[%(%)\"%s%p]","")
 				if addon.questsDBReverse[n] == nil then addon.questsDBReverse[n] = {} end
 				table.insert(addon.questsDBReverse[n], id)
+				-- if localized quest name is different from english name also include english name
+				if addon.getQuestNameById(id) ~= addon.questsDB[id].name then
+					n = addon.questsDB[id].name:lower():gsub("[%(%)\"%s%p]",""):gsub("  ", " ")
+					if addon.questsDBReverse[n] == nil then addon.questsDBReverse[n] = {} end
+					table.insert(addon.questsDBReverse[n], id)
+				end
 			end
 		end
 	end

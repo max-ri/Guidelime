@@ -270,6 +270,9 @@ function addon.parseLine(step, guide, strict, nameOnly)
 						element.questId = id
 					end
 				end
+				if addon.questsDB[element.questId] ~= nil and addon.questsDB[element.questId].replacement ~= nil then
+					element.questId = addon.questsDB[element.questId].replacement
+				end
 				if objective ~= "" then element.objective = tonumber(objective) end
 				if title == "-" then
 					element.title = ""

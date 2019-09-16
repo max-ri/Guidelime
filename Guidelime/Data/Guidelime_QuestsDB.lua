@@ -13570,9 +13570,7 @@ addon.questsDB = {
 	   };
 	   ["name"] = "War Banners";
 	   ["prev"] = 473;
-	   ["prequests"] = {
-	      [1] = 473;
-	   };
+	   ["prequests"] = {};
 	   ["level"] = 28;
 	   ["source"] = {
 	      [1] = {
@@ -13810,6 +13808,7 @@ addon.questsDB = {
 	[473] = {
 	   ["objective"] = "Speak with Captain Stoutfist.";
 	   ["zone"] = "Wetlands";
+	   ["sort"] = "Wetlands";
 	   ["next"] = 464;
 	   ["repgain"] = {
 	      [47] = 25;
@@ -13821,7 +13820,9 @@ addon.questsDB = {
 	      };
 	   };
 	   ["name"] = "Report to Captain Stoutfist";
-	   ["sort"] = "Wetlands";
+	   ["prequests"] = {
+	      [1] = 455;
+	   };
 	   ["level"] = 28;
 	   ["source"] = {
 	      [1] = {
@@ -27149,6 +27150,12 @@ addon.questsDB = {
 	[934] = {
 	   ["objective"] = "Fill the Amethyst Phial and bring it back to Corithras Moonrage in Dolanaar.";
 	   ["zone"] = "Teldrassil";
+	   ["source"] = {
+	      [1] = {
+	         ["id"] = 3515;
+	         ["type"] = "npc";
+	      };
+	   };
 	   ["repgain"] = {
 	      [69] = 250;
 	   };
@@ -27161,12 +27168,7 @@ addon.questsDB = {
 	   ["name"] = "Crown of the Earth";
 	   ["sort"] = "Teldrassil";
 	   ["level"] = 11;
-	   ["source"] = {
-	      [1] = {
-	         ["id"] = 3515;
-	         ["type"] = "npc";
-	      };
-	   };
+	   ["replacement"] = 7383;
 	   ["req"] = 1;
 	};
 	[935] = {
@@ -38724,34 +38726,37 @@ addon.questsDB = {
 	   ["req"] = 60;
 	};
 	[6342] = {
+	   ["race"] = {
+	      [1] = "NightElf";
+	   };
+	   ["source"] = {
+	      [1] = {
+	         ["id"] = 3838;
+	         ["type"] = "npc";
+	      };
+	   };
+	   ["next"] = 6343;
 	   ["faction"] = "Alliance";
 	   ["name"] = "Flight to Auberdine";
-	   ["objective"] = "Ride a hippogryph to Auberdine from the hippogryph master Vesprystus, then bring Nessa's Collection to Laird.";
-	   ["zone"] = "Darkshore";
-	   ["repgain"] = {
-	      [69] = 75;
-	   };
 	   ["gather"] = {
 	      [1] = 16262;
 	   };
-	   ["next"] = 6343;
-	   ["sort"] = "Darkshore";
+	   ["objective"] = "Ride a hippogryph to Auberdine from the hippogryph master Vesprystus, then bring Nessa's Collection to Laird.";
+	   ["zone"] = "Darkshore";
 	   ["deliver"] = {
 	      [1] = {
 	         ["id"] = 4200;
 	         ["type"] = "npc";
 	      };
 	   };
+	   ["sort"] = "Darkshore";
 	   ["prev"] = 6341;
 	   ["prequests"] = {
 	      [1] = 6341;
 	   };
 	   ["level"] = 10;
-	   ["source"] = {
-	      [1] = {
-	         ["id"] = 3838;
-	         ["type"] = "npc";
-	      };
+	   ["repgain"] = {
+	      [69] = 75;
 	   };
 	   ["req"] = 10;
 	};
@@ -43957,34 +43962,37 @@ addon.questsDB = {
 	   ["req"] = 60;
 	};
 	[6343] = {
-	   ["faction"] = "Alliance";
-	   ["name"] = "Return to Nessa";
-	   ["objective"] = "Bring Laird's Response to Nessa Shadowsong.";
-	   ["zone"] = "Darkshore";
-	   ["gather"] = {
-	      [1] = 16263;
-	   };
-	   ["repgain"] = {
-	      [69] = 350;
-	   };
-	   ["sort"] = "Darkshore";
-	   ["deliver"] = {
-	      [1] = {
-	         ["id"] = 10118;
-	         ["type"] = "npc";
-	      };
-	   };
-	   ["prev"] = 6342;
-	   ["prequests"] = {
-	      [1] = 6342;
-	   };
-	   ["level"] = 10;
 	   ["source"] = {
 	      [1] = {
 	         ["id"] = 4200;
 	         ["type"] = "npc";
 	      };
 	   };
+	   ["repgain"] = {
+	      [69] = 350;
+	   };
+	   ["race"] = {
+	      [1] = "NightElf";
+	   };
+	   ["faction"] = "Alliance";
+	   ["gather"] = {
+	      [1] = 16263;
+	   };
+	   ["name"] = "Return to Nessa";
+	   ["objective"] = "Bring Laird's Response to Nessa Shadowsong.";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 10118;
+	         ["type"] = "npc";
+	      };
+	   };
+	   ["sort"] = "Darkshore";
+	   ["prev"] = 6342;
+	   ["prequests"] = {
+	      [1] = 6342;
+	   };
+	   ["level"] = 10;
+	   ["zone"] = "Darkshore";
 	   ["req"] = 10;
 	};
 	[8621] = {
@@ -44048,35 +44056,39 @@ addon.questsDB = {
 	   ["req"] = 1;
 	};
 	[6391] = {
+	   ["race"] = {
+	      [1] = "Dwarf";
+	      [2] = "Gnome";
+	   };
+	   ["source"] = {
+	      [1] = {
+	         ["id"] = 1572;
+	         ["type"] = "npc";
+	      };
+	   };
+	   ["next"] = 6388;
 	   ["faction"] = "Alliance";
 	   ["name"] = "Ride to Ironforge";
-	   ["objective"] = "Buy a gryphon to Ironforge from the gryphon master Thorgrum Borrelson, then bring Brock's List to Golnir Bouldertoe in Ironforge.";
-	   ["zone"] = "Loch Modan";
-	   ["repgain"] = {
-	      [54] = 75;
-	      [47] = 75;
-	   };
 	   ["gather"] = {
 	      [1] = 16310;
 	   };
-	   ["next"] = 6388;
-	   ["sort"] = "Loch Modan";
+	   ["objective"] = "Buy a gryphon to Ironforge from the gryphon master Thorgrum Borrelson, then bring Brock's List to Golnir Bouldertoe in Ironforge.";
+	   ["zone"] = "Loch Modan";
 	   ["deliver"] = {
 	      [1] = {
 	         ["id"] = 4256;
 	         ["type"] = "npc";
 	      };
 	   };
+	   ["sort"] = "Loch Modan";
 	   ["prev"] = 6387;
 	   ["prequests"] = {
 	      [1] = 6387;
 	   };
 	   ["level"] = 10;
-	   ["source"] = {
-	      [1] = {
-	         ["id"] = 1572;
-	         ["type"] = "npc";
-	      };
+	   ["repgain"] = {
+	      [54] = 75;
+	      [47] = 75;
 	   };
 	   ["req"] = 10;
 	};
@@ -48218,35 +48230,39 @@ addon.questsDB = {
 	   ["req"] = 60;
 	};
 	[6392] = {
-	   ["faction"] = "Alliance";
-	   ["name"] = "Return to Brock";
-	   ["objective"] = "Buy a gryphon to Thelsamar from the gryphon master Gryth Thurden, then bring the Honorary Picks to Brock Stoneseeker in Thelsamar.";
-	   ["zone"] = "Loch Modan";
-	   ["gather"] = {
-	      [1] = 16311;
-	   };
-	   ["repgain"] = {
-	      [54] = 350;
-	      [47] = 350;
-	   };
-	   ["sort"] = "Loch Modan";
-	   ["deliver"] = {
-	      [1] = {
-	         ["id"] = 1681;
-	         ["type"] = "npc";
-	      };
-	   };
-	   ["prev"] = 6388;
-	   ["prequests"] = {
-	      [1] = 6388;
-	   };
-	   ["level"] = 10;
 	   ["source"] = {
 	      [1] = {
 	         ["id"] = 1573;
 	         ["type"] = "npc";
 	      };
 	   };
+	   ["repgain"] = {
+	      [54] = 350;
+	      [47] = 350;
+	   };
+	   ["race"] = {
+	      [1] = "Dwarf";
+	      [2] = "Gnome";
+	   };
+	   ["faction"] = "Alliance";
+	   ["gather"] = {
+	      [1] = 16311;
+	   };
+	   ["name"] = "Return to Brock";
+	   ["objective"] = "Buy a gryphon to Thelsamar from the gryphon master Gryth Thurden, then bring the Honorary Picks to Brock Stoneseeker in Thelsamar.";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 1681;
+	         ["type"] = "npc";
+	      };
+	   };
+	   ["sort"] = "Loch Modan";
+	   ["prev"] = 6388;
+	   ["prequests"] = {
+	      [1] = 6388;
+	   };
+	   ["level"] = 10;
+	   ["zone"] = "Loch Modan";
 	   ["req"] = 10;
 	};
 	[8719] = {
@@ -52312,34 +52328,37 @@ addon.questsDB = {
 	   ["req"] = 40;
 	};
 	[6281] = {
+	   ["race"] = {
+	      [1] = "Human";
+	   };
+	   ["source"] = {
+	      [1] = {
+	         ["id"] = 523;
+	         ["type"] = "npc";
+	      };
+	   };
+	   ["next"] = 6261;
 	   ["faction"] = "Alliance";
 	   ["name"] = "Continue to Stormwind";
-	   ["objective"] = "Buy a gryphon ride from the gryphon master Thor, then bring Lewis' Note to Osric Strang, in the shop Limited Immunity, in the Old Town of Stormwind.";
-	   ["zone"] = "Westfall";
-	   ["repgain"] = {
-	      [72] = 75;
-	   };
 	   ["gather"] = {
 	      [1] = 15998;
 	   };
-	   ["next"] = 6261;
-	   ["sort"] = "Westfall";
+	   ["objective"] = "Buy a gryphon ride from the gryphon master Thor, then bring Lewis' Note to Osric Strang, in the shop Limited Immunity, in the Old Town of Stormwind.";
+	   ["zone"] = "Westfall";
 	   ["deliver"] = {
 	      [1] = {
 	         ["id"] = 1323;
 	         ["type"] = "npc";
 	      };
 	   };
+	   ["sort"] = "Westfall";
 	   ["prev"] = 6181;
 	   ["prequests"] = {
 	      [1] = 6181;
 	   };
 	   ["level"] = 10;
-	   ["source"] = {
-	      [1] = {
-	         ["id"] = 523;
-	         ["type"] = "npc";
-	      };
+	   ["repgain"] = {
+	      [72] = 75;
 	   };
 	   ["req"] = 10;
 	};
@@ -72661,34 +72680,37 @@ addon.questsDB = {
 	   ["req"] = 40;
 	};
 	[6285] = {
-	   ["faction"] = "Alliance";
-	   ["name"] = "Return to Lewis";
-	   ["objective"] = "Buy a gryphon ride to Sentinel Hill from the gryphon master Dungar Longdrink, then take Osric's Crate to Lewis at Sentinel Hill.";
-	   ["zone"] = "Westfall";
-	   ["gather"] = {
-	      [1] = 16115;
-	   };
-	   ["repgain"] = {
-	      [72] = 350;
-	   };
-	   ["sort"] = "Westfall";
-	   ["deliver"] = {
-	      [1] = {
-	         ["id"] = 491;
-	         ["type"] = "npc";
-	      };
-	   };
-	   ["prev"] = 6261;
-	   ["prequests"] = {
-	      [1] = 6261;
-	   };
-	   ["level"] = 10;
 	   ["source"] = {
 	      [1] = {
 	         ["id"] = 352;
 	         ["type"] = "npc";
 	      };
 	   };
+	   ["repgain"] = {
+	      [72] = 350;
+	   };
+	   ["race"] = {
+	      [1] = "Human";
+	   };
+	   ["faction"] = "Alliance";
+	   ["gather"] = {
+	      [1] = 16115;
+	   };
+	   ["name"] = "Return to Lewis";
+	   ["objective"] = "Buy a gryphon ride to Sentinel Hill from the gryphon master Dungar Longdrink, then take Osric's Crate to Lewis at Sentinel Hill.";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 491;
+	         ["type"] = "npc";
+	      };
+	   };
+	   ["sort"] = "Westfall";
+	   ["prev"] = 6261;
+	   ["prequests"] = {
+	      [1] = 6261;
+	   };
+	   ["level"] = 10;
+	   ["zone"] = "Westfall";
 	   ["req"] = 10;
 	};
 	[8505] = {
@@ -81286,34 +81308,37 @@ addon.questsDB = {
 	   ["req"] = 10;
 	};
 	[6261] = {
+	   ["race"] = {
+	      [1] = "Human";
+	   };
+	   ["source"] = {
+	      [1] = {
+	         ["id"] = 1323;
+	         ["type"] = "npc";
+	      };
+	   };
+	   ["next"] = 6285;
 	   ["faction"] = "Alliance";
 	   ["name"] = "Dungar Longdrink";
-	   ["objective"] = "Bring Osric's Crate to Dungar Longdrink the gryphon master.";
-	   ["zone"] = "Westfall";
-	   ["repgain"] = {
-	      [72] = 25;
-	   };
 	   ["gather"] = {
 	      [1] = 16115;
 	   };
-	   ["next"] = 6285;
-	   ["sort"] = "Westfall";
+	   ["objective"] = "Bring Osric's Crate to Dungar Longdrink the gryphon master.";
+	   ["zone"] = "Westfall";
 	   ["deliver"] = {
 	      [1] = {
 	         ["id"] = 352;
 	         ["type"] = "npc";
 	      };
 	   };
+	   ["sort"] = "Westfall";
 	   ["prev"] = 6281;
 	   ["prequests"] = {
 	      [1] = 6281;
 	   };
 	   ["level"] = 10;
-	   ["source"] = {
-	      [1] = {
-	         ["id"] = 1323;
-	         ["type"] = "npc";
-	      };
+	   ["repgain"] = {
+	      [72] = 25;
 	   };
 	   ["req"] = 10;
 	};
@@ -81493,34 +81518,37 @@ addon.questsDB = {
 	   ["req"] = 17;
 	};
 	[6324] = {
-	   ["faction"] = "Horde";
-	   ["name"] = "Return to Podrig";
-	   ["objective"] = "Buy a bat ride to the Sepulcher from the bat master Michael Garrett, then bring Gordon's Crate to Deathguard Podrig in the Sepulcher.";
-	   ["zone"] = "Silverpine Forest";
-	   ["gather"] = {
-	      [1] = 16210;
-	   };
-	   ["repgain"] = {
-	      [68] = 350;
-	   };
-	   ["sort"] = "Silverpine Forest";
-	   ["deliver"] = {
-	      [1] = {
-	         ["id"] = 6389;
-	         ["type"] = "npc";
-	      };
-	   };
-	   ["prev"] = 6322;
-	   ["prequests"] = {
-	      [1] = 6322;
-	   };
-	   ["level"] = 10;
 	   ["source"] = {
 	      [1] = {
 	         ["id"] = 4551;
 	         ["type"] = "npc";
 	      };
 	   };
+	   ["repgain"] = {
+	      [68] = 350;
+	   };
+	   ["race"] = {
+	      [1] = "Undead";
+	   };
+	   ["faction"] = "Horde";
+	   ["gather"] = {
+	      [1] = 16210;
+	   };
+	   ["name"] = "Return to Podrig";
+	   ["objective"] = "Buy a bat ride to the Sepulcher from the bat master Michael Garrett, then bring Gordon's Crate to Deathguard Podrig in the Sepulcher.";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 6389;
+	         ["type"] = "npc";
+	      };
+	   };
+	   ["sort"] = "Silverpine Forest";
+	   ["prev"] = 6322;
+	   ["prequests"] = {
+	      [1] = 6322;
+	   };
+	   ["level"] = 10;
+	   ["zone"] = "Silverpine Forest";
 	   ["req"] = 10;
 	};
 	[9000] = {
@@ -81679,6 +81707,10 @@ addon.questsDB = {
 	   ["req"] = 17;
 	};
 	[6387] = {
+	   ["race"] = {
+	      [1] = "Dwarf";
+	      [2] = "Gnome";
+	   };
 	   ["objective"] = "Bring Brock's List to Thorgrum Borrelson in Thelsamar.";
 	   ["zone"] = "Loch Modan";
 	   ["sort"] = "Loch Modan";
@@ -85087,6 +85119,9 @@ addon.questsDB = {
 	   ["req"] = 50;
 	};
 	[6362] = {
+	   ["race"] = {
+	      [1] = "Tauren";
+	   };
 	   ["name"] = "Ride to Thunder Bluff";
 	   ["objective"] = "Buy a wind rider to Thunder Bluff from the wind rider master Devrak, then bring the Bundle of Hides to Ahanu in Thunder Bluff.";
 	   ["zone"] = "The Barrens";
@@ -90073,34 +90108,37 @@ addon.questsDB = {
 	   ["req"] = 10;
 	};
 	[6341] = {
+	   ["race"] = {
+	      [1] = "NightElf";
+	   };
+	   ["source"] = {
+	      [1] = {
+	         ["id"] = 10118;
+	         ["type"] = "npc";
+	      };
+	   };
+	   ["next"] = 6342;
 	   ["faction"] = "Alliance";
 	   ["name"] = "The Bounty of Teldrassil";
-	   ["objective"] = "Bring Nessa's Collection to Vesprystus.";
-	   ["zone"] = "Darkshore";
-	   ["repgain"] = {
-	      [69] = 25;
-	   };
 	   ["gather"] = {
 	      [1] = 16262;
 	   };
-	   ["next"] = 6342;
-	   ["sort"] = "Darkshore";
+	   ["objective"] = "Bring Nessa's Collection to Vesprystus.";
+	   ["zone"] = "Darkshore";
 	   ["deliver"] = {
 	      [1] = {
 	         ["id"] = 3838;
 	         ["type"] = "npc";
 	      };
 	   };
+	   ["sort"] = "Darkshore";
 	   ["prev"] = 6344;
 	   ["prequests"] = {
 	      [1] = 6344;
 	   };
 	   ["level"] = 10;
-	   ["source"] = {
-	      [1] = {
-	         ["id"] = 10118;
-	         ["type"] = "npc";
-	      };
+	   ["repgain"] = {
+	      [69] = 25;
 	   };
 	   ["req"] = 10;
 	};
@@ -101831,6 +101869,10 @@ addon.questsDB = {
 	   ["req"] = 37;
 	};
 	[6385] = {
+	   ["race"] = {
+	      [1] = "Orc";
+	      [2] = "Troll";
+	   };
 	   ["name"] = "Doras the Wind Rider Master";
 	   ["objective"] = "Bring Gryshka's Letter to Doras in Orgrimmar.";
 	   ["zone"] = "The Barrens";
@@ -103120,6 +103162,9 @@ addon.questsDB = {
 	   ["req"] = 40;
 	};
 	[6361] = {
+	   ["race"] = {
+	      [1] = "Tauren";
+	   };
 	   ["objective"] = "Bring the Bundle of Hides to the wind rider master Devrak in the Crossroads.";
 	   ["zone"] = "The Barrens";
 	   ["sort"] = "The Barrens";
@@ -105664,6 +105709,10 @@ addon.questsDB = {
 	   ["req"] = 14;
 	};
 	[6384] = {
+	   ["race"] = {
+	      [1] = "Orc";
+	      [2] = "Troll";
+	   };
 	   ["name"] = "Ride to Orgrimmar";
 	   ["objective"] = "Buy a wind rider to Orgrimmar from the wind rider master Devrak, then bring Zargh's Meats to Gryshka in Orgrimmar.";
 	   ["zone"] = "The Barrens";
@@ -111243,34 +111292,37 @@ addon.questsDB = {
 	   ["req"] = 1;
 	};
 	[6322] = {
+	   ["race"] = {
+	      [1] = "Undead";
+	   };
+	   ["source"] = {
+	      [1] = {
+	         ["id"] = 4556;
+	         ["type"] = "npc";
+	      };
+	   };
+	   ["next"] = 6324;
 	   ["faction"] = "Horde";
 	   ["name"] = "Michael Garrett";
-	   ["objective"] = "Bring Gordon's Crate to Michael Garrett.";
-	   ["zone"] = "Silverpine Forest";
-	   ["repgain"] = {
-	      [68] = 25;
-	   };
 	   ["gather"] = {
 	      [1] = 16210;
 	   };
-	   ["next"] = 6324;
-	   ["sort"] = "Silverpine Forest";
+	   ["objective"] = "Bring Gordon's Crate to Michael Garrett.";
+	   ["zone"] = "Silverpine Forest";
 	   ["deliver"] = {
 	      [1] = {
 	         ["id"] = 4551;
 	         ["type"] = "npc";
 	      };
 	   };
+	   ["sort"] = "Silverpine Forest";
 	   ["prev"] = 6323;
 	   ["prequests"] = {
 	      [1] = 6323;
 	   };
 	   ["level"] = 10;
-	   ["source"] = {
-	      [1] = {
-	         ["id"] = 4556;
-	         ["type"] = "npc";
-	      };
+	   ["repgain"] = {
+	      [68] = 25;
 	   };
 	   ["req"] = 10;
 	};
@@ -111349,6 +111401,10 @@ addon.questsDB = {
 	   ["req"] = 1;
 	};
 	[6386] = {
+	   ["race"] = {
+	      [1] = "Orc";
+	      [2] = "Troll";
+	   };
 	   ["name"] = "Return to the Crossroads.";
 	   ["objective"] = "Buy a wind rider to the Crossroads from the wind rider master Doras, then bring Gryshka's Letter to Zargh at the Crossroads.";
 	   ["zone"] = "The Barrens";
@@ -113627,6 +113683,9 @@ addon.questsDB = {
 	[6344] = {
 	   ["objective"] = "Speak with Nessa Shadowsong.";
 	   ["zone"] = "Darnassus";
+	   ["race"] = {
+	      [1] = "NightElf";
+	   };
 	   ["sort"] = "Darnassus";
 	   ["repgain"] = {
 	      [69] = 25;
@@ -117560,6 +117619,9 @@ addon.questsDB = {
 	   ["req"] = 5;
 	};
 	[6321] = {
+	   ["race"] = {
+	      [1] = "Undead";
+	   };
 	   ["objective"] = "Bring Podrig's Order to Karos Razok.";
 	   ["zone"] = "Silverpine Forest";
 	   ["sort"] = "Silverpine Forest";
@@ -118765,34 +118827,37 @@ addon.questsDB = {
 	   ["req"] = 1;
 	};
 	[6323] = {
+	   ["race"] = {
+	      [1] = "Undead";
+	   };
+	   ["source"] = {
+	      [1] = {
+	         ["id"] = 2226;
+	         ["type"] = "npc";
+	      };
+	   };
+	   ["next"] = 6322;
 	   ["faction"] = "Horde";
 	   ["name"] = "Ride to the Undercity";
-	   ["objective"] = "Buy a bat ride to the Undercity from the bat master Karos Razok, then take Podrig's Order to Gordon Wendham in the Undercity.";
-	   ["zone"] = "Silverpine Forest";
-	   ["repgain"] = {
-	      [68] = 75;
-	   };
 	   ["gather"] = {
 	      [1] = 16209;
 	   };
-	   ["next"] = 6322;
-	   ["sort"] = "Silverpine Forest";
+	   ["objective"] = "Buy a bat ride to the Undercity from the bat master Karos Razok, then take Podrig's Order to Gordon Wendham in the Undercity.";
+	   ["zone"] = "Silverpine Forest";
 	   ["deliver"] = {
 	      [1] = {
 	         ["id"] = 4556;
 	         ["type"] = "npc";
 	      };
 	   };
+	   ["sort"] = "Silverpine Forest";
 	   ["prev"] = 6321;
 	   ["prequests"] = {
 	      [1] = 6321;
 	   };
 	   ["level"] = 10;
-	   ["source"] = {
-	      [1] = {
-	         ["id"] = 2226;
-	         ["type"] = "npc";
-	      };
+	   ["repgain"] = {
+	      [68] = 75;
 	   };
 	   ["req"] = 10;
 	};
@@ -120042,6 +120107,10 @@ addon.questsDB = {
 	   ["req"] = 40;
 	};
 	[6365] = {
+	   ["race"] = {
+	      [1] = "Orc";
+	      [2] = "Troll";
+	   };
 	   ["objective"] = "Bring Zargh's Meats to Devrak in the Crossroads.";
 	   ["zone"] = "The Barrens";
 	   ["sort"] = "The Barrens";
@@ -123481,34 +123550,37 @@ addon.questsDB = {
 	   ["req"] = 17;
 	};
 	[6363] = {
+	   ["race"] = {
+	      [1] = "Tauren";
+	   };
+	   ["source"] = {
+	      [1] = {
+	         ["id"] = 8359;
+	         ["type"] = "npc";
+	      };
+	   };
+	   ["next"] = 6364;
 	   ["faction"] = "Horde";
 	   ["name"] = "Tal the Wind Rider Master";
-	   ["objective"] = "Bring Ahanu's Leather Goods to Tal in Thunder Bluff.";
-	   ["zone"] = "The Barrens";
-	   ["repgain"] = {
-	      [81] = 25;
-	   };
 	   ["gather"] = {
 	      [1] = 16283;
 	   };
-	   ["next"] = 6364;
-	   ["sort"] = "The Barrens";
+	   ["objective"] = "Bring Ahanu's Leather Goods to Tal in Thunder Bluff.";
+	   ["zone"] = "The Barrens";
 	   ["deliver"] = {
 	      [1] = {
 	         ["id"] = 2995;
 	         ["type"] = "npc";
 	      };
 	   };
+	   ["sort"] = "The Barrens";
 	   ["prev"] = 6362;
 	   ["prequests"] = {
 	      [1] = 6362;
 	   };
 	   ["level"] = 10;
-	   ["source"] = {
-	      [1] = {
-	         ["id"] = 8359;
-	         ["type"] = "npc";
-	      };
+	   ["repgain"] = {
+	      [81] = 25;
 	   };
 	   ["req"] = 10;
 	};
@@ -123999,6 +124071,9 @@ addon.questsDB = {
 	   ["req"] = 35;
 	};
 	[6181] = {
+	   ["race"] = {
+	      [1] = "Human";
+	   };
 	   ["objective"] = "Bring Lewis' Note to Thor the gryphon master.";
 	   ["zone"] = "Westfall";
 	   ["sort"] = "Westfall";
@@ -125376,34 +125451,37 @@ addon.questsDB = {
 	   ["req"] = 8;
 	};
 	[6364] = {
-	   ["faction"] = "Horde";
-	   ["name"] = "Return to Jahan";
-	   ["objective"] = "Buy a wind rider to the Crossroads from the wind rider master Tal, then bring Ahanu's Leather Goods to Jahan Hawkwing.";
-	   ["zone"] = "The Barrens";
-	   ["gather"] = {
-	      [1] = 16283;
-	   };
-	   ["repgain"] = {
-	      [81] = 350;
-	   };
-	   ["sort"] = "The Barrens";
-	   ["deliver"] = {
-	      [1] = {
-	         ["id"] = 3483;
-	         ["type"] = "npc";
-	      };
-	   };
-	   ["prev"] = 6363;
-	   ["prequests"] = {
-	      [1] = 6363;
-	   };
-	   ["level"] = 10;
 	   ["source"] = {
 	      [1] = {
 	         ["id"] = 2995;
 	         ["type"] = "npc";
 	      };
 	   };
+	   ["repgain"] = {
+	      [81] = 350;
+	   };
+	   ["race"] = {
+	      [1] = "Tauren";
+	   };
+	   ["faction"] = "Horde";
+	   ["gather"] = {
+	      [1] = 16283;
+	   };
+	   ["name"] = "Return to Jahan";
+	   ["objective"] = "Buy a wind rider to the Crossroads from the wind rider master Tal, then bring Ahanu's Leather Goods to Jahan Hawkwing.";
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 3483;
+	         ["type"] = "npc";
+	      };
+	   };
+	   ["sort"] = "The Barrens";
+	   ["prev"] = 6363;
+	   ["prequests"] = {
+	      [1] = 6363;
+	   };
+	   ["level"] = 10;
+	   ["zone"] = "The Barrens";
 	   ["req"] = 10;
 	};
 	[4341] = {
@@ -126598,35 +126676,39 @@ addon.questsDB = {
 	   ["req"] = 1;
 	};
 	[6388] = {
+	   ["race"] = {
+	      [1] = "Dwarf";
+	      [2] = "Gnome";
+	   };
+	   ["source"] = {
+	      [1] = {
+	         ["id"] = 4256;
+	         ["type"] = "npc";
+	      };
+	   };
+	   ["next"] = 6392;
 	   ["faction"] = "Alliance";
 	   ["name"] = "Gryth Thurden";
-	   ["objective"] = "Bring the Honorary Picks to Gryth Thurden in Ironforge.";
-	   ["zone"] = "Loch Modan";
-	   ["repgain"] = {
-	      [54] = 25;
-	      [47] = 25;
-	   };
 	   ["gather"] = {
 	      [1] = 16311;
 	   };
-	   ["next"] = 6392;
-	   ["sort"] = "Loch Modan";
+	   ["objective"] = "Bring the Honorary Picks to Gryth Thurden in Ironforge.";
+	   ["zone"] = "Loch Modan";
 	   ["deliver"] = {
 	      [1] = {
 	         ["id"] = 1573;
 	         ["type"] = "npc";
 	      };
 	   };
+	   ["sort"] = "Loch Modan";
 	   ["prev"] = 6391;
 	   ["prequests"] = {
 	      [1] = 6391;
 	   };
 	   ["level"] = 10;
-	   ["source"] = {
-	      [1] = {
-	         ["id"] = 4256;
-	         ["type"] = "npc";
-	      };
+	   ["repgain"] = {
+	      [54] = 25;
+	      [47] = 25;
 	   };
 	   ["req"] = 10;
 	};
