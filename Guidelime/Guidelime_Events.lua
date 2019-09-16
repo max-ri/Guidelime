@@ -95,7 +95,7 @@ function addon.updateFromQuestLog()
 		local msg = "LIME: current quests: "
 		for id, q in pairs(addon.quests) do
 			if q.logIndex ~= nil then 
-				msg = msg .. q.name .. "(#" .. id .. "), "
+				msg = msg .. (q.name or "?") .. "(#" .. id .. "), "
 			end
 		end
 		print(msg:sub(1, #msg - 2))
