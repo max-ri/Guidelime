@@ -166,6 +166,8 @@ function addon.getQuestPositions(id, typ, objective, filterZone)
 			for i, e in ipairs(addon.questsDB[id].source) do
 				if objective == nil or objective == i then
 					table.insert(ids[e.type], e.id)
+					if objectives[e.type][e.id] == nil then objectives[e.type][e.id] = {} end
+					table.insert(objectives[e.type][e.id], i)
 				end
 			end
 		end
@@ -174,6 +176,8 @@ function addon.getQuestPositions(id, typ, objective, filterZone)
 			for i, e in ipairs(addon.questsDB[id].deliver) do
 				if objective == nil or objective == i then
 					table.insert(ids[e.type], e.id)
+					if objectives[e.type][e.id] == nil then objectives[e.type][e.id] = {} end
+					table.insert(objectives[e.type][e.id], i)
 				end
 			end
 		end
