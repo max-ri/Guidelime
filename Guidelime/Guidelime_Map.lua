@@ -129,10 +129,14 @@ local function getTooltip(element)
 			addon.getQuestText(element.attached.questId, element.attached.t, nil, element.step and element.step.active) 
 		if element.attached.t ~= "ACCEPT" then
 			local objectives
-			if element.attached.t == "TURNIN" or element.attached.objective == nil then
+			if element.attached.t == "TURNIN" then
 				objectives = true
-			else
+			elseif element.attached.objective ~= nil then
 				objectives = {element.attached.objective}
+			elseif element.objectives ~= nil then
+				objectives = element.objectives
+			else
+				objectives = true
 			end
 			local obj = addon.getQuestObjectiveText(element.attached.questId, objectives, "    ")
 			if obj ~= "" then tooltip = tooltip .. "\n" .. obj end

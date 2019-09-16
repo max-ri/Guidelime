@@ -941,6 +941,26 @@ local function updateFirstActiveIndex()
 	return oldFirstActiveIndex ~= addon.currentGuide.firstActiveIndex
 end
 
+local function getQuestActiveObjectives(id, objective)
+	local objectiveList = addon.getQuestObjectives(id)
+	if objectiveList == nil then return {} end
+	local objectives
+	if objective == nil then
+		objectives = {}; for i = 1, #objectiveList do objectives[i] = i end
+	else
+		objectives = {objective}
+	end
+	local active = {}
+	for _, i in ipairs(objectives) do
+		local o
+		if addon.quests[id] ~= nil and addon.quests[id].logIndex ~= nil and addon.quests[id].objectives ~= nil then	o = addon.quests[id].objectives[i] end
+		if o == nil or (not o.done and o.desc ~= nil and o.desc ~= "") then
+			table.insert(active, i)
+		end
+	end
+	return active
+end
+
 function addon.updateStepsMapIcons()
 	if addon.isEditorShowing() or addon.currentGuide == nil then return end
 	addon.removeMapIcons()
@@ -964,7 +984,15 @@ function addon.updateStepsMapIcons()
 						end
 					end
 				elseif (element.t == "LOC" or element.t == "GOTO") and not element.completed and element.specialLocation == nil then
-					addon.addMapIcon(element, false)
+					local found = true
+					if element.objectives ~= nil and element.attached ~= nil and element.attached.questId ~= nil then
+						local objectives = getQuestActiveObjectives(element.attached.questId, element.attached.objective)
+						found = false
+						for _, o in ipairs(element.objectives) do
+							if addon.contains(objectives, o) then found = true; break; end
+						end
+					end
+					if found then addon.addMapIcon(element, false) end
 				end
 			end
 		end
