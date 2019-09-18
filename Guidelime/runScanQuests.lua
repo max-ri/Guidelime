@@ -109,7 +109,9 @@ local function scanQuests(guide, quests)
 			if element.t == "ACCEPT" then
 				if addon.questsDB[element.questId].prequests ~= nil then
 					for _, id in ipairs(addon.questsDB[element.questId].prequests) do
-						if (addon.questsDB[id].faction or guide.faction) == guide.faction then 
+						if (addon.questsDB[id].faction or guide.faction) == guide.faction and 
+							addon.questsDB[id].races == nil and 
+							addon.questsDB[id].classes == nil then
 							if currentQuests[id] ~= false then
 								addError(guide.name, i, "ERROR: quest " .. element.questId .. " accepted but prequest " .. id .. " was not turned in")
 							elseif quests[id] == false then
