@@ -529,13 +529,20 @@ function addon.getQuestObjectiveIcon(id, objective)
 	return text
 end	
 
-function addon.getQuestObjectiveText(id, objectives, indent)
+function addon.getQuestObjectiveText(id, objectives, indent, npcId)
 	local objectiveList = addon.getQuestObjectives(id)
 	if objectiveList == nil then return "" end
 	if objectives == true then
 		objectives = {}; for i = 1, #objectiveList do objectives[i] = i end
 	end
 	local text = ""
+	if npcId ~= nil and (#objectives ~= 1 or objectiveList[objectives[1]] == nil or (objectiveList[objectives[1]].type ~= "npc" and objectiveList[objectives[1]].type ~= "monster")) then
+		if addon["creaturesDB_" .. GetLocale()] ~= nil and addon["creaturesDB_" .. GetLocale()][npcId] ~= nil then
+			text = (indent or "") .. addon["creaturesDB_" .. GetLocale()][npcId]
+		elseif npcId ~= nil and addon.creaturesDB[npcId] ~= nil then
+			text = (indent or "") .. addon.creaturesDB[npcId].name .. objectiveList[objectives[1]].type
+		end
+	end
 	for _, i in ipairs(objectives) do
 		local o
 		if addon.quests[id] ~= nil and addon.quests[id].logIndex ~= nil and addon.quests[id].objectives ~= nil then	o = addon.quests[id].objectives[i] end
