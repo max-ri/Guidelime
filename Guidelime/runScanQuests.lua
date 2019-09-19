@@ -55,6 +55,7 @@ end)
 for name, guide in pairs(addon.guides) do
 	if guide.next ~= nil then
 		for i, next in ipairs(guide.next) do
+			if guide.group ~= nil and guide.group ~= "" then next = guide.group .. " " .. next end
 			if addon.guides[next] == nil then error("part " .. next .. " not found") end
 			addon.guides[next].isNext = true
 		end
@@ -96,6 +97,7 @@ local function addError(guide, line, err)
 end
 
 local function scanQuests(guide, quests)
+	if addon.acceptedQuests[guide.name] ~= nil then return end
 	addon.acceptedQuests[guide.name] = quests
 	local currentQuests = {}
 	local numQuests = 0
@@ -131,11 +133,11 @@ local function scanQuests(guide, quests)
 					addon.acceptedInLine[element.questId] = i
 					if step.completeWithNext then addon.acceptOptional[element.questId] = true end
 					numQuests = numQuests + 1
+					if addon.maxNumQuests[guide.name] < 20 and numQuests > 20 then
+						addError(guide.name, i, "ERROR: quest " .. element.questId .. " accepted after 20 or more quests had been accepted")
+					end
 					if addon.maxNumQuests[guide.name] < numQuests then
 						addon.maxNumQuests[guide.name] = numQuests
-					end
-					if numQuests > 20 then
-						addError(guide.name, i, "ERROR: quest " .. element.questId .. " accepted after 20 or more quests had been accepted")
 					end
 				elseif addon.acceptOptional[element.questId] then
 					addon.acceptOptional[element.questId] = step.completeWithNext
@@ -178,6 +180,7 @@ local function scanQuests(guide, quests)
 	end
 	if guide.next ~= nil and #guide.next > 0 then
 		for i, next in ipairs(guide.next) do
+			if guide.group ~= nil and guide.group ~= "" then next = guide.group .. " " .. next end
 			scanQuests(addon.guides[next], currentQuests)
 		end
 	else
@@ -187,14 +190,17 @@ local function scanQuests(guide, quests)
 	end
 end
 
-local names = {}
-for name, guide in pairs(addon.guides) do
-	table.insert(names, name)
+for _, guide in pairs(addon.guides) do
 	if guide.next ~= nil and #guide.next > 0 and not guide.isNext then
 		scanQuests(guide, {})
+		break
 	end
 end
 
+local names = {}
+for name, guide in pairs(addon.guides) do
+	table.insert(names, name)
+end
 table.sort(names)
 local count = 0
 for _, name in ipairs(names) do
@@ -205,6 +211,7 @@ for _, name in ipairs(names) do
 	end
 	if addon.errors[name] ~= nil then
 		table.sort(addon.errors[name])
+		print()
 		print(name)
 		for _, err in ipairs(addon.errors[name]) do
 			print(err)
@@ -217,29 +224,33 @@ if count > 0 then print(count .. " errors\n") end
 for _, name in ipairs(names) do
 	print()
 	print(name)	
-	if addon.prequests[name] ~= nil then
-		local text = ""
-		for id, value in pairs(addon.prequests[name]) do
-			if value then
-				text = text .. "[QT" .. id .. "],"
+	if addon.maxNumQuests[name]	== nil then
+		print("not tested")
+	else
+		if addon.prequests[name] ~= nil then
+			local text = ""
+			for id, value in pairs(addon.prequests[name]) do
+				if value then
+					text = text .. "[QT" .. id .. "],"
+				end
+			end
+			if text ~= "" then
+				print("Required prequests: " .. text:sub(1, #text - 1))
 			end
 		end
-		if text ~= "" then
-			print("Required prequests: " .. text:sub(1, #text - 1))
-		end
-	end
-	if addon.acceptedQuests[name] ~= nil then
-		local text = ""
-		for id, value in pairs(addon.acceptedQuests[name]) do
-			if value and not addon.notTurnedIn[id] then
-				text = text .. "[QA" .. id .. "],"
+		if addon.acceptedQuests[name] ~= nil then
+			local text = ""
+			for id, value in pairs(addon.acceptedQuests[name]) do
+				if value and not addon.notTurnedIn[id] then
+					text = text .. "[QA" .. id .. "],"
+				end
+			end
+			if text ~= "" then
+				print("Accepted quests at the start: " .. text:sub(1, #text - 1))
 			end
 		end
-		if text ~= "" then
-			print("Accepted quests at the start: " .. text:sub(1, #text - 1))
-		end
+		print ("Maximum Number of quests: " .. addon.maxNumQuests[name])
 	end
-	print ("Maximum Number of quests: " .. addon.maxNumQuests[name])
 end
 
 	
