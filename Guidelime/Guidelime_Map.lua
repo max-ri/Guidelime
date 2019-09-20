@@ -138,7 +138,7 @@ local function getTooltip(element)
 			else
 				objectives = true
 			end
-			local obj = addon.getQuestObjectiveText(element.attached.questId, objectives, "    ", element.npcId)
+			local obj = addon.getQuestObjectiveText(element.attached.questId, objectives, "    ", element.npcId, element.objectId)
 			if obj ~= "" then tooltip = tooltip .. "\n" .. obj end
 		end
 	end

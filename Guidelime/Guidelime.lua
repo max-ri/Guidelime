@@ -536,7 +536,7 @@ function addon.getQuestObjectiveIcon(id, objective)
 	return text
 end	
 
-function addon.getQuestObjectiveText(id, objectives, indent, npcId)
+function addon.getQuestObjectiveText(id, objectives, indent, npcId, objectId)
 	local objectiveList = addon.getQuestObjectives(id)
 	if objectiveList == nil then return "" end
 	if objectives == true then
@@ -545,9 +545,15 @@ function addon.getQuestObjectiveText(id, objectives, indent, npcId)
 	local text = ""
 	if npcId ~= nil and (#objectives ~= 1 or objectiveList[objectives[1]] == nil or (objectiveList[objectives[1]].type ~= "npc" and objectiveList[objectives[1]].type ~= "monster")) then
 		if addon["creaturesDB_" .. GetLocale()] ~= nil and addon["creaturesDB_" .. GetLocale()][npcId] ~= nil then
-			text = (indent or "") .. addon["creaturesDB_" .. GetLocale()][npcId]
+			text = (indent or "") .. "|T" .. addon.icons.monster .. ":12|t" .. addon["creaturesDB_" .. GetLocale()][npcId]
 		elseif npcId ~= nil and addon.creaturesDB[npcId] ~= nil then
-			text = (indent or "") .. addon.creaturesDB[npcId].name
+			text = (indent or "") .. "|T" .. addon.icons.monster .. ":12|t" .. addon.creaturesDB[npcId].name
+		end
+	elseif objectId ~= nil and (#objectives ~= 1 or objectiveList[objectives[1]] == nil or objectiveList[objectives[1]].type ~= "object") then
+		if addon["objectsDB_" .. GetLocale()] ~= nil and addon["objectsDB_" .. GetLocale()][objectId] ~= nil then
+			text = (indent or "") .. "|T" .. addon.icons.object .. ":12|t" .. addon["objectsDB_" .. GetLocale()][objectId]
+		elseif objectId ~= nil and addon.objectsDB[objectId] ~= nil then
+			text = (indent or "") .. "|T" .. addon.icons.object .. ":12|t" .. addon.objectsDB[objectId].name
 		end
 	end
 	for _, i in ipairs(objectives) do

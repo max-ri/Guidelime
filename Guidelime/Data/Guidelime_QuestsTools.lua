@@ -268,7 +268,8 @@ function addon.getQuestPositions(id, typ, objective, filterZone)
 					if x ~= nil then
 						table.insert(positions, {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, zone = zone, mapID = addon.mapIDs[zone], 
 							wx = pos.y, wy = pos.x, instance = pos.mapid,
-							objectives = objectives.object[objectId]})
+							objectives = objectives.object[objectId],
+							objectId = objectId})
 					elseif addon.debugging and filterZone == nil then 
 						print("error transforming (" .. pos.x .. "," .. pos.y .. "," .. pos.mapid .. ") into zone coordinates for quest #" .. id .. " object #" .. objectId)
 					end
