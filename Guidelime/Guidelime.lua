@@ -192,6 +192,7 @@ function addon.loadData()
 			GuidelimeData.debugging = false
 			addon.debugging = false
 			GuidelimeData.dataSourceQuestie = false
+			GuidelimeData.version = GetAddOnMetadata(addonName, "version")
 		end
 		if tonumber(major) == 0 and tonumber(minor) < 39 then
 			--removed options mapMarkerStyle, mapMarkerSize, autoAddCoordinates
@@ -546,7 +547,7 @@ function addon.getQuestObjectiveText(id, objectives, indent, npcId)
 		if addon["creaturesDB_" .. GetLocale()] ~= nil and addon["creaturesDB_" .. GetLocale()][npcId] ~= nil then
 			text = (indent or "") .. addon["creaturesDB_" .. GetLocale()][npcId]
 		elseif npcId ~= nil and addon.creaturesDB[npcId] ~= nil then
-			text = (indent or "") .. addon.creaturesDB[npcId].name .. objectiveList[objectives[1]].type
+			text = (indent or "") .. addon.creaturesDB[npcId].name
 		end
 	end
 	for _, i in ipairs(objectives) do
@@ -666,7 +667,11 @@ function addon.getStepText(step)
 		end
 		if element.empty == nil or not element.empty then prevElement = element end
 	end
-	if step.missingPrequests ~= nil and #step.missingPrequests > 0 then
+	if step.skippedQuests ~= nil and #step.skippedQuests > 0 then
+		if tooltip ~= "" then tooltip = tooltip .. "\n" end
+		tooltip = tooltip .. "|T" .. addon.icons.UNAVAILABLE .. ":12|t"
+		tooltip = tooltip .. L.SKIPPING_QUEST
+	elseif step.missingPrequests ~= nil and #step.missingPrequests > 0 then
 		if tooltip ~= "" then tooltip = tooltip .. "\n" end
 		tooltip = tooltip .. "|T" .. addon.icons.UNAVAILABLE .. ":12|t"
 		if #step.missingPrequests == 1 then
@@ -786,6 +791,7 @@ local function updateStepAvailability(i, changedIndexes, scheduled)
 	local wasAvailable = step.available
 	step.available = nil
 	step.missingPrequests = {}
+	step.skippedQuests = {}
 	for _, element in ipairs(step.elements) do
 		element.available = true
 		if element.t == "ACCEPT" then
@@ -803,18 +809,17 @@ local function updateStepAvailability(i, changedIndexes, scheduled)
 					end
 				end
 			end
-		elseif element.t == "COMPLETE" then
+		elseif element.t == "COMPLETE" or element.t == "TURNIN" then
 			if not scheduled.ACCEPT[element.questId] and not element.completed and addon.quests[element.questId].logIndex == nil then
 				element.available = false
-				if not addon.contains(step.missingPrequests, element.questId) then
-					table.insert(step.missingPrequests, element.questId)
-				end
-			end
-		elseif element.t == "TURNIN" then
-			if not scheduled.ACCEPT[element.questId] and not element.completed and addon.quests[element.questId].logIndex == nil then
-				element.available = false
-				if not addon.contains(step.missingPrequests, element.questId) then
-					table.insert(step.missingPrequests, element.questId)
+				if scheduled.SKIP[element.questId] then
+					if not addon.contains(step.skippedQuests, element.questId) then
+						table.insert(step.skippedQuests, element.questId)
+					end
+				else
+					if not addon.contains(step.missingPrequests, element.questId) then
+						table.insert(step.missingPrequests, element.questId)
+					end
 				end
 			end
 		end
@@ -823,6 +828,7 @@ local function updateStepAvailability(i, changedIndexes, scheduled)
 				scheduled[element.t][element.questId] = true
 			elseif not scheduled[element.t][element.questId] and step.skip and not element.completed and addon.quests[element.questId].lastStep[element.t] == element then
 				element.available = false
+				scheduled.SKIP[element.questId] = true
 			end
 			if not element.completed then step.available = step.available and element.available end
 			if not element.completed then step.available = step.available or element.available end
@@ -843,7 +849,7 @@ local function updateStepsCompletion(changedIndexes)
 	addon.currentGuide.unavailableQuests = {}
 	repeat
 		local numNew = #changedIndexes
-		local scheduled = {ACCEPT = {}, COMPLETE = {}, TURNIN = {}}
+		local scheduled = {ACCEPT = {}, COMPLETE = {}, TURNIN = {}, SKIP = {}}
 		for i, step in ipairs(addon.currentGuide.steps) do
 			updateStepCompletion(i, changedIndexes)
 			updateStepAvailability(i, changedIndexes, scheduled)
