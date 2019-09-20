@@ -187,6 +187,12 @@ function addon.loadData()
 		end
 	end, 1)
 	GuidelimeData.version:gsub("(%d+).(%d+)", function(major, minor)
+		if tonumber(major) == 1 and tonumber(minor) < 28 then
+			--hide option debugging, dataSourceQuestie
+			GuidelimeData.debugging = false
+			addon.debugging = false
+			GuidelimeData.dataSourceQuestie = false
+		end
 		if tonumber(major) == 0 and tonumber(minor) < 39 then
 			--removed options mapMarkerStyle, mapMarkerSize, autoAddCoordinates
 			GuidelimeData.mapMarkerStyle = nil
@@ -1431,5 +1437,7 @@ function SlashCmdList.Guidelime(msg)
 	elseif msg == 'debug false' and addon.debugging then GuidelimeData.debugging = false; ReloadUI()
 	elseif msg == 'complete' then simulateCompleteCurrentSteps()
 	elseif msg == 'skip' then skipCurrentSteps()
+	elseif msg == 'questie true' and not GuidelimeData.dataSourceQuestie then GuidelimeData.dataSourceQuestie = true; ReloadUI()
+	elseif msg == 'questie false' and GuidelimeData.dataSourceQuestie then GuidelimeData.dataSourceQuestie = false; ReloadUI()
 	end
 end

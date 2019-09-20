@@ -489,14 +489,14 @@ function addon.fillOptions()
 	addon.optionsFrame.titleDebugging:SetFontObject("GameFontNormalLarge")
 	prev = addon.optionsFrame.titleDebugging
 
-	checkbox = addon.addCheckOption(content, GuidelimeData, "debugging", L.DEBUGGING, nil, function()
+	--[[checkbox = addon.addCheckOption(content, GuidelimeData, "debugging", L.DEBUGGING, nil, function()
 		addon.debugging = GuidelimeData.debugging
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateMainFrame()
 		end
 	end)
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
-	prev = checkbox
+	prev = checkbox]]
 
 	checkbox = addon.addCheckOption(content, GuidelimeData, "showLineNumbers", L.SHOW_LINE_NUMBERS, nil, function()
 		addon.debugging = GuidelimeData.debugging
@@ -516,6 +516,7 @@ function addon.fillOptions()
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = checkbox
 
+	--[[
 	if QuestieDB == nil then GuidelimeData.dataSourceQuestie = false end
 	checkbox = addon.addCheckOption(content, GuidelimeData, "dataSourceQuestie", L.USE_QUESTIE_AS_DATA_SOURCE, L.USE_QUESTIE_AS_DATA_SOURCE_TOOLTIP, function()
 		content.options.dataSourceInternal:SetChecked(not GuidelimeData.dataSourceQuestie)
@@ -541,6 +542,7 @@ function addon.fillOptions()
 		end
 	end)
 	content.options.dataSourceInternal:SetPoint("TOPLEFT", prev, "TOPLEFT", 270, 0)
+	]]
 end
 
 function addon.isOptionsShowing()
