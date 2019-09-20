@@ -45733,7 +45733,7 @@ addon.questsDB = {
 	   ["gather"] = {
 	      [1] = 4338;
 	   };
-	   ["followup"] = 7836;
+	   ["followup"] = 7824;
 	   ["sort"] = "Orgrimmar";
 	   ["deliver"] = {
 	      [1] = {
@@ -49333,7 +49333,7 @@ addon.questsDB = {
 	   ["sort"] = "Orgrimmar";
 	   ["deliver"] = {
 	      [1] = {
-	         ["id"] = 14727;
+	         ["id"] = 14726;
 	         ["type"] = "npc";
 	      };
 	   };
@@ -65200,7 +65200,7 @@ addon.questsDB = {
 	   ["gather"] = {
 	      [1] = 4338;
 	   };
-	   ["followup"] = 7824;
+	   ["followup"] = 7836;
 	   ["sort"] = "Orgrimmar";
 	   ["deliver"] = {
 	      [1] = {
@@ -68725,18 +68725,18 @@ addon.questsDB = {
 	   ["sort"] = "Orgrimmar";
 	   ["deliver"] = {
 	      [1] = {
-	         ["id"] = 14726;
+	         ["id"] = 14727;
 	         ["type"] = "npc";
 	      };
 	   };
-	   ["prev"] = 7831;
+	   ["prev"] = 7835;
 	   ["prequests"] = {
-	      [1] = 7831;
+	      [1] = 7835;
 	   };
 	   ["level"] = 60;
 	   ["source"] = {
 	      [1] = {
-	         ["id"] = 14726;
+	         ["id"] = 14727;
 	         ["type"] = "npc";
 	      };
 	   };
@@ -75813,7 +75813,7 @@ addon.questsDB = {
 	   ["sort"] = "Orgrimmar";
 	   ["deliver"] = {
 	      [1] = {
-	         ["id"] = 14726;
+	         ["id"] = 14727;
 	         ["type"] = "npc";
 	      };
 	   };
@@ -75824,7 +75824,7 @@ addon.questsDB = {
 	   ["level"] = 60;
 	   ["source"] = {
 	      [1] = {
-	         ["id"] = 14726;
+	         ["id"] = 14727;
 	         ["type"] = "npc";
 	      };
 	   };
@@ -98962,18 +98962,18 @@ addon.questsDB = {
 	   ["sort"] = "Orgrimmar";
 	   ["deliver"] = {
 	      [1] = {
-	         ["id"] = 14727;
+	         ["id"] = 14726;
 	         ["type"] = "npc";
 	      };
 	   };
-	   ["prev"] = 7835;
+	   ["prev"] = 7831;
 	   ["prequests"] = {
-	      [1] = 7835;
+	      [1] = 7831;
 	   };
 	   ["level"] = 60;
 	   ["source"] = {
 	      [1] = {
-	         ["id"] = 14727;
+	         ["id"] = 14726;
 	         ["type"] = "npc";
 	      };
 	   };
