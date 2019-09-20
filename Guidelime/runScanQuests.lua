@@ -30,6 +30,12 @@ function Guidelime.registerGuide(guide, group)
 	if guide == nil then error("There were errors parsing the guide \"" .. guide.name .. "\"") end
 	addon.guides[guide.name] = guide
 	if guide.faction == nil and guide.race ~= nil then guide.faction = addon.races[guide.race[1]] end
+	if guide.faction == nil and guide.class ~= nil then
+		for _, class in ipairs(guide.class) do
+			guide.faction = addon.classesWithFaction[class]
+			if guide.faction ~= nil then break end
+		end
+	end
 end
 
 assert(loadfile("Localization.lua"))(nil, addon)
@@ -133,7 +139,7 @@ local function scanQuests(guide, quests)
 					addon.acceptedInLine[element.questId] = i
 					if step.completeWithNext then addon.acceptOptional[element.questId] = true end
 					numQuests = numQuests + 1
-					if addon.maxNumQuests[guide.name] < 20 and numQuests > 20 then
+					if addon.maxNumQuests[guide.name] <= 20 and numQuests > 20 then
 						addError(guide.name, i, "ERROR: quest " .. element.questId .. " accepted after 20 or more quests had been accepted")
 					end
 					if addon.maxNumQuests[guide.name] < numQuests then
