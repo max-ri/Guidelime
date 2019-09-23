@@ -1441,6 +1441,28 @@ local function simulateCompleteCurrentSteps()
 	end
 end
 
+function addon.checkQuests()
+	local completed = GetQuestsCompleted()
+	local count = 0
+	for id, value in pairs(completed) do count = count + 1 end
+	print ("LIME: " .. count .. " quests completed")
+	local found = false
+	for id, value in pairs(completed) do
+		if addon.questsDB[id] ~= nil and addon.questsDB[id].prequests ~= nil then
+			for _, pid in ipairs(addon.questsDB[id].prequests) do
+				if (addon.questsDB[pid].faction or addon.faction) == addon.faction and 
+					(addon.questsDB[pid].races == nil or addon.contains(addon.questsDB[pid].races, addon.race)) and 
+					(addon.questsDB[pid].classes == nil or addon.contains(addon.questsDB[pid].classes, addon.class)) and 
+					not completed[pid] then
+					found = true
+					print ("LIME: quest " .. addon.questsDB[id].name .. "(" .. id .. ") was completed but prequest " .. addon.questsDB[pid].name .. "(" .. pid .. ") was not")
+				end
+			end
+		end
+	end
+	if not found then print ("LIME: no prequest inconsistencies were detected") end
+end
+
 SLASH_Guidelime1 = "/lime"
 SLASH_Guidelime2 = "/guidelime"
 function SlashCmdList.Guidelime(msg)
@@ -1451,5 +1473,6 @@ function SlashCmdList.Guidelime(msg)
 	elseif msg == 'skip' then skipCurrentSteps()
 	elseif msg == 'questie true' and not GuidelimeData.dataSourceQuestie then GuidelimeData.dataSourceQuestie = true; ReloadUI()
 	elseif msg == 'questie false' and GuidelimeData.dataSourceQuestie then GuidelimeData.dataSourceQuestie = false; ReloadUI()
+	elseif msg == 'quests' then addon.checkQuests()
 	end
 end
