@@ -581,6 +581,7 @@ L["ADDED_QUEST_COORDINATES_MESSAGE"] = "%s Quest-Koordinaten wurden hinzugefügt
 L["Alliance"] = "Allianz"
 L["ARROW"] = "Richtungspfeil"
 L["ARROW_ALPHA"] = "Richtungspfeil-Alpha"
+L["ARROW_SIZE"] = "Richtungspfeil-Größe"
 L["ARROW_STYLE"] = "Richtungspfeil-Stil"
 L["ARROW_STYLE1"] = "Limette"
 L["ARROW_STYLE2"] = "Pfeil"

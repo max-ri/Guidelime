@@ -190,12 +190,23 @@ function addon.createPopupFrame(message, okFunc, hasCancel, height)
 end
 
 function addon.showUrlPopup(url)
-	local popup = addon.createPopupFrame(nil, nil, false, 80)
-	popup.textboxName = addon.addTextbox(popup, L.URL, 420)
-	popup.textboxName.text:SetPoint("TOPLEFT", 20, -20)
-	popup.textboxName:SetPoint("TOPLEFT", 120, -20)
-	popup.textboxName:SetText(url)
-	popup.textboxName:SetFocus()
-	popup.textboxName:HighlightText(false)
+	return addon.showCopyPopup(url, L.URL, 100, 80, false)
+end
+
+function addon.showCopyPopup(value, text, textwidth, height, multiline)
+	local popup = addon.createPopupFrame(nil, nil, false, height)
+	if multiline then
+		popup.textbox = addon.addMultilineText(popup, text, 550 - textwidth - 30)
+		popup.textbox.text = popup:CreateFontString(nil, popup, "GameFontNormal")
+		popup.textbox.text:SetText(text)
+	else
+		popup.textbox = addon.addTextbox(popup, text, 550 - textwidth - 30)
+	end
+	popup.textbox.text:SetPoint("TOPLEFT", 20, -20)
+	popup.textbox:SetPoint("TOPLEFT", 20 + textwidth, -20)
+	popup.textbox:SetText(value)
+	popup.textbox:SetFocus()
+	popup.textbox:HighlightText(false)
 	popup:Show()
+	return popup
 end

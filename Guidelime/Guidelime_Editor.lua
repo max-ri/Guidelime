@@ -294,9 +294,9 @@ function addon.popupAppliesSetEnabledCheckboxes(popup, typ, guide)
 	if typ == "APPLIES" then
 		-- also respect restrictions from GUIDE_APPLIES
 		local faction = guide.faction
-		if faction == nil and guide.race ~= nil then faction = addon.races[guide.race[1]] end
-		if faction == nil and guide.class ~= nil then
-			for i, class in ipairs(guide.class) do
+		if faction == nil and guide.races ~= nil then faction = addon.races[guide.races[1]] end
+		if faction == nil and guide.classes ~= nil then
+			for i, class in ipairs(guide.classes) do
 				if addon.classesWithFaction[class] ~= nil then faction = addon.classesWithFaction[class] end
 			end
 		end
@@ -306,13 +306,13 @@ function addon.popupAppliesSetEnabledCheckboxes(popup, typ, guide)
 				box:SetEnabled(false)
 			elseif addon.isRace(key) and 
 				((faction ~= nil and faction ~= addon.races[key]) or 
-				(guide.race ~= nil and not addon.contains(guide.race, key)) or
-				(guide.race ~= nil and #guide.race == 1)) then
+				(guide.races ~= nil and not addon.contains(guide.races, key)) or
+				(guide.races ~= nil and #guide.races == 1)) then
 				box:SetEnabled(false)
 			elseif addon.isClass(key) and 
 				((faction ~= nil and addon.classesWithFaction[key] ~= nil and faction ~= addon.classesWithFaction[key]) or 
-				(guide.class ~= nil and not addon.contains(guide.class, key)) or
-				(guide.class ~= nil and #guide.class == 1)) then
+				(guide.classes ~= nil and not addon.contains(guide.classes, key)) or
+				(guide.classes ~= nil and #guide.classes == 1)) then
 				box:SetEnabled(false)
 			end
 		end
@@ -394,12 +394,12 @@ function addon.showEditPopupAPPLIES(typ, guide, selection)
 		popup.checkboxes[class] = addon.addCheckbox(popup, addon.getLocalizedClass(class))
 		popup.checkboxes[class]:SetPoint("TOPLEFT", 20, 5 - i * 25)
 		if typ == "GUIDE_APPLIES" then
-			if guide.class ~= nil and addon.contains(guide.class, class) then
+			if guide.classes ~= nil and addon.contains(guide.classes, class) then
 				popup.checkboxes[class]:SetChecked(true)
 				if addon.classesWithFaction[class] ~= nil then popup.checkboxes[addon.classesWithFaction[class]]:SetChecked(true) end
 			end
 		elseif typ == "APPLIES" then
-			if step ~= nil and step.class ~= nil and addon.contains(step.class, class) then
+			if step ~= nil and step.classes ~= nil and addon.contains(step.classes, class) then
 				popup.checkboxes[class]:SetChecked(true)
 				if addon.classesWithFaction[class] ~= nil then popup.checkboxes[addon.classesWithFaction[class]]:SetChecked(true) end
 			end
@@ -415,12 +415,12 @@ function addon.showEditPopupAPPLIES(typ, guide, selection)
 		if count[faction] == nil then count[faction] = 1 else count[faction] = count[faction] + 1 end
 		popup.checkboxes[race]:SetPoint("TOPLEFT", left[faction], -50 - count[faction] * 30)
 		if typ == "GUIDE_APPLIES" then
-			if guide.race ~= nil and addon.contains(guide.race, race) then 
+			if guide.races ~= nil and addon.contains(guide.races, race) then 
 				popup.checkboxes[race]:SetChecked(true)
 				popup.checkboxes[faction]:SetChecked(true)
 			end
 		elseif typ == "APPLIES" then
-			if step ~= nil and step.race ~= nil and addon.contains(step.race, race) then 
+			if step ~= nil and step.races ~= nil and addon.contains(step.races, race) then 
 				popup.checkboxes[race]:SetChecked(true)
 				popup.checkboxes[faction]:SetChecked(true)
 			end

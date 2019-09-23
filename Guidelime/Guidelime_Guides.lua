@@ -125,15 +125,7 @@ function addon.fillGuides()
 	local groups = {}
 	local groupNames = {}
 	for name, guide in pairs(addon.guides) do
-		local showGuide = true
-		if guide.race ~= nil then
-			if not addon.contains(guide.race, addon.race) then showGuide = false end
-		end
-		if guide.class ~= nil then
-			if not addon.contains(guide.class, addon.class) then showGuide = false end
-		end
-		if guide.faction ~= nil and guide.faction ~= addon.faction then showGuide = false end
-		if showGuide then
+		if addon.applies(guide) then
 			if groups[guide.group] == nil then 
 				groups[guide.group] = {} 
 				table.insert(groupNames, guide.group)

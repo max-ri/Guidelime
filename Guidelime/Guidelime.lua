@@ -248,6 +248,18 @@ function addon.loadData()
 	if addon.debugging then addon.testLocalization() end
 end
 
+function addon.applies(guide)
+	local applies = true
+	if guide.races ~= nil then
+		if not addon.contains(guide.races, addon.race) then applies = false end
+	end
+	if guide.classes ~= nil then
+		if not addon.contains(guide.classes, addon.class) then applies = false end
+	end
+	if guide.faction ~= nil and guide.faction ~= addon.faction then applies = false end
+	return applies
+end
+
 function addon.loadCurrentGuide()
 
 	addon.currentGuide = {}
@@ -287,14 +299,7 @@ function addon.loadCurrentGuide()
 	local completed = GetQuestsCompleted()
 
 	for _, step in ipairs(guide.steps) do
-		local loadLine = true
-		if step.race ~= nil then
-			if not addon.contains(step.race, addon.race) then loadLine = false end
-		end
-		if step.class ~= nil then
-			if not addon.contains(step.class, addon.class) then loadLine = false end
-		end
-		if step.faction ~= nil and step.faction ~= addon.faction then loadLine = false end
+		local loadLine = addon.applies(step)
 		local filteredElements = {}
 		for _, element in ipairs(step.elements) do
 			if not element.generated and
@@ -332,9 +337,7 @@ function addon.loadCurrentGuide()
 					addon.quests[element.questId].finished = addon.quests[element.questId].completed
 					if addon.questsDB[element.questId] ~= nil and addon.questsDB[element.questId].prequests ~= nil then
 						for _, id in ipairs(addon.questsDB[element.questId].prequests) do
-							if (addon.questsDB[id].faction or addon.faction) == addon.faction and 
-								(addon.questsDB[id].races == nil or addon.contains(addon.questsDB[id].races, addon.race)) and 
-								(addon.questsDB[id].classes == nil or addon.contains(addon.questsDB[id].classes, addon.class)) then
+							if addon.applies(addon.questsDB[id]) then
 								if addon.quests[id] == nil then addon.quests[id] = {} end
 								addon.quests[id].completed = completed[id] ~= nil and completed[id]
 								if addon.quests[id].followup == nil then addon.quests[id].followup = {} end
@@ -792,6 +795,22 @@ local function updateStepCompletion(i, completedIndexes)
 	end
 end
 
+local function getMissingPrequests(id, isCompleteFunc)
+	local missingPrequests = {}
+	if addon.questsDB[id] ~= nil and addon.questsDB[id].prequests ~= nil then
+		for _, pid in ipairs(addon.questsDB[id].prequests) do
+			if addon.applies(addon.questsDB[pid]) then
+				if not isCompleteFunc(pid) then
+					table.insert(missingPrequests, pid)
+				elseif addon.questsDB[id].oneOfPrequests then
+					return {}
+				end
+			end
+		end
+	end
+	return missingPrequests
+end
+
 local function updateStepAvailability(i, changedIndexes, scheduled)
 	local step = addon.currentGuide.steps[i]
 	local wasAvailable = step.available
@@ -801,17 +820,13 @@ local function updateStepAvailability(i, changedIndexes, scheduled)
 	for _, element in ipairs(step.elements) do
 		element.available = true
 		if element.t == "ACCEPT" then
-			if addon.questsDB[element.questId] ~= nil and addon.questsDB[element.questId].prequests ~= nil then
-				for _, id in ipairs(addon.questsDB[element.questId].prequests) do
-					if (addon.questsDB[id].faction or addon.faction) == addon.faction and 
-						(addon.questsDB[id].races == nil or addon.contains(addon.questsDB[id].races, addon.race)) and 
-						(addon.questsDB[id].classes == nil or addon.contains(addon.questsDB[id].classes, addon.class)) and
-						not addon.quests[id].completed and not scheduled.TURNIN[id] then
-						element.available = false
-						if not addon.contains(step.missingPrequests, id) then
-							table.insert(step.missingPrequests, id)
-						end
-						addon.currentGuide.unavailableQuests[element.questId] = true
+			local missingPrequests = getMissingPrequests(element.questId, function(id) return addon.quests[id].completed or scheduled.TURNIN[id] end)
+			if #missingPrequests > 0 then
+				element.available = false
+				addon.currentGuide.unavailableQuests[element.questId] = true
+				for _, id in ipairs(missingPrequests) do
+					if not addon.contains(step.missingPrequests, id) then
+						table.insert(step.missingPrequests, id)
 					end
 				end
 			end
@@ -1446,21 +1461,19 @@ function addon.checkQuests()
 	local count = 0
 	for id, value in pairs(completed) do count = count + 1 end
 	print ("LIME: " .. count .. " quests completed")
-	local found = false
+	local text = ""
 	for id, value in pairs(completed) do
-		if addon.questsDB[id] ~= nil and addon.questsDB[id].prequests ~= nil then
-			for _, pid in ipairs(addon.questsDB[id].prequests) do
-				if (addon.questsDB[pid].faction or addon.faction) == addon.faction and 
-					(addon.questsDB[pid].races == nil or addon.contains(addon.questsDB[pid].races, addon.race)) and 
-					(addon.questsDB[pid].classes == nil or addon.contains(addon.questsDB[pid].classes, addon.class)) and 
-					not completed[pid] then
-					found = true
-					print ("LIME: quest " .. addon.questsDB[id].name .. "(" .. id .. ") was completed but prequest " .. addon.questsDB[pid].name .. "(" .. pid .. ") was not")
-				end
-			end
+		local missingPrequests = getMissingPrequests(id, function(id) return completed[id] end)
+		for _, pid in ipairs(missingPrequests) do
+			text = text .. "Quest \"" .. addon.questsDB[id].name .. "\"(" .. id .. ") was completed but prequest \"" .. addon.questsDB[pid].name .. "\"(" .. pid .. ") was not.\n"
 		end
 	end
-	if not found then print ("LIME: no prequest inconsistencies were detected") end
+	if text == "" then 
+		print ("LIME: no prequest inconsistencies were detected") 
+	else
+		local popup = addon.showCopyPopup(text, "", 0, 500, true)
+		popup.textbox:SetMultiLine(true)
+	end
 end
 
 SLASH_Guidelime1 = "/lime"
