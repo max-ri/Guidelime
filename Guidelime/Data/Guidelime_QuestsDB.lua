@@ -70812,6 +70812,7 @@ addon.questsDB = {
 	   ["req"] = 9;
 	};
 	[5149] = {
+	   ["oneOfPrequests"] = true;
 	   ["objective"] = "Find Pamela's doll.";
 	   ["zone"] = "Eastern Plaguelands";
 	   ["sort"] = "Eastern Plaguelands";
@@ -72720,6 +72721,7 @@ addon.questsDB = {
 	   ["name"] = "Deadwood of the North";
 	   ["sort"] = "Felwood";
 	   ["level"] = 48;
+	   ["replacement"] = 8461;
 	   ["req"] = 43;
 	};
 	[3119] = {
@@ -82842,9 +82844,7 @@ addon.questsDB = {
 	      };
 	   };
 	   ["prev"] = 1879;
-	   ["prequests"] = {
-	      [1] = 1879;
-	   };
+	   ["prequests"] = {};
 	   ["level"] = 10;
 	   ["source"] = {
 	      [1] = {
@@ -103717,6 +103717,7 @@ addon.questsDB = {
 	   ["name"] = "Winterfall Activity";
 	   ["sort"] = "Winterspring";
 	   ["level"] = 56;
+	   ["replacement"] = 8464;
 	   ["req"] = 51;
 	};
 	[8417] = {
@@ -109208,6 +109209,7 @@ addon.questsDB = {
 	   ["req"] = 30;
 	};
 	[6383] = {
+	   ["oneOfPrequests"] = true;
 	   ["objective"] = "";
 	   ["zone"] = "Ashenvale";
 	   ["sort"] = "Ashenvale";
@@ -113534,9 +113536,7 @@ addon.questsDB = {
 	      };
 	   };
 	   ["prev"] = 1860;
-	   ["prequests"] = {
-	      [1] = 1860;
-	   };
+	   ["prequests"] = {};
 	   ["level"] = 10;
 	   ["source"] = {
 	      [1] = {
@@ -118672,6 +118672,7 @@ addon.questsDB = {
 	   ["name"] = "Timbermaw Ally";
 	   ["sort"] = "Timbermaw Hold";
 	   ["level"] = 48;
+	   ["replacement"] = 8460;
 	   ["req"] = 45;
 	};
 	[6147] = {
@@ -124061,6 +124062,7 @@ addon.questsDB = {
 	   ["req"] = 58;
 	};
 	[1122] = {
+	   ["oneOfPrequests"] = true;
 	   ["objective"] = "Bring the Fool's Stout report to Crank Fizzlebub in Booty Bay.";
 	   ["zone"] = "Thousand Needles";
 	   ["sort"] = "Thousand Needles";
@@ -124447,6 +124449,7 @@ addon.questsDB = {
 	};
 	[5092] = {
 	   ["name"] = "Clear the Way";
+	   ["oneOfPrequests"] = true;
 	   ["objective"] = "Kill 10 Skeletal Flayers and 10 Slavering Ghouls in Sorrow Hill.$B$BReturn to Commander Ashlam Valorfist at Chillwind Camp, Western Plaguelands.";
 	   ["zone"] = "Western Plaguelands";
 	   ["sort"] = "Western Plaguelands";
