@@ -68,17 +68,6 @@ for name, guide in pairs(addon.guides) do
 	end
 end
 
-addon.acceptedQuests = {}
-addon.errors = {}
-addon.notTurnedIn = {}
-addon.acceptedIn = {}
-addon.acceptedInLine = {}
-addon.turnedIn = {}
-addon.turnedInLine = {}
-addon.acceptOptional = {}
-addon.turninOptional = {}
-addon.prequests = {}
-addon.maxNumQuests = {}
 addon.immediateTurnin = {}
 addon.itemStart = {}
 
@@ -99,45 +88,46 @@ end
 
 local function addError(guide, line, err)
 	if addon.errors[guide] == nil then addon.errors[guide] = {} end
-	table.insert(addon.errors[guide], ("   " .. line):reverse():sub(1, 3):reverse() .. " " .. err)
+	err = ("   " .. line):reverse():sub(1, 3):reverse() .. " " .. err
+	if not addon.contains(addon.errors[guide], err) then table.insert(addon.errors[guide], err) end
 end
 
-local function scanQuests(guide, quests)
-	if addon.acceptedQuests[guide.name] ~= nil then return end
-	addon.acceptedQuests[guide.name] = quests
+local function scanQuests(guide, quests, acceptOptional, turninOptional)
+
+	if addon.acceptedQuests[guide.name] == nil or #addon.acceptedQuests[guide.name] > #quests then addon.acceptedQuests[guide.name] = quests end
 	local currentQuests = {}
 	local numQuests = 0
 	for id, value in pairs(quests) do 
 		currentQuests[id] = value 
 		if value then numQuests = numQuests + 1 end
 	end
-	addon.maxNumQuests[guide.name] = numQuests
+	if addon.maxNumQuests[guide.name] == nil or addon.maxNumQuests[guide.name] < numQuests then addon.maxNumQuests[guide.name] = numQuests end
+	local currentAcceptOptional = {}; for id, value in pairs(acceptOptional) do currentAcceptOptional[id] = value end
+	local currentTurninOptional = {}; for id, value in pairs(turninOptional) do currentTurninOptional[id] = value end
 	for i, step in ipairs(guide.steps) do
 		for j, element in ipairs(step.elements) do
 			if element.t == "ACCEPT" then
 				if addon.questsDB[element.questId].prequests ~= nil then
-					for _, id in ipairs(addon.questsDB[element.questId].prequests) do
-						if (addon.questsDB[id].faction or guide.faction) == guide.faction and 
-							addon.questsDB[id].races == nil and 
-							addon.questsDB[id].classes == nil then
-							if currentQuests[id] ~= false then
-								addError(guide.name, i, "ERROR: quest " .. element.questId .. " accepted but prequest " .. id .. " was not turned in")
-							elseif quests[id] == false then
-								if addon.prequests[guide.name] == nil then addon.prequests[guide.name] = {} end
-								addon.prequests[guide.name][id] = true
-							end
+					local missingPrequests = addon.getMissingPrequests(element.questId, function(id) 
+						if quests[id] == false then
+							if addon.prequests[guide.name] == nil then addon.prequests[guide.name] = {} end
+							addon.prequests[guide.name][id] = true
 						end
+						return currentQuests[id] == false
+					end)
+					for _, id in ipairs(missingPrequests) do
+						addError(guide.name, i, "ERROR: quest " .. element.questId .. " accepted but prequest " .. id .. " was not turned in")
 					end
 				end
 				if currentQuests[element.questId] == false then
 					addError(guide.name, i, "ERROR: quest " .. element.questId .. " accepted after it has been turned in in " .. addon.turnedIn[element.questId] .. " " .. addon.turnedInLine[element.questId])
-				elseif currentQuests[element.questId] == true and not addon.acceptOptional[element.questId] and not step.completeWithNext then
+				elseif currentQuests[element.questId] == true and not currentAcceptOptional[element.questId] and not step.completeWithNext then
 					addError(guide.name, i, "WARNING: quest " .. element.questId .. " accepted after it has been accepted in " .. addon.acceptedIn[element.questId] .. " " .. addon.acceptedInLine[element.questId])
 				elseif currentQuests[element.questId] == nil then
 					currentQuests[element.questId] = true
 					addon.acceptedIn[element.questId] = guide.name
 					addon.acceptedInLine[element.questId] = i
-					if step.completeWithNext then addon.acceptOptional[element.questId] = true end
+					if step.completeWithNext then currentAcceptOptional[element.questId] = true end
 					numQuests = numQuests + 1
 					if addon.maxNumQuests[guide.name] <= 20 and numQuests > 20 then
 						addError(guide.name, i, "ERROR: quest " .. element.questId .. " accepted after 20 or more quests had been accepted")
@@ -145,8 +135,8 @@ local function scanQuests(guide, quests)
 					if addon.maxNumQuests[guide.name] < numQuests then
 						addon.maxNumQuests[guide.name] = numQuests
 					end
-				elseif addon.acceptOptional[element.questId] then
-					addon.acceptOptional[element.questId] = step.completeWithNext
+				elseif currentAcceptOptional[element.questId] then
+					currentAcceptOptional[element.questId] = step.completeWithNext
 				end
 			elseif element.t == "COMPLETE" then
 				if currentQuests[element.questId] == nil then
@@ -158,10 +148,10 @@ local function scanQuests(guide, quests)
 					currentQuests[element.questId] = true
 					addon.acceptedIn[element.questId] = guide.name
 					addon.acceptedInLine[element.questId] = i
-					if step.completeWithNext then addon.acceptOptional[element.questId] = true end
+					if step.completeWithNext then currentAcceptOptional[element.questId] = true end
 				end
 			elseif element.t == "TURNIN" then
-				if currentQuests[element.questId] == false and not addon.turninOptional[element.questId] and not step.completeWithNext then
+				if currentQuests[element.questId] == false and not currentTurninOptional[element.questId] and not step.completeWithNext then
 					addError(guide.name, i, "WARNING: quest " .. element.questId .. " turned in after it has been turned in in " .. addon.turnedIn[element.questId] .. " " .. addon.turnedInLine[element.questId])
 				elseif currentQuests[element.questId] ~= false then
 					if currentQuests[element.questId] == nil then
@@ -174,12 +164,12 @@ local function scanQuests(guide, quests)
 						end
 					end
 					currentQuests[element.questId] = false
-					if step.completeWithNext then addon.turninOptional[element.questId] = true end
+					if step.completeWithNext then currentTurninOptional[element.questId] = true end
 					addon.turnedIn[element.questId] = guide.name
 					addon.turnedInLine[element.questId] = i
 					numQuests = numQuests - 1
-				elseif addon.turninOptional[element.questId] then
-					addon.turninOptional[element.questId] = step.completeWithNext
+				elseif currentTurninOptional[element.questId] then
+					currentTurninOptional[element.questId] = step.completeWithNext
 				end
 			end
 		end
@@ -187,7 +177,7 @@ local function scanQuests(guide, quests)
 	if guide.next ~= nil and #guide.next > 0 then
 		for i, next in ipairs(guide.next) do
 			if guide.group ~= nil and guide.group ~= "" then next = guide.group .. " " .. next end
-			scanQuests(addon.guides[next], currentQuests)
+			scanQuests(addon.guides[next], currentQuests, currentAcceptOptional, currentTurninOptional)
 		end
 	else
 		for id, value in pairs(currentQuests) do
@@ -196,10 +186,19 @@ local function scanQuests(guide, quests)
 	end
 end
 
+addon.errors = {}
+addon.acceptedIn = {}
+addon.acceptedInLine = {}
+addon.turnedIn = {}
+addon.turnedInLine = {}
+addon.prequests = {}
+addon.maxNumQuests = {}
+addon.acceptedQuests = {}
+addon.notTurnedIn = {}
+
 for _, guide in pairs(addon.guides) do
 	if guide.next ~= nil and #guide.next > 0 and not guide.isNext then
-		scanQuests(guide, {})
-		break
+		scanQuests(guide, {}, {}, {})
 	end
 end
 

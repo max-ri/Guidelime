@@ -567,3 +567,19 @@ function addon.GetZoneCoordinatesFromWorld(worldX, worldY, instance, zone)
 		end
 	end
 end
+
+function addon.getMissingPrequests(id, isCompleteFunc)
+	local missingPrequests = {}
+	if addon.questsDB[id] ~= nil and addon.questsDB[id].prequests ~= nil then
+		for _, pid in ipairs(addon.questsDB[id].prequests) do
+			if addon.applies(addon.questsDB[pid]) then
+				if not isCompleteFunc(pid) then
+					table.insert(missingPrequests, pid)
+				elseif addon.questsDB[id].oneOfPrequests then
+					return {}
+				end
+			end
+		end
+	end
+	return missingPrequests
+end

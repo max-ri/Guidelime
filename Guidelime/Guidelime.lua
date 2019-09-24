@@ -19,6 +19,11 @@ addon.MAINFRAME_ALPHA_MAX = 85
 addon.AUTO_COMPLETE_DELAY = 0.01
 addon.DEFAULT_GOTO_RADIUS = 10
 
+addon.CONTACT_DISCORD = "Borick#7318"
+addon.CONTACT_CURSEFORGE = "rickrob"
+addon.CONTACT_REDDIT = "u/borick23"
+
+
 function addon.getLevelColor(level)
 	if level > addon.level + 4 then
 		return addon.COLOR_LEVEL_RED
@@ -246,18 +251,6 @@ function addon.loadData()
 	addon.dataLoaded = true
 
 	if addon.debugging then addon.testLocalization() end
-end
-
-function addon.applies(guide)
-	local applies = true
-	if guide.races ~= nil then
-		if not addon.contains(guide.races, addon.race) then applies = false end
-	end
-	if guide.classes ~= nil then
-		if not addon.contains(guide.classes, addon.class) then applies = false end
-	end
-	if guide.faction ~= nil and guide.faction ~= addon.faction then applies = false end
-	return applies
 end
 
 function addon.loadCurrentGuide()
@@ -795,22 +788,6 @@ local function updateStepCompletion(i, completedIndexes)
 	end
 end
 
-local function getMissingPrequests(id, isCompleteFunc)
-	local missingPrequests = {}
-	if addon.questsDB[id] ~= nil and addon.questsDB[id].prequests ~= nil then
-		for _, pid in ipairs(addon.questsDB[id].prequests) do
-			if addon.applies(addon.questsDB[pid]) then
-				if not isCompleteFunc(pid) then
-					table.insert(missingPrequests, pid)
-				elseif addon.questsDB[id].oneOfPrequests then
-					return {}
-				end
-			end
-		end
-	end
-	return missingPrequests
-end
-
 local function updateStepAvailability(i, changedIndexes, scheduled)
 	local step = addon.currentGuide.steps[i]
 	local wasAvailable = step.available
@@ -820,7 +797,7 @@ local function updateStepAvailability(i, changedIndexes, scheduled)
 	for _, element in ipairs(step.elements) do
 		element.available = true
 		if element.t == "ACCEPT" then
-			local missingPrequests = getMissingPrequests(element.questId, function(id) return addon.quests[id].completed or scheduled.TURNIN[id] end)
+			local missingPrequests = addon.getMissingPrequests(element.questId, function(id) return addon.quests[id].completed or scheduled.TURNIN[id] end)
 			if #missingPrequests > 0 then
 				element.available = false
 				addon.currentGuide.unavailableQuests[element.questId] = true
@@ -1460,19 +1437,29 @@ function addon.checkQuests()
 	local completed = GetQuestsCompleted()
 	local count = 0
 	for id, value in pairs(completed) do count = count + 1 end
-	print ("LIME: " .. count .. " quests completed")
 	local text = ""
 	for id, value in pairs(completed) do
-		local missingPrequests = getMissingPrequests(id, function(id) return completed[id] end)
+		local missingPrequests = addon.getMissingPrequests(id, function(id) return completed[id] end)
 		for _, pid in ipairs(missingPrequests) do
 			text = text .. "Quest \"" .. addon.questsDB[id].name .. "\"(" .. id .. ") was completed but prequest \"" .. addon.questsDB[pid].name .. "\"(" .. pid .. ") was not.\n"
 		end
+		if addon.questsDB[id].replacement ~= nil then
+			text = text .. "Quest \"" .. addon.questsDB[id].name .. "\"(" .. id .. ") was completed but is marked as being replaced by \"" .. addon.questsDB[addon.questsDB[id].replacement].name .. "\"(" .. addon.questsDB[id].replacement .. ") which is "
+			if not completed[addon.questsDB[id].replacement] then text = text .. "not " end
+			text = text .. "completed.\n"
+		end
 	end
 	if text == "" then 
-		print ("LIME: no prequest inconsistencies were detected") 
-	else
+		print ("LIME: " .. string.format(L.CHECK_QUESTS_COMPLETED, count))
+		print ("LIME: " .. L.CHECK_QUESTS_NO_INCONSISTENCIES) 
+	else 
+		text = string.format(L.CHECK_QUESTS_COMPLETED, count) .. ".\n" .. text
+		local regions = {"US", "KR", "EU", "TW", "CN"}
+		text = "Reported by " .. UnitName("player") .. "-" .. GetRealmName() .. "(" .. regions[GetCurrentRegion()] .. "), " .. addon.level .. " " .. addon.race .. " " .. addon.class .. "," ..
+			" at " .. date("%Y/%m/%d %H:%M:%S", GetServerTime()) .. 
+			" with " .. GetAddOnMetadata(addonName, "title") .. " " .. GetAddOnMetadata(addonName, "version") .. "\n" .. text
+		text = string.format(L.CHECK_QUESTS, addon.CONTACT_DISCORD, addon.CONTACT_CURSEFORGE, addon.CONTACT_REDDIT) .. "\n" .. text
 		local popup = addon.showCopyPopup(text, "", 0, 500, true)
-		popup.textbox:SetMultiLine(true)
 	end
 end
 

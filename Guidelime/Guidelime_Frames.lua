@@ -196,8 +196,15 @@ end
 function addon.showCopyPopup(value, text, textwidth, height, multiline)
 	local popup = addon.createPopupFrame(nil, nil, false, height)
 	if multiline then
-		popup.textbox = addon.addMultilineText(popup, text, 550 - textwidth - 30)
-		popup.textbox.text = popup:CreateFontString(nil, popup, "GameFontNormal")
+    	local scrollFrame = CreateFrame("ScrollFrame", nil, popup, "UIPanelScrollFrameTemplate")
+    	scrollFrame:SetPoint("TOPLEFT", popup, "TOPLEFT", 0, -20)
+    	scrollFrame:SetPoint("RIGHT", popup, "RIGHT", -30, 0)
+    	scrollFrame:SetPoint("BOTTOM", popup, "BOTTOM", 0, 40)
+    	local content = CreateFrame("Frame", nil, scrollFrame) 
+    	content:SetSize(1, 1) 
+    	scrollFrame:SetScrollChild(content)
+		popup.textbox = addon.addMultilineText(content, text, 550 - textwidth - 30)
+		popup.textbox.text = popup:CreateFontString(nil, content, "GameFontNormal")
 		popup.textbox.text:SetText(text)
 	else
 		popup.textbox = addon.addTextbox(popup, text, 550 - textwidth - 30)
