@@ -4,3 +4,5 @@ package-as: Guidelime
 move-folders:
    Guidelime/Guidelime : Guidelime
 
+ignore:
+   Guidelime_MyGuideExample
