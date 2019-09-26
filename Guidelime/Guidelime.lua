@@ -1433,13 +1433,13 @@ local function simulateCompleteCurrentSteps()
 	end
 end
 
-local function listAliasQuests(completed, id, excludeId)
+local function listAliasQuests(completed, id, excludeIds)
 	local text = ""
 	for _, id2 in ipairs(addon.getPossibleQuestIdsByName(addon.questsDB[id].name)) do
-		if id2 ~= id and id2 ~= excludeId then
-			text = text .. "Quest \"" .. addon.questsDB[id2].name .. "\"(" .. id2 .. ")  "
+		if id2 ~= id and not addon.contains(excludeIds, ids) then
+			text = text .. "Quest \"" .. addon.questsDB[id2].name .. "\"(" .. id2 .. ") "
 			if not completed[id2] then text = text .. "not " end
-			text = text .. "completed.\n"
+			text = text .. "completed.\r"
 		end
 	end
 	return text
@@ -1452,35 +1452,41 @@ function addon.checkQuests()
 	local text = ""
 	for id, value in pairs(completed) do
 		if addon.questsDB[id] == nil then
-			text = text .. "Unknown quest " .. id .. " completed.\n"
+			text = text .. "Unknown quest " .. id .. " completed.\r"
 		else
 			local missingPrequests = addon.getMissingPrequests(id, function(id) return completed[id] end)
 			local found = false
+			local ids = {id}
 			for _, pid in ipairs(missingPrequests) do
-				text = text .. "Quest \"" .. addon.questsDB[id].name .. "\"(" .. id .. ") was completed but prequest \"" .. addon.questsDB[pid].name .. "\"(" .. pid .. ") was not.\n"
-				text = text .. listAliasQuests(completed, pid, id)
+				text = text .. "Quest \"" .. addon.questsDB[id].name .. "\"(" .. id .. ") was completed but prequest \"" .. addon.questsDB[pid].name .. "\"(" .. pid .. ") was not.\r"
+				text = text .. listAliasQuests(completed, pid, ids)
+				table.insert(ids, pid)
 				found = true
 			end
-			if addon.questsDB[id].replacement ~= nil then
-				text = text .. "Quest \"" .. addon.questsDB[id].name .. "\"(" .. id .. ") was completed but is marked as being replaced by \"" .. addon.questsDB[addon.questsDB[id].replacement].name .. "\"(" .. addon.questsDB[id].replacement .. ") which is "
-				if not completed[addon.questsDB[id].replacement] then text = text .. "not " end
-				text = text .. "completed.\n"
+			if addon.questsDB[id].replacement ~= nil --[[and not completed[addon.questsDB[id].replacement] ]] then
+				text = text .. "Quest \"" .. addon.questsDB[id].name .. "\"(" .. id .. ") was completed but is marked as being replaced by \"" .. addon.questsDB[addon.questsDB[id].replacement].name .. "\"(" .. addon.questsDB[id].replacement .. ") which is not completed.\r"
+				table.insert(ids, addon.questsDB[id].replacement)
 				found = true
 			end
-			if found then text = text .. listAliasQuests(completed, id) end
+			if addon.questsDB[id].replaces ~= nil and not completed[addon.questsDB[id].replaces] then
+				text = text .. "Quest \"" .. addon.questsDB[id].name .. "\"(" .. id .. ") was completed but is marked as being replacement for \"" .. addon.questsDB[addon.questsDB[id].replaces].name .. "\"(" .. addon.questsDB[id].replaces .. ") which is not completed.\r"
+				table.insert(ids, addon.questsDB[id].replaces)
+				found = true
+			end
+			if found then text = text .. listAliasQuests(completed, id, ids) .. "\r" end
 		end
 	end
 	if text == "" then 
 		print ("LIME: " .. string.format(L.CHECK_QUESTS_COMPLETED, count))
 		print ("LIME: " .. L.CHECK_QUESTS_NO_INCONSISTENCIES) 
 	else 
-		text = string.format(L.CHECK_QUESTS_COMPLETED, count) .. ".\n" .. text
 		local regions = {"US", "KR", "EU", "TW", "CN", "?"}
 		text = "Reported by " .. (UnitName("player") or "?") .. "-" .. (GetRealmName() or "?")  .. "(" .. regions[GetCurrentRegion() or 6] .. "), " .. 
 			(addon.level or "?")  .. " " .. (addon.race or "?")  .. " " .. (addon.class or "?")  .. "," ..
 			" at " .. date("%Y/%m/%d %H:%M:%S", GetServerTime()) .. 
-			" with " .. GetAddOnMetadata(addonName, "title") .. " " .. GetAddOnMetadata(addonName, "version") .. "\n" .. text
-		text = string.format(L.CHECK_QUESTS, addon.CONTACT_DISCORD, addon.CONTACT_CURSEFORGE, addon.CONTACT_REDDIT) .. "\n" .. text
+			" with " .. GetAddOnMetadata(addonName, "title") .. " " .. GetAddOnMetadata(addonName, "version") .. "\r\n" .. text
+		text = string.format(L.CHECK_QUESTS, addon.CONTACT_DISCORD, addon.CONTACT_CURSEFORGE, addon.CONTACT_REDDIT) .. "\r\n" .. text
+		text = string.format(L.CHECK_QUESTS_COMPLETED, count) .. ".\r" .. text
 		local popup = addon.showCopyPopup(text, "", 0, 500, true)
 	end
 end

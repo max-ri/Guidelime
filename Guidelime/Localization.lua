@@ -173,7 +173,7 @@ L.Alliance = "Alliance"
 L.Horde = "Horde"
 L.CHECK_QUESTS_COMPLETED = "%s quests completed"
 L.CHECK_QUESTS_NO_INCONSISTENCIES = "no inconsistencies were detected"
-L.CHECK_QUESTS = "Inconsistencies between your quest progress and the Guidelime quest database were detected. You can help improving the addon by sending this message as a private message to %s on Discord (alternatively to %s on Curseforge or %s on Reddit if you prefer). Thank you very much!"
+L.CHECK_QUESTS = "Inconsistencies between your quest progress and the Guidelime quest database were detected. You can help improving the addon by sending this text as a private message to %s on Discord (alternatively to %s on Curseforge or %s on Reddit if you prefer). Thank you very much!"
 
 -- Word lists used by the plain text parser
 -- Spaces at the start and end of each word will make it so that a match cannot occur in the middle of a word. Spaces will match any whitespace or punctuation marks.
