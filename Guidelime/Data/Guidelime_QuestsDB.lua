@@ -14186,9 +14186,7 @@ addon.questsDB = {
 	   };
 	   ["name"] = "Young Crocolisk Skins";
 	   ["prev"] = 469;
-	   ["prequests"] = {
-	      [1] = 469;
-	   };
+	   ["prequests"] = {};
 	   ["level"] = 22;
 	   ["source"] = {
 	      [1] = {
@@ -20372,9 +20370,7 @@ addon.questsDB = {
 	      };
 	   };
 	   ["prev"] = 690;
-	   ["prequests"] = {
-	      [1] = 690;
-	   };
+	   ["prequests"] = {};
 	   ["level"] = 36;
 	   ["source"] = {
 	      [1] = {
@@ -37140,9 +37136,7 @@ addon.questsDB = {
 	      };
 	   };
 	   ["prev"] = 1301;
-	   ["prequests"] = {
-	      [1] = 1301;
-	   };
+	   ["prequests"] = {};
 	   ["level"] = 35;
 	   ["source"] = {
 	      [1] = {
@@ -41604,6 +41598,7 @@ addon.questsDB = {
 	   ["req"] = 40;
 	};
 	[8460] = {
+	   ["replaces"] = 6131;
 	   ["objective"] = "Grazle wants you to prove yourself by killing 6 Deadwood Warriors, 6 Deadwood Pathfinders, and 6 Deadwood Gardeners.  Return to him in southern Felwood near the Emerald Sanctuary when you are done.";
 	   ["zone"] = "Felwood";
 	   ["reward"] = {
@@ -43957,6 +43952,7 @@ addon.questsDB = {
 	   ["req"] = 50;
 	};
 	[8461] = {
+	   ["replaces"] = 6221;
 	   ["objective"] = "Nafien would like you to kill 6 Deadwood Den Watchers, 6 Deadwood Avengers, and 6 Deadwood Shamans.  Return to him in northern Felwood near the entrance to Timbermaw Hold.";
 	   ["zone"] = "Felwood";
 	   ["reward"] = {
@@ -45191,17 +45187,21 @@ addon.questsDB = {
 	};
 	[7383] = {
 	   ["faction"] = "Alliance";
+	   ["replaces"] = 934;
+	   ["source"] = {
+	      [1] = {
+	         ["id"] = 3515;
+	         ["type"] = "npc";
+	      };
+	   };
+	   ["next"] = 935;
 	   ["series"] = 5;
 	   ["objective"] = "Fill the Amethyst Phial and bring it back to Corithras Moonrage in Dolanaar.";
-	   ["zone"] = "Teldrassil";
-	   ["sort"] = "Teldrassil";
 	   ["gather"] = {
 	      [1] = 18151;
 	   };
-	   ["repgain"] = {
-	      [69] = 150;
-	   };
-	   ["next"] = 935;
+	   ["zone"] = "Teldrassil";
+	   ["sort"] = "Teldrassil";
 	   ["deliver"] = {
 	      [1] = {
 	         ["id"] = 3515;
@@ -45214,11 +45214,8 @@ addon.questsDB = {
 	      [1] = 933;
 	   };
 	   ["level"] = 11;
-	   ["source"] = {
-	      [1] = {
-	         ["id"] = 3515;
-	         ["type"] = "npc";
-	      };
+	   ["repgain"] = {
+	      [69] = 150;
 	   };
 	   ["req"] = 1;
 	};
@@ -46256,9 +46253,7 @@ addon.questsDB = {
 	   };
 	   ["name"] = "Ribbly Screwspigot";
 	   ["prev"] = 4324;
-	   ["prequests"] = {
-	      [1] = 4324;
-	   };
+	   ["prequests"] = {};
 	   ["level"] = 53;
 	   ["source"] = {
 	      [1] = {
@@ -47416,6 +47411,7 @@ addon.questsDB = {
 	   ["req"] = 24;
 	};
 	[5096] = {
+	   ["oneOfPrequests"] = true;
 	   ["objective"] = "Proceed to the Scarlet Crusade's base camp between Felstone Field and Dalson's Tears and destroy their command tent.$B$BPlace the Scourge banner at the camp, and then return to High Executor Derrington at the Bulwark, Western Plaguelands.";
 	   ["zone"] = "Western Plaguelands";
 	   ["name"] = "Scarlet Diversions";
@@ -47433,11 +47429,7 @@ addon.questsDB = {
 	      };
 	   };
 	   ["faction"] = "Horde";
-	   ["prequests"] = {
-	      [1] = 5093;
-	      [2] = 5094;
-	      [3] = 5095;
-	   };
+	   ["prequests"] = {};
 	   ["level"] = 53;
 	   ["source"] = {
 	      [1] = {
@@ -49915,6 +49907,7 @@ addon.questsDB = {
 	   ["req"] = 30;
 	};
 	[8464] = {
+	   ["replaces"] = 6241;
 	   ["objective"] = "Salfa wants you to kill 8 Winterfall Totemics, 8 Winterfall Den Watchers, and 8 Winterfall Pathfinders.";
 	   ["zone"] = "Felwood";
 	   ["reward"] = {
@@ -56504,9 +56497,7 @@ addon.questsDB = {
 	   };
 	   ["name"] = "Threat of the Winterfall";
 	   ["prev"] = 6603;
-	   ["prequests"] = {
-	      [1] = 6603;
-	   };
+	   ["prequests"] = {};
 	   ["level"] = 56;
 	   ["source"] = {
 	      [1] = {
@@ -74823,9 +74814,7 @@ addon.questsDB = {
 	   };
 	   ["name"] = "Lost Thunderbrew Recipe";
 	   ["prev"] = 4133;
-	   ["prequests"] = {
-	      [1] = 4133;
-	   };
+	   ["prequests"] = {};
 	   ["level"] = 55;
 	   ["source"] = {
 	      [1] = {
@@ -87485,7 +87474,7 @@ addon.questsDB = {
 	   ["name"] = "Salve via Hunting";
 	   ["prev"] = 5882;
 	   ["prequests"] = {
-	      [1] = 5882;
+	      [1] = 4102;
 	   };
 	   ["level"] = 55;
 	   ["source"] = {
@@ -93097,9 +93086,7 @@ addon.questsDB = {
 	   };
 	   ["name"] = "The Darkstone Tablet";
 	   ["prev"] = 4769;
-	   ["prequests"] = {
-	      [1] = 4769;
-	   };
+	   ["prequests"] = {};
 	   ["level"] = 60;
 	   ["source"] = {
 	      [1] = {
@@ -107250,19 +107237,21 @@ addon.questsDB = {
 	   ["req"] = 60;
 	};
 	[4024] = {
-	   ["series"] = 2;
 	   ["type"] = "Dungeon";
-	   ["objective"] = "Travel to Blackrock Depths and slay Bael'Gar.$B$BYou only know that the giant resides inside Blackrock Depths. Remember to use the Altered Black Dragonflight Molt on Bael'Gar's remains to capture the Fiery Essence.$B$BReturn the Encased Fiery Essence to Cyrus Therepentous.$B$B";
+	   ["source"] = {
+	      [1] = {
+	         ["id"] = 9459;
+	         ["type"] = "npc";
+	      };
+	   };
 	   ["zone"] = "Blackrock Depths";
-	   ["sort"] = "Blackrock Depths";
+	   ["oneOfPrequests"] = true;
+	   ["series"] = 2;
 	   ["gather"] = {
 	      [1] = 11230;
 	   };
-	   ["reward"] = {
-	      [1] = 12066;
-	      [2] = 12082;
-	      [3] = 12083;
-	   };
+	   ["objective"] = "Travel to Blackrock Depths and slay Bael'Gar.$B$BYou only know that the giant resides inside Blackrock Depths. Remember to use the Altered Black Dragonflight Molt on Bael'Gar's remains to capture the Fiery Essence.$B$BReturn the Encased Fiery Essence to Cyrus Therepentous.$B$B";
+	   ["sort"] = "Blackrock Depths";
 	   ["deliver"] = {
 	      [1] = {
 	         ["id"] = 9459;
@@ -107276,11 +107265,10 @@ addon.questsDB = {
 	      [2] = 4022;
 	   };
 	   ["level"] = 58;
-	   ["source"] = {
-	      [1] = {
-	         ["id"] = 9459;
-	         ["type"] = "npc";
-	      };
+	   ["reward"] = {
+	      [1] = 12066;
+	      [2] = 12082;
+	      [3] = 12083;
 	   };
 	   ["req"] = 52;
 	};
