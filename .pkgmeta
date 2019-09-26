@@ -5,4 +5,4 @@ move-folders:
    Guidelime/Guidelime : Guidelime
 
 ignore:
-   Guidelime_MyGuideExample
+   Guidelime/Guidelime_MyGuideExample
