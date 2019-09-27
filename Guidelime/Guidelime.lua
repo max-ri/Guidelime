@@ -1448,9 +1448,9 @@ end
 function addon.checkQuests()
 	local completed = GetQuestsCompleted()
 	local count = 0
-	for id, value in pairs(completed) do count = count + 1 end
 	local text = ""
 	for id, value in pairs(completed) do
+		count = count + 1 end
 		if addon.questsDB[id] == nil then
 			text = text .. "Unknown quest " .. id .. " completed.\r"
 		else
@@ -1463,16 +1463,16 @@ function addon.checkQuests()
 				table.insert(ids, pid)
 				found = true
 			end
-			if addon.questsDB[id].replacement ~= nil --[[and not completed[addon.questsDB[id].replacement] ]] then
+			if addon.questsDB[id].replacement ~= nil and not completed[addon.questsDB[id].replacement] then
 				text = text .. "Quest \"" .. addon.questsDB[id].name .. "\"(" .. id .. ") was completed but is marked as being replaced by \"" .. addon.questsDB[addon.questsDB[id].replacement].name .. "\"(" .. addon.questsDB[id].replacement .. ") which is not completed.\r"
 				table.insert(ids, addon.questsDB[id].replacement)
 				found = true
 			end
-			if addon.questsDB[id].replaces ~= nil and not completed[addon.questsDB[id].replaces] then
+			--[[if addon.questsDB[id].replaces ~= nil and not completed[addon.questsDB[id].replaces] then
 				text = text .. "Quest \"" .. addon.questsDB[id].name .. "\"(" .. id .. ") was completed but is marked as being replacement for \"" .. addon.questsDB[addon.questsDB[id].replaces].name .. "\"(" .. addon.questsDB[id].replaces .. ") which is not completed.\r"
 				table.insert(ids, addon.questsDB[id].replaces)
 				found = true
-			end
+			end]]
 			if found then text = text .. listAliasQuests(completed, id, ids) .. "\r" end
 		end
 	end

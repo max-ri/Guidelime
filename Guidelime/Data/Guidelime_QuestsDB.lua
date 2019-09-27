@@ -41599,7 +41599,6 @@ addon.questsDB = {
 	   ["req"] = 40;
 	};
 	[8460] = {
-	   ["replaces"] = 6131;
 	   ["objective"] = "Grazle wants you to prove yourself by killing 6 Deadwood Warriors, 6 Deadwood Pathfinders, and 6 Deadwood Gardeners.  Return to him in southern Felwood near the Emerald Sanctuary when you are done.";
 	   ["zone"] = "Felwood";
 	   ["reward"] = {
@@ -43953,7 +43952,6 @@ addon.questsDB = {
 	   ["req"] = 50;
 	};
 	[8461] = {
-	   ["replaces"] = 6221;
 	   ["objective"] = "Nafien would like you to kill 6 Deadwood Den Watchers, 6 Deadwood Avengers, and 6 Deadwood Shamans.  Return to him in northern Felwood near the entrance to Timbermaw Hold.";
 	   ["zone"] = "Felwood";
 	   ["reward"] = {
@@ -45188,21 +45186,17 @@ addon.questsDB = {
 	};
 	[7383] = {
 	   ["faction"] = "Alliance";
-	   ["replaces"] = 934;
-	   ["source"] = {
-	      [1] = {
-	         ["id"] = 3515;
-	         ["type"] = "npc";
-	      };
-	   };
-	   ["next"] = 935;
 	   ["series"] = 5;
 	   ["objective"] = "Fill the Amethyst Phial and bring it back to Corithras Moonrage in Dolanaar.";
+	   ["zone"] = "Teldrassil";
+	   ["sort"] = "Teldrassil";
 	   ["gather"] = {
 	      [1] = 18151;
 	   };
-	   ["zone"] = "Teldrassil";
-	   ["sort"] = "Teldrassil";
+	   ["repgain"] = {
+	      [69] = 150;
+	   };
+	   ["next"] = 935;
 	   ["deliver"] = {
 	      [1] = {
 	         ["id"] = 3515;
@@ -45215,8 +45209,11 @@ addon.questsDB = {
 	      [1] = 933;
 	   };
 	   ["level"] = 11;
-	   ["repgain"] = {
-	      [69] = 150;
+	   ["source"] = {
+	      [1] = {
+	         ["id"] = 3515;
+	         ["type"] = "npc";
+	      };
 	   };
 	   ["req"] = 1;
 	};
@@ -49908,7 +49905,6 @@ addon.questsDB = {
 	   ["req"] = 30;
 	};
 	[8464] = {
-	   ["replaces"] = 6241;
 	   ["objective"] = "Salfa wants you to kill 8 Winterfall Totemics, 8 Winterfall Den Watchers, and 8 Winterfall Pathfinders.";
 	   ["zone"] = "Felwood";
 	   ["reward"] = {
