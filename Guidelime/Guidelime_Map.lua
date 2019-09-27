@@ -9,8 +9,8 @@ addon.SPECIAL_MAP_INDEX = {monster = 60, item = 61, object = 62, npc = 63, LOC =
 addon.mapIcons = {}
 
 
-local function createIconFrame(t, index, minimap)
-    local f = CreateFrame("Button", addonName .. t .. index .. minimap, nil)
+local function createIconFrame(t, index)
+    local f = CreateFrame("Button")
     f.texture = f:CreateTexture(nil, "TOOLTIP")
 	addon.setMapIconTexture(f, t)
 	if t ~= "GOTO" then
@@ -94,8 +94,8 @@ local function createMapIcon(t, i)
 		i = #addon.mapIcons[t] + 1
 	end
 	addon.mapIcons[t][i] = {}
-	addon.mapIcons[t][i].map = createIconFrame(t, i, 0)
-	addon.mapIcons[t][i].minimap = createIconFrame(t, i, 1)
+	addon.mapIcons[t][i].map = createIconFrame(t, i)
+	addon.mapIcons[t][i].minimap = createIconFrame(t, i)
 	addon.mapIcons[t][i].index = i
 	addon.mapIcons[t][i].inUse = false
 	return addon.mapIcons[t][i]
