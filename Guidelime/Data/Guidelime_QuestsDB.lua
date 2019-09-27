@@ -23436,6 +23436,7 @@ addon.questsDB = {
 	};
 	[794] = {
 	   ["sort"] = "Valley of Trials";
+	   ["oneOfPrequests"] = true;
 	   ["objective"] = "Bring the Burning Blade Medallion to Zureetha Fargaze, outside The Den.";
 	   ["zone"] = "Durotar";
 	   ["next"] = 805;
