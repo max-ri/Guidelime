@@ -6081,9 +6081,7 @@ addon.questsDB = {
 	      };
 	   };
 	   ["prev"] = 202;
-	   ["prequests"] = {
-	      [1] = 202;
-	   };
+	   ["prequests"] = {};
 	   ["level"] = 38;
 	   ["source"] = {
 	      [1] = {
@@ -12564,9 +12562,7 @@ addon.questsDB = {
 	   };
 	   ["name"] = "Wild Hearts";
 	   ["prev"] = 428;
-	   ["prequests"] = {
-	      [1] = 428;
-	   };
+	   ["prequests"] = {};
 	   ["level"] = 11;
 	   ["source"] = {
 	      [1] = {
@@ -34895,34 +34891,6 @@ addon.questsDB = {
 	   };
 	   ["req"] = 60;
 	};
-	[7797] = {
-	   ["objective"] = "";
-	   ["zone"] = "Darnassus";
-	   ["sort"] = "Darnassus";
-	   ["gather"] = {
-	      [1] = 2592;
-	   };
-	   ["repgain"] = {
-	      [69] = 150;
-	   };
-	   ["followup"] = 7798;
-	   ["deliver"] = {
-	      [1] = {
-	         ["id"] = 14725;
-	         ["type"] = "npc";
-	      };
-	   };
-	   ["faction"] = "Alliance";
-	   ["name"] = "A Donation of Wool";
-	   ["level"] = 60;
-	   ["source"] = {
-	      [1] = {
-	         ["id"] = 14725;
-	         ["type"] = "npc";
-	      };
-	   };
-	   ["req"] = 12;
-	};
 	[7813] = {
 	   ["objective"] = "";
 	   ["zone"] = "Undercity";
@@ -40839,7 +40807,7 @@ addon.questsDB = {
 	   };
 	   ["prev"] = 7797;
 	   ["prequests"] = {
-	      [1] = 7797;
+	      [1] = 7792;
 	   };
 	   ["level"] = 60;
 	   ["source"] = {
@@ -70269,6 +70237,38 @@ addon.questsDB = {
 	   };
 	   ["req"] = 12;
 	};
+	[4286] = {
+	   ["type"] = "Dungeon";
+	   ["objective"] = "Travel to Blackrock Depths and recover 20 Dark Iron Fanny Packs. Return to Oralius when you have completed this task. You assume that the Dark Iron dwarves inside Blackrock Depths carry these 'fanny pack' contraptions.\
+";
+	   ["zone"] = "Blackrock Depths";
+	   ["sort"] = "Blackrock Depths";
+	   ["gather"] = {
+	      [1] = 11468;
+	   };
+	   ["reward"] = {
+	      [1] = 11883;
+	   };
+	   ["repgain"] = {
+	      [47] = 250;
+	   };
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 9177;
+	         ["type"] = "npc";
+	      };
+	   };
+	   ["name"] = "The Good Stuff";
+	   ["faction"] = "Alliance";
+	   ["level"] = 56;
+	   ["source"] = {
+	      [1] = {
+	         ["id"] = 9177;
+	         ["type"] = "npc";
+	      };
+	   };
+	   ["req"] = 50;
+	};
 	[4861] = {
 	   ["objective"] = "Locate Jaron Stoneshaper's wrecked camp and supplies in southern Winterspring.";
 	   ["zone"] = "Winterspring";
@@ -82870,9 +82870,7 @@ addon.questsDB = {
 	      };
 	   };
 	   ["prev"] = 1883;
-	   ["prequests"] = {
-	      [1] = 1883;
-	   };
+	   ["prequests"] = {};
 	   ["level"] = 10;
 	   ["sort"] = "Mage";
 	   ["req"] = 10;
@@ -98867,37 +98865,33 @@ addon.questsDB = {
 	   };
 	   ["req"] = 20;
 	};
-	[4286] = {
-	   ["type"] = "Dungeon";
-	   ["objective"] = "Travel to Blackrock Depths and recover 20 Dark Iron Fanny Packs. Return to Oralius when you have completed this task. You assume that the Dark Iron dwarves inside Blackrock Depths carry these 'fanny pack' contraptions.\
-";
-	   ["zone"] = "Blackrock Depths";
-	   ["sort"] = "Blackrock Depths";
+	[7792] = {
+	   ["objective"] = "";
+	   ["zone"] = "Darnassus";
+	   ["sort"] = "Darnassus";
 	   ["gather"] = {
-	      [1] = 11468;
-	   };
-	   ["reward"] = {
-	      [1] = 11883;
+	      [1] = 2592;
 	   };
 	   ["repgain"] = {
-	      [47] = 250;
+	      [69] = 150;
 	   };
+	   ["followup"] = 7798;
 	   ["deliver"] = {
 	      [1] = {
-	         ["id"] = 9177;
+	         ["id"] = 14725;
 	         ["type"] = "npc";
 	      };
 	   };
-	   ["name"] = "The Good Stuff";
 	   ["faction"] = "Alliance";
-	   ["level"] = 56;
+	   ["name"] = "A Donation of Wool";
+	   ["level"] = 60;
 	   ["source"] = {
 	      [1] = {
-	         ["id"] = 9177;
+	         ["id"] = 14725;
 	         ["type"] = "npc";
 	      };
 	   };
-	   ["req"] = 50;
+	   ["req"] = 12;
 	};
 	[7808] = {
 	   ["faction"] = "Alliance";
