@@ -1450,7 +1450,7 @@ function addon.checkQuests()
 	local count = 0
 	local text = ""
 	for id, value in pairs(completed) do
-		count = count + 1 end
+		count = count + 1
 		if addon.questsDB[id] == nil then
 			text = text .. "Unknown quest " .. id .. " completed.\r"
 		else
