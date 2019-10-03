@@ -84,7 +84,7 @@ function addon.parseGuide(guide, group, strict, nameOnly)
 		guide.next = {}
 		guide.autoAddCoordinatesGOTO = true
 		guide.autoAddCoordinatesLOC = true
-		local t = guide.text:gsub("([^\n\r]-)[\n\r]", function(c)
+		local t = guide.text:gsub("\\\\[\n\r]", "\\\\"):gsub("([^\n\r]-)[\n\r]", function(c)
 			if c ~= nil and c ~= "" then
 				local step = {text = c:gsub("\\\\"," \n"), startPos = pos, line = guide.lines, guide = guide}
 				table.insert(guide.steps, step)
@@ -133,7 +133,7 @@ local function textFormatting(text, color)
 	local formatted = text:gsub("(https://[%w%./#%-%?=#]*)", function(u) url = u; return "|cFFAAAAAA" .. u .. "|r" end)
 		:gsub("(http://[%w%./#%-%?=#]*)", function(u) url = u; return "|cFFAAAAAA" .. u .. "|r" end)
 		:gsub("(www%.[%w%./#%-%?=#]*)", function(u) if url == nil then url = u end; return "|cFFAAAAAA" .. u .. "|r" end)
-		:gsub("%*([^%*]+)%*", (color or "|cFFFFD100") .. "%1|r")
+		:gsub("%*([^\n\r]-)%*", (color or "|cFFFFD100") .. "%1|r")
 		:gsub("%*%*","%*")
 	local formattedInactive = formatted:gsub("|r", addon.COLOR_INACTIVE)
 	return formatted, formattedInactive, url, formatted:gsub("%s", "") == ""
