@@ -31,7 +31,7 @@ addon.flightmasterDB = {
 	[4317] = {zone = "Thousand Needles", name = "Nyse", place = "Freewind Post", faction = "Horde", localesIndex = 30},      
 	[4319] = {zone = "Feralas", name = "Thyssiana", place = "Thalanaar", faction = "Alliance", localesIndex = 31},               
 	[4321] = {zone = "Dustwallow Marsh", name = "Baldruc", place = "Theramore", faction = "Alliance", localesIndex = 32},      
-	[4407] = {zone = "Stonetalon Mountains", name = "Teloren", place = "Stonetalon Peak", faction = "Horde", localesIndex = 33},  
+	[4407] = {zone = "Stonetalon Mountains", name = "Teloren", place = "Stonetalon Peak", faction = "Alliance", localesIndex = 33},  
 	[4551] = {zone = "Undercity", name = "Michael Garrett", faction = "Horde", localesIndex = 11},                  
 	[6026] = {zone = "Swamp of Sorrows", name = "Breyk", place = "Stonard", faction = "Horde", localesIndex = 56},
 	[6706] = {zone = "Desolace", name = "Baritanas Skyriver", place = "Nijel's Point", faction = "Alliance", localesIndex = 37},
