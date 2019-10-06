@@ -6080,7 +6080,7 @@ addon.questsDB = {
 	         ["type"] = "npc";
 	      };
 	   };
-	   ["prev"] = 202;
+	   ["prev"] = 204;
 	   ["prequests"] = {};
 	   ["level"] = 38;
 	   ["source"] = {
