@@ -84,9 +84,9 @@ function addon.updateFromQuestLog()
 					q.objectives[k] = {desc = desc, done = done, type = type}
 				end					
 			end
-		else
+		elseif not q.completed then
+			checkCompleted = true
 			if q.logIndex ~= nil and q.logIndex ~= -1 and not isCollapsed[q.sort] then
-				checkCompleted = true
 				q.logIndex = nil
 				newQuest = true
 				--if addon.debugging then print("LIME: removed log entry ".. id) end

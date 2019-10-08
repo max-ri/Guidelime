@@ -258,7 +258,7 @@ function addon.loadCurrentGuide()
 	addon.currentGuide = {}
 	addon.currentGuide.name = GuidelimeDataChar.currentGuide
 	addon.currentGuide.steps = {}
-	if addon.quests == nil then addon.quests = {} end
+	addon.quests = {}
 	
 	local guide = addon.guides[GuidelimeDataChar.currentGuide]
 	
