@@ -6081,7 +6081,9 @@ addon.questsDB = {
 	      };
 	   };
 	   ["prev"] = 202;
-	   ["prequests"] = {};
+	   ["prequests"] = {
+	      [1] = 204;
+	   };
 	   ["level"] = 38;
 	   ["source"] = {
 	      [1] = {
@@ -28758,6 +28760,7 @@ addon.questsDB = {
 	   ["req"] = 10;
 	};
 	[990] = {
+	   ["oneOfPrequests"] = true;
 	   ["objective"] = "Find Raene Wolfrunner in Ashenvale.";
 	   ["zone"] = "Ashenvale";
 	   ["sort"] = "Ashenvale";
@@ -57127,9 +57130,7 @@ addon.questsDB = {
 	      };
 	   };
 	   ["prev"] = 1477;
-	   ["prequests"] = {
-	      [1] = 1477;
-	   };
+	   ["prequests"] = {};
 	   ["level"] = 45;
 	   ["source"] = {
 	      [1] = {
@@ -62134,9 +62135,7 @@ addon.questsDB = {
 	      };
 	   };
 	   ["prev"] = 2519;
-	   ["prequests"] = {
-	      [1] = 2519;
-	   };
+	   ["prequests"] = {};
 	   ["level"] = 12;
 	   ["source"] = {
 	      [1] = {
@@ -66713,9 +66712,7 @@ addon.questsDB = {
 	   };
 	   ["name"] = "Doomrigger's Clasp";
 	   ["prev"] = 4766;
-	   ["prequests"] = {
-	      [1] = 4766;
-	   };
+	   ["prequests"] = {};
 	   ["level"] = 60;
 	   ["sort"] = "Blackrock Spire";
 	   ["req"] = 57;
@@ -70814,10 +70811,7 @@ addon.questsDB = {
 	      };
 	   };
 	   ["name"] = "Pamela's Doll";
-	   ["prequests"] = {
-	      [1] = 5142;
-	      [2] = 5601;
-	   };
+	   ["prequests"] = {};
 	   ["level"] = 55;
 	   ["source"] = {
 	      [1] = {
@@ -71619,9 +71613,7 @@ addon.questsDB = {
 	   };
 	   ["name"] = "Hurley Blackbreath";
 	   ["prev"] = 4128;
-	   ["prequests"] = {
-	      [1] = 4128;
-	   };
+	   ["prequests"] = {};
 	   ["level"] = 55;
 	   ["sort"] = "Blackrock Depths";
 	   ["req"] = 50;
@@ -77706,9 +77698,7 @@ addon.questsDB = {
 	   };
 	   ["name"] = "Egg Freezing";
 	   ["prev"] = 4907;
-	   ["prequests"] = {
-	      [1] = 4907;
-	   };
+	   ["prequests"] = {};
 	   ["level"] = 60;
 	   ["source"] = {
 	      [1] = {
@@ -77861,9 +77851,7 @@ addon.questsDB = {
 	      };
 	   };
 	   ["prev"] = 1260;
-	   ["prequests"] = {
-	      [1] = 1260;
-	   };
+	   ["prequests"] = {};
 	   ["level"] = 38;
 	   ["source"] = {
 	      [1] = {
