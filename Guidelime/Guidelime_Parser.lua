@@ -86,7 +86,7 @@ function addon.parseGuide(guide, group, strict, nameOnly)
 		guide.autoAddCoordinatesLOC = true
 		local t = guide.text:gsub("\\\\[\n\r]", "\\\\"):gsub("([^\n\r]-)[\n\r]", function(c)
 			if c ~= nil and c ~= "" then
-				local step = {text = c:gsub("\\\\"," \n"), startPos = pos, line = guide.lines, guide = guide}
+				local step = {text = c, startPos = pos, line = guide.lines, guide = guide}
 				table.insert(guide.steps, step)
 				pos = pos + #c + 1
 				if addon.debugging and guide.text:sub(step.startPos, step.startPos + #c - 1) ~= c then
@@ -99,7 +99,7 @@ function addon.parseGuide(guide, group, strict, nameOnly)
 			return ""
 		end)
 		if t ~= nil and t ~= "" then
-			table.insert(guide.steps, {text = t:gsub("\\\\"," \n"), startPos = pos, line = guide.lines, guide = guide})
+			table.insert(guide.steps, {text = t, startPos = pos, line = guide.lines, guide = guide})
 			guide.lines = guide.lines + 1
 		end
 	end
@@ -147,6 +147,7 @@ function addon.parseLine(step, guide, strict, nameOnly)
 	local autoStepOptional
 	local err = false
 	local pos = step.startPos
+	step.text = step.text:gsub("\\\\"," \n"):gsub("%-%-.*", "")
 	local t = step.text:gsub("(.-)%[(.-)%]", function(text, code)
 		if text ~= "" then
 			local element = {}
