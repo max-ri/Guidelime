@@ -582,10 +582,10 @@ function addon.getQuestIcon(questId, t, objective, finished)
 end
 
 function addon.getElementIcon(element, prevElement)
-	if element.available == false then
-		return "|T" .. addon.icons.UNAVAILABLE .. ":12|t"
-	elseif element.completed and element.t ~= "GOTO" then
+	if element.completed and element.t ~= "GOTO" then
 		return "|T" .. addon.icons.COMPLETED .. ":12|t"
+	elseif element.available == false then
+		return "|T" .. addon.icons.UNAVAILABLE .. ":12|t"
 	elseif addon.getSuperCode(element.t) == "QUEST" then
 		return addon.getQuestIcon(element.questId, element.t, element.objective, element.finished)
 	elseif element.t == "LOC" or element.t == "GOTO" then
@@ -797,13 +797,15 @@ local function updateStepAvailability(i, changedIndexes, scheduled)
 	for _, element in ipairs(step.elements) do
 		element.available = true
 		if element.t == "ACCEPT" then
-			local missingPrequests = addon.getMissingPrequests(element.questId, function(id) return addon.quests[id].completed or scheduled.TURNIN[id] end)
-			if #missingPrequests > 0 then
-				element.available = false
-				addon.currentGuide.unavailableQuests[element.questId] = true
-				for _, id in ipairs(missingPrequests) do
-					if not addon.contains(step.missingPrequests, id) then
-						table.insert(step.missingPrequests, id)
+			if not element.completed then
+				local missingPrequests = addon.getMissingPrequests(element.questId, function(id) return addon.quests[id].completed or scheduled.TURNIN[id] end)
+				if #missingPrequests > 0 then
+					element.available = false
+					addon.currentGuide.unavailableQuests[element.questId] = true
+					for _, id in ipairs(missingPrequests) do
+						if not addon.contains(step.missingPrequests, id) then
+							table.insert(step.missingPrequests, id)
+						end
 					end
 				end
 			end
