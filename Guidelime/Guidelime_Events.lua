@@ -169,7 +169,7 @@ function addon.frame:GOSSIP_SHOW()
 		local selectAvailable = nil
 		addon.openNpcAgain = false
 		for i = 1, GetNumGossipActiveQuests() do
-			local name = q[(i-1) * 7 + 1]
+			local name = q[(i-1) * 6 + 1]
 			if addon.contains(addon.currentGuide.activeQuests, function(id) return name == addon.getQuestNameById(id) end) then
 				if selectActive == nil then
 					selectActive = i
