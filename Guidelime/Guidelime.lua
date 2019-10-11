@@ -940,6 +940,10 @@ local function updateStepsActivation()
 			end
 		end
 	end
+	-- accepting a follow up: maybe a quest dialog is still open and the quest just became active? try to accept it in that case
+	if addon.contains(addon.currentGuide.activeQuests, addon.lastQuestOpened) then 
+		AcceptQuest()
+	end
 end
 
 local function updateFirstActiveIndex()
