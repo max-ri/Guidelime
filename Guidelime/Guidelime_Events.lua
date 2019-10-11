@@ -270,7 +270,7 @@ function addon.frame:QUEST_DETAIL()
 	if addon.debugging then print ("LIME: QUEST_DETAIL", id) end
 	if GuidelimeData.autoCompleteQuest and not IsShiftKeyDown() then
 		if addon.currentGuide ~= nil and addon.currentGuide.activeQuests ~= nil and addon.contains(addon.currentGuide.activeQuests, id) then 
-			C_Timer.After(addon.AUTO_COMPLETE_DELAY, function() --addon.AUTO_COMPLETE_DELAY, function() 
+			C_Timer.After(addon.AUTO_COMPLETE_DELAY, function()
 				AcceptQuest()
 				if addon.openNpcAgain then 
 					--todo
