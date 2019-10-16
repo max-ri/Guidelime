@@ -1046,7 +1046,7 @@ function addon.updateStepsText(scrollToFirstActive)
 					addon.mainFrame:GetTop()
 					- addon.mainFrame.steps[addon.currentGuide.firstActiveIndex]:GetTop()
 					+ addon.mainFrame.scrollFrame:GetVerticalScroll()
-					- 14)
+					- 20)
 			end
 		end)
 	end
