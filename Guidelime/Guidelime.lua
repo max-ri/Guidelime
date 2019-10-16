@@ -1457,9 +1457,7 @@ function addon.checkQuests()
 	local text = ""
 	for id, value in pairs(completed) do
 		count = count + 1
-		if addon.questsDB[id] == nil then
-			text = text .. "Unknown quest " .. id .. " completed.\r"
-		else
+		if addon.questsDB[id] ~= nil then
 			local missingPrequests = addon.getMissingPrequests(id, function(id) return completed[id] end)
 			local found = false
 			local ids = {id}
@@ -1480,6 +1478,8 @@ function addon.checkQuests()
 				found = true
 			end]]
 			if found then text = text .. listAliasQuests(completed, id, ids) .. "\r" end
+		--else
+			--text = text .. "Unknown quest " .. id .. " completed.\r"
 		end
 	end
 	if text == "" then 
