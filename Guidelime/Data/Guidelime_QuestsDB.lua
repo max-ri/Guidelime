@@ -38206,7 +38206,7 @@ addon.questsDB = {
 	   ["level"] = 10;
 	   ["source"] = {
 	      [1] = {
-	         ["id"] = 3064;
+	         ["id"] = 6746;
 	         ["type"] = "npc";
 	      };
 	   };
@@ -47777,7 +47777,7 @@ addon.questsDB = {
 	   ["level"] = 10;
 	   ["source"] = {
 	      [1] = {
-	         ["id"] = 6746;
+	         ["id"] = 3064;
 	         ["type"] = "npc";
 	      };
 	   };
@@ -120653,6 +120653,7 @@ addon.questsDB = {
 	   ["req"] = 45;
 	};
 	[5922] = {
+	   ["oneOfPrequests"] = true;
 	   ["objective"] = "Use the spell \"Teleport: Moonglade\" to travel to Moonglade.  When you arrive, speak with Dendrite Starblaze in the village of Nighthaven.";
 	   ["next"] = 5930;
 	   ["name"] = "Moonglade";
@@ -127888,6 +127889,7 @@ addon.questsDB = {
 	   ["req"] = 25;
 	};
 	[6126] = {
+	   ["oneOfPrequests"] = true;
 	   ["objective"] = "Travel to Moonglade and speak with Dendrite Starblaze in the village of Nighthaven.";
 	   ["next"] = 6127;
 	   ["sort"] = "Druid";
