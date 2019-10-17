@@ -3,6 +3,10 @@ local L = addon.L
 
 HBD = LibStub("HereBeDragons-2.0")
 
+local LIMIT_CENTER_POSITION = 400
+local LIMIT_POSITIONS = 1000
+
+
 function addon.getQuestNameById(id)
 	if id == nil then return nil end
 	if addon.quests ~= nil and addon.quests[id] ~= nil and addon.quests[id].name ~= nil then
@@ -237,6 +241,7 @@ function addon.getQuestPositions(id, typ, objective, filterZone)
 		end
 	end
 	local positions = {}
+	local count = 0
 	for _, npcId in ipairs(ids.npc) do
 		local element = addon.creaturesDB[npcId]
 		if element ~= nil and element.positions ~= nil then
@@ -246,10 +251,12 @@ function addon.getQuestPositions(id, typ, objective, filterZone)
 					-- TODO: x/y are still switched in db
 					local x, y, zone = addon.GetZoneCoordinatesFromWorld(pos.y, pos.x, pos.mapid, filterZone)
 					if x ~= nil then
-						table.insert(positions, {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, zone = zone, mapID = addon.mapIDs[zone], 
+						if count >= LIMIT_POSITIONS then return end
+						count = count + 1
+						positions[count] = {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, zone = zone, mapID = addon.mapIDs[zone], 
 							wx = pos.y, wy = pos.x, instance = pos.mapid,
 							objectives = objectives.npc[npcId],
-							npcId = npcId})
+							npcId = npcId}
 					elseif addon.debugging and filterZone == nil then
 						print("LIME: error transforming (", pos.x, pos.y, pos.mapid, ") into zone coordinates for quest #" .. id .. " npc #" .. npcId)
 					end
@@ -266,10 +273,12 @@ function addon.getQuestPositions(id, typ, objective, filterZone)
 					-- TODO: x/y are still switched in db
 					local x, y, zone = addon.GetZoneCoordinatesFromWorld(pos.y, pos.x, pos.mapid, filterZone)
 					if x ~= nil then
-						table.insert(positions, {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, zone = zone, mapID = addon.mapIDs[zone], 
+						if count >= LIMIT_POSITIONS then return end
+						count = count + 1
+						positions[count] = {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, zone = zone, mapID = addon.mapIDs[zone], 
 							wx = pos.y, wy = pos.x, instance = pos.mapid,
 							objectives = objectives.object[objectId],
-							objectId = objectId})
+							objectId = objectId}
 					elseif addon.debugging and filterZone == nil then 
 						print("error transforming (" .. pos.x .. "," .. pos.y .. "," .. pos.mapid .. ") into zone coordinates for quest #" .. id .. " object #" .. objectId)
 					end
@@ -356,7 +365,7 @@ function addon.getQuestPosition(id, typ, index)
 	if #positions == 0 and filterZone ~= nil then
 		positions = addon.getQuestPositions(id, typ, index)
 	end
-	if #positions > 400 then return end
+	if #positions > LIMIT_CENTER_POSITION then return end
 	--local time
 	--if addon.debugging then time = debugprofilestop() end
 	for i = 1, #positions do 
