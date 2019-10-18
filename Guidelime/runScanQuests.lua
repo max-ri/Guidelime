@@ -172,6 +172,10 @@ local function scanQuests(guide, quests, acceptOptional, turninOptional)
 					elseif currentTurninOptional[element.questId] then
 						currentTurninOptional[element.questId] = step.completeWithNext
 					end
+				elseif element.t == "FLY" or element.t == "GET_FLIGHT_POINT" then
+					if element.text ~= nil and element.flightmaster == nil then
+						addError(guide.name, i, "ERROR: flight point \"" .. element.text .. "\" not recognized")
+					end
 				end
 			end
 		end
