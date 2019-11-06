@@ -361,11 +361,10 @@ function addon.getQuestPosition(id, typ, index)
 	local filterZone
 	if addon.questsDB[id] ~= nil and addon.questsDB[id].zone ~= nil then filterZone = addon.questsDB[id].zone end
 	local positions = addon.getQuestPositions(id, typ, index, filterZone)
-	if positions == nil then return end
-	if #positions == 0 and filterZone ~= nil then
+	if positions ~= nil and #positions == 0 and filterZone ~= nil then
 		positions = addon.getQuestPositions(id, typ, index)
 	end
-	if #positions > LIMIT_CENTER_POSITION then return end
+	if positions == nil or #positions > LIMIT_CENTER_POSITION then return end
 	--local time
 	--if addon.debugging then time = debugprofilestop() end
 	for i = 1, #positions do 
