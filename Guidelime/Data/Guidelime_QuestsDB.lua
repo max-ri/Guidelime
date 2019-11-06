@@ -3393,7 +3393,7 @@ addon.questsDB = {
 	      };
 	   };
 	   ["faction"] = "Alliance";
-	   ["name"] = "Thunderbrew Lager";
+	   ["name"] = "Thunderbrew";
 	   ["level"] = 15;
 	   ["source"] = {
 	      [1] = {
@@ -54532,7 +54532,7 @@ addon.questsDB = {
 	   ["name"] = "Commander Gor'shak";
 	   ["prev"] = 3907;
 	   ["prequests"] = {
-	      [1] = 3907;
+	      [1] = 3906;
 	   };
 	   ["level"] = 52;
 	   ["source"] = {
@@ -74004,7 +74004,7 @@ addon.questsDB = {
 	   ["name"] = "Secret of the Circle";
 	   ["prev"] = 3446;
 	   ["prequests"] = {
-	      [1] = 3446;
+	      [1] = 3444;
 	   };
 	   ["level"] = 51;
 	   ["source"] = {
@@ -107926,6 +107926,10 @@ addon.questsDB = {
 	   ["source"] = {
 	      [1] = {
 	         ["id"] = 514;
+	         ["type"] = "npc";
+	      };
+	      [2] = {
+	         ["id"] = 415;
 	         ["type"] = "npc";
 	      };
 	   };
