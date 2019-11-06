@@ -482,7 +482,13 @@ function addon.getQuestText(id, t, title, colored)
 		end
 		if GuidelimeData.showQuestLevels then
 			q = q .. addon.getLevelColor(addon.questsDB[id].level) .. (addon.questsDB[id].level or "")
-			if addon.questsDB[id].type == "Elite" then q = q .. "+" end
+			if addon.questsDB[id].type == "Dungeon" then 
+				q = q .. "D" 
+			elseif addon.questsDB[id].type == "Raid" then 
+				q = q .. "R" 
+			elseif addon.questsDB[id].type == "Elite" then 
+				q = q .. "+" 
+			end
 		end
 		if colored == true then
 			q = q .. "|r"
