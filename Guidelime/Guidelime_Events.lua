@@ -53,7 +53,6 @@ function addon.updateFromQuestLog()
 	local checkCompleted = false
 	local questChanged = false
 	local questFound = false
-	local newQuest = false
 	for id, q in pairs(addon.quests) do
 		if questLog[id] ~= nil and not questLog[id].failed then
 			local numObjectives = GetNumQuestLeaderBoards(questLog[id].index)
@@ -69,7 +68,6 @@ function addon.updateFromQuestLog()
 			else
 				questFound = true
 				questChanged = true
-				newQuest = true
 				q.logIndex = questLog[id].index
 				q.finished = questLog[id].finished
 				q.name = questLog[id].name
@@ -88,19 +86,9 @@ function addon.updateFromQuestLog()
 			checkCompleted = true
 			if q.logIndex ~= nil and q.logIndex ~= -1 and not isCollapsed[q.sort] then
 				q.logIndex = nil
-				newQuest = true
 				--if addon.debugging then print("LIME: removed log entry ".. id) end
 			end
 		end
-	end
-	if GuidelimeData.showQuestIds and newQuest then
-		local msg = "LIME: current quests: "
-		for id, q in pairs(addon.quests) do
-			if q.logIndex ~= nil then 
-				msg = msg .. (q.name or "?") .. "(#" .. id .. "), "
-			end
-		end
-		print(msg:sub(1, #msg - 2))
 	end
 	return checkCompleted, questChanged, questFound
 end
@@ -327,14 +315,14 @@ function addon.frame:TAXIMAP_OPENED()
 				if not element.completed then
 					if element.flightmaster ~= nil then
 						local master = addon.flightmasterDB[element.flightmaster]
-						for i = 1, NumTaxiNodes() do
-							if (master.place or master.zone) == TaxiNodeName(i):sub(1, #(master.place or master.zone)) then
-								if element.t == "FLY" and TaxiNodeGetType(i) == "REACHABLE" then
+						for j = 1, NumTaxiNodes() do
+							if (master.place or master.zone) == TaxiNodeName(j):sub(1, #(master.place or master.zone)) then
+								if element.t == "FLY" and TaxiNodeGetType(j) == "REACHABLE" then
 									if IsMounted() then Dismount() end -- dismount before using the flightpoint
 									if addon.debugging then print ("LIME: Flying to " .. (master.place or master.zone)) end
-									TakeTaxiNode(i)
+									TakeTaxiNode(j)
 									addon.completeSemiAutomatic(element)
-								elseif element.t == "GET_FLIGHT_POINT" and TaxiNodeGetType(i) == "CURRENT" then
+								elseif element.t == "GET_FLIGHT_POINT" and TaxiNodeGetType(j) == "CURRENT" then
 									addon.completeSemiAutomatic(element)
 								end
 								return

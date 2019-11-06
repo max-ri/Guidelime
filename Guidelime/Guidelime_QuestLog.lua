@@ -7,14 +7,14 @@ function addon.updateQuestLog()
 	
 	if (numEntries == 0) then return end
 	
-	local questIndex, questLogTitle, title, level, _, isHeader, questCheck, questCheckXOfs
+	local questIndex, questLogTitle, title, level, _, isHeader, questCheck, questCheckXOfs, id
 	for i = 1, QUESTS_DISPLAYED, 1 do
 		questIndex = i + FauxScrollFrame_GetOffset(QuestLogListScrollFrame);
 		
 		if (questIndex <= numEntries) then
 			questLogTitle = _G["QuestLogTitle"..i]
 			questCheck = _G["QuestLogTitle"..i.."Check"]
-			title, level, _, isHeader = GetQuestLogTitle(questIndex)
+			title, level, _, isHeader, _, _, _, id = GetQuestLogTitle(questIndex)
 			
 			if (not isHeader) then
 				if GuidelimeData.showQuestLevels then
@@ -31,3 +31,4 @@ function addon.updateQuestLog()
 		end
 	end
 end
+QuestLogFrame:HookScript('OnUpdate', addon.updateQuestLog)

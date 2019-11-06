@@ -24,6 +24,7 @@ Guidelime_EditorTools.lua
 Guidelime_Parser.lua
 Guidelime_Map.lua
 Guidelime_Import.lua
+Guidelime_QuestLog.lua
 Data\Guidelime_MapDB.lua
 Data\Guidelime_QuestsDB.lua
 Data\Guidelime_CreaturesDB.lua
