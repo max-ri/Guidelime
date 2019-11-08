@@ -861,7 +861,7 @@ local function updateStepsCompletion(changedIndexes)
 			updateStepAvailability(i, changedIndexes, scheduled)
 			if addon.mainFrame.steps ~= nil and addon.mainFrame.steps[i] ~= nil and addon.mainFrame.steps[i].visible then
 				addon.mainFrame.steps[i]:SetChecked(step.completed or step.skip)
-				addon.mainFrame.steps[i]:SetEnabled((not step.completed and step.available) or step.skip)
+				addon.mainFrame.steps[i]:SetEnabled(not step.completed or step.skip)
 			end
 		end
 	until(numNew == #changedIndexes)
@@ -1299,8 +1299,8 @@ function addon.updateMainFrame(reset)
 					addon.mainFrame.steps[i].visible = true
 					addon.mainFrame.steps[i]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -35, -2)
 					addon.mainFrame.steps[i]:SetChecked(step.completed or step.skip)
-					addon.mainFrame.steps[i]:SetEnabled((not step.completed and step.available) or step.skip)
-					
+					addon.mainFrame.steps[i]:SetEnabled(not step.completed or step.skip)
+
 					addon.mainFrame.steps[i].textBox:Show()
 					updateStepText(i)
 
