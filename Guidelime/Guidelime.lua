@@ -1202,8 +1202,18 @@ function addon.updateMainFrame(reset)
 		addon.mainFrame.message[1]:Show()
 	else
 		addon.mainFrame.message = {}
-		if addon.currentGuide.next == nil or #addon.currentGuide.next == 0 or 
-			addon.guides[addon.currentGuide.group .. " " .. addon.currentGuide.next[1]] == nil then
+		local nextGuides = {}
+		local demo = false
+		if addon.currentGuide.next ~= nil then
+			for i, next in ipairs(addon.currentGuide.next) do
+				if addon.guides[addon.currentGuide.group .. " " .. next] == nil and guide.download ~= nil then 
+					demo = true
+				elseif addon.applies(addon.guides[addon.currentGuide.group .. " " .. next]) then
+					table.insert(nextGuides, next)
+				end
+			end
+		end
+		if nextGuides == {} then
 			addon.mainFrame.message[1] = addon.addMultilineText(addon.mainFrame.scrollChild, L.GUIDE_FINISHED, addon.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
 				if (button == "RightButton") then
 					showContextMenu()
@@ -1214,9 +1224,7 @@ function addon.updateMainFrame(reset)
 			addon.mainFrame.message[1]:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize)
 			addon.mainFrame.message[1]:Hide()
 			local guide = addon.guides[addon.currentGuide.name]
-			if addon.currentGuide.next ~= nil and #addon.currentGuide.next > 0 and 
-				addon.guides[addon.currentGuide.group .. " " .. addon.currentGuide.next[1]] == nil and
-				guide.download ~= nil then
+			if demo then
 				addon.mainFrame.message[2] = addon.addMultilineText(addon.mainFrame.scrollChild, 
 					string.format(L.DOWNLOAD_FULL_GUIDE, guide.downloadMinLevel, guide.downloadMaxLevel, guide.download, "\n|cFFAAAAAA" .. guide.downloadUrl), 
 					addon.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
@@ -1230,7 +1238,7 @@ function addon.updateMainFrame(reset)
 				addon.mainFrame.message[2]:Hide()
 			end
 		else
-			for i, next in ipairs(addon.currentGuide.next) do
+			for i, next in ipairs(nextGuides) do
 				local msg
 				if i == 1 then
 					msg = L.GUIDE_FINISHED_NEXT:format(addon.COLOR_WHITE .. next .. "|r")
@@ -1292,7 +1300,7 @@ function addon.updateMainFrame(reset)
 					addon.mainFrame.steps[i]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -35, -2)
 					addon.mainFrame.steps[i]:SetChecked(step.completed or step.skip)
 					addon.mainFrame.steps[i]:SetEnabled((not step.completed and step.available) or step.skip)
-
+					
 					addon.mainFrame.steps[i].textBox:Show()
 					updateStepText(i)
 

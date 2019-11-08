@@ -96,6 +96,7 @@ function addon.containsKey(table, value)
 end
 
 function addon.applies(guide)
+	if guide == nil then return false end
 	local applies = true
 	if guide.races ~= nil then
 		if not addon.contains(guide.races, addon.race) then applies = false end
