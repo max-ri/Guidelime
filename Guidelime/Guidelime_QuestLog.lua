@@ -12,8 +12,6 @@ function addon.updateQuestLog()
 		questIndex = i + FauxScrollFrame_GetOffset(QuestLogListScrollFrame);
 		
 		if (questIndex <= numEntries) then
-			questLogTitle = _G["QuestLogTitle"..i]
-			questCheck = _G["QuestLogTitle"..i.."Check"]
 			title, level, _, isHeader, _, _, _, id = GetQuestLogTitle(questIndex)
 			
 			if (not isHeader) then
@@ -23,11 +21,17 @@ function addon.updateQuestLog()
 				if GuidelimeData.showQuestIds then
 					title = title .. format(" (#%d)", id)
 				end
+				--title = title .. " |T" .. addon.icons.MAP .. ":12|t"
+				questLogTitle = _G["QuestLogTitle"..i]
+				questCheck = _G["QuestLogTitle"..i.."Check"]
 				questLogTitle:SetText(title)
 				QuestLogDummyText:SetText(title)
+				questCheck:SetPoint("LEFT", questLogTitle, "LEFT", QuestLogDummyText:GetWidth()+24, 0);
+				
+				--questLogTitle.tooltip = "tooltip"
+				--questLogTitle:SetScript("OnEnter", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32);  GameTooltip:SetText(self.tooltip); GameTooltip:Show(); addon.showingTooltip = true end end)
+				--questLogTitle:SetScript("OnLeave", function(self) if self.tooltip ~= nil and self.tooltip ~= "" and addon.showingTooltip then GameTooltip:Hide(); addon.showingTooltip = false end end)
 			end
-
-			questCheck:SetPoint("LEFT", questLogTitle, "LEFT", QuestLogDummyText:GetWidth()+24, 0);
 		end
 	end
 end

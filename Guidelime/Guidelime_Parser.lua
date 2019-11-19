@@ -176,7 +176,7 @@ function addon.parseLine(step, guide, strict, nameOnly)
 			return ""
 		end		
 		table.insert(step.elements, element)
-		local tag = code:sub(#addon.codes[element.t] + 1)
+		local tag = code:sub(#addon.codes[element.t] + 1) --:gsub("^%s*","")
 		
 		if element.t == "NEXT" then
 			local _, c = tag:gsub("%s*(%d*%.?%d*)%s*%-?%s*(%d*%.?%d*)%s*(.*)", function (minLevel, maxLevel, title)
