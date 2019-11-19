@@ -1206,7 +1206,7 @@ function addon.updateMainFrame(reset)
 		local demo = false
 		if addon.currentGuide.next ~= nil then
 			for i, next in ipairs(addon.currentGuide.next) do
-				if addon.guides[addon.currentGuide.group .. " " .. next] == nil and guide.download ~= nil then 
+				if addon.guides[addon.currentGuide.group .. " " .. next] == nil and addon.currentGuide.download ~= nil then 
 					demo = true
 				elseif addon.applies(addon.guides[addon.currentGuide.group .. " " .. next]) then
 					table.insert(nextGuides, next)
