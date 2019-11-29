@@ -227,14 +227,12 @@ function addon.setArrowTexture()
 	if GuidelimeData.arrowStyle == 1 then
 		addon.arrowFrame.texture:SetTexture(addon.icons.MAP_LIME_ARROW)
 		addon.arrowFrame.texture:SetVertexColor(1,1,1)
-		addon.arrowFrame:SetHeight(64)
-		addon.arrowFrame:SetWidth(64)
 	elseif GuidelimeData.arrowStyle == 2 then
 		addon.arrowFrame.texture:SetTexture(addon.icons.MAP_ARROW)
 		addon.arrowFrame.texture:SetVertexColor(0.5,1,0.2)
-		addon.arrowFrame:SetHeight(42)
-		addon.arrowFrame:SetWidth(56)
 	end
+	addon.arrowFrame:SetWidth(GuidelimeDataChar.arrowSize)
+	addon.arrowFrame:SetHeight(GuidelimeDataChar.arrowSize)
 end
 
 function addon.getArrowIconText()

@@ -281,9 +281,11 @@ function addon.fillOptions()
 	function(self)
 		self.editbox:SetText("   " .. addon.getArrowIconText())
     	self.editbox:SetCursorPosition(0)
-	end, function()
 		if addon.arrowFrame ~= nil then
 			addon.setArrowTexture()
+		end
+	end, function()
+		if addon.arrowFrame ~= nil then
 			addon.updateSteps() 
 		end
 	end)
