@@ -1486,6 +1486,10 @@ function addon.checkQuests()
 				table.insert(ids, addon.questsDB[id].replacement)
 				found = true
 			end
+			if not addon.applies(addon.questsDB[id]) then
+				text = text .. "Quest \"" .. addon.questsDB[id].name .. "\"(" .. id .. ") was completed but is marked as being unavailable for this character.\r"
+				found = true
+			end
 			--[[if addon.questsDB[id].replaces ~= nil and not completed[addon.questsDB[id].replaces] then
 				text = text .. "Quest \"" .. addon.questsDB[id].name .. "\"(" .. id .. ") was completed but is marked as being replacement for \"" .. addon.questsDB[addon.questsDB[id].replaces].name .. "\"(" .. addon.questsDB[id].replaces .. ") which is not completed.\r"
 				table.insert(ids, addon.questsDB[id].replaces)
