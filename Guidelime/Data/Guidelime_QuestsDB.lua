@@ -10274,9 +10274,6 @@ addon.questsDB = {
 	      };
 	   };
 	   ["prev"] = 1097;
-	   ["prequests"] = {
-	      [1] = 1097;
-	   };
 	   ["level"] = 15;
 	   ["source"] = {
 	      [1] = {
