@@ -169,7 +169,7 @@ function addon.fillGuides()
 			local guide = addon.guides[name]
 			--if addon.debugging then print("LIME: guide", group, name) end
 			
-			if guide.next ~= nil and #guide.next > 0 and addon.guides[group .. guide.next[1]] == nil and guide.download ~= nil then
+			if guide.next ~= nil and #guide.next > 0 and (addon.guides[group .. ' ' .. guide.next[1]] == nil) and guide.download ~= nil then
 				downloadMinLevel, downloadMaxLevel, download, downloadUrl = guide.downloadMinLevel, guide.downloadMaxLevel, guide.download, guide.downloadUrl 	
 			end
 		end

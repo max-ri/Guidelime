@@ -7,6 +7,11 @@ HBD = LibStub("HereBeDragons-2.0")
 addon.frame = CreateFrame("Frame", addonName .. "Frame", UIParent)
 Guidelime = {}
 
+-- Per request of Zarant everything is available for everyone now
+-- since I am currently not doing much with the addon please feel free
+-- to enhance this addon however you like in your own addons. :)
+Guidelime.addon = addon
+
 addon.COLOR_QUEST_DEFAULT = "|cFF59C4F1"
 addon.COLOR_LEVEL_RED = "|cFFFF1400"
 addon.COLOR_LEVEL_ORANGE = "|cFFFFA500"
@@ -1268,7 +1273,7 @@ function addon.updateMainFrame(reset)
 		local prev = addon.mainFrame.titleBox
 		for i, step in ipairs(addon.currentGuide.steps) do
 			if stepIsVisible(step) then
-				if step.active or GuidelimeData.maxNumOfSteps == 0 or i - addon.currentGuide.lastActiveIndex < GuidelimeData.maxNumOfSteps then
+				if step.active or GuidelimeData.maxNumOfSteps == 0 or (addon.currentGuide.lastActiveIndex ~= nil and i - addon.currentGuide.lastActiveIndex < GuidelimeData.maxNumOfSteps) then
 					if addon.mainFrame.steps[i] == nil then 
 						addon.mainFrame.steps[i] = addon.addCheckbox(addon.mainFrame.scrollChild, nil, "") 
 						addon.mainFrame.steps[i]:SetScript("OnClick", function()
