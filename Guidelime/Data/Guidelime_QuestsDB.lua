@@ -6082,7 +6082,7 @@ addon.questsDB = {
 	   };
 	   ["prev"] = 202;
 	   ["prequests"] = {
-	      [1] = 204;
+	      [1] = 202;
 	   };
 	   ["level"] = 38;
 	   ["source"] = {
@@ -10274,9 +10274,7 @@ addon.questsDB = {
 	      };
 	   };
 	   ["prev"] = 1097;
-	   ["prequests"] = {
-	      [1] = 1097;
-	   };
+	   ["prequests"] = {};
 	   ["level"] = 15;
 	   ["source"] = {
 	      [1] = {
@@ -12564,7 +12562,9 @@ addon.questsDB = {
 	   };
 	   ["name"] = "Wild Hearts";
 	   ["prev"] = 428;
-	   ["prequests"] = {};
+	   ["prequests"] = {
+	      [1] = 428;
+	   };
 	   ["level"] = 11;
 	   ["source"] = {
 	      [1] = {
@@ -14184,7 +14184,9 @@ addon.questsDB = {
 	   };
 	   ["name"] = "Young Crocolisk Skins";
 	   ["prev"] = 469;
-	   ["prequests"] = {};
+	   ["prequests"] = {
+	      [1] = 469;
+	   };
 	   ["level"] = 22;
 	   ["source"] = {
 	      [1] = {
@@ -18113,7 +18115,6 @@ addon.questsDB = {
 	      };
 	   };
 	   ["name"] = "The Captain's Chest";
-	   ["faction"] = "Alliance";
 	   ["level"] = 45;
 	   ["source"] = {
 	      [1] = {
@@ -20368,7 +20369,9 @@ addon.questsDB = {
 	      };
 	   };
 	   ["prev"] = 690;
-	   ["prequests"] = {};
+	   ["prequests"] = {
+	      [1] = 690;
+	   };
 	   ["level"] = 36;
 	   ["source"] = {
 	      [1] = {
@@ -23434,7 +23437,6 @@ addon.questsDB = {
 	};
 	[794] = {
 	   ["sort"] = "Valley of Trials";
-	   ["oneOfPrequests"] = true;
 	   ["objective"] = "Bring the Burning Blade Medallion to Zureetha Fargaze, outside The Den.";
 	   ["zone"] = "Durotar";
 	   ["next"] = 805;
@@ -28760,7 +28762,6 @@ addon.questsDB = {
 	   ["req"] = 10;
 	};
 	[990] = {
-	   ["oneOfPrequests"] = true;
 	   ["objective"] = "Find Raene Wolfrunner in Ashenvale.";
 	   ["zone"] = "Ashenvale";
 	   ["sort"] = "Ashenvale";
@@ -33100,7 +33101,6 @@ addon.questsDB = {
 	[8553] = {
 	   ["objective"] = "Speak with Sprogger.";
 	   ["zone"] = "Stranglethorn Vale";
-	   ["faction"] = "Horde";
 	   ["name"] = "The Captain's Cutlass";
 	   ["next"] = 8554;
 	   ["sort"] = "Stranglethorn Vale";
@@ -34893,6 +34893,34 @@ addon.questsDB = {
 	      };
 	   };
 	   ["req"] = 60;
+	};
+	[7797] = {
+	   ["objective"] = "";
+	   ["zone"] = "Darnassus";
+	   ["sort"] = "Darnassus";
+	   ["gather"] = {
+	      [1] = 2592;
+	   };
+	   ["repgain"] = {
+	      [69] = 150;
+	   };
+	   ["followup"] = 7798;
+	   ["deliver"] = {
+	      [1] = {
+	         ["id"] = 14725;
+	         ["type"] = "npc";
+	      };
+	   };
+	   ["faction"] = "Alliance";
+	   ["name"] = "A Donation of Wool";
+	   ["level"] = 60;
+	   ["source"] = {
+	      [1] = {
+	         ["id"] = 14725;
+	         ["type"] = "npc";
+	      };
+	   };
+	   ["req"] = 12;
 	};
 	[7813] = {
 	   ["objective"] = "";
@@ -37108,7 +37136,9 @@ addon.questsDB = {
 	      };
 	   };
 	   ["prev"] = 1301;
-	   ["prequests"] = {};
+	   ["prequests"] = {
+	      [1] = 1301;
+	   };
 	   ["level"] = 35;
 	   ["source"] = {
 	      [1] = {
@@ -37154,7 +37184,7 @@ addon.questsDB = {
 	   ["req"] = 50;
 	};
 	[5238] = {
-	   ["faction"] = "Alliance";
+	   ["faction"] = "Horde";
 	   ["name"] = "Mission Accomplished!";
 	   ["objective"] = "";
 	   ["zone"] = "Western Plaguelands";
@@ -38206,7 +38236,7 @@ addon.questsDB = {
 	   ["level"] = 10;
 	   ["source"] = {
 	      [1] = {
-	         ["id"] = 6746;
+	         ["id"] = 3064;
 	         ["type"] = "npc";
 	      };
 	   };
@@ -40810,7 +40840,7 @@ addon.questsDB = {
 	   };
 	   ["prev"] = 7797;
 	   ["prequests"] = {
-	      [1] = 7792;
+	      [1] = 7797;
 	   };
 	   ["level"] = 60;
 	   ["source"] = {
@@ -46222,7 +46252,9 @@ addon.questsDB = {
 	   };
 	   ["name"] = "Ribbly Screwspigot";
 	   ["prev"] = 4324;
-	   ["prequests"] = {};
+	   ["prequests"] = {
+	      [1] = 4324;
+	   };
 	   ["level"] = 53;
 	   ["source"] = {
 	      [1] = {
@@ -47380,7 +47412,6 @@ addon.questsDB = {
 	   ["req"] = 24;
 	};
 	[5096] = {
-	   ["oneOfPrequests"] = true;
 	   ["objective"] = "Proceed to the Scarlet Crusade's base camp between Felstone Field and Dalson's Tears and destroy their command tent.$B$BPlace the Scourge banner at the camp, and then return to High Executor Derrington at the Bulwark, Western Plaguelands.";
 	   ["zone"] = "Western Plaguelands";
 	   ["name"] = "Scarlet Diversions";
@@ -47398,7 +47429,11 @@ addon.questsDB = {
 	      };
 	   };
 	   ["faction"] = "Horde";
-	   ["prequests"] = {};
+	   ["prequests"] = {
+	      [1] = 5093;
+	      [2] = 5094;
+	      [3] = 5095;
+	   };
 	   ["level"] = 53;
 	   ["source"] = {
 	      [1] = {
@@ -47777,7 +47812,7 @@ addon.questsDB = {
 	   ["level"] = 10;
 	   ["source"] = {
 	      [1] = {
-	         ["id"] = 3064;
+	         ["id"] = 6746;
 	         ["type"] = "npc";
 	      };
 	   };
@@ -54532,7 +54567,7 @@ addon.questsDB = {
 	   ["name"] = "Commander Gor'shak";
 	   ["prev"] = 3907;
 	   ["prequests"] = {
-	      [1] = 3906;
+	      [1] = 3907;
 	   };
 	   ["level"] = 52;
 	   ["source"] = {
@@ -56465,7 +56500,9 @@ addon.questsDB = {
 	   };
 	   ["name"] = "Threat of the Winterfall";
 	   ["prev"] = 6603;
-	   ["prequests"] = {};
+	   ["prequests"] = {
+	      [1] = 6603;
+	   };
 	   ["level"] = 56;
 	   ["source"] = {
 	      [1] = {
@@ -57130,7 +57167,9 @@ addon.questsDB = {
 	      };
 	   };
 	   ["prev"] = 1477;
-	   ["prequests"] = {};
+	   ["prequests"] = {
+	      [1] = 1477;
+	   };
 	   ["level"] = 45;
 	   ["source"] = {
 	      [1] = {
@@ -62135,7 +62174,9 @@ addon.questsDB = {
 	      };
 	   };
 	   ["prev"] = 2519;
-	   ["prequests"] = {};
+	   ["prequests"] = {
+	      [1] = 2519;
+	   };
 	   ["level"] = 12;
 	   ["source"] = {
 	      [1] = {
@@ -66712,7 +66753,9 @@ addon.questsDB = {
 	   };
 	   ["name"] = "Doomrigger's Clasp";
 	   ["prev"] = 4766;
-	   ["prequests"] = {};
+	   ["prequests"] = {
+	      [1] = 4766;
+	   };
 	   ["level"] = 60;
 	   ["sort"] = "Blackrock Spire";
 	   ["req"] = 57;
@@ -70234,38 +70277,6 @@ addon.questsDB = {
 	   };
 	   ["req"] = 12;
 	};
-	[4286] = {
-	   ["type"] = "Dungeon";
-	   ["objective"] = "Travel to Blackrock Depths and recover 20 Dark Iron Fanny Packs. Return to Oralius when you have completed this task. You assume that the Dark Iron dwarves inside Blackrock Depths carry these 'fanny pack' contraptions.\
-";
-	   ["zone"] = "Blackrock Depths";
-	   ["sort"] = "Blackrock Depths";
-	   ["gather"] = {
-	      [1] = 11468;
-	   };
-	   ["reward"] = {
-	      [1] = 11883;
-	   };
-	   ["repgain"] = {
-	      [47] = 250;
-	   };
-	   ["deliver"] = {
-	      [1] = {
-	         ["id"] = 9177;
-	         ["type"] = "npc";
-	      };
-	   };
-	   ["name"] = "The Good Stuff";
-	   ["faction"] = "Alliance";
-	   ["level"] = 56;
-	   ["source"] = {
-	      [1] = {
-	         ["id"] = 9177;
-	         ["type"] = "npc";
-	      };
-	   };
-	   ["req"] = 50;
-	};
 	[4861] = {
 	   ["objective"] = "Locate Jaron Stoneshaper's wrecked camp and supplies in southern Winterspring.";
 	   ["zone"] = "Winterspring";
@@ -70797,7 +70808,6 @@ addon.questsDB = {
 	   ["req"] = 9;
 	};
 	[5149] = {
-	   ["oneOfPrequests"] = true;
 	   ["objective"] = "Find Pamela's doll.";
 	   ["zone"] = "Eastern Plaguelands";
 	   ["sort"] = "Eastern Plaguelands";
@@ -70811,7 +70821,10 @@ addon.questsDB = {
 	      };
 	   };
 	   ["name"] = "Pamela's Doll";
-	   ["prequests"] = {};
+	   ["prequests"] = {
+	      [1] = 5142;
+	      [2] = 5601;
+	   };
 	   ["level"] = 55;
 	   ["source"] = {
 	      [1] = {
@@ -71613,7 +71626,9 @@ addon.questsDB = {
 	   };
 	   ["name"] = "Hurley Blackbreath";
 	   ["prev"] = 4128;
-	   ["prequests"] = {};
+	   ["prequests"] = {
+	      [1] = 4128;
+	   };
 	   ["level"] = 55;
 	   ["sort"] = "Blackrock Depths";
 	   ["req"] = 50;
@@ -72701,7 +72716,6 @@ addon.questsDB = {
 	   ["name"] = "Deadwood of the North";
 	   ["sort"] = "Felwood";
 	   ["level"] = 48;
-	   ["replacement"] = 8461;
 	   ["req"] = 43;
 	};
 	[3119] = {
@@ -74004,7 +74018,7 @@ addon.questsDB = {
 	   ["name"] = "Secret of the Circle";
 	   ["prev"] = 3446;
 	   ["prequests"] = {
-	      [1] = 3444;
+	      [1] = 3446;
 	   };
 	   ["level"] = 51;
 	   ["source"] = {
@@ -74803,7 +74817,9 @@ addon.questsDB = {
 	   };
 	   ["name"] = "Lost Thunderbrew Recipe";
 	   ["prev"] = 4133;
-	   ["prequests"] = {};
+	   ["prequests"] = {
+	      [1] = 4133;
+	   };
 	   ["level"] = 55;
 	   ["source"] = {
 	      [1] = {
@@ -77698,7 +77714,9 @@ addon.questsDB = {
 	   };
 	   ["name"] = "Egg Freezing";
 	   ["prev"] = 4907;
-	   ["prequests"] = {};
+	   ["prequests"] = {
+	      [1] = 4907;
+	   };
 	   ["level"] = 60;
 	   ["source"] = {
 	      [1] = {
@@ -77851,7 +77869,9 @@ addon.questsDB = {
 	      };
 	   };
 	   ["prev"] = 1260;
-	   ["prequests"] = {};
+	   ["prequests"] = {
+	      [1] = 1260;
+	   };
 	   ["level"] = 38;
 	   ["source"] = {
 	      [1] = {
@@ -82818,7 +82838,9 @@ addon.questsDB = {
 	      };
 	   };
 	   ["prev"] = 1879;
-	   ["prequests"] = {};
+	   ["prequests"] = {
+	      [1] = 1879;
+	   };
 	   ["level"] = 10;
 	   ["source"] = {
 	      [1] = {
@@ -82858,7 +82880,9 @@ addon.questsDB = {
 	      };
 	   };
 	   ["prev"] = 1883;
-	   ["prequests"] = {};
+	   ["prequests"] = {
+	      [1] = 1883;
+	   };
 	   ["level"] = 10;
 	   ["sort"] = "Mage";
 	   ["req"] = 10;
@@ -87457,7 +87481,7 @@ addon.questsDB = {
 	   ["name"] = "Salve via Hunting";
 	   ["prev"] = 5882;
 	   ["prequests"] = {
-	      [1] = 4102;
+	      [1] = 5882;
 	   };
 	   ["level"] = 55;
 	   ["source"] = {
@@ -93069,7 +93093,9 @@ addon.questsDB = {
 	   };
 	   ["name"] = "The Darkstone Tablet";
 	   ["prev"] = 4769;
-	   ["prequests"] = {};
+	   ["prequests"] = {
+	      [1] = 4769;
+	   };
 	   ["level"] = 60;
 	   ["source"] = {
 	      [1] = {
@@ -98853,33 +98879,37 @@ addon.questsDB = {
 	   };
 	   ["req"] = 20;
 	};
-	[7792] = {
-	   ["objective"] = "";
-	   ["zone"] = "Darnassus";
-	   ["sort"] = "Darnassus";
+	[4286] = {
+	   ["type"] = "Dungeon";
+	   ["objective"] = "Travel to Blackrock Depths and recover 20 Dark Iron Fanny Packs. Return to Oralius when you have completed this task. You assume that the Dark Iron dwarves inside Blackrock Depths carry these 'fanny pack' contraptions.\
+";
+	   ["zone"] = "Blackrock Depths";
+	   ["sort"] = "Blackrock Depths";
 	   ["gather"] = {
-	      [1] = 2592;
+	      [1] = 11468;
+	   };
+	   ["reward"] = {
+	      [1] = 11883;
 	   };
 	   ["repgain"] = {
-	      [69] = 150;
+	      [47] = 250;
 	   };
-	   ["followup"] = 7798;
 	   ["deliver"] = {
 	      [1] = {
-	         ["id"] = 14725;
+	         ["id"] = 9177;
 	         ["type"] = "npc";
 	      };
 	   };
+	   ["name"] = "The Good Stuff";
 	   ["faction"] = "Alliance";
-	   ["name"] = "A Donation of Wool";
-	   ["level"] = 60;
+	   ["level"] = 56;
 	   ["source"] = {
 	      [1] = {
-	         ["id"] = 14725;
+	         ["id"] = 9177;
 	         ["type"] = "npc";
 	      };
 	   };
-	   ["req"] = 12;
+	   ["req"] = 50;
 	};
 	[7808] = {
 	   ["faction"] = "Alliance";
@@ -103683,7 +103713,6 @@ addon.questsDB = {
 	   ["name"] = "Winterfall Activity";
 	   ["sort"] = "Winterspring";
 	   ["level"] = 56;
-	   ["replacement"] = 8464;
 	   ["req"] = 51;
 	};
 	[8417] = {
@@ -107216,21 +107245,19 @@ addon.questsDB = {
 	   ["req"] = 60;
 	};
 	[4024] = {
-	   ["type"] = "Dungeon";
-	   ["source"] = {
-	      [1] = {
-	         ["id"] = 9459;
-	         ["type"] = "npc";
-	      };
-	   };
-	   ["zone"] = "Blackrock Depths";
-	   ["oneOfPrequests"] = true;
 	   ["series"] = 2;
+	   ["type"] = "Dungeon";
+	   ["objective"] = "Travel to Blackrock Depths and slay Bael'Gar.$B$BYou only know that the giant resides inside Blackrock Depths. Remember to use the Altered Black Dragonflight Molt on Bael'Gar's remains to capture the Fiery Essence.$B$BReturn the Encased Fiery Essence to Cyrus Therepentous.$B$B";
+	   ["zone"] = "Blackrock Depths";
+	   ["sort"] = "Blackrock Depths";
 	   ["gather"] = {
 	      [1] = 11230;
 	   };
-	   ["objective"] = "Travel to Blackrock Depths and slay Bael'Gar.$B$BYou only know that the giant resides inside Blackrock Depths. Remember to use the Altered Black Dragonflight Molt on Bael'Gar's remains to capture the Fiery Essence.$B$BReturn the Encased Fiery Essence to Cyrus Therepentous.$B$B";
-	   ["sort"] = "Blackrock Depths";
+	   ["reward"] = {
+	      [1] = 12066;
+	      [2] = 12082;
+	      [3] = 12083;
+	   };
 	   ["deliver"] = {
 	      [1] = {
 	         ["id"] = 9459;
@@ -107244,10 +107271,11 @@ addon.questsDB = {
 	      [2] = 4022;
 	   };
 	   ["level"] = 58;
-	   ["reward"] = {
-	      [1] = 12066;
-	      [2] = 12082;
-	      [3] = 12083;
+	   ["source"] = {
+	      [1] = {
+	         ["id"] = 9459;
+	         ["type"] = "npc";
+	      };
 	   };
 	   ["req"] = 52;
 	};
@@ -107926,10 +107954,6 @@ addon.questsDB = {
 	   ["source"] = {
 	      [1] = {
 	         ["id"] = 514;
-	         ["type"] = "npc";
-	      };
-	      [2] = {
-	         ["id"] = 415;
 	         ["type"] = "npc";
 	      };
 	   };
@@ -109180,7 +109204,6 @@ addon.questsDB = {
 	   ["req"] = 30;
 	};
 	[6383] = {
-	   ["oneOfPrequests"] = true;
 	   ["objective"] = "";
 	   ["zone"] = "Ashenvale";
 	   ["sort"] = "Ashenvale";
@@ -113507,7 +113530,9 @@ addon.questsDB = {
 	      };
 	   };
 	   ["prev"] = 1860;
-	   ["prequests"] = {};
+	   ["prequests"] = {
+	      [1] = 1860;
+	   };
 	   ["level"] = 10;
 	   ["source"] = {
 	      [1] = {
@@ -118643,7 +118668,6 @@ addon.questsDB = {
 	   ["name"] = "Timbermaw Ally";
 	   ["sort"] = "Timbermaw Hold";
 	   ["level"] = 48;
-	   ["replacement"] = 8460;
 	   ["req"] = 45;
 	};
 	[6147] = {
@@ -120657,7 +120681,6 @@ addon.questsDB = {
 	   ["req"] = 45;
 	};
 	[5922] = {
-	   ["oneOfPrequests"] = true;
 	   ["objective"] = "Use the spell \"Teleport: Moonglade\" to travel to Moonglade.  When you arrive, speak with Dendrite Starblaze in the village of Nighthaven.";
 	   ["next"] = 5930;
 	   ["name"] = "Moonglade";
@@ -124034,7 +124057,6 @@ addon.questsDB = {
 	   ["req"] = 58;
 	};
 	[1122] = {
-	   ["oneOfPrequests"] = true;
 	   ["objective"] = "Bring the Fool's Stout report to Crank Fizzlebub in Booty Bay.";
 	   ["zone"] = "Thousand Needles";
 	   ["sort"] = "Thousand Needles";
@@ -124421,7 +124443,6 @@ addon.questsDB = {
 	};
 	[5092] = {
 	   ["name"] = "Clear the Way";
-	   ["oneOfPrequests"] = true;
 	   ["objective"] = "Kill 10 Skeletal Flayers and 10 Slavering Ghouls in Sorrow Hill.$B$BReturn to Commander Ashlam Valorfist at Chillwind Camp, Western Plaguelands.";
 	   ["zone"] = "Western Plaguelands";
 	   ["sort"] = "Western Plaguelands";
@@ -124439,11 +124460,7 @@ addon.questsDB = {
 	      };
 	   };
 	   ["faction"] = "Alliance";
-	   ["prequests"] = {
-	      [1] = 5090;
-	      [2] = 5066;
-	      [3] = 5091;
-	   };
+	   ["prequests"] = {};
 	   ["level"] = 52;
 	   ["source"] = {
 	      [1] = {
@@ -126722,7 +126739,6 @@ addon.questsDB = {
 	      };
 	   };
 	   ["name"] = "The Captain's Chest";
-	   ["faction"] = "Horde";
 	   ["level"] = 47;
 	   ["source"] = {
 	      [1] = {
@@ -127893,7 +127909,6 @@ addon.questsDB = {
 	   ["req"] = 25;
 	};
 	[6126] = {
-	   ["oneOfPrequests"] = true;
 	   ["objective"] = "Travel to Moonglade and speak with Dendrite Starblaze in the village of Nighthaven.";
 	   ["next"] = 6127;
 	   ["sort"] = "Druid";
