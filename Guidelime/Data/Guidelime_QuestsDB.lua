@@ -10274,7 +10274,6 @@ addon.questsDB = {
 	      };
 	   };
 	   ["prev"] = 1097;
-	   ["prequests"] = {};
 	   ["level"] = 15;
 	   ["source"] = {
 	      [1] = {
@@ -12562,7 +12561,6 @@ addon.questsDB = {
 	   };
 	   ["name"] = "Wild Hearts";
 	   ["prev"] = 428;
-	   ["prequests"] = {};
 	   ["level"] = 11;
 	   ["source"] = {
 	      [1] = {
@@ -13593,7 +13591,6 @@ addon.questsDB = {
 	   };
 	   ["name"] = "War Banners";
 	   ["prev"] = 473;
-	   ["prequests"] = {};
 	   ["level"] = 28;
 	   ["source"] = {
 	      [1] = {
@@ -14182,7 +14179,6 @@ addon.questsDB = {
 	   };
 	   ["name"] = "Young Crocolisk Skins";
 	   ["prev"] = 469;
-	   ["prequests"] = {};
 	   ["level"] = 22;
 	   ["source"] = {
 	      [1] = {
@@ -20365,7 +20361,6 @@ addon.questsDB = {
 	      };
 	   };
 	   ["prev"] = 690;
-	   ["prequests"] = {};
 	   ["level"] = 36;
 	   ["source"] = {
 	      [1] = {
@@ -21602,7 +21597,6 @@ addon.questsDB = {
 	   };
 	   ["sort"] = "Badlands";
 	   ["prev"] = 718;
-	   ["prequests"] = {};
 	   ["level"] = 43;
 	   ["repgain"] = {
 	      [72] = 250;
@@ -37102,7 +37096,6 @@ addon.questsDB = {
 	      };
 	   };
 	   ["prev"] = 1301;
-	   ["prequests"] = {};
 	   ["level"] = 35;
 	   ["source"] = {
 	      [1] = {
@@ -46216,7 +46209,6 @@ addon.questsDB = {
 	   };
 	   ["name"] = "Ribbly Screwspigot";
 	   ["prev"] = 4324;
-	   ["prequests"] = {};
 	   ["level"] = 53;
 	   ["source"] = {
 	      [1] = {
@@ -47392,7 +47384,6 @@ addon.questsDB = {
 	      };
 	   };
 	   ["faction"] = "Horde";
-	   ["prequests"] = {};
 	   ["level"] = 53;
 	   ["source"] = {
 	      [1] = {
@@ -56459,7 +56450,6 @@ addon.questsDB = {
 	   };
 	   ["name"] = "Threat of the Winterfall";
 	   ["prev"] = 6603;
-	   ["prequests"] = {};
 	   ["level"] = 56;
 	   ["source"] = {
 	      [1] = {
@@ -57124,7 +57114,6 @@ addon.questsDB = {
 	      };
 	   };
 	   ["prev"] = 1477;
-	   ["prequests"] = {};
 	   ["level"] = 45;
 	   ["source"] = {
 	      [1] = {
@@ -62129,7 +62118,6 @@ addon.questsDB = {
 	      };
 	   };
 	   ["prev"] = 2519;
-	   ["prequests"] = {};
 	   ["level"] = 12;
 	   ["source"] = {
 	      [1] = {
@@ -66706,7 +66694,6 @@ addon.questsDB = {
 	   };
 	   ["name"] = "Doomrigger's Clasp";
 	   ["prev"] = 4766;
-	   ["prequests"] = {};
 	   ["level"] = 60;
 	   ["sort"] = "Blackrock Spire";
 	   ["req"] = 57;
@@ -70805,7 +70792,6 @@ addon.questsDB = {
 	      };
 	   };
 	   ["name"] = "Pamela's Doll";
-	   ["prequests"] = {};
 	   ["level"] = 55;
 	   ["source"] = {
 	      [1] = {
@@ -71607,7 +71593,6 @@ addon.questsDB = {
 	   };
 	   ["name"] = "Hurley Blackbreath";
 	   ["prev"] = 4128;
-	   ["prequests"] = {};
 	   ["level"] = 55;
 	   ["sort"] = "Blackrock Depths";
 	   ["req"] = 50;
@@ -74797,7 +74782,6 @@ addon.questsDB = {
 	   };
 	   ["name"] = "Lost Thunderbrew Recipe";
 	   ["prev"] = 4133;
-	   ["prequests"] = {};
 	   ["level"] = 55;
 	   ["source"] = {
 	      [1] = {
@@ -77692,7 +77676,6 @@ addon.questsDB = {
 	   };
 	   ["name"] = "Egg Freezing";
 	   ["prev"] = 4907;
-	   ["prequests"] = {};
 	   ["level"] = 60;
 	   ["source"] = {
 	      [1] = {
@@ -77845,7 +77828,6 @@ addon.questsDB = {
 	      };
 	   };
 	   ["prev"] = 1260;
-	   ["prequests"] = {};
 	   ["level"] = 38;
 	   ["source"] = {
 	      [1] = {
@@ -82812,7 +82794,6 @@ addon.questsDB = {
 	      };
 	   };
 	   ["prev"] = 1879;
-	   ["prequests"] = {};
 	   ["level"] = 10;
 	   ["source"] = {
 	      [1] = {
@@ -82852,7 +82833,6 @@ addon.questsDB = {
 	      };
 	   };
 	   ["prev"] = 1883;
-	   ["prequests"] = {};
 	   ["level"] = 10;
 	   ["sort"] = "Mage";
 	   ["req"] = 10;
@@ -93063,7 +93043,6 @@ addon.questsDB = {
 	   };
 	   ["name"] = "The Darkstone Tablet";
 	   ["prev"] = 4769;
-	   ["prequests"] = {};
 	   ["level"] = 60;
 	   ["source"] = {
 	      [1] = {
@@ -113501,7 +113480,6 @@ addon.questsDB = {
 	      };
 	   };
 	   ["prev"] = 1860;
-	   ["prequests"] = {};
 	   ["level"] = 10;
 	   ["source"] = {
 	      [1] = {
@@ -124432,7 +124410,6 @@ addon.questsDB = {
 	      };
 	   };
 	   ["faction"] = "Alliance";
-	   ["prequests"] = {};
 	   ["level"] = 52;
 	   ["source"] = {
 	      [1] = {
