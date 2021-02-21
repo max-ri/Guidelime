@@ -685,10 +685,10 @@ function addon.getStepText(step)
 				end
 			end
 		elseif element.t == "COLLECT_ITEM" then
-		local name,_,rarity = GetItemInfo(element.itemId)
-		local count,icon
-		local textIcon = "|T" .. addon.icons.item .. ":12|t"
-		local colour = ITEM_QUALITY_COLORS[1].hex
+			local name,_,rarity = GetItemInfo(element.itemId)
+			local count,icon
+			local textIcon = "|T" .. addon.icons.item .. ":12|t"
+			local colour = ITEM_QUALITY_COLORS[1].hex
 			if name then
 				if step.active then
 					count = GetItemCount(element.itemId)
