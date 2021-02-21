@@ -384,3 +384,22 @@ function addon.frame:PLAYER_UNGHOST()
 	if addon.debugging then print ("LIME: PLAYER_UNGHOST") end
 	addon.alive = true
 end
+
+addon.requestItemInfo = {}
+addon.frame:RegisterEvent('GET_ITEM_INFO_RECEIVED')
+function addon.frame:GET_ITEM_INFO_RECEIVED(itemId,success)
+	if addon.debugging then print ("LIME: GET_ITEM_INFO_RECEIVED") end
+	if addon.requestItemInfo[itemId] and success then
+		addon.requestItemInfo[itemId] = nil
+		addon.updateStepsText()
+	end
+end
+
+addon.frame:RegisterEvent('BAG_UPDATE')
+function addon.frame:BAG_UPDATE()
+	if addon.debugging then print ("LIME: BAG_UPDATE") end
+	local guide = addon.guides[GuidelimeDataChar.currentGuide]
+	if guide and guide.itemUpdateIndices and #guide.itemUpdateIndices > 0 then
+		addon.updateSteps(guide.itemUpdateIndices)
+	end
+end

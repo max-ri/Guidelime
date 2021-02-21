@@ -413,6 +413,11 @@ function addon.loadCurrentGuide()
 							lastGoto = gotoElement
 						end
 					end						
+				elseif element.t == "COLLECT_ITEM" then
+					if #guide.itemUpdateIndices == 0 or guide.itemUpdateIndices[#guide.itemUpdateIndices] ~= step.index then
+						table.insert(guide.itemUpdateIndices,step.index)
+					end
+					step.manual = false
 				end
 				i = i + 1
 			end
@@ -622,6 +627,8 @@ function addon.getStepText(step)
 	local skipQuests = {}
 	local trackQuest = {}
 	local url
+	local itemText = ""
+
 	if GuidelimeData.showLineNumbers then text = text .. step.line .. " " end
 	if not step.active then
 		text = text .. addon.COLOR_INACTIVE
@@ -677,6 +684,41 @@ function addon.getStepText(step)
 					end
 				end
 			end
+		elseif element.t == "COLLECT_ITEM" then
+		local name,_,rarity = GetItemInfo(element.itemId)
+		local count,icon
+		local textIcon = "|T" .. addon.icons.item .. ":12|t"
+		local colour = ITEM_QUALITY_COLORS[1].hex
+			if name then
+				if step.active then
+					count = GetItemCount(element.itemId)
+					colour = ITEM_QUALITY_COLORS[rarity].hex
+					if count < element.qty then
+						icon = textIcon
+					else
+						count = element.qty
+						icon = "|T" .. addon.icons.COMPLETED .. ":12|t"
+						textIcon = ""
+					end
+					itemText = string.format("%s\n    - %s%s: %d/%d",itemText,icon,name,count,element.qty)
+				end
+			else
+				element.itemRequests = element.itemRequests +1
+				if element.itemRequests < 50 then
+					addon.requestItemInfo[element.itemId] = true
+				end
+			end
+
+			name = element.title or name
+			text = text .. textIcon
+
+			if name and name ~= "" then
+				if step.active then
+					text = text .. colour .. "[" .. name .. "]|r"
+				else
+					text = text .. "[" .. name .. "]"
+				end
+			end
 		end
 		if element.empty == nil or not element.empty then prevElement = element end
 	end
@@ -704,6 +746,7 @@ function addon.getStepText(step)
 			tooltip = tooltip .. addon.getQuestObjectiveText(id, objectives)
 		end
 	end
+	text = text .. itemText
 	return text, tooltip, skipText, skipTooltip, url
 end
 
@@ -730,6 +773,7 @@ local function updateStepCompletion(i, completedIndexes)
 
 	local wasCompleted = step.completed
 	if not step.manual then	step.completed = nil end
+	step.itemsCollected = nil
 	for _, element in ipairs(step.elements) do
 		if element.t == "ACCEPT" then
 			element.completed = addon.quests[element.questId].completed or addon.quests[element.questId].logIndex ~= nil
@@ -757,6 +801,15 @@ local function updateStepCompletion(i, completedIndexes)
 				else
 					if element.xp > addon.xp then element.completed = false end
 				end
+			end
+			if step.completed == nil or not element.completed then step.completed = element.completed end
+		elseif element.t == "COLLECT_ITEM" and step.active then
+			if GetItemCount(element.itemId) >= element.qty then
+				element.completed = true
+				if step.itemsCollected == nil then step.itemsCollected = true end
+			else
+				element.completed = false
+				step.itemsCollected = false
 			end
 			if step.completed == nil or not element.completed then step.completed = element.completed end
 		end
@@ -863,6 +916,9 @@ local function updateStepsCompletion(changedIndexes)
 		local scheduled = {ACCEPT = {}, COMPLETE = {}, TURNIN = {}, SKIP = {}}
 		for i, step in ipairs(addon.currentGuide.steps) do
 			updateStepCompletion(i, changedIndexes)
+			if step.itemsCollected and step.completed then
+				step.skip = true --once all items are collected, don't re-enable the step again if you lose the item later
+			end
 			updateStepAvailability(i, changedIndexes, scheduled)
 			if addon.mainFrame.steps ~= nil and addon.mainFrame.steps[i] ~= nil and addon.mainFrame.steps[i].visible then
 				addon.mainFrame.steps[i]:SetChecked(step.completed or step.skip)
