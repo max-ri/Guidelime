@@ -819,7 +819,7 @@ local function updateStepCompletion(i, completedIndexes)
 				end
 			end
 			if step.completed == nil or not element.completed then step.completed = element.completed end
-            autoCompleteStep = true
+			autoCompleteStep = true
 		elseif element.t == "COLLECT_ITEM" and step.active then
 			if GetItemCount(element.itemId) >= element.qty then
 				element.completed = true
@@ -829,6 +829,7 @@ local function updateStepCompletion(i, completedIndexes)
 				step.itemsCollected = false
 			end
 			if step.completed == nil or not element.completed then step.completed = element.completed end
+			autoCompleteStep = true
 		end
 	end
 	-- check goto last so that go to does not matter when all other objectives are completed
