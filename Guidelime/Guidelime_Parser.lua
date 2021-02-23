@@ -141,6 +141,9 @@ end
 
 function addon.parseLine(step, guide, strict, nameOnly)
 	if step.text == nil then return end
+	if not string.match(step.text,"%-%-.*%-%-") then
+		step.event, step.eval = string.match(step.text,"%-%-(.*)>>(.*)")
+	end
 	step.elements = {}
 	local lastAutoStep
 	local previousAutoStep
@@ -436,4 +439,44 @@ function addon.parseLine(step, guide, strict, nameOnly)
 		end
 	end
 	return true
+end
+
+function addon.parseCustomLuaCode()
+	local guide = addon.guides[GuidelimeDataChar.currentGuide]
+	local groupTable = Guidelime[guide.group]
+	if not groupTable then Guidelime[guide.group] = true end
+	addon.wipeFrameData()
+
+	if guide and type(groupTable) == "table" then
+		local frameCounter = 0
+		groupTable.__index = groupTable
+
+		for stepLine, step in ipairs(guide.steps) do
+			if addon.applies(step) then 
+				if step.eval and step.event then
+					frameCounter = frameCounter + 1
+					local args = {}
+					local eval = nil
+					for arg in step.eval:gmatch('[^,]+') do
+						if not eval then
+							eval = arg:gsub("%s*","")
+						else
+							local c = string.match(arg,"^%s*(.*%S+)%s*$")
+							if c then table.insert(args,c) end
+						end
+					end
+					step.event = step.event:gsub("%s*","")
+					if step.event == "" then 
+						step.event = groupTable[eval]() or "OnStepActivation"
+					end
+					local eventList = {}
+					for event in step.event:gmatch('[^,]+') do
+						table.insert(eventList,event)
+					end
+					addon.registerStep(groupTable,eventList,eval,args,frameCounter,guide,step)
+				end
+			end
+		end
+	end
+
 end
