@@ -285,22 +285,33 @@ function addon.registerStep(self,eventList,eval,args,frameCounter,guide,step)
 		end
 	end
 	local OnUpdate
-	for _,event in pairs(eventList) do
+	for _,eventRaw in pairs(eventList) do
+		local event = {}
+		eventRaw:gsub("[^:]+",function(e)
+			table.insert(event,e)
+		end)
+		
 		--print(eval,event)
-		if event == "OnUpdate" then
+		if event[1] == "OnUpdate" then
 			OnUpdate = true
 			frame:SetScript("OnUpdate",EventHandler)
-		elseif event == "OnLoad" then
+		elseif event[1] == "OnLoad" then
 			self[eval](frame.data,args,"OnLoad")
-		elseif event == "OnStepActivation" then
+		elseif event[1] == "OnStepActivation" then
 			frame.OnStepActivation = self[eval]
-		elseif event == "OnStepCompletion" then
+		elseif event[1] == "OnStepCompletion" then
 			frame.OnStepCompletion = self[eval]
-		elseif event == "OnStepUpdate" then
+		elseif event[1] == "OnStepUpdate" then
 			frame.OnStepUpdate = self[eval]
 		else
-			if not pcall(frame.RegisterEvent,frame,event) then
-				print("Error loading guide: Ignoring invalid event name at line"..step.line..": "..event)
+			if #event == 1 then
+				if not pcall(frame.RegisterEvent,frame,event[1]) then
+					print("Error loading guide: Ignoring invalid event name at line "..step.line..": "..event[1])
+				end
+			else
+				if not pcall(frame.RegisterUnitEvent,frame,unpack(event)) then
+					print("Error loading guide: Ignoring invalid event name at line "..step.line)
+				end
 			end
 		end
 	end
