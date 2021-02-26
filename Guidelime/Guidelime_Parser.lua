@@ -467,7 +467,7 @@ function addon.parseCustomLuaCode()
 					end
 					step.event = step.event:gsub("%s*","")
 					if step.event == "" then 
-						step.event = groupTable[eval]() or "OnStepActivation"
+						step.event = groupTable[step.eval]() or "OnStepActivation"
 					end
 					local eventList = {}
 					for event in step.event:gmatch('[^,]+') do
