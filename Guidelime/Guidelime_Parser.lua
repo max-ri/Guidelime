@@ -454,26 +454,28 @@ function addon.parseCustomLuaCode()
 		for stepLine, step in ipairs(guide.steps) do
 			if addon.applies(step) then 
 				if step.eval and step.event then
-					frameCounter = frameCounter + 1
 					local args = {}
 					local eval = nil
 					for arg in step.eval:gmatch('[^,]+') do
 						if not eval then
-							eval = arg:gsub("%s*","")
+							eval = arg:gsub("%s","")
 						else
 							local c = string.match(arg,"^%s*(.*%S+)%s*$")
 							if c then table.insert(args,c) end
 						end
 					end
-					step.event = step.event:gsub("%s*","")
-					if step.event == "" then 
-						step.event = groupTable[step.eval]() or "OnStepActivation"
+					if eval then
+						frameCounter = frameCounter + 1
+						step.event = step.event:gsub("%s","")
+						if step.event == "" then 
+							step.event = groupTable[eval]() or "OnStepActivation"
+						end
+						local eventList = {}
+						for event in step.event:gmatch('[^,]+') do
+							table.insert(eventList,event)
+						end
+						addon.registerStep(groupTable,eventList,eval,args,frameCounter,guide,step)
 					end
-					local eventList = {}
-					for event in step.event:gmatch('[^,]+') do
-						table.insert(eventList,event)
-					end
-					addon.registerStep(groupTable,eventList,eval,args,frameCounter,guide,step)
 				end
 			end
 		end
