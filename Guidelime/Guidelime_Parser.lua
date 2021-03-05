@@ -442,12 +442,14 @@ function addon.parseLine(step, guide, strict, nameOnly)
 end
 
 function addon.parseCustomLuaCode()
+	addon.wipeFrameData()
 	local guide = addon.guides[GuidelimeDataChar.currentGuide]
+	if not (guide and guide.group) then return end
 	local groupTable = Guidelime[guide.group]
 	if not groupTable then Guidelime[guide.group] = true end
-	addon.wipeFrameData()
+	
 
-	if guide and type(groupTable) == "table" then
+	if type(groupTable) == "table" then
 		local frameCounter = 0
 		groupTable.__index = groupTable
 
