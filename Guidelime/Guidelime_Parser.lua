@@ -53,6 +53,7 @@ addon.codes = {
 	COMPLETE_WITH_NEXT = "C", -- same as OC
 	PICKUP = "QP", -- same as QA
 	WORK = "QW", -- same as QC but optional
+	COLLECT_ITEM = "CI",
 }
 
 addon.COLOR_INACTIVE = "|cFF666666"
@@ -82,6 +83,7 @@ function addon.parseGuide(guide, group, strict, nameOnly)
 		guide.lines = 1
 		guide.steps = {}
 		guide.next = {}
+		guide.itemUpdateIndices = {}
 		guide.autoAddCoordinatesGOTO = true
 		guide.autoAddCoordinatesLOC = true
 		local t = guide.text:gsub("\\\\[\n\r]", "\\\\"):gsub("([^\n\r]-)[\n\r]", function(c)
@@ -416,6 +418,22 @@ function addon.parseLine(step, guide, strict, nameOnly)
 --					err = true
 --				end
 			end
+		elseif element.t == "COLLECT_ITEM" then
+			local _, c = tag:gsub("%s*(%d+),?(%d*)%s*(.-)%s*$", function(id, qty, title)	
+				if id ~= "" then
+					element.itemRequests = 0
+					element.itemId = tonumber(id)
+					element.qty = tonumber(qty) or 1
+					if title == "-" then
+						element.title = ""
+					elseif title ~= "" then
+						element.title = title
+					end
+				else
+					addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
+					err = true
+				end
+			end, 1)
 		else
 			element.text, element.textInactive = textFormatting(tag)
 		end
