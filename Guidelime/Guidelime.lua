@@ -445,7 +445,7 @@ local function loadStepOnActivation(i)
 					if element.objective == nil then a = 1; b = #objectives end
 					for o = a, b do
 						local positions = addon.getQuestPositionsLimited(element.questId, element.t, o, GuidelimeData.maxNumOfMarkersLOC, true)
-						if positions ~= nil and #positions > 1 then
+						if positions ~= nil then
 							for _, locElement in ipairs(positions) do
 								locElement.t = "LOC"
 								locElement.markerTyp = objectives[o].type
