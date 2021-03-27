@@ -26,7 +26,7 @@ function addon.loadGuide(name)
 		addon.updateMainFrame()
 	else
 		GuidelimeDataChar.mainFrameShowing = true
-		if addon.optionsFrame ~= nil then addon.optionsFrame.options.mainFrameShowing:SetChecked(true) end
+		if addon.optionsFrame ~= nil then addon.optionsFrame.mainFrameShowing:SetChecked(true) end
 		addon.showMainFrame()
 	end
 end
