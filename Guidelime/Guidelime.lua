@@ -564,6 +564,21 @@ local function loadStepOnActivation(i)
 						step.elements[k].index = k
 					end
 				end
+			elseif element.t == "COLLECT_ITEM" then
+				local positions = addon.getQuestPositionsLimited(element.itemId, element.t, nil, GuidelimeData.maxNumOfMarkersLOC, true)
+				if positions ~= nil then
+					for _, locElement in ipairs(positions) do
+						locElement.t = "LOC"
+						locElement.markerTyp = "item"
+						locElement.step = step
+						locElement.generated = true
+						locElement.available = true
+						locElement.index = j
+						locElement.attached = element
+						table.insert(step.elements, j, locElement)
+						j = j + 1
+					end
+				end
 			end
 			j = j + 1
 		end

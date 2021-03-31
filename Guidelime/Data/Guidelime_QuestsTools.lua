@@ -160,7 +160,7 @@ function addon.getQuestPositions(id, typ, objective, filterZone)
 	if id == nil then return end
 	if objective == 0 then objective = nil end
 	if GuidelimeData.dataSourceQuestie and QuestieDB ~= nil then return addon.getQuestPositionsQuestie(id, typ, objective, filterZone) end
-	if addon.questsDB[id] == nil then return end
+	if addon.getSuperCode(typ) == "QUEST" and addon.questsDB[id] == nil then return end
 	--local time
 	--if addon.debugging then time = debugprofilestop() end
 	local ids = {npc = {}, object = {}, item = {}}
@@ -217,15 +217,19 @@ function addon.getQuestPositions(id, typ, objective, filterZone)
 				c = c + 1
 			end
 		end
+	elseif typ == "COLLECT_ITEM" then
+		table.insert(ids.item, id)
 	end
 	for _, itemId in ipairs(ids.item) do
 		if addon.itemsDB[itemId] ~= nil then
 			if addon.itemsDB[itemId].drop ~= nil then
 				for _, npcId in ipairs(addon.itemsDB[itemId].drop) do
 					table.insert(ids.npc, npcId)
-					if objectives.npc[npcId] == nil then objectives.npc[npcId] = {} end
-					for _, c in ipairs(objectives.item[itemId]) do
-						table.insert(objectives.npc[npcId], c)
+					if objectives.item[itemId] ~= nil then
+						if objectives.npc[npcId] == nil then objectives.npc[npcId] = {} end
+						for _, c in ipairs(objectives.item[itemId]) do
+							table.insert(objectives.npc[npcId], c)
+						end
 					end
 				end
 			end
@@ -233,8 +237,10 @@ function addon.getQuestPositions(id, typ, objective, filterZone)
 				for _, objectId in ipairs(addon.itemsDB[itemId].object) do
 					table.insert(ids.object, objectId)
 					if objectives.object[objectId] == nil then objectives.object[objectId] = {} end
-					for _, c in ipairs(objectives.item[itemId]) do
-						table.insert(objectives.object[objectId], c)
+					if objectives.item[itemId] ~= nil then
+						for _, c in ipairs(objectives.item[itemId]) do
+							table.insert(objectives.object[objectId], c)
+						end
 					end
 				end
 			end
@@ -394,7 +400,7 @@ end
 function addon.getQuestPositionsLimited(id, typ, index, maxNumber, onlyWorld)
 	local clusters = {}
 	local filterZone
-	if addon.questsDB[id] ~= nil and addon.questsDB[id].zone ~= nil then filterZone = addon.questsDB[id].zone end
+	if addon.getSuperCode(typ) == "QUEST" and addon.questsDB[id] ~= nil and addon.questsDB[id].zone ~= nil then filterZone = addon.questsDB[id].zone end
 	local positions = addon.getQuestPositions(id, typ, index, filterZone)
 	if positions == nil then return end
 	if #positions == 0 and filterZone ~= nil then

@@ -49,11 +49,11 @@ addon.codes = {
 	REPAIR = "R",
 	AUTO_ADD_COORDINATES_GOTO = "GG",
 	AUTO_ADD_COORDINATES_LOC = "GL",
+	COLLECT_ITEM = "CI",
 --deprecated
 	COMPLETE_WITH_NEXT = "C", -- same as OC
 	PICKUP = "QP", -- same as QA
 	WORK = "QW", -- same as QC but optional
-	COLLECT_ITEM = "CI",
 }
 
 addon.COLOR_INACTIVE = "|cFF666666"
