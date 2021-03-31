@@ -53,7 +53,9 @@ function addon.updateFromQuestLog()
 	local checkCompleted = false
 	local questChanged = false
 	local questFound = false
-	for id, q in pairs(addon.quests) do
+	local questItemsNeeded = {}
+	for _, id in ipairs(addon.questIds) do
+		local q = addon.quests[id]
 		if questLog[id] ~= nil and not questLog[id].failed then
 			local numObjectives = GetNumQuestLeaderBoards(questLog[id].index)
 			if numObjectives == 0 then questLog[id].finished = true end
@@ -77,6 +79,26 @@ function addon.updateFromQuestLog()
 			if q.objectives == nil or #q.objectives ~= numObjectives then q.objectives = {} end
 			for k = 1, numObjectives do
 				local desc, type, done = GetQuestLogLeaderBoard(k, addon.quests[id].logIndex)
+				-- special treatment for item objectives: when the same item needs to be collected for different quests at the same time 
+				-- all objectives should be done only when enough items for all quests have been collected
+				if type == 'item' then
+					local objectives = addon.getQuestObjectives(id)
+					if objectives ~= nil and objectives[k] ~= nil and objectives[k].type == 'item' then
+						local itemId = objectives[k].ids.item[1]
+						local itemName, _, numNeeded = desc:match("(.*):%s*([%d]+)%s*/%s*([%d]+)")
+						numNeeded = tonumber(numNeeded)
+						if questItemsNeeded[itemId] ~= nil then 
+							local itemCount = GetItemCount(itemId) - questItemsNeeded[itemId]
+							if addon.debugging then print("LIME: item " .. itemId .. " " .. itemName .. " " .. itemCount .. "/" .. numNeeded) end
+							if itemCount < numNeeded then
+								done = false
+								q.finished = false
+								desc = itemName .. ": " .. (itemCount >= 0 and itemCount or 0) .. "/" .. numNeeded
+							end
+						end
+						questItemsNeeded[itemId] = (questItemsNeeded[itemId] or 0) + numNeeded
+					end
+				end
 				if q.objectives[k] == nil or desc ~= q.objectives[k] or done ~= q.objectives[k].done then
 					questChanged = true
 					q.objectives[k] = {desc = desc, done = done, type = type}
@@ -388,7 +410,7 @@ end
 addon.requestItemInfo = {}
 addon.frame:RegisterEvent('GET_ITEM_INFO_RECEIVED')
 function addon.frame:GET_ITEM_INFO_RECEIVED(itemId,success)
-	if addon.debugging then print ("LIME: GET_ITEM_INFO_RECEIVED") end
+	-- if addon.debugging then print ("LIME: GET_ITEM_INFO_RECEIVED") end
 	if addon.requestItemInfo[itemId] and success then
 		addon.requestItemInfo[itemId] = nil
 		addon.updateStepsText()
