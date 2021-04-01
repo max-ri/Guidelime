@@ -2,10 +2,10 @@ local addonName, addon = ...
 local L = addon.L
 
 addon.factions = {"Alliance", "Horde"}
-addon.races = {Human = "Alliance", NightElf = "Alliance", Dwarf = "Alliance", Gnome = "Alliance", Orc = "Horde", Troll = "Horde", Tauren = "Horde", Undead = "Horde"}
-addon.raceIDs = {Human = 1, NightElf = 4, Dwarf = 3, Gnome = 7, Orc = 2, Troll = 8, Tauren = 6, Undead = 5}
+addon.races = {Human = "Alliance", NightElf = "Alliance", Dwarf = "Alliance", Gnome = "Alliance", Orc = "Horde", Troll = "Horde", Tauren = "Horde", Undead = "Horde", Draenei = "Alliance", BloodElf = "Horde"}
+addon.raceIDs = {Human = 1, NightElf = 4, Dwarf = 3, Gnome = 7, Orc = 2, Troll = 8, Tauren = 6, Undead = 5, BloodElf = 10, Draenei = 11}
 addon.classes = {"Warrior", "Rogue", "Mage", "Warlock", "Hunter", "Priest", "Druid", "Paladin", "Shaman"}
-addon.classesWithFaction = {Paladin = "Alliance", Shaman = "Horde"}
+addon.classesWithFaction = {}
 addon.classesPerRace = {
 	Human = {"Warrior", "Paladin", "Rogue", "Priest", "Mage", "Warlock"},
 	NightElf = {"Warrior", "Hunter", "Rogue", "Priest", "Druid"},
@@ -14,7 +14,9 @@ addon.classesPerRace = {
 	Orc = {"Warrior", "Hunter", "Rogue", "Shaman", "Warlock"},
 	Troll = {"Warrior", "Hunter", "Rogue", "Priest", "Shaman", "Mage"},
 	Tauren = {"Warrior", "Hunter", "Shaman", "Druid"},
-	Undead = {"Warrior", "Rogue", "Priest", "Mage", "Warlock"}
+	Undead = {"Warrior", "Rogue", "Priest", "Mage", "Warlock"},
+	Draenei = {"Hunter", "Mage", "Paladin", "Priest", "Shaman", "Warrior"},
+	BloodElf = {"Hunter", "Mage", "Paladin", "Priest", "Rogue", "Warlock"}
 }
 
 addon.racesPerFaction = {}
