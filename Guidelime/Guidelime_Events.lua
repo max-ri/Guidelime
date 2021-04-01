@@ -35,18 +35,41 @@ function addon.updateFromQuestLog()
 	local questLog = {}
 	local isCollapsed = {}
 	local currentHeader
-	for i=1,GetNumQuestLogEntries() do
-		local name, _, _, header, collapsed, completed, _, id = GetQuestLogTitle(i)
-		if header then
-			isCollapsed[name] = collapsed
-			currentHeader = name
-		else
-			questLog[id] = {}
-			questLog[id].index = i
-			questLog[id].finished = (completed == 1)
-			questLog[id].failed = (completed == -1)
-			questLog[id].name = name
-			questLog[id].sort = currentHeader
+	if C_QuestLog.GetInfo ~= nil then
+		local i = 1
+		while (true) do	
+			local info = C_QuestLog.GetInfo(i)
+			if not info then break end
+			if info.isHeader then
+				isCollapsed[info.title] = info.isCollapsed
+				currentHeader = info.title
+			else
+				questLog[info.questID] = {}
+				questLog[info.questID].index = i
+				--local completed = true
+				--local objectives = C_QuestLog.GetQuestObjectives(info.questID)
+				--for i, o in ipairs(objectives) do if not o.finished then completed = false end end
+				questLog[info.questID].finished = C_QuestLog.IsComplete(info.questID)
+				questLog[info.questID].failed = C_QuestLog.IsFailed(info.questID)
+				questLog[info.questID].name = info.title
+				questLog[info.questID].sort = currentHeader
+			end
+			i = i + 1
+		end
+	else
+		for i = 1, GetNumQuestLogEntries() do
+			local name, _, _, header, collapsed, completed, _, id = GetQuestLogTitle(i)
+			if header then
+				isCollapsed[name] = collapsed
+				currentHeader = name
+			else
+				questLog[id] = {}
+				questLog[id].index = i
+				questLog[id].finished = (completed == 1)
+				questLog[id].failed = (completed == -1)
+				questLog[id].name = name
+				questLog[id].sort = currentHeader	
+			end
 		end
 	end
 	
@@ -137,7 +160,7 @@ local function doQuestUpdate()
 					addon.updateStepsText()
 				end
 				C_Timer.After(0.1, function() 
-					local completed = GetQuestsCompleted()
+					local completed = addon.GetQuestsCompleted()
 					local questCompleted = false
 					for id, q in pairs(addon.quests) do
 						if completed[id] and not q.completed then
@@ -172,13 +195,13 @@ end
 addon.frame:RegisterEvent('GOSSIP_SHOW')
 function addon.frame:GOSSIP_SHOW()
 	if GuidelimeData.autoCompleteQuest and not IsShiftKeyDown() and addon.currentGuide ~= nil and addon.currentGuide.activeQuests ~= nil then 
-		if addon.debugging then print ("LIME: GOSSIP_SHOW", GetGossipActiveQuests()) end
-		if addon.debugging then print ("LIME: GOSSIP_SHOW", GetGossipAvailableQuests()) end
-		local q = { GetGossipActiveQuests() }
+		if addon.debugging then print ("LIME: GOSSIP_SHOW", addon.GetGossipActiveQuests()) end
+		if addon.debugging then print ("LIME: GOSSIP_SHOW", addon.GetGossipAvailableQuests()) end
+		local q = { addon.GetGossipActiveQuests() }
 		local selectActive = nil
 		local selectAvailable = nil
 		addon.openNpcAgain = false
-		for i = 1, GetNumGossipActiveQuests() do
+		for i = 1, addon.GetNumGossipActiveQuests() do
 			local name = q[(i-1) * 6 + 1]
 			if addon.contains(addon.currentGuide.activeQuests, function(id) return name == addon.getQuestNameById(id) end) then
 				if selectActive == nil then
@@ -188,8 +211,8 @@ function addon.frame:GOSSIP_SHOW()
 				end			
 			end
 		end
-		q = { GetGossipAvailableQuests() }
-		for i = 1, GetNumGossipAvailableQuests() do
+		q = { addon.GetGossipAvailableQuests() }
+		for i = 1, addon.GetNumGossipAvailableQuests() do
 			local name = q[(i-1) * 7 + 1]
 			if addon.contains(addon.currentGuide.activeQuests, function(id) return name == addon.getQuestNameById(id) end) then
 				if selectActive == nil and selectAvailable == nil then
@@ -203,12 +226,12 @@ function addon.frame:GOSSIP_SHOW()
 		if selectActive ~= nil then
 			C_Timer.After(addon.AUTO_COMPLETE_DELAY, function() 
 				if addon.debugging then print ("LIME: GOSSIP_SHOW selectActive", selectActive) end
-				SelectGossipActiveQuest(selectActive)
+				addon.SelectGossipActiveQuest(selectActive)
 			end)
 		elseif selectAvailable ~= nil then
 			C_Timer.After(addon.AUTO_COMPLETE_DELAY, function() 
 				if addon.debugging then print ("LIME: GOSSIP_SHOW selectAvailable", selectAvailable) end
-				SelectGossipAvailableQuest(selectAvailable)
+				addon.SelectGossipAvailableQuest(selectAvailable)
 			end)
 		end
 	end
@@ -221,7 +244,7 @@ function addon.frame:GOSSIP_SHOW()
 						local gossip = {GetGossipOptions()}
 						for i = 1, GetNumGossipOptions() do
 							if gossip[i * 2] == "taxi" then
-								SelectGossipOption(i)
+								addon.SelectGossipOption(i)
 							end
 						end
 					end

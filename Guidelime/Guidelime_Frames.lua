@@ -87,7 +87,7 @@ function addon.isDoubleClick(frame)
 end
 
 function addon.addMultilineText(frame, text, width, tooltip, clickFunc, doubleClickFunc)
-	textbox = CreateFrame("EditBox", nil, frame)
+	textbox = CreateFrame("EditBox", nil, frame, BackdropTemplateMixin and "BackdropTemplate")
 	textbox:SetMultiLine(true)
 	textbox:SetFontObject("GameFontNormal")
 	if text ~= nil then textbox:SetText(text) end
@@ -128,7 +128,7 @@ function addon.addTextbox(frame, text, width, tooltip)
 end
 
 function addon.createPopupFrame(message, okFunc, hasCancel, height)
-	addon.popupFrame = CreateFrame("FRAME", nil, addon.popupFrame or UIParent)
+	addon.popupFrame = CreateFrame("FRAME", nil, addon.popupFrame or UIParent, BackdropTemplateMixin and "BackdropTemplate")
 	addon.popupFrame:SetWidth(550)
 	if height == nil then height = 150 end
 	addon.popupFrame:SetHeight(height)

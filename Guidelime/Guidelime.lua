@@ -389,7 +389,7 @@ function addon.loadCurrentGuide()
 	if guide == nil then return end
 	addon.guides[GuidelimeDataChar.currentGuide] = guide
 
-	local completed = GetQuestsCompleted()
+	local completed = addon.GetQuestsCompleted()
 
 	for _, step in ipairs(guide.steps) do
 		local loadLine = addon.applies(step)
@@ -1684,7 +1684,7 @@ local function listAliasQuests(completed, id, excludeIds)
 end
 
 function addon.checkQuests()
-	local completed = GetQuestsCompleted()
+	local completed = addon.GetQuestsCompleted()
 	local count = 0
 	local text = ""
 	for id, value in pairs(completed) do

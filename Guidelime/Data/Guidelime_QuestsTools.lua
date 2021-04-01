@@ -6,6 +6,54 @@ HBD = LibStub("HereBeDragons-2.0")
 local LIMIT_CENTER_POSITION = 400
 local LIMIT_POSITIONS = 1000
 
+function addon.GetQuestsCompleted()
+	if GetQuestsCompleted ~= nil then return GetQuestsCompleted() end
+	local t = {}
+	local completedQuests = C_QuestLog.GetAllCompletedQuestIDs()
+	if completedQuests then
+		for i, id in ipairs(completedQuests) do
+			t[id] = true
+		end
+	end
+	return t
+end
+
+function addon.GetNumGossipActiveQuests()
+	if GetNumGossipActiveQuests ~= nil then return GetNumGossipActiveQuests() end
+	return C_GossipInfo.GetNumActiveQuests()
+end
+
+function addon.GetGossipActiveQuests()
+	if GetGossipActiveQuests ~= nil then return GetGossipActiveQuests() end
+	return C_GossipInfo.GetActiveQuests()
+end
+
+function addon.SelectGossipActiveQuest(i)
+	if SelectGossipActiveQuest ~= nil then return SelectGossipActiveQuest(i) end 
+	return C_GossipInfo.SelectActiveQuest(i)
+end
+
+function addon.GetNumGossipAvailableQuests()
+	if GetNumGossipAvailableQuests ~= nil then return GetNumGossipAvailableQuests() end 
+	return C_GossipInfo.GetNumAvailableQuests()
+end
+
+function addon.GetGossipAvailableQuests()
+	if GetGossipAvailableQuests ~= nil then return GetGossipAvailableQuests() end 
+	return C_GossipInfo.GetAvailableQuests()
+end
+
+function addon.SelectGossipAvailableQuest(i)
+	if SelectGossipAvailableQuest ~= nil then return SelectGossipAvailableQuest(i) end 
+	return C_GossipInfo.SelectAvailableQuest(i)
+end
+
+function addon.SelectGossipOption(i)
+	if SelectGossipOption ~= nil then return SelectGossipOption(i) end 
+	return C_GossipInfo.SelectOption(i)
+end
+	
+
 
 function addon.getQuestNameById(id)
 	if id == nil then return nil end

@@ -214,7 +214,7 @@ function addon.fillGuides()
 				addon.guidesFrame.guides[name]:SetBackdrop({
 					--bgFile = "Interface\\QuestFrame\\UI-QuestLogTitleHighlight",
 					bgFile = "Interface\\AddOns\\" .. addonName .. "\\Icons\\TitleHighlight",
-					tile = false, edgeSize = 0
+					tile = false, edgeSize = 1
 				})
 				addon.guidesFrame.guides[name].name = name
 				addon.guidesFrame.guides[name].guide = guide
