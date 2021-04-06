@@ -443,7 +443,7 @@ end
 addon.frame:RegisterEvent('BAG_UPDATE')
 function addon.frame:BAG_UPDATE()
 	if addon.debugging then print ("LIME: BAG_UPDATE") end
-	local guide = addon.guides[GuidelimeDataChar.currentGuide]
+	local guide = GuidelimeDataChar and addon.guides[GuidelimeDataChar.currentGuide]
 	if guide and guide.itemUpdateIndices and #guide.itemUpdateIndices > 0 then
 		addon.updateSteps(guide.itemUpdateIndices)
 	end
