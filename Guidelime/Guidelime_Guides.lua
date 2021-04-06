@@ -38,7 +38,7 @@ end
 
 function addon.fillGuides()
 	if addon.guidesFrame == nil then
-    	addon.guidesFrame = CreateFrame("Frame", nil, UIParent)
+    	addon.guidesFrame = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContainer)
     	addon.guidesFrame.name = GetAddOnMetadata(addonName, "title")
     	InterfaceOptions_AddCategory(addon.guidesFrame)
 	
