@@ -39,7 +39,7 @@ addon.flightmasterDB = {
 	[7823] = {zone = "Tanaris", name = "Bera Stonehammer", place = "Gadgetzan", faction = "Alliance", localesIndex = 39},
 	[7824] = {zone = "Tanaris", name = "Bulkrek Ragefist", place = "Gadgetzan", faction = "Horde", localesIndex = 40},  
 	[8018] = {zone = "The Hinterlands", name = "Guthrum Thunderfist", place = "Aerie Peak", faction = "Alliance", localesIndex = 43},
-	[8019] = {zone = "Feralas", name = "Fyldren Moonfeather", place = "Feathermoon Stronghold", faction = "Alliance", localesIndex = 41},
+	[8019] = {zone = "Feralas", name = "Fyldren Moonfeather", place = "Feathermoon", faction = "Alliance", localesIndex = 41},
 	[8020] = {zone = "Feralas", name = "Shyn", place = "Camp Mojache", faction = "Horde", localesIndex = 42},  
 	[8609] = {zone = "Blasted Lands", name = "Alexandra Constantine", place = "Nethergarde Keep", faction = "Alliance", localesIndex = 45},
 	[8610] = {zone = "Azshara", name = "Kroum", place = "Valormok", faction = "Horde", localesIndex = 44},  
