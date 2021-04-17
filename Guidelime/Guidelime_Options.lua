@@ -367,6 +367,7 @@ function addon.fillOptions()
 
 	checkbox = addon.addCheckOption(content, GuidelimeData, "showMapMarkersGOTO", L.MAP, nil, function()
 		addon.loadCurrentGuide()
+		addon.updateFromQuestLog()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateMainFrame()
 		end
@@ -376,6 +377,7 @@ function addon.fillOptions()
 	
 	checkbox = addon.addCheckOption(content, GuidelimeData, "showMinimapMarkersGOTO", L.MINIMAP, nil, function()
 		addon.loadCurrentGuide()
+		addon.updateFromQuestLog()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateMainFrame()
 		end
@@ -398,6 +400,7 @@ function addon.fillOptions()
 
 	slider = addon.addSliderOption(content, GuidelimeData, "maxNumOfMarkersLOC", 0, 50, 1, L.MAX_NUM_OF_MARKERS, nil, nil, function()
 		addon.loadCurrentGuide()
+		addon.updateFromQuestLog()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateSteps()
 		end
@@ -431,6 +434,7 @@ function addon.fillOptions()
 
 	checkbox = addon.addCheckOption(content, GuidelimeData, "showMapMarkersLOC", L.MAP, nil, function()
 		addon.loadCurrentGuide()
+		addon.updateFromQuestLog()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateMainFrame()
 		end
@@ -440,6 +444,7 @@ function addon.fillOptions()
 
 	checkbox = addon.addCheckOption(content, GuidelimeData, "showMinimapMarkersLOC", L.MINIMAP, nil, function()
 		addon.loadCurrentGuide()
+		addon.updateFromQuestLog()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateMainFrame()
 		end
