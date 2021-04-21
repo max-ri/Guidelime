@@ -203,7 +203,8 @@ function addon.frame:GOSSIP_SHOW()
 		addon.openNpcAgain = false
 		for i = 1, addon.GetNumGossipActiveQuests() do
 			local name = q[(i-1) * 6 + 1]
-			if addon.contains(addon.currentGuide.activeQuests, function(id) return name == addon.getQuestNameById(id) end) then
+			local complete = q[(i-1) * 6 + 4]
+			if complete and addon.contains(addon.currentGuide.activeQuests, function(id) return name == addon.getQuestNameById(id) end) then
 				if selectActive == nil then
 					selectActive = i
 				else
@@ -444,7 +445,7 @@ end
 
 addon.frame:RegisterEvent('BAG_UPDATE')
 function addon.frame:BAG_UPDATE()
-	if addon.debugging then print ("LIME: BAG_UPDATE") end
+	-- if addon.debugging then print ("LIME: BAG_UPDATE") end
 	local guide = GuidelimeDataChar and addon.guides[GuidelimeDataChar.currentGuide]
 	if guide and guide.itemUpdateIndices and #guide.itemUpdateIndices > 0 then
 		addon.updateSteps(guide.itemUpdateIndices)
