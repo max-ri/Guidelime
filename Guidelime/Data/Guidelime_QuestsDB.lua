@@ -49290,7 +49290,7 @@ addon.questsDB = {
 	   ["level"] = 60;
 	   ["source"] = {
 	      [1] = {
-	         ["id"] = 14727;
+	         ["id"] = 14726;
 	         ["type"] = "npc";
 	      };
 	   };
@@ -60258,7 +60258,7 @@ addon.questsDB = {
 	   ["followup"] = 7803;
 	   ["deliver"] = {
 	      [1] = {
-	         ["id"] = 14724;
+	         ["id"] = 14723;
 	         ["type"] = "npc";
 	      };
 	   };
@@ -60267,7 +60267,7 @@ addon.questsDB = {
 	   ["level"] = 60;
 	   ["source"] = {
 	      [1] = {
-	         ["id"] = 14724;
+	         ["id"] = 14723;
 	         ["type"] = "npc";
 	      };
 	   };
@@ -68603,9 +68603,9 @@ addon.questsDB = {
 	         ["type"] = "npc";
 	      };
 	   };
-	   ["prev"] = 7808;
+	   ["prev"] = 7803;
 	   ["prequests"] = {
-	      [1] = 7808;
+	      [1] = 7803;
 	   };
 	   ["level"] = 60;
 	   ["source"] = {
@@ -85174,7 +85174,7 @@ addon.questsDB = {
 	   ["followup"] = 7808;
 	   ["deliver"] = {
 	      [1] = {
-	         ["id"] = 14723;
+	         ["id"] = 14724;
 	         ["type"] = "npc";
 	      };
 	   };
@@ -85183,7 +85183,7 @@ addon.questsDB = {
 	   ["level"] = 15;
 	   ["source"] = {
 	      [1] = {
-	         ["id"] = 14723;
+	         ["id"] = 14724;
 	         ["type"] = "npc";
 	      };
 	   };
@@ -93104,9 +93104,9 @@ addon.questsDB = {
 	         ["type"] = "npc";
 	      };
 	   };
-	   ["prev"] = 7803;
+	   ["prev"] = 7808;
 	   ["prequests"] = {
-	      [1] = 7803;
+	      [1] = 7808;
 	   };
 	   ["level"] = 60;
 	   ["source"] = {
@@ -98865,11 +98865,11 @@ addon.questsDB = {
 	   ["gather"] = {
 	      [1] = 4306;
 	   };
-	   ["followup"] = 7804;
+	   ["followup"] = 7809;
 	   ["sort"] = "Ironforge";
 	   ["deliver"] = {
 	      [1] = {
-	         ["id"] = 14723;
+	         ["id"] = 14724;
 	         ["type"] = "npc";
 	      };
 	   };
@@ -98880,7 +98880,7 @@ addon.questsDB = {
 	   ["level"] = 30;
 	   ["source"] = {
 	      [1] = {
-	         ["id"] = 14723;
+	         ["id"] = 14724;
 	         ["type"] = "npc";
 	      };
 	   };
@@ -125044,11 +125044,11 @@ addon.questsDB = {
 	   ["gather"] = {
 	      [1] = 4306;
 	   };
-	   ["followup"] = 7809;
+	   ["followup"] = 7804;
 	   ["sort"] = "Ironforge";
 	   ["deliver"] = {
 	      [1] = {
-	         ["id"] = 14724;
+	         ["id"] = 14723;
 	         ["type"] = "npc";
 	      };
 	   };
@@ -125059,7 +125059,7 @@ addon.questsDB = {
 	   ["level"] = 60;
 	   ["source"] = {
 	      [1] = {
-	         ["id"] = 14724;
+	         ["id"] = 14723;
 	         ["type"] = "npc";
 	      };
 	   };

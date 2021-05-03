@@ -43,13 +43,38 @@ addon.questsDB[7824].prev = 7831
 addon.questsDB[7824].prequests = {[1] = 7831}
 addon.questsDB[7824].source = {[1] = {["id"] = 14726; ["type"] = "npc"}}
 addon.questsDB[7824].deliver = {[1] = {["id"] = 14726; ["type"] = "npc"}}
-addon.questsDB[7824].source = {[1] = {["id"] = 14726; ["type"] = "npc"}}
+addon.questsDB[7832].source = {[1] = {["id"] = 14726; ["type"] = "npc"}}
 addon.questsDB[7832].deliver = {[1] = {["id"] = 14726; ["type"] = "npc"}}
 
 -- night elf version "Donation of Wool" has wrong id
 addon.questsDB[7792] = addon.questsDB[7797]
 addon.questsDB[7797] = nil
 addon.questsDB[7798].prequests = { 7792 }
+
+-- issues with ironforge cloth donation quests
+-- dwarf: 7802 wool - 7803 silk - 7804 mageweave - 7805 + 7806 runecloth   npc=14723
+-- gnome: 7807 wool - 7808 silk - 7809 mageweave - 7811 + 7812 runecloth   npc=14724
+addon.questsDB[7808].followup = 7809
+addon.questsDB[7809].prev = 7808
+addon.questsDB[7809].prequests = {[1] = 7808}
+addon.questsDB[7803].followup = 7804
+addon.questsDB[7804].prev = 7803
+addon.questsDB[7804].prequests = {[1] = 7803}
+
+addon.questsDB[7802].source = {[1] = {["id"] = 14723; ["type"] = "npc"}}
+addon.questsDB[7802].deliver = {[1] = {["id"] = 14723; ["type"] = "npc"}}
+addon.questsDB[7803].source = {[1] = {["id"] = 14723; ["type"] = "npc"}}
+addon.questsDB[7803].deliver = {[1] = {["id"] = 14723; ["type"] = "npc"}}
+addon.questsDB[7804].source = {[1] = {["id"] = 14723; ["type"] = "npc"}}
+addon.questsDB[7804].deliver = {[1] = {["id"] = 14723; ["type"] = "npc"}}
+
+addon.questsDB[7807].source = {[1] = {["id"] = 14724; ["type"] = "npc"}}
+addon.questsDB[7807].deliver = {[1] = {["id"] = 14724; ["type"] = "npc"}}
+addon.questsDB[7808].source = {[1] = {["id"] = 14724; ["type"] = "npc"}}
+addon.questsDB[7808].deliver = {[1] = {["id"] = 14724; ["type"] = "npc"}}
+addon.questsDB[7809].source = {[1] = {["id"] = 14724; ["type"] = "npc"}}
+addon.questsDB[7809].deliver = {[1] = {["id"] = 14724; ["type"] = "npc"}}
+
 
 -- "Heeding the Call" (druid bear form quest) source npc for 5926 / 5928 are switched, reported by WittyWalnut137
 addon.questsDB[5926].source = {[1] = {["id"] = 6746; ["type"] = "npc"}}
