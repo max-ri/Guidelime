@@ -3,18 +3,18 @@ local addonName, addon = ...
 local L = addon.L
 
 function addon.updateQuestLog()
-	if not GuidelimeData.showQuestLevels and not GuidelimeData.showQuestIds then return end
+	if not GuidelimeData.showQuestLevels and not GuidelimeData.showQuestIds and not GuidelimeData.showTooltips then return end
 
 	local numEntries, numQuests = GetNumQuestLogEntries();
 	
 	if (numEntries == 0) then return end
 	
-	local questIndex, questLogTitle, title, level, _, isHeader, questCheck, questCheckXOfs, id
+	local questIndex, questLogTitle, title, level, _, isHeader, isComplete, questCheck, questCheckXOfs, id, tooltip
 	for i = 1, QUESTS_DISPLAYED, 1 do
 		questIndex = i + FauxScrollFrame_GetOffset(QuestLogListScrollFrame);
 		
 		if (questIndex <= numEntries) then
-			title, level, _, isHeader, _, _, _, id = GetQuestLogTitle(questIndex)
+			title, level, _, isHeader, _, isComplete, _, id = GetQuestLogTitle(questIndex)
 			
 			if (not isHeader) then
 				local newTitle = title
@@ -32,17 +32,26 @@ function addon.updateQuestLog()
 				if GuidelimeData.showQuestIds then
 					newTitle = title .. format(" (#%d)", id)
 				end
-				--title = title .. " |T" .. addon.icons.MAP .. ":12|t"
+				tooltip = ""
+				if addon.scannedQuests[id] then
+					for _, entry in ipairs(addon.scannedQuests[id]) do
+						tooltip = tooltip .. "|T" .. addon.icons.MAP .. ":12|t" .. addon.getQuestIcon(id, entry.t, nil, isComplete)
+						if GuidelimeData.showLineNumbers then tooltip = tooltip .. entry.line .. " " end
+						tooltip = tooltip .. entry.name .. "\n"
+					end
+				end
 				if newTitle ~= title then
 					questLogTitle = _G["QuestLogTitle"..i]
 					questCheck = _G["QuestLogTitle"..i.."Check"]
 					questLogTitle:SetText(newTitle)
 					QuestLogDummyText:SetText(newTitle)
 					questCheck:SetPoint("LEFT", questLogTitle, "LEFT", QuestLogDummyText:GetWidth()+24, 0);
+					if GuidelimeData.showTooltips and tooltip ~= "" then
+						questLogTitle.tooltip = tooltip
+						questLogTitle:SetScript("OnEnter", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32);  GameTooltip:SetText(self.tooltip); GameTooltip:Show(); addon.showingTooltip = true end end)
+						questLogTitle:SetScript("OnLeave", function(self) if self.tooltip ~= nil and self.tooltip ~= "" and addon.showingTooltip then GameTooltip:Hide(); addon.showingTooltip = false end end)
+					end
 				end
-				--questLogTitle.tooltip = "tooltip"
-				--questLogTitle:SetScript("OnEnter", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32);  GameTooltip:SetText(self.tooltip); GameTooltip:Show(); addon.showingTooltip = true end end)
-				--questLogTitle:SetScript("OnLeave", function(self) if self.tooltip ~= nil and self.tooltip ~= "" and addon.showingTooltip then GameTooltip:Hide(); addon.showingTooltip = false end end)
 			end
 		end
 	end

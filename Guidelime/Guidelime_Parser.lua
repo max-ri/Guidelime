@@ -72,6 +72,9 @@ function addon.getSuperCode(code)
 end
 
 function addon.parseGuide(guide, group, strict, nameOnly)
+	local time
+	if addon.debugging then time = debugprofilestop() end
+	
 	if strict == nil then strict = true end
 	if type(guide) == "string" then
 		guide = {text = guide}
@@ -122,6 +125,8 @@ function addon.parseGuide(guide, group, strict, nameOnly)
 		if guide.minLevel ~= nil then guide.name = guide.minLevel .. guide.name end
 	end
 	if guide.group ~= nil then guide.name = guide.group .. " " .. guide.name end
+
+	if addon.debugging then print("LIME: parseGuide " .. guide.name .. (nameOnly and " names only" or "") .. " in " .. math.floor(debugprofilestop() - time) .. " ms") end
 	
 	if strict and guide.title == nil or guide.title == "" then 
 		addon.createPopupFrame(L.ERROR_GUIDE_HAS_NO_NAME):Show()
@@ -238,26 +243,6 @@ function addon.parseLine(step, guide, strict, nameOnly)
 					err = true
 				end
 			end)
-		elseif nameOnly then
-			return ""
-		elseif element.t == "AUTO_ADD_COORDINATES_GOTO" then
-			if tag:upper():gsub(" ","") == "ON" then
-				guide.autoAddCoordinatesGOTO = true
-			elseif tag:upper():gsub(" ","") == "OFF" then
-				guide.autoAddCoordinatesGOTO = false
-			else
-				addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
-				err = true
-			end
-		elseif element.t == "AUTO_ADD_COORDINATES_LOC" then
-			if tag:upper():gsub(" ","") == "ON" then
-				guide.autoAddCoordinatesGOTO = true
-			elseif tag:upper():gsub(" ","") == "OFF" then
-				guide.autoAddCoordinatesGOTO = false
-			else
-				addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
-				err = true
-			end
 		elseif addon.getSuperCode(element.t) == "QUEST" then
 			if element.t == "PICKUP" then
 				element.t = "ACCEPT"
@@ -276,41 +261,63 @@ function addon.parseLine(step, guide, strict, nameOnly)
 						element.questId = id
 					end
 				end
-				if addon.questsDB[element.questId] ~= nil and addon.questsDB[element.questId].replacement ~= nil then
-					element.questId = addon.questsDB[element.questId].replacement
-				end
-				if objective ~= "" then element.objective = tonumber(objective) end
-				if title == "-" then
-					element.title = ""
-				elseif title ~= "" and (not strict or addon.questsDB[element.questId] == nil or title ~= addon.questsDB[element.questId].name) then
-					element.title = title
-				end
-				--if addon.debugging and addon.questsDB[element.questId] == nil then 
-				--	print("LIME: loading guide \"" .. (guide.title or "") .. "\": unknown quest id " .. (element.questId or "") .. "\" in line \"" .. (step.line or "") .. " " .. step.text .. "\"") 
-				--end
-				--elseif addon.debugging and addon.questsDB[element.questId].name ~= element.title:sub(1, #addon.questsDB[element.questId].name) then
-				--	error("loading guide \"" .. GuidelimeDataChar.currentGuide.title .. "\": wrong title for quest " .. element.questId .. " \"" .. element.title .. "\" instead of \"" .. addon.questsDB[element.questId].name .. "\" in line \"" .. step.text .. "\"")
-				--end
-				if addon.questsDB[element.questId] ~= nil then
-					if step.races == nil and addon.getQuestRaces(element.questId) ~= nil then 
-						step.races = {}
-						for i, r in pairs(addon.getQuestRaces(element.questId)) do step.races[i] = r end
+				if not nameOnly then
+					if addon.questsDB[element.questId] ~= nil and addon.questsDB[element.questId].replacement ~= nil then
+						element.questId = addon.questsDB[element.questId].replacement
 					end
-					if step.classes == nil and addon.getQuestClasses(element.questId) ~= nil then 
-						step.classes = {}
-						for i, r in pairs(addon.getQuestClasses(element.questId)) do step.classes[i] = r end
+					if objective ~= "" then element.objective = tonumber(objective) end
+					if title == "-" then
+						element.title = ""
+					elseif title ~= "" and (not strict or addon.questsDB[element.questId] == nil or title ~= addon.questsDB[element.questId].name) then
+						element.title = title
 					end
-					if step.faction == nil and addon.getQuestFaction(element.questId) ~= nil then step.faction = addon.getQuestFaction(element.questId) end
-					if addon.questsDB[element.questId].sort ~= nil and addon.mapIDs[addon.questsDB[element.questId].sort] ~= nil then 
-						guide.currentZone = addon.mapIDs[addon.questsDB[element.questId].sort] 
+					--if addon.debugging and addon.questsDB[element.questId] == nil then 
+					--	print("LIME: loading guide \"" .. (guide.title or "") .. "\": unknown quest id " .. (element.questId or "") .. "\" in line \"" .. (step.line or "") .. " " .. step.text .. "\"") 
+					--end
+					--elseif addon.debugging and addon.questsDB[element.questId].name ~= element.title:sub(1, #addon.questsDB[element.questId].name) then
+					--	error("loading guide \"" .. GuidelimeDataChar.currentGuide.title .. "\": wrong title for quest " .. element.questId .. " \"" .. element.title .. "\" instead of \"" .. addon.questsDB[element.questId].name .. "\" in line \"" .. step.text .. "\"")
+					--end
+					if addon.questsDB[element.questId] ~= nil then
+						if step.races == nil and addon.getQuestRaces(element.questId) ~= nil then 
+							step.races = {}
+							for i, r in pairs(addon.getQuestRaces(element.questId)) do step.races[i] = r end
+						end
+						if step.classes == nil and addon.getQuestClasses(element.questId) ~= nil then 
+							step.classes = {}
+							for i, r in pairs(addon.getQuestClasses(element.questId)) do step.classes[i] = r end
+						end
+						if step.faction == nil and addon.getQuestFaction(element.questId) ~= nil then step.faction = addon.getQuestFaction(element.questId) end
+						if addon.questsDB[element.questId].sort ~= nil and addon.mapIDs[addon.questsDB[element.questId].sort] ~= nil then 
+							guide.currentZone = addon.mapIDs[addon.questsDB[element.questId].sort] 
+						end
 					end
-				end
-				if element.t ~= "SKIP" then 
-					previousAutoStep = lastAutoStep
-					lastAutoStep = element 
+					if element.t ~= "SKIP" then 
+						previousAutoStep = lastAutoStep
+						lastAutoStep = element 
+					end
 				end
 			end, 1)
 			if c ~= 1 then
+				addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
+				err = true
+			end
+		elseif nameOnly then
+			return ""
+		elseif element.t == "AUTO_ADD_COORDINATES_GOTO" then
+			if tag:upper():gsub(" ","") == "ON" then
+				guide.autoAddCoordinatesGOTO = true
+			elseif tag:upper():gsub(" ","") == "OFF" then
+				guide.autoAddCoordinatesGOTO = false
+			else
+				addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
+				err = true
+			end
+		elseif element.t == "AUTO_ADD_COORDINATES_LOC" then
+			if tag:upper():gsub(" ","") == "ON" then
+				guide.autoAddCoordinatesGOTO = true
+			elseif tag:upper():gsub(" ","") == "OFF" then
+				guide.autoAddCoordinatesGOTO = false
+			else
 				addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
 				err = true
 			end
