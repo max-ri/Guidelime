@@ -334,7 +334,7 @@ function addon.getQuestPositions(id, typ, objective, filterZone)
 							objectives = objectives.object[objectId],
 							objectId = objectId}
 					elseif addon.debugging and filterZone == nil then 
-						print("error transforming (" .. pos.x .. "," .. pos.y .. "," .. pos.mapid .. ") into zone coordinates for quest #" .. id .. " object #" .. objectId)
+						print("LIME: error transforming (" .. pos.x .. "," .. pos.y .. "," .. pos.mapid .. ") into zone coordinates for quest #" .. id .. " object #" .. objectId)
 					end
 				end
 			end
@@ -440,7 +440,7 @@ function addon.getQuestPosition(id, typ, index)
 				zone = zone, mapID = addon.mapIDs[zone], radius = math.floor(math.sqrt(maxCluster.radius)), estimate = #positions > 1}
 			return addon.questPosition[id][typ][index]
 		elseif addon.debugging then
-			print("error transforming (" .. maxCluster.x .. "," .. maxCluster.y .. "," .. maxCluster.instance .. ") into zone coordinates for quest #" .. id)
+			print("LIME: error transforming (" .. maxCluster.x .. "," .. maxCluster.y .. "," .. maxCluster.instance .. ") into zone coordinates for quest #" .. id)
 		end
 	end
 end
@@ -483,6 +483,7 @@ function addon.getQuestPositionsLimited(id, typ, index, maxNumber, onlyWorld)
 			table.insert(clusters[pos.instance], {x = pos.wx, y = pos.wy, count = 1, instance = pos.instance})
 			table.insert(positions2, pos)
 		end
+		if addon.debugging then print("LIME: limited " .. #positions .. " positions to " .. #positions2 .. " positions. x = " .. x .. " y = " .. y) end
 		positions = positions2
 	end
 	if onlyWorld then return positions end
@@ -496,7 +497,7 @@ function addon.getQuestPositionsLimited(id, typ, index, maxNumber, onlyWorld)
 			pos.mapID = addon.mapIDs[zone]
 			table.insert(result, pos)
 		elseif addon.debugging then
-			print("error transforming (" .. maxCluster.x .. "," .. maxCluster.y .. "," .. maxCluster.instance .. ") into zone coordinates for quest #" .. id)
+			print("LIME: error transforming (" .. maxCluster.x .. "," .. maxCluster.y .. "," .. maxCluster.instance .. ") into zone coordinates for quest #" .. id)
 		end
 	end
 	return result

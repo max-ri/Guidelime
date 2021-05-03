@@ -124,7 +124,7 @@ end
 local function getTooltip(element)
 	if not GuidelimeData.showTooltips then return end
 	local tooltip
-	if element.attached ~= nil and element.attached.questId ~= nil then 
+	if element and element.attached and element.attached.questId then 
 		tooltip = addon.getQuestIcon(element.attached.questId, element.attached.t, element.attached.objective) .. 
 			addon.getQuestText(element.attached.questId, element.attached.t, nil, element.step and element.step.active) 
 		if element.attached.t ~= "ACCEPT" then
@@ -142,14 +142,14 @@ local function getTooltip(element)
 			if obj ~= "" then tooltip = tooltip .. "\n" .. obj end
 		end
 	end
-	if tooltip == nil and element.step ~= nil then tooltip = addon.getStepText(element.step) end
-	if element.estimate then if tooltip == nil then tooltip = L.ESTIMATE else tooltip = tooltip .. "\n" .. L.ESTIMATE end end
+	if tooltip == nil and element and element.step ~= nil then tooltip = addon.getStepText(element.step) end
+	if element and element.estimate then if tooltip == nil then tooltip = L.ESTIMATE else tooltip = tooltip .. "\n" .. L.ESTIMATE end end
 	return tooltip
 end
 
 function addon.addMapIcon(element, highlight, ignoreMaxNumOfMarkers)
 	if element.wx == nil or element.wy == nil or element.instance == nil then
-		if addon.debugging then print("LIME : no world coordinates for map marker", element.mapID, element.x / 100, element.y / 100, highlight) end
+		if addon.debugging then print("LIME: no world coordinates for map marker", element.mapID, element.x / 100, element.y / 100, highlight) end
 		return
 	end	
 	local mapIcon = getMapIcon(element.markerTyp or element.t, element, highlight)
@@ -255,12 +255,6 @@ function addon.updateArrow()
 	addon.face = GetPlayerFacing()
 	if addon.x == nil or addon.y == nil or addon.face == nil then return end
 	
-	if (addon.lastUpdate == nil or GetTime() > addon.lastUpdate + 0.5 or GetTime() < addon.lastUpdate) and (addon.x ~= addon.lastX or addon.y ~= addon.lastY or addon.instance ~= addon.lastInstance) then
-		addon.updateSteps()
-		addon.lastX, addon.lastY, addon.lastInstance = addon.x, addon.y, addon.instance
-		addon.lastUpdate = GetTime()
-	end
-	
 	if addon.arrowFrame == nil or addon.x == nil or addon.y == nil then return end
 	
 	local corpse
@@ -288,12 +282,24 @@ function addon.updateArrow()
 		addon.arrowFrame.row = math.floor(index / 9)
 		addon.arrowFrame.texture:SetTexCoord(addon.arrowFrame.col * 56 / 512, (addon.arrowFrame.col + 1) * 56 / 512, addon.arrowFrame.row * 42 / 512, (addon.arrowFrame.row + 1) * 42 / 512)
 	end
+	local dist2 = (addon.x - addon.arrowX) * (addon.x - addon.arrowX) + (addon.y - addon.arrowY) * (addon.y - addon.arrowY)
+	if addon.arrowFrame.element and addon.arrowFrame.element.radius and addon.lastDistance2 then
+		local radius2 = addon.arrowFrame.element.radius * addon.arrowFrame.element.radius
+		if (dist2 < radius2 and addon.lastDistance2 >= radius2) or (dist2 >= radius2 * addon.GOTO_HYSTERESIS_FACTOR and addon.lastDistance2 <= radius2 * addon.GOTO_HYSTERESIS_FACTOR) then
+			if addon.debugging then print("LIME: position reached/left") end
+			addon.updateSteps()
+		end
+	end
+	addon.lastDistance2 = dist2
 	if GuidelimeData.arrowDistance then
-	 	local dist = math.floor(math.sqrt((addon.x - addon.arrowX) * (addon.x - addon.arrowX) + (addon.y - addon.arrowY) * (addon.y - addon.arrowY)))
+	 	local dist = math.floor(math.sqrt(dist2))
 		addon.arrowFrame.text:SetText(dist .. " " .. L.YARDS)
 		addon.arrowFrame.text:Show()
 	else
 		addon.arrowFrame.text:Hide()
+	end
+	if addon.arrowFrame.element then 
+		addon.updateStepText(addon.arrowFrame.element.step.index) 
 	end
 end
 

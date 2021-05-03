@@ -23,6 +23,7 @@ addon.COLOR_LIGHT_BLUE = "|cFF99CCFF"
 addon.MAINFRAME_ALPHA_MAX = 85
 addon.AUTO_COMPLETE_DELAY = 0.01
 addon.DEFAULT_GOTO_RADIUS = 10
+addon.GOTO_HYSTERESIS_FACTOR = 1.6
 
 addon.CONTACT_DISCORD = "Borick#7318"
 addon.CONTACT_CURSEFORGE = "rickrob"
@@ -92,6 +93,7 @@ addon.xp = UnitXP("player")
 addon.xpMax = UnitXPMax("player")
 addon.y, addon.x, addon.z, addon.instance = UnitPosition("player")
 addon.face = GetPlayerFacing()
+addon.alive = true
 
 addon.guides = {}
 addon.dataLoaded = false
@@ -256,7 +258,7 @@ function addon.loadData()
 
 	addon.dataLoaded = true
 
-	if addon.debugging then addon.testLocalization() end
+	--if addon.debugging then addon.testLocalization() end
 end
 
 function addon.registerStep(self,eventList,eval,args,frameCounter,guide,step)
@@ -345,13 +347,10 @@ local firstTimeLoading = true
 
 function addon.loadCurrentGuide()
 
-	addon.currentGuide = {}
-	addon.currentGuide.name = GuidelimeDataChar.currentGuide
-	addon.currentGuide.steps = {}
+	local guide = addon.guides[GuidelimeDataChar.currentGuide]
+	
 	addon.quests = {}
 	addon.questIds = {}
-
-	local guide = addon.guides[GuidelimeDataChar.currentGuide]
 
 	if guide == nil then
 		if addon.debugging then
@@ -362,10 +361,17 @@ function addon.loadCurrentGuide()
 			print("LIME: guide \"" .. (GuidelimeDataChar.currentGuide or "") .. "\" not found")
 		end
 		GuidelimeDataChar.currentGuide = nil
-		addon.currentGuide.name = nil
+		addon.currentGuide = {steps = {}}
 		GuidelimeDataChar.completedSteps = {}
+		addon.resetScannedQuests()
 		return
 	end
+	
+	if not addon.currentGuide or guide.group ~= addon.currentGuide.group then addon.resetScannedQuests() end
+
+	addon.currentGuide = {}
+	addon.currentGuide.name = GuidelimeDataChar.currentGuide
+	addon.currentGuide.steps = {}
 	addon.currentGuide.next = guide.next
 	addon.currentGuide.group = guide.group
 	
@@ -382,12 +388,12 @@ function addon.loadCurrentGuide()
 	end
 	firstTimeLoading = false
 	--print(format(L.LOAD_MESSAGE, addon.currentGuide.name))
-	local time
-	if addon.debugging then time = debugprofilestop() end
 	guide = addon.parseGuide(guide, guide.group)
-	if addon.debugging then print("LIME: parseGuide " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	if guide == nil then return end
 	addon.guides[GuidelimeDataChar.currentGuide] = guide
+
+	local time
+	if addon.debugging then time = debugprofilestop() end
 
 	local completed = addon.GetQuestsCompleted()
 
@@ -530,9 +536,11 @@ function addon.loadCurrentGuide()
 			step.available = true
 		end
 	end
-	if addon.debugging then print("LIME: loadCurrentGuide " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
+	if addon.debugging then print("LIME: loadCurrentGuide " .. math.floor(debugprofilestop() - time) .. " ms") end
 
 	addon.parseCustomLuaCode()
+	
+	addon.scanGuideQuests(guide.name)
 end
 
 local function loadStepOnActivation(i)
@@ -865,7 +873,7 @@ function addon.getStepText(step)
 	return text, tooltip, skipText, skipTooltip, url
 end
 
-local function updateStepText(i)
+function addon.updateStepText(i)
 	local step = addon.currentGuide.steps[i]
 	if addon.mainFrame.steps == nil or addon.mainFrame.steps[i] == nil or addon.mainFrame.steps[i].textBox == nil or not addon.mainFrame.steps[i].visible then return end
 	local text, tooltip, skipText, skipTooltip, url = addon.getStepText(step)
@@ -949,7 +957,7 @@ local function updateStepCompletion(i, completedIndexes)
 			elseif addon.x ~= nil and addon.y ~= nil and element.wx ~= nil and element.wy ~= nil and addon.instance == element.instance and addon.alive and step.active then
 				local radius = element.radius * element.radius
 				-- add some hysteresis
-				if element.completed then radius = radius * 1.6 end
+				if element.completed then radius = radius * addon.GOTO_HYSTERESIS_FACTOR end
 				element.completed = (addon.x - element.wx) * (addon.x - element.wx) + (addon.y - element.wy) * (addon.y - element.wy) <= radius
 			else
 				element.completed = false
@@ -1184,7 +1192,7 @@ end
 function addon.updateStepsMapIcons()
 	if addon.isEditorShowing() or addon.currentGuide == nil then return end
 	addon.removeMapIcons()
-	local hideArrow = true
+	local arrowElement
 	local highlight = true
 	for _, step in ipairs(addon.currentGuide.steps) do
 		if not step.skip and not step.completed and step.available then
@@ -1197,8 +1205,7 @@ function addon.updateStepsMapIcons()
 						addon.addMapIcon(element, highlight)
 						if highlight then
 							if GuidelimeDataChar.showArrow and addon.instance == element.instance then 
-								addon.showArrow(element)
-								hideArrow = false 
+								arrowElement = element
 							end
 							highlight = false
 						end
@@ -1217,7 +1224,11 @@ function addon.updateStepsMapIcons()
 			end
 		end
 	end
-	if hideArrow then addon.hideArrow() end
+	if arrowElement or not addon.alive then 
+		addon.showArrow(arrowElement) 
+	else 
+		addon.hideArrow() 
+	end
 	addon.showMapIcons()
 end
 
@@ -1226,7 +1237,7 @@ function addon.updateStepsText(scrollToFirstActive)
 	if addon.mainFrame == nil then return end
 	if addon.currentGuide == nil then return end
 	for i in ipairs(addon.currentGuide.steps) do
-		updateStepText(i)
+		addon.updateStepText(i)
 	end
 	if scrollToFirstActive then
 		C_Timer.After(0.2, function()
@@ -1520,7 +1531,7 @@ function addon.updateMainFrame(reset)
 					addon.mainFrame.steps[i]:SetEnabled(not step.completed or step.skip)
 
 					addon.mainFrame.steps[i].textBox:Show()
-					updateStepText(i)
+					addon.updateStepText(i)
 
 					prev = addon.mainFrame.steps[i].textBox
 				end
