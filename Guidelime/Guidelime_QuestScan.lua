@@ -21,8 +21,8 @@ function addon.scanGuideQuests(guide)
 		end
 	end
 	if addon.debugging then print("LIME: scanning quests for " .. guide .. " in " .. math.floor(debugprofilestop() - time) .. " ms") end
+	addon.scannedGuides[guide] = true
 	for _, next in ipairs(addon.guides[guide].next) do
 		addon.scanGuideQuests(addon.guides[guide].group .. " " .. next)
 	end
-	addon.scannedGuides[guide] = true
 end
