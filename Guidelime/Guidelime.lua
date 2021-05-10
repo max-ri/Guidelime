@@ -31,7 +31,9 @@ addon.CONTACT_REDDIT = "u/borick23"
 
 
 function addon.getLevelColor(level)
-	if level > addon.level + 4 then
+	if level == nil then
+		return addon.COLOR_LEVEL_GRAY
+	elseif level > addon.level + 4 then
 		return addon.COLOR_LEVEL_RED
 	elseif level > addon.level + 2 then
 		return addon.COLOR_LEVEL_ORANGE
@@ -608,7 +610,7 @@ function addon.getQuestText(id, t, title, colored)
 	if (GuidelimeData.showQuestLevels or GuidelimeData.showMinimumQuestLevels) then
 		q = q .. "["
 		if GuidelimeData.showMinimumQuestLevels then
-			q = q .. addon.COLOR_LIGHT_BLUE .. (addon.getQuestMinimumLevel(id).req or "")
+			q = q .. addon.COLOR_LIGHT_BLUE .. (addon.getQuestMinimumLevel(id) or "")
 		end
 		if GuidelimeData.showMinimumQuestLevels and GuidelimeData.showQuestLevels then
 			if colored == true then

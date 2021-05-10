@@ -117,7 +117,7 @@ function addon.updateFromQuestLog()
 				if type == 'item' then
 					local objectives = addon.getQuestObjectives(id)
 					if objectives ~= nil and objectives[k] ~= nil and objectives[k].type == 'item' then
-						local itemId = objectimves[k].ids.item[1]
+						local itemId = objectives[k].ids.item[1]
 						local itemName, _, numNeeded = desc:match("(.*):%s*([%d]+)%s*/%s*([%d]+)")
 						numNeeded = tonumber(numNeeded)
 						if questItemsNeeded[itemId] ~= nil then 
