@@ -6,12 +6,22 @@ addon.frame:SetScript("OnEvent", function(self, event, ...)
 	addon.frame[event](self, ...)
 end)
 
-addon.frame:RegisterEvent('PLAYER_ENTERING_WORLD')
-function addon.frame:PLAYER_ENTERING_WORLD()
-	--if addon.debugging then print("LIME: Player entering world...") end
+local function init()
 	if not addon.dataLoaded then addon.loadData() end
 	if GuidelimeDataChar.mainFrameShowing then addon.showMainFrame() end
 	addon.alive = HBD:GetPlayerZone() == nil or C_DeathInfo.GetCorpseMapPosition(HBD:GetPlayerZone()) == nil
+end
+
+addon.frame:RegisterEvent('PLAYER_LOGIN')
+function addon.frame:PLAYER_LOGIN()
+	--if addon.debugging then print("LIME: Player logged in...") end
+	--C_Timer.After(2, init)
+	init()
+end
+
+addon.frame:RegisterEvent('PLAYER_ENTERING_WORLD')
+function addon.frame:PLAYER_ENTERING_WORLD()
+	--if addon.debugging then print("LIME: Player entering world...") end
 end
 
 addon.frame:RegisterEvent('PLAYER_LEVEL_UP')
@@ -107,7 +117,7 @@ function addon.updateFromQuestLog()
 				if type == 'item' then
 					local objectives = addon.getQuestObjectives(id)
 					if objectives ~= nil and objectives[k] ~= nil and objectives[k].type == 'item' then
-						local itemId = objectives[k].ids.item[1]
+						local itemId = objectimves[k].ids.item[1]
 						local itemName, _, numNeeded = desc:match("(.*):%s*([%d]+)%s*/%s*([%d]+)")
 						numNeeded = tonumber(numNeeded)
 						if questItemsNeeded[itemId] ~= nil then 

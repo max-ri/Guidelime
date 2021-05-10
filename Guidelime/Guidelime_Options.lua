@@ -1,6 +1,8 @@
 local addonName, addon = ...
 local L = addon.L
 
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+
 local function HexToRGB(hex)
 	local rhex, ghex, bhex = string.sub(hex, 5, 6), string.sub(hex, 7, 8), string.sub(hex, 9, 10)
 	return tonumber(rhex, 16) / 255, tonumber(ghex, 16) / 255, tonumber(bhex, 16) / 255
@@ -523,7 +525,6 @@ function addon.fillOptions()
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = checkbox
 
-	--[[
 	if QuestieDB == nil then GuidelimeData.dataSourceQuestie = false end
 	checkbox = addon.addCheckOption(content, GuidelimeData, "dataSourceQuestie", L.USE_QUESTIE_AS_DATA_SOURCE, L.USE_QUESTIE_AS_DATA_SOURCE_TOOLTIP, function()
 		content.options.dataSourceInternal:SetChecked(not GuidelimeData.dataSourceQuestie)
@@ -549,7 +550,6 @@ function addon.fillOptions()
 		end
 	end)
 	content.options.dataSourceInternal:SetPoint("TOPLEFT", prev, "TOPLEFT", 270, 0)
-	]]
 end
 
 function addon.isOptionsShowing()

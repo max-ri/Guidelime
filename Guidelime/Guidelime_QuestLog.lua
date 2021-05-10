@@ -20,11 +20,13 @@ function addon.updateQuestLog()
 				local newTitle = title
 				if GuidelimeData.showQuestLevels then
 					local qtype = ""
-					if addon.questsDB[id].type == "Dungeon" then 
+					if addon.getQuestType(id) == "Dungeon" then 
 						qtype = "D" 
-					elseif addon.questsDB[id].type == "Raid" then 
+					elseif addon.getQuestType(id) == "Raid" then 
 						qtype = "R" 
-					elseif addon.questsDB[id].type == "Elite" then 
+					elseif addon.getQuestType(id) == "Group" then 
+						qtype = "P" 
+					elseif addon.getQuestType(id) == "Elite" then 
 						qtype = "+" 
 					end
 					newTitle = format("  [%d%s] ", level, qtype) .. title

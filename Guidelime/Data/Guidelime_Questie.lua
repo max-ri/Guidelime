@@ -3,12 +3,8 @@ local L = addon.L
 
 HBD = LibStub("HereBeDragons-2.0")
 
-local function reverseZoneData()
-	addon.zoneDataClassicReverse = {}
-	for id, zone in pairs(zoneDataClassic) do
-		addon.zoneDataClassicReverse[zone] = id
-	end
-end
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 local function bit(p)
   return 2 ^ (p - 1)  -- 1-based indexing
@@ -19,12 +15,107 @@ local function hasbit(x, p)
   return x % (p + p) >= p       
 end
 
+local function checkQuestie()
+	if addon.waitingForQuestie then return false end
+	if QuestieDB == nil or QuestieDB.QueryQuest == nil then
+		if addon.debugging then print("LIME: Questie is not yet initialized") end
+		addon.waitingForQuestie = true
+		C_Timer.After(4, function()
+			addon.waitingForQuestie = false
+			addon.loadCurrentGuide()
+			addon.updateFromQuestLog()
+			addon.updateSteps()
+		end)
+		return false	
+	end
+	return true
+end
+
+function addon.getQuestNameQuestie(id)
+	if id == nil or not checkQuestie() then return end
+	local quest = QuestieDB:GetQuest(id)
+	if quest == nil then return end
+	return quest.name
+end
+
+function addon.getQuestSortQuestie(id)
+	if id == nil or not checkQuestie() then return end
+	local quest = QuestieDB:GetQuest(id)
+	if quest == nil then return end
+    local parentZoneID = ZoneDB:GetParentZoneId(quest.zoneOrSort)
+	if quest.zoneOrSort > 0 then
+		return addon.zoneNames[ZoneDB:GetUiMapIdByAreaId(parentZoneID or quest.zoneOrSort)]
+	elseif quest.zoneOrSort < 0 then
+		for key, n in pairs(QuestieDB.sortKeys) do
+			if quest.zoneOrSort == n then
+				return string.lower(key):gsub("^%l", string.upper)
+			end
+		end
+	end
+end
+
+function addon.getQuestZoneQuestie(id)
+	if id == nil or not checkQuestie() then return end
+	local quest = QuestieDB:GetQuest(id)
+	if quest == nil then return end
+    local parentZoneID = ZoneDB:GetParentZoneId(quest.zoneOrSort)
+	return addon.zoneNames[ZoneDB:GetUiMapIdByAreaId(parentZoneID or quest.zoneOrSort)]
+end
+
+function addon.getQuestPrequestsQuestie(id)
+	if id == nil or not checkQuestie() then return end
+	local quest = QuestieDB:GetQuest(id)
+	if quest == nil then return end
+	return quest.preQuestSingle or quest.preQuestGroup
+end
+
+function addon.getQuestOneOfPrequestsQuestie(id)
+	if id == nil or not checkQuestie() then return end
+	local quest = QuestieDB:GetQuest(id)
+	if quest == nil then return end
+	return quest.preQuestSingle ~= nil
+end
+
+function addon.getQuestTypeQuestie(id)
+	if id == nil or not checkQuestie() then return end
+	local quest = QuestieDB:GetQuest(id)
+	if quest == nil then return end
+	if quest:IsDungeonQuest() then return "Dungeon" end
+	if quest:IsRaidQuest() then return "Raid" end
+	if quest:GetQuestTagInfo() == 1 then return "Group" end
+	local _, _, _, _, _, isElite = GetQuestTagInfo(id)
+	if isElite then return "Elite" end
+end
+
+function addon.getQuestLevelQuestie(id)
+	if id == nil or not checkQuestie() then return end
+	local quest = QuestieDB:GetQuest(id)
+	if quest == nil then return end
+	return quest.questLevel
+end
+
+function addon.getQuestMinimumLevelQuestie(id)
+	if id == nil or not checkQuestie() then return end
+	local quest = QuestieDB:GetQuest(id)
+	if quest == nil then return end
+	return quest.requiredLevel
+end
+
+function addon.getQuestNextQuestie(id)
+	if id == nil or not checkQuestie() then return end
+	local quest = QuestieDB:GetQuest(id)
+	if quest == nil then return end
+	return quest.nextQuestInChain
+end
+
 function addon.getQuestRacesQuestie(id)
-	if id == nil or QuestieDB == nil or QuestieDB.questData == nil or QuestieDB.questData[id] == nil then return end
-	local bitmask = QuestieDB.questData[id][6]
+	if id == nil or not checkQuestie() then return end
+	local quest = QuestieDB:GetQuest(id)
+	if quest == nil then return end
+	local bitmask = quest.requiredRaces
 	if bitmask == nil then return end
 	local races = {}
-	for i, race in ipairs({"Human", "Orc", "Dwarf", "NightElf", "Undead", "Troll", "Gnome", "Tauren"}) do
+	for i, race in ipairs({"Human", "Orc", "Dwarf", "NightElf", "Undead", "Troll", "Gnome", "Tauren", nil, "BloodElf", "Draenei"}) do
 		if hasbit(bitmask, bit(i)) then 
 			table.insert(races, race) 
 		end
@@ -33,9 +124,11 @@ function addon.getQuestRacesQuestie(id)
 end
 
 function addon.getQuestClassesQuestie(id)
-	if id == nil or QuestieDB == nil or QuestieDB.questData == nil or QuestieDB.questData[id] == nil then return end
-	local bitmask = QuestieDB.questData[id][7]
-	if bitmask == nil then return end
+	if id == nil or not checkQuestie() then return end
+	local quest = QuestieDB:GetQuest(id)
+	if quest == nil then return end
+	local bitmask = quest.requiredClasses
+	if bitmask == nil or bitmask == 0 then return end
 	local races = {}
 	for i, race in pairs({"Warrior", "Paladin", "Hunter", "Rogue", "Priest", nil, "Shaman", "Mage", "Warlock", nil, "Druid"}) do
 		if hasbit(bitmask, bit(i)) then 
@@ -46,99 +139,115 @@ function addon.getQuestClassesQuestie(id)
 end
 
 function addon.getQuestFactionQuestie(id)
-	if id == nil or QuestieDB == nil or QuestieDB.questData == nil or QuestieDB.questData[id] == nil then return end
-	local bitmask = QuestieDB.questData[id][6]
+	if id == nil or not checkQuestie() then return end
+	local quest = QuestieDB:GetQuest(id)
+	if quest == nil then return end
+	local bitmask = quest.requiredRaces
 	if bitmask == nil then return end
 	if bitmask == 77 then return "Alliance" end
 	if bitmask == 178 then return "Horde" end
 end
 
+function addon.getQuestObjectiveQuestie(id)
+	if id == nil or not checkQuestie() then return end
+	local quest = QuestieDB:GetQuest(id)
+	if quest == nil then return end
+	return quest.objectivesText[1]
+end
+
 function addon.getQuestPositionsQuestie(id, typ, index, filterZone)
-	if id == nil or QuestieDB == nil or QuestieDB.questData == nil or QuestieDB.questData[id] == nil then return end
-	local quest = QuestieDB.questData[id]
-	if quest == nil then return nil end
-	local list
-	if typ == "ACCEPT" then 
-		list = quest[2]
-	elseif typ == "COMPLETE" then
-		list = quest[10]
-	elseif typ == "TURNIN" then
-		list = quest[3]
-	else
-		return
-	end
-	local npcs = {}
-	local objects = {}
-	local items = {}
-	if index == nil then
-		if list[1] ~= nil then for i, npc in ipairs(list[1]) do if typ == "COMPLETE" then npcs[i] = npc[1] else npcs[i] = npc end end end
-		if list[2] ~= nil then for i, object in ipairs(list[2]) do if typ == "COMPLETE" then objects[i] = object[1] else objects[i] = object end end end
-		if list[3] ~= nil then for i, item in ipairs(list[3]) do if typ == "COMPLETE" then items[i] = item[1] else items[i] = item end end end
-	else
-		local c = 0
-		if list[1] ~= nil and #list[1] > 0 and #list[1] >= index then 
-			if typ == "COMPLETE" then npcs = {list[1][index][1]} else npcs = {list[1][index]} end
-		else
-			if list[1] ~= nil then c = #list[1] end
-			if list[2] ~= nil and #list[2] > 0 and #list[2] >= index - c then 
-				if typ == "COMPLETE" then objects = {list[2][index - c][1]} else objects = {list[2][index - c]} end
-			else
-				if list[2] ~= nil then c = c + #list[2] end
-				if list[3] ~= nil and #list[3] > 0 and #list[3] >= index - c then 
-					if typ == "COMPLETE" then items = {list[3][index - c][1]} else items = {list[3][index - c]} end
+	if id == nil or not checkQuestie() then return end
+	local ids = {npc = {}, object = {}, item = {}}
+	local objectives = {npc = {}, object = {}, item = {}}
+	if addon.getSuperCode(typ) == "QUEST" then
+		local quest = QuestieDB:GetQuest(id)
+		if quest == nil then return end
+		local list
+		if typ == "ACCEPT" then 
+			list = quest.startedBy
+		elseif typ == "COMPLETE" then
+			list = quest.objectives
+		elseif typ == "TURNIN" then
+			list = quest.finishedBy
+		end
+		if list ~= nil then
+			--if addon.debugging then print("LIME: getQuestPositionsQuestie " .. typ .. " " .. id .. " " .. addon.show(list)) end
+			local c = 0
+			for i, type in ipairs({"npc", "object", "item"}) do
+				if list[i] ~= nil then 
+					for j, id in ipairs(list[i]) do 
+						if index == nil or index == 0 or index == c + j then
+							if typ == "COMPLETE" then ids[type][j] = id[1] else ids[type][j] = id end 
+							if objectives[type][ids[type][j]] == nil then objectives[type][ids[type][j]] = {} end
+							table.insert(objectives[type][ids[type][j]], c + j)
+						end
+					end 
+					c = c + #list[i]
 				end
 			end
 		end
+	elseif typ == "COLLECT_ITEM" then
+		ids.item = {id}
+		objectives.item[id] = {}
+	else
+		return
 	end
-	for j = 1, #items do
-		local item = QuestieDB.itemData[items[j]]
-		--if item == nil then error("item " .. items[j] .. " not found for quest " .. questid .. typ) end
-		--if addon.debugging then print("LIME: item", items[j] .. " " .. item[6]) end
+	for j = 1, #(ids.item) do
+		local item = QuestieDB:GetItem(ids.item[j])
+		--if item == nil then error("item " .. ids.item[j] .. " not found for quest " .. questid .. typ) end
+		--if addon.debugging then print("LIME: item", ids.item[j] .. " " .. item[6]) end
 		if item ~= nil then
-			for i = 1, #item[1] do
-				if not addon.contains(npcs, item[1][i][1]) then table.insert(npcs, item[1][i][1]) end
+			if item.npcDrops ~= nil then
+				for i = 1, #item.npcDrops do
+					if not addon.contains(ids.npc, item.npcDrops[i]) then table.insert(ids.npc, item.npcDrops[i]) end
+					if objectives.npc[item.npcDrops[i]] == nil then objectives.npc[item.npcDrops[i]] = {} end
+					for _, c in ipairs(objectives.item[ids.item[j]]) do table.insert(objectives.npc[item.npcDrops[i]], c) end
+				end
 			end
-			for i = 1, #item[2] do
-				if not addon.contains(objects, item[2][i][1]) then table.insert(objects, item[2][i][1]) end
+			if item.objectDrops ~= nil then
+				for i = 1, #item.objectDrops do
+					if not addon.contains(ids.object, item.objectDrops[i]) then table.insert(ids.object, item.objectDrops[i]) end
+					if objectives.object[item.objectDrops[i]] == nil then objectives.object[item.objectDrops[i]] = {} end
+					for _, c in ipairs(objectives.item[ids.item[j]]) do table.insert(objectives.object[item.objectDrops[i]], c) end
+				end
 			end
 		end
 	end
 	local positions = {}
-	local filterZone
-	if addon.zoneDataClassicReverse == nil then reverseZoneData() end
-	if filterZone ~= nil then filterZone = addon.zoneDataClassicReverse[filterZone] end
-	for j = 1, #npcs do
-		local npc = QuestieDB.npcData[npcs[j]]
-		--if npc == nil then error("npc " .. npcs[j] .. " not found for quest " .. questid .. typ) end
+	local filterZoneId
+	if filterZone ~= nil then filterZoneId = ZoneDB:GetAreaIdByUiMapId(addon.mapIDs[filterZone]) end
+	for j = 1, #(ids.npc) do
+		local npc = QuestieDB:GetNPC(ids.npc[j])
+		--if npc == nil then error("npc " .. ids.npc[j] .. " not found for quest " .. questid .. typ) end
 		--if addon.debugging then print("LIME: npc", npc[1]) end
-		if npc ~= nil and npc[7] ~= nil then
+		if npc ~= nil and npc.spawns ~= nil then
 			if filterZone == nil then
-				for zone, posList in pairs(npc[7]) do
+				for zone, posList in pairs(npc.spawns) do
 					for _, pos in ipairs(posList) do
-						table.insert(positions, {x = pos[1], y = pos[2], zone = zoneDataClassic[zone] or zone})
+						table.insert(positions, {x = pos[1], y = pos[2], zone = addon.zoneNames[ZoneDB:GetUiMapIdByAreaId(zone)] or zone, npcId = ids.npc[j], objectives = objectives.npc[ids.npc[j]]})
 					end
 				end
-			elseif npc[7][filterZone] ~= nil then
-				for _, pos in ipairs(npc[7][filterZone]) do
-					table.insert(positions, {x = pos[1], y = pos[2], zone = zoneDataClassic[filterZone]})
+			elseif npc.spawns[filterZoneId] ~= nil then
+				for _, pos in ipairs(npc.spawns[filterZoneId]) do
+					table.insert(positions, {x = pos[1], y = pos[2], zone = filterZone, npcId = ids.npc[j], objectives = objectives.npc[ids.npc[j]]})
 				end
 			end
 		end
 	end
-	for j = 1, #objects do
-		local object = QuestieDB.objectData[objects[j]]
-		if object == nil then error("object " .. objects[j] .. " not found for quest " .. id .. typ) end
+	for j = 1, #(ids.object) do
+		local object = QuestieDB:GetObject(ids.object[j])
+		if object == nil then error("object " .. ids.object[j] .. " not found for quest " .. id .. typ) end
 		--if addon.debugging then print("LIME: object", object[1]) end
-		if object[4] ~= nil then
+		if object.spawns ~= nil then
 			if filterZone == nil then
-				for zone, posList in pairs(object[4]) do
+				for zone, posList in pairs(object.spawns) do
 					for _, pos in ipairs(posList) do
-						table.insert(positions, {x = pos[1], y = pos[2], zone = zoneDataClassic[zone] or zone})
+						table.insert(positions, {x = pos[1], y = pos[2], zone = addon.zoneNames[ZoneDB:GetUiMapIdByAreaId(zone)] or zone, objectId = ids.object[j], objectives = objectives.object[ids.object[j]]})
 					end
 				end
-			elseif object[4][filterZone] ~= nil then
-				for _, pos in ipairs(object[4][filterZone]) do
-					table.insert(positions, {x = pos[1], y = pos[2], zone = zoneDataClassic[filterZone]})
+			elseif object.spawns[filterZoneId] ~= nil then
+				for _, pos in ipairs(object.spawns[filterZoneId]) do
+					table.insert(positions, {x = pos[1], y = pos[2], zone = filterZone, objectId = ids.object[j], objectives = objectives.object[ids.object[j]]})
 				end
 			end
 		end
@@ -165,77 +274,91 @@ function addon.getQuestPositionsQuestie(id, typ, index, filterZone)
 	return positions
 end
 
--- returns a type (npc/item/object) and a list of names for quest source / each objective / turn in; e.g. {{type="item", names={"Dealt with The Hogger Situation", "Huge Gnoll Claw", "Hogger"}} for id = 176, typ = "COMPLETE"
+-- returns a type (npc/item/object) and a list of names for quest source / each objective / turn in; e.g. {{type="item", names={"Huge Gnoll Claw", "Hogger"}, ids={item={1931},npc={448}} for id = 176, typ = "COMPLETE"
 function addon.getQuestObjectivesQuestie(id, typ)
-	if id == nil or QuestieDB == nil or QuestieDB.questData == nil or QuestieDB.questData[id] == nil then return end
-	local quest = QuestieDB.questData[id]
-	local list
+	if id == nil or not checkQuestie() then return end
+	local quest = QuestieDB:GetQuest(id)
+	if quest == nil then return end
 	if typ == "ACCEPT" then 
-		list = quest[2]
+		list = quest.startedBy
 	elseif typ == "COMPLETE" then
-		list = quest[10]
+		list = quest.objectives
 	elseif typ == "TURNIN" then
-		list = quest[3]
+		list = quest.finishedBy
 	else
 		return
 	end
+	--if addon.debugging then print("LIME: getQuestObjectivesQuestie " .. typ .. " " .. id .. " " .. addon.show(list)) end
 	local objectives = {}
 	if list[1] ~= nil then
 		for j = 1, #list[1] do
 			local objList = {}
-			local npc
+			local ids = {}
+			local npcId
 			if type(list[1][j]) == "number" then 
-				npc = QuestieDB.npcData[list[1][j]]
+				npcId = list[1][j]
 			else 
-				npc = QuestieDB.npcData[list[1][j][1]]
+				npcId = list[1][j][1]
 				table.insert(objList, list[1][j][2])
 			end
-			if npc ~= nil and not addon.contains(objList, npc[1]) then table.insert(objList, npc[1]) end
+			local npc = QuestieDB:GetNPC(npcId)
+			if npc ~= nil and not addon.contains(objList, npc.name) then table.insert(objList, npc.name) end
 			if typ == "COMPLETE" then
-				table.insert(objectives, {type = "monster", names = objList})
+				table.insert(objectives, {type = "monster", names = objList, ids = {npc = {npc.id}}})
 			else
-				table.insert(objectives, {type = "npc", names = objList})
+				table.insert(objectives, {type = "npc", names = objList, ids = {npc = {npcId}}})
 			end
 		end
 	end
 	if list[2] ~= nil then
 		for j = 1, #list[2] do
 			local objList = {}
-			local obj
+			local objId
 			if type(list[2][j]) == "number" then 
-				obj = QuestieDB.npcData[list[2][j]]
+				objId = list[2][j]
 			else 
-				obj = QuestieDB.npcData[list[2][j][1]]
+				objId = list[2][j][1]
 				table.insert(objList, list[2][j][2])
 			end
-			if obj ~= nil and not addon.contains(objList, obj[1]) then table.insert(objList, obj[1]) end
-			table.insert(objectives, {type = "object", names = objList})
+			local obj = QuestieDB:GetObject(objId)
+			if obj ~= nil and not addon.contains(objList, obj.name) then table.insert(objList, obj.name) end
+			table.insert(objectives, {type = "object", names = objList, ids = {object = {objId}}})
 		end
 	end
 	if list[3] ~= nil then
 		for j = 1, #list[3] do
-			local objList = {}
-			local item
+			local objective = {type = "item", names = {}}
+			local itemId 
 			if type(list[3][j]) == "number" then 
-				item = QuestieDB.itemData[list[3][j]]
+				itemId = list[3][j]
 			else
-				item = QuestieDB.itemData[list[3][j][1]]
-				table.insert(objList, list[3][j][2])
+				itemId = list[3][j][1]
+				table.insert(objective.names, list[3][j][2])
 			end
+			objective.ids = {item = {itemId}}
+			local item = QuestieDB:GetItem(itemId)
 			if item ~= nil then
-				if not addon.contains(objList, item[6]) then table.insert(objList, item[6]) end
-				for i = 1, #item[1] do
-					local npc = QuestieDB.npcData[item[1][i][1] ]
-					if npc ~= nil then
-						if not addon.contains(objList, npc[1]) then table.insert(objList, npc[1]) end
+				if not addon.contains(objective.names, item.name) then table.insert(objective.names, item.name) end
+				if item.npcDrops ~= nil then
+					objective.ids.npc = {}
+					for i = 1, #item.npcDrops do
+						table.insert(objective.ids.npc, item.npcDrops[i])
+						local npc = QuestieDB:GetNPC(item.npcDrops[i])
+						if npc ~= nil then
+							if not addon.contains(objective.names, npc.name) then table.insert(objective.names, npc.name) end
+						end
 					end
 				end
-				for i = 1, #item[2] do
-					local obj = QuestieDB.objectData[item[2][i][1] ]
-					if not addon.contains(objList, obj[1]) then table.insert(objList, obj[1]) end
+				if item.objectDrops ~= nil then
+					objective.ids.object = {}
+					for i = 1, #item.objectDrops do
+						table.insert(objective.ids.object, item.objectDrops[i])
+						local obj = QuestieDB:GetObject(item.objectDrops[i])
+						if not addon.contains(objective.names, obj.name) then table.insert(objective.names, obj.name) end
+					end
 				end
 			end
-			table.insert(objectives, {type = "item", names = objList})
+			table.insert(objectives, objective)
 		end
 	end
 	return objectives

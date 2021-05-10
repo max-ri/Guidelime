@@ -99,13 +99,12 @@ end
 
 function addon.applies(guide)
 	if guide == nil then return false end
-	local applies = true
 	if guide.races ~= nil then
-		if not addon.contains(guide.races, addon.race) then applies = false end
+		if not addon.contains(guide.races, addon.race) then return false end
 	end
 	if guide.classes ~= nil then
-		if not addon.contains(guide.classes, addon.class) then applies = false end
+		if not addon.contains(guide.classes, addon.class) then return false end
 	end
-	if guide.faction ~= nil and guide.faction ~= addon.faction then applies = false end
-	return applies
+	if guide.faction ~= nil and guide.faction ~= addon.faction then return false end
+	return true
 end

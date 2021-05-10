@@ -262,34 +262,30 @@ function addon.parseLine(step, guide, strict, nameOnly)
 					end
 				end
 				if not nameOnly then
-					if addon.questsDB[element.questId] ~= nil and addon.questsDB[element.questId].replacement ~= nil then
-						element.questId = addon.questsDB[element.questId].replacement
+					if addon.getQuestReplacement(element.questId) ~= nil then
+						element.questId = addon.getQuestReplacement(element.questId)
 					end
 					if objective ~= "" then element.objective = tonumber(objective) end
 					if title == "-" then
 						element.title = ""
-					elseif title ~= "" and (not strict or addon.questsDB[element.questId] == nil or title ~= addon.questsDB[element.questId].name) then
+					-- here we used to have a feature to replace an english quest name with the localized name whenever the english name is written out in the guide
+					-- this is disabled since right now there is not a way to get the non-localized quest name
+					elseif title ~= "" --[[ and (not strict or addon.questsDB[element.questId] == nil or title ~= addon.questsDB[element.questId].name) ]] then
 						element.title = title
 					end
-					--if addon.debugging and addon.questsDB[element.questId] == nil then 
-					--	print("LIME: loading guide \"" .. (guide.title or "") .. "\": unknown quest id " .. (element.questId or "") .. "\" in line \"" .. (step.line or "") .. " " .. step.text .. "\"") 
-					--end
-					--elseif addon.debugging and addon.questsDB[element.questId].name ~= element.title:sub(1, #addon.questsDB[element.questId].name) then
-					--	error("loading guide \"" .. GuidelimeDataChar.currentGuide.title .. "\": wrong title for quest " .. element.questId .. " \"" .. element.title .. "\" instead of \"" .. addon.questsDB[element.questId].name .. "\" in line \"" .. step.text .. "\"")
-					--end
-					if addon.questsDB[element.questId] ~= nil then
-						if step.races == nil and addon.getQuestRaces(element.questId) ~= nil then 
-							step.races = {}
-							for i, r in pairs(addon.getQuestRaces(element.questId)) do step.races[i] = r end
-						end
-						if step.classes == nil and addon.getQuestClasses(element.questId) ~= nil then 
-							step.classes = {}
-							for i, r in pairs(addon.getQuestClasses(element.questId)) do step.classes[i] = r end
-						end
-						if step.faction == nil and addon.getQuestFaction(element.questId) ~= nil then step.faction = addon.getQuestFaction(element.questId) end
-						if addon.questsDB[element.questId].sort ~= nil and addon.mapIDs[addon.questsDB[element.questId].sort] ~= nil then 
-							guide.currentZone = addon.mapIDs[addon.questsDB[element.questId].sort] 
-						end
+					if step.races == nil and addon.getQuestRaces(element.questId) ~= nil then 
+						step.races = {}
+						for i, r in pairs(addon.getQuestRaces(element.questId)) do step.races[i] = r end
+					end
+					if step.classes == nil and addon.getQuestClasses(element.questId) ~= nil then 
+						step.classes = {}
+						for i, r in pairs(addon.getQuestClasses(element.questId)) do step.classes[i] = r end
+					end
+					if step.faction == nil and addon.getQuestFaction(element.questId) ~= nil then 
+						step.faction = addon.getQuestFaction(element.questId) 
+					end
+					if addon.getQuestSort(element.questId) ~= nil and addon.mapIDs[addon.getQuestSort(element.questId)] ~= nil then 
+						guide.currentZone = addon.mapIDs[addon.getQuestSort(element.questId)] 
 					end
 					if element.t ~= "SKIP" then 
 						previousAutoStep = lastAutoStep

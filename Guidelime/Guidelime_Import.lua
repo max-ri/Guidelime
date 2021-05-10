@@ -27,8 +27,8 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 			i = i + 1
 		end
 		wordListMap[L.WORD_LIST_NEXT_PART] = function(...) s, e = ...; q = questname
-			if questids ~= nil and #questids == 1 and addon.questsDB[questids[1]] ~= nil and addon.questsDB[questids[1]].series ~= nil then 
-				part = addon.questsDB[questids[1]].series + 1
+			if questids ~= nil and #questids == 1 and addon.getQuestSeries(questids[1]) ~= nil then 
+				part = addon.getQuestSeries(questids[1]) + 1
 			else
 				part = 2
 			end
@@ -103,7 +103,7 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 				-- found more than one? only search in given zone
 				local ids2 = {}
 				for i, id in ipairs(questids) do
-					if addon.questsDB[id].zone == zone then
+					if addon.getQuestZone(id) == zone then
 						table.insert(ids2, id)
 					end
 				end
@@ -112,7 +112,7 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 			if typ == "A" and newQuestIds ~= nil then
 				if newQuestIds[1] == nil then 
 					err = "non matching number of quest ids specified"
-				elseif #questids == 0 or addon.contains(questids, newQuestIds[1]) or (#questids == 1 and addon.questsDB[questids[1]].name == addon.questsDB[newQuestIds[1]].name) then
+				elseif #questids == 0 or addon.contains(questids, newQuestIds[1]) or (#questids == 1 and addon.getQuestNameById(questids[1]) == addon.getQuestNameById(newQuestIds[1])) then
 					questids = {newQuestIds[1]}
 					table.remove(newQuestIds, 1)
 				else
@@ -173,18 +173,18 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 			line = line .. "[Q" .. typ .. questid .. objective .. " " .. title .. "]" 
 			
 			if questids ~= nil and #questids == 1 then
-				if addon.questsDB[questids[1]].races ~= nil or addon.questsDB[questids[1]].classes ~= nil then
+				if addon.getQuestRaces(questids[1]) ~= nil or addon.getQuestClasses(questids[1]) ~= nil then
 					line = line .. "[A "
 					local first = true
-					if addon.questsDB[questids[1]].races ~= nil then
-						for i, race in ipairs(addon.questsDB[questids[1]].races) do
+					if addon.getQuestRaces(questids[1]) ~= nil then
+						for i, race in ipairs(addon.getQuestRaces(questids[1])) do
 							if not first then line = line .. "," end
 							line = line .. addon.getRace(race)
 							first = false
 						end
 					end
-					if addon.questsDB[questids[1]].classes ~= nil then
-						for i, class in ipairs(addon.questsDB[questids[1]].classes) do
+					if addon.getQuestClasses(questids[1]) ~= nil then
+						for i, class in ipairs(addon.getQuestClasses(questids[1])) do
 							if not first then line = line .. "," end
 							line = line .. addon.getClass(class)
 							first = false

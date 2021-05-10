@@ -132,7 +132,7 @@ function addon.loadData()
 		arrowStyle = 1,
 		arrowDistance = false,
 		skipCutscenes = true,
-		dataSourceQuestie = false,
+		dataSourceQuestie = true,
 		autoAddCoordinates = true,
 		displayDemoGuides = true,
 		fontColorACCEPT = addon.COLOR_QUEST_DEFAULT,
@@ -200,6 +200,11 @@ function addon.loadData()
 		end
 	end, 1)
 	GuidelimeData.version:gsub("(%d+).(%d+)", function(major, minor)
+		if tonumber(major) == 1 then
+			--changed default value for dataSourceQuestie
+			GuidelimeData.dataSourceQuestie = true
+			GuidelimeData.version = GetAddOnMetadata(addonName, "version")
+		end
 		if tonumber(major) == 1 and tonumber(minor) < 28 then
 			--hide option debugging, dataSourceQuestie
 			GuidelimeData.debugging = false
@@ -437,9 +442,9 @@ function addon.loadCurrentGuide()
 					addon.quests[element.questId].title = element.title
 					addon.quests[element.questId].completed = completed[element.questId] ~= nil and completed[element.questId]
 					addon.quests[element.questId].finished = addon.quests[element.questId].completed
-					if addon.questsDB[element.questId] ~= nil and addon.questsDB[element.questId].prequests ~= nil then
-						for _, id in ipairs(addon.questsDB[element.questId].prequests) do
-							if addon.applies(addon.questsDB[id]) then
+					if addon.getQuestPrequests(element.questId) ~= nil then
+						for _, id in ipairs(addon.getQuestPrequests(element.questId)) do
+							if addon.getQuestApplies(id) then
 								if addon.quests[id] == nil then addon.quests[id] = {} end
 								addon.quests[id].completed = completed[id] ~= nil and completed[id]
 								if addon.quests[id].followup == nil then addon.quests[id].followup = {} end
@@ -600,10 +605,10 @@ end
 
 function addon.getQuestText(id, t, title, colored)
 	local q = ""
-	if (GuidelimeData.showQuestLevels or GuidelimeData.showMinimumQuestLevels) and addon.questsDB[id] ~= nil then
+	if (GuidelimeData.showQuestLevels or GuidelimeData.showMinimumQuestLevels) then
 		q = q .. "["
 		if GuidelimeData.showMinimumQuestLevels then
-			q = q .. addon.COLOR_LIGHT_BLUE .. (addon.questsDB[id].req or "")
+			q = q .. addon.COLOR_LIGHT_BLUE .. (addon.getQuestMinimumLevel(id).req or "")
 		end
 		if GuidelimeData.showMinimumQuestLevels and GuidelimeData.showQuestLevels then
 			if colored == true then
@@ -614,13 +619,15 @@ function addon.getQuestText(id, t, title, colored)
 			q = q .. "-"
 		end
 		if GuidelimeData.showQuestLevels then
-			q = q .. addon.getLevelColor(addon.questsDB[id].level) .. (addon.questsDB[id].level or "")
-			if addon.questsDB[id].type == "Dungeon" then 
+			q = q .. addon.getLevelColor(addon.getQuestLevel(id)) .. (addon.getQuestLevel(id) or "")
+			if addon.getQuestType(id) == "Dungeon" then 
 				q = q .. "D" 
-			elseif addon.questsDB[id].type == "Raid" then 
+			elseif addon.getQuestType(id) == "Raid" then 
 				q = q .. "R" 
-			elseif addon.questsDB[id].type == "Elite" then 
+			elseif addon.getQuestType(id) == "Elite" then 
 				q = q .. "+" 
+			elseif addon.getQuestType(id) == "Group" then 
+				q = q .. "P" 
 			end
 		end
 		if colored == true then
@@ -709,7 +716,7 @@ function addon.getQuestObjectiveText(id, objectives, indent, npcId, objectId)
 end
 
 function addon.getQuestIcon(questId, t, objective, finished)
-	if t == "ACCEPT" and addon.questsDB[questId] ~= nil and addon.questsDB[questId].req > addon.level then
+	if t == "ACCEPT" and (addon.getQuestMinimumLevel(questId) or 0) > addon.level then
 		return "|T" .. addon.icons.ACCEPT_UNAVAILABLE .. ":12|t"
 	elseif t == "TURNIN" and not finished then
 		return "|T" .. addon.icons.TURNIN_INCOMPLETE .. ":12|t"
@@ -763,10 +770,10 @@ function addon.getStepText(step)
 	local prevElement
 	for _, element in ipairs(step.elements) do
 		text = text .. addon.getElementIcon(element, prevElement)
-		if element.available and not element.completed and element.t == "ACCEPT" and addon.questsDB[element.questId] ~= nil and addon.questsDB[element.questId].req > addon.level then
+		if element.available and not element.completed and element.t == "ACCEPT" and (addon.getQuestMinimumLevel(element.questId) or 0) > addon.level then
 			if tooltip ~= "" then tooltip = tooltip .. "\n" end
 			local q = addon.getQuestText(element.questId, element.t)
-			tooltip = tooltip .. L.QUEST_REQUIRED_LEVEL:format(q, addon.questsDB[element.questId].req)
+			tooltip = tooltip .. L.QUEST_REQUIRED_LEVEL:format(q, addon.getQuestMinimumLevel(element.questId))
 		end
 		if element.text ~= nil then
 			if step.active then
@@ -1682,6 +1689,7 @@ local function simulateCompleteCurrentSteps()
 	end
 end
 
+--[[
 local function listAliasQuests(completed, id, excludeIds)
 	local text = ""
 	for _, id2 in ipairs(addon.getPossibleQuestIdsByName(addon.questsDB[id].name)) do
@@ -1719,11 +1727,11 @@ function addon.checkQuests()
 				text = text .. "Quest \"" .. addon.questsDB[id].name .. "\"(" .. id .. ") was completed but is marked as being unavailable for this character.\r"
 				found = true
 			end
-			--[[if addon.questsDB[id].replaces ~= nil and not completed[addon.questsDB[id].replaces] then
-				text = text .. "Quest \"" .. addon.questsDB[id].name .. "\"(" .. id .. ") was completed but is marked as being replacement for \"" .. addon.questsDB[addon.questsDB[id].replaces].name .. "\"(" .. addon.questsDB[id].replaces .. ") which is not completed.\r"
-				table.insert(ids, addon.questsDB[id].replaces)
-				found = true
-			end]]
+			--if addon.questsDB[id].replaces ~= nil and not completed[addon.questsDB[id].replaces] then
+			--	text = text .. "Quest \"" .. addon.questsDB[id].name .. "\"(" .. id .. ") was completed but is marked as being replacement for \"" .. addon.questsDB[addon.questsDB[id].replaces].name .. "\"(" .. addon.questsDB[id].replaces .. ") which is not completed.\r"
+			--	table.insert(ids, addon.questsDB[id].replaces)
+			--	found = true
+			--end
 			if found then text = text .. listAliasQuests(completed, id, ids) .. "\r" end
 		--else
 			--text = text .. "Unknown quest " .. id .. " completed.\r"
@@ -1743,6 +1751,7 @@ function addon.checkQuests()
 		local popup = addon.showCopyPopup(text, "", 0, 500, true)
 	end
 end
+]]
 
 SLASH_Guidelime1 = "/lime"
 SLASH_Guidelime2 = "/guidelime"
@@ -1754,6 +1763,6 @@ function SlashCmdList.Guidelime(msg)
 	elseif msg == 'skip' then skipCurrentSteps()
 	elseif msg == 'questie true' and not GuidelimeData.dataSourceQuestie then GuidelimeData.dataSourceQuestie = true; ReloadUI()
 	elseif msg == 'questie false' and GuidelimeData.dataSourceQuestie then GuidelimeData.dataSourceQuestie = false; ReloadUI()
-	elseif msg == 'quests' then addon.checkQuests()
+	--elseif msg == 'quests' then addon.checkQuests()
 	end
 end
