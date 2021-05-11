@@ -303,16 +303,19 @@ function addon.popupAppliesSetEnabledCheckboxes(popup, typ, guide)
 		for key, box in pairs(popup.checkboxes) do
 			if addon.isFaction(key) and faction ~= nil then
 				box:SetEnabled(false)
+				box:SetChecked(faction == key)
 			elseif addon.isRace(key) and 
 				((faction ~= nil and faction ~= addon.races[key]) or 
 				(guide.races ~= nil and not addon.contains(guide.races, key)) or
 				(guide.races ~= nil and #guide.races == 1)) then
 				box:SetEnabled(false)
+				box:SetChecked(guide.races ~= nil and addon.contains(guide.races, key))
 			elseif addon.isClass(key) and 
 				((faction ~= nil and addon.classesWithFaction[key] ~= nil and faction ~= addon.classesWithFaction[key]) or 
 				(guide.classes ~= nil and not addon.contains(guide.classes, key)) or
 				(guide.classes ~= nil and #guide.classes == 1)) then
 				box:SetEnabled(false)
+				box:SetChecked(guide.classes ~= nil and addon.contains(guide.classes, key))
 			end
 		end
 	end
