@@ -54,7 +54,7 @@ function addon.SelectGossipOption(i)
 end
 	
 local function useQuestie()
-	return GuidelimeData.dataSourceQuestie and QuestieLoader ~= nil
+	return GuidelimeData.dataSourceQuestie and addon.isQuestieInstalled()
 end
 
 function addon.getQuestReplacement(id)

@@ -15,8 +15,7 @@ end
 addon.frame:RegisterEvent('PLAYER_LOGIN')
 function addon.frame:PLAYER_LOGIN()
 	--if addon.debugging then print("LIME: Player logged in...") end
-	--C_Timer.After(2, init)
-	init()
+	C_Timer.After(2, init)
 end
 
 addon.frame:RegisterEvent('PLAYER_ENTERING_WORLD')

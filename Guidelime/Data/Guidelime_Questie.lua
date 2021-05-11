@@ -3,8 +3,8 @@ local L = addon.L
 
 HBD = LibStub("HereBeDragons-2.0")
 
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
-local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+local QuestieDB = QuestieLoader and QuestieLoader:ImportModule("QuestieDB");
+local ZoneDB = QuestieLoader and QuestieLoader:ImportModule("ZoneDB")
 
 local function bit(p)
   return 2 ^ (p - 1)  -- 1-based indexing
@@ -15,8 +15,12 @@ local function hasbit(x, p)
   return x % (p + p) >= p       
 end
 
+function addon.isQuestieInstalled()
+	return QuestieLoader ~= nil
+end
+
 local function checkQuestie()
-	if addon.waitingForQuestie then return false end
+	if addon.waitingForQuestie or not addon.isQuestieInstalled() then return false end
 	if QuestieDB == nil or QuestieDB.QueryQuest == nil then
 		if addon.debugging then print("LIME: Questie is not yet initialized") end
 		addon.waitingForQuestie = true

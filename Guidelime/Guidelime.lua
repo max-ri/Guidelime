@@ -211,7 +211,7 @@ function addon.loadData()
 			--hide option debugging, dataSourceQuestie
 			GuidelimeData.debugging = false
 			addon.debugging = false
-			GuidelimeData.dataSourceQuestie = false
+			--GuidelimeData.dataSourceQuestie = false
 			GuidelimeData.version = GetAddOnMetadata(addonName, "version")
 		end
 		if tonumber(major) == 0 and tonumber(minor) < 39 then
