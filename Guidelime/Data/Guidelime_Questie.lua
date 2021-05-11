@@ -119,8 +119,8 @@ function addon.getQuestRacesQuestie(id)
 	local bitmask = quest.requiredRaces
 	if bitmask == nil then return end
 	local races = {}
-	for i, race in ipairs({"Human", "Orc", "Dwarf", "NightElf", "Undead", "Troll", "Gnome", "Tauren", nil, "BloodElf", "Draenei"}) do
-		if hasbit(bitmask, bit(i)) then 
+	for i, race in ipairs({"Human", "Orc", "Dwarf", "NightElf", "Undead", "Troll", "Gnome", "Tauren", "", "BloodElf", "Draenei"}) do
+		if race ~= "" and hasbit(bitmask, bit(i)) then 
 			table.insert(races, race) 
 		end
 	end
@@ -133,13 +133,13 @@ function addon.getQuestClassesQuestie(id)
 	if quest == nil then return end
 	local bitmask = quest.requiredClasses
 	if bitmask == nil or bitmask == 0 then return end
-	local races = {}
-	for i, race in pairs({"Warrior", "Paladin", "Hunter", "Rogue", "Priest", nil, "Shaman", "Mage", "Warlock", nil, "Druid"}) do
-		if hasbit(bitmask, bit(i)) then 
-			table.insert(races, race) 
+	local classes = {}
+	for i, class in pairs({"Warrior", "Paladin", "Hunter", "Rogue", "Priest", "", "Shaman", "Mage", "Warlock", "", "Druid"}) do
+		if class ~= "" and hasbit(bitmask, bit(i)) then 
+			table.insert(classes, class) 
 		end
 	end
-	return races
+	return classes
 end
 
 function addon.getQuestFactionQuestie(id)
@@ -148,8 +148,8 @@ function addon.getQuestFactionQuestie(id)
 	if quest == nil then return end
 	local bitmask = quest.requiredRaces
 	if bitmask == nil then return end
-	if bitmask == 77 then return "Alliance" end
-	if bitmask == 178 then return "Horde" end
+	if bitmask == 77 or bitmask == 1101 then return "Alliance" end
+	if bitmask == 178 or bitmask == 690 then return "Horde" end
 end
 
 function addon.getQuestObjectiveQuestie(id)
