@@ -251,7 +251,7 @@ function addon.getArrowIconText()
 end
 
 function addon.updateArrow()
-	addon.y, addon.x, addon.z, addon.instance = UnitPosition("player")
+	addon.x, addon.y, addon.instance = HBD:GetPlayerWorldPosition()
 	addon.face = GetPlayerFacing()
 	if addon.x == nil or addon.y == nil or addon.face == nil then return end
 	

@@ -1,6 +1,8 @@
 local addonName, addon = ...
 local L = addon.L
 
+HBD = LibStub("HereBeDragons-2.0")
+
 -- Register events and call functions
 addon.frame:SetScript("OnEvent", function(self, event, ...)
 	addon.frame[event](self, ...)
@@ -150,7 +152,7 @@ end
 local function doQuestUpdate()
 	addon.xp = UnitXP("player")
 	addon.xpMax = UnitXPMax("player")
-	addon.y, addon.x = UnitPosition("player")
+	addon.x, addon.y, addon.instance = HBD:GetPlayerWorldPosition()
 	
 	if addon.quests ~= nil then 
 		local checkCompleted, questChanged, questFound = addon.updateFromQuestLog()

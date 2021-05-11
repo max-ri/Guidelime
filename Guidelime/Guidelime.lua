@@ -93,7 +93,7 @@ addon.faction = UnitFactionGroup("player")
 addon.level = UnitLevel("player")
 addon.xp = UnitXP("player")
 addon.xpMax = UnitXPMax("player")
-addon.y, addon.x, addon.z, addon.instance = UnitPosition("player")
+addon.x, addon.y, addon.instance = HBD:GetPlayerWorldPosition()
 addon.face = GetPlayerFacing()
 addon.alive = true
 
