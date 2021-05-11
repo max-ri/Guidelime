@@ -378,6 +378,8 @@ function addon.frame:TAXIMAP_OPENED()
 									if IsMounted() then Dismount() end -- dismount before using the flightpoint
 									if addon.debugging then print ("LIME: Flying to " .. (master.place or master.zone)) end
 									C_Timer.After(0.5, function()
+										local taxiButton = getglobal("TaxiButton"..j)
+										taxiButton:GetScript("OnEnter")(taxiButton)
 										TakeTaxiNode(j)
 									end)
 									addon.completeSemiAutomatic(element)
