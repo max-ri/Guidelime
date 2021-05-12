@@ -261,12 +261,16 @@ function addon.updateArrow()
 	if not addon.alive then corpse = C_DeathInfo.GetCorpseMapPosition(HBD:GetPlayerZone()) end
 	if corpse ~= nil then
 		addon.arrowX, addon.arrowY = HBD:GetWorldCoordinatesFromZone(corpse.x, corpse.y, HBD:GetPlayerZone())
-	else
-		if addon.arrowFrame.element == nil or addon.arrowFrame.element.wx == nil or addon.arrowFrame.element.wy == nil or addon.arrowFrame.element.instance ~= addon.instance then return end
+	elseif addon.arrowFrame.element ~= nil and addon.arrowFrame.element.wx ~= nil and addon.arrowFrame.element.wy ~= nil and addon.arrowFrame.element.instance == addon.instance then
 		addon.arrowX, addon.arrowY = addon.arrowFrame.element.wx, addon.arrowFrame.element.wy
+	else
+		addon.arrowX, addon.arrowY = nil, nil
 	end
 	
-	if addon.arrowX == nil or addon.arrowY == nil then return end
+	if addon.arrowX == nil or addon.arrowY == nil then 
+		addon.hideArrow()
+		return 
+	end
 	local angle = addon.face - math.atan2(addon.arrowX - addon.x, addon.arrowY - addon.y)
 	if GuidelimeData.arrowStyle == 1 then
 		local index = angle * 32 / math.pi
