@@ -117,7 +117,7 @@ function addon.getQuestRacesQuestie(id)
 	local quest = QuestieDB:GetQuest(id)
 	if quest == nil then return end
 	local bitmask = quest.requiredRaces
-	if bitmask == nil then return end
+	if bitmask == nil or bitmask == 0 then return end
 	local races = {}
 	for i, race in ipairs({"Human", "Orc", "Dwarf", "NightElf", "Undead", "Troll", "Gnome", "Tauren", "", "BloodElf", "Draenei"}) do
 		if race ~= "" and hasbit(bitmask, bit(i)) then 
