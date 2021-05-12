@@ -11,6 +11,24 @@ local function setQuestInfo(id)
 		text = text .. L.SUGGESTED_LEVEL .. ": " .. addon.COLOR_WHITE .. (addon.getQuestLevel(id) or "?") .. "|r\n"
 		if addon.getQuestType(id) ~= nil then text = text .. L.TYPE .. ": " .. addon.COLOR_WHITE .. (addon.getQuestType(id) or "?") .. "|r\n" end
 		text = text .. L.OBJECTIVE .. ": " .. addon.COLOR_WHITE .. (addon.getQuestObjective(id) or "?") .. "|r\n"
+		if addon.getQuestClasses(id) ~= nil then
+			text = text .. CLASS .. ": " .. addon.COLOR_WHITE 
+			for i, class in ipairs(addon.getQuestClasses(id)) do
+				if i > 1 then text = text .. ", " end
+				text = text .. addon.getLocalizedClass(class)
+			end
+			text = text .. "|r\n"
+		end
+		if addon.getQuestRaces(id) ~= nil then
+			text = text .. RACE .. ": " .. addon.COLOR_WHITE 
+			for i, race in ipairs(addon.getQuestRaces(id)) do
+				if i > 1 then text = text .. ", " end
+				text = text .. addon.getLocalizedRace(race)
+			end
+			text = text .. "|r\n"
+		end
+		if addon.getQuestFaction(id) ~= nil then text = text .. FACTION .. ": " .. addon.COLOR_WHITE .. L[addon.getQuestFaction(id)] .. "|r\n" end
+		
 		if addon.getQuestSeries(id) ~= nil or addon.getQuestNext(id) ~= nil or addon.getQuestPrev(id) ~= nil then
 			text = text .. "\n" .. L.QUEST_CHAIN
 			if addon.getQuestSeries(id) ~= nil then text = text .. addon.COLOR_WHITE .. " (" .. L.PART .. " " .. addon.getQuestSeries(id) .. ")|r" end

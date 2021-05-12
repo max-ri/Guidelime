@@ -76,6 +76,7 @@ function addon.addQuestTag(guide, selection, id, key, objectiveIndex, text, addC
 			end
 		end
 	end
+	--[[
 	local applies = ""
 	if addon.getQuestRaces(id) ~= nil or addon.getQuestFaction(id) ~= nil then
 		local races = {}
@@ -141,8 +142,8 @@ function addon.addQuestTag(guide, selection, id, key, objectiveIndex, text, addC
 		if lastElement ~= nil and #lastElement.step.elements > lastElement.index and lastElement.step.elements[lastElement.index + 1].t == "APPLIES" then 
 			lastElement = lastElement.step.elements[lastElement.index + 1] 
 		end
-	end
+	end]]
 	text = text or ""
 	if text ~= "" then text = " " .. text end
-	return coords .. "[" .. addon.codes["QUEST"] .. key:sub(1, 1) .. id .. objective .. text  .. "]" .. applies, firstElement, lastElement, coords
+	return coords .. "[" .. addon.codes["QUEST"] .. key:sub(1, 1) .. id .. objective .. text  .. "]" --[[.. applies]], firstElement, lastElement, coords
 end
