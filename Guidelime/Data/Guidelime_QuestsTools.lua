@@ -712,3 +712,10 @@ function addon.getMissingPrequests(id, isCompleteFunc)
 	end
 	return missingPrequests
 end
+
+function addon.getNPCPosition(id)
+	if id == nil then return end
+	if useQuestie() then return addon.getNPCPositionQuestie(id) end
+	local p = addon.creaturesDB[i].positions[1]
+	return {instance = p.mapid, wx = p.x, wy = p.y}
+end

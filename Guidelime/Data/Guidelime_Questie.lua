@@ -368,3 +368,20 @@ function addon.getQuestObjectivesQuestie(id, typ)
 	return objectives
 end
 
+function addon.getNPCPosition(id)
+	if id == nil or not checkQuestie() then return end
+	local npc = QuestieDB:GetNPC(id)
+	if npc ~= nil and npc.spawns ~= nil then
+		for zone, posList in pairs(npc.spawns) do
+			for _, pos in ipairs(posList) do
+				local p = {x = pos[1], y = pos[2], mapID = ZoneDB:GetUiMapIdByAreaId(zone), zone = addon.zoneNames[ZoneDB:GetUiMapIdByAreaId(zone)] or zone}
+				p.wx, p.wy, p.instance = HBD:GetWorldCoordinatesFromZone(p.x / 100, p.y / 100, p.mapID)
+				if p.wx == nil then
+					if addon.debugging then print("LIME: error transforming (", p.x, ",", p.y, p.zone, p.mapID, ") into world coordinates for npc #", id) end
+				else
+					return p
+				end
+			end
+		end
+	end
+end
