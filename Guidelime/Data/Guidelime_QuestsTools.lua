@@ -141,6 +141,7 @@ function addon.getQuestNameById(id)
 	if addon.quests ~= nil and addon.quests[id] ~= nil and addon.quests[id].name ~= nil then
 		return addon.quests[id].name
 	end
+	if C_QuestLog.GetQuestInfo(id) ~= nil then return C_QuestLog.GetQuestInfo(id) end
 	if useQuestie() then return addon.getQuestNameQuestie(id) end
 	local locale = GetLocale()
 	if addon.questsDB[id] == nil then
