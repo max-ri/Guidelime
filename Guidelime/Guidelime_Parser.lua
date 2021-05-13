@@ -417,12 +417,13 @@ function addon.parseLine(step, guide, strict, nameOnly)
 		elseif element.t == "FLY" or element.t == "GET_FLIGHT_POINT" then
 			if tag:gsub(" ", "") ~= "" then
 				element.text, element.textInactive = textFormatting(tag)
-				element.flightmaster = addon.getFlightmasterByPlace(tag, step.faction or guide.faction)
+				element.flightmaster = addon.getFlightmasterByPlace(tag, step.faction or guide.faction or addon.faction)
+				if element.flightmaster == nil then
 --TODO: active this error check
---				if element.flightmaster == nil then
 --					addon.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
 --					err = true
---				end
+					if addon.debugging then print("LIME: flight point not recognized -", tag) end
+				end
 			end
 		elseif element.t == "COLLECT_ITEM" then
 			local _, c = tag:gsub("%s*(%d+),?(%d*)%s*(.-)%s*$", function(id, qty, title)	
