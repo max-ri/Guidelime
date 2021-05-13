@@ -185,7 +185,7 @@ function addon.getFlightmasterByPlace(place, faction)
 	if result ~= nil then return result end
 	for locale, flightmasters in pairs(addon.flightmasterDB_Locales) do
 		result = getFlightmasterByPlaceHelper(place, faction, function(master) 
-			return flightmasters[master.localesIndex]:gsub(",.*",""):gsub(" ",""):lower() 
+			return flightmasters[master.localesIndex]:gsub(" ",""):gsub(" ",""):lower() 
 		end)
 		if result ~= nil then return result end
 	end
@@ -193,3 +193,11 @@ function addon.getFlightmasterByPlace(place, faction)
 	return result
 end
 
+function addon.isFlightmasterMatch(master, name)
+	if (master.place or master.zone) == name:sub(1, #(master.place or master.zone)) then return true end
+	-- additional check for weird case where it is "place, zone" e.g. "Hellfire Peninsula, The Dark Portal"
+	if master.place ~= nil and master.zone .. ", " .. master.place == name:sub(1, #(master.zone .. ", " .. master.place)) then return true end
+	if addon.flightmasterDB_Locales[GetLocale()][master.localesIndex] == name then return true end
+	return false
+end
+	

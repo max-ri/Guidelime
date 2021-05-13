@@ -375,9 +375,7 @@ function addon.frame:TAXIMAP_OPENED()
 						if addon.debugging then print("LIME: looking for", master.zone, master.place) end
 						for j = 1, NumTaxiNodes() do
 							--if addon.debugging then print("LIME: ", TaxiNodeName(j)) end
-							if (master.place or master.zone) == TaxiNodeName(j):sub(1, #(master.place or master.zone)) or 
-								-- additional check for weird case where it is "place, zone" e.g. "Hellfire Peninsula, The Dark Portal"
-								(master.place ~= nil and master.zone .. ", " .. master.place == TaxiNodeName(j):sub(1, #(master.zone .. ", " .. master.place))) then
+							if addon.isFlightmasterMatch(master, TaxiNodeName(j)) then
 								if element.t == "FLY" and TaxiNodeGetType(j) == "REACHABLE" then
 									if IsMounted() then Dismount() end -- dismount before using the flightpoint
 									if addon.debugging then print ("LIME: Flying to " .. (master.place or master.zone)) end
