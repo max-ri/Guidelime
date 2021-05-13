@@ -379,10 +379,10 @@ function addon.frame:TAXIMAP_OPENED()
 								if element.t == "FLY" and TaxiNodeGetType(j) == "REACHABLE" then
 									if IsMounted() then Dismount() end -- dismount before using the flightpoint
 									if addon.debugging then print ("LIME: Flying to " .. (master.place or master.zone)) end
+									if _G["TaxiButton"..j] then TaxiNodeOnButtonEnter(_G["TaxiButton"..j]) end
 									C_Timer.After(0.5, function()
 										TakeTaxiNode(j)
 									end)
-									addon.completeSemiAutomatic(element)
 								elseif element.t == "GET_FLIGHT_POINT" and TaxiNodeGetType(j) == "CURRENT" then
 									addon.completeSemiAutomatic(element)
 								end
