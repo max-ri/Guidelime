@@ -176,7 +176,6 @@ function addon.getQuestPositionsQuestie(id, typ, index, filterZone)
 		end
 		if list ~= nil then
 			--if addon.debugging then print("LIME: getQuestPositionsQuestie " .. typ .. " " .. id .. " " .. addon.show(list)) end
-			--kill credit objective
 			local c = 0
 			for i, type in ipairs({"npc", "object", "item"}) do
 				if list[i] ~= nil then 
@@ -192,6 +191,7 @@ function addon.getQuestPositionsQuestie(id, typ, index, filterZone)
 					c = c + #list[i]
 				end
 			end
+			--kill credit objective
 			if list[5] ~= nil then
 				c = c + 1
 				if index == nil or index == 0 or index == c then
