@@ -176,26 +176,29 @@ function addon.getQuestPositionsQuestie(id, typ, index, filterZone)
 		end
 		if list ~= nil then
 			--if addon.debugging then print("LIME: getQuestPositionsQuestie " .. typ .. " " .. id .. " " .. addon.show(list)) end
-			if list[5] ~= nil then
-				if index == nil or index == 0 or index == 1 then
-					for j, id in ipairs(list[5][1]) do
-						ids.npc[j] = id
-						if objectives.npc[id] == nil then objectives.npc[id] = {} end
-						table.insert(objectives.npc[id], 1)
-					end
+			--kill credit objective
+			local c = 0
+			for i, type in ipairs({"npc", "object", "item"}) do
+				if list[i] ~= nil then 
+					for j, v in ipairs(list[i]) do 
+						if index == nil or index == 0 or index == c + j then
+							local id
+							if typ == "COMPLETE" then id = v[1] else id = v end 
+							table.insert(ids[type], id)
+							if objectives[type][id] == nil then objectives[type][id] = {} end
+							table.insert(objectives[type][id], c + j)
+						end
+					end 
+					c = c + #list[i]
 				end
-			else
-				local c = 0
-				for i, type in ipairs({"npc", "object", "item"}) do
-					if list[i] ~= nil then 
-						for j, id in ipairs(list[i]) do 
-							if index == nil or index == 0 or index == c + j then
-								if typ == "COMPLETE" then ids[type][j] = id[1] else ids[type][j] = id end 
-								if objectives[type][ids[type][j]] == nil then objectives[type][ids[type][j]] = {} end
-								table.insert(objectives[type][ids[type][j]], c + j)
-							end
-						end 
-						c = c + #list[i]
+			end
+			if list[5] ~= nil then
+				c = c + 1
+				if index == nil or index == 0 or index == c then
+					for j, id in ipairs(list[5][1]) do
+						table.insert(ids.npc, id)
+						if objectives.npc[id] == nil then objectives.npc[id] = {} end
+						table.insert(objectives.npc[id], c)
 					end
 				end
 			end
@@ -375,12 +378,14 @@ function addon.getQuestObjectivesQuestie(id, typ)
 			table.insert(objectives, objective)
 		end
 	end
+	--TODO: reputation objective
+	--kill credit objective
 	if list[5] ~= nil then
 		local objList = {}
 		local ids = {}
 		local npcIds = list[5][1]
-		local npcGroupId = list[5][2]
-		local npc = QuestieDB:GetNPC(npcGroupId)
+		local npcBaseId = list[5][2]
+		local npc = QuestieDB:GetNPC(npcBaseId)
 		if npc ~= nil then table.insert(objList, npc.name) end
 		if typ == "COMPLETE" then
 			table.insert(objectives, {type = "monster", names = objList, ids = {npc = npcIds}})
