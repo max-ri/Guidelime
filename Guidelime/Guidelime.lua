@@ -437,10 +437,8 @@ function addon.loadCurrentGuide()
 					lastGoto = element
 				end
 				if element.questId ~= nil then
-					if addon.quests[element.questId] == nil then 
-						addon.quests[element.questId] = {} 
-						table.insert(addon.questIds, element.questId)
-					end
+					if addon.quests[element.questId] == nil then addon.quests[element.questId] = {} end
+					if not addon.contains(addon.questIds, element.questId) then table.insert(addon.questIds, element.questId) end 
 					addon.quests[element.questId].title = element.title
 					addon.quests[element.questId].completed = completed[element.questId] ~= nil and completed[element.questId]
 					addon.quests[element.questId].finished = addon.quests[element.questId].completed
