@@ -1483,7 +1483,9 @@ function addon.updateMainFrame(reset)
 			local i = 1
 			for _, next in ipairs(nextGuides) do
 				local g = addon.guides[addon.currentGuide.group .. " " .. next]
-				if g ~= nil and (g.reputation == nil or addon.isRequiredReputation(g.reputation, g.repMin, g.repMax)) then
+				if g ~= nil and 
+					addon.applies(g) and
+					(g.reputation == nil or addon.isRequiredReputation(g.reputation, g.repMin, g.repMax)) then
 					local msg
 					if i == 1 then
 						msg = L.GUIDE_FINISHED_NEXT:format(addon.COLOR_WHITE .. next .. "|r")
