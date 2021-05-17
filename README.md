@@ -1,6 +1,6 @@
 # Guidelime
 
-A WoW Classic addon for leveling guides with automatic progress updates
+A WoW Classic and Burning Crusade Classic addon for leveling guides with automatic progress updates
 
 ## What does it do?
 
