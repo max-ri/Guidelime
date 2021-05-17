@@ -159,6 +159,23 @@ function addon.getQuestObjectiveQuestie(id)
 	return quest.objectivesText[1]
 end
 
+function addon.getQuestReputationQuestie(id, typ)
+	if id == nil or not checkQuestie() then return end
+	local quest = QuestieDB:GetQuest(id)
+	if quest == nil then return end
+	local reputation, repMin, repMax
+	if quest.requiredMinRep ~= nil then
+		reputation = quest.requiredMinRep[1]
+		repMin = quest.requiredMinRep[2]
+	end
+	if quest.requiredMaxRep ~= nil and (reputation == nil or reputation == quest.requiredMaxRep[1]) then
+		reputation = quest.requiredMinRep[1]
+		repMax = quest.requiredMinRep[2]
+	end
+	return reputation, repMin, repMax
+end
+	
+
 function addon.getQuestPositionsQuestie(id, typ, index, filterZone)
 	if id == nil or not checkQuestie() then return end
 	local ids = {npc = {}, object = {}, item = {}}

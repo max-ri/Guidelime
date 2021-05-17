@@ -426,7 +426,7 @@ function addon.loadCurrentGuide()
 				local element = step.elements[i]
 				element.available = true
 
-				if element.t == "ACCEPT" or element.t == "COMPLETE" or element.t == "TURNIN" or element.t == "XP" then
+				if element.t == "ACCEPT" or element.t == "COMPLETE" or element.t == "TURNIN" or element.t == "XP" or element.t == "REPUTATION" then
 					if step.manual == nil then step.manual = false end
 				elseif element.t == "TRAIN" or element.t == "VENDOR" or element.t == "REPAIR" or element.t == "SET_HEARTH" or element.t == "GET_FLIGHT_POINT" then
 					step.manual = true
@@ -938,6 +938,10 @@ local function updateStepCompletion(i, completedIndexes)
 			end
 			if step.completed == nil or not element.completed then step.completed = element.completed end
 			autoCompleteStep = true
+		elseif element.t == "REPUTATION" then
+			element.completed = addon.isRequiredReputation(element.reputation, element.repMin, element.repMax)
+			if step.completed == nil or not element.completed then step.completed = element.completed end
+			autoCompleteStep = true
 		elseif element.t == "COLLECT_ITEM" and step.active then
 			if GetItemCount(element.itemId) >= element.qty then
 				element.completed = true
@@ -1036,7 +1040,7 @@ local function updateStepAvailability(i, changedIndexes, scheduled)
 			end
 			if not element.completed then step.available = step.available and element.available end
 			if not element.completed then step.available = step.available or element.available end
-		elseif element.t == "XP" then
+		elseif element.t == "XP" or element.t == "REPUTATION" then
 			if not element.completed then step.available = true end			
 		end
 	end
@@ -1071,7 +1075,8 @@ end
 
 local function stepIsVisible(step)
 	return ((not step.completed and (not step.skip or not step.available)) or GuidelimeDataChar.showCompletedSteps) and
-			(step.available or GuidelimeDataChar.showUnavailableSteps)
+			(step.available or GuidelimeDataChar.showUnavailableSteps) and
+			(step.reputation == nil or addon.isRequiredReputation(step.reputation, step.repMin, step.repMax))
 end
 
 local function keepFading()
@@ -1386,7 +1391,8 @@ function addon.completeSemiAutomatic(element)
 				if element.t == "ACCEPT" or
 					element.t == "COMPLETE" or
 					element.t == "TURNIN" or
-					element.t == "XP" then
+					element.t == "XP" or 
+					element.t == "REPUTATION" then
 					if not element.completed then 
 						addon.updateSteps()
 						return
@@ -1474,22 +1480,27 @@ function addon.updateMainFrame(reset)
 				addon.mainFrame.message[2]:Hide()
 			end
 		else
-			for i, next in ipairs(nextGuides) do
-				local msg
-				if i == 1 then
-					msg = L.GUIDE_FINISHED_NEXT:format(addon.COLOR_WHITE .. next .. "|r")
-				else
-					msg = L.GUIDE_FINISHED_NEXT_ALT:format(addon.COLOR_WHITE .. next .. "|r")
-				end
-				addon.mainFrame.message[i] = addon.addMultilineText(addon.mainFrame.scrollChild, msg, addon.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
-					if (button == "RightButton") then
-						showContextMenu()
+			local i = 1
+			for _, next in ipairs(nextGuides) do
+				local g = addon.guides[addon.currentGuide.group .. " " .. next]
+				if g ~= nil and (g.reputation == nil or addon.isRequiredReputation(g.reputation, g.repMin, g.repMax)) then
+					local msg
+					if i == 1 then
+						msg = L.GUIDE_FINISHED_NEXT:format(addon.COLOR_WHITE .. next .. "|r")
 					else
-						addon.loadGuide(addon.currentGuide.group .. " " .. next)
+						msg = L.GUIDE_FINISHED_NEXT_ALT:format(addon.COLOR_WHITE .. next .. "|r")
 					end
-				end)
-				addon.mainFrame.message[i]:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize)
-				addon.mainFrame.message[i]:Hide()
+					addon.mainFrame.message[i] = addon.addMultilineText(addon.mainFrame.scrollChild, msg, addon.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
+						if (button == "RightButton") then
+							showContextMenu()
+						else
+							addon.loadGuide(addon.currentGuide.group .. " " .. next)
+						end
+					end)
+					addon.mainFrame.message[i]:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize)
+					addon.mainFrame.message[i]:Hide()
+					i = i + 1
+				end
 			end
 		end
 		

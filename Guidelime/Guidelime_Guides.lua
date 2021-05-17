@@ -36,6 +36,13 @@ local function resetGuide()
 	addon.loadGuide(GuidelimeDataChar.currentGuide)
 end
 
+local function selectGuide(name)
+	if addon.guides[name].reputation == nil or
+		addon.isRequiredReputation(addon.guides[name].reputation, addon.guides[name].repMin, addon.guides[name].repMax) then
+		addon.loadGuide(name)
+	end
+end
+
 function addon.fillGuides()
 	if addon.guidesFrame == nil then
     	addon.guidesFrame = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContainer)
@@ -200,10 +207,15 @@ function addon.fillGuides()
 					text = text .. " "
 				end
 				if guide.title ~= nil then
-					text = text .. guide.title
+					if guide.reputation ~= nil and not addon.isRequiredReputation(guide.reputation, guide.repMin, guide.repMax) then
+						text = text .. addon.COLOR_INACTIVE
+					else
+						text = text .. addon.COLOR_WHITE
+					end					
+					text = text .. guide.title .. "|r"
 				end
 				addon.guidesFrame.guides[name] = addon.addMultilineText(addon.guidesFrame.content, text, 550, nil, function(self)
-					addon.loadGuide(self.name)
+					selectGuide(self.name)
 				end)
 				if j == 1 then
 					addon.guidesFrame.guides[name]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 10, -5)

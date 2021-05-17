@@ -42,6 +42,12 @@ function addon.frame:PLAYER_XP_UPDATE(level)
 	addon.updateSteps()
 end
 
+addon.frame:RegisterEvent('UPDATE_FACTION')
+function addon.frame:UPDATE_FACTION(level)
+	if addon.debugging then print("LIME: Update faction") end
+	addon.updateMainFrame()
+end
+
 function addon.updateFromQuestLog()
 	local questLog = {}
 	local isCollapsed = {}

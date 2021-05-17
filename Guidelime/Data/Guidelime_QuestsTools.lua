@@ -169,6 +169,10 @@ function addon.getQuestObjective(id)
 	end
 end
 
+function addon.getQuestReputation(id)
+	if useQuestie() then return addon.getQuestReputationQuestie(id) end
+end
+
 -- returns a type (npc/item/object) and a list of names for quest source / each objective / turn in; e.g. {{type="item", names={"Huge Gnoll Claw", "Hogger"}, ids={item={1931},npc={448}} for id = 176, typ = "COMPLETE"
 function addon.getQuestObjectives(id, typ)
 	if id == nil then return end
