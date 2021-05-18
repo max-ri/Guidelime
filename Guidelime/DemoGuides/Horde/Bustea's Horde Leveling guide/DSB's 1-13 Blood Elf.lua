@@ -1,7 +1,7 @@
 Guidelime.registerGuide([[
 [DL1-60 https://www.curseforge.com/wow/addons/guidelime-busteas-1-60-leveling Guidelime_Bustea's 1-60 leveling]
 [N1-13 DSB's Horde/Blood Elf Guide]
-[GA Horde,BloodElf]
+[GA Horde]
 [NX13-21 DSB's Horde/Blood Elf Guide]
 [D This 1-13 Blood Elf Guide was made by DSB (DSB#6000 on Discord), I take no credit for it, I merely have Permission to incorporate it into my Guide. It was made for a Paladin but should work for all classes.]
 
