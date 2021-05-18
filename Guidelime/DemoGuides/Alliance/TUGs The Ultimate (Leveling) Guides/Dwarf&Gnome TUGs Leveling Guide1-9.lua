@@ -1,5 +1,5 @@
 Guidelime.registerGuide([[
-[DL1-60 https://www.curseforge.com/wow/addons/guidelime_tugs GuideLime_TUGs]
+[DL1-70 https://www.curseforge.com/wow/addons/guidelime_tugs GuideLime_TUGs]
 [GA Alliance]
 [N1-9Dwarf&Gnome TUGs Leveling Guide]
 [NX9-11 Dun Morogh, Loch Modan]

@@ -1,5 +1,5 @@
 Guidelime.registerGuide([[
-[DL1-60 https://www.curseforge.com/wow/addons/guidelime_tugs GuideLime_TUGs]
+[DL1-70 https://www.curseforge.com/wow/addons/guidelime_tugs GuideLime_TUGs]
 [GA Alliance]
 [N1-10Nightelf Starting Zone]
 [NX11-18 Darkshore]
