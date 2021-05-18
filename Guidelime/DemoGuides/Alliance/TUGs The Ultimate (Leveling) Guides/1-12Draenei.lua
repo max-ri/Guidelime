@@ -101,6 +101,7 @@ TurnIn: [QT9523]
 Accept: [QA10428]
 Accept: [QA9538]
 Use the book you just got to learn the new "language".
+TurnIn: [QT9538]
 Accept: [QA9539]
 TurnIn: [QT9455]
 Accept: [QA9456]
