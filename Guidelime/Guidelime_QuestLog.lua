@@ -36,13 +36,16 @@ function addon.updateQuestLog()
 				end
 				tooltip = ""
 				if addon.scannedQuests[id] then
+					tooltip = tooltip .. "|T" .. addon.icons.MAP .. ":12|t" .. L.QUEST_CONTAINED_IN_GUIDE .. "\n"
 					for _, entry in ipairs(addon.scannedQuests[id]) do
-						tooltip = tooltip .. "|T" .. addon.icons.MAP .. ":12|t" .. addon.getQuestIcon(id, entry.t, nil, isComplete)
+						tooltip = tooltip .. addon.getQuestIcon(id, entry.t, nil, isComplete)
 						if GuidelimeData.showLineNumbers then tooltip = tooltip .. entry.line .. " " end
 						tooltip = tooltip .. entry.name .. "\n"
 					end
+				else
+					tooltip = tooltip .. "|T" .. addon.icons.MAP .. ":12|t" .. L.QUEST_NOT_CONTAINED_IN_GUIDE
 				end
-				if newTitle ~= title then
+				if newTitle ~= title or GuidelimeData.showTooltips then
 					questLogTitle = _G["QuestLogTitle"..i]
 					questCheck = _G["QuestLogTitle"..i.."Check"]
 					questLogTitle:SetText(newTitle)

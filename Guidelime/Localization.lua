@@ -174,6 +174,9 @@ L.Horde = "Horde"
 L.CHECK_QUESTS_COMPLETED = "%s quests completed"
 L.CHECK_QUESTS_NO_INCONSISTENCIES = "no inconsistencies were detected"
 L.CHECK_QUESTS = "Inconsistencies between your quest progress and the Guidelime quest database were detected. You can help improving the addon by sending this text as a private message to %s on Discord (alternatively to %s on Curseforge or %s on Reddit if you prefer). Thank you very much!"
+L.QUEST_CONTAINED_IN_GUIDE = "This quest is part of your current guide:"
+L.QUEST_NOT_CONTAINED_IN_GUIDE = "This quest is not part of your current guide"
+
 
 -- Word lists used by the plain text parser
 -- Spaces at the start and end of each word will make it so that a match cannot occur in the middle of a word. Spaces will match any whitespace or punctuation marks.
@@ -764,6 +767,8 @@ L["XP_TEXT"] = "Text"
 L["XP_TEXT_TOOLTIP"] = "Angezeigter Text. Wenn kein Text angegeben wird, wird \"%s\" angezeigt."
 L["YARDS"] = "Meter"
 L["ZONE"] = "Zone"
+L["QUEST_CONTAINED_IN_GUIDE"] = "Diese Quest ist Teil deines aktuellen Guides:"
+L["QUEST_NOT_CONTAINED_IN_GUIDE"] = "Diese Quest ist nicht Teil deines aktuellen Guides"
 
 elseif locale == "frFR" then
 
