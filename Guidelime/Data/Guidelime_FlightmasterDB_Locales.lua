@@ -123,6 +123,10 @@ addon.flightmasterDB_Locales = {
 		[164] = "Oreborzuflucht, Zangarmarschen",
 		[205] = "Zul'Aman, Geisterlande",
 		[213] = "Sammelpunkt der Zerschmetterten Sonne",
+		[166] = "Smaragdrefugium, Teufelswald",
+		[167] = "Waldeslied, Eschental",
+		[179] = "Morastwinkel, Düstermarschen",
+		[195] = "Rebellenlager, Schlingendorntal",
 	},
 ["zhCN"] = {
 		[1] = "北郡修道院",
@@ -246,6 +250,10 @@ addon.flightmasterDB_Locales = {
 		[164] = "奥雷柏尔营地，赞加沼泽",
 		[205] = "祖阿曼，幽魂之地",
 		[213] = "破碎残阳基地",
+		[166] = "翡翠圣地，费伍德森林",
+		[167] = "林歌神殿，灰谷",
+		[179] = "泥链镇，尘泥沼泽",
+		[195] = "反抗军营地，荆棘谷",
 	},
 ["esES"] = {
 		[1] = "Abadía de Villanorte",
@@ -369,6 +377,10 @@ addon.flightmasterDB_Locales = {
 		[164] = "Puerto Orebor, Marisma de Zangar",
 		[205] = "Zul'Aman, Tierras Fantasma",
 		[213] = "Zona de escala de Sol Devastado",
+		[166] = "Santuario Esmeralda, Frondavil",
+		[167] = "Canción del Bosque, Vallefresno",
+		[179] = "Piñón de Barro, Marjal Revolcafango",
+		[195] = "Asentamiento Rebelde, Vega de Tuercespina",
 	},
 ["frFR"] = {
 		[1] = "Abbaye de Northshire",
@@ -492,7 +504,10 @@ addon.flightmasterDB_Locales = {
 		[164] = "Havre d'Orebor, Marécage de Zangar",
 		[205] = "Zul'Aman, Terres fantômes",
 		[213] = "Zone de rassemblement du Soleil brisé",
-
+		[166] = "Sanctuaire d'émeraude, Gangrebois",
+		[167] = "Chant des forêts, Orneval",
+		[179] = "Bourbe-à-brac, marécage d'Âprefange",
+		[195] = "Camp rebelle, vallée de Strangleronce",
 	},
 ["itIT"] = {
 		[1] = "Abbaye de Northshire",
@@ -616,6 +631,10 @@ addon.flightmasterDB_Locales = {
 		[164] = "Rifugio di Orebor, Paludi di Zangar",
 		[205] = "Zul'aman, Terre Spettrali",
 		[213] = "Base Operativa del Sole Infranto",
+		[166] = "Santuario di Smeraldo, Vilbosco",
+		[167] = "Cantaselva, Valtetra",
+		[179] = "Melmarmitta, Acquemorte",
+		[195] = "Campo dei Ribelli, Valle di Rovotorto",
 	},
 ["koKR"] = {
 		[1] = "노스샤이어 대성당",
@@ -739,7 +758,10 @@ addon.flightmasterDB_Locales = {
 		[164] = "오레보르 피난처 - 장가르 습지대",
 		[205] = "줄아만 - 유령의 땅",
 		[213] = "무너진 태양 집결지",
-
+		[166] = "에메랄드 성소 (악령의 숲)",
+		[167] = "숲의 노래 (잿빛 골짜기)",
+		[179] = "진흙톱니 거점 (먼지진흙 습지대)",
+		[195] = "반란군 야영지 (가시덤불 골짜기)",
 	},
 ["esMX"] = {
 		[1] = "Abadía de Villanorte",
@@ -863,6 +885,10 @@ addon.flightmasterDB_Locales = {
 		[164] = "Puerto Orebor, Marisma de Zangar",
 		[205] = "Zul'Aman, Tierras Fantasma",
 		[213] = "Zona de Escala de Sol Devastado",
+		[166] = "Santuario Esmeralda, Frondavil",
+		[167] = "Canción del Bosque, Vallefresno",
+		[179] = "Piñón de Barro, Marjal Revolcafango",
+		[195] = "Asentamiento Rebelde, Vega de Tuercespina",
 		
 	},
 ["ptBR"] = {
@@ -987,6 +1013,10 @@ addon.flightmasterDB_Locales = {
 		[164] = "Porto Orebor, Pântano Zíngaro",
 		[205] = "Zul'Aman, Terra Fantasma",
 		[213] = "Bivaque Sol Partido",
+		[166] = "Santuário Esmeralda, Selva Maleva",
+		[167] = "Cantilenda, Vale Gris",
+		[179] = "Coroa de Barro, Pântano Vadeoso",
+		[195] = "Acampamento dos Rebeldes, Selva do Espinhaço",
 	},
 ["ruRU"] = {
 		[1] = "Аббатство Североземья",
@@ -1110,6 +1140,10 @@ addon.flightmasterDB_Locales = {
 		[164] = "Прибежище Оребор, Зангартопь",
 		[205] = "Зул'Аман, Призрачные земли",
 		[213] = "Подготовительный плацдарм Расколотого Солнца",
+		[166] = "Изумрудное святилище, Оскверненный лес",
+		[167] = "Лесная Песнь, Ясеневый лес",
+		[175] = "Шестермуть, Пылевые топи",
+		[195] = "Лагерь повстанцев, Тернистая Долина",
 	},
 ["zhTW"] = {
 		[1] = "北郡修道院",
@@ -1233,7 +1267,10 @@ addon.flightmasterDB_Locales = {
 		[164] = "奧雷伯爾港，贊格沼澤",
 		[205] = "祖阿曼，鬼魂之地",
 		[213] = "破碎之日會所",
-		
+		[166] = "翡翠聖地，費伍德森林",
+		[167] = "林歌神殿，梣谷",
+		[179] = "泥鏈營地，塵泥沼澤",
+		[195] = "反抗軍營地，荊棘谷",
 	},
 ["enUS"] = {
 		[1] = "Northshire Abbey",
@@ -1357,6 +1394,10 @@ addon.flightmasterDB_Locales = {
 		[164] = "Orebor Harborage, Zangarmarsh",
 		[205] = "Zul'Aman, Ghostlands",
 		[213] = "Shattered Sun Staging Area, Isle of Quel Danas",
+		[166] = "Emerald Sanctuary, Felwood",
+		[167] = "Forest Song, Ashenvale",
+		[179] = "Mudsprocket, Dustwallow Marsh",
+		[195] = "Rebel Camp, Stranglethorn Vale",
 	}
 }
 

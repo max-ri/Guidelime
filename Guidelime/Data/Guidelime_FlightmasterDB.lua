@@ -99,6 +99,10 @@ addon.flightmasterDB = {
 	[22485] = {zone = "Zangarmarsh", name = "Halu", place = "Orebor Harborage", faction = "Alliance", localesIndex = 164},
 	[24851] = {zone = "Ghostlands", name = "Kiz Coilspanner", place = "Zul'Aman", localesIndex = 205},
 	[26560] = {zone = "Isle of Quel Danas", name = "Ohura", place = "Shattered Sun Staging Area", localesIndex = 213},
+	[22931] = {zone = "Felwood", name = "Gorrim", place = "Emerald Sanctuary", localesIndex = 166},
+	[22935] = {zone = "Ashenvale", name = "Suralais Farwind", place = "Forest Song", faction = "Alliance", localesIndex = 167},
+	[23612] = {zone = "Dustwallow Marsh", name = "Dyslix Silvergrub", place = "Mudsprocket", localesIndex = 179},
+	[43045] = {zone = "Stranglethorn Vale", name = "James Stillair", place = "Rebel Camp", faction = "Alliance", localesIndex = 195},
 }
 
 function addon.getNearestFlightPoint(x, y, instance, faction)
