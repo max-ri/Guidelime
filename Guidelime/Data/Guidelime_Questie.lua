@@ -169,8 +169,8 @@ function addon.getQuestReputationQuestie(id, typ)
 		repMin = quest.requiredMinRep[2]
 	end
 	if quest.requiredMaxRep ~= nil and (reputation == nil or reputation == quest.requiredMaxRep[1]) then
-		reputation = quest.requiredMinRep[1]
-		repMax = quest.requiredMinRep[2]
+		reputation = quest.requiredMaxRep[1]
+		repMax = quest.requiredMaxRep[2]
 	end
 	return reputation, repMin, repMax
 end
