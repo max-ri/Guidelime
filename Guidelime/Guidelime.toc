@@ -1,11 +1,11 @@
 ## Title: Guidelime
 ## Author: Borick of Arthas(EU)
 ## Version: 2.012
-## Interface: 11307
+## Interface: 20501
 ## SavedVariables: GuidelimeData
 ## SavedVariablesPerCharacter: GuidelimeDataChar
 ## Notes: Leveling guides with automatic progress updates 
-## OptionalDeps: Questie
+## Dependencies: Questie
 ## OptionalDeps: HereBeDragons
 
 Libs\LibStub\LibStub.lua
