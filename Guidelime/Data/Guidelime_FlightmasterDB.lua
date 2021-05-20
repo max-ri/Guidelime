@@ -109,7 +109,7 @@ function addon.getNearestFlightPoint(x, y, instance, faction)
 	local minDist, minPos, minId
 	for id, master in pairs(addon.flightmasterDB) do
 		local pos = addon.getNPCPosition(id)
-		if pos.instance == instance and ((master.faction or faction) == faction) then
+		if pos and pos.instance == instance and ((master.faction or faction) == faction) then
 			local dist = (x - pos.wx) * (x - pos.wx) + (y - pos.wy) * (y - pos.wy)
 			if minDist == nil or dist < minDist then
 				minDist = dist
