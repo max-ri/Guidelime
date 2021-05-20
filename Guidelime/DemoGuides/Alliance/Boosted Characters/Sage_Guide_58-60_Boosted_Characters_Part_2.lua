@@ -1,7 +1,7 @@
 Guidelime.registerGuide(
 [[
 [N 58-60 Boosted Characters Part 2]
-[D *Sage Guide:* 58-60 Special extract for boosted characters\\*Website:* https://sage-guide.netlify.com\\*Discord:* https://discord.gg/jYNdkac\\Speed runners whose videos helped make this guide possible include Varrak, Xrewz, Bornlesszero and Judgement so make sure to check them out.]
+[D A guide for boosted characters to level 58-60 in pre-patch (taken from *Sage Guide*)\\*Website:* https://sage-guide.netlify.com\\*Discord:* https://discord.gg/jYNdkac\\Speed runners whose videos helped make this guide possible include Varrak, Xrewz, Bornlesszero and Judgement so make sure to check them out.]
 [GA Alliance]
 
 -- taken from 54-55 Plaguelands

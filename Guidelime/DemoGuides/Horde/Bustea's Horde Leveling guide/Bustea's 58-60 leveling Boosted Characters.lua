@@ -1,7 +1,7 @@
 Guidelime.registerGuide([[
 
 [N58-60 Bustea's Horde Guide - Boosted Characters]
-[D Special extract for boosted characters from Bustea's Horde Leveling guide https://twitch.tv/bustea/ ]
+[D A guide for boosted characters to level 58-60 in pre-patch (taken from Bustea's Horde Leveling guide) https://twitch.tv/bustea/ ]
 [GA Horde]
 
 Accept [QA64046]
