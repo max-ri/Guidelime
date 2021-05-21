@@ -8,6 +8,8 @@ Guides are shown as a list of steps where the progress is updated automatically 
 items looted / mobs killed, etc). Only for some steps completion has to be confirmed manually (such as resupplying, getting new skills, etc). 
 Locations referenced in the guide are shown on the map and minimap. Also there is an arrow pointing in the direction towards the next step.
 
+It competely supports Burning Crusade Classic. There are guides for Draenei and Blood Elf starting zones, as well as Alliance and Horde Outland guides for 58-70. There are also special guides for boosted characters in order to level from 58-60 without going to Outland.
+
 The addon comes with an editor so even if the number of guides included is small (yet) it is very easy to create your own guides or to import
 your favorite guide.
 
