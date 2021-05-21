@@ -15,7 +15,7 @@ your favorite guide.
 
 <img src="https://i.imgur.com/6aCB623.png" alt="Guidelime"/>
 
-*This is for WoW Classic. It will not run on private servers and/or BFA. (If you only want to take a look at the editor e.g., it will load on BFA if you select "load out of date addons".)*
+*This is for WoW Classic and Burning Crusade Classic. It will not run on private servers and/or Shadowlands. (If you only want to take a look at the editor e.g., it will load on Shadowlands if you select "load out of date addons".)*
 
 ## Where do I find guides for the addon?
 
