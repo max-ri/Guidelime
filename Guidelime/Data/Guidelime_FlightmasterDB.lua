@@ -193,7 +193,7 @@ function addon.getFlightmasterByPlace(place, faction)
 		end)
 		if result ~= nil then return result end
 	end
-	result = getFlightmasterByPlaceHelper(place, faction, function(master) return addon.mapIDs[master.zone] and HBD:GetLocalizedMap(addon.mapIDs[master.zone]):gsub(" ",""):lower() end)
+	result = getFlightmasterByPlaceHelper(place, faction, function(master) return addon.mapIDs[master.zone] and HBD:GetLocalizedMap(addon.mapIDs[master.zone]) and HBD:GetLocalizedMap(addon.mapIDs[master.zone]):gsub(" ",""):lower() end)
 	return result
 end
 
