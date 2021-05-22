@@ -230,8 +230,6 @@ Do [QC4182 Dragonkin Menace]
               [OC]Don't accept the next part
 
 |cFFfff8a3Hearth to [H Stormwind] [V]|r
-       [OC]At the Auction House
-              [OC]Buy 2 Thorium Bar for upcoming quest
 
 |cFFfff8a3Fly to [F Chillwind Camp]|r
 

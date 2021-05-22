@@ -183,6 +183,8 @@ Hearth to [H Light's Hope Chapel]
 [OC]Run north to Tirion Fordring
        [QT5845 Of Lost Honor] [QA5846 Of Love and Family]
 
+You should be close to 60 now already. Kill mobs in the area south of Tirion until you are only missing [XP60-9000 9000 experience points]
+
 [OC]Run south to the bridge then west to Western Plaguelands
 
 [OC]Run south across the water to the island Caer Darrow
