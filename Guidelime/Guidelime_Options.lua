@@ -398,7 +398,7 @@ function addon.fillOptions()
 	addon.optionsFrame.textShowMarkersGOTO:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -20)
 	prev = addon.optionsFrame.textShowMarkersGOTO
 
-	slider = addon.addSliderOption(content, GuidelimeData, "maxNumOfMarkersLOC", 0, 50, 1, L.MAX_NUM_OF_MARKERS, nil, nil, function()
+	slider = addon.addSliderOption(content, GuidelimeData, "maxNumOfMarkersLOC", 0, 100, 1, L.MAX_NUM_OF_MARKERS, nil, nil, function()
 		addon.loadCurrentGuide()
 		addon.updateFromQuestLog()
 		if GuidelimeDataChar.mainFrameShowing then

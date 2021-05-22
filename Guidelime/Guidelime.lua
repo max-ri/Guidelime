@@ -130,7 +130,7 @@ function addon.loadData()
 		showMinimapMarkersGOTO = true,
 		showMinimapMarkersLOC = true,
 		maxNumOfMarkersGOTO = 10,
-		maxNumOfMarkersLOC = 15,
+		maxNumOfMarkersLOC = 50,
 		arrowStyle = 1,
 		arrowDistance = false,
 		skipCutscenes = true,
@@ -186,7 +186,7 @@ function addon.loadData()
 	addon.debugging = GuidelimeData.debugging
 
 	GuidelimeDataChar.version:gsub("(%d+).(%d+)", function(major, minor)
-		if tonumber(major) == 1 and tonumber(minor) < 2 then
+		if tonumber(major) < 1 or (tonumber(major) == 1 and tonumber(minor) < 2) then
 			--changed default value for showUnavailableSteps
 			GuidelimeDataChar.showUnavailableSteps = true
 			GuidelimeDataChar.version = GetAddOnMetadata(addonName, "version")
@@ -202,12 +202,17 @@ function addon.loadData()
 		end
 	end, 1)
 	GuidelimeData.version:gsub("(%d+).(%d+)", function(major, minor)
-		if tonumber(major) == 1 then
+		if tonumber(major) < 2 or (tonumber(major) == 2 and tonumber(minor) < 13) then
+			--if maxNumOfMarkersLOC was unchanged change to new default value of 50
+			if GuidelimeData.maxNumOfMarkersLOC == 15 then GuidelimeData.maxNumOfMarkersLOC = 50 end
+			GuidelimeData.version = GetAddOnMetadata(addonName, "version")
+		end
+		if tonumber(major) < 2 then
 			--changed default value for dataSourceQuestie
 			GuidelimeData.dataSourceQuestie = true
 			GuidelimeData.version = GetAddOnMetadata(addonName, "version")
 		end
-		if tonumber(major) == 1 and tonumber(minor) < 28 then
+		if tonumber(major) < 1 or (tonumber(major) == 1 and tonumber(minor) < 28) then
 			--hide option debugging, dataSourceQuestie
 			GuidelimeData.debugging = false
 			addon.debugging = false
