@@ -36,7 +36,7 @@ Guidelime.registerGuide(
        [OC]Hover your cursor over the tomes
               [OC]The real tome's pages are all the same color
               [OC]The fake tome's pages have a dark upper half
-              [OC]Loot it for Annals of Darrowshire
+              [OC]Loot it for [QC5154 Annals of Darrowshire]
 
 [OC]Grind northwest back to Chromie's house [G 39.5,67 Western Plaguelands] (39.5, 67)
        [OC]Upstairs at Chromie
@@ -94,7 +94,8 @@ Hearth to [H Light's Hope Chapel]
        [OC]Run southwest to exit the ravine
 
 [OC]Grind west to the western coast
-       Finish [QC5542 Demon Dogs] (Kill 20 Plaguehound Runt (Aoe'able))
+       Finish [QC5542 Demon Dogs] (Kill 20 Plaguehound Runt (Aoe'able)) [O]
+       Finish [QC5544 Carrion Grubbage] (Kill Carrion Grub (Aoe'able) for 15 Slab of Carrion Worm Meat)
 
 [OC]Run west to the western coast then run north to Tirion Fordring
        [QT5542 Demon Dogs]
@@ -121,11 +122,10 @@ Hearth to [H Light's Hope Chapel]
 
 [OC]Run southwest to Chillwind Camp
        At Nathaniel Dumah, [QT5903 A Plague Upon Thee] [QA5904 A Plague Upon Thee]
-       At Commander Ashlam Valorfist, [QA5237 Mission Accomplished!] [QT5237 Mission Accomplished!]
        [OC]At Leonard Porter, [R][V]
        [OC]Destroy extra Plagueland Termites
 
-[OC]Run far northeast to the Northridge Lumber Camp [G 48.5,32 Western Plaguelands] (48.5, 32)
+[OC]Run far northeast to the Northridge Lumber Camp
        [OC]Just northeast at Kirsta Deepshadow [G 52,28 Western Plaguelands] (52, 28)
               [QA6004 Unfinished Business]
 
@@ -140,27 +140,24 @@ Hearth to [H Light's Hope Chapel]
        [OC]Just northeast at Kirsta Deepshadow [G 52,28 Western Plaguelands] (52, 28), west of the road
        [QT6004 Unfinished Business]
 
-[OC]There are multiple group sections coming up
-[OC]If you can find a group you can get a lot of XP
-[OC]|cFFFF0000GROUP 2+ Players|r (12200 XP)
-       [OC](HIGH DEATH ALERT)
+[OC](HIGH DEATH ALERT)
        At Kirsta Deepshadow, [QA6023 Unfinished Business]
        [OC]Grind southeast to Huntsman Radley [G 58,36 Western Plaguelands] (58, 36)
-              Do [QC6023 Unfinished Business] (Kill Huntsman Radley (Deadly))
+              Do [QC6023,1 Unfinished Business] (Kill Huntsman Radley (Deadly))
        [OC]Grind north along the road to Cavalier Durgen [G 55,23.5 Western Plaguelands] (55, 23.5)
-              Do [QC6023 Unfinished Business] (Kill Cavalier Durgen (Stun))
+              Do [QC6023,2 Unfinished Business] (Kill Cavalier Durgen (Stun))
        [OC]Run southwest to Kirsta Deepshadow [G 52,28 Western Plaguelands] (52, 28)
               [QT6023 Unfinished Business] [QA6025 Unfinished Business]
        [OC]Run northwest to Hearthglen
-              Do [QC6025 Unfinished Business]
               [OC]You can just run around the top of the tower to get credit
               [OC]or grind to the top the tower to overlook Hearthglen
+              Do [QC6025 Unfinished Business][G 45.6,18.6 Western Plaguelands]
        [OC]Run south to Kirsta Deepshadow [G 52,28 Western Plaguelands] (52, 28)
               [QT6025 Unfinished Business] 6.2k
 
 [OC]Run south to Chillwind Camp
        At Nathaniel Dumah, [QT6389 A Plague Upon Thee]
-       
+
 |cFFfff8a3Hearth to [H Light's Hope Chapel] [V]|r
        At Carlin Redpath, [QT5181 Villains of Darrowshire]
        [OC]At Duke Nicholas Zverenhoff
@@ -175,8 +172,7 @@ Hearth to [H Light's Hope Chapel]
        [OC]Underwater
               Do [QC5845 Of Lost Honor] (Loot Symbol of Lost Honor for Symbol of Lost Honor)
 
-[OC]|cFFFF0000GROUP 2+ Players|r
-       [OC](HIGH DEATH ALERT)
+[OC](HIGH DEATH ALERT)
        [OC]Run northwest to Zul'Mashar
               [OC]Grind carefully to Infiltrator Hameya [G 70,17.5 Eastern Plaguelands] (70, 17.5)
               Do [QC6024 Hameya's Plea] (Kill Infiltrator Hameya for Hameya's Key)
@@ -192,8 +188,6 @@ Hearth to [H Light's Hope Chapel]
 [OC]Run south across the water to the island Caer Darrow
        [OC]At Artist Renfray [G 66,75.5 Western Plaguelands] (66, 75.5)
               [QT5846 Of Love and Family]
-
-If your are not [XP 60] yet, grind on mobs in Plaguelands.
 
 [OC]====================================
 [OC]    Finished
