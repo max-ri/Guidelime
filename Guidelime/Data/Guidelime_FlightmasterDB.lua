@@ -62,48 +62,50 @@ addon.flightmasterDB = {
 	[15178] = {zone = "Silithus", name = "Runk Windtamer", place = "Cenarion Hold", faction = "Horde", localesIndex = 73},  
 	[10583] = {zone = "Un'Goro Crater", name = "Gryfe", place = "Marshal's Refuge", localesIndex = 79},
 	[16227] = {zone = "The Barrens", name = "Bragok", place = "Ratchet", localesIndex = 80},
-	
-	-- Burning Crusade
-	[16192] = {zone = "Silvermoon City", name = "Skymistress Gloaming", faction = "Horde", localesIndex = 82},
-	[16189] = {zone = "Ghostlands", name = "Skymaster Sunwing", place = "Tranquillien", faction = "Horde", localesIndex = 83},
-	[17554] = {zone = "Bloodmyst Isle", name = "Laando", place = "Blood Watch", faction = "Alliance", localesIndex = 93},
-	[17555] = {zone = "The Exodar", name = "Stephanos", faction = "Alliance", localesIndex = 94},
-	[16587] = {zone = "Hellfire Peninsula", name = "Barley", place = "Thrallmar", faction = "Horde", localesIndex = 99},
-	[16822] = {zone = "Hellfire Peninsula", name = "Flightmaster Krill Bitterhue", place = "Honor Hold", faction = "Alliance", localesIndex = 100},
-	[18785] = {zone = "Hellfire Peninsula", name = "Kuma", place = "Temple of Telhamat", faction = "Alliance", localesIndex = 101},
-	[18942] = {zone = "Hellfire Peninsula", name = "Innalia", place = "Falcon Watch", faction = "Horde", localesIndex = 102},
-	[18788] = {zone = "Zangarmarsh", name = "Munci", place = "Telredor", faction = "Alliance", localesIndex = 117},
-	[18791] = {zone = "Zangarmarsh", name = "Du'ga", place = "Zabra'jin", faction = "Horde", localesIndex = 118},
-	[18789] = {zone = "Nagrand", name = "Furgu", place = "Telaar", faction = "Alliance", localesIndex = 119},
-	[18808] = {zone = "Nagrand", name = "Gursha", place = "Garadar", faction = "Horde", localesIndex = 120},
-	[18809] = {zone = "Terokkar Forest", name = "Furnan Skysoar", place = "Allerian Stronghold", faction = "Alliance", localesIndex = 121},
-	[18938] = {zone = "Netherstorm", name = "Krexcil", place = "Area 52", localesIndex = 122},
-	[19317] = {zone = "Shadowmoon Valley", name = "Drek'Gol", place = "Shadowmoon Village", faction = "Horde", localesIndex = 123},
-	[18939] = {zone = "Shadowmoon Valley", name = "Brubeck Stormfoot", place = "Wildhammer Stronghold", faction = "Alliance", localesIndex = 124},
-	[18937] = {zone = "Blades Edge Mountains", name = "Amerun Leafshade", place = "Sylvanaar", faction = "Alliance", localesIndex = 125},
-	[18953] = {zone = "Blades Edge Mountains", name = "Unoke Tenderhoof", place = "Thunderlord Stronghold", faction = "Horde", localesIndex = 126},
-	[18807] = {zone = "Terokkar Forest", name = "Kerna", place = "Stonebreaker Hold", faction = "Horde", localesIndex = 127},
-	[18940] = {zone = "Terokkar Forest", name = "Nutral", place = "Shattrath", localesIndex = 128},
-	[18931] = {zone = "Hellfire Peninsula", name = "Amish Wildhammer", place = "The Dark Portal", faction = "Alliance", localesIndex = 129},
-	[18930] = {zone = "Hellfire Peninsula", name = "Vlagga Freyfeather", place = "The Dark Portal", faction = "Horde", localesIndex = 130},
-	[19583] = {zone = "Netherstorm", name = "Grennik", place = "The Stormspire", localesIndex = 139},
-	[19581] = {zone = "Shadowmoon Valley", name = "Maddix", place = "Altar of Sha'tar", localesIndex = 140},
-	[19558] = {zone = "Hellfire Peninsula", name = "Amilya Airheart", place = "Spinebreaker Ridge", faction = "Horde", localesIndex = 141},
-	[20234] = {zone = "Hellfire Peninsula", name = "Runetog Wildhammer", place = "Shatter Point", faction = "Alliance", localesIndex = 149},
-	[20515] = {zone = "Netherstorm", name = "Harpax", place = "Cosmowrench", localesIndex = 150},
-	[20762] = {zone = "Zangarmarsh", name = "Gur'zil", place = "Swamprat Post", faction = "Horde", localesIndex = 151},
-	[21107] = {zone = "Blades Edge Mountains", name = "Rip Pedalslam", place = "Toshley's Station", faction = "Alliance", localesIndex = 156},
-	[21766] = {zone = "Shadowmoon Valley", name = "Alieshor", place = "Sanctum of the Stars", localesIndex = 159},
-	[22216] = {zone = "Blades Edge Mountains", name = "Fhyn Leafshadow", place = "Evergrove", localesIndex = 160},
-	[22455] = {zone = "Blades Edge Mountains", name = "Sky-Master Maxxor", place = "Mok'Nathal Village", faction = "Horde", localesIndex = 163},
-	[22485] = {zone = "Zangarmarsh", name = "Halu", place = "Orebor Harborage", faction = "Alliance", localesIndex = 164},
-	[24851] = {zone = "Ghostlands", name = "Kiz Coilspanner", place = "Zul'Aman", localesIndex = 205},
-	[26560] = {zone = "Isle of Quel Danas", name = "Ohura", place = "Shattered Sun Staging Area", localesIndex = 213},
-	[22931] = {zone = "Felwood", name = "Gorrim", place = "Emerald Sanctuary", localesIndex = 166},
-	[22935] = {zone = "Ashenvale", name = "Suralais Farwind", place = "Forest Song", faction = "Alliance", localesIndex = 167},
-	[23612] = {zone = "Dustwallow Marsh", name = "Dyslix Silvergrub", place = "Mudsprocket", localesIndex = 179},
-	[24366] = {zone = "Stranglethorn Vale", name = "Nizzle", place = "Rebel Camp", faction = "Alliance", localesIndex = 195},
 }
+
+-- Burning Crusade
+if select(4, GetBuildInfo()) >= 20000 then
+	addon.flightmasterDB[16192] = {zone = "Silvermoon City", name = "Skymistress Gloaming", faction = "Horde", localesIndex = 82}
+	addon.flightmasterDB[16189] = {zone = "Ghostlands", name = "Skymaster Sunwing", place = "Tranquillien", faction = "Horde", localesIndex = 83}
+	addon.flightmasterDB[17554] = {zone = "Bloodmyst Isle", name = "Laando", place = "Blood Watch", faction = "Alliance", localesIndex = 93}
+	addon.flightmasterDB[17555] = {zone = "The Exodar", name = "Stephanos", faction = "Alliance", localesIndex = 94}
+	addon.flightmasterDB[16587] = {zone = "Hellfire Peninsula", name = "Barley", place = "Thrallmar", faction = "Horde", localesIndex = 99}
+	addon.flightmasterDB[16822] = {zone = "Hellfire Peninsula", name = "Flightmaster Krill Bitterhue", place = "Honor Hold", faction = "Alliance", localesIndex = 100}
+	addon.flightmasterDB[18785] = {zone = "Hellfire Peninsula", name = "Kuma", place = "Temple of Telhamat", faction = "Alliance", localesIndex = 101}
+	addon.flightmasterDB[18942] = {zone = "Hellfire Peninsula", name = "Innalia", place = "Falcon Watch", faction = "Horde", localesIndex = 102}
+	addon.flightmasterDB[18788] = {zone = "Zangarmarsh", name = "Munci", place = "Telredor", faction = "Alliance", localesIndex = 117}
+	addon.flightmasterDB[18791] = {zone = "Zangarmarsh", name = "Du'ga", place = "Zabra'jin", faction = "Horde", localesIndex = 118}
+	addon.flightmasterDB[18789] = {zone = "Nagrand", name = "Furgu", place = "Telaar", faction = "Alliance", localesIndex = 119}
+	addon.flightmasterDB[18808] = {zone = "Nagrand", name = "Gursha", place = "Garadar", faction = "Horde", localesIndex = 120}
+	addon.flightmasterDB[18809] = {zone = "Terokkar Forest", name = "Furnan Skysoar", place = "Allerian Stronghold", faction = "Alliance", localesIndex = 121}
+	addon.flightmasterDB[18938] = {zone = "Netherstorm", name = "Krexcil", place = "Area 52", localesIndex = 122}
+	addon.flightmasterDB[19317] = {zone = "Shadowmoon Valley", name = "Drek'Gol", place = "Shadowmoon Village", faction = "Horde", localesIndex = 123}
+	addon.flightmasterDB[18939] = {zone = "Shadowmoon Valley", name = "Brubeck Stormfoot", place = "Wildhammer Stronghold", faction = "Alliance", localesIndex = 124}
+	addon.flightmasterDB[18937] = {zone = "Blades Edge Mountains", name = "Amerun Leafshade", place = "Sylvanaar", faction = "Alliance", localesIndex = 125}
+	addon.flightmasterDB[18953] = {zone = "Blades Edge Mountains", name = "Unoke Tenderhoof", place = "Thunderlord Stronghold", faction = "Horde", localesIndex = 126}
+	addon.flightmasterDB[18807] = {zone = "Terokkar Forest", name = "Kerna", place = "Stonebreaker Hold", faction = "Horde", localesIndex = 127}
+	addon.flightmasterDB[18940] = {zone = "Terokkar Forest", name = "Nutral", place = "Shattrath", localesIndex = 128}
+	addon.flightmasterDB[18931] = {zone = "Hellfire Peninsula", name = "Amish Wildhammer", place = "The Dark Portal", faction = "Alliance", localesIndex = 129}
+	addon.flightmasterDB[18930] = {zone = "Hellfire Peninsula", name = "Vlagga Freyfeather", place = "The Dark Portal", faction = "Horde", localesIndex = 130}
+	addon.flightmasterDB[19583] = {zone = "Netherstorm", name = "Grennik", place = "The Stormspire", localesIndex = 139}
+	addon.flightmasterDB[19581] = {zone = "Shadowmoon Valley", name = "Maddix", place = "Altar of Sha'tar", localesIndex = 140}
+	addon.flightmasterDB[19558] = {zone = "Hellfire Peninsula", name = "Amilya Airheart", place = "Spinebreaker Ridge", faction = "Horde", localesIndex = 141}
+	addon.flightmasterDB[20234] = {zone = "Hellfire Peninsula", name = "Runetog Wildhammer", place = "Shatter Point", faction = "Alliance", localesIndex = 149}
+	addon.flightmasterDB[20515] = {zone = "Netherstorm", name = "Harpax", place = "Cosmowrench", localesIndex = 150}
+	addon.flightmasterDB[20762] = {zone = "Zangarmarsh", name = "Gur'zil", place = "Swamprat Post", faction = "Horde", localesIndex = 151}
+	addon.flightmasterDB[21107] = {zone = "Blades Edge Mountains", name = "Rip Pedalslam", place = "Toshley's Station", faction = "Alliance", localesIndex = 156}
+	addon.flightmasterDB[21766] = {zone = "Shadowmoon Valley", name = "Alieshor", place = "Sanctum of the Stars", localesIndex = 159}
+	addon.flightmasterDB[22216] = {zone = "Blades Edge Mountains", name = "Fhyn Leafshadow", place = "Evergrove", localesIndex = 160}
+	addon.flightmasterDB[22455] = {zone = "Blades Edge Mountains", name = "Sky-Master Maxxor", place = "Mok'Nathal Village", faction = "Horde", localesIndex = 163}
+	addon.flightmasterDB[22485] = {zone = "Zangarmarsh", name = "Halu", place = "Orebor Harborage", faction = "Alliance", localesIndex = 164}
+	addon.flightmasterDB[24851] = {zone = "Ghostlands", name = "Kiz Coilspanner", place = "Zul'Aman", localesIndex = 205}
+	addon.flightmasterDB[26560] = {zone = "Isle of Quel Danas", name = "Ohura", place = "Shattered Sun Staging Area", localesIndex = 213}
+	addon.flightmasterDB[22931] = {zone = "Felwood", name = "Gorrim", place = "Emerald Sanctuary", localesIndex = 166}
+	addon.flightmasterDB[22935] = {zone = "Ashenvale", name = "Suralais Farwind", place = "Forest Song", faction = "Alliance", localesIndex = 167}
+	addon.flightmasterDB[23612] = {zone = "Dustwallow Marsh", name = "Dyslix Silvergrub", place = "Mudsprocket", localesIndex = 179}
+	addon.flightmasterDB[24366] = {zone = "Stranglethorn Vale", name = "Nizzle", place = "Rebel Camp", faction = "Alliance", localesIndex = 195}
+end
 
 function addon.getNearestFlightPoint(x, y, instance, faction)
 	local minDist, minPos, minId
