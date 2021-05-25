@@ -523,31 +523,29 @@ function addon.fillOptions()
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = checkbox
 
-	if not addon.isQuestieInstalled() then GuidelimeData.dataSourceQuestie = false end
-	checkbox = addon.addCheckOption(content, GuidelimeData, "dataSourceQuestie", L.USE_QUESTIE_AS_DATA_SOURCE, L.USE_QUESTIE_AS_DATA_SOURCE_TOOLTIP, function()
-		content.options.dataSourceInternal:SetChecked(not GuidelimeData.dataSourceQuestie)
-		if GuidelimeDataChar.mainFrameShowing and GuidelimeData.autoAddCoordinates then
-			addon.loadCurrentGuide()
-			addon.updateSteps()
-		end
-	end)
-	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
-	checkbox:SetEnabled(addon.isQuestieInstalled())
-	if not addon.isQuestieInstalled() then checkbox.text:SetTextColor(0.4, 0.4, 0.4) end
-	prev = checkbox
-	
-	content.options.dataSourceInternal = addon.addCheckbox(content, L.USE_INTERNAL_DATA_SOURCE)
-	if not GuidelimeData.dataSourceQuestie then content.options.dataSourceInternal:SetChecked(true) end
-	content.options.dataSourceInternal:SetScript("OnClick", function()
-		GuidelimeData.dataSourceQuestie = Questie ~= nil and not content.options.dataSourceInternal:GetChecked() 
-		content.options.dataSourceInternal:SetChecked(not GuidelimeData.dataSourceQuestie)
-		content.options.dataSourceQuestie:SetChecked(GuidelimeData.dataSourceQuestie)
-		if GuidelimeDataChar.mainFrameShowing and GuidelimeData.autoAddCoordinates then
-			addon.loadCurrentGuide()
-			addon.updateSteps()
-		end
-	end)
-	content.options.dataSourceInternal:SetPoint("TOPLEFT", prev, "TOPLEFT", 270, 0)
+	local sources = {"QUESTIE", "INTERNAL"}
+	for i, source in ipairs(sources) do
+		content.options["dataSource" .. source] = addon.addCheckbox(content, L["DATA_SOURCE_" .. source], L["DATA_SOURCE_TOOLTIP_" .. source])
+		content.options["dataSource" .. source]:SetChecked(addon.dataSource == source)
+		content.options["dataSource" .. source]:SetScript("OnClick", function()
+			if addon.dataSource == source then content.options["dataSource" .. source]:SetChecked(true); return end
+			addon.dataSource = source
+			GuidelimeData.dataSource = source
+			for _, source2 in ipairs(sources) do
+				content.options["dataSource" .. source2]:SetChecked(addon.dataSource == source2)
+			end
+			addon.resetCachedQuestData()			
+			if GuidelimeDataChar.mainFrameShowing and GuidelimeData.autoAddCoordinates then
+				addon.loadCurrentGuide()
+				addon.updateFromQuestLog()
+				addon.updateMainFrame(true)
+			end
+		end)
+		content.options["dataSource" .. source]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, i == 1 and -10 or 0)
+		content.options["dataSource" .. source]:SetEnabled(addon["isDataSourceInstalled" .. source]())
+		if not addon["isDataSourceInstalled" .. source]() then content.options["dataSource" .. source].text:SetTextColor(0.4, 0.4, 0.4) end
+		prev = content.options["dataSource" .. source]
+	end
 end
 
 function addon.isOptionsShowing()

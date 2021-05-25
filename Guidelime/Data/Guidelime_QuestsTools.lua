@@ -53,8 +53,16 @@ function addon.SelectGossipOption(i)
 	return C_GossipInfo.SelectOption(i)
 end
 	
-local function useQuestie()
-	return GuidelimeData.dataSourceQuestie and addon.isQuestieInstalled()
+function addon.resetCachedQuestData()
+	addon.questPosition = nil
+	addon.questObjectives = nil
+end
+
+
+function addon.isQuestId(id)
+	if id == nil then return false end
+	if addon.dataSource == "QUESTIE" then return addon.isQuestIdQuestie(id) end
+	return addon.questsDB[id] ~= nil
 end
 
 function addon.getQuestReplacement(id)
@@ -62,37 +70,38 @@ function addon.getQuestReplacement(id)
 end
 
 function addon.getQuestSort(id)
-	if useQuestie() then return addon.getQuestSortQuestie(id) end
+	if addon.dataSource == "QUESTIE" then return addon.getQuestSortQuestie(id) end
 	if addon.questsDB[id] ~= nil then return addon.questsDB[id].sort end
 end
 
+-- this function intentionally only uses internal database instead of selected data source
+-- this is used in parsing guides and guides should not parse with errors or not depending on data source used
 function addon.getQuestZone(id)
-	if useQuestie() then return addon.getQuestZoneQuestie(id) end
 	if addon.questsDB[id] ~= nil then return addon.questsDB[id].zone end
 end
 
 function addon.getQuestPrequests(id)
-	if useQuestie() then return addon.getQuestPrequestsQuestie(id) end
+	if addon.dataSource == "QUESTIE" then return addon.getQuestPrequestsQuestie(id) end
 	if addon.questsDB[id] ~= nil then return addon.questsDB[id].prequests end
 end
 
 function addon.getQuestOneOfPrequests(id)
-	if useQuestie() then return addon.getQuestOneOfPrequestsQuestie(id) end
+	if addon.dataSource == "QUESTIE" then return addon.getQuestOneOfPrequestsQuestie(id) end
 	if addon.questsDB[id] ~= nil then return addon.questsDB[id].oneOfPrequests end
 end
 
 function addon.getQuestType(id)
-	if useQuestie() then return addon.getQuestTypeQuestie(id) end
+	if addon.dataSource == "QUESTIE" then return addon.getQuestTypeQuestie(id) end
 	if addon.questsDB[id] ~= nil then return addon.questsDB[id].type end
 end
 
 function addon.getQuestLevel(id)
-	if useQuestie() then return addon.getQuestLevelQuestie(id) end
+	if addon.dataSource == "QUESTIE" then return addon.getQuestLevelQuestie(id) end
 	if addon.questsDB[id] ~= nil then return addon.questsDB[id].level end
 end
 
 function addon.getQuestMinimumLevel(id)
-	if useQuestie() then return addon.getQuestMinimumLevelQuestie(id) end
+	if addon.dataSource == "QUESTIE" then return addon.getQuestMinimumLevelQuestie(id) end
 	if addon.questsDB[id] ~= nil then return addon.questsDB[id].req	end
 end
 
@@ -101,7 +110,7 @@ function addon.getQuestSeries(id)
 end
 
 function addon.getQuestNext(id)
-	if useQuestie() then return addon.getQuestNextQuestie(id) end
+	if addon.dataSource == "QUESTIE" then return addon.getQuestNextQuestie(id) end
 	if addon.questsDB[id] ~= nil then return addon.questsDB[id].next end
 end
 
@@ -110,18 +119,41 @@ function addon.getQuestPrev(id)
 end
 
 function addon.getQuestRaces(id)
-	if useQuestie() then return addon.getQuestRacesQuestie(id) end
+	if addon.dataSource == "QUESTIE" then return addon.getQuestRacesQuestie(id) end
 	if addon.questsDB[id] ~= nil then return addon.questsDB[id].races end
 end
 
 function addon.getQuestClasses(id)
-	if useQuestie() then return addon.getQuestClassesQuestie(id) end
+	if addon.dataSource == "QUESTIE" then return addon.getQuestClassesQuestie(id) end
 	if addon.questsDB[id] ~= nil then return addon.questsDB[id].classes end
 end
 
 function addon.getQuestFaction(id)
-	if useQuestie() then return addon.getQuestFactionQuestie(id) end
+	if addon.dataSource == "QUESTIE" then return addon.getQuestFactionQuestie(id) end
 	if addon.questsDB[id] ~= nil then return addon.questsDB[id].faction end
+end
+
+function addon.getNPCPosition(id)
+	if addon.dataSource == "QUESTIE" then return addon.getNPCPositionQuestie(id) end
+	local element = addon.creaturesDB[npcId]
+	if element ~= nil and element.positions ~= nil then
+		for i, pos in ipairs(element.positions) do
+			-- filter all instances
+			if pos.mapid == 0 or pos.mapid == 1 then
+				-- x/y are switched in db
+				local x, y, zone = addon.GetZoneCoordinatesFromWorld(pos.y, pos.x, pos.mapid, filterZone)
+				if x ~= nil then
+					return {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, zone = zone, mapID = addon.mapIDs[zone], 
+						wx = pos.y, wy = pos.x, instance = pos.mapid,
+						objectives = objectives.npc[npcId],
+						npcId = npcId
+					}
+				elseif addon.debugging and filterZone == nil then
+					print("LIME: error transforming (", pos.x, pos.y, pos.mapid, ") into zone coordinates for npc #" .. npcId)
+				end
+			end
+		end
+	end
 end
 
 function addon.getQuestIDs()
@@ -142,7 +174,7 @@ function addon.getQuestNameById(id)
 		return addon.quests[id].name
 	end
 	if C_QuestLog.GetQuestInfo(id) ~= nil then return C_QuestLog.GetQuestInfo(id) end
-	if useQuestie() then return addon.getQuestNameQuestie(id) end
+	if addon.dataSource == "QUESTIE" then return addon.getQuestNameQuestie(id) end
 	local locale = GetLocale()
 	if addon.questsDB[id] == nil then
 		return nil
@@ -156,7 +188,7 @@ function addon.getQuestNameById(id)
 end
 
 function addon.getQuestObjective(id)
-	if useQuestie() then return addon.getQuestObjectiveQuestie(id) end
+	if addon.dataSource == "QUESTIE" then return addon.getQuestObjectiveQuestie(id) end
 	local locale = GetLocale()
 	if id == nil or addon.questsDB[id] == nil then
 		return
@@ -170,7 +202,7 @@ function addon.getQuestObjective(id)
 end
 
 function addon.getQuestReputation(id)
-	if useQuestie() then return addon.getQuestReputationQuestie(id) end
+	if addon.dataSource == "QUESTIE" then return addon.getQuestReputationQuestie(id) end
 end
 
 -- returns a type (npc/item/object) and a list of names for quest source / each objective / turn in; e.g. {{type="item", names={"Huge Gnoll Claw", "Hogger"}, ids={item={1931},npc={448}} for id = 176, typ = "COMPLETE"
@@ -180,7 +212,7 @@ function addon.getQuestObjectives(id, typ)
 	if addon.questObjectives == nil then addon.questObjectives = {} end
 	if addon.questObjectives[id] == nil then addon.questObjectives[id] = {} end
 	if addon.questObjectives[id][typ] ~= nil then return addon.questObjectives[id][typ] end
-	if useQuestie() then 
+	if addon.dataSource == "QUESTIE" then 
 		addon.questObjectives[id][typ] = addon.getQuestObjectivesQuestie(id, typ) 
 		return addon.questObjectives[id][typ]
 	end
@@ -277,7 +309,7 @@ end
 function addon.getQuestPositions(id, typ, objective, filterZone)
 	if id == nil then return end
 	if objective == 0 then objective = nil end
-	if useQuestie() then return addon.getQuestPositionsQuestie(id, typ, objective, filterZone) end
+	if addon.dataSource == "QUESTIE" then return addon.getQuestPositionsQuestie(id, typ, objective, filterZone) end
 	if addon.getSuperCode(typ) == "QUEST" and addon.questsDB[id] == nil then return end
 	--local time
 	--if addon.debugging then time = debugprofilestop() end
@@ -484,7 +516,8 @@ function addon.getQuestPosition(id, typ, index)
 	--addon.questPosition[id][typ][index] = false
 	local clusters = {}
 	local maxCluster	
-	local filterZone = addon.getQuestZone(id)
+	local filterZone = addon.getQuestSort(id)
+	if filterZone ~= nil and addon.mapIDs[filterZone] == nil then filterZone = nil end
 	local positions = addon.getQuestPositions(id, typ, index, filterZone)
 	if positions ~= nil and #positions == 0 and filterZone ~= nil then
 		positions = addon.getQuestPositions(id, typ, index)
@@ -720,7 +753,8 @@ end
 
 function addon.getNPCPosition(id)
 	if id == nil then return end
-	if useQuestie() then return addon.getNPCPositionQuestie(id) end
-	local p = addon.creaturesDB[i].positions[1]
+	if addon.dataSource == "QUESTIE" then return addon.getNPCPositionQuestie(id) end
+	if addon.creaturesDB[id] == nil or addon.creaturesDB[id].positions == nil then return end
+	local p = addon.creaturesDB[id].positions[1]
 	return {instance = p.mapid, wx = p.x, wy = p.y}
 end

@@ -3,6 +3,8 @@ local addonName, addon = ...
 -- source: https://github.com/TyrsDev/WoW-Classic-Database
 -- Thanks to TyrsDev!
 
+function addon.isDataSourceInstalledINTERNAL() return true end
+
 addon.questsDB = {
 	[2] = {
 	   ["faction"] = "Horde";

@@ -6,10 +6,10 @@ local function setQuestInfo(id)
 	local text = L.NAME .. ": " .. addon.COLOR_WHITE .. (addon.getQuestNameById(id) or "?") .. " (#" .. id .. ")|r\n"
 	if addon.getQuestNameById(id) ~= nil then
 		--if quest.name ~= addon.getQuestNameById(id) then text = text .. L.ENGLISH_NAME .. ": " .. addon.COLOR_WHITE .. quest.name .. "|r\n" end
-		text = text .. L.CATEGORY .. ": " .. addon.COLOR_WHITE .. (addon.getQuestSort(id) or "?") .. "|r\n"
+		if addon.getQuestSort(id) ~= nil then text = text .. L.CATEGORY .. ": " .. addon.COLOR_WHITE .. addon.getQuestSort(id) .. "|r\n" end
 		text = text .. L.MINIMUM_LEVEL .. ": " .. addon.COLOR_WHITE .. (addon.getQuestMinimumLevel(id) or "?") .. "|r\n"
 		text = text .. L.SUGGESTED_LEVEL .. ": " .. addon.COLOR_WHITE .. (addon.getQuestLevel(id) or "?") .. "|r\n"
-		if addon.getQuestType(id) ~= nil then text = text .. L.TYPE .. ": " .. addon.COLOR_WHITE .. (addon.getQuestType(id) or "?") .. "|r\n" end
+		if addon.getQuestType(id) ~= nil then text = text .. L.TYPE .. ": " .. addon.COLOR_WHITE .. addon.getQuestType(id) .. "|r\n" end
 		text = text .. L.OBJECTIVE .. ": " .. addon.COLOR_WHITE .. (addon.getQuestObjective(id) or "?") .. "|r\n"
 		if addon.getQuestClasses(id) ~= nil then
 			text = text .. CLASS .. ": " .. addon.COLOR_WHITE 

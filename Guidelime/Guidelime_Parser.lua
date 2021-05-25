@@ -94,6 +94,7 @@ function addon.parseGuide(guide, group, strict, nameOnly)
 		guide.itemUpdateIndices = {}
 		guide.autoAddCoordinatesGOTO = true
 		guide.autoAddCoordinatesLOC = true
+		guide.unknownQuests = 0
 		local t = guide.text:gsub("\\\\[\n\r]", "\\\\"):gsub("([^\n\r]-)[\n\r]", function(c)
 			if c ~= nil and c ~= "" then
 				local step = {text = c, startPos = pos, line = guide.lines, guide = guide}
@@ -277,6 +278,7 @@ function addon.parseLine(step, guide, strict, nameOnly)
 					end
 				end
 				if not nameOnly then
+					if not addon.isQuestId(element.questId) then guide.unknownQuests = guide.unknownQuests + 1 end
 					if addon.getQuestReplacement(element.questId) ~= nil then
 						element.questId = addon.getQuestReplacement(element.questId)
 					end
@@ -302,8 +304,11 @@ function addon.parseLine(step, guide, strict, nameOnly)
 					if step.reputation == nil and addon.getQuestReputation(element.questId) ~= nil then
 						step.reputation, step.repMin, step.repMax = addon.getQuestReputation(element.questId)
 					end
-					if addon.getQuestSort(element.questId) ~= nil and addon.mapIDs[addon.getQuestSort(element.questId)] ~= nil then 
-						guide.currentZone = addon.mapIDs[addon.getQuestSort(element.questId)] 
+					-- here we use internal data only intentionally
+					-- guides should not parse with errors or not depending on data source used
+					-- (i.e. omitting zone on the first zone is no longer supported for guides with quests not contained in internal data e.g. TBC)
+					if addon.getQuestZone(element.questId) ~= nil and addon.mapIDs[addon.getQuestZone(element.questId)] ~= nil then 
+						guide.currentZone = addon.mapIDs[addon.getQuestZone(element.questId)] 
 					end
 					if element.t ~= "SKIP" then 
 						previousAutoStep = lastAutoStep

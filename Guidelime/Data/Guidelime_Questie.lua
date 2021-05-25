@@ -15,12 +15,12 @@ local function hasbit(x, p)
   return x % (p + p) >= p       
 end
 
-function addon.isQuestieInstalled()
+function addon.isDataSourceInstalledQUESTIE()
 	return QuestieLoader ~= nil
 end
 
 local function checkQuestie()
-	if addon.waitingForQuestie or not addon.isQuestieInstalled() then return false end
+	if addon.waitingForQuestie or not addon.isDataSourceInstalledQUESTIE() then return false end
 	if QuestieDB == nil or QuestieDB.QueryQuest == nil then
 		if addon.debugging then print("LIME: Questie is not yet initialized") end
 		addon.waitingForQuestie = true
@@ -35,6 +35,11 @@ local function checkQuestie()
 	return true
 end
 
+function addon.isQuestIdQuestie(id)
+	if id == nil or not checkQuestie() then return false end
+	return QuestieDB:GetQuest(id) ~= nil
+end
+
 function addon.getQuestNameQuestie(id)
 	if id == nil or not checkQuestie() then return end
 	local quest = QuestieDB:GetQuest(id)
@@ -46,8 +51,8 @@ function addon.getQuestSortQuestie(id)
 	if id == nil or not checkQuestie() then return end
 	local quest = QuestieDB:GetQuest(id)
 	if quest == nil then return end
-    local parentZoneID = ZoneDB:GetParentZoneId(quest.zoneOrSort)
 	if quest.zoneOrSort > 0 then
+    	local parentZoneID = ZoneDB:GetParentZoneId(quest.zoneOrSort)
 		return addon.zoneNames[ZoneDB:GetUiMapIdByAreaId(parentZoneID or quest.zoneOrSort)]
 	elseif quest.zoneOrSort < 0 then
 		for key, n in pairs(QuestieDB.sortKeys) do
@@ -56,14 +61,6 @@ function addon.getQuestSortQuestie(id)
 			end
 		end
 	end
-end
-
-function addon.getQuestZoneQuestie(id)
-	if id == nil or not checkQuestie() then return end
-	local quest = QuestieDB:GetQuest(id)
-	if quest == nil then return end
-    local parentZoneID = ZoneDB:GetParentZoneId(quest.zoneOrSort)
-	return addon.zoneNames[ZoneDB:GetUiMapIdByAreaId(parentZoneID or quest.zoneOrSort)]
 end
 
 function addon.getQuestPrequestsQuestie(id)
@@ -159,7 +156,7 @@ function addon.getQuestObjectiveQuestie(id)
 	return quest.objectivesText[1]
 end
 
-function addon.getQuestReputationQuestie(id, typ)
+function addon.getQuestReputationQuestie(id)
 	if id == nil or not checkQuestie() then return end
 	local quest = QuestieDB:GetQuest(id)
 	if quest == nil then return end
@@ -413,7 +410,7 @@ function addon.getQuestObjectivesQuestie(id, typ)
 	return objectives
 end
 
-function addon.getNPCPosition(id)
+function addon.getNPCPositionQuestie(id)
 	if id == nil or not checkQuestie() then return end
 	local npc = QuestieDB:GetNPC(id)
 	if npc ~= nil and npc.spawns ~= nil then

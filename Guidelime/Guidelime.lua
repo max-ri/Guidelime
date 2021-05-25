@@ -134,7 +134,7 @@ function addon.loadData()
 		arrowStyle = 1,
 		arrowDistance = false,
 		skipCutscenes = true,
-		dataSourceQuestie = true,
+		dataSource = "QUESTIE",
 		autoAddCoordinates = true,
 		displayDemoGuides = true,
 		fontColorACCEPT = addon.COLOR_QUEST_DEFAULT,
@@ -183,8 +183,6 @@ function addon.loadData()
 		if GuidelimeDataChar[option] == nil then GuidelimeDataChar[option] = default end
 	end
 
-	addon.debugging = GuidelimeData.debugging
-
 	GuidelimeDataChar.version:gsub("(%d+).(%d+)", function(major, minor)
 		if tonumber(major) < 1 or (tonumber(major) == 1 and tonumber(minor) < 2) then
 			--changed default value for showUnavailableSteps
@@ -202,6 +200,12 @@ function addon.loadData()
 		end
 	end, 1)
 	GuidelimeData.version:gsub("(%d+).(%d+)", function(major, minor)
+		if tonumber(major) < 2 or (tonumber(major) == 2 and tonumber(minor) < 15) then
+			-- dataSourceQuestie is removed and replaced with dataSource which should be set to "QUESTIE"
+			-- (even when Questie is not installed; it will only be changed to "INTERNAL" when internal was selected manually)
+			GuidelimeData.dataSourceQuestie = nil
+			GuidelimeData.version = GetAddOnMetadata(addonName, "version")
+		end
 		if tonumber(major) < 2 or (tonumber(major) == 2 and tonumber(minor) < 13) then
 			--if maxNumOfMarkersLOC was unchanged change to new default value of 50
 			if GuidelimeData.maxNumOfMarkersLOC == 15 then GuidelimeData.maxNumOfMarkersLOC = 50 end
@@ -256,6 +260,10 @@ function addon.loadData()
 			GuidelimeData.version = GetAddOnMetadata(addonName, "version")
 		end
 	end, 1)
+
+	addon.debugging = GuidelimeData.debugging
+	addon.dataSource = GuidelimeData.dataSource
+	if not addon["isDataSourceInstalled" .. addon.dataSource]() then addon.dataSource = "INTERNAL" end
 
 	if GuidelimeData.customGuides ~= nil then
 		for _, guide in pairs(GuidelimeData.customGuides) do
@@ -403,6 +411,11 @@ function addon.loadCurrentGuide()
 	guide = addon.parseGuide(guide, guide.group)
 	if guide == nil then return end
 	addon.guides[GuidelimeDataChar.currentGuide] = guide
+	if guide.unknownQuests > 0 and select(4, GetBuildInfo()) >= 20000 and addon.dataSource == "INTERNAL" then
+		addon.currentGuide.steps = {{elements = {{text = L.ERROR_TBC_DATA_SOURCE}}}}
+		addon.next = nil
+		return
+	end
 
 	local time
 	if addon.debugging then time = debugprofilestop() end
@@ -764,7 +777,7 @@ function addon.getStepText(step)
 	local url
 	local itemText = ""
 
-	if GuidelimeData.showLineNumbers then text = text .. step.line .. " " end
+	if GuidelimeData.showLineNumbers and step.line ~= nil then text = text .. step.line .. " " end
 	if not step.active then
 		text = text .. addon.COLOR_INACTIVE
 	elseif step.manual then
@@ -781,7 +794,7 @@ function addon.getStepText(step)
 			tooltip = tooltip .. L.QUEST_REQUIRED_LEVEL:format(q, addon.getQuestMinimumLevel(element.questId))
 		end
 		if element.text ~= nil then
-			if step.active then
+			if step.active or element.textInactive == nil then
 				text = text .. element.text
 			else
 				text = text .. element.textInactive

@@ -302,7 +302,7 @@ function addon.updateArrow()
 	else
 		addon.arrowFrame.text:Hide()
 	end
-	if addon.arrowFrame.element then 
+	if addon.arrowFrame.element and addon.arrowFrame.element.step then 
 		addon.updateStepText(addon.arrowFrame.element.step.index) 
 	end
 end
