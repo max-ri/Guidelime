@@ -756,5 +756,5 @@ function addon.getNPCPosition(id)
 	if addon.dataSource == "QUESTIE" then return addon.getNPCPositionQuestie(id) end
 	if addon.creaturesDB[id] == nil or addon.creaturesDB[id].positions == nil then return end
 	local p = addon.creaturesDB[id].positions[1]
-	return {instance = p.mapid, wx = p.x, wy = p.y}
+	return {instance = p.mapid, wx = p.y, wy = p.x}
 end
