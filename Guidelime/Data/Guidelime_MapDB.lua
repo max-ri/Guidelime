@@ -1266,10 +1266,10 @@ for zone, id in pairs(addon.mapIDs) do
 end
 
 function addon.getZoneName(name)
-	name = name:lower():gsub(" ", "")
+	name = name:lower():gsub("[%s']", "")
 	if name:sub(1, 3) == "the" then name = name:sub(4) end
 	for zone, _ in pairs(addon.mapIDs) do
-		local z = zone:lower():gsub(" ", "")
+		local z = zone:lower():gsub("[%s']", "")
 		if z:sub(1, 3) == "the" then z = z:sub(4) end
 		if z == name then return zone end
 	end
