@@ -125,18 +125,22 @@ function addon.updateFromQuestLog()
 					local objectives = addon.getQuestObjectives(id)
 					if objectives ~= nil and objectives[k] ~= nil and objectives[k].type == 'item' then
 						local itemId = objectives[k].ids.item[1]
-						local itemName, _, numNeeded = desc:match("(.*):%s*([%d]+)%s*/%s*([%d]+)")
-						numNeeded = tonumber(numNeeded)
-						if questItemsNeeded[itemId] ~= nil then 
-							local itemCount = GetItemCount(itemId) - questItemsNeeded[itemId]
-							if addon.debugging then print("LIME: item " .. itemId .. " " .. itemName .. " " .. itemCount .. "/" .. numNeeded) end
-							if itemCount < numNeeded then
-								done = false
-								q.finished = false
-								desc = itemName .. ": " .. (itemCount >= 0 and itemCount or 0) .. "/" .. numNeeded
+						local itemName, _, numNeeded = desc:match("([^%d]*)([%d]+)%s*/%s*([%d]+)")
+						if numNeeded ~= nil then
+							if questItemsNeeded[itemId] ~= nil then 
+								local itemCount = GetItemCount(itemId) - questItemsNeeded[itemId]
+								numNeeded = tonumber(numNeeded)
+								if addon.debugging then print("LIME: item " .. itemId .. " " .. itemName .. " " .. itemCount .. "/" .. numNeeded) end
+								if itemCount < numNeeded then
+									done = false
+									q.finished = false
+									desc = itemName .. (itemCount >= 0 and itemCount or 0) .. "/" .. numNeeded
+								end
 							end
+							questItemsNeeded[itemId] = (questItemsNeeded[itemId] or 0) + numNeeded
+						else
+							if addon.debugging then print("LIME: error parsing item objective text - " .. desc) end
 						end
-						questItemsNeeded[itemId] = (questItemsNeeded[itemId] or 0) + numNeeded
 					end
 				end
 				if q.objectives[k] == nil or desc ~= q.objectives[k] or done ~= q.objectives[k].done then
