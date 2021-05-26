@@ -1632,6 +1632,7 @@ function addon.showMainFrame()
 		addon.mainFrame.titleBox:SetPoint("TOPLEFT", addon.mainFrame.scrollChild, "TOPLEFT", 35, -14)
 		
 		if addon.firstLogUpdate then
+			addon.updateFromQuestLog()
 			addon.updateMainFrame()
 		end
 
