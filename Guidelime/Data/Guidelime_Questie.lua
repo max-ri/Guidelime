@@ -6,12 +6,12 @@ HBD = LibStub("HereBeDragons-2.0")
 local QuestieDB = QuestieLoader and QuestieLoader:ImportModule("QuestieDB");
 local ZoneDB = QuestieLoader and QuestieLoader:ImportModule("ZoneDB")
 
-local function bit(p)
+function addon.bit(p)
   return 2 ^ (p - 1)  -- 1-based indexing
 end
 
 -- Typical call:  if hasbit(x, bit(3)) then ...
-local function hasbit(x, p)
+function addon.hasbit(x, p)
   return x % (p + p) >= p       
 end
 
@@ -21,7 +21,7 @@ end
 
 local function checkQuestie()
 	if addon.waitingForQuestie or not addon.isDataSourceInstalledQUESTIE() then return false end
-	if QuestieDB == nil or QuestieDB.QueryQuest == nil then
+	if QuestieDB == nil or QuestieDB.QueryQuest == nil or type(QuestieDB.QueryQuest) ~= "function" then
 		if addon.debugging then print("LIME: Questie is not yet initialized") end
 		addon.waitingForQuestie = true
 		C_Timer.After(4, function()
@@ -117,7 +117,7 @@ function addon.getQuestRacesQuestie(id)
 	if bitmask == nil or bitmask == 0 then return end
 	local races = {}
 	for i, race in ipairs({"Human", "Orc", "Dwarf", "NightElf", "Undead", "Troll", "Gnome", "Tauren", "", "BloodElf", "Draenei"}) do
-		if race ~= "" and hasbit(bitmask, bit(i)) then 
+		if race ~= "" and addon.hasbit(bitmask, addon.bit(i)) then 
 			table.insert(races, race) 
 		end
 	end
@@ -132,7 +132,7 @@ function addon.getQuestClassesQuestie(id)
 	if bitmask == nil or bitmask == 0 then return end
 	local classes = {}
 	for i, class in pairs({"Warrior", "Paladin", "Hunter", "Rogue", "Priest", "", "Shaman", "Mage", "Warlock", "", "Druid"}) do
-		if class ~= "" and hasbit(bitmask, bit(i)) then 
+		if class ~= "" and addon.hasbit(bitmask, addon.bit(i)) then 
 			table.insert(classes, class) 
 		end
 	end
@@ -320,6 +320,10 @@ function addon.getQuestObjectivesQuestie(id, typ)
 		return
 	end
 	--if addon.debugging then print("LIME: getQuestObjectivesQuestie " .. typ .. " " .. id .. " " .. addon.show(list)) end
+	
+	--TODO: test order for quests 10503 and 10861
+	-- https://tbc.wowhead.com/quest=10503/the-bladespire-threat
+	-- https://tbc.wowhead.com/quest=10861/veil-lithic-preemptive-strike
 	local objectives = {}
 	if list[1] ~= nil then
 		for j = 1, #list[1] do
