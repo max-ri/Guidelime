@@ -203,12 +203,13 @@ function addon.getQuestPositionsQuestie(id, typ, index, filterZone)
 			for i, type in ipairs({"npc", "object", "item"}) do
 				if list[i] ~= nil then 
 					for j, v in ipairs(list[i]) do 
-						if index == nil or index == 0 or index == c + j then
+						local oi = (typ == "COMPLETE" and correctionsObjectiveOrder[id]) and correctionsObjectiveOrder[id][c + j] or (c + j)
+						if index == nil or index == 0 or index == oi then
 							local id2
 							if typ == "COMPLETE" then id2 = v[1] else id2 = v end 
 							table.insert(ids[type], id2)
 							if objectives[type][id2] == nil then objectives[type][id2] = {} end
-							table.insert(objectives[type][id2], (typ == "COMPLETE" and correctionsObjectiveOrder[id]) and correctionsObjectiveOrder[id][c + j] or (c + j))
+							table.insert(objectives[type][id2], oi)
 						end
 					end 
 					c = c + #list[i]
@@ -217,11 +218,12 @@ function addon.getQuestPositionsQuestie(id, typ, index, filterZone)
 			--kill credit objective
 			if list[5] ~= nil then
 				c = c + 1
-				if index == nil or index == 0 or index == c then
+				local oi = (typ == "COMPLETE" and correctionsObjectiveOrder[id]) and correctionsObjectiveOrder[id][c] or c
+				if index == nil or index == 0 or index == oi then
 					for j, id2 in ipairs(list[5][1]) do
 						table.insert(ids.npc, id2)
 						if objectives.npc[id2] == nil then objectives.npc[id2] = {} end
-						table.insert(objectives.npc[id2], (typ == "COMPLETE" and correctionsObjectiveOrder[id]) and correctionsObjectiveOrder[id][c] or c)
+						table.insert(objectives.npc[id2], oi)
 					end
 				end
 			end
