@@ -6,6 +6,15 @@ HBD = LibStub("HereBeDragons-2.0")
 local QuestieDB = QuestieLoader and QuestieLoader:ImportModule("QuestieDB");
 local ZoneDB = QuestieLoader and QuestieLoader:ImportModule("ZoneDB")
 
+local correctionsObjectiveOrder = {
+	-- https://tbc.wowhead.com/quest=10503/the-bladespire-threat
+	-- objectives switched; first kill credit then creature
+	[10503] = {2, 1},
+	-- https://tbc.wowhead.com/quest=10861/veil-lithic-preemptive-strike
+	-- objectives switched; first object then creature
+	[10861] = {2, 1},
+}
+
 function addon.bit(p)
   return 2 ^ (p - 1)  -- 1-based indexing
 end
@@ -195,11 +204,11 @@ function addon.getQuestPositionsQuestie(id, typ, index, filterZone)
 				if list[i] ~= nil then 
 					for j, v in ipairs(list[i]) do 
 						if index == nil or index == 0 or index == c + j then
-							local id
-							if typ == "COMPLETE" then id = v[1] else id = v end 
-							table.insert(ids[type], id)
-							if objectives[type][id] == nil then objectives[type][id] = {} end
-							table.insert(objectives[type][id], c + j)
+							local id2
+							if typ == "COMPLETE" then id2 = v[1] else id2 = v end 
+							table.insert(ids[type], id2)
+							if objectives[type][id2] == nil then objectives[type][id2] = {} end
+							table.insert(objectives[type][id2], (typ == "COMPLETE" and correctionsObjectiveOrder[id]) and correctionsObjectiveOrder[id][c + j] or (c + j))
 						end
 					end 
 					c = c + #list[i]
@@ -209,10 +218,10 @@ function addon.getQuestPositionsQuestie(id, typ, index, filterZone)
 			if list[5] ~= nil then
 				c = c + 1
 				if index == nil or index == 0 or index == c then
-					for j, id in ipairs(list[5][1]) do
-						table.insert(ids.npc, id)
-						if objectives.npc[id] == nil then objectives.npc[id] = {} end
-						table.insert(objectives.npc[id], c)
+					for j, id2 in ipairs(list[5][1]) do
+						table.insert(ids.npc, id2)
+						if objectives.npc[id2] == nil then objectives.npc[id2] = {} end
+						table.insert(objectives.npc[id2], (typ == "COMPLETE" and correctionsObjectiveOrder[id]) and correctionsObjectiveOrder[id][c] or c)
 					end
 				end
 			end
@@ -410,6 +419,13 @@ function addon.getQuestObjectivesQuestie(id, typ)
 		else
 			table.insert(objectives, {type = "npc", names = objList, ids = {npc = npcIds}})
 		end
+	end
+	if typ == "COMPLETE" and correctionsObjectiveOrder[id] then
+		local objectives2 = {}
+		for i, j in ipairs(correctionsObjectiveOrder[id]) do
+			objectives2[i] = objectives[j]
+		end
+		return objectives2
 	end
 	return objectives
 end
