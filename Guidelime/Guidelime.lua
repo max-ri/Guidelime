@@ -1148,11 +1148,13 @@ end
 local function updateStepsActivation()
 	addon.currentGuide.activeQuests = {}
 	for i, step in ipairs(addon.currentGuide.steps) do
-		step.active = not step.completed and not step.skip and step.available
+		step.active = not step.completed and not step.skip and step.available and
+			(step.reputation == nil or addon.isRequiredReputation(step.reputation, step.repMin, step.repMax))
 		if step.active then
 			for j, pstep in ipairs(addon.currentGuide.steps) do
 				if j == i then break end
-				if not pstep.optional and not pstep.skip and not pstep.completed and pstep.available then
+				if not pstep.optional and not pstep.skip and not pstep.completed and pstep.available and 
+					(pstep.reputation == nil or addon.isRequiredReputation(pstep.reputation, pstep.repMin, pstep.repMax)) then
 					step.active = false
 					break
 				end
