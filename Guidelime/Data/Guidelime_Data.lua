@@ -142,7 +142,7 @@ end
 function addon.isRequiredReputation(id, repMin, repMax)
 	local _, _, standing, _, _, value = GetFactionInfoByID(id)
 	if repMin ~= nil and value < repMin then return false end
-	if repMax ~= nil and value > repMax then return false end
+	if repMax ~= nil and value >= repMax then return false end
 	return true
 end
 
