@@ -356,5 +356,8 @@ function addon.showArrow(element)
 end
 
 function addon.hideArrow()
-	if addon.arrowFrame ~= nil then addon.arrowFrame:Hide() end
+	if addon.arrowFrame ~= nil then 
+		addon.arrowFrame.element = nil
+		addon.arrowFrame:Hide() 
+	end
 end
