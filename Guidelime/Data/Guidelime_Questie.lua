@@ -6,8 +6,6 @@ HBD = LibStub("HereBeDragons-2.0")
 local QuestieDB = QuestieLoader and QuestieLoader:ImportModule("QuestieDB");
 local ZoneDB = QuestieLoader and QuestieLoader:ImportModule("ZoneDB")
 
-addon.QuestieDB = QuestieDB
-
 local correctionsObjectiveOrder = {
 	-- https://tbc.wowhead.com/quest=10503/the-bladespire-threat
 	-- objectives switched; first kill credit then creature
