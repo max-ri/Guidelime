@@ -6,6 +6,8 @@ HBD = LibStub("HereBeDragons-2.0")
 local QuestieDB = QuestieLoader and QuestieLoader:ImportModule("QuestieDB");
 local ZoneDB = QuestieLoader and QuestieLoader:ImportModule("ZoneDB")
 
+addon.QuestieDB = QuestieDB
+
 local correctionsObjectiveOrder = {
 	-- https://tbc.wowhead.com/quest=10503/the-bladespire-threat
 	-- objectives switched; first kill credit then creature
@@ -186,44 +188,54 @@ function addon.getQuestPositionsQuestie(id, typ, index, filterZone)
 	if id == nil or not checkQuestie() then return end
 	local ids = {npc = {}, object = {}, item = {}}
 	local objectives = {npc = {}, object = {}, item = {}}
+	local positions = {}
+	local filterZoneId
+	if filterZone ~= nil then filterZoneId = ZoneDB:GetAreaIdByUiMapId(addon.mapIDs[filterZone]) end
 	if addon.getSuperCode(typ) == "QUEST" then
 		local quest = QuestieDB:GetQuest(id)
 		if quest == nil then return end
 		local list
 		if typ == "ACCEPT" then 
-			list = quest.startedBy
+			list = {quest.Starts}
 		elseif typ == "COMPLETE" then
-			list = quest.objectives
+			list = quest.ObjectiveData
 		elseif typ == "TURNIN" then
-			list = quest.finishedBy
+			list = {quest.Finisher}
 		end
 		if list ~= nil then
-			--if addon.debugging then print("LIME: getQuestPositionsQuestie " .. typ .. " " .. id .. " " .. addon.show(list)) end
-			local c = 0
-			for i, type in ipairs({"npc", "object", "item"}) do
-				if list[i] ~= nil then 
-					for j, v in ipairs(list[i]) do 
-						local oi = (typ == "COMPLETE" and correctionsObjectiveOrder[id]) and correctionsObjectiveOrder[id][c + j] or (c + j)
-						if index == nil or index == 0 or index == oi then
-							local id2
-							if typ == "COMPLETE" then id2 = v[1] else id2 = v end 
-							table.insert(ids[type], id2)
-							if objectives[type][id2] == nil then objectives[type][id2] = {} end
-							table.insert(objectives[type][id2], oi)
-						end
-					end 
-					c = c + #list[i]
-				end
-			end
-			--kill credit objective
-			if list[5] ~= nil then
-				c = c + 1
-				local oi = (typ == "COMPLETE" and correctionsObjectiveOrder[id]) and correctionsObjectiveOrder[id][c] or c
+			if addon.debugging then print("LIME: getQuestPositionsQuestie " .. typ .. " " .. id .. " " .. #list) end
+			for i = 1, #list do
+				local oi = (typ == "COMPLETE" and correctionsObjectiveOrder[id]) and correctionsObjectiveOrder[id][i] or i
 				if index == nil or index == 0 or index == oi then
-					for j, id2 in ipairs(list[5][1]) do
-						table.insert(ids.npc, id2)
-						if objectives.npc[id2] == nil then objectives.npc[id2] = {} end
-						table.insert(objectives.npc[id2], oi)
+					if list[i].NPC ~= nil then
+						for _, id2 in ipairs(list[i].NPC) do
+							table.insert(ids.npc, id2)
+							if objectives.npc[id2] == nil then objectives.npc[id2] = {} end
+							table.insert(objectives.npc[id2], oi)
+						end
+					elseif list[i].Type == "monster" or list[i].Type == "item" or list[i].Type == "object" then
+						local type = list[i].Type == "monster" and "npc" or list[i].Type
+						table.insert(ids[type], list[i].Id)
+						if objectives[type][list[i].Id] == nil then objectives[type][list[i].Id] = {} end
+						table.insert(objectives[type][list[i].Id], oi)
+					elseif list[i].Type == "killcredit" then
+						for _, id2 in ipairs(list[i].IdList) do
+							table.insert(ids.npc, id2)
+							if objectives.npc[id2] == nil then objectives.npc[id2] = {} end
+							table.insert(objectives.npc[id2], oi)
+						end
+					elseif list[i].Type == "event" and list[i].Coordinates ~= nil then
+						if filterZone == nil then
+							for zone, posList in pairs(list[i].Coordinates) do
+								for _, pos in ipairs(posList) do
+									table.insert(positions, {x = pos[1], y = pos[2], zone = addon.zoneNames[ZoneDB:GetUiMapIdByAreaId(zone)] or zone, objectives = oi})
+								end
+							end
+						elseif list[i].Coordinates[filterZoneId] ~= nil then
+							for _, pos in ipairs(list[i].Coordinates[filterZoneId]) do
+								table.insert(positions, {x = pos[1], y = pos[2], zone = filterZone, objectives = oi})
+							end
+						end
 					end
 				end
 			end
@@ -234,8 +246,8 @@ function addon.getQuestPositionsQuestie(id, typ, index, filterZone)
 	else
 		return
 	end
-	for j = 1, #(ids.item) do
-		local item = QuestieDB:GetItem(ids.item[j])
+	for _, itemId in ipairs(ids.item) do
+		local item = QuestieDB:GetItem(itemId)
 		--if item == nil then error("item " .. ids.item[j] .. " not found for quest " .. questid .. typ) end
 		--if addon.debugging then print("LIME: item", ids.item[j] .. " " .. item[6]) end
 		if item ~= nil then
@@ -243,53 +255,50 @@ function addon.getQuestPositionsQuestie(id, typ, index, filterZone)
 				for i = 1, #item.npcDrops do
 					if not addon.contains(ids.npc, item.npcDrops[i]) then table.insert(ids.npc, item.npcDrops[i]) end
 					if objectives.npc[item.npcDrops[i]] == nil then objectives.npc[item.npcDrops[i]] = {} end
-					for _, c in ipairs(objectives.item[ids.item[j]]) do table.insert(objectives.npc[item.npcDrops[i]], c) end
+					for _, c in ipairs(objectives.item[itemId]) do table.insert(objectives.npc[item.npcDrops[i]], c) end
 				end
 			end
 			if item.objectDrops ~= nil then
 				for i = 1, #item.objectDrops do
 					if not addon.contains(ids.object, item.objectDrops[i]) then table.insert(ids.object, item.objectDrops[i]) end
 					if objectives.object[item.objectDrops[i]] == nil then objectives.object[item.objectDrops[i]] = {} end
-					for _, c in ipairs(objectives.item[ids.item[j]]) do table.insert(objectives.object[item.objectDrops[i]], c) end
+					for _, c in ipairs(objectives.item[itemId]) do table.insert(objectives.object[item.objectDrops[i]], c) end
 				end
 			end
 		end
 	end
-	local positions = {}
-	local filterZoneId
-	if filterZone ~= nil then filterZoneId = ZoneDB:GetAreaIdByUiMapId(addon.mapIDs[filterZone]) end
-	for j = 1, #(ids.npc) do
-		local npc = QuestieDB:GetNPC(ids.npc[j])
-		--if npc == nil then error("npc " .. ids.npc[j] .. " not found for quest " .. questid .. typ) end
+	for _, npcId in ipairs(ids.npc) do
+		local npc = QuestieDB:GetNPC(npcId)
+		--if npc == nil then error("npc " .. npcId .. " not found for quest " .. questid .. typ) end
 		--if addon.debugging then print("LIME: npc", npc[1]) end
 		if npc ~= nil and npc.spawns ~= nil then
 			if filterZone == nil then
 				for zone, posList in pairs(npc.spawns) do
 					for _, pos in ipairs(posList) do
-						table.insert(positions, {x = pos[1], y = pos[2], zone = addon.zoneNames[ZoneDB:GetUiMapIdByAreaId(zone)] or zone, npcId = ids.npc[j], objectives = objectives.npc[ids.npc[j]]})
+						table.insert(positions, {x = pos[1], y = pos[2], zone = addon.zoneNames[ZoneDB:GetUiMapIdByAreaId(zone)] or zone, npcId = npcId, objectives = objectives.npc[npcId]})
 					end
 				end
 			elseif npc.spawns[filterZoneId] ~= nil then
 				for _, pos in ipairs(npc.spawns[filterZoneId]) do
-					table.insert(positions, {x = pos[1], y = pos[2], zone = filterZone, npcId = ids.npc[j], objectives = objectives.npc[ids.npc[j]]})
+					table.insert(positions, {x = pos[1], y = pos[2], zone = filterZone, npcId = npcId, objectives = objectives.npc[npcId]})
 				end
 			end
 		end
 	end
-	for j = 1, #(ids.object) do
-		local object = QuestieDB:GetObject(ids.object[j])
-		if object == nil then error("object " .. ids.object[j] .. " not found for quest " .. id .. typ) end
+	for _, objectId in ipairs(ids.object) do
+		local object = QuestieDB:GetObject(objectId)
+		if object == nil then error("object " .. objectId .. " not found for quest " .. id .. typ) end
 		--if addon.debugging then print("LIME: object", object[1]) end
 		if object.spawns ~= nil then
 			if filterZone == nil then
 				for zone, posList in pairs(object.spawns) do
 					for _, pos in ipairs(posList) do
-						table.insert(positions, {x = pos[1], y = pos[2], zone = addon.zoneNames[ZoneDB:GetUiMapIdByAreaId(zone)] or zone, objectId = ids.object[j], objectives = objectives.object[ids.object[j]]})
+						table.insert(positions, {x = pos[1], y = pos[2], zone = addon.zoneNames[ZoneDB:GetUiMapIdByAreaId(zone)] or zone, objectId = objectId, objectives = objectives.object[objectId]})
 					end
 				end
 			elseif object.spawns[filterZoneId] ~= nil then
 				for _, pos in ipairs(object.spawns[filterZoneId]) do
-					table.insert(positions, {x = pos[1], y = pos[2], zone = filterZone, objectId = ids.object[j], objectives = objectives.object[ids.object[j]]})
+					table.insert(positions, {x = pos[1], y = pos[2], zone = filterZone, objectId = objectId, objectives = objectives.object[objectId]})
 				end
 			end
 		end
@@ -322,67 +331,41 @@ function addon.getQuestObjectivesQuestie(id, typ)
 	local quest = QuestieDB:GetQuest(id)
 	if quest == nil then return end
 	if typ == "ACCEPT" then 
-		list = quest.startedBy
+		list = {quest.Starts}
 	elseif typ == "COMPLETE" then
-		list = quest.objectives
+		list = quest.ObjectiveData
 	elseif typ == "TURNIN" then
-		list = quest.finishedBy
+		list = {quest.Finisher}
 	else
 		return
 	end
 	--if addon.debugging then print("LIME: getQuestObjectivesQuestie " .. typ .. " " .. id .. " " .. addon.show(list)) end
 	
-	--TODO: test order for quests 10503 and 10861
-	-- https://tbc.wowhead.com/quest=10503/the-bladespire-threat
-	-- https://tbc.wowhead.com/quest=10861/veil-lithic-preemptive-strike
 	local objectives = {}
-	if list[1] ~= nil then
-		for j = 1, #list[1] do
-			local objList = {}
-			local ids = {}
-			local npcId
-			if type(list[1][j]) == "number" then 
-				npcId = list[1][j]
-			else 
-				npcId = list[1][j][1]
-				table.insert(objList, list[1][j][2])
-			end
-			local npc = QuestieDB:GetNPC(npcId)
-			if npc ~= nil and not addon.contains(objList, npc.name) then table.insert(objList, npc.name) end
-			if typ == "COMPLETE" then
-				table.insert(objectives, {type = "monster", names = objList, ids = {npc = {npc.id}}})
-			else
+	for j = 1, #list do
+		if list[j].NPC ~= nil then
+			for _, npcId in ipairs(list[j].NPC) do
+				local objList = {}
+				local npc = QuestieDB:GetNPC(npcId)
+				if npc ~= nil and not addon.contains(objList, npc.name) then table.insert(objList, npc.name) end
 				table.insert(objectives, {type = "npc", names = objList, ids = {npc = {npcId}}})
 			end
-		end
-	end
-	if list[2] ~= nil then
-		for j = 1, #list[2] do
+		elseif list[j].Type == "monster" then
 			local objList = {}
-			local objId
-			if type(list[2][j]) == "number" then 
-				objId = list[2][j]
-			else 
-				objId = list[2][j][1]
-				table.insert(objList, list[2][j][2])
-			end
-			local obj = QuestieDB:GetObject(objId)
+			if list[j].Name ~= nil then table.insert(objList, list[j].Name) end
+			local npc = QuestieDB:GetNPC(list[j].Id)
+			if npc ~= nil and not addon.contains(objList, npc.name) then table.insert(objList, npc.name) end
+			table.insert(objectives, {type = "monster", names = objList, ids = {npc = {list[j].Id}}})
+		elseif list[j].Type == "object" then
+			local objList = {}
+			if list[j].Name ~= nil then table.insert(objList, list[j].Name) end
+			local obj = QuestieDB:GetObject(list[j].Id)
 			if obj ~= nil and not addon.contains(objList, obj.name) then table.insert(objList, obj.name) end
-			table.insert(objectives, {type = "object", names = objList, ids = {object = {objId}}})
-		end
-	end
-	if list[3] ~= nil then
-		for j = 1, #list[3] do
-			local objective = {type = "item", names = {}}
-			local itemId 
-			if type(list[3][j]) == "number" then 
-				itemId = list[3][j]
-			else
-				itemId = list[3][j][1]
-				table.insert(objective.names, list[3][j][2])
-			end
-			objective.ids = {item = {itemId}}
-			local item = QuestieDB:GetItem(itemId)
+			table.insert(objectives, {type = "object", names = objList, ids = {object = {list[j].Id}}})
+		elseif list[j].Type == "item" then
+			local objective = {type = "item", ids = {item = {list[j].Id}}, names = {}}
+			if list[j].Name ~= nil then table.insert(objective.names, list[j].Name) end
+			local item = QuestieDB:GetItem(list[j].Id)
 			if item ~= nil then
 				if not addon.contains(objective.names, item.name) then table.insert(objective.names, item.name) end
 				if item.npcDrops ~= nil then
@@ -405,21 +388,12 @@ function addon.getQuestObjectivesQuestie(id, typ)
 				end
 			end
 			table.insert(objectives, objective)
-		end
-	end
-	--TODO: reputation objective
-	--kill credit objective
-	if list[5] ~= nil then
-		local objList = {}
-		local ids = {}
-		local npcIds = list[5][1]
-		local npcBaseId = list[5][2]
-		local npc = QuestieDB:GetNPC(npcBaseId)
-		if npc ~= nil then table.insert(objList, npc.name) end
-		if typ == "COMPLETE" then
-			table.insert(objectives, {type = "monster", names = objList, ids = {npc = npcIds}})
-		else
-			table.insert(objectives, {type = "npc", names = objList, ids = {npc = npcIds}})
+		elseif list[j].Type == "killcredit" then
+			local objList = {}
+			if list[j].Text ~= nil then table.insert(objList, list[j].Text) end
+			local npc = QuestieDB:GetNPC(list[j].RootId)
+			if npc ~= nil then table.insert(objList, npc.name) end
+			table.insert(objectives, {type = "monster", names = objList, ids = {npc = list[j].IdList}})
 		end
 	end
 	if typ == "COMPLETE" and correctionsObjectiveOrder[id] then
