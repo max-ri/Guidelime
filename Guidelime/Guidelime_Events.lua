@@ -436,8 +436,8 @@ end
 addon.frame:RegisterEvent('UNIT_SPELLCAST_SUCCEEDED')
 function addon.frame:UNIT_SPELLCAST_SUCCEEDED(unitTarget, castGUID, spellID)
 	--if addon.debugging then print ("LIME: UNIT_SPELLCAST_SUCCEEDED", unitTarget, castGUID, spellID) end
-	-- hearthstone was used
-	if spellID == 8690 then
+	-- hearthstone was used (or Astral Recall)
+	if spellID == 8690 or spellID == 556 then
 		addon.completeSemiAutomaticByType("HEARTH")
 	end
 end
