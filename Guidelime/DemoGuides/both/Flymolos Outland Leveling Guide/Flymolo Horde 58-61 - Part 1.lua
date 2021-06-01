@@ -6,7 +6,7 @@ Guidelime.registerGuide([[
 [NX58-61 -Part 2- Flymolo's Horde Guide]
 [GA Horde]
 
-In the Blasted Lands, accept [QA9407 Through the Dark Portal].
+In the Blasted Lands, accept [QA9407 Through the Dark Portal]. *NOTE:* If this quest is not available when you arrive, you can skip it and go through the portal.
 [G58.7,59.5 Blasted Lands] Go through the Portal!
 Turn in [QT9407].\\Accept [QA10120 Arrival in Outland].
 Turn in [QT10120].\\Accept [QA10289 Journey to Thrallmar].

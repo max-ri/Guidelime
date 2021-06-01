@@ -1,7 +1,8 @@
-Guidelime.registerGuide([[
+Guidelime.registerGuide(
+[[
 [DL1-70 https://www.curseforge.com/wow/addons/guidelime_tugs GuideLime_TUGs]
 [GA Alliance]
-[N1-9Dwarf&Gnome TUGs Leveling Guide]
+[N1-9Dwarf&Gnome]
 [NX9-11 Dun Morogh, Loch Modan]
 [D This guide was written by TUGs and is totally free, but if you want to support my work use: https://www.youtube.com/user/HydroxXTV]
 This guide was written by TUGs and is totally free, but if you want to support my work use: https://www.youtube.com/user/HydroxXTV
@@ -78,7 +79,5 @@ Do: [QC287]
 Die on purpose! If youre a pserver player: dieing IN the cave gets you to kharanos not the starting area!
 TurnIn: [QT287]
 Accept: [QA291]
-TurnIn: [QT412]
 TurnIn: [QT320]
-
-]],"TUGs The Ultimate (Leveling) Guides")
+]], "TUGs The Ultimate (Leveling) Guides")

@@ -1,7 +1,8 @@
-Guidelime.registerGuide([[
+Guidelime.registerGuide(
+[[
 [DL1-60 https://www.curseforge.com/wow/addons/guidelime-busteas-1-60-leveling Guidelime_Bustea's 1-60 leveling]
 [D6-12 Undead - Based on twitch.tv/Cauthonluck Routing and Preparation. A guide created by *Freezy3*]
-[GA Horde,Undead]
+[GA Horde]
 [N6-12 Freezy3 Undead Starter]
 [NX12-21 Bustea's Undead Guide]
 
@@ -16,8 +17,8 @@ Make sure you're [XP7+1170 Level 7 and 1170exp or above]
 |cFFFF0000Die or /Unstuck. Resurrect at the *Spirit Healer*|r
 Turn In:\\[QT5482]\\[QT404 A Putrid Task]\\Accept: [QA426]\\Turn In: [QT367]\\Accept: [QA368]\\Turn In:\\[QT398]\\[QT358]
 Accept:\\[QA359]\\[QA405 The Prodigal Lich]\\[QA354]\\[QA362]\\[QA375]
-[T] Level 8, train your class skills (2s) [A Priest]
-[T] Level 8, train your class skills [A Warrior, Rogue, Mage, Warlock]
+[T] Level 8, train your class skills (2s) [APriest]
+[T] Level 8, train your class skills [AWarrior, Rogue, Mage, Warlock]
 [O][V] Vendor and buy water AND bag
 [O]Start working on [QC375]
 [O]Loot A Letter to Yvette and start [QA361]
@@ -27,8 +28,8 @@ Make sure you're [XP9+1675 Level 9 and 1675exp or above] IF you have[QA361], 215
 Turn In:\\[QT426]\\[QC368]\\Accept:\\[QA369]\\[QA445 Delivery to Silverpine Forest]\\Turn In: [QT427]\\Accept:\\[QA370]\\[QA374]
 [V] Buy 1 coarse thread
 Turn In:\\[QT354 Deaths in the Family]\\[QT362 The Haunted Mills]\\[QT361 A Letter Undelivered]\\[QT375]\\Accept: [QA355 Speak with Sevren]
-[T] Level 10, train your class skills (14s) [A Priest]
-[T] Level 10, train your class skills [A Warrior, Rogue, Mage, Warlock]
+[T] Level 10, train your class skills (14s) [APriest]
+[T] Level 10, train your class skills [AWarrior, Rogue, Mage, Warlock]
 [O][V] Vendor and buy water
 Turn In: [QT355]
 Complete: [QC370]
@@ -53,11 +54,11 @@ Make sure you're [XP11+450 Level 11 and 4450exp or above]
 Turn In:\\[QT356 Rear Guard Patrol]\\Accept: [QA360]\\Turn In:\\[QT374 Proof of Demise]\\[QT371 At War With The Scarlet Crusade]\\[QT360]\\[QT369 A New Plague]\\Accept: [QA492 A New Plague]\\Turn In: [QT492]
 Use your [H] Hearthstone Undercity
 [O][V] Vendor and buy water
-Turn In: [QT6322 Michael Garrett]\\Turn In: [QT366]
-[T] Level 12, train your class skills (24s) [A Priest]
-[T] Level 12, train your class skills [A Warrior, Rogue, Mage, Warlock]
-Take zeppelin to Orgrimmar.
-Get the flight path in[P Orgrimmar]
+Turn In: [QT6322 Michael Garrett]\\Accept: [QA6324 Return to Podrig]\\Turn In: [QT366]
+[T] Level 12, train your class skills (24s) [APriest]
+[T] Level 12, train your class skills [AWarrior, Rogue, Mage, Warlock]
+[O]If you want, take zeppelin to Orgrimmar and start crossroads
+[F] Fly to Sepulcher
+Turn In: [QT6324 Return to Podrig]
 
-
-]],"Bustea's Horde Leveling guide")
+]], "Bustea's Horde Leveling guide")

@@ -8,7 +8,7 @@ Guidelime.registerGuide([[
 
 
 [G63.5,17.0 Blasted Lands] Purchase *Nethergarde Bitter* from *Bernie Heisten.* You will hold this in your inventory for the next few levels.
-Accept [QA10119 Through the Dark Portal].
+Accept [QA10119 Through the Dark Portal]. *NOTE:* If this quest is not available when you arrive, you can skip it and go through the portal.
 [G58.7,59.5 Blasted Lands] Go through the Portal!
 Turn in [QT10119].\\Accept [QA10288 Arrival in Outland].
 Turn in [QA10288 Arrival in Outland].\\Accept [QA10140 Journey to Honor Hold].

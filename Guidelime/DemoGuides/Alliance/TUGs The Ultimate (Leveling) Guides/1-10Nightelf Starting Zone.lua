@@ -1,11 +1,12 @@
-Guidelime.registerGuide([[
+Guidelime.registerGuide(
+[[
 [DL1-70 https://www.curseforge.com/wow/addons/guidelime_tugs GuideLime_TUGs]
 [GA Alliance]
 [N1-10Nightelf Starting Zone]
 [NX11-18 Darkshore]
 [D This guide was written by TUGs and is totally free, but if you want to support my work use: https://www.youtube.com/user/HydroxXTV]
 This guide was written by TUGs and is totally free, but if you want to support my work use: https://www.youtube.com/user/HydroxXTV
-This is a solo guide, dont group up unless for single loot mobs.
+This is a solo guide, dont group up unless for single loot mobs. Every Level you should grind 2-5 experience bars, this will make sure that this guide works properly!
 Accept: [QA456]
 Do: [QC456]
 TurnIn: [QT456]
@@ -114,5 +115,4 @@ Accept: [QA6341]
 TurnIn: [QT6341]
 Accept: [QA6342]
 Fly to Auberdine
-
-]],"TUGs The Ultimate (Leveling) Guides")
+]], "TUGs The Ultimate (Leveling) Guides")

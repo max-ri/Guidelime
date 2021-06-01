@@ -1,7 +1,8 @@
-Guidelime.registerGuide([[
+Guidelime.registerGuide(
+[[
 [DL1-60 https://www.curseforge.com/wow/addons/guidelime-busteas-1-60-leveling Guidelime_Bustea's 1-60 leveling]
 [D1-12 Mulgore converted by InsaneKane]
-[GA Horde, Tauren]
+[GA Horde]
 [N1-12 Mulgore Tauren]
 [NX12-21 Bustea's Tauren Guide]
 
@@ -220,5 +221,4 @@ Turn in [QT764]
 Turn in [QT765]
 Turn in [QT760][A Tauren,]
 
-
-]],"Bustea's Horde Leveling guide")
+]], "Bustea's Horde Leveling guide")

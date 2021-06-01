@@ -1,4 +1,5 @@
-Guidelime.registerGuide([[
+Guidelime.registerGuide(
+[[
 [DL1-70 https://www.curseforge.com/wow/addons/guidelime_tugs GuideLime_TUGs]
 [GA Alliance]
 [N9-11 Dun Morogh, Loch Modan]
@@ -28,20 +29,26 @@ TurnIn: [QT267]
 Accept: [QA237]
 Get the [P] flightpath at: [G33.9,51Loch Modan]
 Set your [H] to Loch Modan at [G35.4,48.4Loch Modan]
-Accept: [QA6387][A Dwarf]
+Accept: [QA6387][A Dwarf, Gnome]
+Accept: [QA1339]
 TurnIn: [QT353][A Human]
+TurnIn: [QT1339]
 Accept: [QA307]
 Do: [QC307]
 Buy Heavy Spiked mace from [G42.8,10Loch Modan]Nillen Andemar if you are a Warrior,Paladin. Its a limited supply weapon,so it might not be available
 TurnIn: [QT307]
 Use your [H] Hearthstone.
+TurnIn: [QT6387][A Dwarf, Gnome]
+Accept: [QA6391][A Dwarf, Gnome]
 Fly to Ironforge
+TurnIn: [QT6391][A Dwarf, Gnome]
+Accept: [QA6388][A Dwarf, Gnome]
 Learn new spells
 Set your [H] to Ironforge at [G18.6,51.6Ironforge]
 Run to [G30.9,36.5Dun Morogh][A Human]
 Run to [G31.1,31.2Dun Morogh][A Human]
 Run further north into wetlands [A Human]
+TurnIn: [QT6388][A Dwarf, Gnome]
 Fly to Wetlands[A Dwarf]
 Take the ship to Darkshore
-
-]],"TUGs The Ultimate (Leveling) Guides")
+]], "TUGs The Ultimate (Leveling) Guides")

@@ -1,11 +1,12 @@
-Guidelime.registerGuide([[
+Guidelime.registerGuide(
+[[
 [DL1-70 https://www.curseforge.com/wow/addons/guidelime_tugs GuideLime_TUGs]
 [GA Alliance]
-[N1-9Human TUGs Leveling Guide]
+[N1-9Human]
 [NX9-11 Dun Morogh, Loch Modan]
 [D This guide was written by TUGs and is totally free, but if you want to support my work use: https://www.youtube.com/user/HydroxXTV]
 This guide was written by TUGs and is totally free, but if you want to support my work use: https://www.youtube.com/user/HydroxXTV
-If you use this guide alone or less than 5 man doing the elite quests/dungeon grind might be too hard/impossible, just skip that and continue with the guide,it does have enough quests to get you to 60 either way!!!
+Every Level you should grind 2-5 experience bars, this will make sure that this guide works properly!
 Accept: [QA783]
 TurnIn: [QT783]
 Accept: [QA7]
@@ -61,7 +62,7 @@ TurnIn: [QT107]
 TurnIn: [QT60]
 Accept: [QA61]
 Accept: [QA112]
-[GA Warrior]Buy Gladius
+[A Warrior]Buy Gladius
 Do: [QC112]
 Do: [QC76]
 Die and rezz at Ghosthealer
@@ -97,5 +98,4 @@ TurnIn: [QT1097]
 Accept: [QA353]
 Take the Tram to Ironforge
 Get the [P] flightpath at: [G55.5,47.8Ironforge]
-
-]],"TUGs The Ultimate (Leveling) Guides")
+]], "TUGs The Ultimate (Leveling) Guides")
