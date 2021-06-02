@@ -263,7 +263,7 @@ function addon.loadData()
 
 	addon.debugging = GuidelimeData.debugging
 	addon.dataSource = GuidelimeData.dataSource
-	if not addon["isDataSourceInstalled" .. addon.dataSource]() then addon.dataSource = "INTERNAL" end
+	if not addon["isDataSourceInstalled" .. addon.dataSource] or not addon["isDataSourceInstalled" .. addon.dataSource]() then addon.dataSource = "INTERNAL" end
 
 	if GuidelimeData.customGuides ~= nil then
 		for _, guide in pairs(GuidelimeData.customGuides) do
