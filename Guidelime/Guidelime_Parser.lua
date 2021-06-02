@@ -350,7 +350,7 @@ function addon.parseLine(step, guide, strict, nameOnly)
 					table.insert(step.races, addon.getRace(c))
 				elseif addon.isFaction(c) then
 					step.faction = addon.getFaction(c)
-				elseif addon.isReputation(c) and step.reputation == nil then
+				elseif addon.isReputation(c) then
 					step.reputation = addon.getReputation(c)
 					if less == "<" then
 						step.repMax = tonumber(value)
