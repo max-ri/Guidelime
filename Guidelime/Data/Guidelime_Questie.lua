@@ -421,3 +421,15 @@ function addon.getNPCPositionQuestie(id)
 		end
 	end
 end
+
+function addon.getNPCNameQuestie(id)
+	if id == nil or not checkQuestie() then return end
+	local npc = QuestieDB:GetNPC(id)
+	if npc ~= nil then return npc.name end
+end
+
+function addon.getObjectNameQuestie(id)
+	if id == nil or not checkQuestie() then return end
+	local object = QuestieDB:GetObject(id)
+	if object ~= nil then return object.name end
+end

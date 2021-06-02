@@ -758,3 +758,26 @@ function addon.getNPCPosition(id)
 	local p = addon.creaturesDB[id].positions[1]
 	return {instance = p.mapid, wx = p.y, wy = p.x}
 end
+
+
+function addon.getNPCName(id)
+	if id == nil then return end
+	if addon.dataSource == "QUESTIE" then return addon.getNPCNameQuestie(id) end
+	if addon["creaturesDB_" .. GetLocale()] ~= nil and addon["creaturesDB_" .. GetLocale()][id] ~= nil then
+		return addon["creaturesDB_" .. GetLocale()][npcId]
+	end
+	if addon.creaturesDB[id] ~= nil then
+		return addon.creaturesDB[npcId].name
+	end
+end
+
+function addon.getObjectName(id)
+	if id == nil then return end
+	if addon.dataSource == "QUESTIE" then return addon.getObjectNameQuestie(id) end
+	if addon["objectsDB_" .. GetLocale()] ~= nil and addon["objectsDB_" .. GetLocale()][id] ~= nil then
+		return addon["objectsDB_" .. GetLocale()][npcId]
+	end
+	if addon.objectsDB[id] ~= nil then
+		return addon.objectsDB[npcId].name
+	end
+end
