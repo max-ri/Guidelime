@@ -1223,7 +1223,8 @@ function addon.updateStepsMapIcons()
 	local arrowElement
 	local highlight = true
 	for _, step in ipairs(addon.currentGuide.steps) do
-		if not step.skip and not step.completed and step.available then
+		if not step.skip and not step.completed and step.available and
+			(step.reputation == nil or addon.isRequiredReputation(step.reputation, step.repMin, step.repMax)) then
 			for _, element in ipairs(step.elements) do
 				if element.t == "GOTO" and step.active and not element.completed then
 					if element.specialLocation == "NEAREST_FLIGHT_POINT" and addon.x ~= nil and addon.y ~= nil then
