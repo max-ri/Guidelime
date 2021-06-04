@@ -183,3 +183,9 @@ function addon.applies(guide)
 	if guide.faction ~= nil and guide.faction ~= addon.faction then return false end
 	return true
 end
+
+function addon.isAlive()
+	return HBD:GetPlayerZone() == nil or C_DeathInfo.GetCorpseMapPosition(HBD:GetPlayerZone()) == nil
+end
+
+

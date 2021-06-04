@@ -201,7 +201,7 @@ function addon.getQuestPositionsQuestie(id, typ, index, filterZone)
 			list = {quest.Finisher}
 		end
 		if list ~= nil then
-			if addon.debugging then print("LIME: getQuestPositionsQuestie " .. typ .. " " .. id .. " " .. #list) end
+			--if addon.debugging then print("LIME: getQuestPositionsQuestie " .. typ .. " " .. id .. " " .. #list) end
 			for i = 1, #list do
 				local oi = (typ == "COMPLETE" and correctionsObjectiveOrder[id]) and correctionsObjectiveOrder[id][i] or i
 				if index == nil or index == 0 or index == oi then

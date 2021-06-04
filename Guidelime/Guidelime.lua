@@ -95,7 +95,6 @@ addon.xp = UnitXP("player")
 addon.xpMax = UnitXPMax("player")
 addon.x, addon.y, addon.instance = HBD:GetPlayerWorldPosition()
 addon.face = GetPlayerFacing()
-addon.alive = true
 
 addon.guides = {}
 addon.dataLoaded = false
@@ -979,7 +978,7 @@ local function updateStepCompletion(i, completedIndexes)
 				element.completed = true
 			elseif element.completed and not element.lastGoto and element.attached == nil then
 				-- do not reactivate unless it is the last goto of the step
-			elseif addon.x ~= nil and addon.y ~= nil and element.wx ~= nil and element.wy ~= nil and addon.instance == element.instance and addon.alive and step.active then
+			elseif addon.x ~= nil and addon.y ~= nil and element.wx ~= nil and element.wy ~= nil and addon.instance == element.instance and addon.isAlive() and step.active then
 				local radius = element.radius * element.radius
 				-- add some hysteresis
 				if element.completed then radius = radius * addon.GOTO_HYSTERESIS_FACTOR end
@@ -1253,7 +1252,7 @@ function addon.updateStepsMapIcons()
 			end
 		end
 	end
-	if arrowElement or not addon.alive then 
+	if arrowElement or not addon.isAlive() then 
 		addon.showArrow(arrowElement) 
 	else 
 		addon.hideArrow() 
