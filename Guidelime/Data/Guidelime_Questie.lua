@@ -211,6 +211,12 @@ function addon.getQuestPositionsQuestie(id, typ, index, filterZone)
 							if objectives.npc[id2] == nil then objectives.npc[id2] = {} end
 							table.insert(objectives.npc[id2], oi)
 						end
+					elseif list[i].GameObject ~= nil then
+						for _, id2 in ipairs(list[i].GameObject) do
+							table.insert(ids.object, id2)
+							if objectives.object[id2] == nil then objectives.object[id2] = {} end
+							table.insert(objectives.object[id2], oi)
+						end
 					elseif list[i].Type == "monster" or list[i].Type == "item" or list[i].Type == "object" then
 						local type = list[i].Type == "monster" and "npc" or list[i].Type
 						table.insert(ids[type], list[i].Id)
