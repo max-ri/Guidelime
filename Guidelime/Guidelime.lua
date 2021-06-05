@@ -1238,7 +1238,8 @@ function addon.updateStepsMapIcons()
 							highlight = false
 						end
 					end
-				elseif (element.t == "LOC" or element.t == "GOTO") and not element.completed and element.specialLocation == nil then
+				elseif (element.t == "LOC" or element.t == "GOTO") and 
+					not element.completed and element.specialLocation == nil and (element.attached == nil or not element.attached.completed) then
 					local found = true
 					if element.objectives ~= nil and element.attached ~= nil and element.attached.questId ~= nil then
 						local objectives = getQuestActiveObjectives(element.attached.questId, element.attached.objective)
