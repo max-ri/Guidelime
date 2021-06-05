@@ -1051,8 +1051,7 @@ local function updateStepAvailability(i, changedIndexes, scheduled)
 				element.available = false
 				scheduled.SKIP[element.questId] = true
 			end
-			if not element.completed then step.available = step.available and element.available end
-			if not element.completed then step.available = step.available or element.available end
+			if not element.completed then step.available = step.available or false or element.available	end
 		elseif element.t == "XP" or element.t == "REPUTATION" then
 			if not element.completed then step.available = true end			
 		end
