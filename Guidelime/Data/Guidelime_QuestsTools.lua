@@ -762,22 +762,26 @@ end
 
 function addon.getNPCName(id)
 	if id == nil then return end
-	if addon.dataSource == "QUESTIE" then return addon.getNPCNameQuestie(id) end
+	if addon.npcNames == nil then addon.npcNames = {} end
+	if addon.npcNames[id] ~= nil then return addon.npcNames[id] end
+	if addon.dataSource == "QUESTIE" then addon.npcNames[id] = addon.getNPCNameQuestie(id); return addon.npcNames[id] end
 	if addon["creaturesDB_" .. GetLocale()] ~= nil and addon["creaturesDB_" .. GetLocale()][id] ~= nil then
-		return addon["creaturesDB_" .. GetLocale()][npcId]
+		addon.npcNames[id] = addon["creaturesDB_" .. GetLocale()][npcId]
+	elseif addon.creaturesDB[id] ~= nil then
+		addon.npcNames[id] = addon.creaturesDB[id].name
 	end
-	if addon.creaturesDB[id] ~= nil then
-		return addon.creaturesDB[id].name
-	end
+	return addon.npcNames[id]
 end
 
 function addon.getObjectName(id)
 	if id == nil then return end
-	if addon.dataSource == "QUESTIE" then return addon.getObjectNameQuestie(id) end
+	if addon.objectNames == nil then addon.objectNames = {} end
+	if addon.objectNames[id] ~= nil then return addon.objectNames[id] end
+	if addon.dataSource == "QUESTIE" then addon.objectNames[id] = addon.getObjectNameQuestie(id); return addon.objectNames[id] end
 	if addon["objectsDB_" .. GetLocale()] ~= nil and addon["objectsDB_" .. GetLocale()][id] ~= nil then
-		return addon["objectsDB_" .. GetLocale()][id]
+		addon.objectNames[id] = addon["objectsDB_" .. GetLocale()][id]
+	elseif addon.objectsDB[id] ~= nil then
+		addon.objectNames[id] = addon.objectsDB[id].name
 	end
-	if addon.objectsDB[id] ~= nil then
-		return addon.objectsDB[id].name
-	end
+	return addon.objectNames[id]
 end
