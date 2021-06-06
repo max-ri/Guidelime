@@ -300,10 +300,11 @@ function addon.updateArrow()
 	
 	addon.arrowX, addon.arrowY = nil, nil
 	if GuidelimeDataChar.showArrow then
-		local corpse
-		if not addon.isAlive() and HBD:GetPlayerZone() ~= nil then corpse = C_DeathInfo.GetCorpseMapPosition(HBD:GetPlayerZone()) end
-		if corpse ~= nil then
-			addon.arrowX, addon.arrowY = HBD:GetWorldCoordinatesFromZone(corpse.x, corpse.y, HBD:GetPlayerZone())
+		if not addon.isAlive() then
+			local corpse = HBD:GetPlayerZone() and C_DeathInfo.GetCorpseMapPosition(HBD:GetPlayerZone())
+			if corpse ~= nil then
+				addon.arrowX, addon.arrowY = HBD:GetWorldCoordinatesFromZone(corpse.x, corpse.y, HBD:GetPlayerZone())
+			end
 		elseif addon.arrowFrame.element ~= nil and addon.arrowFrame.element.wx ~= nil and addon.arrowFrame.element.wy ~= nil and addon.arrowFrame.element.instance == addon.instance then
 			addon.arrowX, addon.arrowY = addon.arrowFrame.element.wx, addon.arrowFrame.element.wy
 		end
