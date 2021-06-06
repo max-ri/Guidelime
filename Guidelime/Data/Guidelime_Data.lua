@@ -185,7 +185,8 @@ function addon.applies(guide)
 end
 
 function addon.isAlive()
-	return HBD:GetPlayerZone() == nil or C_DeathInfo.GetCorpseMapPosition(HBD:GetPlayerZone()) == nil
+	return not UnitIsDeadOrGhost("player")
+	--return HBD:GetPlayerZone() == nil or C_DeathInfo.GetCorpseMapPosition(HBD:GetPlayerZone()) == nil
 end
 
 

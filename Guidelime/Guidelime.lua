@@ -1252,11 +1252,7 @@ function addon.updateStepsMapIcons()
 			end
 		end
 	end
-	if arrowElement or not addon.isAlive() then 
-		addon.showArrow(arrowElement) 
-	else 
-		addon.hideArrow() 
-	end
+	addon.showArrow(arrowElement) 
 	addon.showMapIcons()
 end
 
