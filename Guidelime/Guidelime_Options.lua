@@ -523,7 +523,7 @@ function addon.fillOptions()
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = checkbox
 
-	local sources = {"QUESTIE", "INTERNAL"}
+	local sources = {"QUESTIE", "CLASSIC_CODEX", "INTERNAL"}
 	for i, source in ipairs(sources) do
 		content.options["dataSource" .. source] = addon.addCheckbox(content, L["DATA_SOURCE_" .. source], L["DATA_SOURCE_TOOLTIP_" .. source])
 		content.options["dataSource" .. source]:SetChecked(addon.dataSource == source)

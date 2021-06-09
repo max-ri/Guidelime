@@ -5,7 +5,8 @@
 ## SavedVariables: GuidelimeData
 ## SavedVariablesPerCharacter: GuidelimeDataChar
 ## Notes: Leveling guides with automatic progress updates 
-## Dependencies: Questie
+## OptionalDeps: Questie
+## OptionalDeps: ClassicCodex
 ## OptionalDeps: HereBeDragons
 
 Libs\LibStub\LibStub.lua
@@ -38,6 +39,8 @@ Data\Guidelime_ObjectsDB_Locales.lua
 Data\Guidelime_ItemsDB_Locales.lua
 Data\Guidelime_QuestsTools.lua
 Data\Guidelime_Questie.lua
+Data\Guidelime_ClassicCodexCorrections.lua
+Data\Guidelime_ClassicCodex.lua
 Data\Guidelime_FlightmasterDB.lua
 Data\Guidelime_FlightmasterDB_Locales.lua
 
