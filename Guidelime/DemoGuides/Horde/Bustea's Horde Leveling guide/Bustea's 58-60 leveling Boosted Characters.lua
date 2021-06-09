@@ -4,15 +4,22 @@ Guidelime.registerGuide([[
 [D A guide for boosted characters to level 58-60 in pre-patch (taken from Bustea's Horde Leveling guide) https://twitch.tv/bustea/ ]
 [GA Horde]
 
-Accept [QA64046]
-Turn in [QT64046]
-Accept [QA64048]
+Accept [QA64046] [A Mage,Hunter,Priest,Shaman,Warlock,Warrior,Rogue]
+Accept [QA64047] [A Druid]
+Turn in [QT64046] [A Mage,Hunter,Priest,Shaman,Warlock,Warrior,Rogue]
+Turn in [QT64047] [A Druid]
+Accept [QA64048] [A Mage,Hunter,Priest,Shaman,Warlock,Warrior,Rogue]
+Accept [QA64049] [A Druid]
 Open the kit in your bags and equip a weapon.[OC]
-Turn in [QT64048]
-Accept [QA64050]
+Turn in [QT64048] [A Mage,Hunter,Priest,Shaman,Warlock,Warrior,Rogue]
+Turn in [QT64049] [A Druid]
+Accept [QA64050] [A Mage,Hunter,Priest,Shaman,Warlock,Warrior,Rogue]
+Accept [QA64051] [A Druid]
 Learn a spell at the trainer.[OC]
-Turn in [QT64050]
-Accept [QA64052]
+Turn in [QT64050] [A Mage,Hunter,Priest,Shaman,Warlock,Warrior,Rogue]
+Turn in [QT64051] [A Druid]
+Accept [QA64052] [A Mage,Hunter,Priest,Shaman,Warlock,Warrior,Rogue]
+Accept [QA64053] [A Druid]
 Select your talents.[OC]
 If you are unsure what to pick, you can try out a deep Frost specialization which is great for single targets (source https://www.icy-veins.com):[A Mage][OC]
 Arcane \\
@@ -55,19 +62,6 @@ Feral Combat \\
 Restoration \\
     row 1:               5/5 \\
     row 2: 3/5 [A Druid][OC]
-If you are unsure what to pick, you can try out this Retribution build which is recommended for solo leveling (source https://www.icy-veins.com):[A Paladin][OC]
-Holy \\
-    row 1:        3/5 [A Paladin][OC]
-Retribution \\
-    row 1:               5/5 \\
-    row 2: 2/2 3/3 \\
-    row 3:        5/5 1/1 3/3 \\
-    row 4:                      3/3 \\
-    row 5: 3/2        1/1 2/2 \\
-    row 6:        5/5 3/3 \\
-    row 7: 3/3 1/1 \\
-    row 8:        5/5 \\
-    row 9:        1/1 [A Paladin][OC]
 If you are unsure what to pick, you can try out this Shadow build which is recommended for leveling (source https://www.icy-veins.com):[A Priest][OC]
 Discipline \\
     row 1:               5/5 \\
@@ -135,8 +129,10 @@ Combat \\
     row 7:        1/1 \\
     row 8:               5/5 \\
     row 9:        1/1 [A Rogue][OC]
-Turn in [QT64052]
-Accept [QA64064]
+Turn in [QT64052][A Mage,Hunter,Priest,Shaman,Warlock,Warrior,Rogue]
+Turn in [QT64053][A Druid]
+Accept [QA64064][A Mage,Hunter,Priest,Shaman,Warlock,Warrior,Rogue]
+Accept [QA64128][A Druid]
 Take the zeppelin to Undercity [QC64064]
 
 Accept [QA5094]
@@ -194,7 +190,8 @@ Accept [QA6022][QA6042][QA6133]
 Now also kill every *Noxious Plaguebat* and *Monstrous Plaguebat* you see.
 Now finish off the kills that you need for [QC5543][QC5542][QC6042][QC5544]
 Go to [G81,59 Eastern Plaguelands] and find Light's Hope Chapel
-Turn in [QT64064]
+Turn in [QT64064][A Mage,Hunter,Priest,Shaman,Warlock,Warrior,Rogue]
+Turn in [QT64128][A Druid]
 Accept [QA5211][QA6021]
 *Note: Don't sell evil bat eyes, they can be used to get Darkmoon Faire Tickets for your future epic necklace. If you aren't interested in the Darkmoon rewards you can sell the eyes at the AH for nice cash.*
 Hearth to [H Undercity]
