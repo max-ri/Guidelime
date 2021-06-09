@@ -1,7 +1,7 @@
 Guidelime.registerGuide([[
 
 [N58-61 -Part 1- Flymolo's Horde Guide]
-[DL58-70 https://www.curseforge.com/wow/addons/guidelime_flymolos-outland-leveling-guide]
+[DL58-70 https://www.curseforge.com/wow/addons/guidelime_flymolos-outland-leveling-guide Flymolo's Outland Leveling Guide]
 [D Flymolo's Outland Leveling Guide ]
 [NX58-61 -Part 2- Flymolo's Horde Guide]
 [GA Horde]
