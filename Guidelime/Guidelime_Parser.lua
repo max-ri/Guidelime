@@ -341,13 +341,12 @@ function addon.parseLine(step, guide, strict, nameOnly)
 				err = true
 			end
 		elseif element.t == "APPLIES" then
+			local classes, races = {}, {}
 			tag:upper():gsub(" ",""):gsub("([^,%d%-<>]+)%s*([<>]?)%s*(%-?%d*)", function(c, less, value)
 				if addon.isClass(c) then
-					if step.classes == nil then step.classes = {} end
-					table.insert(step.classes, addon.getClass(c))
+					table.insert(classes, addon.getClass(c))
 				elseif addon.isRace(c) then
-					if step.races == nil then step.races = {} end
-					table.insert(step.races, addon.getRace(c))
+					table.insert(races, addon.getRace(c))
 				elseif addon.isFaction(c) then
 					step.faction = addon.getFaction(c)
 				elseif addon.isReputation(c) then
@@ -364,6 +363,8 @@ function addon.parseLine(step, guide, strict, nameOnly)
 					err = true
 				end
 			end)
+			if #classes > 0 then step.classes = classes end
+			if #races > 0 then step.races = races end
 		elseif element.t == "GOTO" then
 			local _, c = tag:gsub("%s*(%d+%.?%d*)%s?,%s?(%d+%.?%d*)%s?,?%s?(%d*%.?%d*)%s?(.*)", function(x, y, radius, zone)
 				element.x = tonumber(x)
