@@ -489,7 +489,7 @@ function addon.loadCurrentGuide()
 						if gotoElement ~= nil then
 							gotoElement.t = "GOTO"
 							gotoElement.step = step
-							gotoElement.radius = addon.DEFAULT_GOTO_RADIUS + gotoElement.radius
+							gotoElement.radius = gotoElement.radius + 1
 							gotoElement.generated = true
 							gotoElement.available = true
 							gotoElement.attached = element
