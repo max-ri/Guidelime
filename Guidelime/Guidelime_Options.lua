@@ -366,7 +366,7 @@ function addon.fillOptions()
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -150)
 
 	checkbox = addon.addCheckOption(content, GuidelimeData, "showMapMarkersGOTO", L.MAP, nil, function()
-		addon.loadCurrentGuide()
+		addon.loadCurrentGuide(false)
 		addon.updateFromQuestLog()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateMainFrame()
@@ -376,7 +376,7 @@ function addon.fillOptions()
 	prev = checkbox
 	
 	checkbox = addon.addCheckOption(content, GuidelimeData, "showMinimapMarkersGOTO", L.MINIMAP, nil, function()
-		addon.loadCurrentGuide()
+		addon.loadCurrentGuide(false)
 		addon.updateFromQuestLog()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateMainFrame()
@@ -399,7 +399,7 @@ function addon.fillOptions()
 	prev = addon.optionsFrame.textShowMarkersGOTO
 
 	slider = addon.addSliderOption(content, GuidelimeData, "maxNumOfMarkersLOC", 0, 100, 1, L.MAX_NUM_OF_MARKERS, nil, nil, function()
-		addon.loadCurrentGuide()
+		addon.loadCurrentGuide(false)
 		addon.updateFromQuestLog()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateSteps()
@@ -433,7 +433,7 @@ function addon.fillOptions()
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -150)
 
 	checkbox = addon.addCheckOption(content, GuidelimeData, "showMapMarkersLOC", L.MAP, nil, function()
-		addon.loadCurrentGuide()
+		addon.loadCurrentGuide(false)
 		addon.updateFromQuestLog()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateMainFrame()
@@ -443,7 +443,7 @@ function addon.fillOptions()
 	prev = checkbox
 
 	checkbox = addon.addCheckOption(content, GuidelimeData, "showMinimapMarkersLOC", L.MINIMAP, nil, function()
-		addon.loadCurrentGuide()
+		addon.loadCurrentGuide(false)
 		addon.updateFromQuestLog()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateMainFrame()
@@ -536,7 +536,7 @@ function addon.fillOptions()
 			end
 			addon.resetCachedQuestData()			
 			if GuidelimeDataChar.mainFrameShowing and GuidelimeData.autoAddCoordinates then
-				addon.loadCurrentGuide()
+				addon.loadCurrentGuide(false)
 				addon.updateFromQuestLog()
 				addon.updateMainFrame(true)
 			end

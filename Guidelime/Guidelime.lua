@@ -272,7 +272,7 @@ function addon.loadData()
 		end
 	end
 
-	addon.loadCurrentGuide()
+	addon.loadCurrentGuide(false)
 
 	addon.fillGuides()
 	addon.fillOptions()
@@ -364,9 +364,7 @@ function addon.wipeFrameData()
 	end
 end
 
-local firstTimeLoading = true
-
-function addon.loadCurrentGuide()
+function addon.loadCurrentGuide(reset)
 
 	local guide = addon.guides[GuidelimeDataChar.currentGuide]
 	
@@ -404,10 +402,9 @@ function addon.loadCurrentGuide()
 	if GuidelimeDataChar.guideSkip[GuidelimeDataChar.currentGuide] == nil then
 		GuidelimeDataChar.guideSkip[GuidelimeDataChar.currentGuide] = {}
 	end
-	if not firstTimeLoading or GuidelimeDataChar.completedSteps == nil then
+	if reset then
 		GuidelimeDataChar.completedSteps = {}
 	end
-	firstTimeLoading = false
 	--print(format(L.LOAD_MESSAGE, addon.currentGuide.name))
 	guide = addon.parseGuide(guide, guide.group)
 	if guide == nil then return end

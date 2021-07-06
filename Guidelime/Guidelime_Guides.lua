@@ -20,7 +20,7 @@ function addon.loadGuide(name)
 			addon.editorFrame.textBox:SetText(addon.guides[GuidelimeDataChar.currentGuide].text:gsub("|","¦"))
 		end
 	end
-	addon.loadCurrentGuide()
+	addon.loadCurrentGuide(true)
 	addon.updateFromQuestLog()
 	if GuidelimeDataChar.mainFrameShowing then
 		addon.updateMainFrame()

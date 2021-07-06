@@ -35,7 +35,7 @@ local function checkQuestie()
 		addon.waitingForQuestie = true
 		C_Timer.After(4, function()
 			addon.waitingForQuestie = false
-			addon.loadCurrentGuide()
+			addon.loadCurrentGuide(false)
 			addon.updateFromQuestLog()
 			addon.updateSteps()
 		end)
