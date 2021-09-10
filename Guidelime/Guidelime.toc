@@ -1,7 +1,7 @@
 ## Title: Guidelime
 ## Author: Borick of Arthas(EU)
 ## Version: 2.026
-## Interface: 11307
+## Interface: 20502
 ## SavedVariables: GuidelimeData
 ## SavedVariablesPerCharacter: GuidelimeDataChar
 ## Notes: Leveling guides with automatic progress updates 
