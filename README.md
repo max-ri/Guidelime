@@ -37,6 +37,20 @@ By using this method you will always get to most recent version of the addon (*m
 
 Alternatively you can also download the addon from https://www.curseforge.com/wow/addons/guidelime or install it via the Twitch client. This way you will get the latest stable release. (Which currently is also being updated in average once a day.)
 
+## How do I install a guide?
+To install a guide please visit the list of guides mentioned above.
+
+Once you have downloaded the guide, copy the .lua script files from the download folder to (for example) /path/to/wow/Interface\AddOns\Guidelime\DemoGuides\Horde
+
+Next open the DemoGuides.xml (located: Interface\AddOns\Guidelime\DemoGuides\DemoGuides.xml).
+
+Copy the format of the other script imports in this file, and add your own guide, for example:
+```xml
+<Script file="Horde\Bustea's Horde Leveling guide\Bustea's 41-45 leveling.lua"/>
+```
+
+Save the file and voila! You now have installed the Bustea's Horde 41-45 guide, you will be able to select it from the Guidelime menu on next game launch.
+
 ## What is missing?
 
 #### More guides
