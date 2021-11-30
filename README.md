@@ -40,7 +40,7 @@ Alternatively you can also download the addon from https://www.curseforge.com/wo
 ## How do I install a guide?
 To install a guide please visit the list of guides mentioned above.
 
-Once you have downloaded the guide, copy the .lua script files from the download folder to (for example) /path/to/wow/Interface\AddOns\Guidelime\DemoGuides\Horde
+Once you have downloaded the guide, copy the .lua script files from the download folder to (for example) /path/to/wow/Interface/AddOns/Guidelime/DemoGuides/Horde
 
 Next open the DemoGuides.xml (located: Interface\AddOns\Guidelime\DemoGuides\DemoGuides.xml).
 
