@@ -957,7 +957,7 @@ local function updateStepCompletion(i, completedIndexes)
 			if step.completed == nil or not element.completed then step.completed = element.completed end
 			autoCompleteStep = true
 		elseif element.t == "COLLECT_ITEM" and step.active then
-			if GetItemCount(element.itemId) >= element.qty then
+			if (element.qty > 0 and GetItemCount(element.itemId) >= element.qty) or (element.qty == 0 and GetItemCount(element.itemId) == 0) then
 				element.completed = true
 				if step.itemsCollected == nil then step.itemsCollected = true end
 			else
