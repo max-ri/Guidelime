@@ -59,7 +59,7 @@ Some more questions concerning this addon are answered in the <a href="https://g
 
 ## Contact 
 
-Discord: https://discord.gg/kDXMHsV
+Discord: https://discord.gg/dsuCDKNWR7
 
 You'd like to support me?
 
