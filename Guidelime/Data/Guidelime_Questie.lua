@@ -88,11 +88,9 @@ end
 
 function addon.getQuestTypeQuestie(id)
 	if id == nil or not checkQuestie() then return end
-	local quest = QuestieDB:GetQuest(id)
-	if quest == nil then return end
-	if quest:IsDungeonQuest() then return "Dungeon" end
-	if quest:IsRaidQuest() then return "Raid" end
-	if quest:GetQuestTagInfo() == 1 then return "Group" end
+	if QuestieDB:IsDungeonQuest(id) then return "Dungeon" end
+	if QuestieDB:IsRaidQuest(id) then return "Raid" end
+	if QuestieDB:GetQuestTagInfo(id) == 1 then return "Group" end
 	local _, _, _, _, _, isElite = GetQuestTagInfo(id)
 	if isElite then return "Elite" end
 end
