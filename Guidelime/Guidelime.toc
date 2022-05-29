@@ -1,7 +1,7 @@
 ## Title: Guidelime
 ## Author: Borick of Arthas(EU)
 ## Version: 2.026
-## Interface: 20502
+## Interface: 20504
 ## SavedVariables: GuidelimeData
 ## SavedVariablesPerCharacter: GuidelimeDataChar
 ## Notes: Leveling guides with automatic progress updates 
@@ -43,6 +43,4 @@ Data\Guidelime_ClassicCodexCorrections.lua
 Data\Guidelime_ClassicCodex.lua
 Data\Guidelime_FlightmasterDB.lua
 Data\Guidelime_FlightmasterDB_Locales.lua
-
-DemoGuides\DemoGuides.xml
 

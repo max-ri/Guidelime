@@ -171,99 +171,99 @@ function addon.fillGuides()
 			return (ga.name or "") < (gb.name or "")
 		end)
 		
+		--[[
 		local downloadMinLevel, downloadMaxLevel, download, downloadUrl
 		for j, name in ipairs(guides) do
 			local guide = addon.guides[name]
 			--if addon.debugging then print("LIME: guide", group, name) end
 			
-			if guide.next ~= nil and #guide.next > 0 and (addon.guides[group .. ' ' .. guide.next[1]] == nil) and guide.download ~= nil then
+			if guide.next ~= nil and #guide.next > 0 and (addon.guides[group .. ' ' .. guide.next[1] ] == nil) and guide.download ~= nil then
 				downloadMinLevel, downloadMaxLevel, download, downloadUrl = guide.downloadMinLevel, guide.downloadMaxLevel, guide.download, guide.downloadUrl 	
 			end
 		end
+		if download == nil or GuidelimeData.displayDemoGuides then]]
 		
-		if download == nil or GuidelimeData.displayDemoGuides then
-			addon.guidesFrame.groups[group] = addon.guidesFrame.content:CreateFontString(nil, addon.guidesFrame.content, "GameFontNormal")
-			if prev == addon.guidesFrame.content then
-				addon.guidesFrame.groups[group]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
-			else
-				addon.guidesFrame.groups[group]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -10, -10)
-			end
-			addon.guidesFrame.groups[group]:SetText(group)
-			prev = addon.guidesFrame.groups[group]
-			for j, name in ipairs(guides) do
-				local guide = addon.guides[name]
-	
-				local text = ""
-				if guide.minLevel ~= nil then
-					text = text .. addon.getLevelColor(guide.minLevel) .. guide.minLevel .. "|r"
-				end
-				if guide.minLevel ~= nil or guide.maxLevel ~= nil then
-					text = text .. "-"
-				end
-				if guide.maxLevel ~= nil then
-					text = text .. addon.getLevelColor(guide.maxLevel) .. guide.maxLevel .. "|r"
-				end
-				if guide.minLevel ~= nil or guide.maxLevel ~= nil then
-					text = text .. " "
-				end
-				if guide.title ~= nil then
-					if guide.reputation ~= nil and not addon.isRequiredReputation(guide.reputation, guide.repMin, guide.repMax) then
-						text = text .. addon.COLOR_INACTIVE
-					else
-						text = text .. addon.COLOR_WHITE
-					end					
-					text = text .. guide.title .. "|r"
-				end
-				addon.guidesFrame.guides[name] = addon.addMultilineText(addon.guidesFrame.content, text, 550, nil, function(self)
-					selectGuide(self.name)
-				end)
-				if j == 1 then
-					addon.guidesFrame.guides[name]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 10, -5)
-				else
-					addon.guidesFrame.guides[name]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
-				end
-				addon.guidesFrame.guides[name]:SetTextColor(255,255,255,255)
-				addon.guidesFrame.guides[name]:SetBackdrop({
-					--bgFile = "Interface\\QuestFrame\\UI-QuestLogTitleHighlight",
-					bgFile = "Interface\\AddOns\\" .. addonName .. "\\Icons\\TitleHighlight",
-					tile = false, edgeSize = 1
-				})
-				addon.guidesFrame.guides[name].name = name
-				addon.guidesFrame.guides[name].guide = guide
-				if name == GuidelimeDataChar.currentGuide then
-					addon.guidesFrame.guides[name]:SetBackdropColor(1,1,0,1)	
-				else
-					addon.guidesFrame.guides[name]:SetBackdropColor(0,0,0,0)	
-				end
-				addon.guidesFrame.guides[name]:SetScript("OnEnter", function(self)
-					addon.guidesFrame.textDetails:SetText(self.guide.details or "")
-					addon.guidesFrame.textDetails.url = self.guide.detailsUrl or ""
-					if self.name ~= GuidelimeDataChar.currentGuide then
-						self:SetBackdropColor(0.5,0.5,1,1)	
-					end
-				end)
-				addon.guidesFrame.guides[name]:SetScript("OnLeave", function(self)
-					if GuidelimeDataChar.currentGuide ~= nil and addon.guides[GuidelimeDataChar.currentGuide] ~= nil then
-						addon.guidesFrame.textDetails:SetText(addon.guides[GuidelimeDataChar.currentGuide].details or "")
-						addon.guidesFrame.textDetails.url = addon.guides[GuidelimeDataChar.currentGuide].detailsUrl or ""
-					end
-					if self.name ~= GuidelimeDataChar.currentGuide then
-						self:SetBackdropColor(0,0,0,0)	
-					end
-				end)
-				prev = addon.guidesFrame.guides[name]
-			end
-			if download ~= nil then
-				addon.guidesFrame.messages[group] = addon.addMultilineText(addon.guidesFrame.content, 
-					string.format(L.DOWNLOAD_FULL_GUIDE, downloadMinLevel, downloadMaxLevel, download, "\n|cFFAAAAAA" .. downloadUrl), 
-					550, nil, function()
-						InterfaceOptionsFrame:Hide()
-						addon.showUrlPopup(downloadUrl) 
-					end)
-				addon.guidesFrame.messages[group]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -5)
-				prev = addon.guidesFrame.messages[group]
-			end
+		addon.guidesFrame.groups[group] = addon.guidesFrame.content:CreateFontString(nil, addon.guidesFrame.content, "GameFontNormal")
+		if prev == addon.guidesFrame.content then
+			addon.guidesFrame.groups[group]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
+		else
+			addon.guidesFrame.groups[group]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -10, -10)
 		end
+		addon.guidesFrame.groups[group]:SetText(group)
+		prev = addon.guidesFrame.groups[group]
+		for j, name in ipairs(guides) do
+			local guide = addon.guides[name]
+
+			local text = ""
+			if guide.minLevel ~= nil then
+				text = text .. addon.getLevelColor(guide.minLevel) .. guide.minLevel .. "|r"
+			end
+			if guide.minLevel ~= nil or guide.maxLevel ~= nil then
+				text = text .. "-"
+			end
+			if guide.maxLevel ~= nil then
+				text = text .. addon.getLevelColor(guide.maxLevel) .. guide.maxLevel .. "|r"
+			end
+			if guide.minLevel ~= nil or guide.maxLevel ~= nil then
+				text = text .. " "
+			end
+			if guide.title ~= nil then
+				if guide.reputation ~= nil and not addon.isRequiredReputation(guide.reputation, guide.repMin, guide.repMax) then
+					text = text .. addon.COLOR_INACTIVE
+				else
+					text = text .. addon.COLOR_WHITE
+				end					
+				text = text .. guide.title .. "|r"
+			end
+			addon.guidesFrame.guides[name] = addon.addMultilineText(addon.guidesFrame.content, text, 550, nil, function(self)
+				selectGuide(self.name)
+			end)
+			if j == 1 then
+				addon.guidesFrame.guides[name]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 10, -5)
+			else
+				addon.guidesFrame.guides[name]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+			end
+			addon.guidesFrame.guides[name]:SetTextColor(255,255,255,255)
+			addon.guidesFrame.guides[name]:SetBackdrop({
+				--bgFile = "Interface\\QuestFrame\\UI-QuestLogTitleHighlight",
+				bgFile = "Interface\\AddOns\\" .. addonName .. "\\Icons\\TitleHighlight",
+				tile = false, edgeSize = 1
+			})
+			addon.guidesFrame.guides[name].name = name
+			addon.guidesFrame.guides[name].guide = guide
+			if name == GuidelimeDataChar.currentGuide then
+				addon.guidesFrame.guides[name]:SetBackdropColor(1,1,0,1)	
+			else
+				addon.guidesFrame.guides[name]:SetBackdropColor(0,0,0,0)	
+			end
+			addon.guidesFrame.guides[name]:SetScript("OnEnter", function(self)
+				addon.guidesFrame.textDetails:SetText(self.guide.details or "")
+				addon.guidesFrame.textDetails.url = self.guide.detailsUrl or ""
+				if self.name ~= GuidelimeDataChar.currentGuide then
+					self:SetBackdropColor(0.5,0.5,1,1)	
+				end
+			end)
+			addon.guidesFrame.guides[name]:SetScript("OnLeave", function(self)
+				if GuidelimeDataChar.currentGuide ~= nil and addon.guides[GuidelimeDataChar.currentGuide] ~= nil then
+					addon.guidesFrame.textDetails:SetText(addon.guides[GuidelimeDataChar.currentGuide].details or "")
+					addon.guidesFrame.textDetails.url = addon.guides[GuidelimeDataChar.currentGuide].detailsUrl or ""
+				end
+				if self.name ~= GuidelimeDataChar.currentGuide then
+					self:SetBackdropColor(0,0,0,0)	
+				end
+			end)
+			prev = addon.guidesFrame.guides[name]
+		end
+		--[[if download ~= nil then
+			addon.guidesFrame.messages[group] = addon.addMultilineText(addon.guidesFrame.content, 
+				string.format(L.DOWNLOAD_FULL_GUIDE, downloadMinLevel, downloadMaxLevel, download, "\n|cFFAAAAAA" .. downloadUrl), 
+				550, nil, function()
+					InterfaceOptionsFrame:Hide()
+					addon.showUrlPopup(downloadUrl) 
+				end)
+			addon.guidesFrame.messages[group]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -5)
+			prev = addon.guidesFrame.messages[group]
+		end]]
 	end
 
 	if prev == addon.guidesFrame.content then
