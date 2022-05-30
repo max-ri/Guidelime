@@ -35,7 +35,12 @@ When you download the zip file from this page (click "Clone or Download" then "D
 
 By using this method you will always get to most recent version of the addon (*master*) including all changes that are being made as soon as they are published.
 
-Alternatively you can also download the addon from https://www.curseforge.com/wow/addons/guidelime or install it via the Twitch client. This way you will get the latest stable release. (Which currently is also being updated in average once a day.)
+Alternatively you can also download the addon from https://www.curseforge.com/wow/addons/guidelime or install it via the CurseForge client or any other addon manager. This way you will get the latest stable release. (Which currently is also being updated in average once a day.)
+
+## How do I install a guide?
+
+To install a guide please visit the list of guides mentioned above. You install a guide the same way you would install any other addon: Copy the folder containing the guide into your *Addons* folder (in the same folder where the *Guidelime* folder is in).
+You can also use the CurseForge client or any other addon manager to install a guide.
 
 ## What is missing?
 
