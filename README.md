@@ -15,7 +15,7 @@ your favorite guide.
 
 <img src="https://i.imgur.com/6aCB623.png" alt="Guidelime"/>
 
-*This is for WoW Classic and Burning Crusade Classic. It will not run on private servers and/or Shadowlands. (If you only want to take a look at the editor e.g., it will load on Shadowlands if you select "load out of date addons".)*
+*This is for WoW Classic and Burning Crusade Classic. It will not run on private servers and/or retail. (If you only want to take a look at the editor e.g., it will load on retail if you select "load out of date addons".)*
 
 ## Where do I find guides for the addon?
 
@@ -39,8 +39,11 @@ Alternatively you can also download the addon from https://www.curseforge.com/wo
 
 ## How do I install a guide?
 
-To install a guide please visit the list of guides mentioned above. You install a guide the same way you would install any other addon: Copy the folder containing the guide into your *Addons* folder (in the same folder where the *Guidelime* folder is in).
-You can also use the CurseForge client or any other addon manager to install a guide.
+To install a guide please visit the list of guides mentioned above. 
+
+You install a guide the same way you would install any other addon: Copy the folder containing the guide into your *Addons* folder (in the same folder where the *Guidelime* folder is in).
+
+You can also use the CurseForge client or other addon manager to install a guide.
 
 ## What is missing?
 
@@ -52,7 +55,7 @@ If you are a guide creator and you have your own guides that you would like to s
 
 The addon is currently available in English, German, French, Russian and Chinese. If anyone would volunteer to do translations for other languages please contact me.
 
-The guides itself are language specific. The guides I am currently working on are in English language only. But using the editor you can create guides in your own language.
+The guides itself are language specific. Most guides are available in English language only. But using the editor you can create guides in your own language.
 
 ## How do I open the window again after I closed it accidentally?
 
