@@ -80,10 +80,24 @@ if select(4, GetBuildInfo()) < 40000 then
     	["Silvermoon City"] = 1954,
     	["Shattrath City"] = 1955,
     	["Isle of Quel Danas"] = 1957,
+		
+		-- The Wrath of the Lich King
+        ["Borean Tundra"]=114,
+        ["Dragonblight"]=115,
+        ["Grizzly Hills"]=116,
+        ["Howling Fjord"]=117,
+        ["Icecrown"]=118,
+        ["Sholazar Basin"]=119,
+        ["The Storm Peaks"]=120,
+        ["Zul'Drak"]=121,
+        ["Wintergrasp"]=123,
+        ["Dalaran"]=125,
+        ["The Underbelly"]=12,	
+		["The Scarlet Enclave"]=124,	
 
 	}
 else
-	-- BFA
+	-- retail
 	addon.mapIDs = {
 	 --["Azeroth"]=947,
 	 ["Durotar"]=1411,

@@ -107,6 +107,61 @@ if select(4, GetBuildInfo()) >= 20000 then
 	addon.flightmasterDB[24366] = {zone = "Stranglethorn Vale", name = "Nizzle", place = "Rebel Camp", faction = "Alliance", localesIndex = 195}
 end
 
+-- Wrath of the Lich King
+if select(4, GetBuildInfo()) >= 30000 then
+	addon.flightmasterDB[26879] = {zone = "Borean Tundra", name = "Tomas Riverwell", place = "Valiance Keep", faction = "Alliance", localesIndex = 245}
+	addon.flightmasterDB[26602] = {zone = "Borean Tundra", name = "Kara Thricestar", place = "Fizzcrank Airstrip", faction = "Alliance", localesIndex = 246}
+	addon.flightmasterDB[25288] = {zone = "Borean Tundra", name = "Turida Coldwind", place = "Warsong Hold", faction = "Horde", localesIndex = 257}
+	addon.flightmasterDB[26847] = {zone = "Borean Tundra", name = "Omu Spiritbreeze", place = "Taunka'le Village", faction = "Horde", localesIndex = 258}
+	addon.flightmasterDB[26848] = {zone = "Borean Tundra", name = "Kimbiza", place = "Bor'gorok Outpost", faction = "Horde", localesIndex = 259}
+	addon.flightmasterDB[24795] = {zone = "Borean Tundra", name = "Surristrasz", place = "Amber Ledge", localesIndex = 289}
+	addon.flightmasterDB[28195] = {zone = "Borean Tundra", name = "Bilko Driftspark", place = "Unu'pe", localesIndex = 296}
+	addon.flightmasterDB[27046] = {zone = "Coldarra", name = "Warmage Adami", place = "Transitus Shield", localesIndex = 226}
+	addon.flightmasterDB[30271] = {zone = "Crystalsong Forest", name = "Galendror Whitewing", place = "Windrunner's Overlook", faction = "Alliance", localesIndex = 336}
+	addon.flightmasterDB[30269] = {zone = "Crystalsong Forest", name = "Skymaster Baeric ", place = "Sunreaver's Command", faction = "Horde", localesIndex = 337}
+	addon.flightmasterDB[96813] = {zone = "Dalaran", name = "Aludane Whitecloud", localesIndex = 310}
+	addon.flightmasterDB[26878] = {zone = "Dragonblight", name = "Rodney Wells", place = "Wintergarde Keep", faction = "Alliance", localesIndex = 244}
+	addon.flightmasterDB[26881] = {zone = "Dragonblight", name = "Palena Silvercloud ", place = "Stars' Rest", faction = "Alliance", localesIndex = 247}
+	addon.flightmasterDB[26877] = {zone = "Dragonblight", name = "Derek Rammel", place = "Fordragon Hold", faction = "Alliance", localesIndex = 251}
+	addon.flightmasterDB[26851] = {zone = "Dragonblight", name = "Nethestrasz", place = "Wyrmrest Temple", localesIndex = 252}
+	addon.flightmasterDB[26845] = {zone = "Dragonblight", name = "Junter Weiss", place = "Venomspite", faction = "Horde", localesIndex = 254}
+	addon.flightmasterDB[26566] = {zone = "Dragonblight", name = "Narzun Skybreaker", place = "Agmar's Hammer", faction = "Horde", localesIndex = 256}
+	addon.flightmasterDB[26850] = {zone = "Dragonblight", name = "Numo Spiritbreeze", place = "Kor'koron Vanguard", faction = "Horde", localesIndex = 260}
+	addon.flightmasterDB[28196] = {zone = "Dragonblight", name = "Cid Flounderfix", place = "Moa'ki", localesIndex = 294}
+	addon.flightmasterDB[26853] = {zone = "Grizzly Hills", name = "Makki Wintergale", place = "Camp Oneqwah", faction = "Horde", localesIndex = 249}
+	addon.flightmasterDB[26852] = {zone = "Grizzly Hills", name = "Kragh ", place = "Conquest Hold", faction = "Horde", localesIndex = 250}
+	addon.flightmasterDB[26880] = {zone = "Grizzly Hills", name = "Vana Grey", place = "Amberpine Lodge", faction = "Alliance", localesIndex = 253}
+	addon.flightmasterDB[26876] = {zone = "Grizzly Hills", name = "Samuel Clearbook", place = "Westfall Brigade", faction = "Alliance", localesIndex = 255}
+	addon.flightmasterDB[23736] = {zone = "Howling Fjord", name = "Pricilla Winterwind", place = "Valgarde Port", faction = "Alliance", localesIndex = 183}
+	addon.flightmasterDB[24061] = {zone = "Howling Fjord", name = "James Ormsby", place = "Fort Wildervar", faction = "Alliance", localesIndex = 184}
+	addon.flightmasterDB[23859] = {zone = "Howling Fjord", name = "Greer Orehammer", place = "Westguard Keep", faction = "Alliance", localesIndex = 185}
+	addon.flightmasterDB[24155] = {zone = "Howling Fjord", name = "Tobias Sarkhoff", place = "New Agamand", faction = "Horde", localesIndex = 190}
+	addon.flightmasterDB[27344] = {zone = "Howling Fjord", name = "Bat Handler Adeline", place = "Vengeance Landing", faction = "Horde", localesIndex = 191}
+	addon.flightmasterDB[24032] = {zone = "Howling Fjord", name = "Celea Frozenmane", place = "Camp Winterhoof", faction = "Horde", localesIndex = 192}
+	addon.flightmasterDB[26844] = {zone = "Howling Fjord", name = "Lilleth Radescu", place = "Apothecary Camp", faction = "Horde", localesIndex = 248}
+	addon.flightmasterDB[28197] = {zone = "Howling Fjord", name = "Kip Trawlskip", place = "Kamagua", localesIndex = 295}
+	addon.flightmasterDB[31078] = {zone = "Icecrown", name = "Dreadwind", place = "Death's Rise", localesIndex = 325}
+	addon.flightmasterDB[30314] = {zone = "Icecrown", name = "Morlia Doomwing", place = "The Shadow Vault", faction = "Horde", localesIndex = 333}
+	addon.flightmasterDB[33849] = {zone = "Icecrown", name = "Helidan Lightwing", place = "The Argent Vanguard", localesIndex = 334}
+	addon.flightmasterDB[31069] = {zone = "Icecrown", name = "Penumbrius ", place = "Crusaders' Pinnacle", localesIndex = 335}
+	addon.flightmasterDB[28574] = {zone = "Sholazar Basin", name = "Marvin Wobblesprocket", place = "River's Heart", localesIndex = 308}
+	addon.flightmasterDB[28037] = {zone = "Sholazar Basin", name = "The Spirit of Gnomeregan", place = "Nesingwary Base Camp", localesIndex = 309}
+	addon.flightmasterDB[29721] = {zone = "The Storm Peaks", name = "Skizzle Slickslide", place = "K3", localesIndex = 320}
+	addon.flightmasterDB[29750] = {zone = "The Storm Peaks", name = "Faldorf Bitterchill", place = "Frosthold", faction = "Alliance", localesIndex = 321}
+	addon.flightmasterDB[32571] = {zone = "The Storm Peaks", name = "Halvdan ", place = "Dun Nifflelem", localesIndex = 322}
+	addon.flightmasterDB[29757] = {zone = "The Storm Peaks", name = "Kabarg Windtamer", place = "Grom'arsh Crash-Site", faction = "Horde", localesIndex = 323}
+	addon.flightmasterDB[29762] = {zone = "The Storm Peaks", name = "Hyeyoung Parka", place = "Camp Tunka'lo", faction = "Horde", localesIndex = 324}
+	addon.flightmasterDB[29951] = {zone = "The Storm Peaks", name = "Shavalius the Fancy", place = "Ulduar", localesIndex = 326}
+	addon.flightmasterDB[29950] = {zone = "The Storm Peaks", name = "Breck Rockbrow", place = "Bouldercrag's Refuge", localesIndex = 327}
+	addon.flightmasterDB[30869] = {zone = "Wintergrasp", name = "Arzo Safeflight", place = "Valiance Landing Camp", faction = "Alliance", localesIndex = 303}
+	addon.flightmasterDB[30870] = {zone = "Wintergrasp", name = "Herzo Safeflight", place = "Warsong Camp", faction = "Horde", localesIndex = 332}
+	addon.flightmasterDB[28623] = {zone = "Zul'Drak", name = "Gurric ", place = "Argent Stand", faction = "Horde", localesIndex = 290}
+	addon.flightmasterDB[28615] = {zone = "Zul'Drak", name = "Baneflight ", place = "Ebon Watch", localesIndex = 305}
+	addon.flightmasterDB[28618] = {zone = "Zul'Drak", name = "Danica Saint", place = "Light's Breach", localesIndex = 306}
+	addon.flightmasterDB[28624] = {zone = "Zul'Drak", name = "Maaka ", place = "Zim'Torga", localesIndex = 307}
+	addon.flightmasterDB[30569] = {zone = "Zul'Drak", name = "Rafae ", place = "Gundrak", localesIndex = 331}
+end
+
 function addon.getNearestFlightPoint(x, y, instance, faction)
 	local minDist, minPos, minId
 	for id, master in pairs(addon.flightmasterDB) do
