@@ -138,7 +138,7 @@ function addon.getQuestClassesQuestie(id)
 	local bitmask = quest.requiredClasses
 	if bitmask == nil or bitmask == 0 then return end
 	local classes = {}
-	for i, class in pairs({"Warrior", "Paladin", "Hunter", "Rogue", "Priest", "", "Shaman", "Mage", "Warlock", "", "Druid"}) do
+	for i, class in pairs({"Warrior", "Paladin", "Hunter", "Rogue", "Priest", "DeathKnight", "Shaman", "Mage", "Warlock", "", "Druid"}) do
 		if class ~= "" and addon.hasbit(bitmask, addon.bit(i)) then 
 			table.insert(classes, class) 
 		end
