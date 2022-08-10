@@ -110,7 +110,7 @@ local function getMapIcon(t, element, highlight)
 	if addon.mapIcons[t] ~= nil then
 		for i, mapIcon in ipairs(addon.mapIcons[t]) do
 			if mapIcon.inUse then 
-				if mapIcon.instance == element.instance and mapIcon.wx == element.wx and mapIcon.wy == element.wy then
+				if mapIcon.mapID == element.mapID and mapIcon.x == element.x and mapIcon.y == element.y then
 					return mapIcon
 				end
 			else
@@ -148,19 +148,15 @@ local function getTooltip(element)
 end
 
 function addon.addMapIcon(element, highlight, ignoreMaxNumOfMarkers)
-	if element.wx == nil or element.wy == nil or element.instance == nil then
-		if addon.debugging then print("LIME: no world coordinates for map marker", element.mapID, element.x and (element.x / 100), element.y and (element.y / 100), highlight) end
-		return
-	end	
 	local mapIcon = getMapIcon(element.markerTyp or element.t, element, highlight)
 	if mapIcon == nil then return end
 	if not ignoreMaxNumOfMarkers then
 		if element.t == "GOTO" and mapIcon.index >= GuidelimeData.maxNumOfMarkersGOTO and GuidelimeData.maxNumOfMarkersGOTO > 0 then return end
 		if not element.step.active and element.t ~= "GOTO" then return end
 	end
-	mapIcon.instance = element.instance
-	mapIcon.wx = element.wx
-	mapIcon.wy = element.wy
+	mapIcon.mapID = element.mapID
+	mapIcon.x = element.x
+	mapIcon.y = element.y
 	local tooltip = getTooltip(element)
 	if not mapIcon.inUse then
 		mapIcon.map.tooltip = tooltip
@@ -192,8 +188,8 @@ end
 local function showMapIcon(mapIcon, t)
 	if mapIcon ~= nil and mapIcon.inUse then
 		if t ~= "GOTO" then t = "LOC" end
-		if GuidelimeData["showMapMarkers" .. t] then HBDPins:AddWorldMapIconWorld(addon, mapIcon.map, mapIcon.instance, mapIcon.wx, mapIcon.wy, 3) end
-		if GuidelimeData["showMinimapMarkers" .. t] then HBDPins:AddMinimapIconWorld(addon, mapIcon.minimap, mapIcon.instance, mapIcon.wx, mapIcon.wy, mapIcon.index == 0) end
+		if GuidelimeData["showMapMarkers" .. t] then HBDPins:AddWorldMapIconMap(addon, mapIcon.map, mapIcon.mapID, mapIcon.x / 100, mapIcon.y / 100, 3) end
+		if GuidelimeData["showMinimapMarkers" .. t] then HBDPins:AddMinimapIconMap(addon, mapIcon.minimap, mapIcon.mapID, mapIcon.x / 100, mapIcon.y / 100, true, mapIcon.index == 0) end
 	end
 end
 
