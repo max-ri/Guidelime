@@ -148,6 +148,7 @@ local function getTooltip(element)
 end
 
 function addon.addMapIcon(element, highlight, ignoreMaxNumOfMarkers)
+	if element.x == nil or element.y == nil or element.mapID == nil then return end	
 	local mapIcon = getMapIcon(element.markerTyp or element.t, element, highlight)
 	if mapIcon == nil then return end
 	if not ignoreMaxNumOfMarkers then
