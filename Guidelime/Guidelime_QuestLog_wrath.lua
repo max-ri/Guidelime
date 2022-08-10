@@ -9,7 +9,7 @@ function addon.updateQuestLog()
 	
 	if (numEntries == 0) then return end
 	
-	local questIndex, questLogTitle, title, level, _, isHeader, isComplete, questCheck, questCheckXOfs, id, tooltip
+	local questIndex, questLogTitle, title, level, _, isHeader, isComplete, id, tooltip
 	for i = 1, QUESTS_DISPLAYED, 1 do
 		questIndex = i + FauxScrollFrame_GetOffset(QuestLogListScrollFrame);
 		
@@ -46,11 +46,9 @@ function addon.updateQuestLog()
 					tooltip = tooltip .. "|T" .. addon.icons.MAP .. ":12|t" .. L.QUEST_NOT_CONTAINED_IN_GUIDE
 				end
 				if newTitle ~= title or GuidelimeData.showTooltips then
-					questLogTitle = _G["QuestLogTitle"..i]
-					questCheck = _G["QuestLogTitle"..i.."Check"]
+					questLogTitle = QuestLogListScrollFrame.buttons[i]
 					questLogTitle:SetText(newTitle)
-					QuestLogDummyText:SetText(newTitle)
-					questCheck:SetPoint("LEFT", questLogTitle, "LEFT", QuestLogDummyText:GetWidth()+24, 0);
+					QuestLogTitleButton_Resize(questLogTitle);
 					if GuidelimeData.showTooltips and tooltip ~= "" then
 						questLogTitle.tooltip = tooltip
 						questLogTitle:SetScript("OnEnter", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32);  GameTooltip:SetText(self.tooltip); GameTooltip:Show(); addon.showingTooltip = true end end)
