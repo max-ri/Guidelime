@@ -180,6 +180,8 @@ addon.flightmasterDB_Locales = {
 		[335] = "Kreuzfahrerturm, Eiskrone",
 		[336] = "Windläufers Warte, Kristallsangwald",
 		[337] = "Sonnenhäschers Schar, Kristallsangwald",
+		[383] = "Thondroril, Östliche Pestländer",
+		[384] = "Das Bollwerk, Tirisfal",
 	},
 ["zhCN"] = {
 		[1] = "北郡修道院",
@@ -360,6 +362,8 @@ addon.flightmasterDB_Locales = {
 		[335] = "北伐军之峰，冰冠冰川",
 		[336] = "风行者观察站，晶歌森林",
 		[337] = "夺日者指挥站，晶歌森林",
+		[383] = "索多里尔河，东瘟疫之地",
+		[384] = "亡灵壁垒，提瑞斯法",
 	},
 ["esES"] = {
 		[1] = "Abadía de Villanorte",
@@ -540,6 +544,8 @@ addon.flightmasterDB_Locales = {
 		[335] = "Pináculo de los Cruzados, Corona de Hielo",
 		[336] = "Mirador Brisaveloz, Bosque Canto de Cristal",
 		[337] = "Dominio de los Atracasol, Bosque Canto de Cristal",
+		[383] = "Río Thondroril, Tierras de la Peste del Este",
+		[384] = "El Baluarte, Tirisfal",
 	},
 ["frFR"] = {
 		[1] = "Abbaye de Northshire",
@@ -720,6 +726,8 @@ addon.flightmasterDB_Locales = {
 		[335] = "Cime des Croisés, Couronne de glace",
 		[336] = "Surplomb de Coursevent, forêt du Chant de cristal",
 		[337] = "Quartier général de Saccage-soleil, forêt du Chant de cristal",
+		[383] = "La Thondroril, Maleterres de l'Est",
+		[384] = "La Barricade, Clairières de Tirisfal",
 	},
 ["itIT"] = {
 		[1] = "Abbaye de Northshire",
@@ -900,6 +908,8 @@ addon.flightmasterDB_Locales = {
 		[335] = "Pinnacolo dei Crociati, Corona di Ghiaccio",
 		[336] = "Osservatorio dei Ventolesto, Foresta di Cristallo",
 		[337] = "Comando dei Predatori del Sole, Foresta di Cristallo",
+		[383] = "Fiume Thondroril, Terre Infette Orientali",
+		[384] = "Granbarricata, Tirisfal",
 	},
 ["koKR"] = {
 		[1] = "노스샤이어 대성당",
@@ -1080,6 +1090,8 @@ addon.flightmasterDB_Locales = {
 		[335] = "십자군 봉우리 - 얼음왕관",
 		[336] = "윈드러너 전망대 - 수정노래 숲",
 		[337] = "선리버 지휘초소 - 수정노래 숲",
+		[383] = "톤드로릴 강 - 동부 역병지대",
+		[384] = "보루 - 티리스팔 숲",
 	},
 ["esMX"] = {
 		[1] = "Abadía de Villanorte",
@@ -1260,6 +1272,8 @@ addon.flightmasterDB_Locales = {
 		[335] = "Pináculo de los Cruzados, Corona de Hielo",
 		[336] = "Mirador Brisaveloz, Bosque Canto de Cristal",
 		[337] = "Dominio de los Atracasol, Bosque Canto de Cristal",
+		[383] = "Río Thondroril, Tierras de la Peste del Este",
+		[384] = "El Baluarte, Tirisfal",
 	},
 ["ptBR"] = {
 		[1] = "Abadia de Vila Norte",
@@ -1440,6 +1454,8 @@ addon.flightmasterDB_Locales = {
 		[335] = "Pináculo dos Cruzados, Coroa de Gelo",
 		[336] = "Penhasco de Correventos, Floresta do Canto Cristalino",
 		[337] = "Comando Fendessol, Floresta do Canto Cristalino",
+		[383] = "Rio Thondoril, Terras Pestilentas Orientais",
+		[384] = "O Baluarte, Tirisfal",
 	},
 ["ruRU"] = {
 		[1] = "Аббатство Североземья",
@@ -1620,6 +1636,8 @@ addon.flightmasterDB_Locales = {
 		[335] = "Вершина Рыцарей, Ледяная Корона",
 		[336] = "Дозор Ветрокрылой, лес Хрустальной Песни",
 		[337] = "Лагерь Похитителя Солнца, лес Хрустальной Песни",
+		[383] = "Река Тондрорил, Восточные Чумные земли",
+		[384] = "Бастион, Тирисфаль",
 	},
 ["zhTW"] = {
 		[1] = "北郡修道院",
@@ -1800,6 +1818,8 @@ addon.flightmasterDB_Locales = {
 		[335] = "十字軍之巔，寒冰皇冠",
 		[336] = "風行者瞰臺，水晶之歌森林",
 		[337] = "奪日者指揮所，水晶之歌森林",
+		[383] = "索多里爾河，東瘟疫之地",
+		[384] = "亡靈壁壘，提里斯法林地",
 	},
 ["enUS"] = {
 		[1] = "Northshire Abbey",
@@ -1980,6 +2000,8 @@ addon.flightmasterDB_Locales = {
 		[306] = "Light's Breach, Zul'Drak",
 		[307] = "Zim'Torga, Zul'Drak",
 		[331] = "Gundrak, Zul'Drak",
+		[383] = "Thondoril River, Western Plaguelands",
+		[384] = "The Bulwark, Tirisfal",
 	}
 }
 

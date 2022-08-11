@@ -129,7 +129,7 @@ if select(4, GetBuildInfo()) >= 30000 then
 	addon.flightmasterDB[26850] = {zone = "Dragonblight", name = "Numo Spiritbreeze", place = "Kor'koron Vanguard", faction = "Horde", localesIndex = 260}
 	addon.flightmasterDB[28196] = {zone = "Dragonblight", name = "Cid Flounderfix", place = "Moa'ki", localesIndex = 294}
 	addon.flightmasterDB[26853] = {zone = "Grizzly Hills", name = "Makki Wintergale", place = "Camp Oneqwah", faction = "Horde", localesIndex = 249}
-	addon.flightmasterDB[26852] = {zone = "Grizzly Hills", name = "Kragh ", place = "Conquest Hold", faction = "Horde", localesIndex = 250}
+	addon.flightmasterDB[26852] = {zone = "Grizzly Hills", name = "Kragh", place = "Conquest Hold", faction = "Horde", localesIndex = 250}
 	addon.flightmasterDB[26880] = {zone = "Grizzly Hills", name = "Vana Grey", place = "Amberpine Lodge", faction = "Alliance", localesIndex = 253}
 	addon.flightmasterDB[26876] = {zone = "Grizzly Hills", name = "Samuel Clearbook", place = "Westfall Brigade", faction = "Alliance", localesIndex = 255}
 	addon.flightmasterDB[23736] = {zone = "Howling Fjord", name = "Pricilla Winterwind", place = "Valgarde Port", faction = "Alliance", localesIndex = 183}
@@ -143,7 +143,7 @@ if select(4, GetBuildInfo()) >= 30000 then
 	addon.flightmasterDB[31078] = {zone = "Icecrown", name = "Dreadwind", place = "Death's Rise", localesIndex = 325}
 	addon.flightmasterDB[30314] = {zone = "Icecrown", name = "Morlia Doomwing", place = "The Shadow Vault", faction = "Horde", localesIndex = 333}
 	addon.flightmasterDB[33849] = {zone = "Icecrown", name = "Helidan Lightwing", place = "The Argent Vanguard", localesIndex = 334}
-	addon.flightmasterDB[31069] = {zone = "Icecrown", name = "Penumbrius ", place = "Crusaders' Pinnacle", localesIndex = 335}
+	addon.flightmasterDB[31069] = {zone = "Icecrown", name = "Penumbrius", place = "Crusaders' Pinnacle", localesIndex = 335}
 	addon.flightmasterDB[28574] = {zone = "Sholazar Basin", name = "Marvin Wobblesprocket", place = "River's Heart", localesIndex = 308}
 	addon.flightmasterDB[28037] = {zone = "Sholazar Basin", name = "The Spirit of Gnomeregan", place = "Nesingwary Base Camp", localesIndex = 309}
 	addon.flightmasterDB[29721] = {zone = "The Storm Peaks", name = "Skizzle Slickslide", place = "K3", localesIndex = 320}
@@ -155,11 +155,13 @@ if select(4, GetBuildInfo()) >= 30000 then
 	addon.flightmasterDB[29950] = {zone = "The Storm Peaks", name = "Breck Rockbrow", place = "Bouldercrag's Refuge", localesIndex = 327}
 	addon.flightmasterDB[30869] = {zone = "Wintergrasp", name = "Arzo Safeflight", place = "Valiance Landing Camp", faction = "Alliance", localesIndex = 303}
 	addon.flightmasterDB[30870] = {zone = "Wintergrasp", name = "Herzo Safeflight", place = "Warsong Camp", faction = "Horde", localesIndex = 332}
-	addon.flightmasterDB[28623] = {zone = "Zul'Drak", name = "Gurric ", place = "Argent Stand", faction = "Horde", localesIndex = 290}
-	addon.flightmasterDB[28615] = {zone = "Zul'Drak", name = "Baneflight ", place = "Ebon Watch", localesIndex = 305}
+	addon.flightmasterDB[28623] = {zone = "Zul'Drak", name = "Gurric", place = "Argent Stand", faction = "Horde", localesIndex = 290}
+	addon.flightmasterDB[28615] = {zone = "Zul'Drak", name = "Baneflight", place = "Ebon Watch", localesIndex = 305}
 	addon.flightmasterDB[28618] = {zone = "Zul'Drak", name = "Danica Saint", place = "Light's Breach", localesIndex = 306}
-	addon.flightmasterDB[28624] = {zone = "Zul'Drak", name = "Maaka ", place = "Zim'Torga", localesIndex = 307}
-	addon.flightmasterDB[30569] = {zone = "Zul'Drak", name = "Rafae ", place = "Gundrak", localesIndex = 331}
+	addon.flightmasterDB[28624] = {zone = "Zul'Drak", name = "Maaka", place = "Zim'Torga", localesIndex = 307}
+	addon.flightmasterDB[30569] = {zone = "Zul'Drak", name = "Rafae", place = "Gundrak", localesIndex = 331}
+	addon.flightmasterDB[37888] = {zone = "Western Plaguelands", name = "Frax Bucketdrop", place = "Thondoril River", localesIndex = 383}
+	addon.flightmasterDB[37915] = {zone = "Tirisfal", name = "Timothy Cunningham", place = "The Bulwark", faction = "Horde", localesIndex = 384}
 end
 
 function addon.getNearestFlightPoint(x, y, instance, faction)
