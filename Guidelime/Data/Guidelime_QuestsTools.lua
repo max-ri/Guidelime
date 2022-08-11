@@ -770,7 +770,8 @@ function addon.getNPCPosition(id)
 	if addon.dataSource == "CLASSIC_CODEX" then return addon.getNPCPositionClassicCodex(id) end
 	if addon.creaturesDB[id] == nil or addon.creaturesDB[id].positions == nil then return end
 	local p = addon.creaturesDB[id].positions[1]
-	return {instance = p.mapid, wx = p.y, wy = p.x}
+	local x, y, z = addon.GetZoneCoordinatesFromWorld(p.y, p.x, p.mapid)
+	return {instance = p.mapid, wx = p.y, wy = p.x, mapID = addon.mapIDs[z], x = x, y = y}
 end
 
 

@@ -175,15 +175,12 @@ function addon.getNearestFlightPoint(x, y, instance, faction)
 			end
 		end
 	end
-	if minPos == nil then return end
-	return minPos.wx, minPos.wy, minPos.instance
+	return minPos
 end
 
 function addon.getFlightPoint(id)
 	if id == nil then return end
-	local pos = addon.getNPCPosition(id)
-	if pos == nil then return end
-	return pos.wx, pos.wy, pos.instance
+	return addon.getNPCPosition(id)
 end
 
 local function getFlightmasterByPlaceHelper(place, faction, func)

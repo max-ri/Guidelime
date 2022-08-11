@@ -521,9 +521,8 @@ function addon.loadCurrentGuide(reset)
 					end						
 				elseif element.t == "GET_FLIGHT_POINT" then
 					if guide.autoAddCoordinatesGOTO and (GuidelimeData.showMapMarkersGOTO or GuidelimeData.showMinimapMarkersGOTO) and not step.hasGoto and not element.optional then
-						local gotoElement = {}
-						gotoElement.wx, gotoElement.wy, gotoElement.instance = addon.getFlightPoint(element.flightmaster)
-						if gotoElement.wx ~= nil then
+						local gotoElement = addon.getFlightPoint(element.flightmaster)
+						if gotoElement ~= nil and gotoElement.x ~= nil then
 							gotoElement.t = "GOTO"
 							gotoElement.step = step
 							gotoElement.radius = addon.DEFAULT_GOTO_RADIUS
@@ -1227,9 +1226,10 @@ function addon.updateStepsMapIcons()
 			for _, element in ipairs(step.elements) do
 				if element.t == "GOTO" and step.active and not element.completed then
 					if element.specialLocation == "NEAREST_FLIGHT_POINT" and addon.x ~= nil and addon.y ~= nil then
-						element.wx, element.wy, element.instance = addon.getNearestFlightPoint(addon.x, addon.y, addon.instance, addon.faction)
+						for k,v in pairs(addon.getNearestFlightPoint(addon.x, addon.y, addon.instance, addon.faction) or {}) do element[k] = v end
+						if addon.debugging then print("LIME: nearest flight point", element.x, element.y, element.mapID, element.wx, element.wy, element.instance) end
 					end
-					if element.wx ~= nil then
+					if element.x ~= nil then
 						addon.addMapIcon(element, highlight)
 						if highlight then
 							if GuidelimeDataChar.showArrow and addon.instance == element.instance then 
