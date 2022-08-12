@@ -569,6 +569,7 @@ function addon.getQuestPositionsLimited(id, typ, index, maxNumber, onlyWorld)
 	if positions == nil then return end
 	if #positions == 0 and filterZone ~= nil then
 		positions = addon.getQuestPositions(id, typ, index)
+		if positions == nil then return end
 	end
 	if maxNumber > 0 and #positions > maxNumber then
 		local positions2 = {}

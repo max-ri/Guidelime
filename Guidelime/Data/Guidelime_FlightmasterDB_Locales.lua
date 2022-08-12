@@ -127,6 +127,8 @@ addon.flightmasterDB_Locales = {
 		[167] = "Waldeslied, Eschental",
 		[179] = "Morastwinkel, Düstermarschen",
 		[195] = "Rebellenlager, Schlingendorntal",
+		[205] = "Zul'Aman, Geisterlande",
+		[213] = "Sammelpunkt der Zerschmetterten Sonne",
 		
 		-- Wrath of the Lich King
 		[183] = "Hafen von Valgarde, Der Heulende Fjord",
@@ -309,6 +311,8 @@ addon.flightmasterDB_Locales = {
 		[167] = "林歌神殿，灰谷",
 		[179] = "泥链镇，尘泥沼泽",
 		[195] = "反抗军营地，荆棘谷",
+		[205] = "祖阿曼，幽魂之地",
+		[213] = "破碎残阳基地",
 		
 		-- Wrath of the Lich King
 		[183] = "瓦加德港口，嚎风峡湾",
@@ -491,6 +495,8 @@ addon.flightmasterDB_Locales = {
 		[167] = "Canción del Bosque, Vallefresno",
 		[179] = "Piñón de Barro, Marjal Revolcafango",
 		[195] = "Asentamiento Rebelde, Vega de Tuercespina",
+		[205] = "Zul'Aman, Tierras Fantasma",
+		[213] = "Zona de Escala de Sol Devastado",
 		
 		-- Wrath of the Lich King
 		[183] = "Puerto de Valgarde, Fiordo Aquilonal",
@@ -673,6 +679,8 @@ addon.flightmasterDB_Locales = {
 		[167] = "Chant des forêts, Orneval",
 		[179] = "Bourbe-à-brac, marécage d'Âprefange",
 		[195] = "Camp rebelle, vallée de Strangleronce",
+		[205] = "Zul'Aman, Terres fantômes",
+		[213] = "Zone de rassemblement du Soleil brisé",
 		
 		-- Wrath of the Lich King
 		[183] = "Port-Valgarde",
@@ -855,6 +863,8 @@ addon.flightmasterDB_Locales = {
 		[167] = "Cantaselva, Valtetra",
 		[179] = "Melmarmitta, Acquemorte",
 		[195] = "Campo dei Ribelli, Valle di Rovotorto",
+		[205] = "Zul'Aman, Terre Spettrali",
+		[213] = "Base Operativa del Sole Infranto",
 		
 		-- Wrath of the Lich King
 		[183] = "Porto di Valguardia, Fiordo Echeggiante",
@@ -1037,6 +1047,8 @@ addon.flightmasterDB_Locales = {
 		[167] = "숲의 노래 (잿빛 골짜기)",
 		[179] = "진흙톱니 거점 (먼지진흙 습지대)",
 		[195] = "반란군 야영지 (가시덤불 골짜기)",
+		[205] = "줄아만 - 유령의 땅",
+		[213] = "무너진 태양 집결지",
 		
 		-- Wrath of the Lich King
 		[183] = "발가드 항만 - 울부짖는 협만",
@@ -1219,6 +1231,8 @@ addon.flightmasterDB_Locales = {
 		[167] = "Canción del Bosque, Vallefresno",
 		[179] = "Piñón de Barro, Marjal Revolcafango",
 		[195] = "Asentamiento Rebelde, Vega de Tuercespina",
+		[205] = "Zul'Aman, Tierras Fantasma",
+		[213] = "Zona de Escala de Sol Devastado",
 		
 		-- Wrath of the Lich King
 		[183] = "Puerto de Valgarde, Fiordo Aquilonal",
@@ -1401,6 +1415,8 @@ addon.flightmasterDB_Locales = {
 		[167] = "Cantilenda, Vale Gris",
 		[179] = "Coroa de Barro, Pântano Vadeoso",
 		[195] = "Acampamento dos Rebeldes, Selva do Espinhaço",
+		[205] = "Zul'Aman, Terra Fantasma",
+		[213] = "Bivaque Sol Partido",
 		
 		-- Wrath of the Lich King
 		[183] = "Porto de Valgarde, Fiorde Uivante",
@@ -1583,6 +1599,8 @@ addon.flightmasterDB_Locales = {
 		[167] = "Лесная Песнь, Ясеневый лес",
 		[179] = "Шестермуть, Пылевые топи",
 		[195] = "Лагерь повстанцев, Тернистая Долина",
+		[205] = "Зул'Аман, Призрачные земли",
+		[213] = "Подготовительный плацдарм Расколотого Солнца",
 		
 		-- Wrath of the Lich King
 		[183] = "Валгардский порт, Ревущий фьорд",
@@ -1765,6 +1783,8 @@ addon.flightmasterDB_Locales = {
 		[167] = "林歌神殿，梣谷",
 		[179] = "泥鏈營地，塵泥沼澤",
 		[195] = "反抗軍營地，荊棘谷",
+		[205] = "祖阿曼，鬼魂之地",
+		[213] = "破碎之日會所",
 		
 		-- Wrath of the Lich King
 		[183] = "瓦爾加德港口，凜風峽灣",
@@ -1947,6 +1967,8 @@ addon.flightmasterDB_Locales = {
 		[167] = "Forest Song, Ashenvale",
 		[179] = "Mudsprocket, Dustwallow Marsh",
 		[195] = "Rebel Camp, Stranglethorn Vale",
+		[205] = "Zul'Aman, Ghostlands",
+		[213] = "Shattered Sun Staging Area",
 		
 		-- Wrath of the Lich King
 		[245] = "Valiance Keep, Borean Tundra",

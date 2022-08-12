@@ -105,6 +105,8 @@ if select(4, GetBuildInfo()) >= 20000 then
 	addon.flightmasterDB[22935] = {zone = "Ashenvale", name = "Suralais Farwind", place = "Forest Song", faction = "Alliance", localesIndex = 167}
 	addon.flightmasterDB[23612] = {zone = "Dustwallow Marsh", name = "Dyslix Silvergrub", place = "Mudsprocket", localesIndex = 179}
 	addon.flightmasterDB[24366] = {zone = "Stranglethorn Vale", name = "Nizzle", place = "Rebel Camp", faction = "Alliance", localesIndex = 195}
+	addon.flightmasterDB[24851] = {zone = "Ghostlands", name = "Kiz Coilspanner", place = "Zul'Aman", localesIndex = 205}
+	addon.flightmasterDB[26560] = {zone = "Shattered Sun Staging Area", name = "Ohura", localesIndex = 213}
 end
 
 -- Wrath of the Lich King
