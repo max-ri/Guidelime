@@ -711,7 +711,7 @@ function addon.getQuestObjectiveText(id, objectives, indent, npcId, objectId)
 			text = (indent or "") .. "|T" .. addon.icons.object .. ":12|t" .. addon.getObjectName(objectId)
 		end
 	end
-	for _, i in ipairs(objectives) do
+	for _, i in ipairs(objectiveList) do
 		local o
 		if addon.quests[id] ~= nil and addon.quests[id].logIndex ~= nil and addon.quests[id].objectives ~= nil then	o = addon.quests[id].objectives[i] end
 		if o == nil and objectiveList[i] ~= nil then
@@ -1244,7 +1244,7 @@ function addon.updateStepsMapIcons()
 					if element.objectives ~= nil and element.attached ~= nil and element.attached.questId ~= nil then
 						local objectives = getQuestActiveObjectives(element.attached.questId, element.attached.objective)
 						found = false
-						for _, o in ipairs(element.objectives) do
+						for _, o in ipairs(objectives) do
 							if addon.contains(objectives, o) then found = true; break; end
 						end
 					end
