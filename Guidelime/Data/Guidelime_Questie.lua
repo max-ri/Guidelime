@@ -230,12 +230,12 @@ function addon.getQuestPositionsQuestie(id, typ, index, filterZone)
 						if filterZone == nil then
 							for zone, posList in pairs(list[i].Coordinates) do
 								for _, pos in ipairs(posList) do
-									table.insert(positions, {x = pos[1], y = pos[2], zone = addon.zoneNames[ZoneDB:GetUiMapIdByAreaId(zone)] or zone, objectives = oi})
+									table.insert(positions, {x = pos[1], y = pos[2], zone = addon.zoneNames[ZoneDB:GetUiMapIdByAreaId(zone)] or zone, objectives = {oi}})
 								end
 							end
 						elseif list[i].Coordinates[filterZoneId] ~= nil then
 							for _, pos in ipairs(list[i].Coordinates[filterZoneId]) do
-								table.insert(positions, {x = pos[1], y = pos[2], zone = filterZone, objectives = oi})
+								table.insert(positions, {x = pos[1], y = pos[2], zone = filterZone, objectives = {oi}})
 							end
 						end
 					end
