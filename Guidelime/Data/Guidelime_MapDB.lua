@@ -94,7 +94,7 @@ if select(4, GetBuildInfo()) < 40000 then
         ["Dalaran"]=125,
         ["The Underbelly"]=12,	
 		["The Scarlet Enclave"]=124,	
-
+		["Crystalsong Forest"]=127,
 	}
 else
 	-- retail
