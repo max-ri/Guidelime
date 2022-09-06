@@ -327,9 +327,10 @@ function addon.updateArrow()
 		addon.arrowFrame.texture:SetTexCoord(addon.arrowFrame.col * 56 / 512, (addon.arrowFrame.col + 1) * 56 / 512, addon.arrowFrame.row * 42 / 512, (addon.arrowFrame.row + 1) * 42 / 512)
 	end
 	local dist2 = (addon.x - addon.arrowX) * (addon.x - addon.arrowX) + (addon.y - addon.arrowY) * (addon.y - addon.arrowY)
-	if addon.arrowFrame.element and addon.arrowFrame.element.radius and addon.lastDistance2 then
+	if addon.arrowFrame.element and addon.arrowFrame.element.radius then
 		local radius2 = addon.arrowFrame.element.radius * addon.arrowFrame.element.radius
-		if (dist2 < radius2 and addon.lastDistance2 >= radius2) or (dist2 >= radius2 * addon.GOTO_HYSTERESIS_FACTOR and addon.lastDistance2 <= radius2 * addon.GOTO_HYSTERESIS_FACTOR) then
+		if (dist2 < radius2 and (not addon.lastDistance2 or addon.lastDistance2 >= radius2)) 
+		or (dist2 >= radius2 * addon.GOTO_HYSTERESIS_FACTOR and addon.lastDistance2 and addon.lastDistance2 <= radius2 * addon.GOTO_HYSTERESIS_FACTOR) then
 			if addon.debugging then print("LIME: position reached/left") end
 			addon.updateSteps()
 		end
@@ -352,6 +353,7 @@ function addon.showArrow(element)
 	if addon.arrowFrame ~= nil then
 		addon.arrowFrame.element = element 
 	end
+	addon.lastDistance2 = nil
 end
 
 function addon.hideArrow()
