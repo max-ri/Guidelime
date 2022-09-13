@@ -190,7 +190,7 @@ local function showMapIcon(mapIcon, t)
 	if mapIcon ~= nil and mapIcon.inUse then
 		if t ~= "GOTO" then t = "LOC" end
 		if GuidelimeData["showMapMarkers" .. t] then HBDPins:AddWorldMapIconMap(addon, mapIcon.map, mapIcon.mapID, mapIcon.x / 100, mapIcon.y / 100, 3) end
-		if GuidelimeData["showMinimapMarkers" .. t] then HBDPins:AddMinimapIconMap(addon, mapIcon.minimap, mapIcon.mapID, mapIcon.x / 100, mapIcon.y / 100, true, mapIcon.index == 0) end
+		if GuidelimeData["showMinimapMarkers" .. t] and not addon.hideMinimapIconsAndArrowWhileBuffed then HBDPins:AddMinimapIconMap(addon, mapIcon.minimap, mapIcon.mapID, mapIcon.x / 100, mapIcon.y / 100, true, mapIcon.index == 0) end
 	end
 end
 
@@ -296,7 +296,7 @@ function addon.updateArrow()
 	if addon.arrowFrame == nil or addon.x == nil or addon.y == nil then return end
 	
 	addon.arrowX, addon.arrowY = nil, nil
-	if GuidelimeDataChar.showArrow then
+	if GuidelimeDataChar.showArrow and not addon.hideMinimapIconsAndArrowWhileBuffed then
 		if not addon.isAlive() then
 			local corpse = HBD:GetPlayerZone() and C_DeathInfo.GetCorpseMapPosition(HBD:GetPlayerZone())
 			if corpse ~= nil then

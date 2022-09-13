@@ -459,3 +459,39 @@ function addon.frame:BAG_UPDATE()
 		addon.updateSteps(guide.itemUpdateIndices)
 	end
 end
+
+addon.frame:RegisterEvent('PLAYER_FARSIGHT_FOCUS_CHANGED')
+function addon.frame:PLAYER_FARSIGHT_FOCUS_CHANGED()
+	--if addon.debugging then print ("LIME: PLAYER_FARSIGHT_FOCUS_CHANGED") end
+	-- This is a hack to work around an issue with HereBeDragons
+	-- see https://www.curseforge.com/wow/addons/herebedragons/issues/31
+	-- In situations where player is remote controlling coordinates reported by hbd stay on the player character position and minimap icons do not move
+	-- Therefore arrow and minimap will be disabled
+	-- TODO: Are there other similar "remote-controlled" quest vehicles?
+	local spellIds = {
+		6196,   -- Far Sight, 
+		321297, -- Eyes of the Beast
+		6197,   -- Eagle Exe
+		51852,  -- Eye of Acherus (in DK intro quest)
+	}
+	local i = 1
+	while (true) do
+		local name, _, _, _, _, _, _, _, _, spellId = UnitAura("player", i, "HELPFUL")
+		if not name then break end
+		--if addon.debugging then print ("LIME: player has buff", name, spellId) end
+		if addon.contains(spellIds, spellId) then
+			if not addon.hideMinimapIconsAndArrowWhileBuffed then
+				if addon.debugging then print ("LIME: deactivating arrow and minimap due to", name) end
+				addon.hideMinimapIconsAndArrowWhileBuffed = true
+				addon.updateStepsMapIcons()
+			end
+			return
+		end
+		i = i + 1
+	end
+	if addon.hideMinimapIconsAndArrowWhileBuffed then
+		if addon.debugging then print ("LIME: reactivating arrow and minimap") end
+		addon.hideMinimapIconsAndArrowWhileBuffed = false
+		addon.updateStepsMapIcons()
+	end
+end
