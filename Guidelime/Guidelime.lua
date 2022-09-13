@@ -573,7 +573,7 @@ local function loadStepOnActivation(i)
 		local j = 1
 		while j <= #step.elements do
 			local element = step.elements[j]
-			if element.questId ~= nil then
+			if element.questId ~= nil and element.available then
 				local objectives = addon.getQuestObjectives(element.questId, element.t)						
 				if objectives ~= nil then
 					local a, b = element.objective, element.objective
