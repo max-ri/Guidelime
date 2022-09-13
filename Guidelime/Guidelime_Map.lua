@@ -155,6 +155,9 @@ function addon.addMapIcon(element, highlight, ignoreMaxNumOfMarkers)
 		if element.t == "GOTO" and mapIcon.index >= GuidelimeData.maxNumOfMarkersGOTO and GuidelimeData.maxNumOfMarkersGOTO > 0 then return end
 		if not element.step.active and element.t ~= "GOTO" then return end
 	end
+	mapIcon.instance = element.instance
+	mapIcon.wx = element.wx
+	mapIcon.wy = element.wy	
 	mapIcon.mapID = element.mapID
 	mapIcon.x = element.x
 	mapIcon.y = element.y
@@ -189,8 +192,16 @@ end
 local function showMapIcon(mapIcon, t)
 	if mapIcon ~= nil and mapIcon.inUse then
 		if t ~= "GOTO" then t = "LOC" end
-		if GuidelimeData["showMapMarkers" .. t] then HBDPins:AddWorldMapIconMap(addon, mapIcon.map, mapIcon.mapID, mapIcon.x / 100, mapIcon.y / 100, 3) end
-		if GuidelimeData["showMinimapMarkers" .. t] and not addon.hideMinimapIconsAndArrowWhileBuffed then HBDPins:AddMinimapIconMap(addon, mapIcon.minimap, mapIcon.mapID, mapIcon.x / 100, mapIcon.y / 100, true, mapIcon.index == 0) end
+		if addon.debugging then print("LIME: showMapIcon", mapIcon.mapID, mapIcon.x / 100, mapIcon.y / 100, mapIcon.instance, mapIcon.wx, mapIcon.wy) end
+		-- Hack for Scarlet Enclave: world map icons are not shown in Scarlet Enclave therefore use map icon
+		-- map icons are not useful for other zones on the other hand as then the icon will only appear in the map of the given zone and not in others
+		if mapIcon.mapID == 124 then
+			if GuidelimeData["showMapMarkers" .. t] then HBDPins:AddWorldMapIconMap(addon, mapIcon.map, mapIcon.mapID, mapIcon.x / 100, mapIcon.y / 100, 3) end
+			if GuidelimeData["showMinimapMarkers" .. t] and not addon.hideMinimapIconsAndArrowWhileBuffed then HBDPins:AddMinimapIconMap(addon, mapIcon.minimap, mapIcon.mapID, mapIcon.x / 100, mapIcon.y / 100, true, mapIcon.index == 0) end
+		else
+			if GuidelimeData["showMapMarkers" .. t] then HBDPins:AddWorldMapIconWorld(addon, mapIcon.map, mapIcon.instance, mapIcon.wx, mapIcon.wy, 3) end
+			if GuidelimeData["showMinimapMarkers" .. t] and not addon.hideMinimapIconsAndArrowWhileBuffed then HBDPins:AddMinimapIconWorld(addon, mapIcon.minimap, mapIcon.instance, mapIcon.wx, mapIcon.wy, true, mapIcon.index == 0) end
+		end
 	end
 end
 
