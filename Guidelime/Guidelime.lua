@@ -548,7 +548,7 @@ function addon.loadCurrentGuide(reset)
 				i = i + 1
 			end
 			if step.manual == nil then step.manual = true end
-			if step.completeWithNext == nil then step.compleWithNext = false end
+			if step.completeWithNext == nil then step.completeWithNext = false end
 			if step.completeWithNext then step.optional = true end
 			if step.optional == nil then step.optional = false end
 			step.skip = GuidelimeDataChar.guideSkip[addon.currentGuide.name][#addon.currentGuide.steps] or GuidelimeDataChar.completedSteps[#addon.currentGuide.steps] or false
