@@ -192,7 +192,6 @@ end
 local function showMapIcon(mapIcon, t)
 	if mapIcon ~= nil and mapIcon.inUse then
 		if t ~= "GOTO" then t = "LOC" end
-		if addon.debugging then print("LIME: showMapIcon", mapIcon.mapID, mapIcon.x / 100, mapIcon.y / 100, mapIcon.instance, mapIcon.wx, mapIcon.wy) end
 		-- Hack for Scarlet Enclave: world map icons are not shown in Scarlet Enclave therefore use map icon
 		-- map icons are not useful for other zones on the other hand as then the icon will only appear in the map of the given zone and not in others
 		if mapIcon.mapID == 124 then
