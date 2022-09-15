@@ -190,7 +190,7 @@ function addon.createPopupFrame(message, okFunc, hasCancel, height)
 end
 
 function addon.showUrlPopup(url)
-	return addon.showCopyPopup(url, L.URL, 100, 80, false)
+	return addon.showCopyPopup(url, L.URL, 100, 120, true)
 end
 
 function addon.showCopyPopup(value, text, textwidth, height, multiline)

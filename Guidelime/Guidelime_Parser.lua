@@ -143,9 +143,8 @@ end
 
 local function textFormatting(text, color)
 	local url
-	local formatted = text:gsub("(https://[%w%./#%-%?=#]*)", function(u) url = u; return "|cFFAAAAAA" .. u .. "|r" end)
-		:gsub("(http://[%w%./#%-%?=#]*)", function(u) url = u; return "|cFFAAAAAA" .. u .. "|r" end)
-		:gsub("(www%.[%w%./#%-%?=#]*)", function(u) if url == nil then url = u end; return "|cFFAAAAAA" .. u .. "|r" end)
+	local formatted = text:gsub("(https?://[%w%./#%-%?=#]*)", function(u) if not url then url = u else url = url .. "\n" .. u end; return "|cFFAAAAAA" .. u .. "|r" end)
+		:gsub("(www%.[%w%./#%-%?=#]*)", function(u) if not url then url = u elseif not url:find(u) then url = url .. "\n" .. u end; return "|cFFAAAAAA" .. u .. "|r" end)
 		:gsub("%*([^\n\r]-)%*", (color or "|cFFFFD100") .. "%1|r")
 		:gsub("%*%*","%*")
 	local formattedInactive = formatted:gsub("|r", addon.COLOR_INACTIVE)
