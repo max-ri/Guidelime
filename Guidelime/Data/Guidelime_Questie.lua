@@ -37,7 +37,7 @@ local function checkQuestie()
 			addon.waitingForQuestie = false
 			addon.loadCurrentGuide(false)
 			addon.updateFromQuestLog()
-			addon.updateSteps()
+			addon.updateMainFrame()
 		end)
 		return false	
 	end
