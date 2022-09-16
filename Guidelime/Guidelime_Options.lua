@@ -459,13 +459,29 @@ function addon.fillOptions()
 	addon.optionsFrame.titleGeneral:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -100)
 	addon.optionsFrame.titleGeneral:SetFontObject("GameFontNormalLarge")
 	prev = addon.optionsFrame.titleGeneral
-
-	checkbox = addon.addCheckOption(content, GuidelimeData, "autoCompleteQuest", L.AUTO_COMPLETE_QUESTS)
-	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
-	prev = checkbox
+	
+	for _, option in ipairs({"Accept", "TurnIn"}) do
+		local text = content:CreateFontString(nil, content, "GameFontNormal")
+		text:SetText(L["AUTO_" .. string.upper(option) .. "_QUESTS"])
+		text:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -20)
+		prev = text
+	
+		local choices = {"Current", "Guide", "All"}
+		for i, v in ipairs(choices) do
+			content.options["auto" .. option .. "Quests" .. v] = addon.addCheckbox(content, L[string.upper(v) .. "_QUESTS"])
+			content.options["auto" .. option .. "Quests" .. v]:SetChecked(GuidelimeData["auto" .. option .. "Quests"] == v)
+			content.options["auto" .. option .. "Quests" .. v]:SetScript("OnClick", function()
+				GuidelimeData["auto" .. option .. "Quests"] = content.options["auto" .. option .. "Quests" .. v]:GetChecked() and v
+				for _, v2 in ipairs(choices) do
+					content.options["auto" .. option .. "Quests" .. v2]:SetChecked(GuidelimeData["auto" .. option .. "Quests"] == v2)
+				end
+			end)
+			content.options["auto" .. option .. "Quests" .. v]:SetPoint("TOPLEFT", prev, "TOPLEFT", 30 + i * 150, 10)
+		end
+	end
 
 	checkbox = addon.addCheckOption(content, GuidelimeData, "autoSelectFlight", L.AUTO_SELECT_FLIGHT)
-	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
 	prev = checkbox
 
 	checkbox = addon.addCheckOption(content, GuidelimeData, "skipCutscenes", L.SKIP_CUTSCENES, nil, function()

@@ -140,7 +140,8 @@ function addon.loadData()
 		fontColorCOMPLETE = addon.COLOR_QUEST_DEFAULT,
 		fontColorTURNIN = addon.COLOR_QUEST_DEFAULT,
 		fontColorSKIP = addon.COLOR_QUEST_DEFAULT,
-		autoCompleteQuest = true,
+		autoAcceptQuests = "Step",
+		autoTurnInQuests = "Step",
 		autoSelectFlight = true,
 		showQuestIds = false,
 		version = GetAddOnMetadata(addonName, "version")
@@ -183,6 +184,7 @@ function addon.loadData()
 	end
 
 	GuidelimeDataChar.version:gsub("(%d+).(%d+)", function(major, minor)
+		if GuidelimeData.debugging then print("LIME: last saved character data version", major, minor) end
 		if tonumber(major) < 1 or (tonumber(major) == 1 and tonumber(minor) < 2) then
 			--changed default value for showUnavailableSteps
 			GuidelimeDataChar.showUnavailableSteps = true
@@ -190,44 +192,46 @@ function addon.loadData()
 		end
 		if tonumber(major) == 0 and tonumber(minor) < 41 then
 			GuidelimeDataChar.autoCompleteQuest = nil
-			GuidelimeDataChar.version = GetAddOnMetadata(addonName, "version")
 		end
 		if tonumber(major) == 0 and tonumber(minor) < 28 then
 			--GuidelimeDataChar.currentGuide.skip was replaced with GuidelimeDataChar.guideSkip and GuidelimeDataChar.currentGuide.name with GuidelimeDataChar.currentGuide. Therefore remove.
 			GuidelimeDataChar.currentGuide = nil
-			GuidelimeDataChar.version = GetAddOnMetadata(addonName, "version")
 		end
 	end, 1)
 	GuidelimeData.version:gsub("(%d+).(%d+)", function(major, minor)
+		if GuidelimeData.debugging then print("LIME: last saved data version", major, minor) end
+		if tonumber(major) < 2 or (tonumber(major) == 2 and tonumber(minor) < 42) then
+			-- autoCompleteQuest is removed and replaced with autoAcceptQuests and autoTurnInQuests
+			-- if old value was true new value should be set to the new default "Step"
+			GuidelimeData.autoAcceptQuests = (GuidelimeData.autoCompleteQuest and "Step") or false
+			GuidelimeData.autoTurnInQuests = GuidelimeData.autoAcceptQuests
+			GuidelimeData.autoCompleteQuest = nil
+			GuidelimeData.version = GetAddOnMetadata(addonName, "version")
+		end
 		if tonumber(major) < 2 or (tonumber(major) == 2 and tonumber(minor) < 15) then
 			-- dataSourceQuestie is removed and replaced with dataSource which should be set to "QUESTIE"
 			-- (even when Questie is not installed; it will only be changed to "INTERNAL" when internal was selected manually)
 			GuidelimeData.dataSourceQuestie = nil
-			GuidelimeData.version = GetAddOnMetadata(addonName, "version")
 		end
 		if tonumber(major) < 2 or (tonumber(major) == 2 and tonumber(minor) < 13) then
 			--if maxNumOfMarkersLOC was unchanged change to new default value of 50
 			if GuidelimeData.maxNumOfMarkersLOC == 15 then GuidelimeData.maxNumOfMarkersLOC = 50 end
-			GuidelimeData.version = GetAddOnMetadata(addonName, "version")
 		end
 		if tonumber(major) < 2 then
 			--changed default value for dataSourceQuestie
 			GuidelimeData.dataSourceQuestie = true
-			GuidelimeData.version = GetAddOnMetadata(addonName, "version")
 		end
 		if tonumber(major) < 1 or (tonumber(major) == 1 and tonumber(minor) < 28) then
 			--hide option debugging, dataSourceQuestie
 			GuidelimeData.debugging = false
 			addon.debugging = false
 			--GuidelimeData.dataSourceQuestie = false
-			GuidelimeData.version = GetAddOnMetadata(addonName, "version")
 		end
 		if tonumber(major) == 0 and tonumber(minor) < 39 then
 			--removed options mapMarkerStyle, mapMarkerSize, autoAddCoordinates
 			GuidelimeData.mapMarkerStyle = nil
 			GuidelimeData.mapMarkerSize = nil
 			GuidelimeData.autoAddCoordinates = nil
-			GuidelimeData.version = GetAddOnMetadata(addonName, "version")
 		end
 		if tonumber(major) == 0 and tonumber(minor) < 36 then
 			--options reworked; remove everything old
@@ -235,16 +239,14 @@ function addon.loadData()
 			GuidelimeData.hideUnavailableSteps = nil
 			GuidelimeData.maxNumOfStepsGOTO = nil
 			GuidelimeData.maxNumOfStepsLOC = nil
-			GuidelimeData.version = GetAddOnMetadata(addonName, "version")
 		end
 		if tonumber(major) == 0 and tonumber(minor) < 21 then
 			--autoAddCoordinates default changed to true; reset for everyone
 			GuidelimeData.autoAddCoordinates = true
-			GuidelimeData.version = GetAddOnMetadata(addonName, "version")
-		elseif tonumber(major) == 0 and tonumber(minor) < 18 then
+		end
+		if tonumber(major) == 0 and tonumber(minor) < 18 then
 			-- maxNumOfMarkers is deprecated
 			GuidelimeData.maxNumOfMarkers = nil
-			GuidelimeData.version = GetAddOnMetadata(addonName, "version")
 		end
 		if tonumber(major) == 0 and tonumber(minor) < 10 then
 			-- before 0.010 custom guides were saved with a key prefixed with L.CUSTOM_GUIDES. This produces different keys when language is changed. Therefore remove.
@@ -256,7 +258,6 @@ function addon.loadData()
 					GuidelimeData.customGuides[name] = guide
 				end
 			end
-			GuidelimeData.version = GetAddOnMetadata(addonName, "version")
 		end
 	end, 1)
 
