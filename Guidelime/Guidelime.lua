@@ -157,6 +157,7 @@ function addon.loadData()
 		mainFrameAlpha = 0.5,
 		mainFrameFontSize = 14,
 		mainFrameShowScrollBar = true,
+		showTitle = true,
 		showCompletedSteps = false,
 		showUnavailableSteps = true,
 		showArrow = true,
@@ -1338,6 +1339,13 @@ local function showContextMenu()
 		{text = L.AVAILABLE_GUIDES .. "...", checked = addon.isGuidesShowing(), func = addon.showGuides},
 		{text = GAMEOPTIONS_MENU .. "...", checked = addon.isOptionsShowing(), func = addon.showOptions},
 		{text = L.EDITOR .. "...", checked = addon.isEditorShowing(), func = addon.showEditor},
+		{text = L.SHOW_GUIDE_TITLE, checked = GuidelimeDataChar.showTitle, func = function()
+			GuidelimeDataChar.showTitle = not GuidelimeDataChar.showTitle
+			if addon.optionsFrame ~= nil then
+				addon.optionsFrame.showTitle:SetChecked(GuidelimeDataChar.showTitle)
+			end
+			addon.updateMainFrame()
+		end},
 		{text = L.SHOW_COMPLETED_STEPS, checked = GuidelimeDataChar.showCompletedSteps, func = function()
 			GuidelimeDataChar.showCompletedSteps = not GuidelimeDataChar.showCompletedSteps
 			if addon.optionsFrame ~= nil then
@@ -1527,9 +1535,15 @@ function addon.updateMainFrame(reset)
 		local time
 		if addon.debugging then time = debugprofilestop() end
 
-		addon.mainFrame.titleBox:SetText(addon.currentGuide.name)
-		addon.mainFrame.titleBox:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize)
-		local prev = addon.mainFrame.titleBox
+		local prev
+		if GuidelimeDataChar.showTitle then
+			addon.mainFrame.titleBox:SetText(addon.currentGuide.name)
+			addon.mainFrame.titleBox:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize)
+			addon.mainFrame.titleBox:Show()
+			prev = addon.mainFrame.titleBox
+		else
+			addon.mainFrame.titleBox:Hide()
+		end
 		for i, step in ipairs(addon.currentGuide.steps) do
 			if stepIsVisible(step) then
 				if step.active or GuidelimeData.maxNumOfSteps == 0 or (addon.currentGuide.lastActiveIndex ~= nil and i - addon.currentGuide.lastActiveIndex < GuidelimeData.maxNumOfSteps) then
@@ -1561,7 +1575,11 @@ function addon.updateMainFrame(reset)
 					addon.mainFrame.steps[i]:SetAlpha(1)
 					addon.mainFrame.steps[i]:Show()
 					addon.mainFrame.steps[i].visible = true
-					addon.mainFrame.steps[i]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -35, -2)
+					if prev then
+						addon.mainFrame.steps[i]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -35, -2)
+					else
+						addon.mainFrame.steps[i]:SetPoint("TOPLEFT", addon.mainFrame.scrollChild, "TOPLEFT", 0, -5)
+					end
 					addon.mainFrame.steps[i]:SetChecked(step.completed or step.skip)
 					addon.mainFrame.steps[i]:SetEnabled(not step.completed or step.skip)
 

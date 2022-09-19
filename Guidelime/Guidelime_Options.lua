@@ -148,6 +148,14 @@ function addon.fillOptions()
 	addon.optionsFrame.showCompletedSteps:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = addon.optionsFrame.showCompletedSteps
 
+	addon.optionsFrame.showTitle = addon.addCheckOption(content, GuidelimeDataChar, "showTitle", L.SHOW_GUIDE_TITLE, nil, function()
+		if GuidelimeDataChar.mainFrameShowing then
+			addon.updateMainFrame()
+		end
+	end)
+	addon.optionsFrame.showTitle:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	prev = addon.optionsFrame.showTitle
+
 	addon.optionsFrame.showCompletedSteps = addon.addCheckOption(content, GuidelimeDataChar, "showCompletedSteps", L.SHOW_COMPLETED_STEPS, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateMainFrame()
