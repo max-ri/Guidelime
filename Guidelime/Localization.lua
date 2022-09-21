@@ -186,6 +186,7 @@ L.QUEST_CONTAINED_IN_GUIDE = "This quest is part of your current guide:"
 L.QUEST_NOT_CONTAINED_IN_GUIDE = "This quest is not part of your current guide"
 L.ERROR_TBC_DATA_SOURCE = "In order to load this guide an additional addon is required as quest data source. Please go to options and select 'Questie' or 'ClassicCodex' as data source."
 L.ERROR_TBC_DATA_SOURCE_INSTALL = "In order to load this guide an additional addon is required as quest data source. Please install either 'Questie' or 'ClassicCodex'."
+L.USE_ITEM_TOOLTIP = "Use %s"
 
 -- Word lists used by the plain text parser
 -- Spaces at the start and end of each word will make it so that a match cannot occur in the middle of a word. Spaces will match any whitespace or punctuation marks.
@@ -770,6 +771,7 @@ L["STEP_SKIP"] = "Hier klicken, um diesen Schritt zu überspringen"
 L["SUGGESTED_LEVEL"] = "Empfohlene Stufe"
 L["TYPE"] = "Art"
 L["URL"] = "URL"
+L["USE_ITEM_TOOLTIP"] = "Benutze %s"
 L["DATA_SOURCE_INTERNAL"] = "Interne Quest-Datenbank verwenden"
 L["DATA_SOURCE_TOOLTIP_INTERNAL"] = "Für Information wie Quest-Koordinaten wird nur die in Guidelime enhaltene Quest-Datenbank genutzt.\nIn dieser können neuere Quests fehlen."
 L["DATA_SOURCE_QUESTIE"] = "'Questie' als Datenquelle verwenden"

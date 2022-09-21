@@ -801,3 +801,19 @@ function addon.getObjectName(id)
 	end
 	return addon.objectNames[id]
 end
+
+function addon.getItemStartingQuest(id)
+	local objectives = addon.getQuestObjectives(id, "ACCEPT")
+	if objectives then
+		for _, o in ipairs(objectives) do
+			if o.type == "item" then
+				return o.ids.item[1]
+			end
+		end
+	end
+end	
+
+function addon.getItemProvidedByQuest(id)
+	if id == nil then return end
+	if addon.dataSource == "QUESTIE" then return addon.getItemProvidedByQuestQuestie(id) end
+end

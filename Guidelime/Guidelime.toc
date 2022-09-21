@@ -38,6 +38,7 @@ Data\Guidelime_CreaturesDB_Locales.lua
 Data\Guidelime_ObjectsDB_Locales.lua
 Data\Guidelime_ItemsDB_Locales.lua
 Data\Guidelime_QuestsTools.lua
+Data\Guidelime_QuestieCorrections.lua
 Data\Guidelime_Questie.lua
 Data\Guidelime_ClassicCodexCorrections.lua
 Data\Guidelime_ClassicCodex.lua

@@ -5,6 +5,7 @@ HBD = LibStub("HereBeDragons-2.0")
 
 -- Register events and call functions
 addon.frame:SetScript("OnEvent", function(self, event, ...)
+	if addon.debugging then print("LIME:", event, ...) end
 	addon.frame[event](self, ...)
 end)
 
@@ -15,13 +16,7 @@ end
 
 addon.frame:RegisterEvent('PLAYER_LOGIN')
 function addon.frame:PLAYER_LOGIN()
-	--if addon.debugging then print("LIME: Player logged in...") end
 	C_Timer.After(2, init)
-end
-
-addon.frame:RegisterEvent('PLAYER_ENTERING_WORLD')
-function addon.frame:PLAYER_ENTERING_WORLD()
-	--if addon.debugging then print("LIME: Player entering world...") end
 end
 
 addon.frame:RegisterEvent('PLAYER_LEVEL_UP')
@@ -43,7 +38,6 @@ end
 
 addon.frame:RegisterEvent('UPDATE_FACTION')
 function addon.frame:UPDATE_FACTION(level)
-	if addon.debugging then print("LIME: Update faction") end
 	addon.updateMainFrame()
 end
 
@@ -208,7 +202,6 @@ end
 
 addon.frame:RegisterEvent('QUEST_LOG_UPDATE')
 function addon.frame:QUEST_LOG_UPDATE()
-	if addon.debugging then print("LIME: QUEST_LOG_UPDATE", addon.firstLogUpdate) end
 	doQuestUpdate()
 end
 
@@ -376,7 +369,6 @@ end
 
 addon.frame:RegisterEvent('CINEMATIC_START')
 function addon.frame:CINEMATIC_START()
-	if addon.debugging then print ("LIME: CINEMATIC_START") end
 	if GuidelimeData.skipCutscenes then
 		StopCinematic()
 	end
@@ -384,7 +376,6 @@ end
 
 addon.frame:RegisterEvent('TAXIMAP_OPENED')
 function addon.frame:TAXIMAP_OPENED()
-	if addon.debugging then print ("LIME: TAXIMAP_OPENED") end
 	if GuidelimeData.autoSelectFlight and not IsShiftKeyDown() and addon.currentGuide ~= nil and addon.currentGuide.firstActiveIndex ~= nil and	addon.currentGuide.lastActiveIndex ~= nil then
 		for i = addon.currentGuide.firstActiveIndex, addon.currentGuide.lastActiveIndex do
 			local step = addon.currentGuide.steps[i]
@@ -418,7 +409,6 @@ end
 
 addon.frame:RegisterEvent('PLAYER_CONTROL_LOST')
 function addon.frame:PLAYER_CONTROL_LOST()
-	if addon.debugging then print ("LIME: PLAYER_CONTROL_LOST") end
 	C_Timer.After(1, function() 
 		if UnitOnTaxi("player") then
 			if addon.debugging then print ("LIME: UnitOnTaxi") end
@@ -429,7 +419,6 @@ end
 
 addon.frame:RegisterEvent('UI_INFO_MESSAGE')
 function addon.frame:UI_INFO_MESSAGE(errorType, message)
-	if addon.debugging then print ("LIME: UI_INFO_MESSAGE", errorType, message) end
 	if message == ERR_NEWTAXIPATH then
 		if addon.debugging then print ("LIME: ERR_NEWTAXIPATH") end
 		addon.completeSemiAutomaticByType("GET_FLIGHT_POINT")
@@ -438,14 +427,12 @@ end
 
 addon.frame:RegisterEvent('HEARTHSTONE_BOUND')
 function addon.frame:HEARTHSTONE_BOUND(errorType, message)
-	if addon.debugging then print ("LIME: HEARTHSTONE_BOUND") end
 	addon.completeSemiAutomaticByType("SET_HEARTH")
 end
 
 
 addon.frame:RegisterEvent('UNIT_SPELLCAST_SUCCEEDED')
 function addon.frame:UNIT_SPELLCAST_SUCCEEDED(unitTarget, castGUID, spellID)
-	--if addon.debugging then print ("LIME: UNIT_SPELLCAST_SUCCEEDED", unitTarget, castGUID, spellID) end
 	-- hearthstone was used (or Astral Recall)
 	if spellID == 8690 or spellID == 556 then
 		addon.completeSemiAutomaticByType("HEARTH")
@@ -455,16 +442,14 @@ end
 addon.requestItemInfo = {}
 addon.frame:RegisterEvent('GET_ITEM_INFO_RECEIVED')
 function addon.frame:GET_ITEM_INFO_RECEIVED(itemId,success)
-	-- if addon.debugging then print ("LIME: GET_ITEM_INFO_RECEIVED") end
 	if addon.requestItemInfo[itemId] and success then
 		addon.requestItemInfo[itemId] = nil
-		addon.updateStepsText()
+		addon.updateMainFrame()
 	end
 end
 
 addon.frame:RegisterEvent('BAG_UPDATE')
 function addon.frame:BAG_UPDATE()
-	-- if addon.debugging then print ("LIME: BAG_UPDATE") end
 	local guide = GuidelimeDataChar and addon.guides[GuidelimeDataChar.currentGuide]
 	if guide and guide.itemUpdateIndices and #guide.itemUpdateIndices > 0 then
 		addon.updateSteps(guide.itemUpdateIndices)
@@ -473,7 +458,6 @@ end
 
 addon.frame:RegisterEvent('PLAYER_FARSIGHT_FOCUS_CHANGED')
 function addon.frame:PLAYER_FARSIGHT_FOCUS_CHANGED()
-	--if addon.debugging then print ("LIME: PLAYER_FARSIGHT_FOCUS_CHANGED") end
 	-- This is a hack to work around an issue with HereBeDragons
 	-- see https://www.curseforge.com/wow/addons/herebedragons/issues/31
 	-- In situations where player is remote controlling coordinates reported by hbd stay on the player character position and minimap icons do not move

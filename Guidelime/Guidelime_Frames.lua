@@ -1,6 +1,14 @@
 local addonName, addon = ...
 local L = addon.L
 
+function addon.setTooltip(frame, tooltip)
+	if tooltip then	
+		frame.tooltip = tooltip
+		frame:SetScript("OnEnter", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32);  GameTooltip:SetText(self.tooltip); GameTooltip:Show(); addon.showingTooltip = true end end)
+		frame:SetScript("OnLeave", function(self) if self.tooltip ~= nil and self.tooltip ~= "" and addon.showingTooltip then GameTooltip:Hide(); addon.showingTooltip = false end end)
+	end
+end
+
 function addon.addSliderOption(frame, optionsTable, option, min, max, step, text, tooltip, updateFunction, afterUpdateFunction)
     local slider = CreateFrame("Slider", addonName .. option, frame, "OptionsSliderTemplate")
 	frame.options[option] = slider
@@ -44,11 +52,7 @@ function addon.addSliderOption(frame, optionsTable, option, min, max, step, text
 			if afterUpdateFunction ~= nil then afterUpdateFunction(self) end
         end
     end)
-	if tooltip ~= nil then
-		slider.tooltip = tooltip
-		slider:SetScript("OnEnter", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32);  GameTooltip:SetText(self.tooltip); GameTooltip:Show(); addon.showingTooltip = true end end)
-		slider:SetScript("OnLeave", function(self) if self.tooltip ~= nil and self.tooltip ~= "" and addon.showingTooltip then GameTooltip:Hide(); addon.showingTooltip = false end end)
-	end
+	addon.setTooltip(slider, tooltip)
     return slider
 end
 
@@ -58,11 +62,7 @@ function addon.addCheckbox(frame, text, tooltip)
 		checkbox.text:SetText(text)
 		checkbox.text:SetFontObject("GameFontNormal")
 	end
-	if tooltip ~= nil then
-		checkbox.tooltip = tooltip
-		checkbox:SetScript("OnEnter", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32);  GameTooltip:SetText(self.tooltip); GameTooltip:Show(); addon.showingTooltip = true end end)
-		checkbox:SetScript("OnLeave", function(self) if self.tooltip ~= nil and self.tooltip ~= "" and addon.showingTooltip then GameTooltip:Hide(); addon.showingTooltip = false end end)
-	end
+	addon.setTooltip(checkbox, tooltip)
 	return checkbox
 end
 
@@ -91,11 +91,7 @@ function addon.addMultilineText(frame, text, width, tooltip, clickFunc, doubleCl
 	textbox:SetMultiLine(true)
 	textbox:SetFontObject("GameFontNormal")
 	if text ~= nil then textbox:SetText(text) end
-	if tooltip ~= nil then
-		textbox.tooltip = tooltip
-		textbox:SetScript("OnEnter", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32); GameTooltip:SetText(self.tooltip); GameTooltip:Show(); addon.showingTooltip = true end end)
-		textbox:SetScript("OnLeave", function(self) if self.tooltip ~= nil and self.tooltip ~= "" and addon.showingTooltip then GameTooltip:Hide(); addon.showingTooltip = false end end)
-	end
+	addon.setTooltip(textbox, tooltip)
 	if clickFunc ~= nil or doubleClickFunc ~= nil then
 		textbox:SetScript("OnMouseUp", function(self, button)
 			if clickFunc ~= nil then clickFunc(self, button) end
@@ -106,7 +102,7 @@ function addon.addMultilineText(frame, text, width, tooltip, clickFunc, doubleCl
 	end
 	textbox:SetScript("OnEditFocusGained", function (self) self:ClearFocus() end)
 	textbox:SetAutoFocus(false)
-	textbox:SetWidth(width)
+	if width then textbox:SetWidth(width) end
 
 	return textbox
 end
@@ -119,11 +115,7 @@ function addon.addTextbox(frame, text, width, tooltip)
 	textbox:SetHeight(10)
 	textbox:SetWidth(width)
 	textbox:SetTextColor(1,1,1,1)
-	if tooltip ~= nil then
-		textbox.tooltip = tooltip
-		textbox:SetScript("OnEnter", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32);  GameTooltip:SetText(self.tooltip); GameTooltip:Show(); addon.showingTooltip = true end end)
-		textbox:SetScript("OnLeave", function(self) if self.tooltip ~= nil and self.tooltip ~= "" and addon.showingTooltip then GameTooltip:Hide(); addon.showingTooltip = false end end)
-	end
+	addon.setTooltip(textbox, tooltip)
 	return textbox
 end
 
