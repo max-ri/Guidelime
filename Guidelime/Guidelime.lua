@@ -209,7 +209,7 @@ function addon.loadData()
 	end, 1)
 	GuidelimeData.version:gsub("(%d+).(%d+)", function(major, minor)
 		if GuidelimeData.debugging then print("LIME: last saved data version", major, minor) end
-		if tonumber(major) < 2 or (tonumber(major) == 2 and tonumber(minor) < 42) then
+		if tonumber(major) < 3 then
 			-- autoCompleteQuest is removed and replaced with autoAcceptQuests and autoTurnInQuests
 			-- if old value was true new value should be set to the new default "Step"
 			GuidelimeData.autoAcceptQuests = (GuidelimeData.autoCompleteQuest and "Step") or false
