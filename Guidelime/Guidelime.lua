@@ -1725,7 +1725,7 @@ function addon.updateMainFrame(reset)
 			prev = message
 		end
 		
-		addon.bottomElement = prev
+		addon.mainFrame.bottomElement = prev
 		
 		if addon.mainFrame.useButtons == nil then
 			addon.mainFrame.useButtons = {}
