@@ -148,8 +148,8 @@ function addon.loadData()
 		fontColorCOMPLETE = addon.COLOR_QUEST_DEFAULT,
 		fontColorTURNIN = addon.COLOR_QUEST_DEFAULT,
 		fontColorSKIP = addon.COLOR_QUEST_DEFAULT,
-		autoAcceptQuests = "Step",
-		autoTurnInQuests = "Step",
+		autoAcceptQuests = "Current",
+		autoTurnInQuests = "Current",
 		autoSelectFlight = true,
 		showQuestIds = false,
 		version = GetAddOnMetadata(addonName, "version")
@@ -211,8 +211,8 @@ function addon.loadData()
 		if GuidelimeData.debugging then print("LIME: last saved data version", major, minor) end
 		if tonumber(major) < 3 then
 			-- autoCompleteQuest is removed and replaced with autoAcceptQuests and autoTurnInQuests
-			-- if old value was true new value should be set to the new default "Step"
-			GuidelimeData.autoAcceptQuests = (GuidelimeData.autoCompleteQuest and "Step") or false
+			-- if old value was true new value should be set to the new default "Current"
+			GuidelimeData.autoAcceptQuests = (GuidelimeData.autoCompleteQuest ~= false and "Current") or false
 			GuidelimeData.autoTurnInQuests = GuidelimeData.autoAcceptQuests
 			GuidelimeData.autoCompleteQuest = nil
 			GuidelimeData.version = GetAddOnMetadata(addonName, "version")
