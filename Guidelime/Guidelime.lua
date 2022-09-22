@@ -78,7 +78,7 @@ addon.icons = {
 	SET_HEARTH = "Interface\\Addons\\" .. addonName .. "\\Icons\\set_hearth", -- made from "Interface\\Icons\\INV_Drink_05", nicer than the actual "Interface\\GossipFrame\\BinderGossipIcon" ?
 	VENDOR = "Interface\\GossipFrame\\VendorGossipIcon",
 	REPAIR = "Interface\\Addons\\" .. addonName .. "\\Icons\\repair", -- made from "Interface\\Icons\\Trade_BlackSmithing",
-	HEARTH = "Interface\\Addons\\" .. addonName .. "\\Icons\\hearth", -- made from "Interface\\Icons\\INV_Misc_Rune_01",
+	--HEARTH = "Interface\\Addons\\" .. addonName .. "\\Icons\\hearth", -- made from "Interface\\Icons\\INV_Misc_Rune_01",
 	FLY = "Interface\\GossipFrame\\TaxiGossipIcon",
 	TRAIN = "Interface\\GossipFrame\\TrainerGossipIcon",
 	GET_FLIGHT_POINT = "Interface\\Addons\\" .. addonName .. "\\Icons\\getflightpoint",
@@ -438,7 +438,8 @@ function addon.loadCurrentGuide(reset)
 		for _, element in ipairs(step.elements) do
 			if not element.generated and
 				((element.text ~= nil and element.text ~= "") or 
-				(element.t ~= "TEXT" and element.t ~= "NAME" and element.t ~= "NEXT" and element.t ~= "DETAILS" and element.t ~= "GUIDE_APPLIES" and element.t ~= "APPLIES" and element.t ~= "DOWNLOAD" and element.t ~= "AUTO_ADD_COORDINATES_GOTO" and element.t ~= "AUTO_ADD_COORDINATES_LOC"))
+				(element.t ~= "TEXT" and element.t ~= "NAME" and element.t ~= "NEXT" and element.t ~= "DETAILS" and element.t ~= "GUIDE_APPLIES" and element.t ~= "APPLIES" and 
+				element.t ~= "DOWNLOAD" and element.t ~= "AUTO_ADD_COORDINATES_GOTO" and element.t ~= "AUTO_ADD_COORDINATES_LOC" and element.t ~= "AUTO_ADD_USE_ITEM"))
 			then
 				table.insert(filteredElements, element)
 			end
@@ -530,7 +531,7 @@ function addon.loadCurrentGuide(reset)
 							local itemId = addon.getItemProvidedByQuest(element.questId)
 							if itemId then
 								local _,_,enable = GetItemCooldown(itemId)
-								if enable then
+								if enable and enable > 0 then
 									local useElement = {}
 									useElement.t = "USE_ITEM"
 									useElement.useItemId = itemId
