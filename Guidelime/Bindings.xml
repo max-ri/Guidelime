@@ -1,0 +1,20 @@
+<Bindings>
+	<Binding name="GUIDELIME_TOGGLE" header="GUIDELIME" category="ADDONS">
+		if GuidelimeDataChar.mainFrameShowing then Guidelime.addon.hideMainFrame() else Guidelime.addon.showMainFrame() end
+	</Binding>
+	<Binding name="GUIDELIME_USE_ITEM_1" category="ADDONS">
+		--for using a quest item
+	</Binding>
+	<Binding name="GUIDELIME_USE_ITEM_2" category="ADDONS">
+		--for using a quest item
+	</Binding>
+	<Binding name="GUIDELIME_USE_ITEM_3" category="ADDONS">
+		--for using a quest item
+	</Binding>
+	<Binding name="GUIDELIME_USE_ITEM_4" category="ADDONS">
+		--for using a quest item
+	</Binding>
+	<Binding name="GUIDELIME_USE_ITEM_5" category="ADDONS">
+		--for using a quest item
+	</Binding>
+</Bindings>

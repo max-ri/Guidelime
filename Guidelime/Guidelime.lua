@@ -7,6 +7,16 @@ HBD = LibStub("HereBeDragons-2.0")
 addon.frame = CreateFrame("Frame", addonName .. "Frame", UIParent)
 Guidelime = {}
 
+-- for bindings
+
+BINDING_HEADER_GUIDELIME = "Guidelime"
+BINDING_NAME_GUIDELIME_TOGGLE = L.SHOW_MAINFRAME
+BINDING_NAME_GUIDELIME_USE_ITEM_1 = string.format(L.USE_ITEM_X, 1)
+BINDING_NAME_GUIDELIME_USE_ITEM_2 = string.format(L.USE_ITEM_X, 2)
+BINDING_NAME_GUIDELIME_USE_ITEM_3 = string.format(L.USE_ITEM_X, 3)
+BINDING_NAME_GUIDELIME_USE_ITEM_4 = string.format(L.USE_ITEM_X, 4)
+BINDING_NAME_GUIDELIME_USE_ITEM_5 = string.format(L.USE_ITEM_X, 5)
+
 -- Per request of Zarant everything is available for everyone now
 -- since I am currently not doing much with the addon please feel free
 -- to enhance this addon however you like in your own addons. :)
@@ -181,7 +191,8 @@ function addon.loadData()
 		guideSkip = {},
 		guideSize = {},
 		version = GetAddOnMetadata(addonName, "version"),
-		completedSteps = {}
+		completedSteps = {},
+		showUseItemButtons = "LEFT"
 	}
 	if GuidelimeData == nil then GuidelimeData = {} end
 	if GuidelimeDataChar == nil then GuidelimeDataChar = {} end
@@ -527,11 +538,10 @@ function addon.loadCurrentGuide(reset)
 									step.elements[j].index = j
 								end
 							end
-						elseif element.t == "COMPLETE" or element.t == "TURNIN" then
-							local itemId = addon.getItemProvidedByQuest(element.questId)
-							if itemId then
-								local _,_,enable = GetItemCooldown(itemId)
-								if enable and enable > 0 then
+						elseif element.t == "COMPLETE" then
+							local items = addon.getUsableQuestItems(element.questId)
+							if items then
+								for _, itemId in ipairs(items) do
 									local useElement = {}
 									useElement.t = "USE_ITEM"
 									useElement.useItemId = itemId
@@ -592,15 +602,8 @@ function addon.loadCurrentGuide(reset)
 					end
 					if step.manual == nil then step.manual = false end
 				elseif element.t == "USE_ITEM" then
-					if element.useItemId > 0 then
-						if #guide.itemUpdateIndices == 0 or guide.itemUpdateIndices[#guide.itemUpdateIndices] ~= step.index then
-							table.insert(guide.itemUpdateIndices,step.index)
-						end
-						step.useItemElement = element
-					else
-						step.useItemElement = nil
-					end
-				elseif guide.autoAddUseItem and element.t == "HEARTH" then
+					if not element.generated then step.useItemElement = true end
+				elseif guide.autoAddUseItem and not step.useItemElement and element.t == "HEARTH" then
 					local useElement = {}
 					useElement.t = "USE_ITEM"
 					useElement.useItemId = 6948
@@ -1385,17 +1388,84 @@ function addon.updateStepsText(scrollToFirstActive)
 end
 
 function addon.updateUseItemButtons()
-	if not addon.mainFrame or not addon.mainFrame.useItemSteps then return end
-	C_Timer.After(0.1, function() 
-		for i, step in ipairs(addon.mainFrame.useItemSteps) do
-			if addon.mainFrame.useButtons[i] and addon.mainFrame.steps[step] and addon.mainFrame.steps[step]:GetLeft() then
-				addon.mainFrame.useButtons[i]:SetPoint("TOPLEFT", addon.mainFrame.scrollChild, "TOPLEFT", 
-					addon.mainFrame.steps[step]:GetLeft() - addon.mainFrame.scrollChild:GetLeft() + 35, addon.mainFrame.steps[step]:GetTop() - addon.mainFrame.scrollChild:GetTop() - 7)
-				local enabled = addon.currentGuide.steps[step].active and GetItemCount(addon.currentGuide.steps[step].useItemElement.useItemId) > 0
-				addon.mainFrame.useButtons[i].texture:SetAlpha((enabled and 1) or 0.2)
+	if not addon.mainFrame then return end
+	if addon.mainFrame.useButtons == nil then
+		addon.mainFrame.useButtons = {}
+	else
+		for _, useButton in pairs(addon.mainFrame.useButtons) do
+			if useButton:IsShown() then
+				if InCombatLockdown() then
+					addon.updateAfterCombat = true
+					return 
+				end
+				ClearOverrideBindings(useButton)
+				useButton:Hide()
 			end
 		end
-	end)
+	end
+	if not GuidelimeDataChar.showUseItemButtons or not addon.currentGuide or not addon.currentGuide.firstActiveIndex then return end
+	local i = 1
+	for s = addon.currentGuide.firstActiveIndex, addon.currentGuide.lastActiveIndex do
+		local step = addon.currentGuide.steps[s]
+		if step.active then
+			for _, element in ipairs(step.elements) do
+				if element.t == "USE_ITEM" and element.useItemId > 0 and not (step.useItemElement and element.generated) then
+					if addon.debugging then print("LIME: show use item button for item", element.useItemId) end
+					if InCombatLockdown() then
+						addon.updateAfterCombat = true
+						return 
+					end
+					if not addon.mainFrame.useButtons[i] then
+						addon.mainFrame.useButtons[i] = CreateFrame("BUTTON", "useButton", addon.mainFrame, "SecureActionButtonTemplate,ActionButtonTemplate")
+						addon.mainFrame.useButtons[i]:SetAttribute("type", "item")
+						addon.mainFrame.useButtons[i].texture = addon.mainFrame.useButtons[i]:CreateTexture(nil,"BACKGROUND")
+						addon.mainFrame.useButtons[i].texture:SetAllPoints(true)
+						addon.mainFrame.useButtons[i].texture:SetPoint("TOPLEFT", addon.mainFrame.useButtons[i], -2, 1)					
+						addon.mainFrame.useButtons[i].texture:SetPoint("BOTTOMRIGHT", addon.mainFrame.useButtons[i], 2, -2)
+        				addon.mainFrame.useButtons[i].cooldown = CreateFrame("Cooldown", nil, addon.mainFrame.useButtons[i], "CooldownFrameTemplate")
+		                addon.mainFrame.useButtons[i].cooldown:SetSize(32, 32)
+		                addon.mainFrame.useButtons[i].cooldown:SetPoint("CENTER", addon.mainFrame.useButtons[i], "CENTER", 0, 0)
+						addon.mainFrame.useButtons[i].Update = function(self)
+				            local start, duration, enable = GetItemCooldown(self.itemId)
+				            if enable == 1 and duration > 0 then
+				                self.cooldown:Show()
+				                self.cooldown:SetCooldown(start, duration)
+				            else
+				                self.cooldown:Hide()
+				            end
+						end
+					end
+					addon.mainFrame.useButtons[i].cooldown:Hide()
+					addon.mainFrame.useButtons[i]:ClearAllPoints()
+					addon.mainFrame.useButtons[i]:SetPoint("TOP" .. GuidelimeDataChar.showUseItemButtons, addon.mainFrame, "TOP" .. GuidelimeDataChar.showUseItemButtons, 
+						GuidelimeDataChar.showUseItemButtons == "LEFT" and -36 or (GuidelimeDataChar.mainFrameShowScrollBar and 60 or 37), 
+						41 - i * 42)
+					addon.mainFrame.useButtons[i].itemId = element.useItemId
+					addon.mainFrame.useButtons[i].texture:SetTexture(GetItemIcon(element.useItemId))
+					local enabled = GetItemCount(element.useItemId) > 0
+					addon.mainFrame.useButtons[i].texture:SetAlpha((enabled and 1) or 0.2)
+					local name = GetItemInfo(element.useItemId)
+					if name then
+						addon.mainFrame.useButtons[i]:SetAttribute("item", name)
+						addon.setTooltip(addon.mainFrame.useButtons[i], string.format(L.USE_ITEM_TOOLTIP, name))
+						local key = GetBindingKey("GUIDELIME_USE_ITEM_" .. i)
+						if key then
+							SetOverrideBindingItem(addon.mainFrame.useButtons[i], true, key, name)
+							if addon.debugging then print("LIME: binding " .. key .. " to " .. name) end
+						end
+					else
+						element.itemRequests = (element.itemRequests or 0) + 1
+						if element.itemRequests < 50 then
+							addon.requestItemInfo[element.useItemId] = true
+						end
+					end
+					addon.mainFrame.useButtons[i]:Show()
+					addon.mainFrame.useButtons[i]:Update()
+					i = i + 1
+				end
+			end
+		end
+	end
 end
 
 function addon.updateSteps(completedIndexes)
@@ -1659,8 +1729,6 @@ function addon.updateMainFrame(reset)
 		else
 			addon.mainFrame.titleBox:Hide()
 		end
-		addon.mainFrame.useItemSteps = {}
-		local prevHasUseItem = false
 		for i, step in ipairs(addon.currentGuide.steps) do
 			if stepIsVisible(step) then
 				if step.active or GuidelimeData.maxNumOfSteps == 0 or (addon.currentGuide.lastActiveIndex ~= nil and i - addon.currentGuide.lastActiveIndex < GuidelimeData.maxNumOfSteps) then
@@ -1688,17 +1756,13 @@ function addon.updateMainFrame(reset)
 						end)
 						addon.mainFrame.steps[i].textBox:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize)
 					end
-					addon.mainFrame.steps[i].textBox:SetPoint("TOPLEFT", addon.mainFrame.steps[i], "TOPLEFT", (step.useItemElement and 80) or 35, -9)
-					addon.mainFrame.steps[i].textBox:SetWidth(addon.mainFrame.scrollChild:GetWidth() - ((step.useItemElement and 85) or 40))
-					if step.useItemElement then table.insert(addon.mainFrame.useItemSteps, i) end
+					addon.mainFrame.steps[i].textBox:SetPoint("TOPLEFT", addon.mainFrame.steps[i], "TOPLEFT", 35, -9)
+					addon.mainFrame.steps[i].textBox:SetWidth(addon.mainFrame.scrollChild:GetWidth() - 40)
 					addon.mainFrame.steps[i]:SetAlpha(1)
 					addon.mainFrame.steps[i]:Show()
 					addon.mainFrame.steps[i].visible = true
 					if prev then
 						addon.mainFrame.steps[i]:SetPoint("TOPLEFT", prev, "BOTTOMRIGHT", 5 - addon.mainFrame.scrollChild:GetWidth(), -2)
-						if prevHasUseItem and addon.mainFrame.steps[i]:GetTop() and prev:GetTop() and prev:GetTop() - addon.mainFrame.steps[i]:GetTop() < 35 then
-							addon.mainFrame.steps[i]:SetPoint("TOPLEFT", prev, "TOPRIGHT", 5 - addon.mainFrame.scrollChild:GetWidth(), -35)
-						end
 					else
 						addon.mainFrame.steps[i]:SetPoint("TOPLEFT", addon.mainFrame.scrollChild, "TOPLEFT", 0, -5)
 					end
@@ -1709,7 +1773,6 @@ function addon.updateMainFrame(reset)
 					addon.updateStepText(i)
 
 					prev = addon.mainFrame.steps[i].textBox
-					prevHasUseItem = step.useItemElement
 				end
 			end
 		end
@@ -1726,41 +1789,6 @@ function addon.updateMainFrame(reset)
 		end
 		
 		addon.mainFrame.bottomElement = prev
-		
-		if addon.mainFrame.useButtons == nil then
-			addon.mainFrame.useButtons = {}
-		else
-			for _, useButton in pairs(addon.mainFrame.useButtons) do
-				useButton:Hide()
-			end
-			if reset then addon.mainFrame.useButtons = {} end
-		end
-		for i, step in ipairs(addon.mainFrame.useItemSteps) do
-			if not addon.mainFrame.useButtons[i] then
-				addon.mainFrame.useButtons[i] = CreateFrame("BUTTON", "useButton", addon.mainFrame.scrollChild, "SecureActionButtonTemplate,ActionButtonTemplate")
-				addon.mainFrame.useButtons[i]:SetAttribute("type", "item")
-				addon.mainFrame.useButtons[i].texture = addon.mainFrame.useButtons[i]:CreateTexture(nil,"BACKGROUND")
-				addon.mainFrame.useButtons[i].texture:SetAllPoints(true)
-				addon.mainFrame.useButtons[i].texture:SetPoint("TOPLEFT", addon.mainFrame.useButtons[i], -2, 1)					
-				addon.mainFrame.useButtons[i].texture:SetPoint("BOTTOMRIGHT", addon.mainFrame.useButtons[i], 2, -2)
-			end
-			local element = addon.currentGuide.steps[step].useItemElement
-			local name = GetItemInfo(element.useItemId)
-			if name then
-				addon.mainFrame.useButtons[i]:SetAttribute("item", name)
-				addon.setTooltip(addon.mainFrame.useButtons[i], string.format(L.USE_ITEM_TOOLTIP, name))
-			else
-				element.itemRequests = (element.itemRequests or 0) + 1
-				if element.itemRequests < 50 then
-					addon.requestItemInfo[element.useItemId] = true
-				end
-			end
-			addon.mainFrame.useButtons[i].texture:SetTexture(GetItemIcon(element.useItemId))
-			addon.mainFrame.useButtons[i]:Show()
-		end
-		if #addon.mainFrame.useItemSteps > 0 then
-			addon.updateUseItemButtons()
-		end
 		
 		if addon.debugging then print("LIME: updateMainFrame " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	end

@@ -144,6 +144,9 @@ function addon.fillOptions()
 		else
 			addon.mainFrame.scrollFrame.ScrollBar:SetAlpha(0)
 		end
+		if GuidelimeDataChar.showUseItemButtons == "RIGHT" then
+			addon.updateUseItemButtons()
+		end
 	end)
 	addon.optionsFrame.showCompletedSteps:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = addon.optionsFrame.showCompletedSteps
@@ -171,7 +174,7 @@ function addon.fillOptions()
 	end)
 	addon.optionsFrame.showUnavailableSteps:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = addon.optionsFrame.showUnavailableSteps
-
+	
 	checkbox = addon.addCheckOption(content, GuidelimeData, "showQuestLevels", L.SHOW_SUGGESTED_QUEST_LEVELS, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateStepsText()
@@ -188,16 +191,34 @@ function addon.fillOptions()
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = checkbox
 
+	local text = content:CreateFontString(nil, content, "GameFontNormal")
+	text:SetText(L.SHOW_USE_ITEM_BUTTONS)
+	text:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 30, -10)
+	prev = text
+	local choices = {"LEFT", "RIGHT"}
+	for i, v in ipairs(choices) do
+		content.options["showUseItemButtons" .. v] = addon.addCheckbox(content, L["USE_ITEM_BUTTONS_" .. v])
+		content.options["showUseItemButtons" .. v]:SetChecked(GuidelimeDataChar. showUseItemButtons == v)
+		content.options["showUseItemButtons" .. v]:SetScript("OnClick", function()
+			GuidelimeDataChar.showUseItemButtons = content.options["showUseItemButtons" .. v]:GetChecked() and v
+			for _, v2 in ipairs(choices) do
+				content.options["showUseItemButtons" .. v2]:SetChecked(GuidelimeDataChar.showUseItemButtons == v2)
+			end
+			addon.updateUseItemButtons()
+		end)
+		content.options["showUseItemButtons" .. v]:SetPoint("TOPLEFT", prev, "TOPLEFT", i * 180, 10)
+	end
+
 	text = content:CreateFontString(nil, content, "GameFontNormal")
 	text:SetText(L.SELECT_COLORS)
-	text:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 30, -8)
+	text:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -20)
 	prev = text
 
 	button = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
 	button:SetWidth(100)
 	button:SetHeight(20)
 	button:SetText(GuidelimeData.fontColorACCEPT .. L.QUEST_ACCEPT)
-	button:SetPoint("TOPLEFT", checkbox, "BOTTOMLEFT", 110, -4)
+	button:SetPoint("TOPLEFT", prev, "TOPLEFT", 110, 4)
 	button:SetScript("OnClick", function()
 		showColorPicker(GuidelimeData.fontColorACCEPT, function()
 			GuidelimeData.fontColorACCEPT = getColorPickerColor()
@@ -211,7 +232,7 @@ function addon.fillOptions()
 	button:SetWidth(100)
 	button:SetHeight(20)
 	button:SetText(GuidelimeData.fontColorCOMPLETE .. L.QUEST_COMPLETE)
-	button:SetPoint("TOPLEFT", checkbox, "BOTTOMLEFT", 210, -4)
+	button:SetPoint("TOPLEFT", prev, "TOPLEFT", 210, 4)
 	button:SetScript("OnClick", function()
 		showColorPicker(GuidelimeData.fontColorCOMPLETE, function()
 			GuidelimeData.fontColorCOMPLETE = getColorPickerColor()
@@ -225,7 +246,7 @@ function addon.fillOptions()
 	button:SetWidth(100)
 	button:SetHeight(20)
 	button:SetText(GuidelimeData.fontColorTURNIN .. L.QUEST_TURNIN)
-	button:SetPoint("TOPLEFT", checkbox, "BOTTOMLEFT", 110, -24)
+	button:SetPoint("TOPLEFT", prev, "TOPLEFT", 110, -16)
 	button:SetScript("OnClick", function()
 		showColorPicker(GuidelimeData.fontColorTURNIN, function()
 			GuidelimeData.fontColorTURNIN = getColorPickerColor()
@@ -239,7 +260,7 @@ function addon.fillOptions()
 	button:SetWidth(100)
 	button:SetHeight(20)
 	button:SetText(GuidelimeData.fontColorSKIP .. L.QUEST_SKIP)
-	button:SetPoint("TOPLEFT", checkbox, "BOTTOMLEFT", 210, -24)
+	button:SetPoint("TOPLEFT", prev, "TOPLEFT", 210, -16)
 	button:SetScript("OnClick", function()
 		showColorPicker(GuidelimeData.fontColorSKIP, function()
 			GuidelimeData.fontColorSKIP = getColorPickerColor()

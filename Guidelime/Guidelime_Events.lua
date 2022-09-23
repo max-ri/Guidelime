@@ -444,7 +444,8 @@ addon.frame:RegisterEvent('GET_ITEM_INFO_RECEIVED')
 function addon.frame:GET_ITEM_INFO_RECEIVED(itemId,success)
 	if addon.requestItemInfo[itemId] and success then
 		addon.requestItemInfo[itemId] = nil
-		addon.updateMainFrame()
+		addon.updateStepsText()
+		addon.updateUseItemButtons()
 	end
 end
 
@@ -453,6 +454,8 @@ function addon.frame:BAG_UPDATE()
 	local guide = GuidelimeDataChar and addon.guides[GuidelimeDataChar.currentGuide]
 	if guide and guide.itemUpdateIndices and #guide.itemUpdateIndices > 0 then
 		addon.updateSteps(guide.itemUpdateIndices)
+	else
+		addon.updateUseItemButtons()
 	end
 end
 
@@ -488,5 +491,28 @@ function addon.frame:PLAYER_FARSIGHT_FOCUS_CHANGED()
 		if addon.debugging then print ("LIME: reactivating arrow and minimap") end
 		addon.hideMinimapIconsAndArrowWhileBuffed = false
 		addon.updateStepsMapIcons()
+	end
+end
+
+addon.frame:RegisterEvent('PLAYER_REGEN_ENABLED')
+function addon.frame:PLAYER_REGEN_ENABLED()
+	if addon.updateAfterCombat then
+		addon.updateAfterCombat = false
+		addon.updateUseItemButtons()
+	end
+end
+
+addon.frame:RegisterEvent('UPDATE_BINDINGS')
+function addon.frame:UPDATE_BINDINGS()
+	addon.updateUseItemButtons()
+end
+
+addon.frame:RegisterEvent('BAG_UPDATE_COOLDOWN')
+function addon.frame:BAG_UPDATE_COOLDOWN()
+	if not addon.mainFrame or not addon.mainFrame.useButtons then return end
+	for _, button in ipairs(addon.mainFrame.useButtons) do
+		if button:IsShown() then
+			button:Update()
+		end
 	end
 end

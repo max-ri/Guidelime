@@ -436,3 +436,48 @@ function addon.getItemProvidedByQuestQuestie(id)
 	return quest and quest.sourceItemId > 0 and quest.sourceItemId
 end
 
+function addon.isItemUsableQuestie(id)
+	if id == nil or not checkQuestie() then return end
+	local item = QuestieDB:GetItem(id)
+	-- lootable or activatble according to https://github.com/cmangos/issues/wiki/Item_template#flags
+	return item and (addon.hasbit(item.flags, 4) or addon.hasbit(item.flags, 64))
+end
+
+function addon.getUsableQuestItemsQuestie(id)
+	if id == nil or not checkQuestie() then return end
+	local quest = QuestieDB:GetQuest(id)
+	if not quest then return end
+	local items
+	if quest.sourceItemId > 0 and addon.isItemUsable(quest.sourceItemId) then
+		items = {quest.sourceItemId}
+	end
+	if quest.SpecialObjectives then
+		for _, o in pairs(quest.SpecialObjectives) do
+			if o.Type == "item" and not addon.contains(items, o.Id) and addon.isItemUsable(o.Id) then
+				if not items then items = {o.Id} else table.insert(items, o.Id) end
+			end
+		end
+	end
+	return items
+end
+
+-- /run Guidelime.addon.listQuestWithItems()
+function addon.listQuestWithItems()
+	local t = ""
+    for qid, _ in pairs(QuestieDB.QuestPointers) do
+		local items = addon.getUsableQuestItemsQuestie(qid)
+		if items then
+			local quest = QuestieDB:GetQuest(qid)
+			t = t .. qid .. ";" .. quest.name
+			for _, id in ipairs(items) do
+				local item = QuestieDB:GetItem(id)
+				t = t .. ";" .. id .. ";" .. item.name
+			end
+			t = t .. "\n"
+		end
+	end
+	--print(t)
+	addon.showUrlPopup(t)
+end
+
+

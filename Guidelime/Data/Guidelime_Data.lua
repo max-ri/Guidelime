@@ -157,6 +157,7 @@ function addon.isRequiredReputation(id, repMin, repMax)
 end
 
 function addon.contains(array, value)
+	if not array then return end
 	for i, v in ipairs(array) do
 		if type(value) == "function" then
 			if value(v) then return true end
