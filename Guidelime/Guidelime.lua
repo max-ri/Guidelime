@@ -1334,7 +1334,7 @@ function addon.updateStepsMapIcons()
 					if element.x ~= nil then
 						addon.addMapIcon(element, highlight)
 						if highlight then
-							if GuidelimeDataChar.showArrow and addon.instance == element.instance then 
+							if GuidelimeDataChar.showArrow then 
 								arrowElement = element
 							end
 							highlight = false
@@ -1373,7 +1373,8 @@ function addon.updateStepsText(scrollToFirstActive)
 				addon.mainFrame.steps ~= nil and
 				addon.mainFrame.steps[addon.currentGuide.firstActiveIndex] ~= nil and
 				addon.mainFrame.steps[addon.currentGuide.firstActiveIndex]:GetTop() ~= nil then
-					if addon.mainFrame.bottomElement and addon.mainFrame:GetTop() - addon.mainFrame.bottomElement:GetBottom() <= addon.mainFrame:GetHeight() then
+					if addon.mainFrame:GetTop() and addon.mainFrame.bottomElement and addon.mainFrame.bottomElement:GetBottom() and 
+						addon.mainFrame:GetTop() - addon.mainFrame.bottomElement:GetBottom() <= addon.mainFrame:GetHeight() then
 						addon.mainFrame.scrollFrame:SetVerticalScroll(0)
 					else
 						addon.mainFrame.scrollFrame:SetVerticalScroll(
