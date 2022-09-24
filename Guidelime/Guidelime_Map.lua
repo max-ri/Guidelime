@@ -319,8 +319,19 @@ function addon.updateArrow()
 	
 	if addon.arrowX == nil or addon.arrowY == nil then 
 		if addon.arrowFrame:IsShown() then addon.arrowFrame:Hide() end
+		if addon.lastArrowX and addon.lastArrowY and addon.arrowRadius2 then
+			local dist2 = (addon.x - addon.lastArrowX) * (addon.x - addon.lastArrowX) + (addon.y - addon.lastArrowY) * (addon.y - addon.lastArrowY)
+			if dist2 >= addon.arrowRadius2 * addon.GOTO_HYSTERESIS_FACTOR and addon.lastDistance2 and addon.lastDistance2 <= addon.arrowRadius2 * addon.GOTO_HYSTERESIS_FACTOR then
+				if addon.debugging then print("LIME: position left") end
+				addon.updateSteps()
+				addon.lastArrowX, addon.lastArrowY = nil, nil
+			end
+			addon.lastDistance2 = dist2
+		end
 		return 
 	end
+	addon.lastArrowX, addon.lastArrowY = addon.arrowX, addon.arrowY
+	
 	local angle = addon.face - math.atan2(addon.arrowX - addon.x, addon.arrowY - addon.y)
 	if GuidelimeData.arrowStyle == 1 then
 		local index = angle * 32 / math.pi
@@ -338,12 +349,13 @@ function addon.updateArrow()
 	end
 	local dist2 = (addon.x - addon.arrowX) * (addon.x - addon.arrowX) + (addon.y - addon.arrowY) * (addon.y - addon.arrowY)
 	if addon.arrowFrame.element and addon.arrowFrame.element.radius then
-		local radius2 = addon.arrowFrame.element.radius * addon.arrowFrame.element.radius
-		if (dist2 < radius2 and (not addon.lastDistance2 or addon.lastDistance2 >= radius2)) 
-		or (dist2 >= radius2 * addon.GOTO_HYSTERESIS_FACTOR and addon.lastDistance2 and addon.lastDistance2 <= radius2 * addon.GOTO_HYSTERESIS_FACTOR) then
-			if addon.debugging then print("LIME: position reached/left") end
+		addon.arrowRadius2 = addon.arrowFrame.element.radius * addon.arrowFrame.element.radius
+		if dist2 < addon.arrowRadius2 and (not addon.lastDistance2 or addon.lastDistance2 >= addon.arrowRadius2) then
+			if addon.debugging then print("LIME: position reached") end
 			addon.updateSteps()
 		end
+	else
+		addon.arrowRadius2 = nil
 	end
 	addon.lastDistance2 = dist2
 	if GuidelimeData.arrowDistance then
