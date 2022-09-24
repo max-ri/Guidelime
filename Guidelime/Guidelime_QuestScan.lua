@@ -13,7 +13,7 @@ function addon.scanGuideQuests(guide)
 	if addon.debugging then time = debugprofilestop() end
 	for _,step in ipairs(addon.guides[guide].steps) do
 		for _, element in ipairs(step.elements) do
-			if element.questId and element.t ~= "ACCEPT" then
+			if element.questId then
 				if not addon.scannedQuests[element.questId] then addon.scannedQuests[element.questId] = {} end
 				local entry = {name = guide, line = step.line, t = element.t}
 				table.insert(addon.scannedQuests[element.questId], entry)
