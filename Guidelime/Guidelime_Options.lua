@@ -53,7 +53,7 @@ function addon.fillOptions()
 	-- Guide window options
 
 	addon.optionsFrame.titleGuideWindow = content:CreateFontString(nil, content, "GameFontNormal")
-	addon.optionsFrame.titleGuideWindow:SetText("|cFFFFFFFF___ " .. L.GUIDE_WINDOW .. " _______________________________________________________")
+	addon.optionsFrame.titleGuideWindow:SetText("|cFFFFFFFF___ " .. L.GUIDE_WINDOW:gsub("^%l", string.upper) .. " _______________________________________________________")
 	addon.optionsFrame.titleGuideWindow:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
 	addon.optionsFrame.titleGuideWindow:SetFontObject("GameFontNormalLarge")
 	local prev = addon.optionsFrame.titleGuideWindow
@@ -410,6 +410,12 @@ function addon.fillOptions()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateMainFrame()
 		end
+	end)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	prev = checkbox
+
+	checkbox = addon.addCheckOption(content, GuidelimeData, "showMapMarkersInGuide", L.GUIDE_WINDOW, nil, function()
+		addon.updateStepsText()
 	end)
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = checkbox

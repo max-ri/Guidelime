@@ -162,6 +162,7 @@ function addon.loadData()
 		autoTurnInQuests = "Current",
 		autoSelectFlight = true,
 		showQuestIds = false,
+		showMapMarkersInGuide = true,
 		version = GetAddOnMetadata(addonName, "version")
 	}
 	local defaultOptionsChar = {
@@ -827,7 +828,9 @@ function addon.getElementIcon(element, prevElement)
 	elseif addon.getSuperCode(element.t) == "QUEST" then
 		return addon.getQuestIcon(element.questId, element.t, element.objective, element.finished)
 	elseif element.t == "LOC" or element.t == "GOTO" then
-		if element.t == "LOC" and ((prevElement ~= nil and prevElement.t == "LOC") or (element.markerTyp ~= nil)) then
+		if not GuidelimeData.showMapMarkersInGuide then
+			return ""
+		elseif element.t == "LOC" and ((prevElement ~= nil and prevElement.t == "LOC") or (element.markerTyp ~= nil)) then
 			-- Dont show an icon for subsequent LOC elements. Also dont show LOC for quest steps since there would be the same icon twice
 			return ""
 		elseif element.mapIndex == 0 and addon.arrowFrame ~= nil and GuidelimeDataChar.showArrow then
