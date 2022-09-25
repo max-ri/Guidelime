@@ -205,7 +205,7 @@ function addon.frame:QUEST_LOG_UPDATE()
 	doQuestUpdate()
 end
 
-local function isQuestAuto(option, id)
+function addon.isQuestAuto(option, id)
 	if option == "All" then 
 		return true 
 	elseif addon.currentGuide == nil then
@@ -232,7 +232,7 @@ function addon.frame:GOSSIP_SHOW()
 		for i = 1, addon.GetNumGossipActiveQuests() do
 			local name = q[(i-1) * 6 + 1]
 			local complete = q[(i-1) * 6 + 4]
-			if complete and isQuestAuto(GuidelimeData.autoTurnInQuests, function(id) return name == addon.getQuestNameById(id) end) then
+			if complete and addon.isQuestAuto(GuidelimeData.autoTurnInQuests, function(id) return name == addon.getQuestNameById(id) end) then
 				if selectActive == nil then
 					selectActive = i
 				else
@@ -243,7 +243,7 @@ function addon.frame:GOSSIP_SHOW()
 		q = { addon.GetGossipAvailableQuests() }
 		for i = 1, addon.GetNumGossipAvailableQuests() do
 			local name = q[(i-1) * 7 + 1]
-			if isQuestAuto(GuidelimeData.autoAcceptQuests, function(id) return name == addon.getQuestNameById(id) end) then
+			if addon.isQuestAuto(GuidelimeData.autoAcceptQuests, function(id) return name == addon.getQuestNameById(id) end) then
 				if selectActive == nil and selectAvailable == nil then
 					selectAvailable = i
 				else
@@ -293,7 +293,7 @@ function addon.frame:QUEST_GREETING()
 		addon.openNpcAgain = false
 		for i = 1, GetNumActiveQuests() do
 			local name = GetActiveTitle(i)
-			if isQuestAuto(GuidelimeData.autoAcceptQuests, function(id) return name == addon.getQuestNameById(id) end) then
+			if addon.isQuestAuto(GuidelimeData.autoAcceptQuests, function(id) return name == addon.getQuestNameById(id) end) then
 				if selectActive == nil then
 					selectActive = i
 				else
@@ -303,7 +303,7 @@ function addon.frame:QUEST_GREETING()
 		end
 		for i = 1, GetNumAvailableQuests() do
 			local name = GetAvailableTitle(i)
-			if isQuestAuto(GuidelimeData.autoAcceptQuests, function(id) return name == addon.getQuestNameById(id) end) then
+			if addon.isQuestAuto(GuidelimeData.autoAcceptQuests, function(id) return name == addon.getQuestNameById(id) end) then
 				if selectActive == nil and selectAvailable == nil then
 					selectAvailable = i
 				else
@@ -330,7 +330,7 @@ addon.frame:RegisterEvent('QUEST_DETAIL')
 function addon.frame:QUEST_DETAIL()
 	local id = GetQuestID()
 	if addon.debugging then print ("LIME: QUEST_DETAIL", id) end
-	if not IsShiftKeyDown() and isQuestAuto(GuidelimeData.autoAcceptQuests, id) then
+	if not IsShiftKeyDown() and addon.isQuestAuto(GuidelimeData.autoAcceptQuests, id) then
 		C_Timer.After(addon.AUTO_COMPLETE_DELAY, function()
 			AcceptQuest()
 			if addon.openNpcAgain then 
@@ -344,7 +344,7 @@ addon.frame:RegisterEvent('QUEST_PROGRESS')
 function addon.frame:QUEST_PROGRESS()
 	local id = GetQuestID()
 	if addon.debugging then print ("LIME: QUEST_PROGRESS", id) end
-	if not IsShiftKeyDown() and IsQuestCompletable() and isQuestAuto(GuidelimeData.autoTurnInQuests, id) then
+	if not IsShiftKeyDown() and IsQuestCompletable() and addon.isQuestAuto(GuidelimeData.autoTurnInQuests, id) then
 		C_Timer.After(addon.AUTO_COMPLETE_DELAY, function() 
 			CompleteQuest()
 			if addon.openNpcAgain then 
@@ -357,7 +357,7 @@ end
 addon.frame:RegisterEvent('QUEST_COMPLETE')
 function addon.frame:QUEST_COMPLETE()
 	local id = GetQuestID()
-	if not IsShiftKeyDown() and isQuestAuto(GuidelimeData.autoTurnInQuests, id) then
+	if not IsShiftKeyDown() and addon.isQuestAuto(GuidelimeData.autoTurnInQuests, id) then
 		if addon.debugging then print ("LIME: QUEST_COMPLETE", id) end
 		if (GetNumQuestChoices() <= 1) then
 			C_Timer.After(addon.AUTO_COMPLETE_DELAY, function() 
