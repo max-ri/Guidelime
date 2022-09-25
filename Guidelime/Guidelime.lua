@@ -539,20 +539,22 @@ function addon.loadCurrentGuide(reset)
 									step.elements[j].index = j
 								end
 							end
-						elseif element.t == "COMPLETE" then
+						elseif element.t == "COMPLETE" or element.t == "TURNIN" then
 							local items = addon.getUsableQuestItems(element.questId)
 							if items then
 								for _, itemId in ipairs(items) do
-									local useElement = {}
-									useElement.t = "USE_ITEM"
-									useElement.useItemId = itemId
-									useElement.generated = true
-									useElement.available = true
-									useElement.title = ""
-									useElement.attached = element
-									table.insert(step.elements, i + 1, useElement)
-									for j = i + 1, #step.elements do
-										step.elements[j].index = j
+									if addon.questItemIsFor[itemId] == element.t then
+										local useElement = {}
+										useElement.t = "USE_ITEM"
+										useElement.useItemId = itemId
+										useElement.generated = true
+										useElement.available = true
+										useElement.title = ""
+										useElement.attached = element
+										table.insert(step.elements, i + 1, useElement)
+										for j = i + 1, #step.elements do
+											step.elements[j].index = j
+										end
 									end
 								end
 							end
