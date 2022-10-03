@@ -186,6 +186,11 @@ function addon.getQuestPositionsQuestie(id, typ, index, filterZone)
 			list = {quest.Starts}
 		elseif typ == "COMPLETE" then
 			list = quest.ObjectiveData
+			if quest.SpecialObjectives then
+				for i = 1, #quest.SpecialObjectives do
+					list[#quest.ObjectiveData + i] = quest.SpecialObjectives[i]
+				end
+			end
 		elseif typ == "TURNIN" then
 			list = {quest.Finisher}
 		end
