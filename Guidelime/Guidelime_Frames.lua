@@ -212,3 +212,19 @@ function addon.showCopyPopup(value, text, textwidth, height, multiline)
 	popup:Show()
 	return popup
 end
+
+function addon.showQuestLogFrame(questId)
+    local questLogIndex = GetQuestLogIndexByID(questId);
+	if questLogIndex == 0 then return end
+	
+	-- if Questie is installed we use Questie's TrackerUtils as it handles (and hopefully gets updates for) possible quest log addons (Thanks!)
+	local TrackerUtils = QuestieLoader and QuestieLoader:ImportModule("TrackerUtils")
+	if TrackerUtils then return TrackerUtils:ShowQuestLog({Id = questId}) end
+
+    SelectQuestLogEntry(questLogIndex)
+    if not QuestLogFrame:IsShown() and not InCombatLockdown() then 
+		ShowUIPanel(QuestLogFrame)
+    end
+    QuestLog_UpdateQuestDetails()
+    QuestLog_Update()
+end

@@ -855,7 +855,6 @@ function addon.getStepText(step)
 	local skipText = ""
 	local skipQuests = {}
 	local trackQuest = {}
-	local url
 	local itemText = ""
 
 	if GuidelimeData.showLineNumbers and step.line ~= nil then text = text .. step.line .. " " end
@@ -868,6 +867,7 @@ function addon.getStepText(step)
 	end
 	local prevElement
 	for _, element in ipairs(step.elements) do
+		element.textStartPos = #text
 		text = text .. addon.getElementIcon(element, prevElement)
 		if element.available and not element.completed and element.t == "ACCEPT" and (addon.getQuestMinimumLevel(element.questId) or 0) > addon.level then
 			if tooltip ~= "" then tooltip = tooltip .. "\n" end
@@ -880,7 +880,6 @@ function addon.getStepText(step)
 			else
 				text = text .. element.textInactive
 			end
-			if element.url ~= nil then url = element.url end
 		end
 		if addon.getSuperCode(element.t) == "QUEST" then
 			text = text .. addon.getQuestText(element.questId, element.t, element.title, step.active)
@@ -999,17 +998,16 @@ function addon.getStepText(step)
 		end
 	end
 	text = text .. itemText
-	return text, tooltip, skipText, skipTooltip, url
+	return text, tooltip, skipText, skipTooltip
 end
 
 function addon.updateStepText(i)
 	local step = addon.currentGuide.steps[i]
 	if addon.mainFrame.steps == nil or addon.mainFrame.steps[i] == nil or addon.mainFrame.steps[i].textBox == nil or not addon.mainFrame.steps[i].visible then return end
-	local text, tooltip, skipText, skipTooltip, url = addon.getStepText(step)
+	local text, tooltip, skipText, skipTooltip = addon.getStepText(step)
 	if text ~= addon.mainFrame.steps[i].textBox:GetText() then
 		addon.mainFrame.steps[i].textBox:SetText(text)
 	end
-	addon.mainFrame.steps[i].textBox.url = url
 	addon.mainFrame.steps[i].skipText = skipText
 	if GuidelimeData.showTooltips then
 		addon.mainFrame.steps[i].textBox.tooltip = tooltip
@@ -1622,6 +1620,13 @@ function addon.completeSemiAutomatic(element)
 	addon.updateSteps({step.index})
 end
 
+local function getElementByTextPos(pos, step)
+	for j, element in ipairs(addon.currentGuide.steps[step].elements) do
+		if element.textStartPos > pos then return j - 1 end
+	end
+	return #addon.currentGuide.steps[step].elements
+end
+
 function addon.updateMainFrame(reset)
 	if addon.mainFrame == nil then return end
 	if addon.debugging then print("LIME: updating main frame") end
@@ -1758,8 +1763,15 @@ function addon.updateMainFrame(reset)
 						addon.mainFrame.steps[i].textBox = addon.addMultilineText(addon.mainFrame.steps[i], nil, nil, "", function(self, button)
 							if button == "RightButton" then
 								showContextMenu()
-							elseif self.url ~= nil then
-								addon.showUrlPopup(self.url) 
+							else
+								local j = getElementByTextPos(self:GetCursorPosition(), i)
+								local element = addon.currentGuide.steps[i].elements[j]
+								if addon.debugging then print("click ", self:GetCursorPosition(), j, element.questId) end
+								if element.questId then
+									addon.showQuestLogFrame(element.questId)
+								elseif element.url then
+									addon.showUrlPopup(element.url) 
+								end
 							end
 						end)
 						addon.mainFrame.steps[i].textBox:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize)
