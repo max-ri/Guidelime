@@ -214,7 +214,7 @@ function addon.showCopyPopup(value, text, textwidth, height, multiline)
 end
 
 function addon.showQuestLogFrame(questId)
-    local questLogIndex = GetQuestLogIndexByID(questId);
+	local questLogIndex = GetQuestLogIndexByID(questId)
 	if questLogIndex == 0 then return end
 	
 	-- if Questie is installed we use Questie's TrackerUtils as it handles (and hopefully gets updates for) possible quest log addons (Thanks!)

@@ -441,11 +441,11 @@ function addon.getItemProvidedByQuestQuestie(id)
 	return quest and quest.sourceItemId > 0 and quest.sourceItemId
 end
 
-function addon.isItemUsableQuestie(id)
+function addon.isItemLootableQuestie(id)
 	if id == nil or not checkQuestie() then return end
 	local item = QuestieDB:GetItem(id)
-	-- lootable or activatble according to https://github.com/cmangos/issues/wiki/Item_template#flags
-	return item and (addon.hasbit(item.flags, 4) or addon.hasbit(item.flags, 64))
+	-- lootable according to https://github.com/cmangos/issues/wiki/Item_template#flags
+	return item and (addon.hasbit(item.flags, 4))
 end
 
 function addon.getUsableQuestItemsQuestie(id)

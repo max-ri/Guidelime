@@ -913,7 +913,7 @@ function addon.getStepText(step)
 				end
 			end
 		elseif element.t == "COLLECT_ITEM" then
-			local name,_,rarity = GetItemInfo(element.itemId)
+			local name,_,rarity = addon.GetItemInfo(element.itemId)
 			local textIcon = "|T" .. addon.icons.item .. ":12|t"
 			local colour = ITEM_QUALITY_COLORS[1].hex
 			if name then
@@ -928,11 +928,6 @@ function addon.getStepText(step)
 					end
 					itemText = string.format("%s\n    - %s%s: %d/%d",itemText,icon,name,count,element.qty)
 				end
-			else
-				element.itemRequests = (element.itemRequests or 0) + 1
-				if element.itemRequests < 50 then
-					addon.requestItemInfo[element.itemId] = true
-				end
 			end
 
 			name = element.title or name
@@ -946,17 +941,12 @@ function addon.getStepText(step)
 				end
 			end
 		elseif element.t == "USE_ITEM" and element.title ~= "" then
-			local name,_,rarity = GetItemInfo(element.useItemId)
+			local name,_,rarity = addon.GetItemInfo(element.useItemId)
 			local textIcon = "|T" .. (GetItemIcon(element.useItemId) or addon.icons.item) .. ":12|t"
 			local colour = ITEM_QUALITY_COLORS[1].hex
 			if name then
 				if step.active then
 					colour = ITEM_QUALITY_COLORS[rarity].hex
-				end
-			else
-				element.itemRequests = (element.itemRequests or 0) + 1
-				if element.itemRequests < 50 then
-					addon.requestItemInfo[element.useItemId] = true
 				end
 			end
 
@@ -1450,7 +1440,7 @@ function addon.updateUseItemButtons()
 					addon.mainFrame.useButtons[i].texture:SetTexture(GetItemIcon(element.useItemId))
 					local enabled = GetItemCount(element.useItemId) > 0
 					addon.mainFrame.useButtons[i].texture:SetAlpha((enabled and 1) or 0.2)
-					local name = GetItemInfo(element.useItemId)
+					local name = addon.GetItemInfo(element.useItemId)
 					if name then
 						addon.mainFrame.useButtons[i]:SetAttribute("item", name)
 						addon.setTooltip(addon.mainFrame.useButtons[i], string.format(L.USE_ITEM_TOOLTIP, name))
@@ -1458,11 +1448,6 @@ function addon.updateUseItemButtons()
 						if key then
 							SetOverrideBindingItem(addon.mainFrame.useButtons[i], true, key, name)
 							if addon.debugging then print("LIME: binding " .. key .. " to " .. name) end
-						end
-					else
-						element.itemRequests = (element.itemRequests or 0) + 1
-						if element.itemRequests < 50 then
-							addon.requestItemInfo[element.useItemId] = true
 						end
 					end
 					addon.mainFrame.useButtons[i]:Show()

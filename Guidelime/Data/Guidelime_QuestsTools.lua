@@ -818,11 +818,40 @@ function addon.getItemProvidedByQuest(id)
 	if addon.dataSource == "QUESTIE" then return addon.getItemProvidedByQuestQuestie(id) end
 end
 
+addon.usableItems = {}
 function addon.isItemUsable(id)
 	if id == nil then return end
-	local _,_,enable = GetItemCooldown(id)
-	if enable == 1 then return true end
-	if addon.dataSource == "QUESTIE" then return addon.isItemUsableQuestie(id) end
+	if addon.usableItems[id] ~= nil then return addon.usableItems[id] end
+	if addon.dataSource == "QUESTIE" then 
+		if addon.isItemLootableQuestie(id) then 
+			if addon.debugging then print("LIME: found usable item", id, "(via Questie)") end
+			addon.usableItems[id] = true
+			return true 
+		end
+	end
+	-- search for "Use:" in tooltip
+	local _, itemLink = addon.GetItemInfo(id)
+	if not itemLink then return false end
+	if not GuidelimeScanningTooltip then
+		CreateFrame( "GameTooltip", "GuidelimeScanningTooltip", nil, "GameTooltipTemplate" );
+		GuidelimeScanningTooltip:SetOwner( WorldFrame, "ANCHOR_NONE" );
+		GuidelimeScanningTooltip:AddFontStrings(
+    	GuidelimeScanningTooltip:CreateFontString( "GameTooltipTextLeft1", nil, "GameTooltipText" ),
+    	GuidelimeScanningTooltip:CreateFontString( "GameTooltipTextRight1", nil, "GameTooltipText" ) 
+		);
+	end
+	GuidelimeScanningTooltip:ClearLines() 
+	GuidelimeScanningTooltip:SetHyperlink(itemLink)
+    for i = 1, select("#", GuidelimeScanningTooltip:GetRegions()) do
+        local region = select(i, GuidelimeScanningTooltip:GetRegions())
+        if region and region:GetObjectType() == "FontString" and region:GetText() and 
+			region:GetText():find(USE_COLON) then
+			if addon.debugging then print("LIME: found usable item", id, "(via tooltip)") end
+			addon.usableItems[id] = true
+			return true
+        end
+    end
+	addon.usableItems[id] = false
 	return false
 end
 

@@ -440,6 +440,17 @@ function addon.frame:UNIT_SPELLCAST_SUCCEEDED(unitTarget, castGUID, spellID)
 end
 
 addon.requestItemInfo = {}
+function addon.GetItemInfo(id)
+	itemName, itemLink, itemQuality = GetItemInfo(id)
+	if not itemName then
+		if addon.requestItemInfo[id] == false or addon.requestItemInfo[id] == 50 then
+			addon.requestItemInfo[id] = false
+		else
+			addon.requestItemInfo[id] = (addon.requestItemInfo[id] or 0) + 1
+		end
+	end
+	return itemName, itemLink, itemQuality
+end
 addon.frame:RegisterEvent('GET_ITEM_INFO_RECEIVED')
 function addon.frame:GET_ITEM_INFO_RECEIVED(itemId,success)
 	if addon.requestItemInfo[itemId] and success then
