@@ -1510,8 +1510,8 @@ function addon.updateSteps(completedIndexes)
 	end
 end
 
-local function showContextMenu()
-	EasyMenu({
+local function showContextMenu(questId)
+	local menu = {
 		{text = L.AVAILABLE_GUIDES .. "...", checked = addon.isGuidesShowing(), func = addon.showGuides},
 		{text = GAMEOPTIONS_MENU .. "...", checked = addon.isOptionsShowing(), func = addon.showOptions},
 		{text = L.EDITOR .. "...", checked = addon.isEditorShowing(), func = addon.showEditor},
@@ -1536,7 +1536,13 @@ local function showContextMenu()
 			end
 			addon.updateMainFrame()
 		end}
-	}, CreateFrame("Frame", nil, nil, "UIDropDownMenuTemplate"), "cursor", 0 , 0, "MENU");
+	}
+	if questId then
+		menu[#menu] = {text = L.WOWHEAD_OPEN_QUEST, false, func = function()
+			addon.showUrlPopup((select(4, GetBuildInfo()) < 20000 and L.WOWHEAD_URL_CLASSIC or L.WOWHEAD_URL_WOTLK) .. "/quest=" .. questId)
+		end}
+	end
+	EasyMenu(menu, CreateFrame("Frame", nil, nil, "UIDropDownMenuTemplate"), "cursor", 0 , 0, "MENU");
 end
 
 local function setStepSkip(value, a, b)
@@ -1746,12 +1752,12 @@ function addon.updateMainFrame(reset)
 							end
 						end)
 						addon.mainFrame.steps[i].textBox = addon.addMultilineText(addon.mainFrame.steps[i], nil, nil, "", function(self, button)
+							local j = getElementByTextPos(self:GetCursorPosition(), i)
+							local element = addon.currentGuide.steps[i].elements[j]
+							if addon.debugging then print("click ", self:GetCursorPosition(), j, element.questId) end
 							if button == "RightButton" then
-								showContextMenu()
+								showContextMenu(element.questId)
 							else
-								local j = getElementByTextPos(self:GetCursorPosition(), i)
-								local element = addon.currentGuide.steps[i].elements[j]
-								if addon.debugging then print("click ", self:GetCursorPosition(), j, element.questId) end
 								if element.questId then
 									addon.showQuestLogFrame(element.questId)
 								elseif element.url then

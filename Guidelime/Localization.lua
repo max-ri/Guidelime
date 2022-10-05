@@ -45,6 +45,7 @@ L.ARROW_STYLE2 = "arrow"
 L.LOCK_ARROW = "Lock arrow"
 L.ARROW_TOOLTIP_CORPSE = "Run to your corpse"
 L.ARROW_GO_TO_INSTANCE = "Go to %s"
+L.ARROW_CURRENT_STEP = "Follow current step"
 L.GENERAL_OPTIONS = "General options"
 L.DEBUGGING_OPTIONS = "Editing / Debugging options"
 L.DEBUGGING = "Enable debugging mode"
@@ -192,6 +193,9 @@ L.USE_ITEM_BUTTONS_LEFT = "left of guide window"
 L.USE_ITEM_BUTTONS_RIGHT = "right of guide window"
 L.USE_ITEM_TOOLTIP = "Use %s" -- as in "Use Hearthstone" by name for button tooltip
 L.USE_ITEM_X = "Use quest item %d" -- as in "Use quest item 1" by number for key bindings dialog
+L.WOWHEAD_OPEN_QUEST = "Show quest on 'Wowhead'"
+L.WOWHEAD_URL_CLASSIC = "https://classic.wowhead.com"
+L.WOWHEAD_URL_WOTLK = "https://www.wowhead.com/wotlk"
 
 -- Word lists used by the plain text parser
 -- Spaces at the start and end of each word will make it so that a match cannot occur in the middle of a word. Spaces will match any whitespace or punctuation marks.
@@ -408,6 +412,8 @@ L["WORD_LIST_REPAIR"] = "修理"
 L["WORD_LIST_SKIP"] = "跳过；忽略"
 L["WORD_LIST_TRAIN"] = "训练；技能"
 L["WORD_LIST_VENDOR"] = "购买；买；供应商"
+L["WOWHEAD_URL_CLASSIC"] = "https://cn.classic.wowhead.com"
+L["WOWHEAD_URL_WOTLK"] = "https://www.wowhead.com/wotlk/cn"
 L["XP_LEVEL"] = "只要求等级"
 L["XP_LEVEL-"] = "经验值高于"
 L["XP_LEVEL%"] = "百分比"
@@ -606,6 +612,7 @@ L["ADDED_QUEST_COORDINATES_MESSAGE"] = "%s Quest-Koordinaten wurden hinzugefügt
 L["Alliance"] = "Allianz"
 L["ARROW"] = "Richtungspfeil"
 L["ARROW_ALPHA"] = "Richtungspfeil-Alpha"
+L["ARROW_CURRENT_STEP"] = "Befolge den aktuellen Schritt"
 L["ARROW_GO_TO_INSTANCE"] = "Gehe nach %s"
 L["ARROW_SIZE"] = "Richtungspfeil-Größe"
 L["ARROW_STYLE"] = "Richtungspfeil-Stil"
@@ -790,6 +797,9 @@ Dort sind eventuell teilweise andere Informationen vorhanden, z.B. für Koordina
 L["DATA_SOURCE_CLASSIC_CODEX"] = "'ClassicCodex' als Datenquelle verwenden"
 L["DATA_SOURCE_TOOLTIP_CLASSIC_CODEX"] = [=[Wenn das Addon 'ClassicCodex' installiert ist, kann dieses als Datenquelle für Quest-Koordinaten genutzt werden.
 Dort sind eventuell teilweise andere Informationen vorhanden, z.B. für Koordinaten von Quest-Gegnern.]=]
+L["WOWHEAD_OPEN_QUEST"] = "Quest auf 'Wowhead' anzeigen"
+L["WOWHEAD_URL_CLASSIC"] = "https://de.classic.wowhead.com"
+L["WOWHEAD_URL_WOTLK"] = "https://www.wowhead.com/wotlk/de"
 L["XP_LEVEL"] = "Nur Stufe"
 L["XP_LEVEL-"] = "Verbleibende Punkte"
 L["XP_LEVEL%"] = "Prozentualer Anteil"
@@ -981,6 +991,8 @@ L["TYPE"] = "Type"
 L["URL"] = "URL"
 L["USE_ITEM_TOOLTIP"] = "Utiliser %s"
 L["WORD_LIST_ACCEPT"] = "accepter ; prendre ; prenez ; acceptez ; accepte ; prends"
+L["WOWHEAD_URL_CLASSIC"] = "https://fr.classic.wowhead.com"
+L["WOWHEAD_URL_WOTLK"] = "https://www.wowhead.com/wotlk/fr"
 L["XP_LEVEL"] = "Niveau seulement"
 L["XP_LEVEL-"] = "Points d'expérience restants"
 L["XP_LEVEL%"] = "Pourcentage"
@@ -1158,6 +1170,8 @@ L["WORD_LIST_COMPLETE"] = "сделать ;  завершить ; убить ; �
 L["WORD_LIST_COMPLETE_LAST"] = "( завершить )это( );( закончить )это( )"
 L["WORD_LIST_COMPLETE_LAST_TWO"] = "( завершить )оба( );( закончить )оба( )"
 L["WORD_LIST_FLY"] = "( лететь к )%a+( );( )(лететь )"
+L["WOWHEAD_URL_CLASSIC"] = "https://ru.classic.wowhead.com"
+L["WOWHEAD_URL_WOTLK"] = "https://www.wowhead.com/wotlk/ru"
 L["XP_LEVEL"] = "Только уровень"
 L["XP_LEVEL-"] = "Опыта осталось"
 L["XP_LEVEL%"] = "Процент"
@@ -1354,6 +1368,8 @@ L["WORD_LIST_TURN_IN_LAST"] = "( Entregar )( en )"
 L["WORD_LIST_TURN_IN_LAST_TWO"] = "( Entregar )ambas( en )"
 L["WORD_LIST_VENDOR"] = "comprar ; comprar ; vendedor"
 L["WORD_LIST_XP"] = "( nivel )%d+( );( farmear hasta )%d+( );( req. )%d+( )"
+L["WOWHEAD_URL_CLASSIC"] = "https://es.classic.wowhead.com"
+L["WOWHEAD_URL_WOTLK"] = "https://www.wowhead.com/wotlk/es"
 L["XP_LEVEL"] = "Solo nivel"
 L["XP_LEVEL-"] = "Puntos restantes"
 L["XP_LEVEL%"] = "Porcentaje"
@@ -1384,6 +1400,20 @@ L["CURRENT_GUIDE"] = "현재 가이드"
 L["CUSTOM_GUIDES"] = "임의 설정 가이드"
 L["DEBUGGING"] = "디버깅 모드 활성화"
 L["DELETE_GUIDE"] = "가이드 삭제"
+L["WOWHEAD_URL_CLASSIC"] = "https://ko.classic.wowhead.com"
+L["WOWHEAD_URL_WOTLK"] = "https://www.wowhead.com/wotlk/ko"
+
+elseif locale == "ptBR" then
+
+L.TITLE = addonName
+L["WOWHEAD_URL_CLASSIC"] = "https://pt.classic.wowhead.com"
+L["WOWHEAD_URL_WOTLK"] = "https://www.wowhead.com/wotlk/pt"
+
+elseif locale == "itIT" then
+
+L.TITLE = addonName
+L["WOWHEAD_URL_CLASSIC"] = "https://it.classic.wowhead.com"
+L["WOWHEAD_URL_WOTLK"] = "https://www.wowhead.com/wotlk/it"
 
 end
 return L
