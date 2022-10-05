@@ -1773,7 +1773,7 @@ function addon.updateMainFrame(reset)
 					addon.mainFrame.steps[i]:Show()
 					addon.mainFrame.steps[i].visible = true
 					if prev then
-						addon.mainFrame.steps[i]:SetPoint("TOPLEFT", prev, "BOTTOMRIGHT", 5 - addon.mainFrame.scrollChild:GetWidth(), -2)
+						addon.mainFrame.steps[i]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -35, -2)
 					else
 						addon.mainFrame.steps[i]:SetPoint("TOPLEFT", addon.mainFrame.scrollChild, "TOPLEFT", 0, -5)
 					end

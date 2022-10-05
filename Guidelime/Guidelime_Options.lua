@@ -87,6 +87,7 @@ function addon.fillOptions()
 		if addon.mainFrame ~= nil then 
 			addon.mainFrame:SetWidth(GuidelimeDataChar.mainFrameWidth) 
 			addon.mainFrame.scrollChild:SetWidth(GuidelimeDataChar.mainFrameWidth)
+			addon.mainFrame.titleBox:SetWidth(GuidelimeDataChar.mainFrameWidth - 40)
 		end
 	end, function()
 		if GuidelimeDataChar.mainFrameShowing then
