@@ -1317,22 +1317,26 @@ function addon.updateStepsMapIcons()
 	addon.removeMapIcons()
 	local arrowElement
 	local highlight = true
+	local activeGoto
 	for _, step in ipairs(addon.currentGuide.steps) do
 		if not step.skip and not step.completed and step.available and
 			(step.reputation == nil or addon.isRequiredReputation(step.reputation, step.repMin, step.repMax)) then
 			for _, element in ipairs(step.elements) do
-				if element.t == "GOTO" and step.active and not element.completed then
-					if element.specialLocation == "NEAREST_FLIGHT_POINT" and addon.x ~= nil and addon.y ~= nil then
-						for k,v in pairs(addon.getNearestFlightPoint(addon.x, addon.y, addon.instance, addon.faction) or {}) do element[k] = v end
-						if addon.debugging then print("LIME: nearest flight point", element.x, element.y, element.mapID, element.wx, element.wy, element.instance) end
-					end
-					if element.x ~= nil then
-						addon.addMapIcon(element, highlight)
-						if highlight then
-							if GuidelimeDataChar.showArrow then 
-								arrowElement = element
+				if element.t == "GOTO" and step.active then
+					activeGoto = element
+					if not element.completed then
+						if element.specialLocation == "NEAREST_FLIGHT_POINT" and addon.x ~= nil and addon.y ~= nil then
+							for k,v in pairs(addon.getNearestFlightPoint(addon.x, addon.y, addon.instance, addon.faction) or {}) do element[k] = v end
+							if addon.debugging then print("LIME: nearest flight point", element.x, element.y, element.mapID, element.wx, element.wy, element.instance) end
+						end
+						if element.x ~= nil then
+							addon.addMapIcon(element, highlight)
+							if highlight then
+								if GuidelimeDataChar.showArrow then 
+									arrowElement = element
+								end
+								highlight = false
 							end
-							highlight = false
 						end
 					end
 				elseif (element.t == "LOC" or element.t == "GOTO") and 
@@ -1351,7 +1355,7 @@ function addon.updateStepsMapIcons()
 			end
 		end
 	end
-	addon.showArrow(arrowElement) 
+	addon.showArrow(arrowElement or activeGoto) 
 	addon.showMapIcons()
 end
 

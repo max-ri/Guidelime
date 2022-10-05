@@ -302,24 +302,26 @@ function addon.updateArrow()
 	addon.x, addon.y, addon.instance = HBD:GetPlayerWorldPosition()
 	addon.face = GetPlayerFacing()
 	if addon.x == nil or addon.y == nil or addon.face == nil then return end
-	
-	if addon.arrowFrame == nil or addon.x == nil or addon.y == nil then return end
+	if addon.arrowFrame == nil then return end
+	if not addon.mainFrame or not addon.mainFrame:IsShown() or not GuidelimeDataChar.showArrow then 
+		if addon.arrowFrame:IsShown() then addon.arrowFrame:Hide() end
+		return 
+	end
 	
 	addon.arrowX, addon.arrowY = nil, nil
-	if GuidelimeDataChar.showArrow and not addon.hideMinimapIconsAndArrowWhileBuffed then
-		if not addon.isAlive() then
-			local corpse = HBD:GetPlayerZone() and C_DeathInfo.GetCorpseMapPosition(HBD:GetPlayerZone())
-			if corpse ~= nil then
-				addon.arrowX, addon.arrowY = HBD:GetWorldCoordinatesFromZone(corpse.x, corpse.y, HBD:GetPlayerZone())
-				addon.arrowInstance = addon.instance
-			end
-		elseif addon.arrowFrame.element ~= nil and addon.arrowFrame.element.wx ~= nil and addon.arrowFrame.element.wy ~= nil then
-			addon.arrowX, addon.arrowY, addon.arrowInstance = addon.arrowFrame.element.wx, addon.arrowFrame.element.wy, addon.arrowFrame.element.instance
+	if not addon.isAlive() then
+		local corpse = HBD:GetPlayerZone() and C_DeathInfo.GetCorpseMapPosition(HBD:GetPlayerZone())
+		if corpse ~= nil then
+			addon.arrowX, addon.arrowY = HBD:GetWorldCoordinatesFromZone(corpse.x, corpse.y, HBD:GetPlayerZone())
+			addon.arrowInstance = addon.instance
 		end
+	elseif not addon.hideMinimapIconsAndArrowWhileBuffed and addon.arrowFrame.element ~= nil and 
+		addon.arrowFrame.element.wx ~= nil and addon.arrowFrame.element.wy ~= nil and 
+		not addon.arrowFrame.element.completed then
+		addon.arrowX, addon.arrowY, addon.arrowInstance = addon.arrowFrame.element.wx, addon.arrowFrame.element.wy, addon.arrowFrame.element.instance
 	end
 	
 	if addon.arrowX == nil or addon.arrowY == nil then 
-		if addon.arrowFrame:IsShown() then addon.arrowFrame:Hide() end
 		if addon.lastArrowX and addon.lastArrowY and addon.arrowRadius2 then
 			local dist2 = (addon.x - addon.lastArrowX) * (addon.x - addon.lastArrowX) + (addon.y - addon.lastArrowY) * (addon.y - addon.lastArrowY)
 			if addon.lastArrowInstance ~= addon.instance or (dist2 >= addon.arrowRadius2 * addon.GOTO_HYSTERESIS_FACTOR and addon.lastDistance2 and addon.lastDistance2 <= addon.arrowRadius2 * addon.GOTO_HYSTERESIS_FACTOR) then
@@ -329,32 +331,16 @@ function addon.updateArrow()
 			end
 			addon.lastDistance2 = dist2
 		end
-		return 
-	end
-	addon.lastArrowX, addon.lastArrowY, addon.lastArrowInstance = addon.arrowX, addon.arrowY, addon.arrowInstance
-	
-	local angle
-	if addon.arrowInstance == addon.instance then
-		angle = addon.face - math.atan2(addon.arrowX - addon.x, addon.arrowY - addon.y)
 	else
+		addon.lastArrowX, addon.lastArrowY, addon.lastArrowInstance = addon.arrowX, addon.arrowY, addon.arrowInstance
+	end
+	
+	local angle, dist2, alpha
+	if addon.arrowX == nil or addon.arrowY == nil or addon.arrowInstance ~= addon.instance then
 		angle = math.pi
-	end
-	if GuidelimeData.arrowStyle == 1 then
-		local index = angle * 32 / math.pi
-		if index >= 64 then index = index - 64 elseif index < 0 then index = index + 64 end
-		addon.arrowFrame.col = math.floor(index % 8)
-		addon.arrowFrame.row = math.floor(index / 8)
-		addon.arrowFrame.texture:SetTexCoord(addon.arrowFrame.col / 8, (addon.arrowFrame.col + 1) / 8, addon.arrowFrame.row / 8, (addon.arrowFrame.row + 1) / 8)
-	elseif GuidelimeData.arrowStyle == 2 then
-		local index = -angle * 54 / math.pi
-		if index < 0 then index = index + 108 end
-		if index < 0 then index = index + 108 end
-		addon.arrowFrame.col = math.floor(index % 9)
-		addon.arrowFrame.row = math.floor(index / 9)
-		addon.arrowFrame.texture:SetTexCoord(addon.arrowFrame.col * 56 / 512, (addon.arrowFrame.col + 1) * 56 / 512, addon.arrowFrame.row * 42 / 512, (addon.arrowFrame.row + 1) * 42 / 512)
-	end
-	local dist2
-	if addon.arrowInstance == addon.instance then
+		alpha = 0.25
+	else
+		angle = addon.face - math.atan2(addon.arrowX - addon.x, addon.arrowY - addon.y)
 		dist2 = (addon.x - addon.arrowX) * (addon.x - addon.arrowX) + (addon.y - addon.arrowY) * (addon.y - addon.arrowY)
 		if addon.arrowFrame.element and addon.arrowFrame.element.radius then
 			addon.arrowRadius2 = addon.arrowFrame.element.radius * addon.arrowFrame.element.radius
@@ -366,8 +352,31 @@ function addon.updateArrow()
 			addon.arrowRadius2 = nil
 		end
 		addon.lastDistance2 = dist2
+		alpha = 1
 	end
-	if addon.arrowInstance ~= addon.instance then
+	if GuidelimeData.arrowStyle == 1 then
+		local index = angle * 32 / math.pi
+		if index >= 64 then index = index - 64 elseif index < 0 then index = index + 64 end
+		addon.arrowFrame.col = math.floor(index % 8)
+		addon.arrowFrame.row = math.floor(index / 8)
+		addon.arrowFrame.texture:SetTexCoord(addon.arrowFrame.col / 8, (addon.arrowFrame.col + 1) / 8, addon.arrowFrame.row / 8, (addon.arrowFrame.row + 1) / 8)
+		addon.arrowFrame.texture:SetVertexColor(1,1,1,alpha)
+	elseif GuidelimeData.arrowStyle == 2 then
+		local index = -angle * 54 / math.pi
+		if index < 0 then index = index + 108 end
+		if index < 0 then index = index + 108 end
+		addon.arrowFrame.col = math.floor(index % 9)
+		addon.arrowFrame.row = math.floor(index / 9)
+		addon.arrowFrame.texture:SetTexCoord(addon.arrowFrame.col * 56 / 512, (addon.arrowFrame.col + 1) * 56 / 512, addon.arrowFrame.row * 42 / 512, (addon.arrowFrame.row + 1) * 42 / 512)
+		addon.arrowFrame.texture:SetVertexColor(0.5,1,0.2,alpha)
+	end
+	if addon.arrowFrame.element and addon.arrowFrame.element.completed then
+		addon.arrowFrame.text:SetText(L.ARROW_POSITION_REACHED)
+		addon.arrowFrame.text:Show()
+	elseif addon.arrowX == nil or addon.arrowY == nil then
+		addon.arrowFrame.text:SetText(L.ARROW_CURRENT_STEP)
+		addon.arrowFrame.text:Show()
+	elseif addon.arrowInstance ~= addon.instance then
 		addon.arrowFrame.text:SetText(string.format(L.ARROW_GO_TO_INSTANCE, GetRealZoneText(addon.arrowInstance)))
 		addon.arrowFrame.text:Show()
 	elseif GuidelimeData.arrowDistance then
