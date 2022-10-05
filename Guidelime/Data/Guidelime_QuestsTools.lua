@@ -821,7 +821,7 @@ end
 addon.usableItems = {}
 function addon.isItemUsable(id)
 	if id == nil then return end
-	if addon.usableItems[id] ~= nil then return addon.usableItems[id] end
+	if addon.usableItems[id] then return true end
 	if addon.dataSource == "QUESTIE" then 
 		if addon.isItemLootableQuestie(id) then 
 			if addon.debugging then print("LIME: found usable item", id, "(via Questie)") end
