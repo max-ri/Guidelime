@@ -62,20 +62,22 @@ function addon.fillOptions()
 			for guid, settings in pairs(GuidelimeData.chars) do
 				if guid ~= UnitGUID("player") then
 					local _, class, _, race, _, name, realm = GetPlayerInfoByGUID(guid)
-					local menuItem = {
-						text = name .. (realm ~= "" and ("-" .. realm) or ""), 
-						colorCode = "|c" .. select(4, GetClassColor(class)),
-						icon = addon.icons[class],
-						notCheckable = true, 
-						func = function()
-							GuidelimeDataChar = settings
-							ReloadUI()
+					if name then
+						local menuItem = {
+							text = name .. (realm ~= "" and ("-" .. (realm or "?")) or ""), 
+							colorCode = "|c" .. select(4, GetClassColor(class)),
+							icon = addon.icons[class],
+							notCheckable = true, 
+							func = function()
+								GuidelimeDataChar = settings
+								ReloadUI()
+							end
+						}
+						if addon.races[race] == addon.races[addon.race] then
+							menu[#menu + 1] = menuItem
+						else
+							oppositeFaction[#oppositeFaction + 1] = menuItem
 						end
-					}
-					if addon.races[race] == addon.races[addon.race] then
-						menu[#menu + 1] = menuItem
-					else
-						oppositeFaction[#oppositeFaction + 1] = menuItem
 					end
 				end
 			end
