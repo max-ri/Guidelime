@@ -102,6 +102,20 @@ addon.icons = {
 	--USE = "Interface\\Icons\\INV_Misc_Bag_08",
 	--BUY = "Interface\\Icons\\INV_Misc_Coin_01",
 	--BOAT = "Interface\\Icons\\Spell_Frost_SummonWaterElemental",
+	
+	-- normally class icons could be obtained by using SetTextCoord with CLASS_ICON_TCOORDS[class] on "Interface\\GLUES\\CHARACTERCREATE\\UI-CHARACTERCREATE-CLASSES"
+	-- but since this is not so easily done e.g. in EasyMenu we provide alternative class icons here (cf https://wowpedia.fandom.com/wiki/Class_icon)
+	DEATHKNIGHT = "Interface\\Icons\\spell_deathknight_classicon",
+	DRUID = "Interface\\Icons\\inv_misc_monsterclass_04",
+	HUNTER = "Interface\\Icons\\inv_weapon_bow_07",
+	MAGE = "Interface\\Icons\\inv_staff_13",
+	PALADIN = "Interface\\Icons\\inv_hammer_01",
+	PRIEST = "Interface\\Icons\\inv_staff_30",
+	ROGUE = "Interface\\Icons\\inv_throwingknife_04",
+	SHAMAN = "Interface\\Icons\\inv_jewelry_talisman_04",
+	WARLOCK = "Interface\\Icons\\spell_nature_drowsy",
+	WARRIOR = "Interface\\Icons\\inv_sword_27",
+	
 }
 
 local _
@@ -1542,11 +1556,11 @@ local function showContextMenu(questId)
 		end}
 	}
 	if questId then
-		menu[#menu] = {text = L.WOWHEAD_OPEN_QUEST, false, func = function()
+		menu[#menu + 1] = {text = L.WOWHEAD_OPEN_QUEST, notCheckable = true, func = function()
 			addon.showUrlPopup((select(4, GetBuildInfo()) < 20000 and L.WOWHEAD_URL_CLASSIC or L.WOWHEAD_URL_WOTLK) .. "/quest=" .. questId)
 		end}
 	end
-	EasyMenu(menu, CreateFrame("Frame", nil, nil, "UIDropDownMenuTemplate"), "cursor", 0 , 0, "MENU");
+	EasyMenu(menu, CreateFrame("Frame", "GuidelimeContextMenu", nil, "UIDropDownMenuTemplate"), "cursor", 0 , 0, "MENU")
 end
 
 local function setStepSkip(value, a, b)

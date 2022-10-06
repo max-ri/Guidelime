@@ -197,6 +197,7 @@ L.USE_ITEM_X = "Use quest item %d" -- as in "Use quest item 1" by number for key
 L.WOWHEAD_OPEN_QUEST = "Show quest on 'Wowhead'"
 L.WOWHEAD_URL_CLASSIC = "https://classic.wowhead.com"
 L.WOWHEAD_URL_WOTLK = "https://www.wowhead.com/wotlk"
+L.IMPORT_SETTINGS = "Import settings from another character"
 
 -- Word lists used by the plain text parser
 -- Spaces at the start and end of each word will make it so that a match cannot occur in the middle of a word. Spaces will match any whitespace or punctuation marks.
@@ -703,6 +704,7 @@ L["GUIDE_WINDOW"] = "Guide-Fenster"
 L["Horde"] = "Horde"
 L["IMPORT_GUIDE"] = "Guide importieren"
 L["IMPORT_GUIDE_MESSAGE"] = "Importiere einen als Text geschriebenen Guide. Quest-Namen müssen in Anführungszeichen(\"\") gesetzt werden. Es kann vorkommen, dass Quest-IDs manuell ergänzt werden müssen. Zeilen, in denen eine ID fehlt oder in denen ein anderer Fehler vorliegt, werden markiert. Wenn die Fehler beseitigt und erneut importiert wird, werden die Markierungen entfernt."
+L["IMPORT_SETTINGS"] = "Einstellungen von einem anderen Charakter übernehmen"
 L["LEVEL"] = "Stufe"
 L["LOAD_GUIDE"] = "Guide laden"
 L["LOAD_MESSAGE"] = "Guidelime: Lade Guide \"%s\""

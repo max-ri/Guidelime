@@ -50,6 +50,48 @@ function addon.fillOptions()
     scrollFrame:SetScrollChild(content)
 	prev = content
 
+	local button = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
+	button:SetWidth(310)
+	button:SetHeight(24)
+	button:SetText(L.IMPORT_SETTINGS)
+	button:SetPoint("TOPLEFT", prev, "TOPLEFT", 0, -4)
+	button:SetScript("OnClick", function()
+		local menu = {}
+		local oppositeFaction = {}
+		if GuidelimeData.chars then
+			for guid, settings in pairs(GuidelimeData.chars) do
+				if guid ~= UnitGUID("player") then
+					local _, class, _, race, _, name, realm = GetPlayerInfoByGUID(guid)
+					local menuItem = {
+						text = name .. (realm ~= "" and ("-" .. realm) or ""), 
+						colorCode = "|c" .. select(4, GetClassColor(class)),
+						icon = addon.icons[class],
+						notCheckable = true, 
+						func = function()
+							GuidelimeDataChar = settings
+							ReloadUI()
+						end
+					}
+					if addon.races[race] == addon.races[addon.race] then
+						menu[#menu + 1] = menuItem
+					else
+						oppositeFaction[#oppositeFaction + 1] = menuItem
+					end
+				end
+			end
+			if #oppositeFaction > 0 then
+				menu[#menu + 1] = { text = addon.races[addon.race] == "Alliance" and L.Horde or L.Alliance, notCheckable = true, isTitle = true }
+				for _, menuItem in ipairs(oppositeFaction) do
+					menu[#menu + 1] = menuItem
+				end
+			end
+			if #menu > 0 then
+				EasyMenu(menu, CreateFrame("Frame", "GuidelimeImportMenu", nil, "UIDropDownMenuTemplate"), "cursor", 0 , 0, "MENU")
+			end
+		end
+	end)
+	prev = button
+
 	-- Guide window options
 
 	addon.optionsFrame.titleGuideWindow = content:CreateFontString(nil, content, "GameFontNormal")

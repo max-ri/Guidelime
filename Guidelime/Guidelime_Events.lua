@@ -527,3 +527,10 @@ function addon.frame:BAG_UPDATE_COOLDOWN()
 		end
 	end
 end
+
+addon.frame:RegisterEvent('PLAYER_LOGOUT')
+function addon.frame:PLAYER_LOGOUT()
+	-- save a copy of character setting for import
+	if not GuidelimeData.chars then GuidelimeData.chars = {} end
+	GuidelimeData.chars[UnitGUID("player")] = GuidelimeDataChar
+end
