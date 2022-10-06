@@ -106,7 +106,7 @@ addon.icons = {
 	-- normally class icons could be obtained by using SetTextCoord with CLASS_ICON_TCOORDS[class] on "Interface\\GLUES\\CHARACTERCREATE\\UI-CHARACTERCREATE-CLASSES"
 	-- but since this is not so easily done e.g. in EasyMenu we provide alternative class icons here (cf https://wowpedia.fandom.com/wiki/Class_icon)
 	DEATHKNIGHT = "Interface\\Icons\\spell_deathknight_classicon",
-	DRUID = "Interface\\Icons\\inv_misc_monsterclass_04",
+	DRUID = "Interface\\Icons\\inv_misc_monsterclaw_04",
 	HUNTER = "Interface\\Icons\\inv_weapon_bow_07",
 	MAGE = "Interface\\Icons\\inv_staff_13",
 	PALADIN = "Interface\\Icons\\inv_hammer_01",
