@@ -169,7 +169,6 @@ function addon.getQuestReputationQuestie(id)
 	end
 	return reputation, repMin, repMax
 end
-	
 
 function addon.getQuestPositionsQuestie(id, typ, index, filterZone)
 	if id == nil or not checkQuestie() then return end
@@ -192,8 +191,8 @@ function addon.getQuestPositionsQuestie(id, typ, index, filterZone)
 				end
 			end
 			if quest.SpecialObjectives then
-				for i = 1, #quest.SpecialObjectives do
-					list[#list + 1] = quest.SpecialObjectives[i]
+				for _, v in pairs(quest.SpecialObjectives) do
+					list[#list + 1] = v
 				end
 			end
 		elseif typ == "TURNIN" then
@@ -328,6 +327,69 @@ function addon.getQuestPositionsQuestie(id, typ, index, filterZone)
 	return positions
 end
 
+function addon.getQuestNPCsQuestie(id, typ, index)
+	if id == nil or not checkQuestie() then return end
+	local ids = {npc = {}, item = {}}
+	if addon.getSuperCode(typ) == "QUEST" then
+		local quest = QuestieDB:GetQuest(id)
+		if quest == nil then return end
+		local list
+		if typ == "ACCEPT" then 
+			list = {quest.Starts}
+		elseif typ == "COMPLETE" then
+			list = {}
+			if quest.ObjectiveData then
+				for i = 1, #quest.ObjectiveData do
+					list[#list + 1] = quest.ObjectiveData[i]
+				end
+			end
+			if quest.SpecialObjectives then
+				for _, v in pairs(quest.SpecialObjectives) do
+					list[#list + 1] = v
+				end
+			end
+		elseif typ == "TURNIN" then
+			list = {quest.Finisher}
+		end
+		if list ~= nil then
+			--if addon.debugging then print("LIME: getQuestPositionsQuestie " .. typ .. " " .. id .. " " .. #list) end
+			for i = 1, #list do
+				local oi = (typ == "COMPLETE" and addon.questieCorrectionsObjectiveOrder[id]) and addon.questieCorrectionsObjectiveOrder[id][i] or i
+				if index == nil or index == 0 or index == oi then
+					if list[i].NPC ~= nil then
+						for _, id2 in ipairs(list[i].NPC) do
+							table.insert(ids.npc, id2)
+						end
+					elseif list[i].Type == "monster" or list[i].Type == "item" then
+						local type = list[i].Type == "monster" and "npc" or list[i].Type
+						table.insert(ids[type], list[i].Id)
+						print(i, #list, type, list[i].Id)
+					elseif list[i].Type == "killcredit" then
+						for _, id2 in ipairs(list[i].IdList) do
+							table.insert(ids.npc, id2)
+						end
+					end
+				end
+			end
+		end
+	elseif typ == "COLLECT_ITEM" then
+		ids.item = {id}
+	else
+		return
+	end
+	for _, itemId in ipairs(ids.item) do
+		local item = QuestieDB:GetItem(itemId)
+		if item ~= nil then
+			if item.npcDrops ~= nil then
+				for i = 1, #item.npcDrops do
+					if not addon.contains(ids.npc, item.npcDrops[i]) then table.insert(ids.npc, item.npcDrops[i]) end
+				end
+			end
+		end
+	end
+	return ids.npc
+end
+
 -- returns a type (npc/item/object) and a list of names for quest source / each objective / turn in; e.g. {{type="item", names={"Huge Gnoll Claw", "Hogger"}, ids={item={1931},npc={448}} for id = 176, typ = "COMPLETE"
 function addon.getQuestObjectivesQuestie(id, typ)
 	if id == nil or not checkQuestie() then return end
@@ -438,6 +500,12 @@ function addon.getObjectNameQuestie(id)
 	if id == nil or not checkQuestie() then return end
 	local object = QuestieDB:GetObject(id)
 	if object ~= nil then return object.name end
+end
+
+function addon.getItemNameQuestie(id)
+	if id == nil or not checkQuestie() then return end
+	local item = QuestieDB:GetItem(id)
+	if item ~= nil then return item.name end
 end
 
 function addon.getItemProvidedByQuestQuestie(id)

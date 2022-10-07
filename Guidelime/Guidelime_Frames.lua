@@ -1,10 +1,10 @@
 local addonName, addon = ...
 local L = addon.L
 
-function addon.setTooltip(frame, tooltip)
+function addon.setTooltip(frame, tooltip, setupFunction)
+	frame.tooltip = tooltip
 	if tooltip then	
-		frame.tooltip = tooltip
-		frame:SetScript("OnEnter", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32);  GameTooltip:SetText(self.tooltip); GameTooltip:Show(); addon.showingTooltip = true end end)
+		frame:SetScript("OnEnter", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32); (setupFunction or GameTooltip.SetText)(GameTooltip, self.tooltip); GameTooltip:Show(); addon.showingTooltip = true end end)
 		frame:SetScript("OnLeave", function(self) if self.tooltip ~= nil and self.tooltip ~= "" and addon.showingTooltip then GameTooltip:Hide(); addon.showingTooltip = false end end)
 	end
 end

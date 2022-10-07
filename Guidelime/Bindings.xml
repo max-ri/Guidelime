@@ -2,6 +2,21 @@
 	<Binding name="GUIDELIME_TOGGLE" header="GUIDELIME" category="ADDONS">
 		if GuidelimeDataChar.mainFrameShowing then Guidelime.addon.hideMainFrame() else Guidelime.addon.showMainFrame() end
 	</Binding>
+	<Binding name="GUIDELIME_TARGET_1" category="ADDONS">
+		--for targeting an npc
+	</Binding>
+	<Binding name="GUIDELIME_TARGET_2" category="ADDONS">
+		--for targeting an npc
+	</Binding>
+	<Binding name="GUIDELIME_TARGET_3" category="ADDONS">
+		--for targeting an npc
+	</Binding>
+	<Binding name="GUIDELIME_TARGET_4" category="ADDONS">
+		--for targeting an npc
+	</Binding>
+	<Binding name="GUIDELIME_TARGET_5" category="ADDONS">
+		--for targeting an npc
+	</Binding>
 	<Binding name="GUIDELIME_USE_ITEM_1" category="ADDONS">
 		--for using a quest item
 	</Binding>

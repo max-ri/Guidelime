@@ -17,6 +17,7 @@ Libs\HereBeDragons\HereBeDragons-Pins-2.0.lua
 Localization.lua
 Data\Guidelime_Data.lua
 Guidelime.lua
+Guidelime_ActionButtons.lua
 Guidelime_Events.lua
 Guidelime_Frames.lua
 Guidelime_Guides.lua

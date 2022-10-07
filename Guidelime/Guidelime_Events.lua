@@ -509,12 +509,14 @@ addon.frame:RegisterEvent('PLAYER_REGEN_ENABLED')
 function addon.frame:PLAYER_REGEN_ENABLED()
 	if addon.updateAfterCombat then
 		addon.updateAfterCombat = false
+		addon.updateTargetButtons()
 		addon.updateUseItemButtons()
 	end
 end
 
 addon.frame:RegisterEvent('UPDATE_BINDINGS')
 function addon.frame:UPDATE_BINDINGS()
+	addon.updateTargetButtons()
 	addon.updateUseItemButtons()
 end
 

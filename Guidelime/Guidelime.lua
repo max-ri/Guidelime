@@ -1,21 +1,10 @@
 local addonName, addon = ...
 local L = addon.L
 
-
 HBD = LibStub("HereBeDragons-2.0")
 
 addon.frame = CreateFrame("Frame", addonName .. "Frame", UIParent)
 Guidelime = {}
-
--- for bindings
-
-BINDING_HEADER_GUIDELIME = "Guidelime"
-BINDING_NAME_GUIDELIME_TOGGLE = L.SHOW_MAINFRAME
-BINDING_NAME_GUIDELIME_USE_ITEM_1 = string.format(L.USE_ITEM_X, 1)
-BINDING_NAME_GUIDELIME_USE_ITEM_2 = string.format(L.USE_ITEM_X, 2)
-BINDING_NAME_GUIDELIME_USE_ITEM_3 = string.format(L.USE_ITEM_X, 3)
-BINDING_NAME_GUIDELIME_USE_ITEM_4 = string.format(L.USE_ITEM_X, 4)
-BINDING_NAME_GUIDELIME_USE_ITEM_5 = string.format(L.USE_ITEM_X, 5)
 
 -- Per request of Zarant everything is available for everyone now
 -- since I am currently not doing much with the addon please feel free
@@ -94,15 +83,7 @@ addon.icons = {
 	GET_FLIGHT_POINT = "Interface\\Addons\\" .. addonName .. "\\Icons\\getflightpoint",
 	GOTO = "Interface\\Addons\\" .. addonName .. "\\Icons\\lime0",
 	LOC = "Interface\\Addons\\" .. addonName .. "\\Icons\\lime",
-
-	--LOC = "Interface\\Icons\\Ability_Tracking",
-	--KILL = "Interface\\Icons\\Ability_Creature_Cursed_02",
-	--MAP = "Interface\\Icons\\Ability_Spy",
-	--NOTE = "Interface\\Icons\\INV_Misc_Note_01",
-	--USE = "Interface\\Icons\\INV_Misc_Bag_08",
-	--BUY = "Interface\\Icons\\INV_Misc_Coin_01",
-	--BOAT = "Interface\\Icons\\Spell_Frost_SummonWaterElemental",
-	
+	TARGET_BUTTON = "Interface\\Icons\\Ability_Hunter_Snipershot",
 	-- normally class icons could be obtained by using SetTextCoord with CLASS_ICON_TCOORDS[class] on "Interface\\GLUES\\CHARACTERCREATE\\UI-CHARACTERCREATE-CLASSES"
 	-- but since this is not so easily done e.g. in EasyMenu we provide alternative class icons here (cf https://wowpedia.fandom.com/wiki/Class_icon)
 	DEATHKNIGHT = "Interface\\Icons\\spell_deathknight_classicon",
@@ -115,7 +96,14 @@ addon.icons = {
 	SHAMAN = "Interface\\Icons\\inv_jewelry_talisman_04",
 	WARLOCK = "Interface\\Icons\\spell_nature_drowsy",
 	WARRIOR = "Interface\\Icons\\inv_sword_27",
-	
+
+	--LOC = "Interface\\Icons\\Ability_Tracking",
+	--KILL = "Interface\\Icons\\Ability_Creature_Cursed_02",
+	--MAP = "Interface\\Icons\\Ability_Spy",
+	--NOTE = "Interface\\Icons\\INV_Misc_Note_01",
+	--USE = "Interface\\Icons\\INV_Misc_Bag_08",
+	--BUY = "Interface\\Icons\\INV_Misc_Coin_01",
+	--BOAT = "Interface\\Icons\\Spell_Frost_SummonWaterElemental",
 }
 
 local _
@@ -177,6 +165,7 @@ function addon.loadData()
 		autoSelectFlight = true,
 		showQuestIds = false,
 		showMapMarkersInGuide = true,
+		targetRaidMarkers = true,
 		version = GetAddOnMetadata(addonName, "version")
 	}
 	local defaultOptionsChar = {
@@ -207,6 +196,7 @@ function addon.loadData()
 		guideSize = {},
 		version = GetAddOnMetadata(addonName, "version"),
 		completedSteps = {},
+		showTargetButtons = "LEFT",
 		showUseItemButtons = "LEFT"
 	}
 	if GuidelimeData == nil then GuidelimeData = {} end
@@ -574,6 +564,24 @@ function addon.loadCurrentGuide(reset)
 							end
 						end
 					end
+					if guide.autoAddTarget and not step.targetElement then
+						local npcs = addon.getQuestNPCs(element.questId, element.t)
+						if npcs then
+							for _, npcId in ipairs(npcs) do
+								local targetElement = {}
+								targetElement.t = "TARGET"
+								targetElement.targetNpcId = npcId
+								targetElement.generated = true
+								targetElement.available = true
+								targetElement.title = ""
+								targetElement.attached = element
+								table.insert(step.elements, i + 1, targetElement)
+								for j = i + 1, #step.elements do
+									step.elements[j].index = j
+								end
+							end
+						end
+					end
 				elseif element.t == "FLY" then
 					if guide.autoAddCoordinatesGOTO and (GuidelimeData.showMapMarkersGOTO or GuidelimeData.showMinimapMarkersGOTO) and not step.hasGoto and not element.optional then
 						local gotoElement = {}
@@ -620,6 +628,8 @@ function addon.loadCurrentGuide(reset)
 					if step.manual == nil then step.manual = false end
 				elseif element.t == "USE_ITEM" then
 					if not element.generated then step.useItemElement = true end
+				elseif element.t == "TARGET" then
+					if not element.generated then step.targetElement = true end
 				elseif guide.autoAddUseItem and not step.useItemElement and element.t == "HEARTH" then
 					local useElement = {}
 					useElement.t = "USE_ITEM"
@@ -970,6 +980,18 @@ function addon.getStepText(step)
 			if name and name ~= "" then
 				if step.active then
 					text = text .. colour .. "[" .. name .. "]|r"
+				else
+					text = text .. "[" .. name .. "]"
+				end
+			end
+		elseif element.t == "TARGET" and element.title ~= "" then
+			if element.targetButton then
+				text = text .. addon.getTargetButtonIconText(element.targetButton.index)
+			end
+			local name = element.title or addon.getNPCName(element.targetNpcId)
+			if name and name ~= "" then
+				if step.active then
+					text = text .. addon.COLOR_WHITE .. "[" .. name .. "]|r"
 				else
 					text = text .. "[" .. name .. "]"
 				end
@@ -1401,82 +1423,6 @@ function addon.updateStepsText(scrollToFirstActive)
 	end
 end
 
-function addon.updateUseItemButtons()
-	if not addon.mainFrame then return end
-	if addon.mainFrame.useButtons == nil then
-		addon.mainFrame.useButtons = {}
-	else
-		for _, useButton in pairs(addon.mainFrame.useButtons) do
-			if useButton:IsShown() then
-				if InCombatLockdown() then
-					addon.updateAfterCombat = true
-					return 
-				end
-				ClearOverrideBindings(useButton)
-				useButton:Hide()
-			end
-		end
-	end
-	if not GuidelimeDataChar.showUseItemButtons or not addon.currentGuide or not addon.currentGuide.firstActiveIndex then return end
-	local i = 1
-	for s = addon.currentGuide.firstActiveIndex, addon.currentGuide.lastActiveIndex do
-		local step = addon.currentGuide.steps[s]
-		if step.active then
-			for _, element in ipairs(step.elements) do
-				if element.t == "USE_ITEM" and element.useItemId > 0 and not (step.useItemElement and element.generated) then
-					if addon.debugging then print("LIME: show use item button for item", element.useItemId) end
-					if InCombatLockdown() then
-						addon.updateAfterCombat = true
-						return 
-					end
-					if not addon.mainFrame.useButtons[i] then
-						addon.mainFrame.useButtons[i] = CreateFrame("BUTTON", "useButton", addon.mainFrame, "SecureActionButtonTemplate,ActionButtonTemplate")
-						addon.mainFrame.useButtons[i]:SetAttribute("type", "item")
-						addon.mainFrame.useButtons[i].texture = addon.mainFrame.useButtons[i]:CreateTexture(nil,"BACKGROUND")
-						addon.mainFrame.useButtons[i].texture:SetAllPoints(true)
-						addon.mainFrame.useButtons[i].texture:SetPoint("TOPLEFT", addon.mainFrame.useButtons[i], -2, 1)					
-						addon.mainFrame.useButtons[i].texture:SetPoint("BOTTOMRIGHT", addon.mainFrame.useButtons[i], 2, -2)
-        				addon.mainFrame.useButtons[i].cooldown = CreateFrame("Cooldown", nil, addon.mainFrame.useButtons[i], "CooldownFrameTemplate")
-		                addon.mainFrame.useButtons[i].cooldown:SetSize(32, 32)
-		                addon.mainFrame.useButtons[i].cooldown:SetPoint("CENTER", addon.mainFrame.useButtons[i], "CENTER", 0, 0)
-						addon.mainFrame.useButtons[i].Update = function(self)
-				            local start, duration, enable = GetItemCooldown(self.itemId)
-				            if enable == 1 and duration > 0 then
-				                self.cooldown:Show()
-				                self.cooldown:SetCooldown(start, duration)
-				            else
-				                self.cooldown:Hide()
-				            end
-						end
-					end
-					addon.mainFrame.useButtons[i].cooldown:Hide()
-					addon.mainFrame.useButtons[i]:ClearAllPoints()
-					addon.mainFrame.useButtons[i]:SetPoint("TOP" .. GuidelimeDataChar.showUseItemButtons, addon.mainFrame, "TOP" .. GuidelimeDataChar.showUseItemButtons, 
-						GuidelimeDataChar.showUseItemButtons == "LEFT" and -36 or (GuidelimeDataChar.mainFrameShowScrollBar and 60 or 37), 
-						41 - i * 42)
-					addon.mainFrame.useButtons[i].itemId = element.useItemId
-					addon.mainFrame.useButtons[i].texture:SetTexture(GetItemIcon(element.useItemId))
-					local enabled = GetItemCount(element.useItemId) > 0
-					addon.mainFrame.useButtons[i].texture:SetAlpha((enabled and 1) or 0.2)
-					local name = addon.GetItemInfo(element.useItemId)
-					if name then
-						addon.mainFrame.useButtons[i]:SetAttribute("item", name)
-						addon.setTooltip(addon.mainFrame.useButtons[i], string.format(L.USE_ITEM_TOOLTIP, name))
-						local key = GetBindingKey("GUIDELIME_USE_ITEM_" .. i)
-						if key then
-							SetOverrideBindingItem(addon.mainFrame.useButtons[i], true, key, name)
-							if addon.debugging then print("LIME: binding " .. key .. " to " .. name) end
-						end
-					end
-					addon.mainFrame.useButtons[i]:Show()
-					addon.mainFrame.useButtons[i]:Update()
-					i = i + 1
-				end
-			end
-		end
-	end
-end
-
 function addon.updateSteps(completedIndexes)
 	if addon.mainFrame == nil then return end
 	if addon.currentGuide == nil then return end
@@ -1511,6 +1457,7 @@ function addon.updateSteps(completedIndexes)
 	--if addon.debugging then print("LIME: updateStepsMapIcons " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	addon.updateStepsText(scrollToFirstActive)
 	--if addon.debugging then print("LIME: updateStepsText " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
+	addon.updateTargetButtons()
 	addon.updateUseItemButtons()
 
 	if customCodeData then

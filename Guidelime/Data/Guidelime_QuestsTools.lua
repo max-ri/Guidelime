@@ -802,6 +802,19 @@ function addon.getObjectName(id)
 	return addon.objectNames[id]
 end
 
+function addon.getItemName(id)
+	if id == nil then return end
+	if addon.itemNames == nil then addon.itemNames = {} end
+	if addon.itemNames[id] ~= nil then return addon.itemNames[id] end
+	if addon.dataSource == "QUESTIE" then addon.itemNames[id] = addon.getItemNameQuestie(id); return addon.itemNames[id] end
+	if addon["itemsDB_" .. GetLocale()] ~= nil and addon["itemsDB_" .. GetLocale()][id] ~= nil then
+		addon.itemNames[id] = addon["itemsDB_" .. GetLocale()][id]
+	elseif addon.itemsDB[id] ~= nil then
+		addon.itemNames[id] = addon.itemsDB[id].name
+	end
+	return addon.itemNames[id]
+end
+
 function addon.getItemStartingQuest(id)
 	local objectives = addon.getQuestObjectives(id, "ACCEPT")
 	if objectives then
@@ -818,20 +831,25 @@ function addon.getItemProvidedByQuest(id)
 	if addon.dataSource == "QUESTIE" then return addon.getItemProvidedByQuestQuestie(id) end
 end
 
-addon.usableItems = {}
 function addon.isItemUsable(id)
 	if id == nil then return end
-	if addon.usableItems[id] then return true end
 	if addon.dataSource == "QUESTIE" then 
 		if addon.isItemLootableQuestie(id) then 
 			if addon.debugging then print("LIME: found usable item", id, "(via Questie)") end
-			addon.usableItems[id] = true
 			return true 
 		end
 	end
-	-- search for "Use:" in tooltip
-	local _, itemLink = addon.GetItemInfo(id)
-	if not itemLink then return false end
+	return addon.getUseItemTooltip(id) ~= nil
+end
+
+addon.useItemTooltips = {}
+-- search for "Use:" in tooltip
+-- see https://wowwiki-archive.fandom.com/wiki/UIOBJECT_GameTooltip for tooltip scanning
+function addon.getUseItemTooltip(id)
+	if id == nil then return end
+	if addon.useItemTooltips[id] then return addon.useItemTooltips[id] end
+	-- tooltip is available only after item info was received
+	if not addon.GetItemInfo(id) then return end
 	if not GuidelimeScanningTooltip then
 		CreateFrame( "GameTooltip", "GuidelimeScanningTooltip", nil, "GameTooltipTemplate" );
 		GuidelimeScanningTooltip:SetOwner( WorldFrame, "ANCHOR_NONE" );
@@ -841,19 +859,19 @@ function addon.isItemUsable(id)
 		);
 	end
 	GuidelimeScanningTooltip:ClearLines() 
-	GuidelimeScanningTooltip:SetHyperlink(itemLink)
+	GuidelimeScanningTooltip:SetHyperlink("item:" .. id .. ":0:0:0:0:0:0:0")
     for i = 1, select("#", GuidelimeScanningTooltip:GetRegions()) do
         local region = select(i, GuidelimeScanningTooltip:GetRegions())
         if region and region:GetObjectType() == "FontString" and region:GetText() and 
 			region:GetText():find(USE_COLON) then
 			if addon.debugging then print("LIME: found usable item", id, "(via tooltip)") end
-			addon.usableItems[id] = true
-			return true
+			addon.useItemTooltips[id] = region:GetText()
+			break
         end
     end
-	addon.usableItems[id] = false
-	return false
+	return addon.useItemTooltips[id]
 end
+
 
 function addon.getUsableQuestItems(id)
 	if id == nil then return end
@@ -862,7 +880,8 @@ end
 
 addon.questItemIsFor = {
 	[6145] = false,
-	[34688] = false,
+	--[34688] = false, -- Beryl Prison Key for Prison Break(11587); while it is not necessary to use this item it is nice to have the button to see whether it dropped already
+	-- TODO: check the other 'false' here if they would not also profit from a button
 	[34908] = false,
 	[34968] = false,
 	[36726] = false,
@@ -881,3 +900,20 @@ addon.questItemIsFor = {
 	[40971] = "TURNIN",
 }
 setmetatable(addon.questItemIsFor, {__index = function() return "COMPLETE" end})
+
+function addon.getQuestNPCs(id, typ)
+	if addon.dataSource == "QUESTIE" then return addon.getQuestNPCsQuestie(id, typ) end
+	local objectives = addon.getQuestObjectives(id, typ)
+	if not objectives then return end
+	local npcs = {}
+	for _, o in ipairs(objectives) do
+		if o.ids and o.ids.npc then
+			for _, id in ipairs(o.ids.npc) do
+				npcs[#npcs + 1] = id
+			end
+		end
+	end
+	return npcs
+end
+	
+

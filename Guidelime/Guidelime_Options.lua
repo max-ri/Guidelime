@@ -50,12 +50,12 @@ function addon.fillOptions()
     scrollFrame:SetScrollChild(content)
 	prev = content
 
-	local button = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
-	button:SetWidth(310)
-	button:SetHeight(24)
-	button:SetText(L.IMPORT_SETTINGS)
-	button:SetPoint("TOPLEFT", prev, "TOPLEFT", 0, -4)
-	button:SetScript("OnClick", function()
+	local importButton = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
+	importButton:SetWidth(310)
+	importButton:SetHeight(24)
+	importButton:SetText(L.IMPORT_SETTINGS)
+	importButton:SetPoint("TOPLEFT", prev, "TOPLEFT", 0, -4)
+	importButton:SetScript("OnClick", function()
 		local menu = {}
 		local oppositeFaction = {}
 		if GuidelimeData.chars then
@@ -92,7 +92,17 @@ function addon.fillOptions()
 			end
 		end
 	end)
-	prev = button
+
+	--[[local button = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
+	button:SetWidth(205)
+	button:SetHeight(24)
+	button:SetText(L.EDIT_KEYBINDINGS)
+	button:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -4)
+	button:SetScript("OnClick", function()
+		ShowUIPanel(KeyBindingFrame, true)
+	end)]]
+
+	prev = importButton
 
 	-- Guide window options
 
@@ -189,7 +199,8 @@ function addon.fillOptions()
 		else
 			addon.mainFrame.scrollFrame.ScrollBar:SetAlpha(0)
 		end
-		if GuidelimeDataChar.showUseItemButtons == "RIGHT" then
+		if GuidelimeDataChar.showUseItemButtons == "RIGHT" or GuidelimeDataChar.showTargetButtons == "RIGHT" then
+			addon.updateTargetButtons()
 			addon.updateUseItemButtons()
 		end
 	end)
@@ -237,19 +248,63 @@ function addon.fillOptions()
 	prev = checkbox
 
 	local text = content:CreateFontString(nil, content, "GameFontNormal")
+	text:SetText(L.SHOW_TARGET_BUTTONS)
+	text:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 30, -10)
+	prev = text
+	local choices = {"LEFT", "RIGHT"}
+	for i, v in ipairs(choices) do
+		content.options["showTargetButtons" .. v] = addon.addCheckbox(content, L["BUTTONS_" .. v])
+		content.options["showTargetButtons" .. v]:SetChecked(GuidelimeDataChar.showTargetButtons == v)
+		content.options["showTargetButtons" .. v]:SetScript("OnClick", function()
+			GuidelimeDataChar.showTargetButtons = content.options["showTargetButtons" .. v]:GetChecked() and v
+			for _, v2 in ipairs(choices) do
+				content.options["showTargetButtons" .. v2]:SetChecked(GuidelimeDataChar.showTargetButtons == v2)
+			end
+			if GuidelimeDataChar.mainFrameShowing then
+				addon.updateTargetButtons()
+				addon.updateUseItemButtons()
+			end
+		end)
+		content.options["showTargetButtons" .. v]:SetPoint("TOPLEFT", prev, "TOPLEFT", i * 180, 10)
+	end
+	
+	local markers = ""
+	for i, _ in ipairs(addon.targetRaidMarkerIndex) do markers = markers .. addon.getTargetButtonIconText(i, true) end
+	checkbox = addon.addCheckOption(content, GuidelimeData, "targetRaidMarkers", string.format(L.TARGET_RAID_MARKERS, markers), nil, function()
+		if InCombatLockdown() then 
+			content.options.targetRaidMarkers:SetChecked(not content.options.targetRaidMarkers:GetChecked())
+			GuidelimeData.targetRaidMarkers = content.options.targetRaidMarkers:GetChecked()
+			return 
+		end
+		if addon.mainFrame then
+			addon.resetButtons(addon.mainFrame.targetButtons)
+			addon.mainFrame.targetButtons = nil
+		end
+		if GuidelimeDataChar.mainFrameShowing then
+			addon.updateStepsText()
+			addon.updateTargetButtons()
+			addon.updateUseItemButtons()
+		end
+	end)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -30, -10)
+	prev = checkbox
+
+	local text = content:CreateFontString(nil, content, "GameFontNormal")
 	text:SetText(L.SHOW_USE_ITEM_BUTTONS)
 	text:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 30, -10)
 	prev = text
 	local choices = {"LEFT", "RIGHT"}
 	for i, v in ipairs(choices) do
-		content.options["showUseItemButtons" .. v] = addon.addCheckbox(content, L["USE_ITEM_BUTTONS_" .. v])
-		content.options["showUseItemButtons" .. v]:SetChecked(GuidelimeDataChar. showUseItemButtons == v)
+		content.options["showUseItemButtons" .. v] = addon.addCheckbox(content, L["BUTTONS_" .. v])
+		content.options["showUseItemButtons" .. v]:SetChecked(GuidelimeDataChar.showUseItemButtons == v)
 		content.options["showUseItemButtons" .. v]:SetScript("OnClick", function()
 			GuidelimeDataChar.showUseItemButtons = content.options["showUseItemButtons" .. v]:GetChecked() and v
 			for _, v2 in ipairs(choices) do
 				content.options["showUseItemButtons" .. v2]:SetChecked(GuidelimeDataChar.showUseItemButtons == v2)
 			end
-			addon.updateUseItemButtons()
+			if GuidelimeDataChar.mainFrameShowing then
+				addon.updateUseItemButtons()
+			end
 		end)
 		content.options["showUseItemButtons" .. v]:SetPoint("TOPLEFT", prev, "TOPLEFT", i * 180, 10)
 	end
