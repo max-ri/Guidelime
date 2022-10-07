@@ -84,7 +84,7 @@ function addon.updateTargetButtons()
 		local step = addon.currentGuide.steps[s]
 		if step.active then
 			for _, element in ipairs(step.elements) do
-				if element.t == "TARGET" and element.targetNpcId > 0 and not (step.targetElement and element.generated) then
+				if element.t == "TARGET" and element.targetNpcId > 0 and not (step.targetElement and element.generated) and not (element.attached and element.attached.completed) then
 					if addon.debugging then print("LIME: show target button for npc", element.targetNpcId) end
 					if InCombatLockdown() then
 						addon.updateAfterCombat = true
@@ -177,7 +177,7 @@ function addon.updateUseItemButtons()
 		local step = addon.currentGuide.steps[s]
 		if step.active then
 			for _, element in ipairs(step.elements) do
-				if element.t == "USE_ITEM" and element.useItemId > 0 and not (step.useItemElement and element.generated) then
+				if element.t == "USE_ITEM" and element.useItemId > 0 and not (step.useItemElement and element.generated) and not (element.attached and element.attached.completed) then
 					if addon.debugging then print("LIME: show use item button for item", element.useItemId) end
 					if InCombatLockdown() then
 						addon.updateAfterCombat = true
