@@ -901,8 +901,8 @@ addon.questItemIsFor = {
 }
 setmetatable(addon.questItemIsFor, {__index = function() return "COMPLETE" end})
 
-function addon.getQuestNPCs(id, typ)
-	if addon.dataSource == "QUESTIE" then return addon.getQuestNPCsQuestie(id, typ) end
+function addon.getQuestNPCs(id, typ, index)
+	if addon.dataSource == "QUESTIE" then return addon.getQuestNPCsQuestie(id, typ, index) end
 	local objectives = addon.getQuestObjectives(id, typ)
 	if not objectives then return end
 	local npcs = {}

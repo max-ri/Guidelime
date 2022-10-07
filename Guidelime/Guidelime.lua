@@ -565,7 +565,7 @@ function addon.loadCurrentGuide(reset)
 						end
 					end
 					if guide.autoAddTarget and not step.targetElement then
-						local npcs = addon.getQuestNPCs(element.questId, element.t)
+						local npcs = addon.getQuestNPCs(element.questId, element.t, element.objective)
 						if npcs then
 							for _, npcId in ipairs(npcs) do
 								local targetElement = {}
