@@ -363,7 +363,6 @@ function addon.getQuestNPCsQuestie(id, typ, index)
 					elseif list[i].Type == "monster" or list[i].Type == "item" then
 						local type = list[i].Type == "monster" and "npc" or list[i].Type
 						table.insert(ids[type], list[i].Id)
-						print(i, #list, type, list[i].Id)
 					elseif list[i].Type == "killcredit" then
 						for _, id2 in ipairs(list[i].IdList) do
 							table.insert(ids.npc, id2)
