@@ -165,7 +165,7 @@ end
 
 function addon.updateUseItemButtons()
 	if not addon.mainFrame then return end
-	if addon.mainFrame.useButtons == nil thenw
+	if addon.mainFrame.useButtons == nil then
 		addon.mainFrame.useButtons = {}
 	else
 		addon.resetButtons(addon.mainFrame.useButtons)
