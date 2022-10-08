@@ -125,7 +125,7 @@ function addon.getMapTooltip(element)
 	if not GuidelimeData.showTooltips then return end
 	local tooltip
 	if element and element.attached and element.attached.questId then 
-		tooltip = addon.getQuestIcon(element.attached.questId, element.attached.t, element.attached.objective) .. 
+		tooltip = addon.getQuestIcon(element.attached.questId, element.attached.t, element.attached.objective, element.attached.finished) .. 
 			addon.getQuestText(element.attached.questId, element.attached.t, nil, element.step and element.step.active) 
 		if element.attached.t ~= "ACCEPT" then
 			local objectives
