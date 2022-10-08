@@ -256,13 +256,18 @@ function addon.fillOptions()
 		content.options["showTargetButtons" .. v] = addon.addCheckbox(content, L["BUTTONS_" .. v])
 		content.options["showTargetButtons" .. v]:SetChecked(GuidelimeDataChar.showTargetButtons == v)
 		content.options["showTargetButtons" .. v]:SetScript("OnClick", function()
+			if InCombatLockdown() then 
+				content.options["showTargetButtons" .. v]:SetChecked(GuidelimeDataChar.showTargetButtons == v)
+				return 
+			end
 			GuidelimeDataChar.showTargetButtons = content.options["showTargetButtons" .. v]:GetChecked() and v
 			for _, v2 in ipairs(choices) do
 				content.options["showTargetButtons" .. v2]:SetChecked(GuidelimeDataChar.showTargetButtons == v2)
 			end
+			addon.loadCurrentGuide(false)
+			addon.updateFromQuestLog()
 			if GuidelimeDataChar.mainFrameShowing then
-				addon.updateTargetButtons()
-				addon.updateUseItemButtons()
+				addon.updateMainFrame()
 			end
 		end)
 		content.options["showTargetButtons" .. v]:SetPoint("TOPLEFT", prev, "TOPLEFT", i * 180, 10)
@@ -298,13 +303,20 @@ function addon.fillOptions()
 		content.options["showUseItemButtons" .. v] = addon.addCheckbox(content, L["BUTTONS_" .. v])
 		content.options["showUseItemButtons" .. v]:SetChecked(GuidelimeDataChar.showUseItemButtons == v)
 		content.options["showUseItemButtons" .. v]:SetScript("OnClick", function()
+			if InCombatLockdown() then 
+				content.options["showUseItemButtons" .. v]:SetChecked(GuidelimeDataChar.showUseItemButtons == v)
+				return 
+			end
 			GuidelimeDataChar.showUseItemButtons = content.options["showUseItemButtons" .. v]:GetChecked() and v
 			for _, v2 in ipairs(choices) do
 				content.options["showUseItemButtons" .. v2]:SetChecked(GuidelimeDataChar.showUseItemButtons == v2)
 			end
+			addon.loadCurrentGuide(false)
+			addon.updateFromQuestLog()
 			if GuidelimeDataChar.mainFrameShowing then
-				addon.updateUseItemButtons()
+				addon.updateMainFrame()
 			end
+			
 		end)
 		content.options["showUseItemButtons" .. v]:SetPoint("TOPLEFT", prev, "TOPLEFT", i * 180, 10)
 	end
