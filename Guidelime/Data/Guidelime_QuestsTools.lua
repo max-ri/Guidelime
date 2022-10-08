@@ -848,8 +848,6 @@ addon.useItemTooltips = {}
 function addon.getUseItemTooltip(id)
 	if id == nil then return end
 	if addon.useItemTooltips[id] then return addon.useItemTooltips[id] end
-	-- tooltip is available only after item info was received
-	if not addon.GetItemInfo(id) then return end
 	if not GuidelimeScanningTooltip then
 		CreateFrame( "GameTooltip", "GuidelimeScanningTooltip", nil, "GameTooltipTemplate" );
 		GuidelimeScanningTooltip:SetOwner( WorldFrame, "ANCHOR_NONE" );
@@ -860,6 +858,7 @@ function addon.getUseItemTooltip(id)
 	end
 	GuidelimeScanningTooltip:ClearLines() 
 	GuidelimeScanningTooltip:SetHyperlink("item:" .. id .. ":0:0:0:0:0:0:0")
+	if addon.debugging then print("LIME: scanning tooltip for", id) end
     for i = 1, select("#", GuidelimeScanningTooltip:GetRegions()) do
         local region = select(i, GuidelimeScanningTooltip:GetRegions())
         if region and region:GetObjectType() == "FontString" and region:GetText() and 

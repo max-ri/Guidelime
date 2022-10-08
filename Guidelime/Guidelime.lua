@@ -527,62 +527,6 @@ function addon.loadCurrentGuide(reset)
 							lastGoto = gotoElement
 						end
 					end
-					if guide.autoAddUseItem and not step.useItemElement then
-						if element.t == "ACCEPT" then
-							local itemId = addon.getItemStartingQuest(element.questId)
-							if itemId then
-								local useElement = {}
-								useElement.t = "USE_ITEM"
-								useElement.useItemId = itemId
-								useElement.generated = true
-								useElement.available = true
-								useElement.title = ""
-								useElement.attached = element
-								table.insert(step.elements, i + 1, useElement)
-								for j = i + 1, #step.elements do
-									step.elements[j].index = j
-								end
-							end
-						elseif element.t == "COMPLETE" or element.t == "TURNIN" then
-							local items = addon.getUsableQuestItems(element.questId)
-							if items then
-								for _, itemId in ipairs(items) do
-									if addon.questItemIsFor[itemId] == element.t then
-										local useElement = {}
-										useElement.t = "USE_ITEM"
-										useElement.useItemId = itemId
-										useElement.generated = true
-										useElement.available = true
-										useElement.title = ""
-										useElement.attached = element
-										table.insert(step.elements, i + 1, useElement)
-										for j = i + 1, #step.elements do
-											step.elements[j].index = j
-										end
-									end
-								end
-							end
-						end
-					end
-					if guide.autoAddTarget and not step.targetElement then
-						local npcs = addon.getQuestNPCs(element.questId, element.t, element.objective)
-						if npcs then
-							for _, npc in ipairs(npcs) do
-								local targetElement = {}
-								targetElement.t = "TARGET"
-								targetElement.targetNpcId = npc.id
-								targetElement.generated = true
-								targetElement.available = true
-								targetElement.title = ""
-								targetElement.attached = element
-								targetElement.objectives = npc.objectives
-								table.insert(step.elements, i + 1, targetElement)
-								for j = i + 1, #step.elements do
-									step.elements[j].index = j
-								end
-							end
-						end
-					end
 				elseif element.t == "FLY" then
 					if guide.autoAddCoordinatesGOTO and (GuidelimeData.showMapMarkersGOTO or GuidelimeData.showMinimapMarkersGOTO) and not step.hasGoto and not element.optional then
 						local gotoElement = {}
@@ -664,6 +608,59 @@ function addon.loadCurrentGuide(reset)
 	addon.scanGuideQuests(guide.name)
 end
 
+function addon.loadStepUseItems(i, recheck)
+	local step = addon.currentGuide.steps[i]
+	if addon.guides[GuidelimeDataChar.currentGuide].autoAddUseItem and GuidelimeDataChar.showUseItemButtons and not step.useItemElement then
+		local j = 1
+		local previousUseItems = {}
+		while j <= #step.elements do
+			local element = step.elements[j]
+			if recheck and element.t == "USE_ITEM" then
+				table.insert(previousUseItems, element.useItemId)
+			elseif element.questId ~= nil and element.available then
+				if element.t == "ACCEPT" and not recheck then
+					local itemId = addon.getItemStartingQuest(element.questId)
+					if itemId then
+						local useElement = {}
+						useElement.t = "USE_ITEM"
+						useElement.useItemId = itemId
+						useElement.generated = true
+						useElement.available = true
+						useElement.title = ""
+						useElement.attached = element
+						table.insert(step.elements, j, useElement)
+						for k = j, #step.elements do
+							step.elements[k].index = k
+						end
+						j = j + 1
+					end
+				elseif element.t == "COMPLETE" or element.t == "TURNIN" then
+					local items = addon.getUsableQuestItems(element.questId)
+					if items then
+						for _, itemId in ipairs(items) do
+							if addon.questItemIsFor[itemId] == element.t and not addon.contains(previousUseItems, itemId) then
+								local useElement = {}
+								useElement.t = "USE_ITEM"
+								useElement.useItemId = itemId
+								useElement.generated = true
+								useElement.available = true
+								useElement.title = ""
+								useElement.attached = element
+								table.insert(step.elements, j, useElement)
+								for k = j, #step.elements do
+									step.elements[k].index = k
+								end
+								j = j + 1
+							end
+						end
+					end
+				end
+			end
+			j = j + 1
+		end
+	end
+end
+
 local function loadStepOnActivation(i)
 	local time
 	if addon.debugging then time = debugprofilestop() end
@@ -708,9 +705,11 @@ local function loadStepOnActivation(i)
 						locElement.step = step
 						locElement.generated = true
 						locElement.available = true
-						locElement.index = j
 						locElement.attached = element
 						table.insert(step.elements, j, locElement)
+						for k = j, #step.elements do
+							step.elements[k].index = k
+						end
 						j = j + 1
 					end
 				end
@@ -718,6 +717,38 @@ local function loadStepOnActivation(i)
 			j = j + 1
 		end
 	end
+	if addon.guides[GuidelimeDataChar.currentGuide].autoAddTarget and GuidelimeDataChar.showTargetButtons and not step.targetElement then
+		local j = 1
+		while j <= #step.elements do
+			local element = step.elements[j]
+			if element.questId ~= nil and element.available then
+				local npcs = addon.getQuestNPCs(element.questId, element.t, element.objective)
+				if npcs then
+					for _, npc in ipairs(npcs) do
+						local targetElement = {}
+						targetElement.t = "TARGET"
+						targetElement.targetNpcId = npc.id
+						targetElement.generated = true
+						targetElement.available = true
+						targetElement.title = ""
+						targetElement.attached = element
+						targetElement.objectives = npc.objectives
+						table.insert(step.elements, j, targetElement)
+						for k = j, #step.elements do
+							step.elements[k].index = k
+						end
+						j = j + 1
+					end
+				end
+			end
+			j = j + 1
+		end
+	end
+	addon.loadStepUseItems(i)
+	C_Timer.After(1, function()
+		if addon.debugging then print("LIME: recheck use items for step", i) end
+		addon.loadStepUseItems(i, true)
+	end)
 	if addon.debugging then print("LIME: loadStepOnActivation " .. i .. " " .. math.floor(debugprofilestop() - time) .. " ms") end
 end
 
@@ -1273,7 +1304,7 @@ local function stopFading()
 	end
 end
 
-local function updateStepsActivation()
+function addon.updateStepsActivation()
 	addon.currentGuide.activeQuests = {}
 	for i, step in ipairs(addon.currentGuide.steps) do
 		step.active = not step.completed and not step.skip and step.available and
@@ -1451,7 +1482,7 @@ function addon.updateSteps(completedIndexes)
 	--if addon.debugging then print("LIME: update steps " .. GetTime()) end
 	updateStepsCompletion(completedIndexes)
 	--if addon.debugging then print("LIME: updateStepsCompletion " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
-	updateStepsActivation()
+	addon.updateStepsActivation()
 	--if addon.debugging then print("LIME: updateStepsActivation " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	fadeoutStep(completedIndexes)
 	--if addon.debugging then print("LIME: fadeoutStep " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end

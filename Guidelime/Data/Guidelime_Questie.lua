@@ -25,6 +25,7 @@ local function checkQuestie()
 		if addon.debugging then print("LIME: Questie is not yet initialized") end
 		addon.waitingForQuestie = true
 		C_Timer.After(4, function()
+			if addon.debugging then print("LIME: reload after waiting for Questie") end
 			addon.waitingForQuestie = false
 			addon.loadCurrentGuide(false)
 			addon.updateFromQuestLog()
