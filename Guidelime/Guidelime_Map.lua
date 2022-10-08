@@ -298,6 +298,7 @@ function addon.getArrowIconText()
 	end
 end
 
+addon.updateArrowCount = 0
 function addon.updateArrow()
 	addon.x, addon.y, addon.instance = HBD:GetPlayerWorldPosition()
 	addon.face = GetPlayerFacing()
@@ -390,6 +391,13 @@ function addon.updateArrow()
 		addon.updateStepText(addon.arrowFrame.element.step.index) 
 	end
 	if not addon.arrowFrame:IsShown() then addon.arrowFrame:Show() end
+	addon.updateArrowCount = addon.updateArrowCount + 1
+	if addon.updateArrowCount > 500 then
+		addon.updateArrowCount = 0
+		if addon.arrowFrame.element.specialLocation == "NEAREST_FLIGHT_POINT" then
+			addon.updateStepsMapIcons()
+		end
+	end
 end
 
 function addon.showArrow(element)
