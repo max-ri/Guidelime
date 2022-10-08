@@ -116,7 +116,8 @@ function addon.updateTargetButtons()
 							"/script if GetRaidTargetIndex('target') ~= " .. marker .. " then SetRaidTarget('target', " .. marker .. ") end"
 							or "")
 						)
-						addon.setTooltip(button, string.format(L.TARGET_TOOLTIP, name))
+						addon.setTooltip(button, string.format(L.TARGET_TOOLTIP, addon.COLOR_WHITE .. name .. "|r") .. 
+							"\n" .. addon.getMapTooltip(element))
 						local key = GetBindingKey("GUIDELIME_TARGET_" .. i)
 						if key then
 							button.hotkey:SetText(_G["KEY_" .. key] or key)

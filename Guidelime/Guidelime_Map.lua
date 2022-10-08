@@ -121,7 +121,7 @@ local function getMapIcon(t, element, highlight)
 	return createMapIcon(t)		
 end
 
-local function getTooltip(element)
+function addon.getMapTooltip(element)
 	if not GuidelimeData.showTooltips then return end
 	local tooltip
 	if element and element.attached and element.attached.questId then 
@@ -161,7 +161,7 @@ function addon.addMapIcon(element, highlight, ignoreMaxNumOfMarkers)
 	mapIcon.mapID = element.mapID
 	mapIcon.x = element.x
 	mapIcon.y = element.y
-	local tooltip = getTooltip(element)
+	local tooltip = addon.getMapTooltip(element)
 	if not mapIcon.inUse then
 		mapIcon.map.tooltip = tooltip
 		mapIcon.minimap.tooltip = tooltip
@@ -237,7 +237,7 @@ function addon.showMapIcons()
 		addon.arrowFrame.text:SetPoint("TOP", addon.arrowFrame, "BOTTOM", 0, 0)
 		addon.arrowFrame:SetScript("OnEnter", function(self) 
 			if addon.isAlive() then
-				self.tooltip = getTooltip(self.element)
+				self.tooltip = addon.getMapTooltip(self.element)
 			else
 				self.tooltip = L.ARROW_TOOLTIP_CORPSE
 			end

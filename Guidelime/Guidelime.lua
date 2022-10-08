@@ -748,6 +748,7 @@ local function loadStepOnActivation(i)
 	C_Timer.After(1, function()
 		if addon.debugging then print("LIME: recheck use items for step", i) end
 		addon.loadStepUseItems(i, true)
+		addon.updateUseItemButtons()
 	end)
 	if addon.debugging then print("LIME: loadStepOnActivation " .. i .. " " .. math.floor(debugprofilestop() - time) .. " ms") end
 end
@@ -991,9 +992,9 @@ function addon.getStepText(step)
 
 			if name and name ~= "" then
 				if step.active then
-					text = text .. colour .. "[" .. name .. "]|r"
+					text = text .. colour .. name .. "|r"
 				else
-					text = text .. "[" .. name .. "]"
+					text = text .. name
 				end
 			end
 		elseif element.t == "USE_ITEM" and element.title ~= "" then
@@ -1011,9 +1012,9 @@ function addon.getStepText(step)
 
 			if name and name ~= "" then
 				if step.active then
-					text = text .. colour .. "[" .. name .. "]|r"
+					text = text .. colour .. name .. "|r"
 				else
-					text = text .. "[" .. name .. "]"
+					text = text .. name
 				end
 			end
 		elseif element.t == "TARGET" and element.title ~= "" then
@@ -1023,9 +1024,9 @@ function addon.getStepText(step)
 			local name = element.title or addon.getNPCName(element.targetNpcId)
 			if name and name ~= "" then
 				if step.active then
-					text = text .. addon.COLOR_WHITE .. "[" .. name .. "]|r"
+					text = text .. addon.COLOR_WHITE .. name .. "|r"
 				else
-					text = text .. "[" .. name .. "]"
+					text = text .. name
 				end
 			end
 		end
