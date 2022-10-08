@@ -394,7 +394,7 @@ function addon.updateArrow()
 	addon.updateArrowCount = addon.updateArrowCount + 1
 	if addon.updateArrowCount > 500 then
 		addon.updateArrowCount = 0
-		if addon.arrowFrame.element.specialLocation == "NEAREST_FLIGHT_POINT" then
+		if addon.arrowFrame.element and addon.arrowFrame.element.specialLocation == "NEAREST_FLIGHT_POINT" then
 			addon.updateStepsMapIcons()
 		end
 	end
