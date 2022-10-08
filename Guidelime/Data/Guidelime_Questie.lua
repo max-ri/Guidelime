@@ -330,6 +330,7 @@ end
 function addon.getQuestNPCsQuestie(id, typ, index)
 	if id == nil or not checkQuestie() then return end
 	local ids = {npc = {}, item = {}}
+	local objectives = {npc = {}, item = {}}
 	if addon.getSuperCode(typ) == "QUEST" then
 		local quest = QuestieDB:GetQuest(id)
 		if quest == nil then return end
@@ -359,13 +360,19 @@ function addon.getQuestNPCsQuestie(id, typ, index)
 					if list[i].NPC ~= nil then
 						for _, id2 in ipairs(list[i].NPC) do
 							table.insert(ids.npc, id2)
+							if objectives.npc[id2] == nil then objectives.npc[id2] = {} end
+							table.insert(objectives.npc[id2], oi)
 						end
 					elseif list[i].Type == "monster" or list[i].Type == "item" then
 						local type = list[i].Type == "monster" and "npc" or list[i].Type
 						table.insert(ids[type], list[i].Id)
+						if objectives[type][list[i].Id] == nil then objectives[type][list[i].Id] = {} end
+						table.insert(objectives[type][list[i].Id], oi)
 					elseif list[i].Type == "killcredit" then
 						for _, id2 in ipairs(list[i].IdList) do
 							table.insert(ids.npc, id2)
+							if objectives.npc[id2] == nil then objectives.npc[id2] = {} end
+							table.insert(objectives.npc[id2], oi)
 						end
 					end
 				end
@@ -373,6 +380,7 @@ function addon.getQuestNPCsQuestie(id, typ, index)
 		end
 	elseif typ == "COLLECT_ITEM" then
 		ids.item = {id}
+		objectives.item[id] = {}
 	else
 		return
 	end
@@ -382,11 +390,17 @@ function addon.getQuestNPCsQuestie(id, typ, index)
 			if item.npcDrops ~= nil then
 				for i = 1, #item.npcDrops do
 					if not addon.contains(ids.npc, item.npcDrops[i]) then table.insert(ids.npc, item.npcDrops[i]) end
+					if objectives.npc[item.npcDrops[i]] == nil then objectives.npc[item.npcDrops[i]] = {} end
+					for _, c in ipairs(objectives.item[itemId]) do table.insert(objectives.npc[item.npcDrops[i]], c) end
 				end
 			end
 		end
 	end
-	return ids.npc
+	local npcs = {}
+	for _, id in ipairs(ids.npc) do
+		table.insert(npcs, {id = id; objectives = objectives.npc[id]})
+	end
+	return npcs
 end
 
 -- returns a type (npc/item/object) and a list of names for quest source / each objective / turn in; e.g. {{type="item", names={"Huge Gnoll Claw", "Hogger"}, ids={item={1931},npc={448}} for id = 176, typ = "COMPLETE"

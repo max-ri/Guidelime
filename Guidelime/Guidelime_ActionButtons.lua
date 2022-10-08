@@ -84,7 +84,10 @@ function addon.updateTargetButtons()
 		local step = addon.currentGuide.steps[s]
 		if step.active then
 			for _, element in ipairs(step.elements) do
-				if element.t == "TARGET" and element.targetNpcId > 0 and not (step.targetElement and element.generated) and not (element.attached and element.attached.completed) then
+				if element.t == "TARGET" and element.targetNpcId > 0 and 
+					(not step.targetElement or not element.generated) and 
+					(not element.attached or not element.attached.completed) and
+					(not element.attached or not addon.isQuestObjectiveActive(element.attached.questId, element.objectives, element.attached.objective)) then
 					if addon.debugging then print("LIME: show target button for npc", element.targetNpcId) end
 					if InCombatLockdown() then
 						addon.updateAfterCombat = true

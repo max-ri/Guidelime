@@ -567,14 +567,15 @@ function addon.loadCurrentGuide(reset)
 					if guide.autoAddTarget and not step.targetElement then
 						local npcs = addon.getQuestNPCs(element.questId, element.t, element.objective)
 						if npcs then
-							for _, npcId in ipairs(npcs) do
+							for _, npc in ipairs(npcs) do
 								local targetElement = {}
 								targetElement.t = "TARGET"
-								targetElement.targetNpcId = npcId
+								targetElement.targetNpcId = npc.id
 								targetElement.generated = true
 								targetElement.available = true
 								targetElement.title = ""
 								targetElement.attached = element
+								targetElement.objectives = npc.objectives
 								table.insert(step.elements, i + 1, targetElement)
 								for j = i + 1, #step.elements do
 									step.elements[j].index = j
@@ -1348,6 +1349,16 @@ function addon.getQuestActiveObjectives(id, objective)
 	return active
 end
 
+function addon.isQuestObjectiveActive(questId, searchObjectives, filterObjective)
+	if questId == nil or searchObjectives == nil then return true end
+	local objectives = addon.getQuestActiveObjectives(questId, filterObjective)
+	local found = false
+	for _, o in ipairs(searchObjectives) do
+		if addon.contains(objectives, o) then found = true; break; end
+	end
+	return found
+end
+
 function addon.updateStepsMapIcons()
 	if addon.isEditorShowing() or addon.currentGuide == nil then return end
 	addon.removeMapIcons()
@@ -1376,17 +1387,10 @@ function addon.updateStepsMapIcons()
 						end
 					end
 				elseif (element.t == "LOC" or element.t == "GOTO") and 
-					not element.completed and element.specialLocation == nil and (element.attached == nil or not element.attached.completed) then
-					local found = true
-					if element.objectives ~= nil and element.attached ~= nil and element.attached.questId ~= nil then
-						--if addon.debugging then print("LIME: GOTO for quest objective", element.attached.questId, element.t, element.index, step.index, element.objectives) end
-						local objectives = addon.getQuestActiveObjectives(element.attached.questId, element.attached.objective)
-						found = false
-						for _, o in ipairs(element.objectives) do
-							if addon.contains(objectives, o) then found = true; break; end
-						end
-					end
-					if found then addon.addMapIcon(element, false) end
+					not element.completed and element.specialLocation == nil and 
+						(element.attached == nil or not element.attached.completed) and
+						(element.attached == nil or addon.isQuestObjectiveActive(element.attached.questId, element.objectives, element.attached.objective)) then 
+					addon.addMapIcon(element, false) 
 				end
 			end
 		end

@@ -906,10 +906,10 @@ function addon.getQuestNPCs(id, typ, index)
 	local objectives = addon.getQuestObjectives(id, typ)
 	if not objectives then return end
 	local npcs = {}
-	for _, o in ipairs(objectives) do
+	for i, o in ipairs(objectives) do
 		if o.ids and o.ids.npc then
 			for _, id in ipairs(o.ids.npc) do
-				npcs[#npcs + 1] = id
+				npcs[#npcs + 1] = {id = id, objectives = {i}}
 			end
 		end
 	end
