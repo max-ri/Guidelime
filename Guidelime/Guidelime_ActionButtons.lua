@@ -80,6 +80,7 @@ function addon.updateTargetButtons()
 	end
 	if not GuidelimeDataChar.showTargetButtons or not addon.currentGuide or not addon.currentGuide.firstActiveIndex then return end
 	local i = 1
+	local previousIds = {}
 	for s = addon.currentGuide.firstActiveIndex, addon.currentGuide.lastActiveIndex do
 		local step = addon.currentGuide.steps[s]
 		if step.active then
@@ -87,8 +88,8 @@ function addon.updateTargetButtons()
 				if element.t == "TARGET" and element.targetNpcId > 0 and 
 					(not step.targetElement or not element.generated) and 
 					(not element.attached or not element.attached.completed) and
-					(not element.attached or element.attached.t ~= "COMPLETE" or addon.isQuestObjectiveActive(element.attached.questId, element.objectives, element.attached.objective)) 
-					then
+					(not element.attached or element.attached.t ~= "COMPLETE" or addon.isQuestObjectiveActive(element.attached.questId, element.objectives, element.attached.objective)) and
+					not addon.contains(previousIds, element.useItemId) then
 					if addon.debugging then print("LIME: show target button for npc", element.targetNpcId) end
 					if InCombatLockdown() then
 						addon.updateAfterCombat = true
@@ -127,6 +128,7 @@ function addon.updateTargetButtons()
 					end
 					button:Show()
 					i = i + 1
+					table.insert(previousIds, element.targetNpcId)
 				end
 			end
 		end
@@ -178,11 +180,14 @@ function addon.updateUseItemButtons()
 	if not GuidelimeDataChar.showUseItemButtons or not addon.currentGuide or not addon.currentGuide.firstActiveIndex then return end
 	local i = 1
 	local startIndex = GuidelimeDataChar.showUseItemButtons == GuidelimeDataChar.showTargetButtons and addon.numberOfTargetButtons or 0
+	local previousIds = {}
 	for s = addon.currentGuide.firstActiveIndex, addon.currentGuide.lastActiveIndex do
 		local step = addon.currentGuide.steps[s]
 		if step.active then
 			for _, element in ipairs(step.elements) do
-				if element.t == "USE_ITEM" and element.useItemId > 0 and not (step.useItemElement and element.generated) and not (element.attached and element.attached.completed) then
+				if element.t == "USE_ITEM" and element.useItemId > 0 and
+					not (step.useItemElement and element.generated) and not (element.attached and element.attached.completed) and
+					not addon.contains(previousIds, element.useItemId) then
 					if addon.debugging then print("LIME: show use item button for item", element.useItemId) end
 					if InCombatLockdown() then
 						addon.updateAfterCombat = true
@@ -212,6 +217,7 @@ function addon.updateUseItemButtons()
 					end
 					button:Show()
 					button:Update()
+					table.insert(previousIds, element.useItemId)
 					i = i + 1
 				end
 			end
