@@ -900,19 +900,101 @@ addon.questItemIsFor = {
 }
 setmetatable(addon.questItemIsFor, {__index = function() return "COMPLETE" end})
 
+-- list of non-targetable NPCs; e.g. "invisible bunnies"
+addon.npcIsInvisible = {
+	-- Wowhead search for "invis"
+	[26444] = true, [26175] = true, [26105] = true, [23095] = true, [15214] = true, [14495] = true, [17984] = true, [18849] = true, [23059] = true, [28492] = true, [24771] = true, 
+	[23815] = true, [36736] = true, [17915] = true, [19547] = true, [20153] = true, [23240] = true, [29029] = true, [24705] = true, [21237] = true, [25172] = true, [27452] = true, 
+	[19550] = true, [26804] = true, [26129] = true, [18818] = true, [32662] = true, [18275] = true, [33087] = true, [23727] = true, [21940] = true, [18968] = true, [18555] = true, 
+	[20736] = true, [23057] = true, [35228] = true, [19198] = true, [23746] = true, [27306] = true, [17428] = true, [24289] = true, [31576] = true, [18582] = true, [20979] = true, 
+	[23058] = true, [36495] = true, [19230] = true, [21396] = true, [23807] = true, [27324] = true, [19868] = true, [22139] = true, [24449] = true, [18721] = true, [20982] = true, 
+	[23813] = true, [19870] = true, [22422] = true, [24450] = true, [31653] = true, [18793] = true, [20991] = true, [23084] = true, [26130] = true, [36737] = true, [19548] = true, 
+	[21417] = true, [23814] = true, [28130] = true, [19924] = true, [31817] = true, [18814] = true, [21210] = true, [36848] = true, [19549] = true, [21418] = true, [17974] = true, 
+	[22868] = true, [24648] = true, [31913] = true, [21211] = true, [23155] = true, [21422] = true, [23868] = true, [28947] = true, [22974] = true, [21234] = true, [38310] = true,
+	[19656] = true, [21512] = true, [23869] = true, [17992] = true, [20212] = true, [22986] = true, [32768] = true, [18967] = true, [21236] = true, [39842] = true, [15221] = true, 
+	[19723] = true, [21807] = true, [23893] = true, [29052] = true, [20213] = true, [23033] = true, [32780] = true, [23409] = true, [15222] = true, [19724] = true, [21819] = true, 
+	[23901] = true, [30298] = true, [18392] = true, [20469] = true, [23043] = true, [25171] = true, [19008] = true, [21297] = true, [23500] = true, [27047] = true, [15454] = true, 
+	[19842] = true, [21939] = true, [24025] = true, [18553] = true, [20562] = true, [23046] = true, [34548] = true, [21310] = true, [27180] = true, [24034] = true, [19867] = true, 
+	[26373] = true, [23260] = true, [17286] = true, [21957] = true, [12999] = true, [37071] = true, [24704] = true, [19009] = true, [21355] = true, [31577] = true, [21403] = true, 
+	[17950] = true, [17972] = true, [22519] = true, [24526] = true, [31245] = true, [19866] = true, [31517] = true, [26265] = true, [173338] = true, [174404] = true, [186207] = true, 
+	[25594] = true, [20061] = true,
+	-- Wowhead search for "bunny" except Baby Bunny and some battle pets
+	[30315] = true, [29845] = true, [29847] = true, [28293] = true, [29846] = true, [28296] = true, [27426] = true, [30318] = true, [30327] = true, [30317] = true, [32195] = true, 
+	[29627] = true, [27394] = true, [28622] = true, [28928] = true, [28294] = true, [28295] = true, [30126] = true, [31312] = true, [30316] = true, [31767] = true, [30125] = true, 
+	[26889] = true, [28876] = true, [31105] = true, [32196] = true, [27427] = true, [26887] = true, [30412] = true, [31272] = true, [29803] = true, [30880] = true, [30750] = true, 
+	[32197] = true, [30421] = true, [27698] = true, [28631] = true, [30038] = true, [28777] = true, [32199] = true, [28738] = true, [32314] = true, [30210] = true, [28762] = true, 
+	[30169] = true, [27444] = true, [29595] = true, [30644] = true, [29391] = true, [28786] = true, [26831] = true, [28757] = true, [30415] = true, [32229] = true, [27445] = true, 
+	[27429] = true, [27995] = true, [32821] = true, [29597] = true, [27428] = true, [31866] = true, [30246] = true, [31364] = true, [28739] = true, [28591] = true, [28663] = true, 
+	[31743] = true, [31049] = true, [32168] = true, [26227] = true, [29060] = true, [24098] = true, [30514] = true, [28753] = true, [27419] = true, [28352] = true, [31065] = true, 
+	[26773] = true, [32167] = true, [27853] = true, [29398] = true, [28248] = true, [28929] = true, [32242] = true, [30576] = true, [33006] = true, [33005] = true, [32266] = true, 
+	[29406] = true, [26082] = true, [27280] = true, [28289] = true, [27135] = true, [30996] = true, [31068] = true, [30366] = true, [28755] = true, [27396] = true, [31888] = true, 
+	[28330] = true, [32244] = true, [34157] = true, [29999] = true, [28523] = true, [25505] = true, [32245] = true, [31845] = true, [29550] = true, [28300] = true, [24094] = true, 
+	[28316] = true, [28459] = true, [27929] = true, [28740] = true, [31064] = true, [27466] = true, [24102] = true, [27253] = true, [27296] = true, [27111] = true, [28137] = true, 
+	[31066] = true, [24290] = true, [29099] = true, [28456] = true, [28455] = true, [28299] = true, [32224] = true, [23924] = true, [24202] = true, [28770] = true, [24193] = true, 
+	[28713] = true, [32264] = true, [28778] = true, [22177] = true, [27331] = true, [25581] = true, [28460] = true, [25654] = true, [35009] = true, [24100] = true, [27921] = true, 
+	[24087] = true, [27889] = true, [17984] = true, [28190] = true, [24095] = true, [37222] = true, [28013] = true, [30220] = true, [28773] = true, [38121] = true, [24264] = true, 
+	[31006] = true, [28307] = true, [38289] = true, [37558] = true, [24093] = true, [23922] = true, [27112] = true, [28240] = true, [30339] = true, [27663] = true, [26498] = true, 
+	[24194] = true, [32265] = true, [27200] = true, [24337] = true, [26700] = true, [25154] = true, [28224] = true, [30122] = true, [27723] = true, [24170] = true, [25815] = true, 
+	[27450] = true, [26867] = true, [22371] = true, [39361] = true, [33340] = true, [27569] = true, [27326] = true, [28520] = true, [37894] = true, [40428] = true, [22925] = true, 
+	[21926] = true, [28960] = true, [32256] = true, [32520] = true, [22021] = true, [17947] = true, [24230] = true, [33725] = true, [32531] = true, [31630] = true, [31643] = true, 
+	[29558] = true, [32217] = true, [33054] = true, [25746] = true, [24092] = true, [29577] = true, [30959] = true, [32221] = true, [29100] = true, [33140] = true, [38340] = true, 
+	[24928] = true, [31794] = true, [35608] = true, [24263] = true, [27453] = true, [23921] = true, [29258] = true, [38341] = true, [37702] = true, [30079] = true, [29094] = true, 
+	[24171] = true, [24265] = true, [26804] = true, [32784] = true, [32318] = true, [39356] = true, [27837] = true, [25114] = true, [24101] = true, [22444] = true, [27353] = true, 
+	[32202] = true, [28617] = true, [22502] = true, [33779] = true, [30156] = true, [27201] = true, [23837] = true, [28462] = true, [28485] = true, [28724] = true, [27910] = true, 
+	[22111] = true, [20736] = true, [22508] = true, [23894] = true, [25964] = true, [28648] = true, [30588] = true, [31777] = true, [32319] = true, [21800] = true, [23074] = true, 
+	[24936] = true, [26188] = true, [27757] = true, [30215] = true, [37202] = true, [23395] = true, [24203] = true, [37871] = true, [39744] = true, [21351] = true, [22918] = true, 
+	[25965] = true, [32347] = true, [21814] = true, [23081] = true, [26190] = true, [27306] = true, [28441] = true, [28761] = true, [29685] = true, [22422] = true, [23424] = true, 
+	[24204] = true, [25535] = true, [27420] = true, [39841] = true, [21352] = true, [22923] = true, [25966] = true, [29397] = true, [35016] = true, [38503] = true, [21921] = true, 
+	[28454] = true, [29771] = true, [31047] = true, [32892] = true, [22428] = true, [23425] = true, [24205] = true, [25536] = true, [26732] = true, [28128] = true, [28932] = true, 
+	[29877] = true, [21391] = true, [24465] = true, [25971] = true, [27572] = true, [30131] = true, [31817] = true, [32445] = true, [38527] = true, [23118] = true, [26230] = true, 
+	[29772] = true, [30302] = true, [39420] = true, [23444] = true, [24220] = true, [33500] = true, [37952] = true, [40506] = true, [21456] = true, [22926] = true, [24466] = true, 
+	[25972] = true, [27589] = true, [30132] = true, [36155] = true, [38528] = true, [23119] = true, [25156] = true, [26258] = true, [27890] = true, [39683] = true, [22467] = true, 
+	[23445] = true, [26774] = true, [40617] = true, [21498] = true, [23037] = true, [24630] = true, [25973] = true, [27622] = true, [29524] = true, [30133] = true, [36530] = true, 
+	[38587] = true, [22109] = true, [23255] = true, [24110] = true, [25157] = true, [27369] = true, [28457] = true, [32214] = true, [37746] = true, [39691] = true, [22495] = true, 
+	[23512] = true, [25670] = true, [26775] = true, [29081] = true, [30442] = true, [33742] = true, [38001] = true, [23040] = true, [24021] = true, [24766] = true, [25985] = true, 
+	[28301] = true, [30153] = true, [31880] = true, [36966] = true, [23301] = true, [26346] = true, [32215] = true, [33045] = true, [39692] = true, [18560] = true, [25745] = true, 
+	[26789] = true, [30091] = true, [30476] = true, [21758] = true, [23056] = true, [24903] = true, [30889] = true, [37000] = true, [38870] = true, [23307] = true, [25192] = true, 
+	[26355] = true, [28780] = true, [29812] = true, [37801] = true, [39695] = true, [18563] = true, [22503] = true, [30101] = true, [32298] = true, [38288] = true, [21759] = true, 
+	[23071] = true, [24904] = true, [26120] = true, [27674] = true, [28751] = true, [31915] = true, [37039] = true, [39023] = true, [22240] = true, [26391] = true, [27402] = true, 
+	[29815] = true, [31092] = true, [37814] = true, [39707] = true, [34319] = true, [39362] = true, [39743] = true, [38342] = true, [31246] = true, [30559] = true, [30589] = true, 
+	[39703] = true, [39355] = true, [37990] = true, [37168] = true, [37201] = true, [33341] = true, [33339] = true, [37788] = true, [22296] = true, [26177] = true, [37878] = true, 
+	[19654] = true, [19655] = true, [28273] = true, [23322] = true, [23327] = true, [32532] = true, [24908] = true, [28741] = true, [23810] = true, [28632] = true, [28633] = true, 
+	[38588] = true, [23104] = true, [34806] = true, [30712] = true, [28461] = true, [23072] = true, [23073] = true, [29805] = true, [25213] = true, [24412] = true, [27988] = true, 
+	[33068] = true, [27931] = true, [29215] = true, [26559] = true, [28015] = true, [29876] = true, [26298] = true, [28333] = true, [24288] = true, [29773] = true, [30384] = true, 
+	[30361] = true, [37704] = true, [26937] = true, [23923] = true, [23758] = true, [23686] = true, [32608] = true, [31745] = true, [173338] = true, [174404] = true, [186207] = true, 
+	[31801] = true, [28458] = true, [27660] = true, [21641] = true, [22246] = true, [37832] = true, [37827] = true, [27413] = true, [25042] = true, [30990] = true, [26834] = true, 
+	[27449] = true, [32782] = true, [21760] = true, [21781] = true, [26591] = true, [31005] = true, [39135] = true, [25303] = true, [28463] = true, [27418] = true, [31117] = true, 
+	[23378] = true, [25952] = true, [32431] = true, [32984] = true, [24269] = true, [22505] = true, [33141] = true, [30214] = true, [30103] = true, [30130] = true, [30599] = true, 
+	[22504] = true, [23974] = true, [26121] = true, [31415] = true, [28816] = true,	
+	-- Wowhead search for "proxy"
+	[36189] = true, [28270] = true, [29943] = true, [30402] = true, [27341] = true, [27109] = true, [27875] = true, [27825] = true, [30670] = true, [25495] = true, [24124] = true, 
+	[29882] = true, [28764] = true, [34899] = true, [31100] = true, [25382] = true, [23450] = true, [34810] = true, [28763] = true, [35055] = true, [35297] = true, [38751] = true, 
+	[34879] = true, [35089] = true, [28849] = true, [38587] = true, [34741] = true, [34739] = true, [16398] = true, [38588] = true, [34740] = true, [29150] = true, [33192] = true, 
+	[34738] = true, [28984] = true, [28986] = true, [34737] = true,
+	
+	[27345] = true -- Helpless Wintergarde Villager (Peasants)
+}
+
 function addon.getQuestNPCs(id, typ, index)
-	if addon.dataSource == "QUESTIE" then return addon.getQuestNPCsQuestie(id, typ, index) end
-	local objectives = addon.getQuestObjectives(id, typ)
-	if not objectives then return end
 	local npcs = {}
-	for i, o in ipairs(objectives) do
-		if o.ids and o.ids.npc then
-			for _, id in ipairs(o.ids.npc) do
-				npcs[#npcs + 1] = {id = id, objectives = {i}}
+	if addon.dataSource == "QUESTIE" then 
+		for _, npc in ipairs(addon.getQuestNPCsQuestie(id, typ, index) or {}) do
+			if not addon.npcIsInvisible[npc.id] then
+				table.insert(npcs, npc)
+			end
+		end
+	else
+		local objectives = addon.getQuestObjectives(id, typ)
+		if not objectives then return end
+		for i, o in ipairs(objectives) do
+			if o.ids and o.ids.npc then
+				for _, id in ipairs(o.ids.npc) do
+					if not addon.npcIsInvisible[id] then
+						table.insert(npcs, {id = id, objectives = {i}})
+					end
+				end
 			end
 		end
 	end
 	return npcs
 end
-	
-
