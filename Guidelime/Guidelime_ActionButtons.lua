@@ -88,32 +88,31 @@ function addon.updateTargetButtons()
 				if element.t == "TARGET" and element.targetNpcId > 0 and 
 					(not step.targetElement or not element.generated) and 
 					(not element.attached or not element.attached.completed) and
-					(not element.attached or element.attached.t ~= "COMPLETE" or addon.isQuestObjectiveActive(element.attached.questId, element.objectives, element.attached.objective)) and
-					not addon.contains(previousIds, element.useItemId) then
+					(not element.attached or element.attached.t ~= "COMPLETE" or addon.isQuestObjectiveActive(element.attached.questId, element.objectives, element.attached.objective)) then
 					if addon.debugging then print("LIME: show target button for npc", element.targetNpcId) end
 					if InCombatLockdown() then
 						addon.updateAfterCombat = true
 						return 
 					end
-					local button = addon.createTargetButton(i)
-					element.targetButton = button
-					button:SetPoint("TOP" .. GuidelimeDataChar.showTargetButtons, addon.mainFrame, "TOP" .. GuidelimeDataChar.showTargetButtons, 
-						GuidelimeDataChar.showTargetButtons == "LEFT" and -36 or (GuidelimeDataChar.mainFrameShowScrollBar and 60 or 37), 
-						41 - i * 42)
 					local name = addon.getNPCName(element.targetNpcId)
-					local marker = addon.targetRaidMarkerIndex[i]
-					if name then
-						if button.npc and name ~= button.npc then button.previousNpc = button.npc end
+					if name and not addon.contains(previousIds, name) then
+						local button = addon.createTargetButton(i)
+						element.targetButton = button
+						button:SetPoint("TOP" .. GuidelimeDataChar.showTargetButtons, addon.mainFrame, "TOP" .. GuidelimeDataChar.showTargetButtons, 
+							GuidelimeDataChar.showTargetButtons == "LEFT" and -36 or (GuidelimeDataChar.mainFrameShowScrollBar and 60 or 37), 
+							41 - i * 42)
 						button.npc = name
+						if button.npc and name ~= button.npc then button.previousNpc = button.npc end
+						local marker = GuidelimeData.targetRaidMarkers and addon.targetRaidMarkerIndex[i]
 						button:SetAttribute("macrotext", 
-							(GuidelimeData.targetRaidMarkers and marker and button.previousNpc and 
+							(marker and button.previousNpc and 
 							"/cleartarget\n" ..
 							"/targetexact " .. button.previousNpc .. "\n" ..
 							"/script if UnitExists('target') and GetRaidTargetIndex('target') == " .. marker .. " then SetRaidTarget('target', 0) end\n"
 							or "") ..
 							"/cleartarget\n" ..
 							"/targetexact " .. name .. "\n" ..
-							(GuidelimeData.targetRaidMarkers and marker and 
+							(marker and 
 							"/script if GetRaidTargetIndex('target') ~= " .. marker .. " then SetRaidTarget('target', " .. marker .. ") end"
 							or "")
 						)
@@ -125,10 +124,10 @@ function addon.updateTargetButtons()
 							SetOverrideBindingClick(button, true, key, "GuidelimeTargetButton" .. i)
 							if addon.debugging then print("LIME: binding " .. key .. " to target " .. name) end
 						end
+						button:Show()
+						i = i + 1
+						table.insert(previousIds, name)
 					end
-					button:Show()
-					i = i + 1
-					table.insert(previousIds, element.targetNpcId)
 				end
 			end
 		end
