@@ -178,6 +178,7 @@ function addon.getQuestPositionsQuestie(id, typ, index, filterZone)
 	local positions = {}
 	local filterZoneId
 	if filterZone ~= nil then filterZoneId = ZoneDB:GetAreaIdByUiMapId(addon.mapIDs[filterZone]) end
+	local specialObjectivesIndex
 	if addon.getSuperCode(typ) == "QUEST" then
 		local quest = QuestieDB:GetQuest(id)
 		if quest == nil then return end
@@ -192,6 +193,7 @@ function addon.getQuestPositionsQuestie(id, typ, index, filterZone)
 				end
 			end
 			if quest.SpecialObjectives then
+				specialObjectivesIndex = #list
 				for _, v in pairs(quest.SpecialObjectives) do
 					list[#list + 1] = v
 				end
@@ -202,7 +204,7 @@ function addon.getQuestPositionsQuestie(id, typ, index, filterZone)
 		if list ~= nil then
 			--if addon.debugging then print("LIME: getQuestPositionsQuestie " .. typ .. " " .. id .. " " .. #list) end
 			for i = 1, #list do
-				local oi = (typ == "COMPLETE" and addon.questieCorrectionsObjectiveOrder[id]) and addon.questieCorrectionsObjectiveOrder[id][i] or i
+				local oi = (typ == "COMPLETE" and addon.questieCorrectionsObjectiveOrder[id] and addon.questieCorrectionsObjectiveOrder[id][i]) and addon.questieCorrectionsObjectiveOrder[id][i] or i
 				if index == nil or index == 0 or index == oi then
 					if list[i].NPC ~= nil then
 						for _, id2 in ipairs(list[i].NPC) do
@@ -306,11 +308,18 @@ function addon.getQuestPositionsQuestie(id, typ, index, filterZone)
 			end
 		end
 	end
+	-- remove positions from special objectives only when there are coordinates from actual objectives
+	if specialObjectivesIndex and not addon.contains(positions, function(p) return addon.contains(p.objectives, function(o) return o <= specialObjectivesIndex end) end) then
+		specialObjectivesIndex = nil
+	end
 	local i = 1
 	while i <= #positions do
 		local pos = positions[i]
 		if pos.wx == -1 and pos.wy == -1 then
 			-- locations inside instances are marked with -1,-1
+			table.remove(positions, i)
+		elseif specialObjectivesIndex and not addon.contains(pos.objectives, function(o) return o <= specialObjectivesIndex end) then
+			-- remove positions from special objectives
 			table.remove(positions, i)
 		else
 			pos.mapID = addon.mapIDs[pos.zone]
