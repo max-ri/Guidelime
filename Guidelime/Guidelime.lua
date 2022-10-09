@@ -1668,31 +1668,7 @@ function addon.updateMainFrame(reset)
 				end
 			end
 		end
-		if nextGuides == {} then
-			addon.mainFrame.message[1] = addon.addMultilineText(addon.mainFrame.scrollChild, L.GUIDE_FINISHED, addon.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
-				if (button == "RightButton") then
-					showContextMenu()
-				else
-					addon.showGuides()
-				end
-			end)
-			addon.mainFrame.message[1]:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize)
-			addon.mainFrame.message[1]:Hide()
-			local guide = addon.guides[addon.currentGuide.name]
-			if demo then
-				addon.mainFrame.message[2] = addon.addMultilineText(addon.mainFrame.scrollChild, 
-					string.format(L.DOWNLOAD_FULL_GUIDE, guide.downloadMinLevel, guide.downloadMaxLevel, guide.download, "\n|cFFAAAAAA" .. guide.downloadUrl), 
-					addon.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
-					if (button == "RightButton") then
-						showContextMenu()
-					else
-						addon.showUrlPopup(guide.downloadUrl) 
-					end
-				end)
-				addon.mainFrame.message[2]:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize)
-				addon.mainFrame.message[2]:Hide()
-			end
-		else
+		if #nextGuides > 0 then
 			local i = 1
 			for _, next in ipairs(nextGuides) do
 				local g = addon.guides[addon.currentGuide.group .. " " .. next]
@@ -1716,6 +1692,31 @@ function addon.updateMainFrame(reset)
 					addon.mainFrame.message[i]:Hide()
 					i = i + 1
 				end
+			end
+		end
+		if #addon.mainFrame.message == 0 then
+			addon.mainFrame.message[1] = addon.addMultilineText(addon.mainFrame.scrollChild, L.GUIDE_FINISHED, addon.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
+				if (button == "RightButton") then
+					showContextMenu()
+				else
+					addon.showGuides()
+				end
+			end)
+			addon.mainFrame.message[1]:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize)
+			addon.mainFrame.message[1]:Hide()
+			local guide = addon.guides[addon.currentGuide.name]
+			if demo then
+				addon.mainFrame.message[2] = addon.addMultilineText(addon.mainFrame.scrollChild, 
+					string.format(L.DOWNLOAD_FULL_GUIDE, guide.downloadMinLevel, guide.downloadMaxLevel, guide.download, "\n|cFFAAAAAA" .. guide.downloadUrl), 
+					addon.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
+					if (button == "RightButton") then
+						showContextMenu()
+					else
+						addon.showUrlPopup(guide.downloadUrl) 
+					end
+				end)
+				addon.mainFrame.message[2]:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize)
+				addon.mainFrame.message[2]:Hide()
 			end
 		end
 		
