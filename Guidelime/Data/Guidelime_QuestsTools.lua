@@ -971,6 +971,28 @@ addon.npcIsInvisible = {
 	[29882] = true, [28764] = true, [34899] = true, [31100] = true, [25382] = true, [23450] = true, [34810] = true, [28763] = true, [35055] = true, [35297] = true, [38751] = true, 
 	[34879] = true, [35089] = true, [28849] = true, [38587] = true, [34741] = true, [34739] = true, [16398] = true, [38588] = true, [34740] = true, [29150] = true, [33192] = true, 
 	[34738] = true, [28984] = true, [28986] = true, [34737] = true,
+	-- Wohead search for "credit -bunny"
+	[27372] = true, [29816] = true, [27472] = true, [27879] = true, [30296] = true, [26612] = true, [27263] = true, [28644] = true, [27322] = true, [30467] = true, [32648] = true, 
+	[29055] = true, [30297] = true, [29008] = true, [27265] = true, [27321] = true, [24165] = true, [24166] = true, [27802] = true, [27471] = true, [26895] = true, [27473] = true, 
+	[27264] = true, [27474] = true, [24167] = true, [29009] = true, [27786] = true, [24281] = true, [26882] = true, [28019] = true, [30221] = true, [29245] = true, [29056] = true, 
+	[29303] = true, [26249] = true, [27561] = true, [28767] = true, [18841] = true, [24182] = true, [18842] = true, [21039] = true, [26248] = true, [31766] = true, [24274] = true, 
+	[18000] = true, [34336] = true, [18840] = true, [23957] = true, [22401] = true, [24276] = true, [28820] = true, [27625] = true, [22051] = true, [25698] = true, [18354] = true, 
+	[31481] = true, [18161] = true, [25669] = true, [24641] = true, [21094] = true, [34327] = true, [20815] = true, [32797] = true, [18002] = true, [34338] = true, [17998] = true, 
+	[25672] = true, [24185] = true, [22316] = true, [29886] = true, [24184] = true, [20813] = true, [39975] = true, [28595] = true, [24121] = true, [36715] = true, [31329] = true, 
+	[18162] = true, [18142] = true, [18144] = true, [30515] = true, [22798] = true, [22799] = true, [27121] = true, [40103] = true, [24888] = true, [26465] = true, [38547] = true, 
+	[29058] = true, [25671] = true, [40101] = true, [40102] = true, [38211] = true, [20816] = true, [21892] = true, [39091] = true, [39092] = true, [39454] = true, [23454] = true, 
+	[23443] = true, [40387] = true, [29069] = true, [40218] = true, [21321] = true, [23972] = true, [22383] = true, [22434] = true, [17915] = true, [17985] = true, [28482] = true, 
+	[21096] = true, [28271] = true, [29057] = true, [26114] = true, [28758] = true, [17413] = true, [24758] = true, [18393] = true, [21173] = true, [33490] = true, [22367] = true, 
+	[18551] = true, [17665] = true, [19620] = true, [21924] = true, [33708] = true, [38595] = true, [39123] = true, [25091] = true, [21121] = true, [19032] = true, [22350] = true, 
+	[39821] = true, [19619] = true, [24991] = true, [21092] = true, [21095] = true, [39872] = true, [25092] = true, [19652] = true, [19717] = true, [23209] = true, [22351] = true, 
+	[25067] = true, [25066] = true, [25065] = true, [26256] = true, [26161] = true, [21959] = true, [24887] = true, [18590] = true, [18589] = true, [25086] = true, [38546] = true, 
+	[29800] = true, [20469] = true, [20982] = true, [15894] = true, [15893] = true, [17863] = true, [23438] = true, [26193] = true, [20333] = true, [15005] = true, [15004] = true, 
+	[14732] = true, [13756] = true, [15003] = true, [39977] = true, [21910] = true, [24889] = true, [18388] = true, [26464] = true, [25090] = true, [20337] = true, [19028] = true, 
+	[19029] = true, [16166] = true, [21929] = true, [27366] = true, [26927] = true, [18395] = true, [19618] = true, [17861] = true, [39976] = true, [22348] = true, [20338] = true, 
+	[24890] = true, [18143] = true, [27796] = true, [20814] = true, [22403] = true, [22402] = true, [21182] = true, [33489] = true, [33491] = true, [33493] = true, [22800] = true, 
+	[22801] = true, [22435] = true, [22116] = true, [22117] = true, [22118] = true, [22850] = true, [21893] = true, [24275] = true, [18843] = true, [20336] = true, [23727] = true, 
+	[29902] = true, [17999] = true, [15001] = true, [15002] = true, [13796] = true, [26466] = true, [37601] = true, [40301] = true, [18110] = true, [24183] = true, [29025] = true, 
+	[33492] = true, [22368] = true, [22356] = true, [17950] = true, [13778] = true,	
 	
 	[27345] = true -- Helpless Wintergarde Villager (Peasants)
 }
