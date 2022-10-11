@@ -543,24 +543,24 @@ function addon.isItemLootableQuestie(id)
 	return item and (addon.hasbit(item.flags, 4))
 end
 
-function addon.getUsableQuestItemsQuestie(id)
+function addon.getQuestItemsQuestie(id)
 	if id == nil or not checkQuestie() then return end
 	local quest = QuestieDB:GetQuest(id)
 	if not quest then return end
 	local items
-	if quest.sourceItemId > 0 and addon.isItemUsable(quest.sourceItemId) then
+	if quest.sourceItemId > 0 then
 		items = {quest.sourceItemId}
 	end
 	if quest.ObjectiveData then
 		for _, o in ipairs(quest.ObjectiveData) do
-			if o.Type == "item" and not addon.contains(items, o.Id) and addon.isItemUsable(o.Id) then
+			if o.Type == "item" and not addon.contains(items, o.Id) then
 				if not items then items = {o.Id} else table.insert(items, o.Id) end
 			end
 		end
 	end
 	if quest.SpecialObjectives then
 		for _, o in pairs(quest.SpecialObjectives) do
-			if o.Type == "item" and not addon.contains(items, o.Id) and addon.isItemUsable(o.Id) then
+			if o.Type == "item" and not addon.contains(items, o.Id) then
 				if not items then items = {o.Id} else table.insert(items, o.Id) end
 			end
 		end

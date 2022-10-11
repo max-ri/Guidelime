@@ -781,6 +781,7 @@ function addon.getNPCName(id)
 	if addon.npcNames == nil then addon.npcNames = {} end
 	if addon.npcNames[id] ~= nil then return addon.npcNames[id] end
 	if addon.dataSource == "QUESTIE" then addon.npcNames[id] = addon.getNPCNameQuestie(id); return addon.npcNames[id] end
+	if addon.dataSource == "CLASSIC_CODEX" then addon.npcNames[id] = addon.getNPCNameClassicCodex(id); return addon.npcNames[id] end
 	if addon["creaturesDB_" .. GetLocale()] ~= nil and addon["creaturesDB_" .. GetLocale()][id] ~= nil then
 		addon.npcNames[id] = addon["creaturesDB_" .. GetLocale()][npcId]
 	elseif addon.creaturesDB[id] ~= nil then
@@ -794,6 +795,7 @@ function addon.getObjectName(id)
 	if addon.objectNames == nil then addon.objectNames = {} end
 	if addon.objectNames[id] ~= nil then return addon.objectNames[id] end
 	if addon.dataSource == "QUESTIE" then addon.objectNames[id] = addon.getObjectNameQuestie(id); return addon.objectNames[id] end
+	if addon.dataSource == "CLASSIC_CODEX" then addon.objectNames[id] = addon.getObjectNameClassicCodex(id); return addon.objectNames[id] end
 	if addon["objectsDB_" .. GetLocale()] ~= nil and addon["objectsDB_" .. GetLocale()][id] ~= nil then
 		addon.objectNames[id] = addon["objectsDB_" .. GetLocale()][id]
 	elseif addon.objectsDB[id] ~= nil then
@@ -807,6 +809,7 @@ function addon.getItemName(id)
 	if addon.itemNames == nil then addon.itemNames = {} end
 	if addon.itemNames[id] ~= nil then return addon.itemNames[id] end
 	if addon.dataSource == "QUESTIE" then addon.itemNames[id] = addon.getItemNameQuestie(id); return addon.itemNames[id] end
+	if addon.dataSource == "CLASSIC_CODEX" then addon.itemNames[id] = addon.getItemNameClassicCodex(id); return addon.itemNames[id] end
 	if addon["itemsDB_" .. GetLocale()] ~= nil and addon["itemsDB_" .. GetLocale()][id] ~= nil then
 		addon.itemNames[id] = addon["itemsDB_" .. GetLocale()][id]
 	elseif addon.itemsDB[id] ~= nil then
@@ -825,11 +828,6 @@ function addon.getItemStartingQuest(id)
 		end
 	end
 end	
-
-function addon.getItemProvidedByQuest(id)
-	if id == nil then return end
-	if addon.dataSource == "QUESTIE" then return addon.getItemProvidedByQuestQuestie(id) end
-end
 
 function addon.isItemUsable(id)
 	if id == nil then return end
@@ -871,10 +869,20 @@ function addon.getUseItemTooltip(id)
 	return addon.useItemTooltips[id]
 end
 
+function addon.filterUsableItems(items)
+	local filtered = {}
+	for _, item in ipairs(items or {}) do
+		if addon.isItemUsable(item) then
+			table.insert(filtered, item)
+		end
+	end
+	return filtered
+end
 
 function addon.getUsableQuestItems(id)
 	if id == nil then return end
-	if addon.dataSource == "QUESTIE" then return addon.getUsableQuestItemsQuestie(id) end
+	if addon.dataSource == "QUESTIE" then return addon.filterUsableItems(addon.getQuestItemsQuestie(id)) end
+	if addon.dataSource == "CLASSIC_CODEX" then return addon.filterUsableItems(addon.getQuestItemsClassicCodex(id)) end
 end
 
 addon.questItemIsFor = {
@@ -997,23 +1005,27 @@ addon.npcIsInvisible = {
 	[27345] = true -- Helpless Wintergarde Villager (Peasants)
 }
 
-function addon.getQuestNPCs(id, typ, index)
-	local npcs = {}
-	if addon.dataSource == "QUESTIE" then 
-		for _, npc in ipairs(addon.getQuestNPCsQuestie(id, typ, index) or {}) do
-			if not addon.npcIsInvisible[npc.id] then
-				table.insert(npcs, npc)
-			end
+function addon.filterInvisibleNpcs(npcs)
+	local filtered = {}
+	for _, npc in ipairs(npcs or {}) do
+		if not addon.npcIsInvisible[npc.id] then
+			table.insert(filtered, npc)
 		end
-	else
-		local objectives = addon.getQuestObjectives(id, typ)
-		if not objectives then return end
-		for i, o in ipairs(objectives) do
-			if o.ids and o.ids.npc then
-				for _, id in ipairs(o.ids.npc) do
-					if not addon.npcIsInvisible[id] then
-						table.insert(npcs, {id = id, objectives = {i}})
-					end
+	end
+	return filtered
+end
+
+function addon.getQuestNPCs(id, typ, index)
+	if addon.dataSource == "QUESTIE" then return addon.filterInvisibleNpcs(addon.getQuestNPCsQuestie(id, typ, index)) end
+	if addon.dataSource == "CLASSIC_CODEX" then return addon.filterInvisibleNpcs(addon.getQuestNPCsClassicCodex(id, typ, index)) end
+	local npcs = {}
+	local objectives = addon.getQuestObjectives(id, typ)
+	if not objectives then return end
+	for i, o in ipairs(objectives) do
+		if o.ids and o.ids.npc then
+			for _, id in ipairs(o.ids.npc) do
+				if not addon.npcIsInvisible[id] then
+					table.insert(npcs, {id = id, objectives = {i}})
 				end
 			end
 		end
