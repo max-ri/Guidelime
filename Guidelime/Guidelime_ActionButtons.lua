@@ -15,6 +15,8 @@ BINDING_NAME_GUIDELIME_USE_ITEM_3 = string.format(L.USE_ITEM_X, 3)
 BINDING_NAME_GUIDELIME_USE_ITEM_4 = string.format(L.USE_ITEM_X, 4)
 BINDING_NAME_GUIDELIME_USE_ITEM_5 = string.format(L.USE_ITEM_X, 5)
 
+addon.MAX_NUM_OF_TARGET_BUTTONS = 10
+
 function addon.resetButtons(buttons)
 	if not buttons then return end
 	for _, button in pairs(buttons) do
@@ -127,6 +129,7 @@ function addon.updateTargetButtons()
 						button:Show()
 						i = i + 1
 						table.insert(previousIds, name)
+						if i > addon.MAX_NUM_OF_TARGET_BUTTONS then break end
 					end
 				end
 			end
@@ -178,7 +181,7 @@ function addon.updateUseItemButtons()
 	end
 	if not GuidelimeDataChar.showUseItemButtons or not addon.currentGuide or not addon.currentGuide.firstActiveIndex then return end
 	local i = 1
-	local startIndex = GuidelimeDataChar.showUseItemButtons == GuidelimeDataChar.showTargetButtons and addon.numberOfTargetButtons or 0
+	local startPos = GuidelimeDataChar.showUseItemButtons == GuidelimeDataChar.showTargetButtons and (addon.numberOfTargetButtons * 42 + 5) or 0
 	local previousIds = {}
 	for s = addon.currentGuide.firstActiveIndex, addon.currentGuide.lastActiveIndex do
 		local step = addon.currentGuide.steps[s]
@@ -195,7 +198,7 @@ function addon.updateUseItemButtons()
 					local button = addon.createUseItemButton(i)
 					button:SetPoint("TOP" .. GuidelimeDataChar.showUseItemButtons, addon.mainFrame, "TOP" .. GuidelimeDataChar.showUseItemButtons, 
 						GuidelimeDataChar.showUseItemButtons == "LEFT" and -36 or (GuidelimeDataChar.mainFrameShowScrollBar and 60 or 37), 
-						41 - (i + startIndex) * 42)
+						41 - i * 42 - startPos)
 					button.itemId = element.useItemId
 					button.texture:SetTexture(GetItemIcon(button.itemId))
 					local count = GetItemCount(button.itemId)
