@@ -181,7 +181,7 @@ function addon.updateUseItemButtons()
 	end
 	if not GuidelimeDataChar.showUseItemButtons or not addon.currentGuide or not addon.currentGuide.firstActiveIndex then return end
 	local i = 1
-	local startPos = GuidelimeDataChar.showUseItemButtons == GuidelimeDataChar.showTargetButtons and (addon.numberOfTargetButtons * 42 + 5) or 0
+	local startPos = GuidelimeDataChar.showUseItemButtons == GuidelimeDataChar.showTargetButtons and addon.numberOfTargetButtons and (addon.numberOfTargetButtons * 42 + 5) or 0
 	local previousIds = {}
 	for s = addon.currentGuide.firstActiveIndex, addon.currentGuide.lastActiveIndex do
 		local step = addon.currentGuide.steps[s]
