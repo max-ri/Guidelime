@@ -176,8 +176,7 @@ function addon.getQuestPositionsQuestie(id, typ, index, filterZone)
 	local ids = {npc = {}, object = {}, item = {}}
 	local objectives = {npc = {}, object = {}, item = {}}
 	local positions = {}
-	local filterZoneId
-	if filterZone ~= nil then filterZoneId = ZoneDB:GetAreaIdByUiMapId(addon.mapIDs[filterZone]) end
+	local filterZoneId = filterZone and addon.mapIDs[filterZone] and ZoneDB:GetAreaIdByUiMapId(addon.mapIDs[filterZone])
 	local specialObjectivesIndex
 	if addon.getSuperCode(typ) == "QUEST" then
 		local quest = QuestieDB:GetQuest(id)
