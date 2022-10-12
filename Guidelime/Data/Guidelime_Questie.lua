@@ -3,7 +3,7 @@ local L = addon.L
 
 HBD = LibStub("HereBeDragons-2.0")
 
-local QuestieDB = QuestieLoader and QuestieLoader:ImportModule("QuestieDB");
+local QuestieDB = QuestieLoader and QuestieLoader:ImportModule("QuestieDB")
 local ZoneDB = QuestieLoader and QuestieLoader:ImportModule("ZoneDB")
 
 function addon.bit(p)

@@ -1386,7 +1386,7 @@ function addon.isQuestObjectiveActive(questId, searchObjectives, filterObjective
 	local objectives = addon.getQuestActiveObjectives(questId, filterObjective)
 	local found = false
 	for _, o in ipairs(searchObjectives) do
-		if addon.contains(objectives, o) then found = true; break; end
+		if addon.contains(objectives, o) or o > #addon.getQuestObjectives(questId) then found = true; break; end
 	end
 	return found
 end
