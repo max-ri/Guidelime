@@ -285,7 +285,7 @@ end
 
 addon.frame:RegisterEvent('QUEST_GREETING')
 function addon.frame:QUEST_GREETING()
-	if GuidelimeData.autoAcceptQuest and not IsShiftKeyDown() then 
+	if (GuidelimeData.autoAcceptQuests or GuidelimeData.autoTurnInQuests) and not IsShiftKeyDown() then 
 		if addon.debugging then print ("LIME: QUEST_GREETING", GetNumActiveQuests()) end
 		if addon.debugging then print ("LIME: QUEST_GREETING", GetNumAvailableQuests()) end
 		local selectActive = nil
@@ -293,7 +293,7 @@ function addon.frame:QUEST_GREETING()
 		addon.openNpcAgain = false
 		for i = 1, GetNumActiveQuests() do
 			local name = GetActiveTitle(i)
-			if addon.isQuestAuto(GuidelimeData.autoAcceptQuests, function(id) return name == addon.getQuestNameById(id) end) then
+			if addon.isQuestAuto(GuidelimeData.autoTurnInQuests, function(id) return name == addon.getQuestNameById(id) end) then
 				if selectActive == nil then
 					selectActive = i
 				else

@@ -1756,7 +1756,6 @@ function addon.updateMainFrame(reset)
 						addon.mainFrame.steps[i].textBox = addon.addMultilineText(addon.mainFrame.steps[i], nil, nil, "", function(self, button)
 							local j = getElementByTextPos(self:GetCursorPosition(), i)
 							local element = addon.currentGuide.steps[i].elements[j]
-							if addon.debugging then print("click ", self:GetCursorPosition(), j, element.questId) end
 							if button == "RightButton" then
 								showContextMenu(element.questId)
 							else
