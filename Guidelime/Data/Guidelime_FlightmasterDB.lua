@@ -234,20 +234,20 @@ local function getFlightmasterByPlaceHelper(place, faction, func)
 end
 	
 function addon.getFlightmasterByPlace(place, faction)
-	place = place:gsub(" ",""):lower()
-	local result = getFlightmasterByPlaceHelper(place, faction, function(master) return master.zone:gsub(" ",""):lower() end)
+	place = place:gsub(" ",""):gsub("'",""):lower()
+	local result = getFlightmasterByPlaceHelper(place, faction, function(master) return master.zone:gsub(" ",""):gsub("'",""):lower() end)
 	if result ~= nil then return result end
-	result = getFlightmasterByPlaceHelper(place, faction, function(master) if master.place ~= nil then return master.place:gsub(" ",""):lower() end end)
+	result = getFlightmasterByPlaceHelper(place, faction, function(master) if master.place ~= nil then return master.place:gsub(" ",""):gsub("'",""):lower() end end)
 	if result ~= nil then return result end
 	result = getFlightmasterByPlaceHelper(place, faction, function(master) 
-		local place = master.place and master.place:gsub(" ",""):lower()
+		local place = master.place and master.place:gsub(" ",""):gsub("'",""):lower()
 		if place ~= nil and place:sub(1,3) == "the" then place = place:sub(4) end
 		return place
 	end)
 	if result ~= nil then return result end
 	for locale, flightmasters in pairs(addon.flightmasterDB_Locales) do
 		result = getFlightmasterByPlaceHelper(place, faction, function(master) 
-			return flightmasters[master.localesIndex]:gsub(" ",""):gsub(" ",""):lower() 
+			return flightmasters[master.localesIndex]:gsub(" ",""):gsub(" ",""):gsub("'",""):lower() 
 		end)
 		if result ~= nil then return result end
 	end
