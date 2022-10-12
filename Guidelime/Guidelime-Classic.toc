@@ -1,0 +1,48 @@
+## Title: Guidelime
+## Author: Borick of Arthas(EU)
+## Version: 3.010
+## Interface: 11403
+## SavedVariables: GuidelimeData
+## SavedVariablesPerCharacter: GuidelimeDataChar
+## Notes: Leveling guides with automatic progress updates 
+## OptionalDeps: Questie
+## OptionalDeps: ClassicCodex
+## OptionalDeps: HereBeDragons
+
+Libs\LibStub\LibStub.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+Libs\HereBeDragons\HereBeDragons-2.0.lua
+Libs\HereBeDragons\HereBeDragons-Pins-2.0.lua
+
+Localization.lua
+Data\Guidelime_Data.lua
+Guidelime.lua
+Guidelime_ActionButtons.lua
+Guidelime_Events.lua
+Guidelime_Frames.lua
+Guidelime_Guides.lua
+Guidelime_Options.lua
+Guidelime_Editor.lua
+Guidelime_EditorTools.lua
+Guidelime_Parser.lua
+Guidelime_Map.lua
+Guidelime_Import.lua
+Guidelime_QuestLog.lua
+Guidelime_QuestScan.lua
+Data\Guidelime_MapDB.lua
+Data\Guidelime_QuestsDB.lua
+Data\Guidelime_CreaturesDB.lua
+Data\Guidelime_ObjectsDB.lua
+Data\Guidelime_ItemsDB.lua
+Data\Guidelime_QuestsDB_Locales.lua
+Data\Guidelime_CreaturesDB_Locales.lua
+Data\Guidelime_ObjectsDB_Locales.lua
+Data\Guidelime_ItemsDB_Locales.lua
+Data\Guidelime_QuestsTools.lua
+Data\Guidelime_QuestieCorrections.lua
+Data\Guidelime_Questie.lua
+Data\Guidelime_ClassicCodexCorrections.lua
+Data\Guidelime_ClassicCodex.lua
+Data\Guidelime_FlightmasterDB.lua
+Data\Guidelime_FlightmasterDB_Locales.lua
+
