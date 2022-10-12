@@ -1421,7 +1421,7 @@ function addon.updateStepsMapIcons()
 				elseif (element.t == "LOC" or element.t == "GOTO") and 
 					not element.completed and element.specialLocation == nil and 
 						(element.attached == nil or not element.attached.completed) and
-						(element.attached == nil or addon.isQuestObjectiveActive(element.attached.questId, element.objectives, element.attached.objective)) then 
+						(element.attached == nil or element.attached.t ~= "COMPLETE" or addon.isQuestObjectiveActive(element.attached.questId, element.objectives, element.attached.objective)) then 
 					addon.addMapIcon(element, false) 
 				end
 			end

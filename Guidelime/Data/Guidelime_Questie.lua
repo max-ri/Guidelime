@@ -184,6 +184,7 @@ function addon.getQuestPositionsQuestie(id, typ, index, filterZone)
 		local list
 		if typ == "ACCEPT" then 
 			list = {quest.Starts}
+			if addon.questieCorrectionsQuestAccept[id] then list = addon.questieCorrectionsQuestAccept[id] end
 		elseif typ == "COMPLETE" then
 			list = {}
 			if quest.ObjectiveData then
@@ -346,6 +347,7 @@ function addon.getQuestNPCsQuestie(id, typ, index)
 		local list
 		if typ == "ACCEPT" then 
 			list = {quest.Starts}
+			if addon.questieCorrectionsQuestAccept[id] then list = addon.questieCorrectionsQuestAccept[id] end
 		elseif typ == "COMPLETE" then
 			list = {}
 			if quest.ObjectiveData then
