@@ -1,28 +1,33 @@
 local addonName, addon = ...
 local L = addon.L
 
+addon.D = addon.D or {}; local D = addon.D     -- Data/Data
+addon.EV = addon.EV or {}; local EV = addon.EV -- Events
+addon.F = addon.F or {}; local F = addon.F     -- Frames
+addon.CG = addon.CG or {}; local CG = addon.CG -- CurrentGuide
+addon.M = addon.M or {}; local M = addon.M     -- Map
+addon.MW = addon.MW or {}; local MW = addon.MW -- MainWindow
+addon.QT = addon.QT or {}; local QT = addon.QT -- Data/QuestTools
+
+addon.AB = addon.AB or {}; local AB = addon.AB -- ActionButtons
+
 -- for key bindings
-BINDING_HEADER_GUIDELIME = "Guidelime"
-BINDING_NAME_GUIDELIME_TOGGLE = L.SHOW_MAINFRAME
-BINDING_NAME_GUIDELIME_TARGET_1 = string.format(L.TARGET_X, 1)
-BINDING_NAME_GUIDELIME_TARGET_2 = string.format(L.TARGET_X, 2)
-BINDING_NAME_GUIDELIME_TARGET_3 = string.format(L.TARGET_X, 3)
-BINDING_NAME_GUIDELIME_TARGET_4 = string.format(L.TARGET_X, 4)
-BINDING_NAME_GUIDELIME_TARGET_5 = string.format(L.TARGET_X, 5)
-BINDING_NAME_GUIDELIME_USE_ITEM_1 = string.format(L.USE_ITEM_X, 1)
-BINDING_NAME_GUIDELIME_USE_ITEM_2 = string.format(L.USE_ITEM_X, 2)
-BINDING_NAME_GUIDELIME_USE_ITEM_3 = string.format(L.USE_ITEM_X, 3)
-BINDING_NAME_GUIDELIME_USE_ITEM_4 = string.format(L.USE_ITEM_X, 4)
-BINDING_NAME_GUIDELIME_USE_ITEM_5 = string.format(L.USE_ITEM_X, 5)
+_G["BINDING_HEADER_GUIDELIME"] = "Guidelime"
+_G["BINDING_NAME_GUIDELIME_TOGGLE"] = L.SHOW_MAINFRAME
+for i = 1, 5 do
+	_G["BINDING_NAME_GUIDELIME_TARGET_" .. i] = string.format(L.TARGET_X, i)
+	_G["BINDING_NAME_GUIDELIME_USE_ITEM_" .. i] = string.format(L.USE_ITEM_X, i)
+end
 
-addon.MAX_NUM_OF_TARGET_BUTTONS = 10
+AB.MAX_NUM_OF_TARGET_BUTTONS = 10
 
-function addon.resetButtons(buttons)
+
+function AB.resetButtons(buttons)
 	if not buttons then return end
 	for _, button in pairs(buttons) do
 		if button:IsShown() then
 			if InCombatLockdown() then
-				addon.updateAfterCombat = true
+				EV.updateAfterCombat = true
 				return 
 			end
 			ClearOverrideBindings(button)
@@ -33,10 +38,10 @@ end
 
 -- ordering of raid markers to use
 -- default to triangle because it is green
-addon.targetRaidMarkerIndex = {4, 6, 2, 3, 1, 5, 7, 8}	
+AB.targetRaidMarkerIndex = {4, 6, 2, 3, 1, 5, 7, 8}	
 
-function addon.getTargetButtonIconText(i, raidMarker)
-	local marker = addon.targetRaidMarkerIndex[i]
+function AB.getTargetButtonIconText(i, raidMarker)
+	local marker = AB.targetRaidMarkerIndex[i]
 	if marker and (GuidelimeData.targetRaidMarkersor or raidMarker) then
 		local x1, y1 = (marker - 1) % 4 * 0.25, marker > 4 and 0.25 or 0
 		local x2, y2 = x1 + 0.25, y1 + 0.25
@@ -45,21 +50,21 @@ function addon.getTargetButtonIconText(i, raidMarker)
 	return "|T" .. addon.icons.TARGET_BUTTON .. ":12|t"
 end
 
-function addon.createTargetButton(i)
-	local button = addon.mainFrame.targetButtons[i]
+function AB.createTargetButton(i)
+	local button = MW.mainFrame.targetButtons[i]
 	if not button then
-		button = CreateFrame("BUTTON", "GuidelimeTargetButton" .. i, addon.mainFrame, "SecureActionButtonTemplate,ActionButtonTemplate")
+		button = CreateFrame("BUTTON", "GuidelimeTargetButton" .. i, MW.mainFrame, "SecureActionButtonTemplate,ActionButtonTemplate")
 		button.index = i
 		button:SetAttribute("type", "macro")
 		button.texture = button:CreateTexture(nil, "BACKGROUND")
 		button.texture:SetTexture(addon.icons.TARGET_BUTTON)
 		button.texture:SetPoint("TOPLEFT", button, -2, 1)					
 		button.texture:SetPoint("BOTTOMRIGHT", button, 2, -2)
-		local marker = addon.targetRaidMarkerIndex[i]
+		local marker = AB.targetRaidMarkerIndex[i]
 		if GuidelimeData.targetRaidMarkers and marker then
 			button.texture2 = button:CreateTexture(nil, "OVERLAY")
 			button.texture2:SetTexture("Interface\\TargetingFrame\\UI-RaidTargetingIcons")
-			SetRaidTargetIconTexture(button.texture2, addon.targetRaidMarkerIndex[i])
+			SetRaidTargetIconTexture(button.texture2, AB.targetRaidMarkerIndex[i])
 			button.texture2:SetPoint("TOPLEFT", button, 20, -22)					
 			button.texture2:SetPoint("BOTTOMRIGHT", button, -2, 0)
 		end
@@ -67,45 +72,45 @@ function addon.createTargetButton(i)
 		button.hotkey:SetSize(32, 10)
 		button.hotkey:SetPoint("TOPRIGHT", button, 0, -1)
 		button.hotkey:SetJustifyH("RIGHT")
-		addon.mainFrame.targetButtons[i] = button
+		MW.mainFrame.targetButtons[i] = button
 	end
 	button:ClearAllPoints()
 	return button
 end
 
-function addon.updateTargetButtons()
-	if not addon.mainFrame then return end
-	if addon.mainFrame.targetButtons == nil then
-		addon.mainFrame.targetButtons = {}
+function AB.updateTargetButtons()
+	if not MW.mainFrame then return end
+	if MW.mainFrame.targetButtons == nil then
+		MW.mainFrame.targetButtons = {}
 	else
-		addon.resetButtons(addon.mainFrame.targetButtons)
+		AB.resetButtons(MW.mainFrame.targetButtons)
 	end
-	if not GuidelimeDataChar.showTargetButtons or not addon.currentGuide or not addon.currentGuide.firstActiveIndex then return end
+	if not GuidelimeDataChar.showTargetButtons or not CG.currentGuide or not CG.currentGuide.firstActiveIndex then return end
 	local i = 1
 	local previousIds = {}
-	for s = addon.currentGuide.firstActiveIndex, addon.currentGuide.lastActiveIndex do
-		local step = addon.currentGuide.steps[s]
+	for s = CG.currentGuide.firstActiveIndex, CG.currentGuide.lastActiveIndex do
+		local step = CG.currentGuide.steps[s]
 		if step.active then
 			for _, element in ipairs(step.elements) do
 				if element.t == "TARGET" and element.targetNpcId > 0 and 
 					(not step.targetElement or not element.generated) and 
 					(not element.attached or not element.attached.completed) and
-					(not element.attached or element.attached.t ~= "COMPLETE" or addon.isQuestObjectiveActive(element.attached.questId, element.objectives, element.attached.objective)) then
+					(not element.attached or element.attached.t ~= "COMPLETE" or CG.isQuestObjectiveActive(element.attached.questId, element.objectives, element.attached.objective)) then
 					if addon.debugging then print("LIME: show target button for npc", element.targetNpcId) end
 					if InCombatLockdown() then
-						addon.updateAfterCombat = true
+						EV.updateAfterCombat = true
 						return 
 					end
-					local name = addon.getNPCName(element.targetNpcId)
-					if name and not addon.contains(previousIds, name) then
-						local button = addon.createTargetButton(i)
+					local name = QT.getNPCName(element.targetNpcId)
+					if name and not D.contains(previousIds, name) then
+						local button = AB.createTargetButton(i)
 						element.targetButton = button
-						button:SetPoint("TOP" .. GuidelimeDataChar.showTargetButtons, addon.mainFrame, "TOP" .. GuidelimeDataChar.showTargetButtons, 
+						button:SetPoint("TOP" .. GuidelimeDataChar.showTargetButtons, MW.mainFrame, "TOP" .. GuidelimeDataChar.showTargetButtons, 
 							GuidelimeDataChar.showTargetButtons == "LEFT" and -36 or (GuidelimeDataChar.mainFrameShowScrollBar and 60 or 37), 
 							41 - i * 42)
 						button.npc = name
 						if button.npc and name ~= button.npc then button.previousNpc = button.npc end
-						local marker = GuidelimeData.targetRaidMarkers and addon.targetRaidMarkerIndex[i]
+						local marker = GuidelimeData.targetRaidMarkers and AB.targetRaidMarkerIndex[i]
 						button:SetAttribute("macrotext", 
 							(marker and button.previousNpc and 
 							"/cleartarget\n" ..
@@ -118,8 +123,8 @@ function addon.updateTargetButtons()
 							"/script if GetRaidTargetIndex('target') ~= " .. marker .. " then SetRaidTarget('target', " .. marker .. ") end"
 							or "")
 						)
-						addon.setTooltip(button, GuidelimeData.showTooltips and
-							table.concat({string.format(L.TARGET_TOOLTIP, addon.COLOR_WHITE .. name .. "|r"), addon.getMapTooltip(element)}, "\n"))
+						F.setTooltip(button, GuidelimeData.showTooltips and 
+							table.concat({string.format(L.TARGET_TOOLTIP, MW.COLOR_WHITE .. name .. "|r"), M.getMapTooltip(element)}, "\n"))
 						local key = GetBindingKey("GUIDELIME_TARGET_" .. i)
 						if key then
 							button.hotkey:SetText(_G["KEY_" .. key] or key)
@@ -129,19 +134,19 @@ function addon.updateTargetButtons()
 						button:Show()
 						i = i + 1
 						table.insert(previousIds, name)
-						if i > addon.MAX_NUM_OF_TARGET_BUTTONS then break end
+						if i > AB.MAX_NUM_OF_TARGET_BUTTONS then break end
 					end
 				end
 			end
 		end
 	end
-	addon.numberOfTargetButtons = i - 1
+	AB.numberOfTargetButtons = i - 1
 end
 
-function addon.createUseItemButton(i)
-	local button = addon.mainFrame.useButtons[i]
+function AB.createUseItemButton(i)
+	local button = MW.mainFrame.useButtons[i]
 	if not button then
-		button = CreateFrame("BUTTON", "GuidelimeUseItemButton" .. i, addon.mainFrame, "SecureActionButtonTemplate,ActionButtonTemplate")
+		button = CreateFrame("BUTTON", "GuidelimeUseItemButton" .. i, MW.mainFrame, "SecureActionButtonTemplate,ActionButtonTemplate")
 		button:SetAttribute("type", "item")
 		button.texture = button:CreateTexture(nil,"BACKGROUND")
 		button.texture:SetPoint("TOPLEFT", button, -2, 1)					
@@ -165,38 +170,38 @@ function addon.createUseItemButton(i)
                 self.cooldown:Hide()
             end
 		end
-		addon.mainFrame.useButtons[i] = button
+		MW.mainFrame.useButtons[i] = button
 	end
 	button.cooldown:Hide()
 	button:ClearAllPoints()
 	return button
 end
 
-function addon.updateUseItemButtons()
-	if not addon.mainFrame then return end
-	if addon.mainFrame.useButtons == nil then
-		addon.mainFrame.useButtons = {}
+function AB.updateUseItemButtons()
+	if not MW.mainFrame then return end
+	if MW.mainFrame.useButtons == nil then
+		MW.mainFrame.useButtons = {}
 	else
-		addon.resetButtons(addon.mainFrame.useButtons)
+		AB.resetButtons(MW.mainFrame.useButtons)
 	end
-	if not GuidelimeDataChar.showUseItemButtons or not addon.currentGuide or not addon.currentGuide.firstActiveIndex then return end
+	if not GuidelimeDataChar.showUseItemButtons or not CG.currentGuide or not CG.currentGuide.firstActiveIndex then return end
 	local i = 1
-	local startPos = GuidelimeDataChar.showUseItemButtons == GuidelimeDataChar.showTargetButtons and addon.numberOfTargetButtons and addon.numberOfTargetButtons > 0 and (addon.numberOfTargetButtons * 42 + 5) or 0
+	local startPos = GuidelimeDataChar.showUseItemButtons == GuidelimeDataChar.showTargetButtons and AB.numberOfTargetButtons and AB.numberOfTargetButtons > 0 and (AB.numberOfTargetButtons * 42 + 5) or 0
 	local previousIds = {}
-	for s = addon.currentGuide.firstActiveIndex, addon.currentGuide.lastActiveIndex do
-		local step = addon.currentGuide.steps[s]
+	for s = CG.currentGuide.firstActiveIndex, CG.currentGuide.lastActiveIndex do
+		local step = CG.currentGuide.steps[s]
 		if step.active then
 			for _, element in ipairs(step.elements) do
 				if element.t == "USE_ITEM" and element.useItemId > 0 and
 					not (step.useItemElement and element.generated) and not (element.attached and element.attached.completed) and
-					not addon.contains(previousIds, element.useItemId) then
+					not D.contains(previousIds, element.useItemId) then
 					if addon.debugging then print("LIME: show use item button for item", element.useItemId) end
 					if InCombatLockdown() then
-						addon.updateAfterCombat = true
+						EV.updateAfterCombat = true
 						return 
 					end
-					local button = addon.createUseItemButton(i)
-					button:SetPoint("TOP" .. GuidelimeDataChar.showUseItemButtons, addon.mainFrame, "TOP" .. GuidelimeDataChar.showUseItemButtons, 
+					local button = AB.createUseItemButton(i)
+					button:SetPoint("TOP" .. GuidelimeDataChar.showUseItemButtons, MW.mainFrame, "TOP" .. GuidelimeDataChar.showUseItemButtons, 
 						GuidelimeDataChar.showUseItemButtons == "LEFT" and -36 or (GuidelimeDataChar.mainFrameShowScrollBar and 60 or 37), 
 						41 - i * 42 - startPos)
 					button.itemId = element.useItemId
@@ -205,11 +210,11 @@ function addon.updateUseItemButtons()
 					button.count:SetText(count > 1 and count or "")
 					local enabled = count > 0
 					button.texture:SetAlpha((enabled and 1) or 0.2)
-					local name = addon.getItemName(button.itemId)
+					local name = QT.getItemName(button.itemId)
 					if name then
 						button:SetAttribute("item", name)
-						--addon.setTooltip(button, name .. "\n" .. (addon.getUseItemTooltip(button.itemId) or ""))
-						addon.setTooltip(button, "item:" .. button.itemId .. ":0:0:0:0:0:0:0", GameTooltip.SetHyperlink)
+						--F.setTooltip(button, name .. "\n" .. (QT.getUseItemTooltip(button.itemId) or ""))
+						F.setTooltip(button, "item:" .. button.itemId .. ":0:0:0:0:0:0:0", GameTooltip.SetHyperlink)
 						local key = GetBindingKey("GUIDELIME_USE_ITEM_" .. i)
 						if key then
 							button.hotkey:SetText(_G["KEY_" .. key] or key)

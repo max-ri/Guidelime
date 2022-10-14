@@ -1,12 +1,22 @@
 local addonName, addon = ...
 local L = addon.L
 
-HBD = LibStub("HereBeDragons-2.0")
+local HBD = LibStub("HereBeDragons-2.0")
+
+addon.D = addon.D or {}; local D = addon.D                                                 -- Data/Data
+addon.DM = addon.DM or {}; local DM = addon.DM                                             -- Data/MapDB
+addon.QUESTIE = addon.QUESTIE or {}; local QUESTIE = addon.QUESTIE                         -- Data/Questie
+addon.CLASSIC_CODEX = addon.CLASSIC_CODEX or {}; local CLASSIC_CODEX = addon.CLASSIC_CODEX -- Data/ClassicCodex
+addon.DB = addon.DB or {}; local DB = addon.DB                                             -- Data/Internal
+addon.CG = addon.CG or {}; local CG = addon.CG                                             -- CurrentGuide
+addon.GP = addon.GP or {}; local GP = addon.GP                                             -- GuideParser
+
+addon.QT = addon.QT or {}; local QT = addon.QT                                             -- Data/QuestTools
 
 local LIMIT_CENTER_POSITION = 400
 local LIMIT_POSITIONS = 1000
 
-function addon.GetQuestsCompleted()
+function QT.GetQuestsCompleted()
 	if GetQuestsCompleted ~= nil then return GetQuestsCompleted() end
 	local t = {}
 	local completedQuests = C_QuestLog.GetAllCompletedQuestIDs()
@@ -18,142 +28,146 @@ function addon.GetQuestsCompleted()
 	return t
 end
 
-function addon.GetNumGossipActiveQuests()
+function QT.GetNumGossipActiveQuests()
 	if GetNumGossipActiveQuests ~= nil then return GetNumGossipActiveQuests() end
 	return C_GossipInfo.GetNumActiveQuests()
 end
 
-function addon.GetGossipActiveQuests()
+function QT.GetGossipActiveQuests()
 	if GetGossipActiveQuests ~= nil then return GetGossipActiveQuests() end
 	return C_GossipInfo.GetActiveQuests()
 end
 
-function addon.SelectGossipActiveQuest(i)
+function QT.SelectGossipActiveQuest(i)
 	if SelectGossipActiveQuest ~= nil then return SelectGossipActiveQuest(i) end 
 	return C_GossipInfo.SelectActiveQuest(i)
 end
 
-function addon.GetNumGossipAvailableQuests()
+function QT.GetNumGossipAvailableQuests()
 	if GetNumGossipAvailableQuests ~= nil then return GetNumGossipAvailableQuests() end 
 	return C_GossipInfo.GetNumAvailableQuests()
 end
 
-function addon.GetGossipAvailableQuests()
+function QT.GetGossipAvailableQuests()
 	if GetGossipAvailableQuests ~= nil then return GetGossipAvailableQuests() end 
 	return C_GossipInfo.GetAvailableQuests()
 end
 
-function addon.SelectGossipAvailableQuest(i)
+function QT.SelectGossipAvailableQuest(i)
 	if SelectGossipAvailableQuest ~= nil then return SelectGossipAvailableQuest(i) end 
 	return C_GossipInfo.SelectAvailableQuest(i)
 end
 
-function addon.SelectGossipOption(i)
+function QT.SelectGossipOption(i)
 	if SelectGossipOption ~= nil then return SelectGossipOption(i) end 
 	return C_GossipInfo.SelectOption(i)
 end
 	
-function addon.resetCachedQuestData()
-	addon.questPosition = nil
-	addon.questObjectives = nil
+function QT.resetCachedQuestData()
+	QT.questPosition = nil
+	QT.questObjectives = nil
+	QT.questsDBReverse = nil
+	QT.npcNames = nil
+	QT.itemNames = nil
+	QT.objectNames = nil
+	QT.useItemTooltips = {}
 end
 
-
-function addon.isQuestId(id)
+function QT.isQuestId(id)
 	if id == nil then return false end
-	if addon.dataSource == "QUESTIE" then return addon.isQuestIdQuestie(id) end
-	if addon.dataSource == "CLASSIC_CODEX" then return addon.isQuestIdClassicCodex(id) end
-	return addon.questsDB[id] ~= nil
+	if addon.dataSource == "QUESTIE" then return QUESTIE.isQuestId(id) end
+	if addon.dataSource == "CLASSIC_CODEX" then return CLASSIC_CODEX.isQuestId(id) end
+	return DB.questsDB[id] ~= nil
 end
 
-function addon.getQuestReplacement(id)
-	if addon.questsDB[id] ~= nil then return addon.questsDB[id].replacement end
+function QT.getQuestReplacement(id)
+	if DB.questsDB[id] ~= nil then return DB.questsDB[id].replacement end
 end
 
-function addon.getQuestSort(id)
-	if addon.dataSource == "QUESTIE" then return addon.getQuestSortQuestie(id) end
-	if addon.questsDB[id] ~= nil then return addon.questsDB[id].sort end
+function QT.getQuestSort(id)
+	if addon.dataSource == "QUESTIE" then return QUESTIE.getQuestSort(id) end
+	if DB.questsDB[id] ~= nil then return DB.questsDB[id].sort end
 end
 
 -- this function intentionally only uses internal database instead of selected data source
 -- this is used in parsing guides and guides should not parse with errors or not depending on data source used
-function addon.getQuestZone(id)
-	if addon.questsDB[id] ~= nil then return addon.questsDB[id].zone end
+function QT.getQuestZone(id)
+	if DB.questsDB[id] ~= nil then return DB.questsDB[id].zone end
 end
 
-function addon.getQuestPrequests(id)
-	if addon.dataSource == "QUESTIE" then return addon.getQuestPrequestsQuestie(id) end
-	if addon.dataSource == "CLASSIC_CODEX" then return addon.getQuestPrequestsClassicCodex(id) end
-	if addon.questsDB[id] ~= nil then return addon.questsDB[id].prequests end
+function QT.getQuestPrequests(id)
+	if addon.dataSource == "QUESTIE" then return QUESTIE.getQuestPrequests(id) end
+	if addon.dataSource == "CLASSIC_CODEX" then return CLASSIC_CODEX.getQuestPrequests(id) end
+	if DB.questsDB[id] ~= nil then return DB.questsDB[id].prequests end
 end
 
-function addon.getQuestOneOfPrequests(id)
-	if addon.dataSource == "QUESTIE" then return addon.getQuestOneOfPrequestsQuestie(id) end
-	if addon.dataSource == "CLASSIC_CODEX" then return addon.getQuestOneOfPrequestsClassicCodex(id) end
-	if addon.questsDB[id] ~= nil then return addon.questsDB[id].oneOfPrequests end
+function QT.getQuestOneOfPrequests(id)
+	if addon.dataSource == "QUESTIE" then return QUESTIE.getQuestOneOfPrequests(id) end
+	if addon.dataSource == "CLASSIC_CODEX" then return CLASSIC_CODEX.getQuestOneOfPrequests(id) end
+	if DB.questsDB[id] ~= nil then return DB.questsDB[id].oneOfPrequests end
 end
 
-function addon.getQuestType(id)
-	if addon.dataSource == "QUESTIE" then return addon.getQuestTypeQuestie(id) end
-	if addon.questsDB[id] ~= nil then return addon.questsDB[id].type end
+function QT.getQuestType(id)
+	if addon.dataSource == "QUESTIE" then return QUESTIE.getQuestType(id) end
+	if DB.questsDB[id] ~= nil then return DB.questsDB[id].type end
 end
 
-function addon.getQuestLevel(id)
-	if addon.dataSource == "QUESTIE" then return addon.getQuestLevelQuestie(id) end
-	if addon.dataSource == "CLASSIC_CODEX" then return addon.getQuestLevelClassicCodex(id) end
-	if addon.questsDB[id] ~= nil then return addon.questsDB[id].level end
+function QT.getQuestLevel(id)
+	if addon.dataSource == "QUESTIE" then return QUESTIE.getQuestLevel(id) end
+	if addon.dataSource == "CLASSIC_CODEX" then return CLASSIC_CODEX.getQuestLevel(id) end
+	if DB.questsDB[id] ~= nil then return DB.questsDB[id].level end
 end
 
-function addon.getQuestMinimumLevel(id)
-	if addon.dataSource == "QUESTIE" then return addon.getQuestMinimumLevelQuestie(id) end
-	if addon.dataSource == "CLASSIC_CODEX" then return addon.getQuestMinimumLevelClassicCodex(id) end
-	if addon.questsDB[id] ~= nil then return addon.questsDB[id].req	end
+function QT.getQuestMinimumLevel(id)
+	if addon.dataSource == "QUESTIE" then return QUESTIE.getQuestMinimumLevel(id) end
+	if addon.dataSource == "CLASSIC_CODEX" then return CLASSIC_CODEX.getQuestMinimumLevel(id) end
+	if DB.questsDB[id] ~= nil then return DB.questsDB[id].req	end
 end
 
-function addon.getQuestSeries(id)
-	if addon.questsDB[id] ~= nil then return addon.questsDB[id].series end
+function QT.getQuestSeries(id)
+	if DB.questsDB[id] ~= nil then return DB.questsDB[id].series end
 end
 
-function addon.getQuestNext(id)
-	if addon.dataSource == "QUESTIE" then return addon.getQuestNextQuestie(id) end
-	if addon.dataSource == "CLASSIC_CODEX" then return addon.getQuestNextClassicCodex(id) end
-	if addon.questsDB[id] ~= nil then return addon.questsDB[id].next end
+function QT.getQuestNext(id)
+	if addon.dataSource == "QUESTIE" then return QUESTIE.getQuestNext(id) end
+	if addon.dataSource == "CLASSIC_CODEX" then return CLASSIC_CODEX.getQuestNext(id) end
+	if DB.questsDB[id] ~= nil then return DB.questsDB[id].next end
 end
 
-function addon.getQuestPrev(id)
-	if addon.questsDB[id] ~= nil then return addon.questsDB[id].prev end
+function QT.getQuestPrev(id)
+	if DB.questsDB[id] ~= nil then return DB.questsDB[id].prev end
 end
 
-function addon.getQuestRaces(id)
-	if addon.dataSource == "QUESTIE" then return addon.getQuestRacesQuestie(id) end
-	if addon.dataSource == "CLASSIC_CODEX" then return addon.getQuestRacesClassicCodex(id) end
-	if addon.questsDB[id] ~= nil then return addon.questsDB[id].races end
+function QT.getQuestRaces(id)
+	if addon.dataSource == "QUESTIE" then return QUESTIE.getQuestRaces(id) end
+	if addon.dataSource == "CLASSIC_CODEX" then return CLASSIC_CODEX.getQuestRaces(id) end
+	if DB.questsDB[id] ~= nil then return DB.questsDB[id].races end
 end
 
-function addon.getQuestClasses(id)
-	if addon.dataSource == "QUESTIE" then return addon.getQuestClassesQuestie(id) end
-	if addon.dataSource == "CLASSIC_CODEX" then return addon.getQuestClassesClassicCodex(id) end
-	if addon.questsDB[id] ~= nil then return addon.questsDB[id].classes end
+function QT.getQuestClasses(id)
+	if addon.dataSource == "QUESTIE" then return QUESTIE.getQuestClasses(id) end
+	if addon.dataSource == "CLASSIC_CODEX" then return CLASSIC_CODEX.getQuestClasses(id) end
+	if DB.questsDB[id] ~= nil then return DB.questsDB[id].classes end
 end
 
-function addon.getQuestFaction(id)
-	if addon.dataSource == "QUESTIE" then return addon.getQuestFactionQuestie(id) end
-	if addon.dataSource == "CLASSIC_CODEX" then return addon.getQuestFactionClassicCodex(id) end
-	if addon.questsDB[id] ~= nil then return addon.questsDB[id].faction end
+function QT.getQuestFaction(id)
+	if addon.dataSource == "QUESTIE" then return QUESTIE.getQuestFaction(id) end
+	if addon.dataSource == "CLASSIC_CODEX" then return CLASSIC_CODEX.getQuestFaction(id) end
+	if DB.questsDB[id] ~= nil then return DB.questsDB[id].faction end
 end
 
-function addon.getNPCPosition(id)
-	if addon.dataSource == "QUESTIE" then return addon.getNPCPositionQuestie(id) end
-	if addon.dataSource == "CLASSIC_CODEX" then return addon.getNPCPositionClassicCodex(id) end
-	local element = addon.creaturesDB[npcId]
+function QT.getNPCPosition(id)
+	if addon.dataSource == "QUESTIE" then return QUESTIE.getNPCPosition(id) end
+	if addon.dataSource == "CLASSIC_CODEX" then return CLASSIC_CODEX.getNPCPosition(id) end
+	local element = DB.creaturesDB[npcId]
 	if element ~= nil and element.positions ~= nil then
 		for i, pos in ipairs(element.positions) do
 			-- filter all instances
 			if pos.mapid == 0 or pos.mapid == 1 then
 				-- x/y are switched in db
-				local x, y, zone = addon.GetZoneCoordinatesFromWorld(pos.y, pos.x, pos.mapid, filterZone)
+				local x, y, zone = QT.GetZoneCoordinatesFromWorld(pos.y, pos.x, pos.mapid, filterZone)
 				if x ~= nil then
-					return {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, zone = zone, mapID = addon.mapIDs[zone], 
+					return {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, zone = zone, mapID = DM.mapIDs[zone], 
 						wx = pos.y, wy = pos.x, instance = pos.mapid,
 						objectives = objectives.npc[npcId],
 						npcId = npcId
@@ -166,100 +180,100 @@ function addon.getNPCPosition(id)
 	end
 end
 
-function addon.getQuestIDs()
-	if addon.dataSource == "CLASSIC_CODEX" then return addon.getQuestIDsClassicCodex(id) end
+function QT.getQuestIDs()
+	if addon.dataSource == "CLASSIC_CODEX" then return CLASSIC_CODEX.getQuestIDs(id) end
 	local ids = {}
-	for id, q in pairs(addon.questsDB) do
+	for id, q in pairs(DB.questsDB) do
 		table.insert(ids, id)
 	end
 	return ids
 end
 
-function addon.getQuestApplies(id)
-	return addon.applies({races = addon.getQuestRaces(id), classes = addon.getQuestClasses(id), faction = addon.getQuestFaction(id)})
+function QT.getQuestApplies(id)
+	return D.applies({races = QT.getQuestRaces(id), classes = QT.getQuestClasses(id), faction = QT.getQuestFaction(id)})
 end
 
-function addon.getQuestNameById(id)
+function QT.getQuestNameById(id)
 	if id == nil then return nil end
-	if addon.quests ~= nil and addon.quests[id] ~= nil and addon.quests[id].name ~= nil then
-		return addon.quests[id].name
+	if CG.quests ~= nil and CG.quests[id] ~= nil and CG.quests[id].name ~= nil then
+		return CG.quests[id].name
 	end
 	if C_QuestLog.GetQuestInfo(id) ~= nil then return C_QuestLog.GetQuestInfo(id) end
-	if addon.dataSource == "QUESTIE" then return addon.getQuestNameQuestie(id) end
-	if addon.dataSource == "CLASSIC_CODEX" then return addon.getQuestNameClassicCodex(id) end
+	if addon.dataSource == "QUESTIE" then return QUESTIE.getQuestName(id) end
+	if addon.dataSource == "CLASSIC_CODEX" then return CLASSIC_CODEX.getQuestName(id) end
 	local locale = GetLocale()
-	if addon.questsDB[id] == nil then
+	if DB.questsDB[id] == nil then
 		return nil
-	elseif addon["questsDB_" .. locale] ~= nil and addon["questsDB_" .. locale][id] ~= nil and addon["questsDB_" .. locale][id].name ~= nil then
-		return addon["questsDB_" .. locale][id].name
-	elseif locale == "zhTW" and addon.questsDB_zhCN ~= nil and addon.questsDB_zhCN[id] ~= nil and addon.questsDB_zhCN[id].name ~= nil then
-		return addon.questsDB_zhCN[id].name
+	elseif DB["questsDB_" .. locale] ~= nil and DB["questsDB_" .. locale][id] ~= nil and DB["questsDB_" .. locale][id].name ~= nil then
+		return DB["questsDB_" .. locale][id].name
+	elseif locale == "zhTW" and DB.questsDB_zhCN ~= nil and DB.questsDB_zhCN[id] ~= nil and DB.questsDB_zhCN[id].name ~= nil then
+		return DB.questsDB_zhCN[id].name
 	else
-		return addon.questsDB[id].name
+		return DB.questsDB[id].name
 	end
 end
 
-function addon.getQuestObjective(id)
-	if addon.dataSource == "QUESTIE" then return addon.getQuestObjectiveQuestie(id) end
-	if addon.dataSource == "CLASSIC_CODEX" then return addon.getQuestObjectiveClassicCodex(id) end
+function QT.getQuestObjective(id)
+	if addon.dataSource == "QUESTIE" then return QUESTIE.getQuestObjective(id) end
+	if addon.dataSource == "CLASSIC_CODEX" then return CLASSIC_CODEX.getQuestObjective(id) end
 	local locale = GetLocale()
-	if id == nil or addon.questsDB[id] == nil then
+	if id == nil or DB.questsDB[id] == nil then
 		return
-	elseif addon["questsDB_" .. locale] ~= nil and addon["questsDB_" .. locale][id] ~= nil and addon["questsDB_" .. locale][id].objective ~= nil then
-		return addon["questsDB_" .. locale][id].objective
-	elseif locale == "zhTW" and addon.questsDB_zhCN ~= nil and addon.questsDB_zhCN[id] ~= nil and addon.questsDB_zhCN[id].objective ~= nil then
-		return addon.questsDB_zhCN[id].objective
+	elseif DB["questsDB_" .. locale] ~= nil and DB["questsDB_" .. locale][id] ~= nil and DB["questsDB_" .. locale][id].objective ~= nil then
+		return DB["questsDB_" .. locale][id].objective
+	elseif locale == "zhTW" and DB.questsDB_zhCN ~= nil and DB.questsDB_zhCN[id] ~= nil and DB.questsDB_zhCN[id].objective ~= nil then
+		return DB.questsDB_zhCN[id].objective
 	else
-		return addon.questsDB[id].objective
+		return DB.questsDB[id].objective
 	end
 end
 
-function addon.getQuestReputation(id)
-	if addon.dataSource == "QUESTIE" then return addon.getQuestReputationQuestie(id) end
-	if addon.dataSource == "CLASSIC_CODEX" then return addon.getQuestReputationClassicCodex(id) end
+function QT.getQuestReputation(id)
+	if addon.dataSource == "QUESTIE" then return QUESTIE.getQuestReputation(id) end
+	if addon.dataSource == "CLASSIC_CODEX" then return CLASSIC_CODEX.getQuestReputation(id) end
 end
 
 -- returns a type (npc/item/object) and a list of names for quest source / each objective / turn in; e.g. {{type="item", names={"Huge Gnoll Claw", "Hogger"}, ids={item={1931},npc={448}} for id = 176, typ = "COMPLETE"
-function addon.getQuestObjectives(id, typ)
+function QT.getQuestObjectives(id, typ)
 	if id == nil then return end
 	if typ == nil then typ = "COMPLETE" end
-	if addon.questObjectives == nil then addon.questObjectives = {} end
-	if addon.questObjectives[id] == nil then addon.questObjectives[id] = {} end
-	if addon.questObjectives[id][typ] == nil and addon.dataSource == "QUESTIE" then addon.questObjectives[id][typ] = addon.getQuestObjectivesQuestie(id, typ) end
-	if addon.questObjectives[id][typ] == nil and addon.dataSource == "CLASSIC_CODEX" then addon.questObjectives[id][typ] = addon.getQuestObjectivesClassicCodex(id, typ) end
-	if addon.questObjectives[id][typ] == nil and addon.questsDB[id] ~= nil then
+	if QT.questObjectives == nil then QT.questObjectives = {} end
+	if QT.questObjectives[id] == nil then QT.questObjectives[id] = {} end
+	if QT.questObjectives[id][typ] == nil and addon.dataSource == "QUESTIE" then QT.questObjectives[id][typ] = QUESTIE.getQuestObjectives(id, typ) end
+	if QT.questObjectives[id][typ] == nil and addon.dataSource == "CLASSIC_CODEX" then QT.questObjectives[id][typ] = CLASSIC_CODEX.getQuestObjectives(id, typ) end
+	if QT.questObjectives[id][typ] == nil and DB.questsDB[id] ~= nil then
 		local locale = GetLocale()
 		local ids = {}
 		local objectives = {}
 		if typ == "ACCEPT" then 
-			if addon.questsDB[id].source ~= nil then
-				for i, e in ipairs(addon.questsDB[id].source) do
+			if DB.questsDB[id].source ~= nil then
+				for i, e in ipairs(DB.questsDB[id].source) do
 					objectives[i] = {type = e.type, ids = {[e.type] = {e.id}}}
 				end
 			end
 		elseif typ == "TURNIN" then
-			if addon.questsDB[id].deliver ~= nil then
-				for i, e in ipairs(addon.questsDB[id].deliver) do
+			if DB.questsDB[id].deliver ~= nil then
+				for i, e in ipairs(DB.questsDB[id].deliver) do
 					objectives[i] = {type = e.type, ids = {[e.type] = {e.id}}}
 				end
 			end
 		elseif typ == "COMPLETE" then
 			local c = 1
-			if addon.questsDB[id].kill ~= nil then
-				for i, id in ipairs(addon.questsDB[id].kill) do
+			if DB.questsDB[id].kill ~= nil then
+				for i, id in ipairs(DB.questsDB[id].kill) do
 					objectives[c] = {type = "monster", ids = {npc = {id}}}
 					c = c + 1
 				end
 			end
-			if addon.questsDB[id].interact ~= nil then
-				for i, id in ipairs(addon.questsDB[id].interact) do
+			if DB.questsDB[id].interact ~= nil then
+				for i, id in ipairs(DB.questsDB[id].interact) do
 					objectives[c] = {type = "object", ids = {object = {id}}}
 					ids[c] = {object = {id}}
 					c = c + 1
 				end
 			end
-			if addon.questsDB[id].gather ~= nil then
-				for i, id in ipairs(addon.questsDB[id].gather) do
+			if DB.questsDB[id].gather ~= nil then
+				for i, id in ipairs(DB.questsDB[id].gather) do
 					objectives[c] = {type = "item", ids = {item = {id}}}
 					c = c + 1
 				end
@@ -269,12 +283,12 @@ function addon.getQuestObjectives(id, typ)
 			objective.names = {}
 			if objective.ids.item ~= nil then
 				for _, itemId in ipairs(objective.ids.item) do
-					if addon["itemsDB_" .. locale] ~= nil and addon["itemsDB_" .. locale][itemId] ~= nil then
-						table.insert(objective.names, addon["itemsDB_" .. locale][itemId])
+					if DB["itemsDB_" .. locale] ~= nil and DB["itemsDB_" .. locale][itemId] ~= nil then
+						table.insert(objective.names, DB["itemsDB_" .. locale][itemId])
 					end
-					local item = addon.itemsDB[itemId]
+					local item = DB.itemsDB[itemId]
 					if item ~= nil then
-						if not addon.contains(objective.names, item.name) then table.insert(objective.names, item.name) end
+						if not D.contains(objective.names, item.name) then table.insert(objective.names, item.name) end
 						if item.drop ~= nil then
 							for _, npcId in ipairs(item.drop) do
 								if objective.ids.npc == nil then objective.ids.npc = {} end
@@ -292,45 +306,45 @@ function addon.getQuestObjectives(id, typ)
 			end
 			if objective.ids.npc ~= nil then
 				for _, npcId in ipairs(objective.ids.npc) do
-					if addon["creaturesDB_" .. locale] ~= nil and addon["creaturesDB_" .. locale][npcId] ~= nil then
-						if not addon.contains(objective.names, addon["creaturesDB_" .. locale][npcId]) then table.insert(objective.names, addon["creaturesDB_" .. locale][npcId]) end
+					if DB["creaturesDB_" .. locale] ~= nil and DB["creaturesDB_" .. locale][npcId] ~= nil then
+						if not D.contains(objective.names, DB["creaturesDB_" .. locale][npcId]) then table.insert(objective.names, DB["creaturesDB_" .. locale][npcId]) end
 					end
-					local creature = addon.creaturesDB[npcId]
+					local creature = DB.creaturesDB[npcId]
 					if creature ~= nil then
-						if not addon.contains(objective.names, creature.name) then table.insert(objective.names, creature.name) end
+						if not D.contains(objective.names, creature.name) then table.insert(objective.names, creature.name) end
 					end
 				end
 			end
 			if objective.ids.object ~= nil then
 				for _, objectId in ipairs(objective.ids.object) do
-					if addon["objectsDB_" .. locale] ~= nil and addon["objectsDB_" .. locale][objectId] ~= nil then
-						if not addon.contains(objective.names, addon["objectsDB_" .. locale][objectId]) then table.insert(objective.names, addon["objectsDB_" .. locale][objectId]) end
+					if DB["objectsDB_" .. locale] ~= nil and DB["objectsDB_" .. locale][objectId] ~= nil then
+						if not D.contains(objective.names, DB["objectsDB_" .. locale][objectId]) then table.insert(objective.names, DB["objectsDB_" .. locale][objectId]) end
 					end
-					local object = addon.objectsDB[objectId]
+					local object = DB.objectsDB[objectId]
 					if object ~= nil then
-						if not addon.contains(objective.names, object.name) then table.insert(objective.names, object.name) end
+						if not D.contains(objective.names, object.name) then table.insert(objective.names, object.name) end
 					end
 				end
 			end
 		end	
-		addon.questObjectives[id][typ] = objectives
+		QT.questObjectives[id][typ] = objectives
 	end
-	return addon.questObjectives[id][typ]
+	return QT.questObjectives[id][typ]
 end
 
-function addon.getQuestPositions(id, typ, objective, filterZone)
+function QT.getQuestPositions(id, typ, objective, filterZone)
 	if id == nil then return end
 	if objective == 0 then objective = nil end
-	if addon.dataSource == "QUESTIE" then return addon.getQuestPositionsQuestie(id, typ, objective, filterZone) end
-	if addon.dataSource == "CLASSIC_CODEX" then return addon.getQuestPositionsClassicCodex(id, typ, objective, filterZone) end
-	if addon.getSuperCode(typ) == "QUEST" and addon.questsDB[id] == nil then return end
+	if addon.dataSource == "QUESTIE" then return QUESTIE.getQuestPositions(id, typ, objective, filterZone) end
+	if addon.dataSource == "CLASSIC_CODEX" then return CLASSIC_CODEX.getQuestPositions(id, typ, objective, filterZone) end
+	if GP.getSuperCode(typ) == "QUEST" and DB.questsDB[id] == nil then return end
 	--local time
 	--if addon.debugging then time = debugprofilestop() end
 	local ids = {npc = {}, object = {}, item = {}}
 	local objectives = {npc = {}, object = {}, item = {}}
 	if typ == "ACCEPT" then 
-		if addon.questsDB[id].source ~= nil then
-			for i, e in ipairs(addon.questsDB[id].source) do
+		if DB.questsDB[id].source ~= nil then
+			for i, e in ipairs(DB.questsDB[id].source) do
 				if objective == nil or objective == i then
 					table.insert(ids[e.type], e.id)
 					if objectives[e.type][e.id] == nil then objectives[e.type][e.id] = {} end
@@ -339,8 +353,8 @@ function addon.getQuestPositions(id, typ, objective, filterZone)
 			end
 		end
 	elseif typ == "TURNIN" then
-		if addon.questsDB[id].deliver ~= nil then
-			for i, e in ipairs(addon.questsDB[id].deliver) do
+		if DB.questsDB[id].deliver ~= nil then
+			for i, e in ipairs(DB.questsDB[id].deliver) do
 				if objective == nil or objective == i then
 					table.insert(ids[e.type], e.id)
 					if objectives[e.type][e.id] == nil then objectives[e.type][e.id] = {} end
@@ -350,8 +364,8 @@ function addon.getQuestPositions(id, typ, objective, filterZone)
 		end
 	elseif typ == "COMPLETE" then
 		local c = 1
-		if addon.questsDB[id].kill ~= nil then
-			for i, id in ipairs(addon.questsDB[id].kill) do
+		if DB.questsDB[id].kill ~= nil then
+			for i, id in ipairs(DB.questsDB[id].kill) do
 				if objective == nil or objective == c then
 					table.insert(ids.npc, id)
 					if objectives.npc[id] == nil then objectives.npc[id] = {} end
@@ -360,8 +374,8 @@ function addon.getQuestPositions(id, typ, objective, filterZone)
 				c = c + 1
 			end
 		end
-		if addon.questsDB[id].interact ~= nil then
-			for i, id in ipairs(addon.questsDB[id].interact) do
+		if DB.questsDB[id].interact ~= nil then
+			for i, id in ipairs(DB.questsDB[id].interact) do
 				if objective == nil or objective == c then
 					table.insert(ids.object, id)
 					if objectives.object[id] == nil then objectives.object[id] = {} end
@@ -370,8 +384,8 @@ function addon.getQuestPositions(id, typ, objective, filterZone)
 				c = c + 1
 			end
 		end
-		if addon.questsDB[id].gather ~= nil then
-			for i, id in ipairs(addon.questsDB[id].gather) do
+		if DB.questsDB[id].gather ~= nil then
+			for i, id in ipairs(DB.questsDB[id].gather) do
 				if objective == nil or objective == c then
 					table.insert(ids.item, id)
 					if objectives.item[id] == nil then objectives.item[id] = {} end
@@ -384,9 +398,9 @@ function addon.getQuestPositions(id, typ, objective, filterZone)
 		table.insert(ids.item, id)
 	end
 	for _, itemId in ipairs(ids.item) do
-		if addon.itemsDB[itemId] ~= nil then
-			if addon.itemsDB[itemId].drop ~= nil then
-				for _, npcId in ipairs(addon.itemsDB[itemId].drop) do
+		if DB.itemsDB[itemId] ~= nil then
+			if DB.itemsDB[itemId].drop ~= nil then
+				for _, npcId in ipairs(DB.itemsDB[itemId].drop) do
 					table.insert(ids.npc, npcId)
 					if objectives.item[itemId] ~= nil then
 						if objectives.npc[npcId] == nil then objectives.npc[npcId] = {} end
@@ -396,8 +410,8 @@ function addon.getQuestPositions(id, typ, objective, filterZone)
 					end
 				end
 			end
-			if addon.itemsDB[itemId].object ~= nil then
-				for _, objectId in ipairs(addon.itemsDB[itemId].object) do
+			if DB.itemsDB[itemId].object ~= nil then
+				for _, objectId in ipairs(DB.itemsDB[itemId].object) do
 					table.insert(ids.object, objectId)
 					if objectives.object[objectId] == nil then objectives.object[objectId] = {} end
 					if objectives.item[itemId] ~= nil then
@@ -412,17 +426,17 @@ function addon.getQuestPositions(id, typ, objective, filterZone)
 	local positions = {}
 	local count = 0
 	for _, npcId in ipairs(ids.npc) do
-		local element = addon.creaturesDB[npcId]
+		local element = DB.creaturesDB[npcId]
 		if element ~= nil and element.positions ~= nil then
 			for i, pos in ipairs(element.positions) do
 				-- filter all instances
 				if pos.mapid == 0 or pos.mapid == 1 then
 					-- TODO: x/y are still switched in db
-					local x, y, zone = addon.GetZoneCoordinatesFromWorld(pos.y, pos.x, pos.mapid, filterZone)
+					local x, y, zone = QT.GetZoneCoordinatesFromWorld(pos.y, pos.x, pos.mapid, filterZone)
 					if x ~= nil then
 						if count >= LIMIT_POSITIONS then return end
 						count = count + 1
-						positions[count] = {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, zone = zone, mapID = addon.mapIDs[zone], 
+						positions[count] = {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, zone = zone, mapID = DM.mapIDs[zone], 
 							wx = pos.y, wy = pos.x, instance = pos.mapid,
 							objectives = objectives.npc[npcId],
 							npcId = npcId
@@ -435,17 +449,17 @@ function addon.getQuestPositions(id, typ, objective, filterZone)
 		end
 	end	
 	for _, objectId in ipairs(ids.object) do
-		local element = addon.objectsDB[objectId]
+		local element = DB.objectsDB[objectId]
 		if element ~= nil and element.positions ~= nil then
 			for i, pos in ipairs(element.positions) do
 				-- filter all instances
 				if pos.mapid == 0 or pos.mapid == 1 then
 					-- TODO: x/y are still switched in db
-					local x, y, zone = addon.GetZoneCoordinatesFromWorld(pos.y, pos.x, pos.mapid, filterZone)
+					local x, y, zone = QT.GetZoneCoordinatesFromWorld(pos.y, pos.x, pos.mapid, filterZone)
 					if x ~= nil then
 						if count >= LIMIT_POSITIONS then return end
 						count = count + 1
-						positions[count] = {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, zone = zone, mapID = addon.mapIDs[zone], 
+						positions[count] = {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, zone = zone, mapID = DM.mapIDs[zone], 
 							wx = pos.y, wy = pos.x, instance = pos.mapid,
 							objectives = objectives.object[objectId],
 							objectId = objectId}
@@ -515,25 +529,25 @@ local function selectFurthestPosition(positions, clusters)
 	return maxPos
 end
 
-function addon.getQuestPosition(id, typ, index)
+function QT.getQuestPosition(id, typ, index)
 	if index == nil then index = 0 end
-	if addon.questPosition == nil then addon.questPosition = {} end
-	if addon.questPosition[id] == nil then addon.questPosition[id] = {} end
-	if addon.questPosition[id][typ] == nil then addon.questPosition[id][typ] = {} end
-	if addon.questPosition[id][typ][index] ~= nil then 
-		if addon.questPosition[id][typ][index] == false then return end
-		return addon.questPosition[id][typ][index] 
+	if QT.questPosition == nil then QT.questPosition = {} end
+	if QT.questPosition[id] == nil then QT.questPosition[id] = {} end
+	if QT.questPosition[id][typ] == nil then QT.questPosition[id][typ] = {} end
+	if QT.questPosition[id][typ][index] ~= nil then 
+		if QT.questPosition[id][typ][index] == false then return end
+		return QT.questPosition[id][typ][index] 
 	end
 
 	--caching of empty results disabled 
-	--addon.questPosition[id][typ][index] = false
+	--QT.questPosition[id][typ][index] = false
 	local clusters = {}
 	local maxCluster	
-	local filterZone = addon.getQuestSort(id)
-	if filterZone ~= nil and addon.mapIDs[filterZone] == nil then filterZone = nil end
-	local positions = addon.getQuestPositions(id, typ, index, filterZone)
+	local filterZone = QT.getQuestSort(id)
+	if filterZone ~= nil and DM.mapIDs[filterZone] == nil then filterZone = nil end
+	local positions = QT.getQuestPositions(id, typ, index, filterZone)
 	if positions ~= nil and #positions == 0 and filterZone ~= nil then
-		positions = addon.getQuestPositions(id, typ, index)
+		positions = QT.getQuestPositions(id, typ, index)
 	end
 	if positions == nil or #positions > LIMIT_CENTER_POSITION then return end
 	--local time
@@ -549,26 +563,26 @@ function addon.getQuestPosition(id, typ, index)
 	--if addon.debugging then print("LIME: findCluster " .. #positions .. " positions " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	if maxCluster ~= nil then
 		if addon.debugging and maxCluster.count > 1 then print("LIME: biggest cluster of", maxCluster.count, "at", maxCluster.x, maxCluster.y, maxCluster.instance) end
-		local x, y, zone = addon.GetZoneCoordinatesFromWorld(maxCluster.x, maxCluster.y, maxCluster.instance)
+		local x, y, zone = QT.GetZoneCoordinatesFromWorld(maxCluster.x, maxCluster.y, maxCluster.instance)
 		if x ~= nil then
 			--if addon.debugging then print("LIME: getQuestPosition " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
-			addon.questPosition[id][typ][index] = {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, 
+			QT.questPosition[id][typ][index] = {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, 
 				wx = maxCluster.x, wy = maxCluster.y, instance = maxCluster.instance,
-				zone = zone, mapID = addon.mapIDs[zone], radius = math.floor(math.sqrt(maxCluster.radius)) + addon.DEFAULT_GOTO_RADIUS, estimate = #positions > 1}
-			return addon.questPosition[id][typ][index]
+				zone = zone, mapID = DM.mapIDs[zone], radius = math.floor(math.sqrt(maxCluster.radius)) + CG.DEFAULT_GOTO_RADIUS, estimate = #positions > 1}
+			return QT.questPosition[id][typ][index]
 		elseif addon.debugging then
 			print("LIME: error transforming (" .. maxCluster.x .. "," .. maxCluster.y .. "," .. maxCluster.instance .. ") into zone coordinates for quest #" .. id)
 		end
 	end
 end
 
-function addon.getQuestPositionsLimited(id, typ, index, maxNumber, onlyWorld)
+function QT.getQuestPositionsLimited(id, typ, index, maxNumber, onlyWorld)
 	local clusters = {}
-	local filterZone = addon.getSuperCode(typ) == "QUEST" and addon.getQuestZone(id)
-	local positions = addon.getQuestPositions(id, typ, index, filterZone)
+	local filterZone = GP.getSuperCode(typ) == "QUEST" and QT.getQuestZone(id)
+	local positions = QT.getQuestPositions(id, typ, index, filterZone)
 	if positions == nil then return end
 	if #positions == 0 and filterZone ~= nil then
-		positions = addon.getQuestPositions(id, typ, index)
+		positions = QT.getQuestPositions(id, typ, index)
 		if positions == nil then return end
 	end
 	if maxNumber > 0 and #positions > maxNumber then
@@ -606,12 +620,12 @@ function addon.getQuestPositionsLimited(id, typ, index, maxNumber, onlyWorld)
 	if onlyWorld then return positions end
 	local result = {}
 	for _, pos in ipairs(positions) do
-		local x, y, zone = addon.GetZoneCoordinatesFromWorld(pos.wx, pos.wy, pos.instance)
+		local x, y, zone = QT.GetZoneCoordinatesFromWorld(pos.wx, pos.wy, pos.instance)
 		if x ~= nil then
 			pos.x = math.floor(x * 10000) / 100
 			pos.y = math.floor(y * 10000) / 100
 			pos.zone = zone
-			pos.mapID = addon.mapIDs[zone]
+			pos.mapID = DM.mapIDs[zone]
 			table.insert(result, pos)
 		elseif addon.debugging then
 			print("LIME: error transforming (" .. maxCluster.x .. "," .. maxCluster.y .. "," .. maxCluster.instance .. ") into zone coordinates for quest #" .. id)
@@ -620,7 +634,7 @@ function addon.getQuestPositionsLimited(id, typ, index, maxNumber, onlyWorld)
 	return result
 end
 
-function addon.findInLists(line, wordLists, first, startPos, endPos)
+function QT.findInLists(line, wordLists, first, startPos, endPos)
 	local s, e, w, result
 	local lower = " " .. line:lower() .. " "
 	startPos = (startPos or 1)
@@ -651,26 +665,26 @@ function addon.findInLists(line, wordLists, first, startPos, endPos)
 	end
 end
 
-function addon.getPossibleQuestIdsByName(name, part, faction, race, class)
-	if addon.questsDBReverse == nil then
-		addon.questsDBReverse = {}
-		for _, id in ipairs(addon.getQuestIDs()) do
-			if addon.getQuestReplacement(id) == nil then
-				local n = addon.getQuestNameById(id):lower():gsub("[%(%)\"%s%p]","")
-				if addon.questsDBReverse[n] == nil then addon.questsDBReverse[n] = {} end
-				table.insert(addon.questsDBReverse[n], id)
+function QT.getPossibleQuestIdsByName(name, part, faction, race, class)
+	if QT.questsDBReverse == nil then
+		QT.questsDBReverse = {}
+		for _, id in ipairs(QT.getQuestIDs()) do
+			if QT.getQuestReplacement(id) == nil then
+				local n = QT.getQuestNameById(id):lower():gsub("[%(%)\"%s%p]","")
+				if QT.questsDBReverse[n] == nil then QT.questsDBReverse[n] = {} end
+				table.insert(QT.questsDBReverse[n], id)
 				-- if localized quest name is different from english name also include english name
 				--[[
-				if addon.getQuestNameById(id) ~= addon.questsDB[id].name then
-					n = addon.questsDB[id].name:lower():gsub("[%(%)\"%s%p]",""):gsub("  ", " ")
-					if addon.questsDBReverse[n] == nil then addon.questsDBReverse[n] = {} end
-					table.insert(addon.questsDBReverse[n], id)
+				if QT.getQuestNameById(id) ~= DB.questsDB[id].name then
+					n = DB.questsDB[id].name:lower():gsub("[%(%)\"%s%p]",""):gsub("  ", " ")
+					if QT.questsDBReverse[n] == nil then QT.questsDBReverse[n] = {} end
+					table.insert(QT.questsDBReverse[n], id)
 				end]]
 			end
 		end
 	end
 	local filteredName = name:lower():gsub("[%(%)\"%s%p]","")
-	local ids = addon.questsDBReverse[filteredName]
+	local ids = QT.questsDBReverse[filteredName]
 	if ids == nil or #ids == 0 and part == nil then
 		local wordListMap = {}
 		wordListMap[L.WORD_LIST_PART_N] = function(s, e, n) filteredName = filteredName:sub(1, s - 1); part = tonumber(n) end
@@ -682,11 +696,11 @@ function addon.getPossibleQuestIdsByName(name, part, faction, race, class)
 			if GetLocale() ~= "enUS" then wordListMap[addon.defaultL["WORD_LIST_PART_" .. i]] = function(s, e) filteredName = filteredName:sub(1, s - 1); part = ii end end
 			i = i + 1
 		end
-		addon.findInLists(filteredName, wordListMap, false)
+		QT.findInLists(filteredName, wordListMap, false)
 		if part == nil then
-			addon.findInLists(filteredName, {["(%d+) "] = function(s, e, n) filteredName = filteredName:sub(1, s - 1); part = tonumber(n) end}, false)
+			QT.findInLists(filteredName, {["(%d+) "] = function(s, e, n) filteredName = filteredName:sub(1, s - 1); part = tonumber(n) end}, false)
 		end
-		ids = addon.questsDBReverse[filteredName]
+		ids = QT.questsDBReverse[filteredName]
 	end	
 
 	if ids == nil then ids = {} end
@@ -697,7 +711,7 @@ function addon.getPossibleQuestIdsByName(name, part, faction, race, class)
 		elseif #ids > 1 then
 			local filteredIds = {}
 			for i, id in ipairs(ids) do
-				if addon.getQuestSeries(id) == part then
+				if QT.getQuestSeries(id) == part then
 					table.insert(filteredIds, id)		
 				end
 			end
@@ -707,17 +721,17 @@ function addon.getPossibleQuestIdsByName(name, part, faction, race, class)
 	if faction ~= nil or race ~= nil or class ~= nil then
 		local filteredIds = {}
 		for i, id in ipairs(ids) do
-			local match = faction == nil or addon.getQuestFaction(id) == nil or faction == addon.getQuestFaction(id)
-			if match and race ~= nil and addon.getQuestRaces(id) ~= nil then
+			local match = faction == nil or QT.getQuestFaction(id) == nil or faction == QT.getQuestFaction(id)
+			if match and race ~= nil and QT.getQuestRaces(id) ~= nil then
 				match = false
 				for i, r in ipairs(race) do
-					if addon.contains(addon.getQuestRaces(id), r) then match = true; break end
+					if D.contains(QT.getQuestRaces(id), r) then match = true; break end
 				end
 			end	
-			if match and class ~= nil and addon.getQuestClasses(id) ~= nil then
+			if match and class ~= nil and QT.getQuestClasses(id) ~= nil then
 				match = false
 				for i, c in ipairs(class) do
-					if addon.contains(addon.getQuestClasses(id), c) then match = true; break end
+					if D.contains(QT.getQuestClasses(id), c) then match = true; break end
 				end
 			end	
 			if match then table.insert(filteredIds, id) end
@@ -727,11 +741,11 @@ function addon.getPossibleQuestIdsByName(name, part, faction, race, class)
 	return ids
 end
 
-function addon.GetZoneCoordinatesFromWorld(worldX, worldY, instance, zone)
+function QT.GetZoneCoordinatesFromWorld(worldX, worldY, instance, zone)
 	if zone ~= nil then
-		local x, y = HBD:GetZoneCoordinatesFromWorld(worldX, worldY, addon.mapIDs[zone], true)
+		local x, y = HBD:GetZoneCoordinatesFromWorld(worldX, worldY, DM.mapIDs[zone], true)
 		if x ~= nil and x > 0 and x < 1 and y ~= nil and y > 0 and y < 1 then
-			local _, _, checkInstance = HBD:GetWorldCoordinatesFromZone(x, y, addon.mapIDs[zone])
+			local _, _, checkInstance = HBD:GetWorldCoordinatesFromZone(x, y, DM.mapIDs[zone])
 			if checkInstance == instance then
 				-- hack for some bfa zone names
 				do
@@ -742,21 +756,21 @@ function addon.GetZoneCoordinatesFromWorld(worldX, worldY, instance, zone)
 			end
 		end
 	else
-		for zone, _ in pairs(addon.mapIDs) do
-			local x, y, z = addon.GetZoneCoordinatesFromWorld(worldX, worldY, instance, zone)
+		for zone, _ in pairs(DM.mapIDs) do
+			local x, y, z = QT.GetZoneCoordinatesFromWorld(worldX, worldY, instance, zone)
 			if x ~= nil then return x, y, z end
 		end
 	end
 end
 
-function addon.getMissingPrequests(id, isCompleteFunc)
+function QT.getMissingPrequests(id, isCompleteFunc)
 	local missingPrequests = {}
-	if addon.getQuestPrequests(id) ~= nil then
-		for _, pid in ipairs(addon.getQuestPrequests(id)) do
-			if addon.getQuestApplies(pid) then
+	if QT.getQuestPrequests(id) ~= nil then
+		for _, pid in ipairs(QT.getQuestPrequests(id)) do
+			if QT.getQuestApplies(pid) then
 				if not isCompleteFunc(pid) then
 					table.insert(missingPrequests, pid)
-				elseif addon.getQuestOneOfPrequests(id) then
+				elseif QT.getQuestOneOfPrequests(id) then
 					return {}
 				end
 			end
@@ -765,61 +779,61 @@ function addon.getMissingPrequests(id, isCompleteFunc)
 	return missingPrequests
 end
 
-function addon.getNPCPosition(id)
+function QT.getNPCPosition(id)
 	if id == nil then return end
-	if addon.dataSource == "QUESTIE" then return addon.getNPCPositionQuestie(id) end
-	if addon.dataSource == "CLASSIC_CODEX" then return addon.getNPCPositionClassicCodex(id) end
-	if addon.creaturesDB[id] == nil or addon.creaturesDB[id].positions == nil then return end
-	local p = addon.creaturesDB[id].positions[1]
-	local x, y, z = addon.GetZoneCoordinatesFromWorld(p.y, p.x, p.mapid)
-	return {instance = p.mapid, wx = p.y, wy = p.x, mapID = addon.mapIDs[z], x = x, y = y}
+	if addon.dataSource == "QUESTIE" then return QUESTIE.getNPCPosition(id) end
+	if addon.dataSource == "CLASSIC_CODEX" then return CLASSIC_CODEX.getNPCPosition(id) end
+	if DB.creaturesDB[id] == nil or DB.creaturesDB[id].positions == nil then return end
+	local p = DB.creaturesDB[id].positions[1]
+	local x, y, z = QT.GetZoneCoordinatesFromWorld(p.y, p.x, p.mapid)
+	return {instance = p.mapid, wx = p.y, wy = p.x, mapID = DM.mapIDs[z], x = x, y = y}
 end
 
 
-function addon.getNPCName(id)
+function QT.getNPCName(id)
 	if id == nil then return end
-	if addon.npcNames == nil then addon.npcNames = {} end
-	if addon.npcNames[id] ~= nil then return addon.npcNames[id] end
-	if addon.dataSource == "QUESTIE" then addon.npcNames[id] = addon.getNPCNameQuestie(id); return addon.npcNames[id] end
-	if addon.dataSource == "CLASSIC_CODEX" then addon.npcNames[id] = addon.getNPCNameClassicCodex(id); return addon.npcNames[id] end
-	if addon["creaturesDB_" .. GetLocale()] ~= nil and addon["creaturesDB_" .. GetLocale()][id] ~= nil then
-		addon.npcNames[id] = addon["creaturesDB_" .. GetLocale()][npcId]
-	elseif addon.creaturesDB[id] ~= nil then
-		addon.npcNames[id] = addon.creaturesDB[id].name
+	if QT.npcNames == nil then QT.npcNames = {} end
+	if QT.npcNames[id] ~= nil then return QT.npcNames[id] end
+	if addon.dataSource == "QUESTIE" then QT.npcNames[id] = QUESTIE.getNPCName(id); return QT.npcNames[id] end
+	if addon.dataSource == "CLASSIC_CODEX" then QT.npcNames[id] = CLASSIC_CODEX.getNPCName(id); return QT.npcNames[id] end
+	if DB["creaturesDB_" .. GetLocale()] ~= nil and DB["creaturesDB_" .. GetLocale()][id] ~= nil then
+		QT.npcNames[id] = DB["creaturesDB_" .. GetLocale()][npcId]
+	elseif DB.creaturesDB[id] ~= nil then
+		QT.npcNames[id] = DB.creaturesDB[id].name
 	end
-	return addon.npcNames[id]
+	return QT.npcNames[id]
 end
 
-function addon.getObjectName(id)
+function QT.getObjectName(id)
 	if id == nil then return end
-	if addon.objectNames == nil then addon.objectNames = {} end
-	if addon.objectNames[id] ~= nil then return addon.objectNames[id] end
-	if addon.dataSource == "QUESTIE" then addon.objectNames[id] = addon.getObjectNameQuestie(id); return addon.objectNames[id] end
-	if addon.dataSource == "CLASSIC_CODEX" then addon.objectNames[id] = addon.getObjectNameClassicCodex(id); return addon.objectNames[id] end
-	if addon["objectsDB_" .. GetLocale()] ~= nil and addon["objectsDB_" .. GetLocale()][id] ~= nil then
-		addon.objectNames[id] = addon["objectsDB_" .. GetLocale()][id]
-	elseif addon.objectsDB[id] ~= nil then
-		addon.objectNames[id] = addon.objectsDB[id].name
+	if QT.objectNames == nil then QT.objectNames = {} end
+	if QT.objectNames[id] ~= nil then return QT.objectNames[id] end
+	if addon.dataSource == "QUESTIE" then QT.objectNames[id] = QUESTIE.getObjectName(id); return QT.objectNames[id] end
+	if addon.dataSource == "CLASSIC_CODEX" then QT.objectNames[id] = CLASSIC_CODEX.getObjectName(id); return QT.objectNames[id] end
+	if DB["objectsDB_" .. GetLocale()] ~= nil and DB["objectsDB_" .. GetLocale()][id] ~= nil then
+		QT.objectNames[id] = DB["objectsDB_" .. GetLocale()][id]
+	elseif DB.objectsDB[id] ~= nil then
+		QT.objectNames[id] = DB.objectsDB[id].name
 	end
-	return addon.objectNames[id]
+	return QT.objectNames[id]
 end
 
-function addon.getItemName(id)
+function QT.getItemName(id)
 	if id == nil then return end
-	if addon.itemNames == nil then addon.itemNames = {} end
-	if addon.itemNames[id] ~= nil then return addon.itemNames[id] end
-	if addon.dataSource == "QUESTIE" then addon.itemNames[id] = addon.getItemNameQuestie(id); return addon.itemNames[id] end
-	if addon.dataSource == "CLASSIC_CODEX" then addon.itemNames[id] = addon.getItemNameClassicCodex(id); return addon.itemNames[id] end
-	if addon["itemsDB_" .. GetLocale()] ~= nil and addon["itemsDB_" .. GetLocale()][id] ~= nil then
-		addon.itemNames[id] = addon["itemsDB_" .. GetLocale()][id]
-	elseif addon.itemsDB[id] ~= nil then
-		addon.itemNames[id] = addon.itemsDB[id].name
+	if QT.itemNames == nil then QT.itemNames = {} end
+	if QT.itemNames[id] ~= nil then return QT.itemNames[id] end
+	if addon.dataSource == "QUESTIE" then QT.itemNames[id] = QUESTIE.getItemName(id); return QT.itemNames[id] end
+	if addon.dataSource == "CLASSIC_CODEX" then QT.itemNames[id] = CLASSIC_CODEX.getItemName(id); return QT.itemNames[id] end
+	if DB["itemsDB_" .. GetLocale()] ~= nil and DB["itemsDB_" .. GetLocale()][id] ~= nil then
+		QT.itemNames[id] = DB["itemsDB_" .. GetLocale()][id]
+	elseif DB.itemsDB[id] ~= nil then
+		QT.itemNames[id] = DB.itemsDB[id].name
 	end
-	return addon.itemNames[id]
+	return QT.itemNames[id]
 end
 
-function addon.getItemStartingQuest(id)
-	local objectives = addon.getQuestObjectives(id, "ACCEPT")
+function QT.getItemStartingQuest(id)
+	local objectives = QT.getQuestObjectives(id, "ACCEPT")
 	if objectives then
 		for _, o in ipairs(objectives) do
 			if o.type == "item" then
@@ -829,23 +843,23 @@ function addon.getItemStartingQuest(id)
 	end
 end	
 
-function addon.isItemUsable(id)
+function QT.isItemUsable(id)
 	if id == nil then return end
 	if addon.dataSource == "QUESTIE" then 
-		if addon.isItemLootableQuestie(id) then 
+		if QUESTIE.isItemLootable(id) then 
 			if addon.debugging then print("LIME: found usable item", id, "(via Questie)") end
 			return true 
 		end
 	end
-	return addon.getUseItemTooltip(id) ~= nil
+	return QT.getUseItemTooltip(id) ~= nil
 end
 
-addon.useItemTooltips = {}
+QT.useItemTooltips = {}
 -- search for "Use:" in tooltip
 -- see https://wowwiki-archive.fandom.com/wiki/UIOBJECT_GameTooltip for tooltip scanning
-function addon.getUseItemTooltip(id)
+function QT.getUseItemTooltip(id)
 	if id == nil then return end
-	if addon.useItemTooltips[id] then return addon.useItemTooltips[id] end
+	if QT.useItemTooltips[id] then return QT.useItemTooltips[id] end
 	if not GuidelimeScanningTooltip then
 		CreateFrame( "GameTooltip", "GuidelimeScanningTooltip", nil, "GameTooltipTemplate" );
 		GuidelimeScanningTooltip:SetOwner( WorldFrame, "ANCHOR_NONE" );
@@ -862,30 +876,30 @@ function addon.getUseItemTooltip(id)
         if region and region:GetObjectType() == "FontString" and region:GetText() and 
 			region:GetText():find(USE_COLON) then
 			if addon.debugging then print("LIME: found usable item", id, "(via tooltip)") end
-			addon.useItemTooltips[id] = region:GetText()
+			QT.useItemTooltips[id] = region:GetText()
 			break
         end
     end
-	return addon.useItemTooltips[id]
+	return QT.useItemTooltips[id]
 end
 
-function addon.filterUsableItems(items)
+function QT.filterUsableItems(items)
 	local filtered = {}
 	for _, item in ipairs(items or {}) do
-		if addon.isItemUsable(item) then
+		if QT.isItemUsable(item) then
 			table.insert(filtered, item)
 		end
 	end
 	return filtered
 end
 
-function addon.getUsableQuestItems(id)
+function QT.getUsableQuestItems(id)
 	if id == nil then return end
-	if addon.dataSource == "QUESTIE" then return addon.filterUsableItems(addon.getQuestItemsQuestie(id)) end
-	if addon.dataSource == "CLASSIC_CODEX" then return addon.filterUsableItems(addon.getQuestItemsClassicCodex(id)) end
+	if addon.dataSource == "QUESTIE" then return QT.filterUsableItems(QUESTIE.getQuestItems(id)) end
+	if addon.dataSource == "CLASSIC_CODEX" then return QT.filterUsableItems(CLASSIC_CODEX.getQuestItems(id)) end
 end
 
-addon.questItemIsFor = {
+QT.questItemIsFor = {
 	[6145] = false,
 	--[34688] = false, -- Beryl Prison Key for Prison Break(11587); while it is not necessary to use this item it is nice to have the button to see whether it dropped already
 	-- TODO: check the other 'false' here if they would not also profit from a button
@@ -906,10 +920,10 @@ addon.questItemIsFor = {
 	[35797] = "TURNIN",
 	[40971] = "TURNIN",
 }
-setmetatable(addon.questItemIsFor, {__index = function() return "COMPLETE" end})
+setmetatable(QT.questItemIsFor, {__index = function() return "COMPLETE" end})
 
 -- list of non-targetable NPCs; e.g. "invisible bunnies"
-addon.npcIsInvisible = {
+QT.npcIsInvisible = {
 	-- Wowhead search for "invis"
 	[26444] = true, [26175] = true, [26105] = true, [23095] = true, [15214] = true, [14495] = true, [17984] = true, [18849] = true, [23059] = true, [28492] = true, [24771] = true, 
 	[23815] = true, [36736] = true, [17915] = true, [19547] = true, [20153] = true, [23240] = true, [29029] = true, [24705] = true, [21237] = true, [25172] = true, [27452] = true, 
@@ -1005,26 +1019,26 @@ addon.npcIsInvisible = {
 	[27345] = true -- Helpless Wintergarde Villager (Peasants)
 }
 
-function addon.filterInvisibleNpcs(npcs)
+function QT.filterInvisibleNpcs(npcs)
 	local filtered = {}
 	for _, npc in ipairs(npcs or {}) do
-		if not addon.npcIsInvisible[npc.id] then
+		if not QT.npcIsInvisible[npc.id] then
 			table.insert(filtered, npc)
 		end
 	end
 	return filtered
 end
 
-function addon.getQuestNPCs(id, typ, index)
-	if addon.dataSource == "QUESTIE" then return addon.filterInvisibleNpcs(addon.getQuestNPCsQuestie(id, typ, index)) end
-	if addon.dataSource == "CLASSIC_CODEX" then return addon.filterInvisibleNpcs(addon.getQuestNPCsClassicCodex(id, typ, index)) end
+function QT.getQuestNPCs(id, typ, index)
+	if addon.dataSource == "QUESTIE" then return QT.filterInvisibleNpcs(QUESTIE.getQuestNPCs(id, typ, index)) end
+	if addon.dataSource == "CLASSIC_CODEX" then return QT.filterInvisibleNpcs(CLASSIC_CODEX.getQuestNPCs(id, typ, index)) end
 	local npcs = {}
-	local objectives = addon.getQuestObjectives(id, typ)
+	local objectives = QT.getQuestObjectives(id, typ)
 	if not objectives then return end
 	for i, o in ipairs(objectives) do
 		if o.ids and o.ids.npc then
 			for _, id in ipairs(o.ids.npc) do
-				if not addon.npcIsInvisible[id] then
+				if not QT.npcIsInvisible[id] then
 					table.insert(npcs, {id = id, objectives = {i}})
 				end
 			end

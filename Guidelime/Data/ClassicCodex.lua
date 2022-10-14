@@ -1,13 +1,20 @@
 local addonName, addon = ...
 local L = addon.L
 
-HBD = LibStub("HereBeDragons-2.0")
+local HBD = LibStub("HereBeDragons-2.0")
 
-function addon.isDataSourceInstalledCLASSIC_CODEX()
+addon.D = addon.D or {}; local D = addon.D                                                 -- Data/Data
+addon.DM = addon.DM or {}; local DM = addon.DM                                             -- Data/MapDB
+addon.QT = addon.QT or {}; local QT = addon.QT                                             -- Data/QuestTools
+addon.GP = addon.GP or {}; local GP = addon.GP                                             -- GuideParser
+
+addon.CLASSIC_CODEX = addon.CLASSIC_CODEX or {}; local CLASSIC_CODEX = addon.CLASSIC_CODEX -- Data/ClassicCodex
+
+function CLASSIC_CODEX.isDataSourceInstalled()
 	return CodexDB ~= nil
 end
 
-function addon.getQuestIDsClassicCodex()
+function CLASSIC_CODEX.getQuestIDs()
 	local ids = {}
 	for id, q in pairs(CodexDB.quests.data) do
 		table.insert(ids, id)
@@ -15,92 +22,92 @@ function addon.getQuestIDsClassicCodex()
 	return ids
 end
 
-function addon.isQuestIdClassicCodex(id)
-	if id == nil or not addon.isDataSourceInstalledCLASSIC_CODEX() then return false end
+function CLASSIC_CODEX.isQuestId(id)
+	if id == nil or not CLASSIC_CODEX.isDataSourceInstalled() then return false end
 	return CodexDB.quests.data[id] ~= nil
 end
 
-function addon.getQuestNameClassicCodex(id)
-	if id == nil or not addon.isDataSourceInstalledCLASSIC_CODEX() then return end
+function CLASSIC_CODEX.getQuestName(id)
+	if id == nil or not CLASSIC_CODEX.isDataSourceInstalled() then return end
 	local quest = CodexDB.quests.loc[id]
 	if quest == nil then return end
 	return quest.T
 end
 
 -- not supported
-function addon.getQuestSortClassicCodex(id) return nil end
+function CLASSIC_CODEX.getQuestSort(id) return nil end
 
-function addon.getQuestPrequestsClassicCodex(id)
-	if id == nil or not addon.isDataSourceInstalledCLASSIC_CODEX() then return end
+function CLASSIC_CODEX.getQuestPrequests(id)
+	if id == nil or not CLASSIC_CODEX.isDataSourceInstalled() then return end
 	local quest = CodexDB.quests.data[id]
 	if quest == nil then return end
 	if quest.pre ~= nil then return type(quest.pre) == "number" and {quest.pre} or quest.pre end 
 	if quest.preg ~= nil then return type(quest.preg) == "number" and {quest.preg} or quest.preg end
 end
 
-function addon.getQuestOneOfPrequestsClassicCodex(id)
-	if id == nil or not addon.isDataSourceInstalledCLASSIC_CODEX() then return end
+function CLASSIC_CODEX.getQuestOneOfPrequests(id)
+	if id == nil or not CLASSIC_CODEX.isDataSourceInstalled() then return end
 	local quest = CodexDB.quests.data[id]
 	if quest == nil then return end
 	return quest.pre ~= nil
 end
 
 -- not supported
-function addon.getQuestTypeClassicCodex(id) return nil end
+function CLASSIC_CODEX.getQuestType(id) return nil end
 
-function addon.getQuestLevelClassicCodex(id)
-	if id == nil or not addon.isDataSourceInstalledCLASSIC_CODEX() then return end
+function CLASSIC_CODEX.getQuestLevel(id)
+	if id == nil or not CLASSIC_CODEX.isDataSourceInstalled() then return end
 	local quest = CodexDB.quests.data[id]
 	if quest == nil then return end
 	return quest.lvl
 end
 
-function addon.getQuestMinimumLevelClassicCodex(id)
-	if id == nil or not addon.isDataSourceInstalledCLASSIC_CODEX() then return end
+function CLASSIC_CODEX.getQuestMinimumLevel(id)
+	if id == nil or not CLASSIC_CODEX.isDataSourceInstalled() then return end
 	local quest = CodexDB.quests.data[id]
 	if quest == nil then return end
 	return quest.min
 end
 
-function addon.getQuestNextClassicCodex(id)
-	if id == nil or not addon.isDataSourceInstalledCLASSIC_CODEX() then return end
+function CLASSIC_CODEX.getQuestNext(id)
+	if id == nil or not CLASSIC_CODEX.isDataSourceInstalled() then return end
 	local quest = CodexDB.quests.data[id]
 	if quest == nil then return end
 	return quest.next
 end
 
-function addon.getQuestRacesClassicCodex(id)
-	if id == nil or not addon.isDataSourceInstalledCLASSIC_CODEX() then return end
+function CLASSIC_CODEX.getQuestRaces(id)
+	if id == nil or not CLASSIC_CODEX.isDataSourceInstalled() then return end
 	local quest = CodexDB.quests.data[id]
 	if quest == nil then return end
 	local bitmask = quest.race
 	if bitmask == nil or bitmask == 0 then return end
 	local races = {}
 	for i, race in ipairs({"Human", "Orc", "Dwarf", "NightElf", "Undead", "Tauren", "Gnome", "Troll", "", "BloodElf", "Draenei"}) do
-		if race ~= "" and addon.hasbit(bitmask, addon.bit(i)) then 
+		if race ~= "" and D.hasbit(bitmask, D.bit(i)) then 
 			table.insert(races, race) 
 		end
 	end
 	return races
 end
 
-function addon.getQuestClassesClassicCodex(id)
-	if id == nil or not addon.isDataSourceInstalledCLASSIC_CODEX() then return end
+function CLASSIC_CODEX.getQuestClasses(id)
+	if id == nil or not CLASSIC_CODEX.isDataSourceInstalled() then return end
 	local quest = CodexDB.quests.data[id]
 	if quest == nil then return end
 	local bitmask = quest.class
 	if bitmask == nil or bitmask == 0 then return end
 	local classes = {}
 	for i, class in pairs({"Warrior", "Paladin", "Hunter", "Rogue", "Priest", "Shaman", "Mage", "Warlock", "Druid"}) do
-		if class ~= "" and addon.hasbit(bitmask, addon.bit(i)) then 
+		if class ~= "" and D.hasbit(bitmask, D.bit(i)) then 
 			table.insert(classes, class) 
 		end
 	end
 	return classes
 end
 
-function addon.getQuestFactionClassicCodex(id)
-	if id == nil or not addon.isDataSourceInstalledCLASSIC_CODEX() then return end
+function CLASSIC_CODEX.getQuestFaction(id)
+	if id == nil or not CLASSIC_CODEX.isDataSourceInstalled() then return end
 	local quest = CodexDB.quests.data[id]
 	if quest == nil then return end
 	local bitmask = quest.race
@@ -109,15 +116,15 @@ function addon.getQuestFactionClassicCodex(id)
 	if bitmask == 178 or bitmask == 690 then return "Horde" end
 end
 
-function addon.getQuestObjectiveClassicCodex(id)
-	if id == nil or not addon.isDataSourceInstalledCLASSIC_CODEX() then return end
+function CLASSIC_CODEX.getQuestObjective(id)
+	if id == nil or not CLASSIC_CODEX.isDataSourceInstalled() then return end
 	local quest = CodexDB.quests.loc[id]
 	if quest == nil then return end
 	return quest.O
 end
 
-function addon.getQuestReputationClassicCodex(id)
-	if id == nil or not addon.isDataSourceInstalledCLASSIC_CODEX() then return end
+function CLASSIC_CODEX.getQuestReputation(id)
+	if id == nil or not CLASSIC_CODEX.isDataSourceInstalled() then return end
 	local quest = CodexDB.quests.data[id]
 	if quest == nil then return end
 	if quest.repu ~= nil then
@@ -126,12 +133,12 @@ function addon.getQuestReputationClassicCodex(id)
 end
 	
 
-function addon.getQuestPositionsClassicCodex(id, typ, index, filterZone)
-	if id == nil or not addon.isDataSourceInstalledCLASSIC_CODEX() then return end
+function CLASSIC_CODEX.getQuestPositions(id, typ, index, filterZone)
+	if id == nil or not CLASSIC_CODEX.isDataSourceInstalled() then return end
 	local ids = {npc = {}, object = {}, item = {}}
 	local objectives = {npc = {}, object = {}, item = {}}
-	if addon.getSuperCode(typ) == "QUEST" then
-		for i, o in ipairs(addon.getQuestObjectives(id, typ) or {}) do
+	if GP.getSuperCode(typ) == "QUEST" then
+		for i, o in ipairs(QT.getQuestObjectives(id, typ) or {}) do
 			if index == nil or index == 0 or index == i then
 				local type = o.type == "monster" and "npc" or o.type
 				for _, oid in ipairs(o.ids[type]) do
@@ -154,14 +161,14 @@ function addon.getQuestPositionsClassicCodex(id, typ, index, filterZone)
 		if item ~= nil then
 			if item.U ~= nil then
 				for npcId, chance in pairs(item.U) do
-					if not addon.contains(ids.npc, npcId) then table.insert(ids.npc, npcId) end
+					if not D.contains(ids.npc, npcId) then table.insert(ids.npc, npcId) end
 					if objectives.npc[npcId] == nil then objectives.npc[npcId] = {} end
 					for _, c in ipairs(objectives.item[itemId]) do table.insert(objectives.npc[npcId], c) end
 				end
 			end
 			if item.O ~= nil then
 				for objectId, chance in pairs(item.O) do
-					if not addon.contains(ids.object, objectId) then table.insert(ids.object, objectId) end
+					if not D.contains(ids.object, objectId) then table.insert(ids.object, objectId) end
 					if objectives.object[objectId] == nil then objectives.object[objectId] = {} end
 					for _, c in ipairs(objectives.item[itemId]) do table.insert(objectives.object[objectId], c) end
 				end
@@ -170,7 +177,7 @@ function addon.getQuestPositionsClassicCodex(id, typ, index, filterZone)
 	end
 	local positions = {}
 	local filterZoneId
-	if filterZone ~= nil then filterZoneId = addon.mapIDs[filterZone] end
+	if filterZone ~= nil then filterZoneId = DM.mapIDs[filterZone] end
 	for _, npcId in ipairs(ids.npc) do
 		local npc = CodexDB.units.data[npcId]
 		--if npc == nil then error("npc " .. npcId .. " not found for quest " .. questid .. typ) end
@@ -178,7 +185,7 @@ function addon.getQuestPositionsClassicCodex(id, typ, index, filterZone)
 		if npc ~= nil and npc.coords ~= nil then
 			for _, pos in ipairs(npc.coords) do
 				if filterZone == nil or filterZone == CodexMap.zones[pos[3]] then
-					table.insert(positions, {x = pos[1], y = pos[2], zone = addon.zoneNames[CodexMap.zones[pos[3]]] or CodexMap.zones[pos[3]], npcId = npcId, objectives = objectives.npc[npcId]})
+					table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[CodexMap.zones[pos[3]]] or CodexMap.zones[pos[3]], npcId = npcId, objectives = objectives.npc[npcId]})
 				end
 			end
 		end
@@ -190,7 +197,7 @@ function addon.getQuestPositionsClassicCodex(id, typ, index, filterZone)
 		if object ~= nil and object.coords ~= nil then
 			for _, pos in ipairs(object.coords) do
 				if filterZone == nil or filterZone == CodexMap.zones[pos[3]] then
-					table.insert(positions, {x = pos[1], y = pos[2], zone = addon.zoneNames[CodexMap.zones[pos[3]]] or CodexMap.zones[pos[3]], objectId = objectId, objectives = objectives.object[objectId]})
+					table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[CodexMap.zones[pos[3]]] or CodexMap.zones[pos[3]], objectId = objectId, objectives = objectives.object[objectId]})
 				end
 			end
 		end
@@ -202,11 +209,11 @@ function addon.getQuestPositionsClassicCodex(id, typ, index, filterZone)
 			-- locations inside instances are marked with -1,-1
 			table.remove(positions, i)
 		else
-			pos.mapID = addon.mapIDs[pos.zone]
+			pos.mapID = DM.mapIDs[pos.zone]
 			pos.wx, pos.wy, pos.instance = HBD:GetWorldCoordinatesFromZone(pos.x / 100, pos.y / 100, pos.mapID)
 			--if addon.debugging then print("LIME: found position", pos.wx, pos.wy, pos.instance) end
 			if pos.wx == nil then
-				if addon.debugging then print("LIME: error transforming (", pos.x, ",", pos.y, pos.zone, addon.mapIDs[pos.zone], ") into world coordinates for quest #", id) end
+				if addon.debugging then print("LIME: error transforming (", pos.x, ",", pos.y, pos.zone, DM.mapIDs[pos.zone], ") into world coordinates for quest #", id) end
 				table.remove(positions, i)
 			else
 				i = i + 1
@@ -217,12 +224,12 @@ function addon.getQuestPositionsClassicCodex(id, typ, index, filterZone)
 	return positions
 end
 
-function addon.getQuestNPCsClassicCodex(id, typ, index)
-	if id == nil or not addon.isDataSourceInstalledCLASSIC_CODEX() then return end
+function CLASSIC_CODEX.getQuestNPCs(id, typ, index)
+	if id == nil or not CLASSIC_CODEX.isDataSourceInstalled() then return end
 	local ids = {npc = {}, object = {}, item = {}}
 	local objectives = {npc = {}, object = {}, item = {}}
-	if addon.getSuperCode(typ) == "QUEST" then
-		for i, o in ipairs(addon.getQuestObjectives(id, typ) or {}) do
+	if GP.getSuperCode(typ) == "QUEST" then
+		for i, o in ipairs(QT.getQuestObjectives(id, typ) or {}) do
 			if index == nil or index == 0 or index == i then
 				local type = o.type == "monster" and "npc" or o.type
 				for _, oid in ipairs(o.ids[type]) do
@@ -243,7 +250,7 @@ function addon.getQuestNPCsClassicCodex(id, typ, index)
 		if item ~= nil then
 			if item.U ~= nil then
 				for npcId, chance in pairs(item.U) do
-					if not addon.contains(ids.npc, npcId) then table.insert(ids.npc, npcId) end
+					if not D.contains(ids.npc, npcId) then table.insert(ids.npc, npcId) end
 					if objectives.npc[npcId] == nil then objectives.npc[npcId] = {} end
 					for _, c in ipairs(objectives.item[itemId]) do table.insert(objectives.npc[npcId], c) end
 				end
@@ -258,8 +265,8 @@ function addon.getQuestNPCsClassicCodex(id, typ, index)
 end
 
 -- returns a type (npc/item/object) and a list of names for quest source / each objective / turn in; e.g. {{type="item", names={"Huge Gnoll Claw", "Hogger"}, ids={item={1931},npc={448}} for id = 176, typ = "COMPLETE"
-function addon.getQuestObjectivesClassicCodex(id, typ)
-	if id == nil or not addon.isDataSourceInstalledCLASSIC_CODEX() then return end
+function CLASSIC_CODEX.getQuestObjectives(id, typ)
+	if id == nil or not CLASSIC_CODEX.isDataSourceInstalled() then return end
 	local quest = CodexDB.quests.data[id]
 	if quest == nil then return end
 	if typ == "ACCEPT" then 
@@ -272,7 +279,7 @@ function addon.getQuestObjectivesClassicCodex(id, typ)
 		return
 	end
 	if list == nil then return end
-	--if addon.debugging then print("LIME: getQuestObjectivesClassicCodex " .. typ .. " " .. id .. " " .. addon.show(list)) end
+	--if addon.debugging then print("LIME: getQuestObjectives " .. typ .. " " .. id .. " " .. #list) end
 	local objectives = {}
 	if list.U ~= nil then
 		for _, npcId in ipairs(list.U) do
@@ -304,7 +311,7 @@ function addon.getQuestObjectivesClassicCodex(id, typ)
 						for unitId, chance in pairs(item.U) do
 							table.insert(objective.ids.npc, unitId)
 							local npcName = CodexDB.units.loc[unitId]
-							if npcName and not addon.contains(objective.names, npcName) then table.insert(objective.names, npcName) end
+							if npcName and not D.contains(objective.names, npcName) then table.insert(objective.names, npcName) end
 						end
 					end
 					if item.O ~= nil then
@@ -312,7 +319,7 @@ function addon.getQuestObjectivesClassicCodex(id, typ)
 						for objectId, chance in pairs(item.O) do
 							table.insert(objective.ids.object, objectId)
 							local objName = CodexDB.objects.loc[objectId]
-							if objName and not addon.contains(objective.names, objName) then table.insert(objective.names, objName) end
+							if objName and not D.contains(objective.names, objName) then table.insert(objective.names, objName) end
 						end
 					end
 				end
@@ -321,9 +328,9 @@ function addon.getQuestObjectivesClassicCodex(id, typ)
 		end
 	end
 	-- apply corrections for objective order
-	if typ == "COMPLETE" and addon.classicCodexCorrectionsObjectiveOrder[id] then
+	if typ == "COMPLETE" and CLASSIC_CODEX.correctionsObjectiveOrder[id] then
 		local objectives2 = {}
-		for i, j in ipairs(addon.classicCodexCorrectionsObjectiveOrder[id]) do
+		for i, j in ipairs(CLASSIC_CODEX.correctionsObjectiveOrder[id]) do
 			objectives2[i] = objectives[j]
 		end
 		objectives = objectives2
@@ -331,20 +338,20 @@ function addon.getQuestObjectivesClassicCodex(id, typ)
 	-- apply corrections for missing objectives
 	-- e.g. kill credit objectives as in https://tbc.wowhead.com/quest=10482/fel-orc-scavengers
 	-- or https://tbc.wowhead.com/quest=9935/wanted-giselda-the-crone (kill credit + kill)
-	if typ == "COMPLETE" and addon.classicCodexCorrectionsObjectives[id] then
-		for i, o in pairs(addon.classicCodexCorrectionsObjectives[id]) do
+	if typ == "COMPLETE" and CLASSIC_CODEX.correctionsObjectives[id] then
+		for i, o in pairs(CLASSIC_CODEX.correctionsObjectives[id]) do
 			objectives[i] = o
 		end
 	end
 	return objectives
 end
 
-function addon.getNPCPositionClassicCodex(id)
-	if id == nil or not addon.isDataSourceInstalledCLASSIC_CODEX() then return end
+function CLASSIC_CODEX.getNPCPosition(id)
+	if id == nil or not CLASSIC_CODEX.isDataSourceInstalled() then return end
 	local npc = CodexDB.units.data[id]
 	if npc ~= nil and npc.coords ~= nil then
 		for _, pos in ipairs(npc.coords) do
-			local p = {x = pos[1], y = pos[2], mapID = CodexMap.zones[pos[3]], zone = addon.zoneNames[CodexMap.zones[pos[3]]] or CodexMap.zones[pos[3]]}
+			local p = {x = pos[1], y = pos[2], mapID = CodexMap.zones[pos[3]], zone = DM.zoneNames[CodexMap.zones[pos[3]]] or CodexMap.zones[pos[3]]}
 			p.wx, p.wy, p.instance = HBD:GetWorldCoordinatesFromZone(p.x / 100, p.y / 100, p.mapID)
 			if p.wx == nil then
 				if addon.debugging then print("LIME: error transforming (", p.x, ",", p.y, p.zone, p.mapID, ") into world coordinates for npc #", id) end
@@ -355,8 +362,8 @@ function addon.getNPCPositionClassicCodex(id)
 	end
 end
 
-function addon.getQuestItemsClassicCodex(id)
-	if id == nil or not addon.isDataSourceInstalledCLASSIC_CODEX() then return end
+function CLASSIC_CODEX.getQuestItems(id)
+	if id == nil or not CLASSIC_CODEX.isDataSourceInstalled() then return end
 	local quest = CodexDB.quests.data[id]
 	if quest == nil then return end
 	if quest.obj == nil then return end
@@ -368,7 +375,7 @@ function addon.getQuestItemsClassicCodex(id)
 	end
 	if quest.obj.I ~= nil then
 		for _, itemId in ipairs(quest.obj.I) do
-			if not addon.contains(items, itemId) then
+			if not D.contains(items, itemId) then
 				table.insert(items, itemId)
 			end
 		end
@@ -376,18 +383,18 @@ function addon.getQuestItemsClassicCodex(id)
 	return items
 end
 
-function addon.getNPCNameClassicCodex(id)
-	if id == nil or not addon.isDataSourceInstalledCLASSIC_CODEX() then return end
+function CLASSIC_CODEX.getNPCName(id)
+	if id == nil or not CLASSIC_CODEX.isDataSourceInstalled() then return end
 	return CodexDB.units.loc[id]
 end
 
-function addon.getObjectNameClassicCodex(id)
-	if id == nil or not addon.isDataSourceInstalledCLASSIC_CODEX() then return end
+function CLASSIC_CODEX.getObjectName(id)
+	if id == nil or not CLASSIC_CODEX.isDataSourceInstalled() then return end
 	return CodexDB.objects.loc[id]
 end
 
-function addon.getItemNameClassicCodex(id)
-	if id == nil or not addon.isDataSourceInstalledCLASSIC_CODEX() then return end
+function CLASSIC_CODEX.getItemName(id)
+	if id == nil or not CLASSIC_CODEX.isDataSourceInstalled() then return end
 	return CodexDB.items.loc[id]
 end
 

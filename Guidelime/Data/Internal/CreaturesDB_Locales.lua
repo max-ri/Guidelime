@@ -1,11 +1,12 @@
 local addonName, addon = ...
+addon.DB = addon.DB or {}; local DB = addon.DB
 
 -- source: https://github.com/TyrsDev/WoW-Classic-Database
 -- Thanks to TyrsDev!
 
 local locale = GetLocale()
 if locale == "esES" then
-	addon.creaturesDB_esES = {
+	DB.creaturesDB_esES = {
 		[15475] = "Alfazaque",
 		[7770] = "Guiñón",
 		[15603] = "Ancestro Nochebrisa",
@@ -7609,7 +7610,7 @@ if locale == "esES" then
 	}
 end
 if locale == "zhCN" or locale == "zhTW" then
-	addon.creaturesDB_zhCN = {
+	DB.creaturesDB_zhCN = {
 		[15475] = "甲壳虫",
 		[15539] = "佐格将军",
 		[15603] = "夜风长者",
@@ -15181,7 +15182,7 @@ if locale == "zhCN" or locale == "zhTW" then
 	}
 end
 if locale == "koKR" then
-	addon.creaturesDB_koKR = {
+	DB.creaturesDB_koKR = {
 		[15475] = "딱정벌레",
 		[7770] = "윙키",
 		[15603] = "장로 나이트윈드",
@@ -22785,7 +22786,7 @@ if locale == "koKR" then
 	}
 end
 if locale == "ruRU" then
-	addon.creaturesDB_ruRU = {
+	DB.creaturesDB_ruRU = {
 		[15475] = "Жук",
 		[7770] = "Однокнопка",
 		[15603] = "Предок Ночной Ветер",
@@ -30390,7 +30391,7 @@ if locale == "ruRU" then
 	}
 end
 if locale == "frFR" then
-	addon.creaturesDB_frFR = {
+	DB.creaturesDB_frFR = {
 		[15475] = "Hanneton",
 		[15539] = "Général Zog",
 		[15603] = "Ancien Ventenuit",
@@ -37959,7 +37960,7 @@ if locale == "frFR" then
 	}
 end
 if locale == "deDE" then
-	addon.creaturesDB_deDE = {
+	DB.creaturesDB_deDE = {
 		[15475] = "Käfer",
 		[7770] = "Winkey",
 		[15603] = "Urahne Nachtwind",
@@ -45564,7 +45565,7 @@ if locale == "deDE" then
 	}
 end
 if locale == "zhTW" then
-	addon.creaturesDB_zhTW = {
+	DB.creaturesDB_zhTW = {
 		[15475] = "甲蟲",
 		[7770] = "溫基",
 		[15603] = "夜風長者",
@@ -53168,7 +53169,7 @@ if locale == "zhTW" then
 	}
 end
 if locale == "esMX" then
-	addon.creaturesDB_esMX = {
+	DB.creaturesDB_esMX = {
 		[15475] = "Alfazaque",
 		[7770] = "Guiñón",
 		[15603] = "Ancestro Nochebrisa",

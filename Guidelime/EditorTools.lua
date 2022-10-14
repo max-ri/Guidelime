@@ -1,6 +1,13 @@
 local addonName, addon = ...
 local L = addon.L
 
+addon.D = addon.D or {}; local D = addon.D     -- Data/Data
+addon.QT = addon.QT or {}; local QT = addon.QT -- Data/QuestTools
+addon.CG = addon.CG or {}; local CG = addon.CG -- CurrentGuide
+addon.GP = addon.GP or {}; local GP = addon.GP -- GuideParser
+
+addon.ET = addon.ET or {}; local ET = addon.ET -- EditorTools
+
 local function adjustPositions(guide, i, j, diff)
 	for k = i, #guide.steps do
 		local step = guide.steps[k]
@@ -13,7 +20,7 @@ local function adjustPositions(guide, i, j, diff)
 	end
 end
 
-function addon.removeAllCoordinates(guide)
+function ET.removeAllCoordinates(guide)
 	local text = guide.text
 	local count = 0
 	for i, step in ipairs(guide.steps) do
@@ -30,13 +37,13 @@ function addon.removeAllCoordinates(guide)
 	return text, count
 end
 
-function addon.addQuestCoordinates(guide)
+function ET.addQuestCoordinates(guide)
 	local text = guide.text
 	local count = 0
 	for i, step in ipairs(guide.steps) do
 		for j, element in ipairs(step.elements) do
-			if addon.getSuperCode(element.t) == "QUEST" then
-				local tag, first, last, coords = addon.addQuestTag(guide, element, element.questId, element.t, element.objective, element.title, true)
+			if GP.getSuperCode(element.t) == "QUEST" then
+				local tag, first, last, coords = ET.addQuestTag(guide, element, element.questId, element.t, element.objective, element.title, true)
 				if tag == nil then
 					if addon.debugging then print("LIME: error reading quest tag \"" .. text:sub(element.startPos, element.endPos) .. "\"") end
 				else
@@ -54,7 +61,7 @@ function addon.addQuestCoordinates(guide)
 	return text, count
 end
 
-function addon.addQuestTag(guide, selection, id, key, objectiveIndex, text, addCoordinates)
+function ET.addQuestTag(guide, selection, id, key, objectiveIndex, text, addCoordinates)
 	local firstElement, lastElement = selection, selection
 	local objective = ""
 	if key == "COMPLETE" and objectiveIndex ~= nil then
@@ -62,12 +69,12 @@ function addon.addQuestTag(guide, selection, id, key, objectiveIndex, text, addC
 	end
 	local coords = ""
 	if addCoordinates then
-		local pos = addon.getQuestPosition(id, key, objectiveIndex)
+		local pos = QT.getQuestPosition(id, key, objectiveIndex)
 		if pos ~= nil then
 			if pos.radius == 0 then
 				coords = "[G" .. pos.x .. "," .. pos.y .. pos.zone .. "]"
 			else
-				coords = "[G" .. pos.x .. "," .. pos.y .. "," .. (pos.radius + addon.DEFAULT_GOTO_RADIUS) .. pos.zone .. "]"
+				coords = "[G" .. pos.x .. "," .. pos.y .. "," .. (pos.radius + CG.DEFAULT_GOTO_RADIUS) .. pos.zone .. "]"
 			end
 			if firstElement ~= nil and firstElement.index > 1 and firstElement.step.elements[firstElement.index - 1].t == "GOTO" then 
 				firstElement = firstElement.step.elements[firstElement.index - 1] 
@@ -78,59 +85,59 @@ function addon.addQuestTag(guide, selection, id, key, objectiveIndex, text, addC
 	end
 	--[[
 	local applies = ""
-	if addon.getQuestRaces(id) ~= nil or addon.getQuestFaction(id) ~= nil then
+	if QT.getQuestRaces(id) ~= nil or QT.getQuestFaction(id) ~= nil then
 		local races = {}
-		local qraces = addon.getQuestRaces(id)
-		if qraces == nil then qraces = addon.racesPerFaction[addon.getQuestFaction(id)] end
+		local qraces = QT.getQuestRaces(id)
+		if qraces == nil then qraces = D.racesPerFaction[QT.getQuestFaction(id)] end
 		if guide.race ~= nil then
 			for i, race in ipairs(guide.race) do
-				if addon.contains(qraces, race) then table.insert(races, race) end
+				if D.contains(qraces, race) then table.insert(races, race) end
 			end
 			if #races == #guide.race then races = nil end
 		elseif guide.faction ~= nil then
-			for i, race in ipairs(addon.racesPerFaction[guide.faction]) do
-				if addon.contains(qraces, race) then table.insert(races, race) end
+			for i, race in ipairs(D.racesPerFaction[guide.faction]) do
+				if D.contains(qraces, race) then table.insert(races, race) end
 			end
-			if #races == #addon.racesPerFaction[guide.faction] then races = nil end
+			if #races == #D.racesPerFaction[guide.faction] then races = nil end
 		else
-			races = addon.getQuestRaces(id)
+			races = QT.getQuestRaces(id)
 		end
 		if races ~= nil then 
 			if #races == 0 then
 				local racesLoc = {}
 				for i, race in ipairs(qraces) do
-					table.insert(racesLoc, addon.getLocalizedRace(race))
+					table.insert(racesLoc, D.getLocalizedRace(race))
 				end
-				addon.createPopupFrame(L.ERROR_QUEST_RACE_ONLY .. table.concat(racesLoc, ", ") .. " (#" .. id .. ")"):Show()
+				F.createPopupFrame(L.ERROR_QUEST_RACE_ONLY .. table.concat(racesLoc, ", ") .. " (#" .. id .. ")"):Show()
 				return
 			end
 			applies = applies .. table.concat(races, ",")
 		end
 	end
-	if addon.getQuestClasses(id) ~= nil or addon.getQuestFaction(id) ~= nil then
+	if QT.getQuestClasses(id) ~= nil or QT.getQuestFaction(id) ~= nil then
 		local classes = {}
-		local qclasses = addon.getQuestClasses(id)
-		if qclasses == nil then qclasses = addon.classesPerFaction[addon.getQuestFaction(id)] end
+		local qclasses = QT.getQuestClasses(id)
+		if qclasses == nil then qclasses = D.classesPerFaction[QT.getQuestFaction(id)] end
 		if guide.class ~= nil then
 			for i, class in ipairs(guide.class) do
-				if addon.contains(qclasses, class) then table.insert(classes, class) end
+				if D.contains(qclasses, class) then table.insert(classes, class) end
 			end
 			if #classes == #guide.class then classes = nil end
 		elseif guide.faction ~= nil then
-			for i, class in ipairs(addon.classesPerFaction[guide.faction]) do
-				if addon.contains(qclasses, class) then table.insert(classes, class) end
+			for i, class in ipairs(D.classesPerFaction[guide.faction]) do
+				if D.contains(qclasses, class) then table.insert(classes, class) end
 			end
-			if #classes == #addon.classesPerFaction[guide.faction] then classes = nil end
+			if #classes == #D.classesPerFaction[guide.faction] then classes = nil end
 		else
-			classes = addon.getQuestClasses(id)
+			classes = QT.getQuestClasses(id)
 		end
 		if classes ~= nil then
 			if #classes == 0 then
 				local classesLoc = {}
-				for i, class in ipairs(addon.getQuestClasses(id)) do
-					table.insert(classesLoc, addon.getLocalizedClass(class))
+				for i, class in ipairs(QT.getQuestClasses(id)) do
+					table.insert(classesLoc, D.getLocalizedClass(class))
 				end
-				addon.createPopupFrame(L.ERROR_QUEST_CLASS_ONLY .. table.concat(classesLoc, ", ")):Show()
+				F.createPopupFrame(L.ERROR_QUEST_CLASS_ONLY .. table.concat(classesLoc, ", ")):Show()
 				return
 			end
 			if applies ~= "" then applies = applies .. "," end
@@ -145,5 +152,5 @@ function addon.addQuestTag(guide, selection, id, key, objectiveIndex, text, addC
 	end]]
 	text = text or ""
 	if text ~= "" then text = " " .. text end
-	return coords .. "[" .. addon.codes["QUEST"] .. key:sub(1, 1) .. id .. objective .. text  .. "]" --[[.. applies]], firstElement, lastElement, coords
+	return coords .. "[" .. GP.codes["QUEST"] .. key:sub(1, 1) .. id .. objective .. text  .. "]" --[[.. applies]], firstElement, lastElement, coords
 end

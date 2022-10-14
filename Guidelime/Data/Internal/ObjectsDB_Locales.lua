@@ -1,11 +1,12 @@
 local addonName, addon = ...
+addon.DB = addon.DB or {}; local DB = addon.DB
 
 -- source: https://github.com/TyrsDev/WoW-Classic-Database
 -- Thanks to TyrsDev!
 
 local locale = GetLocale()
 if locale == "esES" then
-	addon.objectsDB_esES = {
+	DB.objectsDB_esES = {
 		[171769] = "Blandón enano",
 		[165626] = "Silla",
 		[142077] = "Yunque",
@@ -7079,7 +7080,7 @@ if locale == "esES" then
 	}
 end
 if locale == "zhCN" or locale == "zhTW" then
-	addon.objectsDB_zhCN = {
+	DB.objectsDB_zhCN = {
 		[171769] = "矮人火盆",
 		[165626] = "椅子",
 		[142077] = "铁砧",
@@ -14121,7 +14122,7 @@ if locale == "zhCN" or locale == "zhTW" then
 	}
 end
 if locale == "koKR" then
-	addon.objectsDB_koKR = {
+	DB.objectsDB_koKR = {
 		[171769] = "드워프 화로",
 		[165626] = "의자",
 		[142077] = "모루",
@@ -21195,7 +21196,7 @@ if locale == "koKR" then
 	}
 end
 if locale == "ruRU" then
-	addon.objectsDB_ruRU = {
+	DB.objectsDB_ruRU = {
 		[171769] = "Дворфийская жаровня",
 		[165626] = "Стул",
 		[142077] = "Наковальня",
@@ -28349,7 +28350,7 @@ if locale == "ruRU" then
 	}
 end
 if locale == "frFR" then
-	addon.objectsDB_frFR = {
+	DB.objectsDB_frFR = {
 		[171769] = "Brasero nain",
 		[165626] = "Fauteuil",
 		[142077] = "Enclume",
@@ -35331,7 +35332,7 @@ if locale == "frFR" then
 	}
 end
 if locale == "deDE" then
-	addon.objectsDB_deDE = {
+	DB.objectsDB_deDE = {
 		[171769] = "Zwergenkohlenpfanne",
 		[165626] = "Stuhl",
 		[142077] = "Amboss",
@@ -42454,7 +42455,7 @@ if locale == "deDE" then
 	}
 end
 if locale == "zhTW" then
-	addon.objectsDB_zhTW = {
+	DB.objectsDB_zhTW = {
 		[171769] = "矮人火盆",
 		[165626] = "椅子",
 		[142077] = "鐵砧",
@@ -49528,7 +49529,7 @@ if locale == "zhTW" then
 	}
 end
 if locale == "esMX" then
-	addon.objectsDB_esMX = {
+	DB.objectsDB_esMX = {
 		[171769] = "Blandón enano",
 		[165626] = "Silla",
 		[142077] = "Yunque",

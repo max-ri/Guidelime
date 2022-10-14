@@ -1,8 +1,13 @@
 local addonName, addon = ...
 local L = addon.L
 
+addon.D = addon.D or {}; local D = addon.D     -- Data/Data
+addon.QT = addon.QT or {}; local QT = addon.QT -- Data/QuestTools
+
+addon.I = addon.I or {}; local I = addon.I     -- Import
+
 local function findQuestType(line, pos)
-	return addon.findInLists(line, {[L.WORD_LIST_ACCEPT] = "A", [L.WORD_LIST_COMPLETE] = "C", [L.WORD_LIST_TURN_IN] = "T", [L.WORD_LIST_SKIP] = "S"}, false, 1, pos)
+	return QT.findInLists(line, {[L.WORD_LIST_ACCEPT] = "A", [L.WORD_LIST_COMPLETE] = "C", [L.WORD_LIST_TURN_IN] = "T", [L.WORD_LIST_SKIP] = "S"}, false, 1, pos)
 end
 
 local function parseLine(l, line, questids, previds, questname, activeQuests, turnedInQuests, faction, zone, newQuestIds)
@@ -27,8 +32,8 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 			i = i + 1
 		end
 		wordListMap[L.WORD_LIST_NEXT_PART] = function(...) s, e = ...; q = questname
-			if questids ~= nil and #questids == 1 and addon.getQuestSeries(questids[1]) ~= nil then 
-				part = addon.getQuestSeries(questids[1]) + 1
+			if questids ~= nil and #questids == 1 and QT.getQuestSeries(questids[1]) ~= nil then 
+				part = QT.getQuestSeries(questids[1]) + 1
 			else
 				part = 2
 			end
@@ -42,13 +47,13 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 			wordListMap[L.WORD_LIST_TURN_IN_LAST_TWO] = function(...) s, e, pre, post = ...; typ = "T"; lastTwo = true end
 		end
 		for id, active in pairs(activeQuests) do
-			for i, objList in ipairs(addon.getQuestObjectives(id)) do
+			for i, objList in ipairs(QT.getQuestObjectives(id)) do
 				for j, object in ipairs(objList.names) do
 					wordListMap[" " .. object:lower() .. "s? "] = function(...) s, e = ...; q = id; objective = i; typ = "C" end
 				end
 			end
 		end
-		addon.findInLists(line, wordListMap, true, pos)
+		QT.findInLists(line, wordListMap, true, pos)
 		if skip then
 			if q ~= nil then
 				count = count + 1
@@ -87,13 +92,13 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 				questids = {q}
 			elseif q ~= nil then
 				previds = questids
-				questids = addon.getPossibleQuestIdsByName(q, part) 
+				questids = QT.getPossibleQuestIdsByName(q, part) 
 			end
 			if #questids > 1 and faction ~= nil then
 				-- found more than one? only search correct faction
 				local ids2 = {}
 				for i, id in ipairs(questids) do
-					if (addon.getQuestFaction(id) or faction) == faction then
+					if (QT.getQuestFaction(id) or faction) == faction then
 						table.insert(ids2, id)
 					end
 				end
@@ -103,7 +108,7 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 				-- found more than one? only search in given zone
 				local ids2 = {}
 				for i, id in ipairs(questids) do
-					if addon.getQuestZone(id) == zone then
+					if QT.getQuestZone(id) == zone then
 						table.insert(ids2, id)
 					end
 				end
@@ -112,7 +117,7 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 			if typ == "A" and newQuestIds ~= nil then
 				if newQuestIds[1] == nil then 
 					err = "non matching number of quest ids specified"
-				elseif #questids == 0 or addon.contains(questids, newQuestIds[1]) or (#questids == 1 and addon.getQuestNameById(questids[1]) == addon.getQuestNameById(newQuestIds[1])) then
+				elseif #questids == 0 or D.contains(questids, newQuestIds[1]) or (#questids == 1 and QT.getQuestNameById(questids[1]) == QT.getQuestNameById(newQuestIds[1])) then
 					questids = {newQuestIds[1]}
 					table.remove(newQuestIds, 1)
 				else
@@ -141,13 +146,13 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 			--[[
 			if q ~= nil and #questids > 1 and part == nil then
 				--more than 1 found and no part given? assume part 1
-				local ids2 = addon.getPossibleQuestIdsByName(q, 1)
+				local ids2 = QT.getPossibleQuestIdsByName(q, 1)
 				if ids2 ~= nil and #ids2 > 0 then questids = ids2 end
 			end]]
 			if #questids ~= 1 then err = "" end
 			
 			if #questids ~= 0 then
-				questname = addon.getQuestNameById(questids[1])
+				questname = QT.getQuestNameById(questids[1])
 				if questname == nil then err = "quest " .. questids[1] .. " not found" end
 			else
 				questname = nil
@@ -173,20 +178,20 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 			line = line .. "[Q" .. typ .. questid .. objective .. " " .. title .. "]" 
 			
 			if questids ~= nil and #questids == 1 then
-				if addon.getQuestRaces(questids[1]) ~= nil or addon.getQuestClasses(questids[1]) ~= nil then
+				if QT.getQuestRaces(questids[1]) ~= nil or QT.getQuestClasses(questids[1]) ~= nil then
 					line = line .. "[A "
 					local first = true
-					if addon.getQuestRaces(questids[1]) ~= nil then
-						for i, race in ipairs(addon.getQuestRaces(questids[1])) do
+					if QT.getQuestRaces(questids[1]) ~= nil then
+						for i, race in ipairs(QT.getQuestRaces(questids[1])) do
 							if not first then line = line .. "," end
-							line = line .. addon.getRace(race)
+							line = line .. D.getRace(race)
 							first = false
 						end
 					end
-					if addon.getQuestClasses(questids[1]) ~= nil then
-						for i, class in ipairs(addon.getQuestClasses(questids[1])) do
+					if QT.getQuestClasses(questids[1]) ~= nil then
+						for i, class in ipairs(QT.getQuestClasses(questids[1])) do
 							if not first then line = line .. "," end
-							line = line .. addon.getClass(class)
+							line = line .. D.getClass(class)
 							first = false
 						end
 					end
@@ -217,7 +222,7 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 	--found the word quest(/s) but no quest tags were created? ids have to be added manually unless completing/turning in only one/two remaining active quests
 	if count == 0 then
 		local s, e
-		addon.findInLists(line, {
+		QT.findInLists(line, {
 			[L.WORD_LIST_QUESTS] = function(...) s, e = ...; count = 2 end,
 			[L.WORD_LIST_QUEST] = function(...) s, e = ...; count = 1 end
 		})
@@ -257,7 +262,7 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 		err = "non matching number of quest ids specified for line " .. l
 	end
 
-	while addon.findInLists(line, {
+	while QT.findInLists(line, {
 		[L.WORD_LIST_GOTO] = function(s, e, pre, x, y, post)
 			if pre ~= nil then s = s + #pre elseif s == 0 or line:sub(s, s):match("[%s%p]") then s = s + 1 end
 			if post ~= nil then e = e - #post elseif e > #line or line:sub(e, e):match("[%s%p]") then e = e - 1 end
@@ -279,7 +284,7 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 			if line:find("%[" .. code) ~= nil then found = true; break end
 		end
 		if not found then 
-			local code, s, e, pre, post = addon.findInLists(line, lists)
+			local code, s, e, pre, post = QT.findInLists(line, lists)
 			if code ~= nil and line:find("%[".. code) == nil and (count == 0 or code ~= "OC") then
 				if pre ~= nil and #pre <= e - s then s = s + #pre elseif s == 0 or line:sub(s, s):match("[%s%p]") then s = s + 1 end
 				if post ~= nil then e = e - #post elseif e > #line or line:sub(e, e):match("[%s%p]") then e = e - 1 end
@@ -297,7 +302,7 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 	}) do
 		local pos = 1
 		while pos ~= nil do
-			local code, s, e, pre, post = addon.findInLists(line, {[list] = result}, true, pos)
+			local code, s, e, pre, post = QT.findInLists(line, {[list] = result}, true, pos)
 			pos = nil
 			if code ~= nil then
 				if pre ~= nil and #pre <= e - s then s = s + #pre elseif s == 0 or line:sub(s, s):match("[%s%p]") then s = s + 1 end
@@ -323,7 +328,7 @@ local function parseLine(l, line, questids, previds, questname, activeQuests, tu
 	return line, questids, previds, questname, activeQuests, turnedInQuests
 end
 
-function addon.importPlainText(text, faction, zone, newQuestIdsPerLine)
+function I.importPlainText(text, faction, zone, newQuestIdsPerLine)
 	local l = 0
 	local questids
 	local previds

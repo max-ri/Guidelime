@@ -1,11 +1,12 @@
 local addonName, addon = ...
+addon.DB = addon.DB or {}; local DB = addon.DB
 
 -- source: https://github.com/TyrsDev/WoW-Classic-Database
 -- Thanks to TyrsDev!
 
 local locale = GetLocale()
 if locale == "esES" then
-	addon.itemsDB_esES = {
+	DB.itemsDB_esES = {
 		[20490] = "Menta de Forjaz",
 		[16715] = "Botas Corazón Salvaje",
 		[20874] = "Ídolo del Sol",
@@ -2618,7 +2619,7 @@ if locale == "esES" then
 	}
 end
 if locale == "zhCN" or locale == "zhTW" then
-	addon.itemsDB_zhCN = {
+	DB.itemsDB_zhCN = {
 		[20490] = "铁炉堡薄荷糖",
 		[16715] = "野性之心长靴",
 		[20874] = "太阳塑像",
@@ -5229,7 +5230,7 @@ if locale == "zhCN" or locale == "zhTW" then
 	}
 end
 if locale == "koKR" then
-	addon.itemsDB_koKR = {
+	DB.itemsDB_koKR = {
 		[20490] = "아이언포지 박하사탕",
 		[16715] = "자연의정수 장화",
 		[20874] = "태양의 우상",
@@ -7842,7 +7843,7 @@ if locale == "koKR" then
 	}
 end
 if locale == "ruRU" then
-	addon.itemsDB_ruRU = {
+	DB.itemsDB_ruRU = {
 		[20490] = "Конфета Стальгорна",
 		[16715] = "Сапоги дикого сердца",
 		[20874] = "Идол Солнца",
@@ -10455,7 +10456,7 @@ if locale == "ruRU" then
 	}
 end
 if locale == "frFR" then
-	addon.itemsDB_frFR = {
+	DB.itemsDB_frFR = {
 		[20490] = "Bonbon à la menthe de Forgefer",
 		[20810] = "Ordre de mission signé",
 		[20874] = "Idole du soleil",
@@ -13064,7 +13065,7 @@ if locale == "frFR" then
 	}
 end
 if locale == "deDE" then
-	addon.itemsDB_deDE = {
+	DB.itemsDB_deDE = {
 		[20490] = "Pfefferminzbonbon aus Eisenschmiede",
 		[16715] = "Stiefel des Wildherzens",
 		[20874] = "Götze der Sonne",
@@ -15677,7 +15678,7 @@ if locale == "deDE" then
 	}
 end
 if locale == "zhTW" then
-	addon.itemsDB_zhTW = {
+	DB.itemsDB_zhTW = {
 		[20490] = "鐵爐堡薄荷糖",
 		[16715] = "野性之心長靴",
 		[20874] = "太陽塑像",
@@ -18290,7 +18291,7 @@ if locale == "zhTW" then
 	}
 end
 if locale == "esMX" then
-	addon.itemsDB_esMX = {
+	DB.itemsDB_esMX = {
 		[20490] = "Menta de Forjaz",
 		[16715] = "Botas Corazón Salvaje",
 		[20874] = "Ídolo del Sol",

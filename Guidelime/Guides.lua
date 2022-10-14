@@ -1,138 +1,148 @@
 local addonName, addon = ...
 local L = addon.L
 
-addon.GUIDE_LIST_URL = "https://github.com/max-ri/guidelime/wiki/GuideList"
+addon.D = addon.D or {}; local D = addon.D     -- Data/Data
+addon.CG = addon.CG or {}; local CG = addon.CG -- CurrentGuide
+addon.E = addon.E or {}; local E = addon.E     -- Editor
+addon.F = addon.F or {}; local F = addon.F     -- Frames
+addon.EV = addon.EV or {}; local EV = addon.EV -- Events
+addon.MW = addon.MW or {}; local MW = addon.MW -- MainWindow
+addon.O = addon.O or {}; local O = addon.O     -- Options
 
-function addon.loadGuide(name)
+addon.G = addon.G or {}; local G = addon.G     -- Guides
+
+G.GUIDE_LIST_URL = "https://github.com/max-ri/guidelime/wiki/GuideList"
+
+function G.loadGuide(name)
 	if addon.debugging then print("LIME: load guide", name) end
 	
-	if GuidelimeDataChar.currentGuide ~= nil and addon.guidesFrame.guides[GuidelimeDataChar.currentGuide] ~= nil then
-		addon.guidesFrame.guides[GuidelimeDataChar.currentGuide]:SetBackdropColor(0,0,0,0)	
+	if GuidelimeDataChar.currentGuide ~= nil and G.guidesFrame.guides[GuidelimeDataChar.currentGuide] ~= nil then
+		G.guidesFrame.guides[GuidelimeDataChar.currentGuide]:SetBackdropColor(0,0,0,0)	
 	end
-	addon.guidesFrame.guides[name]:SetBackdropColor(1,1,0,1)
+	G.guidesFrame.guides[name]:SetBackdropColor(1,1,0,1)
 	GuidelimeDataChar.currentGuide = name
-	if addon.guidesFrame ~= nil then
-		addon.guidesFrame.text1:SetText(L.CURRENT_GUIDE .. ": |cFFFFFFFF" .. name .. "\n")
+	if G.guidesFrame ~= nil then
+		G.guidesFrame.text1:SetText(L.CURRENT_GUIDE .. ": |cFFFFFFFF" .. name .. "\n")
 	end
-	if addon.editorFrame ~= nil then
-		addon.editorFrame.text1:SetText(L.CURRENT_GUIDE .. ": |cFFFFFFFF" .. name .. "\n")
+	if E.editorFrame ~= nil then
+		E.editorFrame.text1:SetText(L.CURRENT_GUIDE .. ": |cFFFFFFFF" .. name .. "\n")
 		if addon.guides[GuidelimeDataChar.currentGuide] ~= nil then
-			addon.editorFrame.textBox:SetText(addon.guides[GuidelimeDataChar.currentGuide].text:gsub("|","¦"))
+			E.editorFrame.textBox:SetText(addon.guides[GuidelimeDataChar.currentGuide].text:gsub("|","¦"))
 		end
 	end
-	addon.loadCurrentGuide(true)
-	addon.updateFromQuestLog()
+	CG.loadCurrentGuide(true)
+	EV.updateFromQuestLog()
 	if GuidelimeDataChar.mainFrameShowing then
-		addon.updateMainFrame()
+		MW.updateMainFrame()
 	else
 		GuidelimeDataChar.mainFrameShowing = true
-		if addon.optionsFrame ~= nil then addon.optionsFrame.mainFrameShowing:SetChecked(true) end
-		addon.showMainFrame()
+		if O.optionsFrame ~= nil then O.optionsFrame.mainFrameShowing:SetChecked(true) end
+		MW.showMainFrame()
 	end
 end
 
 local function resetGuide() 
 	GuidelimeDataChar.guideSkip[GuidelimeDataChar.currentGuide] = {}
-	addon.loadGuide(GuidelimeDataChar.currentGuide)
+	G.loadGuide(GuidelimeDataChar.currentGuide)
 end
 
 local function selectGuide(name)
 	if addon.guides[name].reputation == nil or
-		addon.isRequiredReputation(addon.guides[name].reputation, addon.guides[name].repMin, addon.guides[name].repMax) then
-		addon.loadGuide(name)
+		D.isRequiredReputation(addon.guides[name].reputation, addon.guides[name].repMin, addon.guides[name].repMax) then
+		G.loadGuide(name)
 	end
 end
 
-function addon.fillGuides()
-	if addon.guidesFrame == nil then
-    	addon.guidesFrame = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContainer)
-    	addon.guidesFrame.name = GetAddOnMetadata(addonName, "title")
-    	InterfaceOptions_AddCategory(addon.guidesFrame)
+function G.fillGuides()
+	if G.guidesFrame == nil then
+    	G.guidesFrame = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContainer)
+    	G.guidesFrame.name = GetAddOnMetadata(addonName, "title")
+    	InterfaceOptions_AddCategory(G.guidesFrame)
 	
-		addon.guidesFrame.title = addon.guidesFrame:CreateFontString(nil, addon.guidesFrame, "GameFontNormal")
-		addon.guidesFrame.title:SetText(GetAddOnMetadata(addonName, "title") .. " |cFFFFFFFF" .. GetAddOnMetadata(addonName, "version"))
-		addon.guidesFrame.title:SetPoint("TOPLEFT", addon.guidesFrame, "TOPLEFT", 20, -20)
-		addon.guidesFrame.title:SetFontObject("GameFontNormalLarge")
-		local prev = addon.guidesFrame.title
+		G.guidesFrame.title = G.guidesFrame:CreateFontString(nil, G.guidesFrame, "GameFontNormal")
+		G.guidesFrame.title:SetText(GetAddOnMetadata(addonName, "title") .. " |cFFFFFFFF" .. GetAddOnMetadata(addonName, "version"))
+		G.guidesFrame.title:SetPoint("TOPLEFT", G.guidesFrame, "TOPLEFT", 20, -20)
+		G.guidesFrame.title:SetFontObject("GameFontNormalLarge")
+		local prev = G.guidesFrame.title
 		
-		addon.guidesFrame.text1 = addon.guidesFrame:CreateFontString(nil, addon.guidesFrame, "GameFontNormal")
-		addon.guidesFrame.text1:SetText(L.CURRENT_GUIDE .. ": |cFFFFFFFF" .. (GuidelimeDataChar.currentGuide or "") .. "\n")
-		addon.guidesFrame.text1:SetPoint("TOPLEFT", prev, "TOPLEFT", 0, -30)
-		prev = addon.guidesFrame.text1
+		G.guidesFrame.text1 = G.guidesFrame:CreateFontString(nil, G.guidesFrame, "GameFontNormal")
+		G.guidesFrame.text1:SetText(L.CURRENT_GUIDE .. ": |cFFFFFFFF" .. (GuidelimeDataChar.currentGuide or "") .. "\n")
+		G.guidesFrame.text1:SetPoint("TOPLEFT", prev, "TOPLEFT", 0, -30)
+		prev = G.guidesFrame.text1
 		
-		addon.guidesFrame.text2 = addon.guidesFrame:CreateFontString(nil, addon.guidesFrame, "GameFontNormal")
-		addon.guidesFrame.text2:SetText(L.AVAILABLE_GUIDES .. ":\n")
-		addon.guidesFrame.text2:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
-		prev = addon.guidesFrame.text2
+		G.guidesFrame.text2 = G.guidesFrame:CreateFontString(nil, G.guidesFrame, "GameFontNormal")
+		G.guidesFrame.text2:SetText(L.AVAILABLE_GUIDES .. ":\n")
+		G.guidesFrame.text2:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
+		prev = G.guidesFrame.text2
 	
-	    local scrollFrame = CreateFrame("ScrollFrame", nil, addon.guidesFrame, "UIPanelScrollFrameTemplate")
+	    local scrollFrame = CreateFrame("ScrollFrame", nil, G.guidesFrame, "UIPanelScrollFrameTemplate")
 	    scrollFrame:SetPoint("TOPLEFT", prev, "TOPLEFT", 0, -20)
-	    scrollFrame:SetPoint("RIGHT", addon.guidesFrame, "RIGHT", -30, 0)
-	    scrollFrame:SetPoint("BOTTOM", addon.guidesFrame, "BOTTOM", 0, 160)
+	    scrollFrame:SetPoint("RIGHT", G.guidesFrame, "RIGHT", -30, 0)
+	    scrollFrame:SetPoint("BOTTOM", G.guidesFrame, "BOTTOM", 0, 160)
 	
-	    addon.guidesFrame.content = CreateFrame("Frame", nil, scrollFrame) 
-	    addon.guidesFrame.content:SetSize(1, 1) 
-	    scrollFrame:SetScrollChild(addon.guidesFrame.content)
+	    G.guidesFrame.content = CreateFrame("Frame", nil, scrollFrame) 
+	    G.guidesFrame.content:SetSize(1, 1) 
+	    scrollFrame:SetScrollChild(G.guidesFrame.content)
 
-		addon.guidesFrame.guideListMessage = addon.addMultilineText(addon.guidesFrame.content, 
-			string.format(L.GUIDE_LIST, "|cFFAAAAAA" .. addon.GUIDE_LIST_URL), 
+		G.guidesFrame.guideListMessage = F.addMultilineText(G.guidesFrame.content, 
+			string.format(L.GUIDE_LIST, "|cFFAAAAAA" .. G.GUIDE_LIST_URL), 
 			550, nil, function()
 				InterfaceOptionsFrame:Hide()
-				addon.showUrlPopup(addon.GUIDE_LIST_URL) 
+				F.showUrlPopup(G.GUIDE_LIST_URL) 
 			end)
 	
 		prev = scrollFrame
 		
-		addon.guidesFrame.text3 = addon.guidesFrame:CreateFontString(nil, addon.guidesFrame, "GameFontNormal")
-		addon.guidesFrame.text3:SetText(L.DETAILS .. ":\n")
-		addon.guidesFrame.text3:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -20)
-		prev = addon.guidesFrame.text3
+		G.guidesFrame.text3 = G.guidesFrame:CreateFontString(nil, G.guidesFrame, "GameFontNormal")
+		G.guidesFrame.text3:SetText(L.DETAILS .. ":\n")
+		G.guidesFrame.text3:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -20)
+		prev = G.guidesFrame.text3
 	
-	    scrollFrame = CreateFrame("ScrollFrame", nil, addon.guidesFrame, "UIPanelScrollFrameTemplate")
+	    scrollFrame = CreateFrame("ScrollFrame", nil, G.guidesFrame, "UIPanelScrollFrameTemplate")
 	    scrollFrame:SetPoint("TOPLEFT", prev, "TOPLEFT", 0, -20)
-	    scrollFrame:SetPoint("RIGHT", addon.guidesFrame, "RIGHT", -30, 0)
-	    scrollFrame:SetPoint("BOTTOM", addon.guidesFrame, "BOTTOM", 0, 60)
+	    scrollFrame:SetPoint("RIGHT", G.guidesFrame, "RIGHT", -30, 0)
+	    scrollFrame:SetPoint("BOTTOM", G.guidesFrame, "BOTTOM", 0, 60)
 	
 	    local content = CreateFrame("Frame", nil, scrollFrame) 
 	    content:SetSize(1, 1) 
 	    scrollFrame:SetScrollChild(content)
 	
-		addon.guidesFrame.textDetails = addon.addMultilineText(content, nil, 550, nil, function()
-			if addon.guidesFrame.textDetails.url ~= nil then 
+		G.guidesFrame.textDetails = F.addMultilineText(content, nil, 550, nil, function()
+			if G.guidesFrame.textDetails.url ~= nil then 
 				InterfaceOptionsFrame:Hide()
-				addon.showUrlPopup(addon.guidesFrame.textDetails.url) 
+				F.showUrlPopup(G.guidesFrame.textDetails.url) 
 			end
 		end)
-		addon.guidesFrame.textDetails:SetPoint("TOPLEFT", content, "BOTTOMLEFT", 0, 0)
-		addon.guidesFrame.textDetails:SetTextColor(255,255,255,255)
+		G.guidesFrame.textDetails:SetPoint("TOPLEFT", content, "BOTTOMLEFT", 0, 0)
+		G.guidesFrame.textDetails:SetTextColor(255,255,255,255)
 		if addon.guides[GuidelimeDataChar.currentGuide] ~= nil and addon.guides[GuidelimeDataChar.currentGuide].details ~= nil then
-			addon.guidesFrame.textDetails:SetText(addon.guides[GuidelimeDataChar.currentGuide].details)
-			addon.guidesFrame.textDetails.url = addon.guides[GuidelimeDataChar.currentGuide].detailsUrl or ""
+			G.guidesFrame.textDetails:SetText(addon.guides[GuidelimeDataChar.currentGuide].details)
+			G.guidesFrame.textDetails.url = addon.guides[GuidelimeDataChar.currentGuide].detailsUrl or ""
 		end
 		
-		addon.guidesFrame.loadBtn = CreateFrame("BUTTON", nil, addon.guidesFrame, "UIPanelButtonTemplate")
-		addon.guidesFrame.loadBtn:SetWidth(140)
-		addon.guidesFrame.loadBtn:SetHeight(30)
-		addon.guidesFrame.loadBtn:SetText(L.RESET_GUIDE)
-		addon.guidesFrame.loadBtn:SetPoint("BOTTOMLEFT", addon.guidesFrame, "BOTTOMLEFT", 20, 20)
-		addon.guidesFrame.loadBtn:SetScript("OnClick", resetGuide)
+		G.guidesFrame.loadBtn = CreateFrame("BUTTON", nil, G.guidesFrame, "UIPanelButtonTemplate")
+		G.guidesFrame.loadBtn:SetWidth(140)
+		G.guidesFrame.loadBtn:SetHeight(30)
+		G.guidesFrame.loadBtn:SetText(L.RESET_GUIDE)
+		G.guidesFrame.loadBtn:SetPoint("BOTTOMLEFT", G.guidesFrame, "BOTTOMLEFT", 20, 20)
+		G.guidesFrame.loadBtn:SetScript("OnClick", resetGuide)
 	
-		addon.guidesFrame.loadBtn = CreateFrame("BUTTON", nil, addon.guidesFrame, "UIPanelButtonTemplate")
-		addon.guidesFrame.loadBtn:SetWidth(140)
-		addon.guidesFrame.loadBtn:SetHeight(30)
-		addon.guidesFrame.loadBtn:SetText(L.EDIT_GUIDE)
-		addon.guidesFrame.loadBtn:SetPoint("BOTTOMLEFT", addon.guidesFrame, "BOTTOMLEFT", 160, 20)
-		addon.guidesFrame.loadBtn:SetScript("OnClick", addon.showEditor)
+		G.guidesFrame.loadBtn = CreateFrame("BUTTON", nil, G.guidesFrame, "UIPanelButtonTemplate")
+		G.guidesFrame.loadBtn:SetWidth(140)
+		G.guidesFrame.loadBtn:SetHeight(30)
+		G.guidesFrame.loadBtn:SetText(L.EDIT_GUIDE)
+		G.guidesFrame.loadBtn:SetPoint("BOTTOMLEFT", G.guidesFrame, "BOTTOMLEFT", 160, 20)
+		G.guidesFrame.loadBtn:SetScript("OnClick", E.showEditor)
 
 	end
-	prev = addon.guidesFrame.content
+	prev = G.guidesFrame.content
 
-	if addon.debugging then print("LIME:", addon.faction, addon.race, addon.class) end
+	if addon.debugging then print("LIME:", D.faction, D.race, D.class) end
 
 	local groups = {}
 	local groupNames = {}
 	for name, guide in pairs(addon.guides) do
-		if addon.applies(guide) then
+		if D.applies(guide) then
 			if groups[guide.group] == nil then 
 				groups[guide.group] = {} 
 				table.insert(groupNames, guide.group)
@@ -142,24 +152,24 @@ function addon.fillGuides()
 	end
 	table.sort(groupNames)
 	
-	if addon.guidesFrame.groups ~= nil then
-		for _, group in pairs(addon.guidesFrame.groups) do
+	if G.guidesFrame.groups ~= nil then
+		for _, group in pairs(G.guidesFrame.groups) do
 			group:Hide()
 		end
 	end
-	if addon.guidesFrame.guides ~= nil then
-		for _, guide in pairs(addon.guidesFrame.guides) do
+	if G.guidesFrame.guides ~= nil then
+		for _, guide in pairs(G.guidesFrame.guides) do
 			guide:Hide()
 		end
 	end
-	if addon.guidesFrame.messages ~= nil then
-		for _, message in pairs(addon.guidesFrame.messages) do
+	if G.guidesFrame.messages ~= nil then
+		for _, message in pairs(G.guidesFrame.messages) do
 			message:Hide()
 		end
 	end
-	addon.guidesFrame.groups = {}
-	addon.guidesFrame.guides = {}
-	addon.guidesFrame.messages = {}
+	G.guidesFrame.groups = {}
+	G.guidesFrame.guides = {}
+	G.guidesFrame.messages = {}
 	
 	for i, group in ipairs(groupNames) do
 		local guides = groups[group]
@@ -183,109 +193,109 @@ function addon.fillGuides()
 		end
 		if download == nil or GuidelimeData.displayDemoGuides then]]
 		
-		addon.guidesFrame.groups[group] = addon.guidesFrame.content:CreateFontString(nil, addon.guidesFrame.content, "GameFontNormal")
-		if prev == addon.guidesFrame.content then
-			addon.guidesFrame.groups[group]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
+		G.guidesFrame.groups[group] = G.guidesFrame.content:CreateFontString(nil, G.guidesFrame.content, "GameFontNormal")
+		if prev == G.guidesFrame.content then
+			G.guidesFrame.groups[group]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
 		else
-			addon.guidesFrame.groups[group]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -10, -10)
+			G.guidesFrame.groups[group]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -10, -10)
 		end
-		addon.guidesFrame.groups[group]:SetText(group)
-		prev = addon.guidesFrame.groups[group]
+		G.guidesFrame.groups[group]:SetText(group)
+		prev = G.guidesFrame.groups[group]
 		for j, name in ipairs(guides) do
 			local guide = addon.guides[name]
 
 			local text = ""
 			if guide.minLevel ~= nil then
-				text = text .. addon.getLevelColor(guide.minLevel) .. guide.minLevel .. "|r"
+				text = text .. MW.getLevelColor(guide.minLevel) .. guide.minLevel .. "|r"
 			end
 			if guide.minLevel ~= nil or guide.maxLevel ~= nil then
 				text = text .. "-"
 			end
 			if guide.maxLevel ~= nil then
-				text = text .. addon.getLevelColor(guide.maxLevel) .. guide.maxLevel .. "|r"
+				text = text .. MW.getLevelColor(guide.maxLevel) .. guide.maxLevel .. "|r"
 			end
 			if guide.minLevel ~= nil or guide.maxLevel ~= nil then
 				text = text .. " "
 			end
 			if guide.title ~= nil then
-				if guide.reputation ~= nil and not addon.isRequiredReputation(guide.reputation, guide.repMin, guide.repMax) then
-					text = text .. addon.COLOR_INACTIVE
+				if guide.reputation ~= nil and not D.isRequiredReputation(guide.reputation, guide.repMin, guide.repMax) then
+					text = text .. MW.COLOR_INACTIVE
 				else
-					text = text .. addon.COLOR_WHITE
+					text = text .. MW.COLOR_WHITE
 				end					
 				text = text .. guide.title .. "|r"
 			end
-			addon.guidesFrame.guides[name] = addon.addMultilineText(addon.guidesFrame.content, text, 550, nil, function(self)
+			G.guidesFrame.guides[name] = F.addMultilineText(G.guidesFrame.content, text, 550, nil, function(self)
 				selectGuide(self.name)
 			end)
 			if j == 1 then
-				addon.guidesFrame.guides[name]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 10, -5)
+				G.guidesFrame.guides[name]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 10, -5)
 			else
-				addon.guidesFrame.guides[name]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+				G.guidesFrame.guides[name]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 			end
-			addon.guidesFrame.guides[name]:SetTextColor(255,255,255,255)
-			addon.guidesFrame.guides[name]:SetBackdrop({
+			G.guidesFrame.guides[name]:SetTextColor(255,255,255,255)
+			G.guidesFrame.guides[name]:SetBackdrop({
 				--bgFile = "Interface\\QuestFrame\\UI-QuestLogTitleHighlight",
 				bgFile = "Interface\\AddOns\\" .. addonName .. "\\Icons\\TitleHighlight",
 				tile = false, edgeSize = 1
 			})
-			addon.guidesFrame.guides[name].name = name
-			addon.guidesFrame.guides[name].guide = guide
+			G.guidesFrame.guides[name].name = name
+			G.guidesFrame.guides[name].guide = guide
 			if name == GuidelimeDataChar.currentGuide then
-				addon.guidesFrame.guides[name]:SetBackdropColor(1,1,0,1)	
+				G.guidesFrame.guides[name]:SetBackdropColor(1,1,0,1)	
 			else
-				addon.guidesFrame.guides[name]:SetBackdropColor(0,0,0,0)	
+				G.guidesFrame.guides[name]:SetBackdropColor(0,0,0,0)	
 			end
-			addon.guidesFrame.guides[name]:SetScript("OnEnter", function(self)
-				addon.guidesFrame.textDetails:SetText(self.guide.details or "")
-				addon.guidesFrame.textDetails.url = self.guide.detailsUrl or ""
+			G.guidesFrame.guides[name]:SetScript("OnEnter", function(self)
+				G.guidesFrame.textDetails:SetText(self.guide.details or "")
+				G.guidesFrame.textDetails.url = self.guide.detailsUrl or ""
 				if self.name ~= GuidelimeDataChar.currentGuide then
 					self:SetBackdropColor(0.5,0.5,1,1)	
 				end
 			end)
-			addon.guidesFrame.guides[name]:SetScript("OnLeave", function(self)
+			G.guidesFrame.guides[name]:SetScript("OnLeave", function(self)
 				if GuidelimeDataChar.currentGuide ~= nil and addon.guides[GuidelimeDataChar.currentGuide] ~= nil then
-					addon.guidesFrame.textDetails:SetText(addon.guides[GuidelimeDataChar.currentGuide].details or "")
-					addon.guidesFrame.textDetails.url = addon.guides[GuidelimeDataChar.currentGuide].detailsUrl or ""
+					G.guidesFrame.textDetails:SetText(addon.guides[GuidelimeDataChar.currentGuide].details or "")
+					G.guidesFrame.textDetails.url = addon.guides[GuidelimeDataChar.currentGuide].detailsUrl or ""
 				end
 				if self.name ~= GuidelimeDataChar.currentGuide then
 					self:SetBackdropColor(0,0,0,0)	
 				end
 			end)
-			prev = addon.guidesFrame.guides[name]
+			prev = G.guidesFrame.guides[name]
 		end
 		--[[if download ~= nil then
-			addon.guidesFrame.messages[group] = addon.addMultilineText(addon.guidesFrame.content, 
+			G.guidesFrame.messages[group] = F.addMultilineText(G.guidesFrame.content, 
 				string.format(L.DOWNLOAD_FULL_GUIDE, downloadMinLevel, downloadMaxLevel, download, "\n|cFFAAAAAA" .. downloadUrl), 
 				550, nil, function()
 					InterfaceOptionsFrame:Hide()
-					addon.showUrlPopup(downloadUrl) 
+					F.showUrlPopup(downloadUrl) 
 				end)
-			addon.guidesFrame.messages[group]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -5)
-			prev = addon.guidesFrame.messages[group]
+			G.guidesFrame.messages[group]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -5)
+			prev = G.guidesFrame.messages[group]
 		end]]
 	end
 
-	if prev == addon.guidesFrame.content then
-		addon.guidesFrame.guideListMessage:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -20)
+	if prev == G.guidesFrame.content then
+		G.guidesFrame.guideListMessage:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -20)
 	else
-		addon.guidesFrame.guideListMessage:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -10, -20)
+		G.guidesFrame.guideListMessage:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -10, -20)
 	end
 end
 
-function addon.isGuidesShowing()
-	return InterfaceOptionsFrame:IsShown() and InterfaceOptionsFramePanelContainer.displayedPanel == addon.guidesFrame
+function G.isGuidesShowing()
+	return InterfaceOptionsFrame:IsShown() and InterfaceOptionsFramePanelContainer.displayedPanel == G.guidesFrame
 end
 
-function addon.showGuides()
+function G.showGuides()
 	if not addon.dataLoaded then loadData() end
-	if addon.isGuidesShowing() then 
+	if G.isGuidesShowing() then 
 		InterfaceOptionsFrame:Hide()
 	else
-		if addon.isEditorShowing() then addon.editorFrame:Hide() end
+		if E.isEditorShowing() then E.editorFrame:Hide() end
 		-- calling twice ensures guides are shown. calling once might only show game options. why? idk
-		InterfaceOptionsFrame_OpenToCategory(addon.guidesFrame)
-		InterfaceOptionsFrame_OpenToCategory(addon.guidesFrame)
+		InterfaceOptionsFrame_OpenToCategory(G.guidesFrame)
+		InterfaceOptionsFrame_OpenToCategory(G.guidesFrame)
 	end
 end
 

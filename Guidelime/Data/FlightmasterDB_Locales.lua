@@ -1,6 +1,6 @@
 local addonName, addon = ...
 
-addon.flightmasterDB_Locales = {
+addon.FM.flightmasterDB_Locales = {
 ["deDE"] = {
 		[1] = "Abtei von Nordhain",
 		[2] = "Stormwind, Elwynn",

@@ -1,6 +1,6 @@
 local addonName, addon = ...
 
-addon.questieCorrectionsObjectiveOrder = {
+addon.QUESTIE.correctionsObjectiveOrder = {
 	-- https://tbc.wowhead.com/quest=10503/the-bladespire-threat
 	-- objectives switched; first kill credit then creature
 	[10503] = {2, 1},
@@ -13,7 +13,7 @@ addon.questieCorrectionsObjectiveOrder = {
 -- we want to know which quests is started by an item in order to generate the use item button
 -- therefore we 'correct' this here
 -- ids for items starting a quest exported from wowhead: https://www.wowhead.com/wotlk/items?filter=6;1;0
-addon.questieCorrectionsQuestAccept =
+addon.QUESTIE.correctionsQuestAccept =
 {
 	[13326] = {{Type = "item", Id = 44326}},
 	[24554] = {{Type = "item", Id = 50380}},

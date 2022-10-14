@@ -1,12 +1,16 @@
 local addonName, addon = ...
 local L = addon.L
 
-addon.factions = {"Alliance", "Horde"}
-addon.races = {Human = "Alliance", NightElf = "Alliance", Dwarf = "Alliance", Gnome = "Alliance", Orc = "Horde", Troll = "Horde", Tauren = "Horde", Undead = "Horde", Draenei = "Alliance", BloodElf = "Horde"}
-addon.raceIDs = {Human = 1, NightElf = 4, Dwarf = 3, Gnome = 7, Orc = 2, Troll = 8, Tauren = 6, Undead = 5, BloodElf = 10, Draenei = 11}
-addon.classes = {"Warrior", "Rogue", "Mage", "Warlock", "Hunter", "Priest", "Druid", "Paladin", "Shaman", "DeathKnight"}
-addon.classesWithFaction = {}
-addon.classesPerRace = {
+local HBD = LibStub("HereBeDragons-2.0")
+
+addon.D = addon.D or {}; local D = addon.D
+
+D.factions = {"Alliance", "Horde"}
+D.races = {Human = "Alliance", NightElf = "Alliance", Dwarf = "Alliance", Gnome = "Alliance", Orc = "Horde", Troll = "Horde", Tauren = "Horde", Undead = "Horde", Draenei = "Alliance", BloodElf = "Horde"}
+D.raceIDs = {Human = 1, NightElf = 4, Dwarf = 3, Gnome = 7, Orc = 2, Troll = 8, Tauren = 6, Undead = 5, BloodElf = 10, Draenei = 11}
+D.classes = {"Warrior", "Rogue", "Mage", "Warlock", "Hunter", "Priest", "Druid", "Paladin", "Shaman", "DeathKnight"}
+D.classesWithFaction = {}
+D.classesPerRace = {
 	Human = {"Warrior", "Paladin", "Rogue", "Priest", "Mage", "Warlock", "DeathKnight"},
 	NightElf = {"Warrior", "Hunter", "Rogue", "Priest", "Druid", "DeathKnight"},
 	Dwarf = {"Warrior", "Paladin", "Hunter", "Rogue", "Priest", "DeathKnight"},
@@ -18,7 +22,30 @@ addon.classesPerRace = {
 	Draenei = {"Hunter", "Mage", "Paladin", "Priest", "Shaman", "Warrior", "DeathKnight"},
 	BloodElf = {"Hunter", "Mage", "Paladin", "Priest", "Rogue", "Warlock", "DeathKnight"}
 }
-addon.reputations = {
+function D.getClass(class)
+	class = class:upper():gsub(" ","")
+	for i, c in ipairs(D.classes) do
+		if c:upper() == class then return c end
+	end
+end
+function D.getRace(race)
+	race = race:upper():gsub(" ","")
+	if race == "SCOURGE" then return "Undead" end
+	for r, f in pairs(D.races) do
+		if r:upper() == race then return r end
+	end
+end
+
+D.class = D.getClass(select(2, UnitClass("player")))
+D.race = D.getRace(select(2, UnitRace("player")))
+D.faction = UnitFactionGroup("player")
+D.level = UnitLevel("player")
+D.xp = UnitXP("player")
+D.xpMax = UnitXPMax("player")
+D.x, D.y, D.instance = HBD:GetPlayerWorldPosition()
+D.face = GetPlayerFacing()
+
+D.reputations = {
 	bootybay = 21,
 	ironforge = 47,
 	gnomeregan = 54,
@@ -87,76 +114,63 @@ addon.reputations = {
 	frenzyhearttribe = 1104,
 }
 
-addon.racesPerFaction = {}
-for race, faction in pairs(addon.races) do
-	if addon.racesPerFaction[faction] == nil then addon.racesPerFaction[faction] = {} end
-	table.insert(addon.racesPerFaction[faction], race)
+D.racesPerFaction = {}
+for race, faction in pairs(D.races) do
+	if D.racesPerFaction[faction] == nil then D.racesPerFaction[faction] = {} end
+	table.insert(D.racesPerFaction[faction], race)
 end
 
-addon.classesPerFaction = {}
-for i, class in ipairs(addon.classes) do
-	for i, faction in ipairs(addon.factions) do
-		if addon.classesWithFaction[class] or faction == faction then
-			if addon.classesPerFaction[faction] == nil then addon.classesPerFaction[faction] = {} end
-			table.insert(addon.classesPerFaction[faction], class)
+D.classesPerFaction = {}
+for i, class in ipairs(D.classes) do
+	for i, faction in ipairs(D.factions) do
+		if D.classesWithFaction[class] or faction == faction then
+			if D.classesPerFaction[faction] == nil then D.classesPerFaction[faction] = {} end
+			table.insert(D.classesPerFaction[faction], class)
 		end
 	end
 end
 
-function addon.getClass(class)
-	class = class:upper():gsub(" ","")
-	for i, c in ipairs(addon.classes) do
-		if c:upper() == class then return c end
-	end
+function D.isClass(class)
+	return D.getClass(class) ~= nil
 end
-function addon.isClass(class)
-	return addon.getClass(class) ~= nil
+function D.isRace(race)
+	return D.getRace(race) ~= nil
 end
-function addon.getRace(race)
-	race = race:upper():gsub(" ","")
-	if race == "SCOURGE" then return "Undead" end
-	for r, f in pairs(addon.races) do
-		if r:upper() == race then return r end
-	end
-end
-function addon.isRace(race)
-	return addon.getRace(race) ~= nil
-end
-function addon.getFaction(faction)
+function D.getFaction(faction)
 	faction = faction:upper()
-	for i, f in ipairs(addon.factions) do
+	for i, f in ipairs(D.factions) do
 		if f:upper() == faction then return f end
 	end
 end
-function addon.isFaction(faction)
-	return addon.getFaction(faction) ~= nil
+function D.isFaction(faction)
+	return D.getFaction(faction) ~= nil
 end
-function addon.getLocalizedRace(race)
+function D.getLocalizedRace(race)
 	if C_CreatureInfo == nil then return race end
-	return C_CreatureInfo.GetRaceInfo(addon.raceIDs[race]).raceName
+	return C_CreatureInfo.GetRaceInfo(D.raceIDs[race]).raceName
 end
-function addon.getLocalizedClass(class)
+function D.getLocalizedClass(class)
 	return LOCALIZED_CLASS_NAMES_MALE[class:upper()]
 end
 
-function addon.getReputation(rep)
-	return addon.reputations[string.gsub(string.gsub(string.lower(rep), "[' ]", ""), "^the", "")]
+function D.getReputation(rep)
+	return D.reputations[string.gsub(string.gsub(string.lower(rep), "[' ]", ""), "^the", "")]
 end
-function addon.isReputation(rep)
-	return addon.getReputation(rep) ~= nil
+function D.isReputation(rep)
+	return D.getReputation(rep) ~= nil
 end
-function addon.getLocalizedReputation(id)
+function D.getLocalizedReputation(id)
 	local name = GetFactionInfoByID(id)
 	return name
 end
-function addon.isRequiredReputation(id, repMin, repMax)
+function D.isRequiredReputation(id, repMin, repMax)
 	local _, _, standing, _, _, value = GetFactionInfoByID(id)
 	if repMin ~= nil and value < repMin then return false end
 	if repMax ~= nil and value >= repMax then return false end
 	return true
 end
 
-function addon.contains(array, value)
+function D.contains(array, value)
 	if not array then return end
 	for i, v in ipairs(array) do
 		if type(value) == "function" then
@@ -168,11 +182,11 @@ function addon.contains(array, value)
 	return false
 end
 
-function addon.containsIgnoreCase(array, value)
-	return addon.contains(array, function(v) return v:upper() == value:upper() end)
+function D.containsIgnoreCase(array, value)
+	return D.contains(array, function(v) return v:upper() == value:upper() end)
 end
 
-function addon.containsKey(table, value)
+function D.containsKey(table, value)
 	for k, v in pairs(table) do
 		if type(value) == "function" then
 			if value(k) then return true end
@@ -183,21 +197,28 @@ function addon.containsKey(table, value)
 	return false
 end
 
-function addon.applies(guide)
+function D.applies(guide)
 	if guide == nil then return false end
 	if guide.races ~= nil then
-		if not addon.contains(guide.races, addon.race) then return false end
+		if not D.contains(guide.races, D.race) then return false end
 	end
 	if guide.classes ~= nil then
-		if not addon.contains(guide.classes, addon.class) then return false end
+		if not D.contains(guide.classes, D.class) then return false end
 	end
-	if guide.faction ~= nil and guide.faction ~= addon.faction then return false end
+	if guide.faction ~= nil and guide.faction ~= D.faction then return false end
 	return true
 end
 
-function addon.isAlive()
+function D.isAlive()
 	return not UnitIsDeadOrGhost("player")
 	--return HBD:GetPlayerZone() == nil or C_DeathInfo.GetCorpseMapPosition(HBD:GetPlayerZone()) == nil
 end
 
+function D.bit(p)
+  return 2 ^ (p - 1)  -- 1-based indexing
+end
 
+-- Typical call:  if hasbit(x, bit(3)) then ...
+function D.hasbit(x, p)
+  return x % (p + p) >= p       
+end

@@ -1,7 +1,7 @@
 local addonName, addon = ...
 
 -- add kill credit objectives as these are not supported by ClassicCodex
-addon.classicCodexCorrectionsObjectives = {
+addon.CLASSIC_CODEX.correctionsObjectives = {
 		[11537] = {
 			[2] = {
 				["type"] = "monster",
@@ -517,7 +517,7 @@ addon.classicCodexCorrectionsObjectives = {
 	}
 
 -- correct order of objectives where ClassicCodex does not have objectives in the same order as in quest log
-addon.classicCodexCorrectionsObjectiveOrder = {
+addon.CLASSIC_CODEX.correctionsObjectiveOrder = {
 		[8167] = {
 			3, -- [1]
 			4, -- [2]

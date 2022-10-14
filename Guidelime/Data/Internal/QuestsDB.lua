@@ -1,11 +1,12 @@
 local addonName, addon = ...
+addon.DB = addon.DB or {}; local DB = addon.DB
 
 -- source: https://github.com/TyrsDev/WoW-Classic-Database
 -- Thanks to TyrsDev!
 
-function addon.isDataSourceInstalledINTERNAL() return true end
+function DB.isDataSourceInstalled() return true end
 
-addon.questsDB = {
+DB.questsDB = {
 	[2] = {
 	   ["faction"] = "Horde";
 	   ["name"] = "Sharptalon's Claw";

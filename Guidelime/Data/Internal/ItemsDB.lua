@@ -1,9 +1,10 @@
 local addonName, addon = ...
+addon.DB = addon.DB or {}; local DB = addon.DB
 
 -- source: https://github.com/TyrsDev/WoW-Classic-Database
 -- Thanks to TyrsDev!
 
-addon.itemsDB = {
+DB.itemsDB = {
 	[20490] = {
 	   ["name"] = "Ironforge Mint";
 	};

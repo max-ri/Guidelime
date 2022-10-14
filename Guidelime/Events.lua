@@ -1,47 +1,62 @@
 local addonName, addon = ...
 local L = addon.L
 
-HBD = LibStub("HereBeDragons-2.0")
+local HBD = LibStub("HereBeDragons-2.0")
+
+addon.D = addon.D or {}; local D = addon.D     -- Data/Data
+addon.FM = addon.FM or {}; local FM = addon.FM -- Data/FlightmasterDB
+addon.QT = addon.QT or {}; local QT = addon.QT -- Data/QuestTools
+addon.AB = addon.AB or {}; local AB = addon.AB -- ActionButtons
+addon.CG = addon.CG or {}; local CG = addon.CG -- CurrentGuide
+addon.M = addon.M or {}; local M = addon.M     -- Map
+addon.MW = addon.MW or {}; local MW = addon.MW -- MainWindow
+addon.QS = addon.QS or {}; local QS = addon.QS -- QuestScan
+
+addon.EV = addon.EV or {}; local EV = addon.EV -- Events
+
+EV.AUTO_COMPLETE_DELAY = 0.01
+
+EV.frame = CreateFrame("Frame", addonName .. "Frame", UIParent)
 
 -- Register events and call functions
-addon.frame:SetScript("OnEvent", function(self, event, ...)
+EV.frame:SetScript("OnEvent", function(self, event, ...)
 	if addon.debugging then print("LIME:", event, ...) end
-	addon.frame[event](self, ...)
+	EV.frame[event](self, ...)
 end)
 
 local function init()
 	if not addon.dataLoaded then addon.loadData() end
-	if GuidelimeDataChar.mainFrameShowing then addon.showMainFrame() end
+	if GuidelimeDataChar.mainFrameShowing then MW.showMainFrame() end
 end
 
-addon.frame:RegisterEvent('PLAYER_LOGIN')
-function addon.frame:PLAYER_LOGIN()
+EV.frame:RegisterEvent('PLAYER_LOGIN')
+function EV.frame:PLAYER_LOGIN()
 	C_Timer.After(2, init)
 end
 
-addon.frame:RegisterEvent('PLAYER_LEVEL_UP')
-function addon.frame:PLAYER_LEVEL_UP(level)
+EV.frame:RegisterEvent('PLAYER_LEVEL_UP')
+function EV.frame:PLAYER_LEVEL_UP(level)
 	C_Timer.After(0.1, function()
-		addon.level = level
-		addon.xpMax = UnitXPMax("player")
-		if addon.debugging then print("LIME: You reached level " .. level .. ". Grats! new xp max is " .. addon.xpMax) end
-		addon.updateSteps()
+		D.level = level
+		D.xpMax = UnitXPMax("player")
+		if addon.debugging then print("LIME: You reached level " .. D.level .. ". Grats! new xp max is " .. D.xpMax) end
+		CG.updateSteps()
 	end)
 end
 
-addon.frame:RegisterEvent('PLAYER_XP_UPDATE')
-function addon.frame:PLAYER_XP_UPDATE(level)
-	addon.xp = UnitXP("player")
-	--if addon.debugging then print("LIME: xp is " .. addon.xp) end
-	addon.updateSteps()
+EV.frame:RegisterEvent('PLAYER_XP_UPDATE')
+function EV.frame:PLAYER_XP_UPDATE(level)
+	D.xp = UnitXP("player")
+	--if addon.debugging then print("LIME: xp is " .. D.xp) end
+	CG.updateSteps()
 end
 
-addon.frame:RegisterEvent('UPDATE_FACTION')
-function addon.frame:UPDATE_FACTION(level)
-	addon.updateMainFrame()
+EV.frame:RegisterEvent('UPDATE_FACTION')
+function EV.frame:UPDATE_FACTION(level)
+	MW.updateMainFrame()
 end
 
-function addon.updateFromQuestLog()
+function EV.updateFromQuestLog()
 	local questLog = {}
 	local isCollapsed = {}
 	local currentHeader
@@ -87,8 +102,8 @@ function addon.updateFromQuestLog()
 	local questChanged = false
 	local questFound = false
 	local questItemsNeeded = {}
-	for _, id in ipairs(addon.questIds) do
-		local q = addon.quests[id]
+	for _, id in ipairs(CG.questIds) do
+		local q = CG.quests[id]
 		if questLog[id] ~= nil and not questLog[id].failed then
 			local numObjectives = GetNumQuestLeaderBoards(questLog[id].index)
 			if numObjectives == 0 then questLog[id].finished = true end
@@ -111,11 +126,11 @@ function addon.updateFromQuestLog()
 			end
 			if q.objectives == nil or #q.objectives ~= numObjectives then q.objectives = {} end
 			for k = 1, numObjectives do
-				local desc, type, done = GetQuestLogLeaderBoard(k, addon.quests[id].logIndex)
+				local desc, type, done = GetQuestLogLeaderBoard(k, CG.quests[id].logIndex)
 				-- special treatment for item objectives: when the same item needs to be collected for different quests at the same time 
 				-- all objectives should be done only when enough items for all quests have been collected
 				if type == 'item' then
-					local objectives = addon.getQuestObjectives(id)
+					local objectives = QT.getQuestObjectives(id)
 					if objectives ~= nil and objectives[k] ~= nil and objectives[k].type == 'item' then
 						local itemId = objectives[k].ids.item[1]
 						local itemName, _, numNeeded = desc:match("([^%d]*)([%d]+)%s*/%s*([%d]+)")
@@ -153,30 +168,30 @@ function addon.updateFromQuestLog()
 end
 
 local function doQuestUpdate()
-	addon.xp = UnitXP("player")
-	addon.xpMax = UnitXPMax("player")
-	addon.x, addon.y, addon.instance = HBD:GetPlayerWorldPosition()
+	D.xp = UnitXP("player")
+	D.xpMax = UnitXPMax("player")
+	D.x, D.y, D.instance = HBD:GetPlayerWorldPosition()
 	
-	if addon.quests ~= nil then 
-		local checkCompleted, questChanged, questFound = addon.updateFromQuestLog()
+	if CG.quests ~= nil then 
+		local checkCompleted, questChanged, questFound = EV.updateFromQuestLog()
 
-		if addon.firstLogUpdate == nil then
-			addon.updateMainFrame()
+		if EV.firstLogUpdate == nil then
+			MW.updateMainFrame()
 		else
 			if not questChanged then
-				if addon.contains(addon.currentGuide.steps, function(s) return not s.skip and not s.completed and s.active and s.xp ~= nil end) then 
+				if D.contains(CG.currentGuide.steps, function(s) return not s.skip and not s.completed and s.active and s.xp ~= nil end) then 
 					questChanged = true 
 				end
 			end
 			
 			if checkCompleted then
 				if questFound then
-					addon.updateStepsText()
+					CG.updateStepsText()
 				end
 				C_Timer.After(0.1, function() 
-					local completed = addon.GetQuestsCompleted()
+					local completed = QT.GetQuestsCompleted()
 					local questCompleted = false
-					for id, q in pairs(addon.quests) do
+					for id, q in pairs(CG.quests) do
 						if completed[id] and not q.completed then
 							questCompleted = true
 							q.finished = true
@@ -184,96 +199,96 @@ local function doQuestUpdate()
 						end
 					end
 					if questCompleted == true or GuidelimeDataChar.showCompletedSteps then
-						addon.updateSteps()
+						CG.updateSteps()
 					else
 						-- quest was abandoned so redraw erverything since completed steps might have to be done again
-						addon.updateMainFrame()
+						MW.updateMainFrame()
 					end
 				end)
 			elseif questChanged then 
-				addon.updateSteps() 
+				CG.updateSteps() 
 			elseif questFound then
-				addon.updateStepsText()
+				CG.updateStepsText()
 			end
 		end
 	end
-	addon.firstLogUpdate = true
+	EV.firstLogUpdate = true
 end
 
-addon.frame:RegisterEvent('QUEST_LOG_UPDATE')
-function addon.frame:QUEST_LOG_UPDATE()
+EV.frame:RegisterEvent('QUEST_LOG_UPDATE')
+function EV.frame:QUEST_LOG_UPDATE()
 	doQuestUpdate()
 end
 
-function addon.isQuestAuto(option, id)
+function EV.isQuestAuto(option, id)
 	if option == "All" then 
 		return true 
-	elseif addon.currentGuide == nil then
+	elseif CG.currentGuide == nil then
 		return false
 	elseif option == "Current" then 
-		return addon.currentGuide.activeQuests ~= nil and addon.contains(addon.currentGuide.activeQuests, id)
+		return CG.currentGuide.activeQuests ~= nil and D.contains(CG.currentGuide.activeQuests, id)
 	elseif option == "Guide" then
-		return addon.scannedQuests ~= nil and addon.containsKey(addon.scannedQuests, id)
+		return QS.scannedQuests ~= nil and D.containsKey(QS.scannedQuests, id)
 	else
 		return false
 	end
 end
 
 
-addon.frame:RegisterEvent('GOSSIP_SHOW')
-function addon.frame:GOSSIP_SHOW()
+EV.frame:RegisterEvent('GOSSIP_SHOW')
+function EV.frame:GOSSIP_SHOW()
 	if (GuidelimeData.autoAcceptQuests or GuidelimeData.autoTurnInQuests) and not IsShiftKeyDown() then 
-		if addon.debugging then print ("LIME: GOSSIP_SHOW", addon.GetGossipActiveQuests()) end
-		if addon.debugging then print ("LIME: GOSSIP_SHOW", addon.GetGossipAvailableQuests()) end
-		local q = { addon.GetGossipActiveQuests() }
+		if addon.debugging then print ("LIME: GOSSIP_SHOW", QT.GetGossipActiveQuests()) end
+		if addon.debugging then print ("LIME: GOSSIP_SHOW", QT.GetGossipAvailableQuests()) end
+		local q = { QT.GetGossipActiveQuests() }
 		local selectActive = nil
 		local selectAvailable = nil
-		addon.openNpcAgain = false
-		for i = 1, addon.GetNumGossipActiveQuests() do
+		EV.openNpcAgain = false
+		for i = 1, QT.GetNumGossipActiveQuests() do
 			local name = q[(i-1) * 6 + 1]
 			local complete = q[(i-1) * 6 + 4]
-			if complete and addon.isQuestAuto(GuidelimeData.autoTurnInQuests, function(id) return name == addon.getQuestNameById(id) end) then
+			if complete and EV.isQuestAuto(GuidelimeData.autoTurnInQuests, function(id) return name == QT.getQuestNameById(id) end) then
 				if selectActive == nil then
 					selectActive = i
 				else
-					addon.openNpcAgain = true
+					EV.openNpcAgain = true
 				end			
 			end
 		end
-		q = { addon.GetGossipAvailableQuests() }
-		for i = 1, addon.GetNumGossipAvailableQuests() do
+		q = { QT.GetGossipAvailableQuests() }
+		for i = 1, QT.GetNumGossipAvailableQuests() do
 			local name = q[(i-1) * 7 + 1]
-			if addon.isQuestAuto(GuidelimeData.autoAcceptQuests, function(id) return name == addon.getQuestNameById(id) end) then
+			if EV.isQuestAuto(GuidelimeData.autoAcceptQuests, function(id) return name == QT.getQuestNameById(id) end) then
 				if selectActive == nil and selectAvailable == nil then
 					selectAvailable = i
 				else
-					addon.openNpcAgain = true
+					EV.openNpcAgain = true
 				end			
 			end
 		end
 
 		if selectActive ~= nil then
-			C_Timer.After(addon.AUTO_COMPLETE_DELAY, function() 
+			C_Timer.After(EV.AUTO_COMPLETE_DELAY, function() 
 				if addon.debugging then print ("LIME: GOSSIP_SHOW selectActive", selectActive) end
-				addon.SelectGossipActiveQuest(selectActive)
+				QT.SelectGossipActiveQuest(selectActive)
 			end)
 		elseif selectAvailable ~= nil then
-			C_Timer.After(addon.AUTO_COMPLETE_DELAY, function() 
+			C_Timer.After(EV.AUTO_COMPLETE_DELAY, function() 
 				if addon.debugging then print ("LIME: GOSSIP_SHOW selectAvailable", selectAvailable) end
-				addon.SelectGossipAvailableQuest(selectAvailable)
+				QT.SelectGossipAvailableQuest(selectAvailable)
 			end)
 		end
 	end
-	if GuidelimeData.autoSelectFlight and not IsShiftKeyDown() and addon.currentGuide ~= nil and addon.currentGuide.firstActiveIndex ~= nil and	addon.currentGuide.lastActiveIndex ~= nil then
-		for i = addon.currentGuide.firstActiveIndex, addon.currentGuide.lastActiveIndex do
-			local step = addon.currentGuide.steps[i]
+	if GuidelimeData.autoSelectFlight and not IsShiftKeyDown() and CG.currentGuide ~= nil and CG.currentGuide.firstActiveIndex ~= nil and CG.currentGuide.lastActiveIndex ~= nil then
+		for i = CG.currentGuide.firstActiveIndex, CG.currentGuide.lastActiveIndex do
+			local step = CG.currentGuide.steps[i]
 			for _, element in ipairs(step.elements) do
 				if not element.completed then
 					if element.t == "FLY" or element.t == "GET_FLIGHT_POINT" then
 						local gossip = {GetGossipOptions()}
 						for i = 1, GetNumGossipOptions() do
 							if gossip[i * 2] == "taxi" then
-								addon.SelectGossipOption(i)
+								QT.SelectGossipOption(i)
 							end
 						end
 					end
@@ -283,42 +298,42 @@ function addon.frame:GOSSIP_SHOW()
 	end
 end
 
-addon.frame:RegisterEvent('QUEST_GREETING')
-function addon.frame:QUEST_GREETING()
+EV.frame:RegisterEvent('QUEST_GREETING')
+function EV.frame:QUEST_GREETING()
 	if (GuidelimeData.autoAcceptQuests or GuidelimeData.autoTurnInQuests) and not IsShiftKeyDown() then 
 		if addon.debugging then print ("LIME: QUEST_GREETING", GetNumActiveQuests()) end
 		if addon.debugging then print ("LIME: QUEST_GREETING", GetNumAvailableQuests()) end
 		local selectActive = nil
 		local selectAvailable = nil
-		addon.openNpcAgain = false
+		EV.openNpcAgain = false
 		for i = 1, GetNumActiveQuests() do
 			local name = GetActiveTitle(i)
-			if addon.isQuestAuto(GuidelimeData.autoTurnInQuests, function(id) return name == addon.getQuestNameById(id) end) then
+			if EV.isQuestAuto(GuidelimeData.autoTurnInQuests, function(id) return name == QT.getQuestNameById(id) end) then
 				if selectActive == nil then
 					selectActive = i
 				else
-					addon.openNpcAgain = true
+					EV.openNpcAgain = true
 				end			
 			end
 		end
 		for i = 1, GetNumAvailableQuests() do
 			local name = GetAvailableTitle(i)
-			if addon.isQuestAuto(GuidelimeData.autoAcceptQuests, function(id) return name == addon.getQuestNameById(id) end) then
+			if EV.isQuestAuto(GuidelimeData.autoAcceptQuests, function(id) return name == QT.getQuestNameById(id) end) then
 				if selectActive == nil and selectAvailable == nil then
 					selectAvailable = i
 				else
-					addon.openNpcAgain = true
+					EV.openNpcAgain = true
 				end			
 			end
 		end
 
 		if selectActive ~= nil then
-			C_Timer.After(addon.AUTO_COMPLETE_DELAY, function() 
+			C_Timer.After(EV.AUTO_COMPLETE_DELAY, function() 
 				if addon.debugging then print ("LIME: QUEST_GREETING selectActive", selectActive) end
 				SelectActiveQuest(selectActive)
 			end)
 		elseif selectAvailable ~= nil then
-			C_Timer.After(addon.AUTO_COMPLETE_DELAY, function() 
+			C_Timer.After(EV.AUTO_COMPLETE_DELAY, function() 
 				if addon.debugging then print ("LIME: QUEST_GREETING selectAvailable", selectAvailable) end
 				SelectAvailableQuest(selectAvailable)
 			end)
@@ -326,67 +341,67 @@ function addon.frame:QUEST_GREETING()
 	end
 end
 
-addon.frame:RegisterEvent('QUEST_DETAIL')
-function addon.frame:QUEST_DETAIL()
-	local id = GetQuestID()
-	if addon.debugging then print ("LIME: QUEST_DETAIL", id) end
-	if not IsShiftKeyDown() and addon.isQuestAuto(GuidelimeData.autoAcceptQuests, id) then
-		C_Timer.After(addon.AUTO_COMPLETE_DELAY, function()
+EV.frame:RegisterEvent('QUEST_DETAIL')
+function EV.frame:QUEST_DETAIL()
+	EV.lastQuestOpened = GetQuestID()
+	if addon.debugging then print ("LIME: QUEST_DETAIL", EV.lastQuestOpened) end
+	if not IsShiftKeyDown() and EV.isQuestAuto(GuidelimeData.autoAcceptQuests, EV.lastQuestOpened) then
+		C_Timer.After(EV.AUTO_COMPLETE_DELAY, function()
 			AcceptQuest()
-			if addon.openNpcAgain then 
+			if EV.openNpcAgain then 
 				--todo
 			end
 		end)
 	end
 end
 
-addon.frame:RegisterEvent('QUEST_PROGRESS')
-function addon.frame:QUEST_PROGRESS()
+EV.frame:RegisterEvent('QUEST_PROGRESS')
+function EV.frame:QUEST_PROGRESS()
 	local id = GetQuestID()
 	if addon.debugging then print ("LIME: QUEST_PROGRESS", id) end
-	if not IsShiftKeyDown() and IsQuestCompletable() and addon.isQuestAuto(GuidelimeData.autoTurnInQuests, id) then
-		C_Timer.After(addon.AUTO_COMPLETE_DELAY, function() 
+	if not IsShiftKeyDown() and IsQuestCompletable() and EV.isQuestAuto(GuidelimeData.autoTurnInQuests, id) then
+		C_Timer.After(EV.AUTO_COMPLETE_DELAY, function() 
 			CompleteQuest()
-			if addon.openNpcAgain then 
+			if EV.openNpcAgain then 
 				--todo
 			end
 		end)
 	end
 end
 
-addon.frame:RegisterEvent('QUEST_COMPLETE')
-function addon.frame:QUEST_COMPLETE()
+EV.frame:RegisterEvent('QUEST_COMPLETE')
+function EV.frame:QUEST_COMPLETE()
 	local id = GetQuestID()
-	if not IsShiftKeyDown() and addon.isQuestAuto(GuidelimeData.autoTurnInQuests, id) then
+	if not IsShiftKeyDown() and EV.isQuestAuto(GuidelimeData.autoTurnInQuests, id) then
 		if addon.debugging then print ("LIME: QUEST_COMPLETE", id) end
 		if (GetNumQuestChoices() <= 1) then
-			C_Timer.After(addon.AUTO_COMPLETE_DELAY, function() 
+			C_Timer.After(EV.AUTO_COMPLETE_DELAY, function() 
 		        GetQuestReward(1)
 		    end)
 		end
 	end
 end
 
-addon.frame:RegisterEvent('CINEMATIC_START')
-function addon.frame:CINEMATIC_START()
+EV.frame:RegisterEvent('CINEMATIC_START')
+function EV.frame:CINEMATIC_START()
 	if GuidelimeData.skipCutscenes then
 		StopCinematic()
 	end
 end
 
-addon.frame:RegisterEvent('TAXIMAP_OPENED')
-function addon.frame:TAXIMAP_OPENED()
-	if GuidelimeData.autoSelectFlight and not IsShiftKeyDown() and addon.currentGuide ~= nil and addon.currentGuide.firstActiveIndex ~= nil and	addon.currentGuide.lastActiveIndex ~= nil then
-		for i = addon.currentGuide.firstActiveIndex, addon.currentGuide.lastActiveIndex do
-			local step = addon.currentGuide.steps[i]
+EV.frame:RegisterEvent('TAXIMAP_OPENED')
+function EV.frame:TAXIMAP_OPENED()
+	if GuidelimeData.autoSelectFlight and not IsShiftKeyDown() and CG.currentGuide ~= nil and CG.currentGuide.firstActiveIndex ~= nil and CG.currentGuide.lastActiveIndex ~= nil then
+		for i = CG.currentGuide.firstActiveIndex, CG.currentGuide.lastActiveIndex do
+			local step = CG.currentGuide.steps[i]
 			for _, element in ipairs(step.elements) do
 				if not element.completed then
 					if element.flightmaster ~= nil then
-						local master = addon.flightmasterDB[element.flightmaster]
+						local master = FM.flightmasterDB[element.flightmaster]
 						if addon.debugging then print("LIME: looking for", master.zone, master.place) end
 						for j = 1, NumTaxiNodes() do
 							--if addon.debugging then print("LIME: ", TaxiNodeName(j)) end
-							if addon.isFlightmasterMatch(master, TaxiNodeName(j)) then
+							if FM.isFlightmasterMatch(master, TaxiNodeName(j)) then
 								if element.t == "FLY" and TaxiNodeGetType(j) == "REACHABLE" then
 									if IsMounted() then Dismount() end -- dismount before using the flightpoint
 									if addon.debugging then print ("LIME: Flying to " .. (master.place or master.zone)) end
@@ -395,7 +410,7 @@ function addon.frame:TAXIMAP_OPENED()
 										TakeTaxiNode(j)
 									end)
 								elseif element.t == "GET_FLIGHT_POINT" and TaxiNodeGetType(j) == "CURRENT" then
-									addon.completeSemiAutomatic(element)
+									CG.completeSemiAutomatic(element)
 								end
 								return
 							end
@@ -407,71 +422,71 @@ function addon.frame:TAXIMAP_OPENED()
 	end
 end
 
-addon.frame:RegisterEvent('PLAYER_CONTROL_LOST')
-function addon.frame:PLAYER_CONTROL_LOST()
+EV.frame:RegisterEvent('PLAYER_CONTROL_LOST')
+function EV.frame:PLAYER_CONTROL_LOST()
 	C_Timer.After(1, function() 
 		if UnitOnTaxi("player") then
 			if addon.debugging then print ("LIME: UnitOnTaxi") end
-			addon.completeSemiAutomaticByType("FLY")
+			CG.completeSemiAutomaticByType("FLY")
 		end
 	end)
 end
 
-addon.frame:RegisterEvent('UI_INFO_MESSAGE')
-function addon.frame:UI_INFO_MESSAGE(errorType, message)
+EV.frame:RegisterEvent('UI_INFO_MESSAGE')
+function EV.frame:UI_INFO_MESSAGE(errorType, message)
 	if message == ERR_NEWTAXIPATH then
 		if addon.debugging then print ("LIME: ERR_NEWTAXIPATH") end
-		addon.completeSemiAutomaticByType("GET_FLIGHT_POINT")
+		CG.completeSemiAutomaticByType("GET_FLIGHT_POINT")
 	end
 end
 
-addon.frame:RegisterEvent('HEARTHSTONE_BOUND')
-function addon.frame:HEARTHSTONE_BOUND(errorType, message)
-	addon.completeSemiAutomaticByType("SET_HEARTH")
+EV.frame:RegisterEvent('HEARTHSTONE_BOUND')
+function EV.frame:HEARTHSTONE_BOUND(errorType, message)
+	CG.completeSemiAutomaticByType("SET_HEARTH")
 end
 
 
-addon.frame:RegisterEvent('UNIT_SPELLCAST_SUCCEEDED')
-function addon.frame:UNIT_SPELLCAST_SUCCEEDED(unitTarget, castGUID, spellID)
+EV.frame:RegisterEvent('UNIT_SPELLCAST_SUCCEEDED')
+function EV.frame:UNIT_SPELLCAST_SUCCEEDED(unitTarget, castGUID, spellID)
 	-- hearthstone was used (or Astral Recall)
 	if spellID == 8690 or spellID == 556 then
-		addon.completeSemiAutomaticByType("HEARTH")
+		CG.completeSemiAutomaticByType("HEARTH")
 	end
 end
 
-addon.requestItemInfo = {}
-function addon.GetItemInfo(id)
+EV.requestItemInfo = {}
+function EV.GetItemInfo(id)
 	itemName, itemLink, itemQuality = GetItemInfo(id)
 	if not itemName then
-		if addon.requestItemInfo[id] == false or addon.requestItemInfo[id] == 50 then
-			addon.requestItemInfo[id] = false
+		if EV.requestItemInfo[id] == false or EV.requestItemInfo[id] == 50 then
+			EV.requestItemInfo[id] = false
 		else
-			addon.requestItemInfo[id] = (addon.requestItemInfo[id] or 0) + 1
+			EV.requestItemInfo[id] = (EV.requestItemInfo[id] or 0) + 1
 		end
 	end
 	return itemName, itemLink, itemQuality
 end
-addon.frame:RegisterEvent('GET_ITEM_INFO_RECEIVED')
-function addon.frame:GET_ITEM_INFO_RECEIVED(itemId,success)
-	if addon.requestItemInfo[itemId] and success then
-		addon.requestItemInfo[itemId] = nil
-		addon.updateStepsText()
-		addon.updateUseItemButtons()
+EV.frame:RegisterEvent('GET_ITEM_INFO_RECEIVED')
+function EV.frame:GET_ITEM_INFO_RECEIVED(itemId,success)
+	if EV.requestItemInfo[itemId] and success then
+		EV.requestItemInfo[itemId] = nil
+		CG.updateStepsText()
+		AB.updateUseItemButtons()
 	end
 end
 
-addon.frame:RegisterEvent('BAG_UPDATE')
-function addon.frame:BAG_UPDATE()
+EV.frame:RegisterEvent('BAG_UPDATE')
+function EV.frame:BAG_UPDATE()
 	local guide = GuidelimeDataChar and addon.guides[GuidelimeDataChar.currentGuide]
 	if guide and guide.itemUpdateIndices and #guide.itemUpdateIndices > 0 then
-		addon.updateSteps(guide.itemUpdateIndices)
+		CG.updateSteps(guide.itemUpdateIndices)
 	else
-		addon.updateUseItemButtons()
+		AB.updateUseItemButtons()
 	end
 end
 
-addon.frame:RegisterEvent('PLAYER_FARSIGHT_FOCUS_CHANGED')
-function addon.frame:PLAYER_FARSIGHT_FOCUS_CHANGED()
+EV.frame:RegisterEvent('PLAYER_FARSIGHT_FOCUS_CHANGED')
+function EV.frame:PLAYER_FARSIGHT_FOCUS_CHANGED()
 	-- This is a hack to work around an issue with HereBeDragons
 	-- see https://www.curseforge.com/wow/addons/herebedragons/issues/31
 	-- In situations where player is remote controlling coordinates reported by hbd stay on the player character position and minimap icons do not move
@@ -488,50 +503,50 @@ function addon.frame:PLAYER_FARSIGHT_FOCUS_CHANGED()
 		local name, _, _, _, _, _, _, _, _, spellId = UnitAura("player", i, "HELPFUL")
 		if not name then break end
 		--if addon.debugging then print ("LIME: player has buff", name, spellId) end
-		if addon.contains(spellIds, spellId) then
-			if not addon.hideMinimapIconsAndArrowWhileBuffed then
+		if D.contains(spellIds, spellId) then
+			if not M.hideMinimapIconsAndArrowWhileBuffed then
 				if addon.debugging then print ("LIME: deactivating arrow and minimap due to", name) end
-				addon.hideMinimapIconsAndArrowWhileBuffed = true
-				addon.updateStepsMapIcons()
+				M.hideMinimapIconsAndArrowWhileBuffed = true
+				M.updateStepsMapIcons()
 			end
 			return
 		end
 		i = i + 1
 	end
-	if addon.hideMinimapIconsAndArrowWhileBuffed then
+	if M.hideMinimapIconsAndArrowWhileBuffed then
 		if addon.debugging then print ("LIME: reactivating arrow and minimap") end
-		addon.hideMinimapIconsAndArrowWhileBuffed = false
-		addon.updateStepsMapIcons()
+		M.hideMinimapIconsAndArrowWhileBuffed = false
+		M.updateStepsMapIcons()
 	end
 end
 
-addon.frame:RegisterEvent('PLAYER_REGEN_ENABLED')
-function addon.frame:PLAYER_REGEN_ENABLED()
-	if addon.updateAfterCombat then
-		addon.updateAfterCombat = false
-		addon.updateTargetButtons()
-		addon.updateUseItemButtons()
+EV.frame:RegisterEvent('PLAYER_REGEN_ENABLED')
+function EV.frame:PLAYER_REGEN_ENABLED()
+	if EV.updateAfterCombat then
+		EV.updateAfterCombat = false
+		AB.updateTargetButtons()
+		AB.updateUseItemButtons()
 	end
 end
 
-addon.frame:RegisterEvent('UPDATE_BINDINGS')
-function addon.frame:UPDATE_BINDINGS()
-	addon.updateTargetButtons()
-	addon.updateUseItemButtons()
+EV.frame:RegisterEvent('UPDATE_BINDINGS')
+function EV.frame:UPDATE_BINDINGS()
+	AB.updateTargetButtons()
+	AB.updateUseItemButtons()
 end
 
-addon.frame:RegisterEvent('BAG_UPDATE_COOLDOWN')
-function addon.frame:BAG_UPDATE_COOLDOWN()
-	if not addon.mainFrame or not addon.mainFrame.useButtons then return end
-	for _, button in ipairs(addon.mainFrame.useButtons) do
+EV.frame:RegisterEvent('BAG_UPDATE_COOLDOWN')
+function EV.frame:BAG_UPDATE_COOLDOWN()
+	if not MW.mainFrame or not MW.mainFrame.useButtons then return end
+	for _, button in ipairs(MW.mainFrame.useButtons) do
 		if button:IsShown() then
 			button:Update()
 		end
 	end
 end
 
-addon.frame:RegisterEvent('PLAYER_LOGOUT')
-function addon.frame:PLAYER_LOGOUT()
+EV.frame:RegisterEvent('PLAYER_LOGOUT')
+function EV.frame:PLAYER_LOGOUT()
 	-- save a copy of character setting for import
 	if not GuidelimeData.chars then GuidelimeData.chars = {} end
 	GuidelimeData.chars[UnitGUID("player")] = GuidelimeDataChar

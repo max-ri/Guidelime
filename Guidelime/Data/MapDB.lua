@@ -1,16 +1,18 @@
 local addonName, addon = ...
 
+addon.DM = addon.DM or {}; local DM = addon.DM
+
 --[[if GetLocale() == "enUS" then
 	-- read ui map id list from HDB
-	addon.mapIDs = {}
+	DM.mapIDs = {}
 	for i, id in ipairs(HBD:GetAllMapIDs()) do
-		addon.mapIDs[HBD:GetLocalizedMap(id)] = id
+		DM.mapIDs[HBD:GetLocalizedMap(id)] = id
 	end
 else]]
 
 if select(4, GetBuildInfo()) < 40000 then
 	-- classic
-	addon.mapIDs = {
+	DM.mapIDs = {
 		["The Hinterlands"] = 1425,
 		["Moonglade"] = 1450,
 		["Thousand Needles"] = 1441,
@@ -98,7 +100,7 @@ if select(4, GetBuildInfo()) < 40000 then
 	}
 else
 	-- retail
-	addon.mapIDs = {
+	DM.mapIDs = {
 	 --["Azeroth"]=947,
 	 ["Durotar"]=1411,
 	 ["Mulgore"]=1412,
@@ -1274,15 +1276,15 @@ end
 
 --end
 
-addon.zoneNames = {}
-for zone, id in pairs(addon.mapIDs) do
-	addon.zoneNames[id] = zone
+DM.zoneNames = {}
+for zone, id in pairs(DM.mapIDs) do
+	DM.zoneNames[id] = zone
 end
 
-function addon.getZoneName(name)
+function DM.getZoneName(name)
 	name = name:lower():gsub("[%s']", "")
 	if name:sub(1, 3) == "the" then name = name:sub(4) end
-	for zone, _ in pairs(addon.mapIDs) do
+	for zone, _ in pairs(DM.mapIDs) do
 		local z = zone:lower():gsub("[%s']", "")
 		if z:sub(1, 3) == "the" then z = z:sub(4) end
 		if z == name then return zone end

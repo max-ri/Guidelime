@@ -2,7 +2,14 @@
 local addonName, addon = ...
 local L = addon.L
 
-function addon.updateQuestLog()
+addon.QT = addon.QT or {}; local QT = addon.QT -- Data/QuestTools
+addon.CG = addon.CG or {}; local CG = addon.CG -- CurrentGuide
+addon.F = addon.F or {}; local F = addon.F     -- Frames
+addon.QS = addon.QS or {}; local QS = addon.QS -- QuestScan
+
+addon.QL = addon.QL or {}; local QL = addon.QL -- QuestLog
+
+function QL.updateQuestLog()
 	if not GuidelimeData.showQuestLevels and not GuidelimeData.showQuestIds and not GuidelimeData.showTooltips then return end
 
 	local numEntries, numQuests = GetNumQuestLogEntries();
@@ -20,13 +27,13 @@ function addon.updateQuestLog()
 				local newTitle = title
 				if GuidelimeData.showQuestLevels then
 					local qtype = ""
-					if addon.getQuestType(id) == "Dungeon" then 
+					if QT.getQuestType(id) == "Dungeon" then 
 						qtype = "D" 
-					elseif addon.getQuestType(id) == "Raid" then 
+					elseif QT.getQuestType(id) == "Raid" then 
 						qtype = "R" 
-					elseif addon.getQuestType(id) == "Group" then 
+					elseif QT.getQuestType(id) == "Group" then 
 						qtype = "P" 
-					elseif addon.getQuestType(id) == "Elite" then 
+					elseif QT.getQuestType(id) == "Elite" then 
 						qtype = "+" 
 					end
 					newTitle = format("  [%d%s] ", level, qtype) .. title
@@ -35,10 +42,10 @@ function addon.updateQuestLog()
 					newTitle = newTitle .. format(" (#%d)", id)
 				end
 				tooltip = ""
-				if addon.scannedQuests[id] then
+				if QS.scannedQuests[id] then
 					tooltip = tooltip .. "|T" .. addon.icons.MAP .. ":12|t" .. L.QUEST_CONTAINED_IN_GUIDE .. "\n"
-					for _, entry in ipairs(addon.scannedQuests[id]) do
-						tooltip = tooltip .. addon.getQuestIcon(id, entry.t, nil, isComplete)
+					for _, entry in ipairs(QS.scannedQuests[id]) do
+						tooltip = tooltip .. CG.getQuestIcon(id, entry.t, nil, isComplete)
 						if GuidelimeData.showLineNumbers then tooltip = tooltip .. entry.line .. " " end
 						tooltip = tooltip .. entry.name .. "\n"
 					end
@@ -51,12 +58,28 @@ function addon.updateQuestLog()
 					QuestLogTitleButton_Resize(questLogTitle);
 					if GuidelimeData.showTooltips and tooltip ~= "" then
 						questLogTitle.tooltip = tooltip
-						questLogTitle:SetScript("OnEnter", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32);  GameTooltip:SetText(self.tooltip); GameTooltip:Show(); addon.showingTooltip = true end end)
-						questLogTitle:SetScript("OnLeave", function(self) if self.tooltip ~= nil and self.tooltip ~= "" and addon.showingTooltip then GameTooltip:Hide(); addon.showingTooltip = false end end)
+						questLogTitle:SetScript("OnEnter", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32);  GameTooltip:SetText(self.tooltip); GameTooltip:Show(); F.showingTooltip = true end end)
+						questLogTitle:SetScript("OnLeave", function(self) if self.tooltip ~= nil and self.tooltip ~= "" and F.showingTooltip then GameTooltip:Hide(); F.showingTooltip = false end end)
 					end
 				end
 			end
 		end
 	end
 end
-QuestLogFrame:HookScript('OnUpdate', addon.updateQuestLog)
+QuestLogFrame:HookScript('OnUpdate', QL.updateQuestLog)
+
+function QL.showQuestLogFrame(questId)
+	local questLogIndex = GetQuestLogIndexByID(questId)
+	if questLogIndex == 0 then return end
+	
+	-- if Questie is installed we use Questie's TrackerUtils as it handles (and hopefully gets updates for) possible quest log addons (Thanks!)
+	local TrackerUtils = QuestieLoader and QuestieLoader:ImportModule("TrackerUtils")
+	if TrackerUtils then return TrackerUtils:ShowQuestLog({Id = questId}) end
+
+    SelectQuestLogEntry(questLogIndex)
+    if not QuestLogFrame:IsShown() and not InCombatLockdown() then 
+		ShowUIPanel(QuestLogFrame)
+    end
+    QuestLog_UpdateQuestDetails()
+    QuestLog_Update()
+end
