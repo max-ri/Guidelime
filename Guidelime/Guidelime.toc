@@ -1,6 +1,6 @@
 ## Title: Guidelime
 ## Author: Borick of Arthas(EU)
-## Version: 3.011
+## Version: 3.010
 ## Interface: 30400
 ## SavedVariables: GuidelimeData
 ## SavedVariablesPerCharacter: GuidelimeDataChar
@@ -14,21 +14,7 @@ Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
 Libs\HereBeDragons\HereBeDragons-2.0.lua
 Libs\HereBeDragons\HereBeDragons-Pins-2.0.lua
 
-Localization.lua
 Data\Data.lua
-Guidelime.lua
-ActionButtons.lua
-Events.lua
-Frames.lua
-Guides.lua
-Options.lua
-Editor.lua
-EditorTools.lua
-Parser.lua
-Map.lua
-Import.lua
-QuestLog.lua
-QuestScan.lua
 Data\MapDB.lua
 Data\Internal\QuestsDB.lua
 Data\Internal\CreaturesDB.lua
@@ -45,4 +31,22 @@ Data\ClassicCodexCorrections.lua
 Data\ClassicCodex.lua
 Data\FlightmasterDB.lua
 Data\FlightmasterDB_Locales.lua
+Localization.lua
+Guidelime.lua
+MainWindow.lua
+CurrentGuide.lua
+ActionButtons.lua
+Events.lua
+Frames.lua
+Guides.lua
+Options.lua
+Editor.lua
+EditorTools.lua
+Import.lua
+GuideParser.lua
+Map.lua
+QuestLog.lua
+QuestScan.lua
+CustomCode.lua
+
 
