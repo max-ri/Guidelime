@@ -646,6 +646,7 @@ function addon.fillOptions()
 	checkbox = addon.addCheckOption(content, GuidelimeData, "showTooltips", L.SHOW_TOOLTIPS, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
 			addon.updateStepsText()
+			addon.updateTargetButtons()
 		end
 	end)
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
