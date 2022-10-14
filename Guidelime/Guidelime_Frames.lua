@@ -1,0 +1,230 @@
+local addonName, addon = ...
+local L = addon.L
+
+function addon.setTooltip(frame, tooltip, setupFunction)
+	frame.tooltip = tooltip
+	if tooltip then	
+		frame:SetScript("OnEnter", function(self) if self.tooltip and self.tooltip ~= "" then GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32); (setupFunction or GameTooltip.SetText)(GameTooltip, self.tooltip); GameTooltip:Show(); addon.showingTooltip = true end end)
+		frame:SetScript("OnLeave", function(self) if self.tooltip and self.tooltip ~= "" and addon.showingTooltip then GameTooltip:Hide(); addon.showingTooltip = false end end)
+	end
+end
+
+function addon.addSliderOption(frame, optionsTable, option, min, max, step, text, tooltip, updateFunction, afterUpdateFunction)
+    local slider = CreateFrame("Slider", addonName .. option, frame, "OptionsSliderTemplate")
+	frame.options[option] = slider
+    slider.editbox = CreateFrame("EditBox", nil, slider, "InputBoxTemplate")
+    slider:SetMinMaxValues(min, max)
+    slider:SetValueStep(step)
+	slider:SetValue(optionsTable[option])
+    slider.text = _G[addonName .. option .. "Text"]
+    slider.text:SetText(text)
+    slider.textLow = _G[addonName .. option .. "Low"]
+    slider.textHigh = _G[addonName .. option .. "High"]
+    slider.textLow:SetText(floor(min))
+    slider.textHigh:SetText(floor(max))
+    slider.textLow:SetTextColor(0.8,0.8,0.8)
+    slider.textHigh:SetTextColor(0.8,0.8,0.8)
+    slider:SetObeyStepOnDrag(true)
+    slider.editbox:SetSize(45,30)
+    slider.editbox:ClearAllPoints()
+    slider.editbox:SetPoint("LEFT", slider, "RIGHT", 15, 0)
+    slider.editbox:SetText(tostring(optionsTable[option]))
+    slider.editbox:SetCursorPosition(0)
+    slider.editbox:SetAutoFocus(false)
+    slider:SetScript("OnValueChanged", function(self)
+        slider.editbox:SetText(tostring(math.floor(slider:GetValue() * 100) / 100))
+    	slider.editbox:SetCursorPosition(0)
+		optionsTable[option] = slider:GetValue()
+		if addon.debuggging then print("OnValueChanged", slider:GetValue()) end
+		if updateFunction ~= nil then updateFunction(self) end
+    end)
+	slider:SetScript("OnMouseUp", function()
+		if afterUpdateFunction ~= nil then afterUpdateFunction(self) end
+	end)
+    slider.editbox:SetScript("OnEnterPressed", function()
+        local val = slider.editbox:GetText()
+        if tonumber(val) then
+            slider:SetValue(tonumber(val))
+            slider.editbox:ClearFocus()
+			optionsTable[option] = slider:GetValue()
+			if addon.debuggging then print("OnEnterPressed", slider:GetValue()) end
+			if updateFunction ~= nil then updateFunction(self) end
+			if afterUpdateFunction ~= nil then afterUpdateFunction(self) end
+        end
+    end)
+	addon.setTooltip(slider, tooltip)
+    return slider
+end
+
+function addon.addCheckbox(frame, text, tooltip)
+	local checkbox = CreateFrame("CheckButton", nil, frame, "UICheckButtonTemplate")
+	if text ~= nil then
+		checkbox.text:SetText(text)
+		checkbox.text:SetFontObject("GameFontNormal")
+	end
+	addon.setTooltip(checkbox, tooltip)
+	return checkbox
+end
+
+function addon.addCheckOption(frame, optionsTable, option, text, tooltip, updateFunction)
+	local checkbox = addon.addCheckbox(frame, text, tooltip)
+	frame.options[option] = checkbox
+	if optionsTable[option] ~= false then checkbox:SetChecked(true) end
+	checkbox:SetScript("OnClick", function()
+		optionsTable[option] = checkbox:GetChecked() 
+		if updateFunction ~= nil then updateFunction() end
+	end)
+	return checkbox
+end
+
+function addon.isDoubleClick(frame)
+	if frame.timer == nil or frame.timer < GetTime() - 1 then
+	    frame.timer = GetTime()
+	elseif frame.timer ~= nil then
+	    frame.timer = nil
+		return true
+	end
+end
+
+function addon.addMultilineText(frame, text, width, tooltip, clickFunc, doubleClickFunc)
+	textbox = CreateFrame("EditBox", nil, frame, BackdropTemplateMixin and "BackdropTemplate")
+	textbox:SetMultiLine(true)
+	textbox:SetFontObject("GameFontNormal")
+	if text ~= nil then textbox:SetText(text) end
+	addon.setTooltip(textbox, tooltip)
+	if clickFunc ~= nil or doubleClickFunc ~= nil then
+		textbox:SetScript("OnMouseUp", function(self, button)
+			if clickFunc ~= nil then clickFunc(self, button) end
+			if doubleClickFunc ~= nil and addon.isDoubleClick(self) then
+				doubleClickFunc(self, button)
+			end
+		end)
+	end
+	textbox:SetScript("OnEditFocusGained", function (self) self:ClearFocus() end)
+	textbox:SetAutoFocus(false)
+	if width then textbox:SetWidth(width) end
+
+	return textbox
+end
+
+function addon.addTextbox(frame, text, width, tooltip)
+	local textbox = CreateFrame("EditBox", nil, frame, "InputBoxTemplate")
+	textbox.text = frame:CreateFontString(nil, frame, "GameFontNormal")
+	textbox.text:SetText(text)
+	textbox:SetFontObject("GameFontNormal")
+	textbox:SetHeight(10)
+	textbox:SetWidth(width)
+	textbox:SetTextColor(1,1,1,1)
+	addon.setTooltip(textbox, tooltip)
+	return textbox
+end
+
+function addon.createPopupFrame(message, okFunc, hasCancel, height)
+	addon.popupFrame = CreateFrame("FRAME", nil, addon.popupFrame or UIParent, BackdropTemplateMixin and "BackdropTemplate")
+	addon.popupFrame:SetWidth(550)
+	if height == nil then height = 150 end
+	addon.popupFrame:SetHeight(height)
+	addon.popupFrame:SetPoint("CENTER", UIParent, "CENTER")
+	addon.popupFrame:SetBackdrop({
+		bgFile = "Interface/Addons/" .. addonName .. "/Icons/Black", --"Interface/DialogFrame/UI-DialogBox-Background",
+		edgeFile = "Interface/DialogFrame/UI-DialogBox-Border",
+		tile = false, edgeSize = 32,
+		insets = { left = 11, right = 12, top = 12, bottom = 11}
+	})
+	addon.popupFrame:SetBackdropColor(0,0,0,1)
+	--addon.popupFrame:SetFrameStrata("DIALOG")
+	addon.popupFrame:SetFrameLevel(addon.popupFrame:GetParent():GetFrameLevel() + 2)
+	addon.popupFrame:SetMovable(true)
+	addon.popupFrame:SetScript("OnKeyDown", function(self,key) 
+		if key == "ESCAPE" then
+			self:Hide(); 
+		end 
+	end)
+	addon.popupFrame:EnableMouse(true)
+	addon.popupFrame:SetScript("OnMouseDown", function(this) this:StartMoving() end)
+	addon.popupFrame:SetScript("OnMouseUp", function(this) this:StopMovingOrSizing() end)
+	addon.popupFrame:SetScript("OnHide", function(self)
+		if self:GetParent() ~= UIParent then addon.popupFrame = self:GetParent() else addon.popupFrame = nil end
+	end)
+	
+	if message ~= nil then
+		addon.popupFrame.message = addon.popupFrame:CreateFontString(nil, addon.popupFrame, "GameFontNormal")	
+		addon.popupFrame.message:SetWidth(530)
+		addon.popupFrame.message:SetWordWrap(true)
+		addon.popupFrame.message:SetText(message);
+		addon.popupFrame.message:SetPoint("TOP", 0, -30 )
+	end
+
+	addon.popupFrame.okBtn = CreateFrame("BUTTON", nil, addon.popupFrame, "UIPanelButtonTemplate")
+	addon.popupFrame.okBtn:SetSize(128, 24)
+	addon.popupFrame.okBtn:SetText( OKAY )
+	if hasCancel then
+		addon.popupFrame.okBtn:SetPoint("BOTTOM", addon.popupFrame, -70, 12)
+	else
+		addon.popupFrame.okBtn:SetPoint("BOTTOM", addon.popupFrame, 70, 12)
+	end
+	addon.popupFrame.okBtn:SetScript("OnClick", function(self) 
+		if okFunc ~= nil and okFunc(self:GetParent()) == false then return end
+		self:GetParent():Hide()
+	end)
+
+	if hasCancel then
+		addon.popupFrame.cancelBtn = CreateFrame("BUTTON", nil, addon.popupFrame, "UIPanelButtonTemplate")
+		addon.popupFrame.cancelBtn:SetSize(128, 24)
+		addon.popupFrame.cancelBtn:SetText( CANCEL )
+		addon.popupFrame.cancelBtn:SetPoint("BOTTOM", addon.popupFrame, 70, 12)
+		addon.popupFrame.cancelBtn:SetScript("OnClick", function(self) 
+			self:GetParent():Hide()
+		end)
+	end
+
+	return addon.popupFrame
+end
+
+function addon.showUrlPopup(url)
+	return addon.showCopyPopup(url, L.URL, 100, 120, true)
+end
+
+function addon.showCopyPopup(value, text, textwidth, height, multiline)
+	local popup = addon.createPopupFrame(nil, nil, false, height)
+	if multiline then
+    	local scrollFrame = CreateFrame("ScrollFrame", nil, popup, "UIPanelScrollFrameTemplate")
+    	scrollFrame:SetPoint("TOPLEFT", popup, "TOPLEFT", 0, -20)
+    	scrollFrame:SetPoint("RIGHT", popup, "RIGHT", -30, 0)
+    	scrollFrame:SetPoint("BOTTOM", popup, "BOTTOM", 0, 40)
+    	local content = CreateFrame("Frame", nil, scrollFrame) 
+    	content:SetSize(1, 1) 
+    	scrollFrame:SetScrollChild(content)
+		popup.textbox = CreateFrame("EditBox", nil, content)
+		popup.textbox:SetMultiLine(true)
+		popup.textbox:SetFontObject("GameFontNormal")
+		popup.textbox:SetWidth(550 - textwidth - 30)
+		popup.textbox.text = popup:CreateFontString(nil, content, "GameFontNormal")
+		popup.textbox.text:SetText(text)
+	else
+		popup.textbox = addon.addTextbox(popup, text, 550 - textwidth - 30)
+	end
+	popup.textbox.text:SetPoint("TOPLEFT", 20, -20)
+	popup.textbox:SetPoint("TOPLEFT", 20 + textwidth, -20)
+	popup.textbox:SetText(value)
+	popup.textbox:SetFocus()
+	popup.textbox:HighlightText(false)
+	popup:Show()
+	return popup
+end
+
+function addon.showQuestLogFrame(questId)
+	local questLogIndex = GetQuestLogIndexByID(questId)
+	if questLogIndex == 0 then return end
+	
+	-- if Questie is installed we use Questie's TrackerUtils as it handles (and hopefully gets updates for) possible quest log addons (Thanks!)
+	local TrackerUtils = QuestieLoader and QuestieLoader:ImportModule("TrackerUtils")
+	if TrackerUtils then return TrackerUtils:ShowQuestLog({Id = questId}) end
+
+    SelectQuestLogEntry(questLogIndex)
+    if not QuestLogFrame:IsShown() and not InCombatLockdown() then 
+		ShowUIPanel(QuestLogFrame)
+    end
+    QuestLog_UpdateQuestDetails()
+    QuestLog_Update()
+end
