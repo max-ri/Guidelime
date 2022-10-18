@@ -52,6 +52,7 @@ addon.icons = {
 	GOTO = "Interface\\Addons\\" .. addonName .. "\\Icons\\lime0",
 	LOC = "Interface\\Addons\\" .. addonName .. "\\Icons\\lime",
 	TARGET_BUTTON = "Interface\\Icons\\Ability_Hunter_Snipershot",
+	MULTI_TARGET_BUTTON = "Interface\\Icons\\Ability_Hunter_FocusedAim",
 	-- normally class icons could be obtained by using SetTextCoord with CLASS_ICON_TCOORDS[class] on "Interface\\GLUES\\CHARACTERCREATE\\UI-CHARACTERCREATE-CLASSES"
 	-- but since this is not so easily done e.g. in EasyMenu we provide alternative class icons here (cf https://wowpedia.fandom.com/wiki/Class_icon)
 	DEATHKNIGHT = "Interface\\Icons\\spell_deathknight_classicon",

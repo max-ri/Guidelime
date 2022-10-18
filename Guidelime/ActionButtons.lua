@@ -21,7 +21,6 @@ end
 
 AB.MAX_NUM_OF_TARGET_BUTTONS = 10
 
-
 function AB.resetButtons(buttons)
 	if not buttons then return end
 	for _, button in pairs(buttons) do
@@ -57,7 +56,7 @@ function AB.createTargetButton(i)
 		button.index = i
 		button:SetAttribute("type", "macro")
 		button.texture = button:CreateTexture(nil, "BACKGROUND")
-		button.texture:SetTexture(addon.icons.TARGET_BUTTON)
+		button.texture:SetTexture(i == "Multi" and addon.icons.MULTI_TARGET_BUTTON or addon.icons.TARGET_BUTTON)
 		button.texture:SetPoint("TOPLEFT", button, -2, 1)					
 		button.texture:SetPoint("BOTTOMRIGHT", button, 2, -2)
 		local marker = AB.targetRaidMarkerIndex[i]
@@ -78,6 +77,46 @@ function AB.createTargetButton(i)
 	return button
 end
 
+-- global function to be used in the macro: Set target marker on target if it does not have one already; remove existing marker when no target
+function LIME_Mark(iconId)
+	SetRaidTarget("player", iconId)
+	SetRaidTarget("player", 0)
+	if UnitGUID("target") and not GetRaidTargetIndex("target") then SetRaidTarget("target", iconId) end
+end
+
+local function getTargetMacro(t)
+	return "/targetexact " .. t.name .. 
+		(t.marker and "\n/run LIME_Mark(".. t.marker .. ")" or "")
+end
+
+local function getTargetMacroMulti(targets)
+	local macro = ""
+	for i, t in ipairs(targets) do
+		local m = getTargetMacro(t)
+		if #macro + #m + 1 > 1023 then
+			if addon.debugging then print("LIME: target macro multi is too long") end
+			return macro
+		end
+		macro = macro .. m .. "\n"
+	end
+	if addon.debugging then print("LIME: target macro multi length is", #macro) end
+	return macro
+end
+
+local function getTargetTooltip(t)
+	return GuidelimeData.showTooltips and 
+		table.concat({string.format(L.TARGET_TOOLTIP, MW.COLOR_WHITE .. t.name .. "|r"), M.getMapTooltip(t.element)}, "\n")
+end
+
+local function getTargetTooltipMulti(targets)
+	if not GuidelimeData.showTooltips then return end
+	local tooltips = {}
+	for i, t in ipairs(targets) do
+		tooltips[i] = getTargetTooltip(t)
+	end
+	return table.concat(tooltips, "\n")
+end
+
 function AB.updateTargetButtons()
 	if not MW.mainFrame then return end
 	if MW.mainFrame.targetButtons == nil then
@@ -86,8 +125,8 @@ function AB.updateTargetButtons()
 		AB.resetButtons(MW.mainFrame.targetButtons)
 	end
 	if not GuidelimeDataChar.showTargetButtons or not CG.currentGuide or not CG.currentGuide.firstActiveIndex then return end
+	local targets = {}
 	local i = 1
-	local previousIds = {}
 	for s = CG.currentGuide.firstActiveIndex, CG.currentGuide.lastActiveIndex do
 		local step = CG.currentGuide.steps[s]
 		if step.active then
@@ -102,45 +141,51 @@ function AB.updateTargetButtons()
 						return 
 					end
 					local name = QT.getNPCName(element.targetNpcId)
-					if name and not D.contains(previousIds, name) then
-						local button = AB.createTargetButton(i)
-						element.targetButton = button
-						button:SetPoint("TOP" .. GuidelimeDataChar.showTargetButtons, MW.mainFrame, "TOP" .. GuidelimeDataChar.showTargetButtons, 
-							GuidelimeDataChar.showTargetButtons == "LEFT" and -36 or (GuidelimeDataChar.mainFrameShowScrollBar and 60 or 37), 
-							41 - i * 42)
-						button.npc = name
-						if button.npc and name ~= button.npc then button.previousNpc = button.npc end
-						local marker = GuidelimeData.targetRaidMarkers and AB.targetRaidMarkerIndex[i]
-						button:SetAttribute("macrotext", 
-							(marker and button.previousNpc and 
-							"/cleartarget\n" ..
-							"/targetexact " .. button.previousNpc .. "\n" ..
-							"/script if UnitExists('target') and GetRaidTargetIndex('target') == " .. marker .. " then SetRaidTarget('target', 0) end\n"
-							or "") ..
-							"/cleartarget\n" ..
-							"/targetexact " .. name .. "\n" ..
-							(marker and 
-							"/script if GetRaidTargetIndex('target') ~= " .. marker .. " then SetRaidTarget('target', " .. marker .. ") end"
-							or "")
-						)
-						F.setTooltip(button, GuidelimeData.showTooltips and 
-							table.concat({string.format(L.TARGET_TOOLTIP, MW.COLOR_WHITE .. name .. "|r"), M.getMapTooltip(element)}, "\n"))
-						local key = GetBindingKey("GUIDELIME_TARGET_" .. i)
-						if key then
-							button.hotkey:SetText(_G["KEY_" .. key] or key)
-							SetOverrideBindingClick(button, true, key, "GuidelimeTargetButton" .. i)
-							if addon.debugging then print("LIME: binding " .. key .. " to target " .. name) end
-						end
-						button:Show()
+					if name and not D.contains(targets, function(t) return t.name == name end) then
+						targets[i] = {name = name, element = element, index = i, marker = GuidelimeData.targetRaidMarkers and AB.targetRaidMarkerIndex[i]}
 						i = i + 1
-						table.insert(previousIds, name)
 						if i > AB.MAX_NUM_OF_TARGET_BUTTONS then break end
 					end
 				end
 			end
 		end
 	end
-	AB.numberOfTargetButtons = i - 1
+	local pos = 1
+	if #targets > 1 then
+		local button = AB.createTargetButton("Multi")
+		button:SetPoint("TOP" .. GuidelimeDataChar.showTargetButtons, MW.mainFrame, "TOP" .. GuidelimeDataChar.showTargetButtons, 
+			GuidelimeDataChar.showTargetButtons == "LEFT" and -36 or (GuidelimeDataChar.mainFrameShowScrollBar and 60 or 37), 
+			39 - pos * 41)
+		button:SetAttribute("macrotext", "/cleartarget\n" .. getTargetMacroMulti(targets))
+		F.setTooltip(button, getTargetTooltipMulti(targets))
+		local key = GetBindingKey("GUIDELIME_TARGET_" .. pos)
+		if key then
+			button.hotkey:SetText(_G["KEY_" .. key] or key)
+			SetOverrideBindingClick(button, true, key, "GuidelimeTargetButtonMulti")
+			if addon.debugging then print("LIME: binding " .. key .. " to multi target") end
+		end
+		button:Show()
+		pos = pos + 1
+	end
+	for _, t in ipairs(targets) do
+		local button = AB.createTargetButton(t.index)
+		t.element.targetButton = button
+		button:SetPoint("TOP" .. GuidelimeDataChar.showTargetButtons, MW.mainFrame, "TOP" .. GuidelimeDataChar.showTargetButtons, 
+			GuidelimeDataChar.showTargetButtons == "LEFT" and -36 or (GuidelimeDataChar.mainFrameShowScrollBar and 60 or 37), 
+			39 - pos * 41)
+		button.npc = t.name
+		button:SetAttribute("macrotext", "/cleartarget\n" .. getTargetMacro(t))
+		F.setTooltip(button, getTargetTooltip(t))
+		local key = GetBindingKey("GUIDELIME_TARGET_" .. pos)
+		if key then
+			button.hotkey:SetText(_G["KEY_" .. key] or key)
+			SetOverrideBindingClick(button, true, key, "GuidelimeTargetButton" .. t.index)
+			if addon.debugging then print("LIME: binding " .. key .. " to target " .. t.name) end
+		end
+		button:Show()
+		pos = pos + 1
+	end
+	AB.numberOfTargetButtons = pos - 1
 end
 
 function AB.createUseItemButton(i)
@@ -203,7 +248,7 @@ function AB.updateUseItemButtons()
 					local button = AB.createUseItemButton(i)
 					button:SetPoint("TOP" .. GuidelimeDataChar.showUseItemButtons, MW.mainFrame, "TOP" .. GuidelimeDataChar.showUseItemButtons, 
 						GuidelimeDataChar.showUseItemButtons == "LEFT" and -36 or (GuidelimeDataChar.mainFrameShowScrollBar and 60 or 37), 
-						41 - i * 42 - startPos)
+						39 - i * 41 - startPos)
 					button.itemId = element.useItemId
 					button.texture:SetTexture(GetItemIcon(button.itemId))
 					local count = GetItemCount(button.itemId)
