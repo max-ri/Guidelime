@@ -152,7 +152,7 @@ function MW.updateMainFrame(reset)
 						if (button == "RightButton") then
 							MW.showContextMenu()
 						else
-							CG.loadGuide(CG.currentGuide.group .. " " .. next)
+							G.loadGuide(CG.currentGuide.group .. " " .. next)
 						end
 					end)
 					MW.mainFrame.message[i]:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize)
