@@ -135,11 +135,13 @@ end
 
 function CLASSIC_CODEX.getQuestPositions(id, typ, index, filterZone)
 	if id == nil or not CLASSIC_CODEX.isDataSourceInstalled() then return end
+	if index == 0 then index = nil end
+	if type(index) == "number" then index = {index} end
 	local ids = {npc = {}, object = {}, item = {}}
 	local objectives = {npc = {}, object = {}, item = {}}
 	if GP.getSuperCode(typ) == "QUEST" then
 		for i, o in ipairs(QT.getQuestObjectives(id, typ) or {}) do
-			if index == nil or index == 0 or index == i then
+			if index == nil or D.contains(index, i) then
 				local type = o.type == "monster" and "npc" or o.type
 				for _, oid in ipairs(o.ids[type]) do
 					table.insert(ids[type], oid)

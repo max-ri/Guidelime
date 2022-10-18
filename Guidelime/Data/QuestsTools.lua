@@ -334,7 +334,8 @@ end
 
 function QT.getQuestPositions(id, typ, objective, filterZone)
 	if id == nil then return end
-	if objective == 0 then objective = nil end
+	if type(objective) == "number" then objective = {objective} end
+	if D.contains(objective, 0) then objective = nil end
 	if addon.dataSource == "QUESTIE" then return QUESTIE.getQuestPositions(id, typ, objective, filterZone) end
 	if addon.dataSource == "CLASSIC_CODEX" then return CLASSIC_CODEX.getQuestPositions(id, typ, objective, filterZone) end
 	if GP.getSuperCode(typ) == "QUEST" and DB.questsDB[id] == nil then return end
@@ -345,7 +346,7 @@ function QT.getQuestPositions(id, typ, objective, filterZone)
 	if typ == "ACCEPT" then 
 		if DB.questsDB[id].source ~= nil then
 			for i, e in ipairs(DB.questsDB[id].source) do
-				if objective == nil or objective == i then
+				if objective == nil or D.contains(objective, i) then
 					table.insert(ids[e.type], e.id)
 					if objectives[e.type][e.id] == nil then objectives[e.type][e.id] = {} end
 					table.insert(objectives[e.type][e.id], i)
@@ -355,7 +356,7 @@ function QT.getQuestPositions(id, typ, objective, filterZone)
 	elseif typ == "TURNIN" then
 		if DB.questsDB[id].deliver ~= nil then
 			for i, e in ipairs(DB.questsDB[id].deliver) do
-				if objective == nil or objective == i then
+				if objective == nil or D.contains(objective, i) then
 					table.insert(ids[e.type], e.id)
 					if objectives[e.type][e.id] == nil then objectives[e.type][e.id] = {} end
 					table.insert(objectives[e.type][e.id], i)
@@ -366,7 +367,7 @@ function QT.getQuestPositions(id, typ, objective, filterZone)
 		local c = 1
 		if DB.questsDB[id].kill ~= nil then
 			for i, id in ipairs(DB.questsDB[id].kill) do
-				if objective == nil or objective == c then
+				if objective == nil or D.contains(objective, c) then
 					table.insert(ids.npc, id)
 					if objectives.npc[id] == nil then objectives.npc[id] = {} end
 					table.insert(objectives.npc[id], c)
@@ -376,7 +377,7 @@ function QT.getQuestPositions(id, typ, objective, filterZone)
 		end
 		if DB.questsDB[id].interact ~= nil then
 			for i, id in ipairs(DB.questsDB[id].interact) do
-				if objective == nil or objective == c then
+				if objective == nil or D.contains(objective, c) then
 					table.insert(ids.object, id)
 					if objectives.object[id] == nil then objectives.object[id] = {} end
 					table.insert(objectives.object[id], c)
@@ -386,7 +387,7 @@ function QT.getQuestPositions(id, typ, objective, filterZone)
 		end
 		if DB.questsDB[id].gather ~= nil then
 			for i, id in ipairs(DB.questsDB[id].gather) do
-				if objective == nil or objective == c then
+				if objective == nil or D.contains(objective, c) then
 					table.insert(ids.item, id)
 					if objectives.item[id] == nil then objectives.item[id] = {} end
 					table.insert(objectives.item[id], c)
@@ -553,12 +554,13 @@ end
 
 function QT.getQuestPosition(id, typ, index, currentPos)
 	if index == nil then index = 0 end
+	if type(index) == "number" then index = {index} end
 	if QT.questPosition == nil then QT.questPosition = {} end
 	if QT.questPosition[id] == nil then QT.questPosition[id] = {} end
 	if QT.questPosition[id][typ] == nil then QT.questPosition[id][typ] = {} end
-	if QT.questPosition[id][typ][index] ~= nil then 
-		if QT.questPosition[id][typ][index] == false then return end
-		return QT.questPosition[id][typ][index] 
+	if QT.questPosition[id][typ][table.concat(index,",")] ~= nil then 
+		if QT.questPosition[id][typ][table.concat(index,",")] == false then return end
+		return QT.questPosition[id][typ][table.concat(index,",")] 
 	end
 
 	--caching of empty results disabled 
@@ -589,7 +591,9 @@ function QT.getQuestPosition(id, typ, index, currentPos)
 			local pos = {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, 
 				wx = maxCluster.x, wy = maxCluster.y, instance = maxCluster.instance,
 				zone = zone, mapID = DM.mapIDs[zone], radius = math.floor(math.sqrt(maxCluster.radius)) + CG.DEFAULT_GOTO_RADIUS, estimate = #positions > 1}
-			if not pos.estimate then QT.questPosition[id][typ][index] = pos end
+			if not pos.estimate then 
+				QT.questPosition[id][typ][table.concat(index,",")] = pos 
+			end
 			return pos
 		elseif addon.debugging then
 			print("LIME: error transforming (" .. maxCluster.x .. "," .. maxCluster.y .. "," .. maxCluster.instance .. ") into zone coordinates for quest #" .. id)

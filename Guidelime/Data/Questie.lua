@@ -174,6 +174,8 @@ end
 
 function QUESTIE.getQuestPositions(id, typ, index, filterZone)
 	if id == nil or not check() then return end
+	if index == 0 then index = nil end
+	if type(index) == "number" then index = {index} end
 	local ids = {npc = {}, object = {}, item = {}}
 	local objectives = {npc = {}, object = {}, item = {}}
 	local positions = {}
@@ -206,7 +208,7 @@ function QUESTIE.getQuestPositions(id, typ, index, filterZone)
 			--if addon.debugging then print("LIME: getQuestPositionsQuestie " .. typ .. " " .. id .. " " .. #list) end
 			for i = 1, #list do
 				local oi = (typ == "COMPLETE" and QUESTIE.correctionsObjectiveOrder[id] and QUESTIE.correctionsObjectiveOrder[id][i]) and QUESTIE.correctionsObjectiveOrder[id][i] or i
-				if index == nil or index == 0 or index == oi then
+				if index == nil or D.contains(index, oi) then
 					if list[i].NPC ~= nil then
 						for _, id2 in ipairs(list[i].NPC) do
 							table.insert(ids.npc, id2)

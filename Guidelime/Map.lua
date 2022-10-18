@@ -434,25 +434,23 @@ function M.updateStepsMapIcons()
 			for _, element in ipairs(step.elements) do
 				if element.t == "GOTO" and step.active then
 					activeGoto = element
-					if not element.completed then
-						if element.specialLocation == "NEAREST_FLIGHT_POINT" and D.wx ~= nil and D.wy ~= nil then
-							local fp = FM.getNearestFlightPoint(D.wx, D.wy, D.instance, D.faction)
-							for k,v in pairs(fp or {}) do element[k] = v end
-							if addon.debugging then print("LIME: nearest flight point", element.x, element.y, element.mapID, element.wx, element.wy, element.instance) end
-						elseif element.attached and element.attached.questId and D.wx ~= nil and D.wy ~= nil then
-							local qp = QT.getQuestPosition(element.attached.questId, element.attached.t, element.attached.objective, D)
-							if qp ~= nil then qp.radius = qp.radius + CG.DEFAULT_GOTO_RADIUS end
-							for k,v in pairs(qp or {}) do element[k] = v end
-							if addon.debugging then print("LIME: quest position", element.x, element.y, element.mapID, element.wx, element.wy, element.instance) end
-						end
-						if element.x ~= nil then
-							M.addMapIcon(element, highlight)
-							if highlight then
-								if GuidelimeDataChar.showArrow then 
-									arrowElement = element
-								end
-								highlight = false
+					if element.specialLocation == "NEAREST_FLIGHT_POINT" and D.wx ~= nil and D.wy ~= nil then
+						local fp = FM.getNearestFlightPoint(D.wx, D.wy, D.instance, D.faction)
+						for k,v in pairs(fp or {}) do element[k] = v end
+						if addon.debugging then print("LIME: nearest flight point", element.x, element.y, element.mapID, element.wx, element.wy, element.instance) end
+					elseif element.attached and element.attached.questId and D.wx ~= nil and D.wy ~= nil then
+						local qp = QT.getQuestPosition(element.attached.questId, element.attached.t, CG.getQuestActiveObjectives(element.attached.questId, element.attached.objective), D)
+						if qp ~= nil then qp.radius = qp.radius + CG.DEFAULT_GOTO_RADIUS end
+						for k,v in pairs(qp or {}) do element[k] = v end
+						if addon.debugging then print("LIME: quest position", element.x, element.y, element.mapID, element.wx, element.wy, element.instance) end
+					end
+					if not element.completed and element.x ~= nil then
+						M.addMapIcon(element, highlight)
+						if highlight then
+							if GuidelimeDataChar.showArrow then 
+								arrowElement = element
 							end
+							highlight = false
 						end
 					end
 				elseif (element.t == "LOC" or element.t == "GOTO") and 
