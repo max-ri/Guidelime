@@ -42,7 +42,7 @@ D.faction = UnitFactionGroup("player")
 D.level = UnitLevel("player")
 D.xp = UnitXP("player")
 D.xpMax = UnitXPMax("player")
-D.x, D.y, D.instance = HBD:GetPlayerWorldPosition()
+D.wx, D.wy, D.instance = HBD:GetPlayerWorldPosition()
 D.face = GetPlayerFacing()
 
 D.reputations = {

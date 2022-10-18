@@ -77,7 +77,7 @@ function CG.loadCurrentGuide(reset)
 	if addon.debugging then time = debugprofilestop() end
 
 	local completed = QT.GetQuestsCompleted()
-
+	local lastGoto
 	for _, step in ipairs(guide.steps) do
 		local loadLine = D.applies(step)
 		local filteredElements = {}
@@ -96,7 +96,6 @@ function CG.loadCurrentGuide(reset)
 			table.insert(CG.currentGuide.steps, step)
 			step.index = #CG.currentGuide.steps
 			local i = 1
-			local lastGoto
 			while i <= #step.elements do
 				local element = step.elements[i]
 				element.available = true
@@ -139,11 +138,11 @@ function CG.loadCurrentGuide(reset)
 						end
 					end
 					if guide.autoAddCoordinatesGOTO and (GuidelimeData.showMapMarkersGOTO or GuidelimeData.showMinimapMarkersGOTO) and not step.hasGoto and not element.optional then
-						local gotoElement = QT.getQuestPosition(element.questId, element.t, element.objective)
+						local gotoElement = QT.getQuestPosition(element.questId, element.t, element.objective, lastGoto)
 						if gotoElement ~= nil then
 							gotoElement.t = "GOTO"
 							gotoElement.step = step
-							gotoElement.radius = gotoElement.radius + 1
+							gotoElement.radius = gotoElement.radius + CG.DEFAULT_GOTO_RADIUS
 							gotoElement.generated = true
 							gotoElement.available = true
 							gotoElement.attached = element
@@ -152,7 +151,7 @@ function CG.loadCurrentGuide(reset)
 								step.elements[j].index = j
 							end
 							i = i + 1
-							if lastGoto ~= nil then lastGoto.lastGoto = false end
+							if lastGoto ~= nil and lastGoto.step.line == element.step.line then lastGoto.lastGoto = false end
 							gotoElement.lastGoto = true
 							lastGoto = gotoElement
 						end
@@ -172,7 +171,7 @@ function CG.loadCurrentGuide(reset)
 							step.elements[j].index = j
 						end
 						i = i + 1
-						if lastGoto ~= nil then lastGoto.lastGoto = false end
+						if lastGoto ~= nil and lastGoto.step.line == element.step.line then lastGoto.lastGoto = false end
 						gotoElement.lastGoto = true
 						lastGoto = gotoElement
 					end						
@@ -191,7 +190,7 @@ function CG.loadCurrentGuide(reset)
 								step.elements[j].index = j
 							end
 							i = i + 1
-							if lastGoto ~= nil then lastGoto.lastGoto = false end
+							if lastGoto ~= nil and lastGoto.step.line == element.step.line then lastGoto.lastGoto = false end
 							gotoElement.lastGoto = true
 							lastGoto = gotoElement
 						end
@@ -774,11 +773,11 @@ local function updateStepCompletion(i, completedIndexes)
 				element.completed = true
 			elseif element.completed and not element.lastGoto and element.attached == nil then
 				-- do not reactivate unless it is the last goto of the step
-			elseif D.x ~= nil and D.y ~= nil and element.wx ~= nil and element.wy ~= nil and D.instance == element.instance and D.isAlive() and step.active then
+			elseif D.wx ~= nil and D.wy ~= nil and element.wx ~= nil and element.wy ~= nil and D.instance == element.instance and D.isAlive() and step.active then
 				local radius = element.radius * element.radius
 				-- add some hysteresis
 				if element.completed then radius = radius * CG.GOTO_HYSTERESIS_FACTOR end
-				element.completed = (D.x - element.wx) * (D.x - element.wx) + (D.y - element.wy) * (D.y - element.wy) <= radius
+				element.completed = (D.wx - element.wx) * (D.wx - element.wx) + (D.wy - element.wy) * (D.wy - element.wy) <= radius
 			else
 				element.completed = false
 			end

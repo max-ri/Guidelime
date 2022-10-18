@@ -20,7 +20,7 @@ EV.frame = CreateFrame("Frame", addonName .. "Frame", UIParent)
 
 -- Register events and call functions
 EV.frame:SetScript("OnEvent", function(self, event, ...)
-	if addon.debugging then print("LIME:", event, ...) end
+	--if addon.debugging then print("LIME:", event, ...) end
 	EV.frame[event](self, ...)
 end)
 
@@ -170,7 +170,7 @@ end
 local function doQuestUpdate()
 	D.xp = UnitXP("player")
 	D.xpMax = UnitXPMax("player")
-	D.x, D.y, D.instance = HBD:GetPlayerWorldPosition()
+	D.wx, D.wy, D.instance = HBD:GetPlayerWorldPosition()
 	
 	if CG.quests ~= nil then 
 		local checkCompleted, questChanged, questFound = EV.updateFromQuestLog()

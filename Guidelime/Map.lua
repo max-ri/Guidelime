@@ -6,6 +6,7 @@ local HBDPins = LibStub("HereBeDragons-Pins-2.0")
 
 addon.D = addon.D or {}; local D = addon.D     -- Data/Data
 addon.FM = addon.FM or {}; local FM = addon.FM -- Data/FlightmasterDB
+addon.QT = addon.QT or {}; local QT = addon.QT -- Data/QuestTools
 addon.CG = addon.CG or {}; local CG = addon.CG -- CurrentGuide
 addon.E = addon.E or {}; local E = addon.E     -- Editor
 addon.F = addon.F or {}; local F = addon.F     -- Frames
@@ -308,9 +309,9 @@ end
 
 M.updateArrowCount = 0
 function M.updateArrow()
-	D.x, D.y, D.instance = HBD:GetPlayerWorldPosition()
+	D.wx, D.wy, D.instance = HBD:GetPlayerWorldPosition()
 	D.face = GetPlayerFacing()
-	if D.x == nil or D.y == nil or D.face == nil then return end
+	if D.wx == nil or D.wy == nil or D.face == nil then return end
 	if M.arrowFrame == nil then return end
 	if not MW.mainFrame or not MW.mainFrame:IsShown() or not GuidelimeDataChar.showArrow then 
 		if M.arrowFrame:IsShown() then M.arrowFrame:Hide() end
@@ -332,7 +333,7 @@ function M.updateArrow()
 	
 	if M.arrowX == nil or M.arrowY == nil then 
 		if M.lastArrowX and M.lastArrowY and M.arrowRadius2 then
-			local dist2 = (D.x - M.lastArrowX) * (D.x - M.lastArrowX) + (D.y - M.lastArrowY) * (D.y - M.lastArrowY)
+			local dist2 = (D.wx - M.lastArrowX) * (D.wx - M.lastArrowX) + (D.wy - M.lastArrowY) * (D.wy - M.lastArrowY)
 			if M.lastArrowInstance ~= D.instance or (dist2 >= M.arrowRadius2 * CG.GOTO_HYSTERESIS_FACTOR and M.lastDistance2 and M.lastDistance2 <= M.arrowRadius2 * CG.GOTO_HYSTERESIS_FACTOR) then
 				if addon.debugging then print("LIME: position left") end
 				CG.updateSteps()
@@ -349,8 +350,8 @@ function M.updateArrow()
 		angle = math.pi
 		alpha = 0.25
 	else
-		angle = D.face - math.atan2(M.arrowX - D.x, M.arrowY - D.y)
-		dist2 = (D.x - M.arrowX) * (D.x - M.arrowX) + (D.y - M.arrowY) * (D.y - M.arrowY)
+		angle = D.face - math.atan2(M.arrowX - D.wx, M.arrowY - D.wy)
+		dist2 = (D.wx - M.arrowX) * (D.wx - M.arrowX) + (D.wy - M.arrowY) * (D.wy - M.arrowY)
 		if M.arrowFrame.element and M.arrowFrame.element.radius then
 			M.arrowRadius2 = M.arrowFrame.element.radius * M.arrowFrame.element.radius
 			if dist2 < M.arrowRadius2 and (not M.lastDistance2 or M.lastDistance2 >= M.arrowRadius2) then
@@ -402,7 +403,7 @@ function M.updateArrow()
 	M.updateArrowCount = M.updateArrowCount + 1
 	if M.updateArrowCount > 500 then
 		M.updateArrowCount = 0
-		if M.arrowFrame.element and M.arrowFrame.element.specialLocation == "NEAREST_FLIGHT_POINT" then
+		if M.arrowFrame.element and (M.arrowFrame.element.specialLocation == "NEAREST_FLIGHT_POINT" or M.arrowFrame.element.estimate) then
 			M.updateStepsMapIcons()
 		end
 	end
@@ -434,9 +435,15 @@ function M.updateStepsMapIcons()
 				if element.t == "GOTO" and step.active then
 					activeGoto = element
 					if not element.completed then
-						if element.specialLocation == "NEAREST_FLIGHT_POINT" and D.x ~= nil and D.y ~= nil then
-							for k,v in pairs(FM.getNearestFlightPoint(D.x, D.y, D.instance, D.faction) or {}) do element[k] = v end
+						if element.specialLocation == "NEAREST_FLIGHT_POINT" and D.wx ~= nil and D.wy ~= nil then
+							local fp = FM.getNearestFlightPoint(D.wx, D.wy, D.instance, D.faction)
+							for k,v in pairs(fp or {}) do element[k] = v end
 							if addon.debugging then print("LIME: nearest flight point", element.x, element.y, element.mapID, element.wx, element.wy, element.instance) end
+						elseif element.attached and element.attached.questId and D.wx ~= nil and D.wy ~= nil then
+							local qp = QT.getQuestPosition(element.attached.questId, element.attached.t, element.attached.objective, D)
+							if qp ~= nil then qp.radius = qp.radius + CG.DEFAULT_GOTO_RADIUS end
+							for k,v in pairs(qp or {}) do element[k] = v end
+							if addon.debugging then print("LIME: quest position", element.x, element.y, element.mapID, element.wx, element.wy, element.instance) end
 						end
 						if element.x ~= nil then
 							M.addMapIcon(element, highlight)
