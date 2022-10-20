@@ -477,11 +477,11 @@ end
 
 local CLUSTER_DIST = 170
 
-local function findCluster(clusters, x, y, instance)
+local function findCluster(clusters, wx, wy, instance)
 	local bestCluster, bestDist
 	if clusters[instance] ~= nil then
 		for i, cluster in ipairs(clusters[instance]) do
-			local dist = (x - cluster.x) * (x - cluster.x) + (y - cluster.y) * (y - cluster.y)
+			local dist = (wx - cluster.wx) * (wx - cluster.wx) + (wy - cluster.wy) * (wy - cluster.wy)
 			if dist < CLUSTER_DIST * CLUSTER_DIST and (bestDist == nil or bestDist > dist) then
 				bestCluster = cluster
 				bestDist = dist
@@ -491,34 +491,34 @@ local function findCluster(clusters, x, y, instance)
 		clusters[instance] = {}
 	end
 	if bestCluster == nil then
-		bestCluster = {x = 0, y = 0, count = 0, radius = 0, instance = instance}
+		bestCluster = {wx = 0, wy = 0, count = 0, radius = 0, instance = instance}
 		bestDist = 0
 		table.insert(clusters[instance], bestCluster)
 	end
 	return bestCluster, bestDist
 end
 
-local function addToCluster(x, y, cluster, dist)
-	cluster.x = (cluster.x * cluster.count + x) / (cluster.count + 1)
-	cluster.y = (cluster.y * cluster.count + y) / (cluster.count + 1)
+local function addToCluster(wx, wy, cluster, dist)
+	cluster.wx = (cluster.wx * cluster.count + wx) / (cluster.count + 1)
+	cluster.wy = (cluster.wy * cluster.count + wy) / (cluster.count + 1)
 	-- this is an approximation only
 	if dist ~= nil and cluster.radius < dist then cluster.radius = dist end	
 	cluster.count = cluster.count + 1
-	--if addon.debugging then print("LIME: adding to cluster ", cluster.count, cluster.x, cluster.y) end
+	--if addon.debugging then print("LIME: adding to cluster ", cluster.count, cluster.wx, cluster.wy) end
 end
 
 -- approximation in order to find a position equally far away from previous clusters
 local function selectFurthestPosition(positions, clusters)
 	local maxPos, maxDist
 	for _, pos in ipairs(positions) do
-		if not pos.selected then
+		if pos.wx and not pos.selected then
 			if clusters[pos.instance] == nil then return pos end
 			local dist = 0
 			for _, cluster in ipairs(clusters[pos.instance]) do
-				if cluster.x == pos.wx and cluster.y == pos.wy then
+				if cluster.wx == pos.wx and cluster.wy == pos.wy then
 					dist = nil
 				elseif dist ~= nil then
-					dist = dist + 1 / ((cluster.x - pos.wx) * (cluster.x - pos.wx) + (cluster.y - pos.wy) * (cluster.y - pos.wy)) 
+					dist = dist + 1 / ((cluster.wx - pos.wx) * (cluster.wx - pos.wx) + (cluster.wy - pos.wy) * (cluster.wy - pos.wy)) 
 				end
 			end
 			if maxDist == nil or (dist ~= nil and dist < maxDist) then
@@ -526,8 +526,21 @@ local function selectFurthestPosition(positions, clusters)
 			end
 		end
 	end
-	--if addon.debugging then print("LIME: furthest point is #", maxPos.x, maxPos.y, maxPos.mapid, maxDist) end
+	--if addon.debugging then print("LIME: furthest point is #", maxPos.wx, maxPos.wy, maxPos.mapid, maxDist) end
 	return maxPos
+end
+
+local function convertClusterCoordinates(clusters, id)
+	for instance, list in pairs(clusters) do
+		for i = 1, #list do
+			local cluster = list[i]
+			cluster.x, cluster.y, cluster.zone = QT.GetZoneCoordinatesFromWorld(cluster.wx, cluster.wy, cluster.instance)
+			if not cluster.x then
+				if addon.debugging then print("LIME: error transforming (" .. cluster.wx .. "," .. cluster.wy .. "," .. cluster.instance .. ") into zone coordinates for quest #" .. id) end
+				table.remove(list, i)
+			end
+		end
+	end
 end
 
 local function selectBestCluster(clusters, currentPos, id)
@@ -539,7 +552,8 @@ local function selectBestCluster(clusters, currentPos, id)
 			if currentPos and currentPos.instance == cluster.instance then
 				-- if current position is given weight cluster according to their distance: 
 				-- weight of cluster in 1000yd is its count; weight of cluster in 500yd is twice its count
-				cluster.distance = math.sqrt((currentPos.wx - cluster.x) * (currentPos.wx - cluster.x) + (currentPos.wy - cluster.y) * (currentPos.wy - cluster.y))
+				cluster.distance = math.sqrt((currentPos.wx - cluster.wx) * (currentPos.wx - cluster.wx) + (currentPos.wy - cluster.wy) * (currentPos.wy - cluster.wy))
+				if cluster.distance < 1 then cluster.distance = 1 end
 				cluster.weight = cluster.count * 1000 / cluster.distance 
 				if maxCluster == nil or maxCluster.instance ~= currentPos.instance or cluster.weight > maxCluster.weight then maxCluster = cluster end
 			else
@@ -547,7 +561,7 @@ local function selectBestCluster(clusters, currentPos, id)
 			end
 		end
 	end
-	if addon.debugging and count > 1 then print("LIME: biggest cluster out of", count, "count", maxCluster.count, "at", maxCluster.x, maxCluster.y, maxCluster.instance, "for", id) end
+	if addon.debugging and count > 1 then print("LIME: biggest cluster out of", count, "count", maxCluster.count, "at", maxCluster.wx, maxCluster.wy, maxCluster.instance, "for", id) end
 	if addon.debugging and count > 1 and currentPos then print("LIME: distance", maxCluster.distance, "from", currentPos.wx, currentPos.wy, "weight", maxCluster.weight) end
 	return maxCluster
 end
@@ -558,46 +572,42 @@ function QT.getQuestPosition(id, typ, index, currentPos)
 	if QT.questPosition == nil then QT.questPosition = {} end
 	if QT.questPosition[id] == nil then QT.questPosition[id] = {} end
 	if QT.questPosition[id][typ] == nil then QT.questPosition[id][typ] = {} end
-	if QT.questPosition[id][typ][table.concat(index,",")] ~= nil then 
-		if QT.questPosition[id][typ][table.concat(index,",")] == false then return end
-		return QT.questPosition[id][typ][table.concat(index,",")] 
-	end
-
-	--caching of empty results disabled 
-	--QT.questPosition[id][typ][index] = false
-	local clusters = {}
-	local filterZone = QT.getQuestSort(id)
-	if filterZone ~= nil and DM.mapIDs[filterZone] == nil then filterZone = nil end
-	local positions = QT.getQuestPositions(id, typ, index, filterZone)
-	if positions ~= nil and #positions == 0 and filterZone ~= nil then
-		positions = QT.getQuestPositions(id, typ, index)
-	end
-	if positions == nil or #positions > LIMIT_CENTER_POSITION then return end
-	--local time
-	--if addon.debugging then time = debugprofilestop() end
-	for i = 1, #positions do 
-		local pos = selectFurthestPosition(positions, clusters)
-		--if addon.debugging then print("LIME: found position", pos.wx, pos.wy, pos.instance) end
-		pos.selected = true
-		local cluster, dist = findCluster(clusters, pos.wx, pos.wy, pos.instance)
-		addToCluster(pos.wx, pos.wy, cluster, dist)
+	local pos = QT.questPosition[id][typ][table.concat(index,",")]
+	if pos and not pos.estimate then return pos end
+	local clusters = pos and pos.clusters
+	local estimate = true
+	if not clusters then 
+		clusters = {}
+		local filterZone = QT.getQuestSort(id)
+		if filterZone ~= nil and DM.mapIDs[filterZone] == nil then filterZone = nil end
+		local positions = QT.getQuestPositions(id, typ, index, filterZone)
+		if positions ~= nil and #positions == 0 and filterZone ~= nil then
+			positions = QT.getQuestPositions(id, typ, index)
+		end
+		if positions == nil or #positions > LIMIT_CENTER_POSITION then return end
+		--local time
+		--if addon.debugging then time = debugprofilestop() end
+		for i = 1, #positions do 
+			local pos = selectFurthestPosition(positions, clusters)
+			--if addon.debugging then print("LIME: found position", pos.wx, pos.wy, pos.instance) end
+			pos.selected = true
+			local cluster, dist = findCluster(clusters, pos.wx, pos.wy, pos.instance)
+			addToCluster(pos.wx, pos.wy, cluster, dist)
+		end
+		convertClusterCoordinates(clusters, id)
+		estimate = #positions > 1
 	end
 	local maxCluster = selectBestCluster(clusters, currentPos, id)
 	--if addon.debugging then print("LIME: findCluster " .. #positions .. " positions " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	if maxCluster ~= nil then
-		local x, y, zone = QT.GetZoneCoordinatesFromWorld(maxCluster.x, maxCluster.y, maxCluster.instance)
-		if x ~= nil then
-			--if addon.debugging then print("LIME: getQuestPosition " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
-			local pos = {x = math.floor(x * 10000) / 100, y = math.floor(y * 10000) / 100, 
-				wx = maxCluster.x, wy = maxCluster.y, instance = maxCluster.instance,
-				zone = zone, mapID = DM.mapIDs[zone], radius = math.floor(math.sqrt(maxCluster.radius)) + CG.DEFAULT_GOTO_RADIUS, estimate = #positions > 1}
-			if not pos.estimate then 
-				QT.questPosition[id][typ][table.concat(index,",")] = pos 
-			end
-			return pos
-		elseif addon.debugging then
-			print("LIME: error transforming (" .. maxCluster.x .. "," .. maxCluster.y .. "," .. maxCluster.instance .. ") into zone coordinates for quest #" .. id)
-		end
+		--if addon.debugging then print("LIME: getQuestPosition " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
+		pos = {x = math.floor(maxCluster.x * 10000) / 100, y = math.floor(maxCluster.y * 10000) / 100, 
+			wx = maxCluster.wx, wy = maxCluster.wy, instance = maxCluster.instance,
+			zone = maxCluster.zone, mapID = DM.mapIDs[maxCluster.zone],
+			radius = math.floor(math.sqrt(maxCluster.radius)) + CG.DEFAULT_GOTO_RADIUS, estimate = estimate,
+			clusters = clusters}
+		QT.questPosition[id][typ][table.concat(index,",")] = pos 
+		return pos
 	end
 end
 
@@ -612,13 +622,13 @@ function QT.getQuestPositionsLimited(id, typ, index, maxNumber, onlyWorld)
 	end
 	if maxNumber > 0 and #positions > maxNumber then
 		local positions2 = {}
-		local y, x, z, instance = UnitPosition("player")
+		local wy, wx, _, instance = UnitPosition("player")
 		-- fill part with the nearest positions
 		local closestCount = math.ceil(maxNumber / 5)
 		local minDist = {}
 		for _, pos in ipairs(positions) do
 			if pos.instance == instance then
-				local dist = (pos.wx - x) * (pos.wx - x) + (pos.wy - y) * (pos.wy - y)
+				local dist = (pos.wx - wx) * (pos.wx - wx) + (pos.wy - wy) * (pos.wy - wy)
 				for i = 1, closestCount do
 					if minDist[i] == nil or minDist[i] > dist then
 						table.insert(minDist, i, dist)
@@ -636,10 +646,10 @@ function QT.getQuestPositionsLimited(id, typ, index, maxNumber, onlyWorld)
 			local pos = selectFurthestPosition(positions, clusters)
 			pos.selected = true
 			if clusters[pos.instance] == nil then clusters[pos.instance] = {} end
-			table.insert(clusters[pos.instance], {x = pos.wx, y = pos.wy, count = 1, instance = pos.instance})
+			table.insert(clusters[pos.instance], {wx = pos.wx, wy = pos.wy, count = 1, instance = pos.instance})
 			table.insert(positions2, pos)
 		end
-		if addon.debugging then print("LIME: limited " .. #positions .. " positions to " .. #positions2 .. " positions. x = " .. x .. " y = " .. y) end
+		if addon.debugging then print("LIME: limited " .. #positions .. " positions to " .. #positions2 .. " positions. x = " .. wx .. " y = " .. wy) end
 		positions = positions2
 	end
 	if onlyWorld then return positions end
@@ -653,7 +663,7 @@ function QT.getQuestPositionsLimited(id, typ, index, maxNumber, onlyWorld)
 			pos.mapID = DM.mapIDs[zone]
 			table.insert(result, pos)
 		elseif addon.debugging then
-			print("LIME: error transforming (" .. maxCluster.x .. "," .. maxCluster.y .. "," .. maxCluster.instance .. ") into zone coordinates for quest #" .. id)
+			print("LIME: error transforming (" .. maxCluster.wx .. "," .. maxCluster.wy .. "," .. maxCluster.instance .. ") into zone coordinates for quest #" .. id)
 		end
 	end
 	return result
