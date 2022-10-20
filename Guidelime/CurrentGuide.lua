@@ -1172,3 +1172,29 @@ function CG.getElementByTextPos(pos, step)
 	end
 	return #CG.currentGuide.steps[step].elements
 end
+
+function CG.simulateCompleteCurrentSteps()
+	if CG.currentGuide ~= nil and CG.currentGuide.firstActiveIndex ~= nil and
+		CG.currentGuide.lastActiveIndex ~= nil then
+		--if addon.debugging then print("LIME:", CG.currentGuide.firstActiveIndex, CG.currentGuide.lastActiveIndex) end
+		for i = CG.currentGuide.firstActiveIndex, CG.currentGuide.lastActiveIndex do
+			local step = CG.currentGuide.steps[i]
+			--if addon.debugging then print("LIME:", step.text, step.optional) end
+			for _, element in ipairs(step.elements) do
+				if not element.completed then
+					if element.t == "ACCEPT" then
+						if CG.quests[element.questId] == nil then CG.quests[element.questId] = {} end
+						CG.quests[element.questId].logIndex = -1
+					elseif element.t == "COMPLETE" then
+						if CG.quests[element.questId] == nil then CG.quests[element.questId] = {} end
+						CG.quests[element.questId].finished = true
+					elseif element.t == "TURNIN" then
+						if CG.quests[element.questId] == nil then CG.quests[element.questId] = {} end
+						CG.quests[element.questId].completed = true
+					end
+				end
+			end
+		end
+		CG.updateSteps()
+	end
+end
