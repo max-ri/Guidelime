@@ -202,6 +202,7 @@ L.WOWHEAD_URL_CLASSIC = "https://classic.wowhead.com"
 L.WOWHEAD_URL_WOTLK = "https://www.wowhead.com/wotlk"
 L.IMPORT_SETTINGS = "Import settings from another character"
 L.EDIT_KEYBINDINGS = "Edit key bindings"
+L.TOOLTIP_HINT_KEY_BIND_BUTTON = "Hint: You can key bind this button"
 
 -- Word lists used by the plain text parser
 -- Spaces at the start and end of each word will make it so that a match cannot occur in the middle of a word. Spaces will match any whitespace or punctuation marks.
@@ -798,6 +799,7 @@ L["SUGGESTED_LEVEL"] = "Empfohlene Stufe"
 L["TARGET_RAID_MARKERS"] = "Markiere anvisiertes Ziel mit %s"
 L["TARGET_TOOLTIP"] = "Visiere %s an"
 L["TARGET_X"] = "Ziel anvisieren %d"
+L["TOOLTIP_HINT_KEY_BIND_BUTTON"] = "Tipp: Du kannst diesem Knopf eine Taste zuweisen"
 L["TYPE"] = "Art"
 L["URL"] = "URL"
 L["USE_ITEM_X"] = "Benutze Questgegenstand %d"

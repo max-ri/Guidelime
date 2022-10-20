@@ -103,16 +103,23 @@ local function getTargetMacroMulti(targets)
 	return macro
 end
 
-local function getTargetTooltip(t)
+local function getTooltipHint(newline, disable)
+	if disable or GuidelimeData.keyBound then return "" end
+	return (newline and "\n" or "") .. MW.COLOR_INACTIVE .. L.TOOLTIP_HINT_KEY_BIND_BUTTON .. "|r"
+end
+
+local function getTargetTooltip(t, last)
 	return GuidelimeData.showTooltips and 
-		table.concat({string.format(L.TARGET_TOOLTIP, MW.COLOR_WHITE .. t.name .. "|r"), M.getMapTooltip(t.element)}, "\n")
+		(table.concat({string.format(L.TARGET_TOOLTIP, MW.COLOR_WHITE .. t.name .. "|r"), M.getMapTooltip(t.element)}, "\n") ..
+		getTooltipHint(true, last == false))
+		
 end
 
 local function getTargetTooltipMulti(targets)
 	if not GuidelimeData.showTooltips then return end
 	local tooltips = {}
 	for i, t in ipairs(targets) do
-		tooltips[i] = getTargetTooltip(t)
+		tooltips[i] = getTargetTooltip(t, i == #targets)
 	end
 	return table.concat(tooltips, "\n")
 end
@@ -163,6 +170,7 @@ function AB.updateTargetButtons()
 			button.hotkey:SetText(_G["KEY_" .. key] or key)
 			SetOverrideBindingClick(button, true, key, "GuidelimeTargetButtonMulti")
 			if addon.debugging then print("LIME: binding " .. key .. " to multi target") end
+			GuidelimeData.keyBound = true
 		end
 		button:Show()
 		pos = pos + 1
@@ -181,6 +189,7 @@ function AB.updateTargetButtons()
 			button.hotkey:SetText(_G["KEY_" .. key] or key)
 			SetOverrideBindingClick(button, true, key, "GuidelimeTargetButton" .. t.index)
 			if addon.debugging then print("LIME: binding " .. key .. " to target " .. t.name) end
+			GuidelimeData.keyBound = true
 		end
 		button:Show()
 		pos = pos + 1
@@ -259,12 +268,16 @@ function AB.updateUseItemButtons()
 					if name then
 						button:SetAttribute("item", name)
 						--F.setTooltip(button, name .. "\n" .. (QT.getUseItemTooltip(button.itemId) or ""))
-						F.setTooltip(button, "item:" .. button.itemId .. ":0:0:0:0:0:0:0", GameTooltip.SetHyperlink)
+						F.setTooltip(button, "item:" .. button.itemId .. ":0:0:0:0:0:0:0", function(self, s) 
+							GameTooltip:SetHyperlink(s)
+							GameTooltip:AddLine(getTooltipHint())
+						end)
 						local key = GetBindingKey("GUIDELIME_USE_ITEM_" .. i)
 						if key then
 							button.hotkey:SetText(_G["KEY_" .. key] or key)
 							SetOverrideBindingClick(button, true, key, "GuidelimeUseItemButton" .. i)
 							if addon.debugging then print("LIME: binding " .. key .. " to " .. name) end
+							GuidelimeData.keyBound = true
 						end
 					end
 					button:Show()
