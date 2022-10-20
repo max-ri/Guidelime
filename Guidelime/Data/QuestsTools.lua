@@ -937,16 +937,15 @@ end
 QT.questItemIsFor = {
 	[6145] = false,
 	--[34688] = false, -- Beryl Prison Key for Prison Break(11587); while it is not necessary to use this item it is nice to have the button to see whether it dropped already
-	-- TODO: check the other 'false' here if they would not also profit from a button
-	[34908] = false,
+	--[34908] = false, -- dropped key as well
 	[34968] = false,
 	[36726] = false,
 	[35746] = false,
 	[36760] = false,
-	[40652] = false,
-	[40641] = false,
+	--[40652] = false, -- dropped key as well
+	--[40641] = false, -- dropped key as well
 	[41615] = false,
-	[42422] = false,
+	--[42422] = false, -- dropped key as well
 	[42839] = false,
 	[42918] = false,
 	[18597] = "TURNIN",
