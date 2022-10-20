@@ -448,9 +448,20 @@ end
 
 EV.frame:RegisterEvent('UNIT_SPELLCAST_SUCCEEDED')
 function EV.frame:UNIT_SPELLCAST_SUCCEEDED(unitTarget, castGUID, spellID)
-	-- hearthstone was used (or Astral Recall)
+	--if addon.debugging then print("LIME: UNIT_SPELLCAST_SUCCEEDED", unitTarget, castGUID, spellID) end
 	if spellID == 8690 or spellID == 556 then
+		-- hearthstone was used (or Astral Recall)
 		CG.completeSemiAutomaticByType("HEARTH")
+	end
+	if CG.currentGuide ~= nil and CG.currentGuide.firstActiveIndex ~= nil and CG.currentGuide.lastActiveIndex ~= nil then
+		for i = CG.currentGuide.firstActiveIndex, CG.currentGuide.lastActiveIndex do
+			local step = CG.currentGuide.steps[i]
+			for _, element in ipairs(step.elements) do
+				if element.t == "SPELL" and not element.completed and element.spellId == spellID then
+					CG.completeSemiAutomatic(element)
+				end
+			end
+		end
 	end
 end
 

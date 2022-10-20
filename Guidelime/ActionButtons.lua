@@ -14,7 +14,9 @@ addon.AB = addon.AB or {}; local AB = addon.AB -- ActionButtons
 -- for key bindings
 _G["BINDING_HEADER_GUIDELIME"] = "Guidelime"
 _G["BINDING_NAME_GUIDELIME_TOGGLE"] = L.SHOW_MAINFRAME
-for i = 1, 5 do
+_G["BINDING_NAME_GUIDELIME_TARGET_1"] = L.TARGET_1
+_G["BINDING_NAME_GUIDELIME_USE_ITEM_1"] = string.format(L.USE_ITEM_X, 1)
+for i = 2, 5 do
 	_G["BINDING_NAME_GUIDELIME_TARGET_" .. i] = string.format(L.TARGET_X, i)
 	_G["BINDING_NAME_GUIDELIME_USE_ITEM_" .. i] = string.format(L.USE_ITEM_X, i)
 end
@@ -124,6 +126,16 @@ local function getTargetTooltipMulti(targets)
 	return table.concat(tooltips, "\n")
 end
 
+local function keyBindButton(button, bindingName, buttonName, functionName)
+	local key = GetBindingKey(bindingName)
+	if key then
+		button.hotkey:SetText(_G["KEY_" .. key] or key)
+		SetOverrideBindingClick(button, true, key, buttonName)
+		if addon.debugging then print("LIME: binding " .. key .. " to " .. functionName) end
+		GuidelimeData.keyBound = true
+	end
+end
+
 function AB.updateTargetButtons()
 	if not MW.mainFrame then return end
 	if MW.mainFrame.targetButtons == nil then
@@ -161,19 +173,12 @@ function AB.updateTargetButtons()
 	if #targets > 1 then
 		local button = AB.createTargetButton("Multi")
 		button:SetPoint("TOP" .. GuidelimeDataChar.showTargetButtons, MW.mainFrame, "TOP" .. GuidelimeDataChar.showTargetButtons, 
-			GuidelimeDataChar.showTargetButtons == "LEFT" and -36 or (GuidelimeDataChar.mainFrameShowScrollBar and 60 or 37), 
-			39 - pos * 41)
+			GuidelimeDataChar.showTargetButtons == "LEFT" and -36 or (GuidelimeDataChar.mainFrameShowScrollBar and 60 or 37), -2)
 		button:SetAttribute("macrotext", "/cleartarget\n" .. getTargetMacroMulti(targets))
 		F.setTooltip(button, getTargetTooltipMulti(targets))
-		local key = GetBindingKey("GUIDELIME_TARGET_" .. pos)
-		if key then
-			button.hotkey:SetText(_G["KEY_" .. key] or key)
-			SetOverrideBindingClick(button, true, key, "GuidelimeTargetButtonMulti")
-			if addon.debugging then print("LIME: binding " .. key .. " to multi target") end
-			GuidelimeData.keyBound = true
-		end
+		keyBindButton(button, "GUIDELIME_TARGET_1", "GuidelimeTargetButtonMulti", "multi target")
 		button:Show()
-		pos = pos + 1
+		pos = 2
 	end
 	for _, t in ipairs(targets) do
 		local button = AB.createTargetButton(t.index)
@@ -184,13 +189,7 @@ function AB.updateTargetButtons()
 		button.npc = t.name
 		button:SetAttribute("macrotext", "/cleartarget\n" .. getTargetMacro(t))
 		F.setTooltip(button, getTargetTooltip(t))
-		local key = GetBindingKey("GUIDELIME_TARGET_" .. pos)
-		if key then
-			button.hotkey:SetText(_G["KEY_" .. key] or key)
-			SetOverrideBindingClick(button, true, key, "GuidelimeTargetButton" .. t.index)
-			if addon.debugging then print("LIME: binding " .. key .. " to target " .. t.name) end
-			GuidelimeData.keyBound = true
-		end
+		keyBindButton(button, "GUIDELIME_TARGET_" .. pos, "GuidelimeTargetButton" .. t.index, t.name)
 		button:Show()
 		pos = pos + 1
 	end
@@ -201,7 +200,6 @@ function AB.createUseItemButton(i)
 	local button = MW.mainFrame.useButtons[i]
 	if not button then
 		button = CreateFrame("BUTTON", "GuidelimeUseItemButton" .. i, MW.mainFrame, "SecureActionButtonTemplate,ActionButtonTemplate")
-		button:SetAttribute("type", "item")
 		button.texture = button:CreateTexture(nil,"BACKGROUND")
 		button.texture:SetPoint("TOPLEFT", button, -2, 1)					
 		button.texture:SetPoint("BOTTOMRIGHT", button, 2, -2)
@@ -216,7 +214,12 @@ function AB.createUseItemButton(i)
 		button.count:SetPoint("BOTTOMRIGHT", button, -1, 1)
 		button.count:SetJustifyH("RIGHT")
 		button.Update = function(self)
-            local start, duration, enable = GetItemCooldown(self.itemId)
+            local start, duration, enable
+			if self.spellId then
+            	start, duration, enable = GetSpellCooldown(self.spellId)
+			else
+            	start, duration, enable = GetItemCooldown(self.itemId)
+			end
             if enable == 1 and duration > 0 then
                 self.cooldown:Show()
                 self.cooldown:SetCooldown(start, duration)
@@ -226,6 +229,7 @@ function AB.createUseItemButton(i)
 		end
 		MW.mainFrame.useButtons[i] = button
 	end
+	button.spellId = nil
 	button.cooldown:Hide()
 	button:ClearAllPoints()
 	return button
@@ -266,24 +270,45 @@ function AB.updateUseItemButtons()
 					button.texture:SetAlpha((enabled and 1) or 0.2)
 					local name = QT.getItemName(button.itemId)
 					if name then
+						button:SetAttribute("type", "item")
 						button:SetAttribute("item", name)
 						--F.setTooltip(button, name .. "\n" .. (QT.getUseItemTooltip(button.itemId) or ""))
-						F.setTooltip(button, "item:" .. button.itemId .. ":0:0:0:0:0:0:0", function(self, s) 
+						F.setTooltip(button, "item:" .. button.itemId, function(self, s) 
 							GameTooltip:SetHyperlink(s)
 							GameTooltip:AddLine(getTooltipHint())
 						end)
-						local key = GetBindingKey("GUIDELIME_USE_ITEM_" .. i)
-						if key then
-							button.hotkey:SetText(_G["KEY_" .. key] or key)
-							SetOverrideBindingClick(button, true, key, "GuidelimeUseItemButton" .. i)
-							if addon.debugging then print("LIME: binding " .. key .. " to " .. name) end
-							GuidelimeData.keyBound = true
-						end
+						keyBindButton(button, "GUIDELIME_USE_ITEM_" .. i, "GuidelimeUseItemButton" .. i, name)
 					end
 					button:Show()
 					button:Update()
 					table.insert(previousIds, element.useItemId)
 					i = i + 1
+				elseif element.t == "SPELL" and element.spellId > 0 and	not element.completed then
+					if addon.debugging then print("LIME: show button for spell", element.spellId) end
+					if InCombatLockdown() then
+						EV.updateAfterCombat = true
+						return 
+					end
+					local name, _, icon = GetSpellInfo(element.spellId)
+					if name then
+						local button = AB.createUseItemButton(i)
+						button:SetPoint("TOP" .. GuidelimeDataChar.showUseItemButtons, MW.mainFrame, "TOP" .. GuidelimeDataChar.showUseItemButtons, 
+							GuidelimeDataChar.showUseItemButtons == "LEFT" and -36 or (GuidelimeDataChar.mainFrameShowScrollBar and 60 or 37), 
+							39 - i * 41 - startPos)
+						button.spellId = element.spellId
+						button.texture:SetTexture(icon)
+						button.texture:SetAlpha(1)
+						button:SetAttribute("type", "spell")
+						button:SetAttribute("spell", name)
+						F.setTooltip(button, "spell:" .. button.spellId, function(self, s) 
+							GameTooltip:SetHyperlink(s)
+							GameTooltip:AddLine(getTooltipHint())
+						end)
+						keyBindButton(button, "GUIDELIME_USE_ITEM_" .. i, "GuidelimeUseItemButton" .. i, name)
+						button:Show()
+						button:Update()
+						i = i + 1
+					end
 				end
 			end
 		end

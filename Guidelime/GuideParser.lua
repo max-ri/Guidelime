@@ -39,6 +39,7 @@ codes:
  - GL ON/OFF enable/disable automatically generating additional loc coordinates
  - UI use item
  - GI ON/OFF enable/disable automatically generating use item
+ - SPELL cast spell
 ]]
 
 GP.codes = {
@@ -73,6 +74,7 @@ GP.codes = {
 	AUTO_ADD_USE_ITEM = "GI",
 	AUTO_ADD_TARGET = "GT",
 	TARGET = "TAR",
+	SPELL = "SP",
 --deprecated
 	COMPLETE_WITH_NEXT = "C", -- same as OC
 	PICKUP = "QP", -- same as QA
@@ -555,6 +557,20 @@ function GP.parseLine(step, guide, strict, nameOnly)
 			local _, c = tag:gsub("%s*(%d+)%s*(.-)%s*$", function(id, title)	
 				if id ~= "" then
 					element.targetNpcId = tonumber(id)
+					if title == "-" then
+						element.title = ""
+					elseif title ~= "" then
+						element.title = title
+					end
+				else
+					F.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
+					err = true
+				end
+			end, 1)
+		elseif element.t == "SPELL" then
+			local _, c = tag:gsub("%s*(%d+)%s*(.-)%s*$", function(id, title)	
+				if id ~= "" then
+					element.spellId = tonumber(id)
 					if title == "-" then
 						element.title = ""
 					elseif title ~= "" then

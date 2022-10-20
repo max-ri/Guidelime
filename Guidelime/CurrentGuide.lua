@@ -100,7 +100,7 @@ function CG.loadCurrentGuide(reset)
 				local element = step.elements[i]
 				element.available = true
 
-				if element.t == "ACCEPT" or element.t == "COMPLETE" or element.t == "TURNIN" or element.t == "XP" or element.t == "REPUTATION" then
+				if element.t == "ACCEPT" or element.t == "COMPLETE" or element.t == "TURNIN" or element.t == "XP" or element.t == "REPUTATION" or element.t == "SPELL" then
 					if step.manual == nil then step.manual = false end
 				elseif element.t == "TRAIN" or element.t == "VENDOR" or element.t == "REPAIR" or element.t == "SET_HEARTH" or element.t == "GET_FLIGHT_POINT" then
 					step.manual = true
@@ -528,6 +528,8 @@ function CG.getElementIcon(element, prevElement)
 		elseif element.mapIndex ~= nil then
 			return M.getMapMarkerText(element)
 		end
+	elseif element.t == "SPELL" then
+		return "|T" .. select(3, GetSpellInfo(element.spellId)) .. ":12|t"
 	elseif addon.icons[element.t] ~= nil then
 		return "|T" .. addon.icons[element.t] .. ":12|t"
 	end
@@ -651,6 +653,15 @@ function CG.getStepText(step)
 				text = text .. AB.getTargetButtonIconText(element.targetButton.index)
 			end
 			local name = element.title or QT.getNPCName(element.targetNpcId)
+			if name and name ~= "" then
+				if step.active then
+					text = text .. MW.COLOR_WHITE .. name .. "|r"
+				else
+					text = text .. name
+				end
+			end
+		elseif element.t == "SPELL" and element.title ~= "" then
+			local name = element.title or (GetSpellInfo(element.spellId))
 			if name and name ~= "" then
 				if step.active then
 					text = text .. MW.COLOR_WHITE .. name .. "|r"
