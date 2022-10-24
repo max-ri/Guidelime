@@ -39,7 +39,9 @@ codes:
  - GL ON/OFF enable/disable automatically generating additional loc coordinates
  - UI use item
  - GI ON/OFF enable/disable automatically generating use item
- - SPELL cast spell
+ - TAR target npc
+ - GT ON/OFF enable/disable automatically generating target
+ - SP cast spell
 ]]
 
 GP.codes = {
