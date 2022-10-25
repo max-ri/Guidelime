@@ -1,6 +1,8 @@
 local addonName, addon = ...
 local L = addon.L
 
+local LibDBIcon = LibStub("LibDBIcon-1.0")
+
 addon.QT = addon.QT or {}; local QT = addon.QT -- Data/QuestTools
 addon.D = addon.D or {}; local D = addon.D     -- Data/Data
 addon.AB = addon.AB or {}; local AB = addon.AB -- ActionButtons
@@ -62,6 +64,7 @@ function O.fillOptions()
     content:SetSize(1, 1) 
     scrollFrame:SetScrollChild(content)
 	prev = content
+	content.options = {}		
 
 	local importButton = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
 	importButton:SetWidth(310)
@@ -117,6 +120,25 @@ function O.fillOptions()
 
 	prev = importButton
 
+	F.addCheckOption(content, GuidelimeDataChar, "showMinimapButton", L.SHOW_MINIMAP_BUTTON, nil, function()
+		content.options.showMinimapButtonHiddenMainframe:SetChecked(false)
+		addon.setupMinimapButton()
+	end)
+	content.options.showMinimapButton:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
+	content.options.showMinimapButtonHiddenMainframe = F.addCheckbox(content, L.ONLY_WHEN_MAINFRAME_HIDDEN)
+	if GuidelimeDataChar.showMinimapButton == "hiddenMainFrame" then 
+		content.options.showMinimapButtonHiddenMainframe:SetChecked(true) 
+		content.options.showMinimapButton:SetChecked(false)
+	end
+	content.options.showMinimapButtonHiddenMainframe:SetScript("OnClick", function()
+		GuidelimeDataChar.showMinimapButton = checkbox:GetChecked() and "hiddenMainFrame"
+		content.options.showMinimapButton:SetChecked(false)
+		addon.setupMinimapButton()
+	end)
+	content.options.showMinimapButtonHiddenMainframe:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 180, -10)
+
+	prev = content.options.showMinimapButton
+
 	-- Guide window options
 
 	O.optionsFrame.titleGuideWindow = content:CreateFontString(nil, content, "GameFontNormal")
@@ -125,7 +147,6 @@ function O.fillOptions()
 	O.optionsFrame.titleGuideWindow:SetFontObject("GameFontNormalLarge")
 	local prev = O.optionsFrame.titleGuideWindow
 
-	content.options = {}		
 	O.optionsFrame.mainFrameShowing = F.addCheckOption(content, GuidelimeDataChar, "mainFrameShowing", L.SHOW_MAINFRAME, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
 			MW.showMainFrame()
@@ -140,7 +161,7 @@ function O.fillOptions()
 	button:SetWidth(130)
 	button:SetHeight(24)
 	button:SetText(L.RESET_POSITION)
-	button:SetPoint("TOPLEFT", O.optionsFrame.mainFrameShowing, "TOPLEFT", 180, -4)
+	button:SetPoint("TOPLEFT", prev, "TOPLEFT", 180, -4)
 	button:SetScript("OnClick", function()
 		GuidelimeDataChar.mainFrameX = 0
 		GuidelimeDataChar.mainFrameY = 0
@@ -150,7 +171,7 @@ function O.fillOptions()
 		end
 	end)
 
-	local slider = F.addSliderOption(content, GuidelimeDataChar, "mainFrameWidth", 50, 800, 1, L.MAIN_FRAME_WIDTH, nil, function()
+	O.optionsFrame.mainFrameWidth = F.addSliderOption(content, GuidelimeDataChar, "mainFrameWidth", 50, 800, 1, L.MAIN_FRAME_WIDTH, nil, function()
 		if MW.mainFrame ~= nil then 
 			MW.mainFrame:SetWidth(GuidelimeDataChar.mainFrameWidth) 
 			MW.mainFrame.scrollChild:SetWidth(GuidelimeDataChar.mainFrameWidth)
@@ -161,8 +182,8 @@ function O.fillOptions()
 			MW.updateMainFrame(true)
 		end
 	end)
-	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -10)
-	slider = F.addSliderOption(content, GuidelimeDataChar, "mainFrameHeight", 50, 600, 1, L.MAIN_FRAME_HEIGHT, nil, function()
+	O.optionsFrame.mainFrameWidth:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -10)
+	O.optionsFrame.mainFrameHeight = F.addSliderOption(content, GuidelimeDataChar, "mainFrameHeight", 50, 600, 1, L.MAIN_FRAME_HEIGHT, nil, function()
 		if MW.mainFrame ~= nil then 
 			MW.mainFrame:SetHeight(GuidelimeDataChar.mainFrameHeight) 
 			MW.mainFrame.scrollChild:SetWidth(GuidelimeDataChar.mainFrameWidth)
@@ -172,8 +193,8 @@ function O.fillOptions()
 			MW.updateMainFrame()
 		end
 	end)
-	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -50)
-	slider = F.addSliderOption(content, GuidelimeDataChar, "mainFrameAlpha", 0, 1, 0.01, L.MAIN_FRAME_ALPHA, nil, function()
+	O.optionsFrame.mainFrameHeight:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -50)
+	local slider = F.addSliderOption(content, GuidelimeDataChar, "mainFrameAlpha", 0, 1, 0.01, L.MAIN_FRAME_ALPHA, nil, function()
 		if MW.mainFrame ~= nil then 
 			MW.mainFrame.bg:SetColorTexture(0, 0, 0, GuidelimeDataChar.mainFrameAlpha)
 		end
@@ -519,25 +540,25 @@ function O.fillOptions()
 	end)
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -150)
 
-	checkbox = F.addCheckOption(content, GuidelimeData, "showMapMarkersGOTO", L.MAP, nil, function()
+	O.optionsFrame.showMapMarkersGOTO = F.addCheckOption(content, GuidelimeData, "showMapMarkersGOTO", L.MAP, nil, function()
 		CG.loadCurrentGuide(false)
 		EV.updateFromQuestLog()
 		if GuidelimeDataChar.mainFrameShowing then
 			MW.updateMainFrame()
 		end
 	end)
-	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
-	prev = checkbox
+	O.optionsFrame.showMapMarkersGOTO:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	prev = O.optionsFrame.showMapMarkersGOTO
 	
-	checkbox = F.addCheckOption(content, GuidelimeData, "showMinimapMarkersGOTO", L.MINIMAP, nil, function()
+	O.optionsFrame.showMinimapMarkersGOTO = F.addCheckOption(content, GuidelimeData, "showMinimapMarkersGOTO", L.MINIMAP, nil, function()
 		CG.loadCurrentGuide(false)
 		EV.updateFromQuestLog()
 		if GuidelimeDataChar.mainFrameShowing then
 			MW.updateMainFrame()
 		end
 	end)
-	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
-	prev = checkbox
+	O.optionsFrame.showMinimapMarkersGOTO:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	prev = O.optionsFrame.showMinimapMarkersGOTO
 
 	checkbox = F.addCheckOption(content, GuidelimeData, "showMapMarkersInGuide", L.GUIDE_WINDOW, nil, function()
 		CG.updateStepsText()
@@ -592,25 +613,25 @@ function O.fillOptions()
 	end)
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -150)
 
-	checkbox = F.addCheckOption(content, GuidelimeData, "showMapMarkersLOC", L.MAP, nil, function()
+	O.optionsFrame.showMapMarkersLOC = F.addCheckOption(content, GuidelimeData, "showMapMarkersLOC", L.MAP, nil, function()
 		CG.loadCurrentGuide(false)
 		EV.updateFromQuestLog()
 		if GuidelimeDataChar.mainFrameShowing then
 			MW.updateMainFrame()
 		end
 	end)
-	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
-	prev = checkbox
+	O.optionsFrame.showMapMarkersLOC:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	prev = O.optionsFrame.showMapMarkersLOC
 
-	checkbox = F.addCheckOption(content, GuidelimeData, "showMinimapMarkersLOC", L.MINIMAP, nil, function()
+	O.optionsFrame.showMinimapMarkersLOC = F.addCheckOption(content, GuidelimeData, "showMinimapMarkersLOC", L.MINIMAP, nil, function()
 		CG.loadCurrentGuide(false)
 		EV.updateFromQuestLog()
 		if GuidelimeDataChar.mainFrameShowing then
 			MW.updateMainFrame()
 		end
 	end)
-	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
-	prev = checkbox
+	O.optionsFrame.showMinimapMarkersLOC:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	prev = O.optionsFrame.showMinimapMarkersLOC
 
 	-- General options
 	
@@ -736,5 +757,24 @@ function O.showOptions()
 		-- calling twice ensures options are shown. calling once might only show game options. why? idk
 		InterfaceOptionsFrame_OpenToCategory(O.optionsFrame)
 		InterfaceOptionsFrame_OpenToCategory(O.optionsFrame)
+	end
+end
+
+function O.toggleOptions(optionsTable, ...)
+	local options = {...}
+	if D.contains(options, function(o) return optionsTable[o] end) then
+		for _, o in ipairs(options) do
+			optionsTable[o .. "Prev"] = optionsTable[o]
+			optionsTable[o] = false
+		end
+	else
+		for _, o in ipairs(options) do
+			optionsTable[o] = optionsTable[o .. "Prev"] == nil or optionsTable[o .. "Prev"]
+		end
+	end
+	if O.optionsFrame ~= nil then
+		for _, o in ipairs(options) do
+			O.optionsFrame[o]:SetChecked(optionsTable[o])
+		end
 	end
 end

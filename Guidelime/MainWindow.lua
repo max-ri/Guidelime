@@ -51,43 +51,58 @@ function MW.getRequiredLevelColor(level)
 	end
 end
 
-function MW.showContextMenu(questId)
+function MW.showContextMenu(inMainFrame, questId)
 	local menu = {
 		{text = L.AVAILABLE_GUIDES .. "...", checked = G.isGuidesShowing(), func = G.showGuides},
 		{text = GAMEOPTIONS_MENU .. "...", checked = O.isOptionsShowing(), func = O.showOptions},
-		{text = L.EDITOR .. "...", checked = E.isEditorShowing(), func = E.showEditor},
-		{text = L.SHOW_GUIDE_TITLE, checked = GuidelimeDataChar.showTitle, func = function()
+	}
+	if inMainFrame then
+		menu[#menu + 1] = {text = L.EDITOR .. "...", checked = E.isEditorShowing(), func = E.showEditor}
+		menu[#menu + 1] = {text = L.SHOW_GUIDE_TITLE, checked = GuidelimeDataChar.showTitle, func = function()
 			GuidelimeDataChar.showTitle = not GuidelimeDataChar.showTitle
 			if O.optionsFrame ~= nil then
 				O.optionsFrame.showTitle:SetChecked(GuidelimeDataChar.showTitle)
 			end
 			MW.updateMainFrame()
-		end},
-		{text = L.SHOW_COMPLETED_STEPS, checked = GuidelimeDataChar.showCompletedSteps, func = function()
+		end}
+		menu[#menu + 1] = {text = L.SHOW_COMPLETED_STEPS, checked = GuidelimeDataChar.showCompletedSteps, func = function()
 			GuidelimeDataChar.showCompletedSteps = not GuidelimeDataChar.showCompletedSteps
 			if O.optionsFrame ~= nil then
 				O.optionsFrame.showCompletedSteps:SetChecked(GuidelimeDataChar.showCompletedSteps)
 			end
 			MW.updateMainFrame()
-		end},
-		{text = L.SHOW_UNAVAILABLE_STEPS, checked = GuidelimeDataChar.showUnavailableSteps, func = function()
+		end}
+		menu[#menu + 1] = {text = L.SHOW_UNAVAILABLE_STEPS, checked = GuidelimeDataChar.showUnavailableSteps, func = function()
 			GuidelimeDataChar.showUnavailableSteps = not GuidelimeDataChar.showUnavailableSteps
 			if O.optionsFrame ~= nil then
 				O.optionsFrame.showUnavailableSteps:SetChecked(GuidelimeDataChar.showUnavailableSteps)
 			end
 			MW.updateMainFrame()
 		end}
-	}
+	end
+	menu[#menu + 1] = {text = L.SHOW_MARKERS_ON .. " " .. L.MAP, checked = GuidelimeData.showMapMarkersGOTO or GuidelimeData.showMapMarkersLOC, func = Guidelime.toggleMapMarkers}
+	menu[#menu + 1] = {text = L.SHOW_MARKERS_ON .. " " .. L.MINIMAP, checked = GuidelimeData.showMinimapMarkersGOTO or GuidelimeData.showMinimapMarkersLOC, func = Guidelime.toggleMinimapMarkers}
 	if questId then
 		menu[#menu + 1] = {text = L.WOWHEAD_OPEN_QUEST, notCheckable = true, func = function()
 			F.showUrlPopup((select(4, GetBuildInfo()) < 20000 and L.WOWHEAD_URL_CLASSIC or L.WOWHEAD_URL_WOTLK) .. "/quest=" .. questId)
 		end}
 	end
+	menu[#menu + 1] = {text = _G.CLOSE, notCheckable = true, func = function(self) self:Hide() end}
 	EasyMenu(menu, CreateFrame("Frame", "GuidelimeContextMenu", nil, "UIDropDownMenuTemplate"), "cursor", 0 , 0, "MENU")
 end
 
+function Guidelime.toggleMapMarkers()
+	O.toggleOptions(GuidelimeData, "showMapMarkersGOTO", "showMapMarkersLOC")
+	MW.updateMainFrame()
+end
+
+function Guidelime.toggleMinimapMarkers()
+	O.toggleOptions(GuidelimeData, "showMinimapMarkersGOTO", "showMinimapMarkersLOC")
+	MW.updateMainFrame()
+end
+
 function MW.updateMainFrame(reset)
-	if MW.mainFrame == nil then return end
+	if MW.mainFrame == nil or not GuidelimeDataChar.mainFrameShowing then return end
 	if addon.debugging then print("LIME: updating main frame") end
 
 	if F.showingTooltip then GameTooltip:Hide(); F.showingTooltip = false end
@@ -114,7 +129,7 @@ function MW.updateMainFrame(reset)
 		if addon.debugging then print("LIME: No guide loaded") end
 		MW.mainFrame.message[1] = F.addMultilineText(MW.mainFrame.scrollChild, L.NO_GUIDE_LOADED, MW.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
 			if (button == "RightButton") then
-				MW.showContextMenu()
+				MW.showContextMenu(true)
 			else
 				G.showGuides()
 			end
@@ -150,7 +165,7 @@ function MW.updateMainFrame(reset)
 					end
 					MW.mainFrame.message[i] = F.addMultilineText(MW.mainFrame.scrollChild, msg, MW.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
 						if (button == "RightButton") then
-							MW.showContextMenu()
+							MW.showContextMenu(true)
 						else
 							G.loadGuide(CG.currentGuide.group .. " " .. next)
 						end
@@ -164,7 +179,7 @@ function MW.updateMainFrame(reset)
 		if #MW.mainFrame.message == 0 then
 			MW.mainFrame.message[1] = F.addMultilineText(MW.mainFrame.scrollChild, L.GUIDE_FINISHED, MW.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
 				if (button == "RightButton") then
-					MW.showContextMenu()
+					MW.showContextMenu(true)
 				else
 					G.showGuides()
 				end
@@ -177,7 +192,7 @@ function MW.updateMainFrame(reset)
 					string.format(L.DOWNLOAD_FULL_GUIDE, guide.downloadMinLevel, guide.downloadMaxLevel, guide.download, "\n|cFFAAAAAA" .. guide.downloadUrl), 
 					MW.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
 					if (button == "RightButton") then
-						MW.showContextMenu()
+						MW.showContextMenu(true)
 					else
 						F.showUrlPopup(guide.downloadUrl) 
 					end
@@ -224,7 +239,7 @@ function MW.updateMainFrame(reset)
 							local j = CG.getElementByTextPos(self:GetCursorPosition(), i)
 							local element = CG.currentGuide.steps[i].elements[j]
 							if button == "RightButton" then
-								MW.showContextMenu(element.questId)
+								MW.showContextMenu(true, element.questId)
 							else
 								if element.questId then
 									QL.showQuestLogFrame(element.questId)
@@ -274,9 +289,9 @@ function MW.updateMainFrame(reset)
 end
 
 function MW.showMainFrame()
-
 	if not addon.dataLoaded then addon.loadData() end
 
+	GuidelimeDataChar.mainFrameShowing = true
 	if MW.mainFrame == nil then
 		--if addon.debugging then print("LIME: initializing main frame") end
 		MW.mainFrame = CreateFrame("FRAME", nil, UIParent)
@@ -286,9 +301,10 @@ function MW.showMainFrame()
 		MW.mainFrame.bg = MW.mainFrame:CreateTexture(nil, "BACKGROUND")
 		MW.mainFrame.bg:SetAllPoints(MW.mainFrame)
 		MW.mainFrame.bg:SetColorTexture(0, 0, 0, GuidelimeDataChar.mainFrameAlpha)
-		MW.mainFrame:SetFrameLevel(999)
+		MW.mainFrame:SetFrameLevel(998)
 		MW.mainFrame:SetMovable(true)
 		MW.mainFrame:EnableMouse(true)
+		MW.mainFrame:SetResizable(true)
 		MW.mainFrame:SetScript("OnMouseDown", function(self, button)
 			if (button == "LeftButton" and not GuidelimeDataChar.mainFrameLocked) then MW.mainFrame:StartMoving() end
 		end)
@@ -298,10 +314,31 @@ function MW.showMainFrame()
 				local _
 				_, _, GuidelimeDataChar.mainFrameRelative, GuidelimeDataChar.mainFrameX, GuidelimeDataChar.mainFrameY = MW.mainFrame:GetPoint()
 			elseif (button == "RightButton") then
-				MW.showContextMenu()
+				MW.showContextMenu(true)
 			end
 		end)
-
+		MW.mainFrame.sizeGrabber = CreateFrame("Button", nil, MW.mainFrame)
+		MW.mainFrame.sizeGrabber:SetFrameLevel(999)
+		MW.mainFrame.sizeGrabber:SetSize(16, 16)
+		MW.mainFrame.sizeGrabber:SetPoint("BOTTOMRIGHT", MW.mainFrame, "BOTTOMRIGHT", -1, 3)
+		MW.mainFrame.sizeGrabber:SetNormalTexture("Interface/CHATFRAME/UI-ChatIM-SizeGrabber-Down")
+		MW.mainFrame.sizeGrabber:SetHighlightTexture("Interface/CHATFRAME/UI-ChatIM-SizeGrabber-Highlight", "ADD")
+		MW.mainFrame.sizeGrabber:SetScript("OnMouseDown", function(self, button)
+			if not GuidelimeDataChar.mainFrameLocked then MW.mainFrame:StartSizing() end
+		end)
+		MW.mainFrame.sizeGrabber:SetScript("OnMouseUp", function(self, button)
+			MW.mainFrame:StopMovingOrSizing()
+			GuidelimeDataChar.mainFrameWidth, GuidelimeDataChar.mainFrameHeight = MW.mainFrame:GetSize()
+			MW.mainFrame.scrollChild:SetSize(MW.mainFrame:GetSize())
+			MW.mainFrame.titleBox:SetWidth(GuidelimeDataChar.mainFrameWidth - 40)
+			if O.optionsFrame then
+				O.optionsFrame.mainFrameWidth:SetValue(GuidelimeDataChar.mainFrameWidth)
+				O.optionsFrame.mainFrameHeight:SetValue(GuidelimeDataChar.mainFrameHeight)
+			end
+			MW.updateMainFrame(true)
+		end)
+		if GuidelimeDataChar.mainFrameLocked then MW.mainFrame.sizeGrabber:Hide() end
+		
 		MW.mainFrame.scrollFrame = CreateFrame("SCROLLFRAME", nil, MW.mainFrame, "UIPanelScrollFrameTemplate")
 		MW.mainFrame.scrollFrame:SetAllPoints(MW.mainFrame)
 
@@ -348,9 +385,11 @@ function MW.showMainFrame()
 			if GuidelimeDataChar.mainFrameLocked then
 				MW.mainFrame.lockBtn:SetPushedTexture("Interface/Buttons/LockButton-Unlocked-Down")
 				MW.mainFrame.lockBtn:SetNormalTexture("Interface/Buttons/LockButton-Locked-Up")
+				MW.mainFrame.sizeGrabber:Hide()
 			else
 				MW.mainFrame.lockBtn:SetNormalTexture("Interface/Buttons/LockButton-Unlocked-Down")
 				MW.mainFrame.lockBtn:SetPushedTexture("Interface/Buttons/LockButton-Locked-Up")
+				MW.mainFrame.sizeGrabber:Show()
 			end
 		end)
 
@@ -372,8 +411,8 @@ function MW.showMainFrame()
 	end
 	MW.mainFrame:Show()
 	CG.updateSteps()
-	GuidelimeDataChar.mainFrameShowing = true
 	if O.optionsFrame ~= nil then O.optionsFrame.mainFrameShowing:SetChecked(true) end
+	addon.setupMinimapButton()
 end
 
 function MW.hideMainFrame()
@@ -381,4 +420,14 @@ function MW.hideMainFrame()
 	M.removeMapIcons()
 	GuidelimeDataChar.mainFrameShowing = false
 	if O.optionsFrame ~= nil then O.optionsFrame.mainFrameShowing:SetChecked(false) end
+	addon.setupMinimapButton()
+	addon.minimapButtonFlash:Play()
+end
+
+function Guidelime.toggleMainFrame()
+	if GuidelimeDataChar.mainFrameShowing then 
+		addon.MW.hideMainFrame() 
+	else 
+		addon.MW.showMainFrame()
+	end
 end

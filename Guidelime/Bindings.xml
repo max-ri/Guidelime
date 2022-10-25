@@ -1,35 +1,41 @@
 <Bindings>
-	<Binding name="GUIDELIME_TOGGLE" header="GUIDELIME" category="ADDONS">
-		if GuidelimeDataChar.mainFrameShowing then Guidelime.addon.hideMainFrame() else Guidelime.addon.showMainFrame() end
+	<Binding name="GUIDELIME_TOGGLE" category="BINDING_HEADER_GUIDELIME">
+		Guidelime.toggleMainFrame()
 	</Binding>
-	<Binding name="GUIDELIME_TARGET_1" category="ADDONS">
+	<Binding name="GUIDELIME_TOGGLE_MAP_MARKERS" category="BINDING_HEADER_GUIDELIME">
+		Guidelime.toggleMapMarkers()
+	</Binding>
+	<Binding name="GUIDELIME_TOGGLE_MINIMAP_MARKERS" category="BINDING_HEADER_GUIDELIME">
+		Guidelime.toggleMinimapMarkers()
+	</Binding>
+	<Binding name="GUIDELIME_TARGET_1" header="TARGET" category="BINDING_HEADER_GUIDELIME">
 		--for targeting an npc
 	</Binding>
-	<Binding name="GUIDELIME_TARGET_2" category="ADDONS">
+	<Binding name="GUIDELIME_TARGET_2" category="BINDING_HEADER_GUIDELIME">
 		--for targeting an npc
 	</Binding>
-	<Binding name="GUIDELIME_TARGET_3" category="ADDONS">
+	<Binding name="GUIDELIME_TARGET_3" category="BINDING_HEADER_GUIDELIME">
 		--for targeting an npc
 	</Binding>
-	<Binding name="GUIDELIME_TARGET_4" category="ADDONS">
+	<Binding name="GUIDELIME_TARGET_4" category="BINDING_HEADER_GUIDELIME">
 		--for targeting an npc
 	</Binding>
-	<Binding name="GUIDELIME_TARGET_5" category="ADDONS">
+	<Binding name="GUIDELIME_TARGET_5" category="BINDING_HEADER_GUIDELIME">
 		--for targeting an npc
 	</Binding>
-	<Binding name="GUIDELIME_USE_ITEM_1" category="ADDONS">
+	<Binding name="GUIDELIME_USE_ITEM_1" header="USE_ITEMS" category="BINDING_HEADER_GUIDELIME">
 		--for using a quest item
 	</Binding>
-	<Binding name="GUIDELIME_USE_ITEM_2" category="ADDONS">
+	<Binding name="GUIDELIME_USE_ITEM_2" category="BINDING_HEADER_GUIDELIME">
 		--for using a quest item
 	</Binding>
-	<Binding name="GUIDELIME_USE_ITEM_3" category="ADDONS">
+	<Binding name="GUIDELIME_USE_ITEM_3" category="BINDING_HEADER_GUIDELIME">
 		--for using a quest item
 	</Binding>
-	<Binding name="GUIDELIME_USE_ITEM_4" category="ADDONS">
+	<Binding name="GUIDELIME_USE_ITEM_4" category="BINDING_HEADER_GUIDELIME">
 		--for using a quest item
 	</Binding>
-	<Binding name="GUIDELIME_USE_ITEM_5" category="ADDONS">
+	<Binding name="GUIDELIME_USE_ITEM_5" category="BINDING_HEADER_GUIDELIME">
 		--for using a quest item
 	</Binding>
 </Bindings>

@@ -12,8 +12,6 @@ addon.QT = addon.QT or {}; local QT = addon.QT -- Data/QuestTools
 addon.AB = addon.AB or {}; local AB = addon.AB -- ActionButtons
 
 -- for key bindings
-_G["BINDING_HEADER_GUIDELIME"] = "Guidelime"
-_G["BINDING_NAME_GUIDELIME_TOGGLE"] = L.SHOW_MAINFRAME
 _G["BINDING_NAME_GUIDELIME_TARGET_1"] = L.TARGET_1
 _G["BINDING_NAME_GUIDELIME_USE_ITEM_1"] = string.format(L.USE_ITEM_X, 1)
 for i = 2, 5 do
