@@ -299,27 +299,19 @@ local function loadStepOnActivation(i)
 		while j <= #step.elements do
 			local element = step.elements[j]
 			if element.questId ~= nil and element.available then
-				local objectives = QT.getQuestObjectives(element.questId, element.t)						
-				if objectives ~= nil then
-					local a, b = element.objective, element.objective
-					if element.objective == nil then a = 1; b = #objectives end
-					for o = a, b do
-						if o <= #objectives then
-							local positions = QT.getQuestPositionsLimited(element.questId, element.t, o, GuidelimeData.maxNumOfMarkersLOC, true)
-							if positions ~= nil then
-								for _, locElement in ipairs(positions) do
-									locElement.t = "LOC"
-									locElement.markerTyp = objectives[o].type
-									locElement.step = step
-									locElement.generated = true
-									locElement.available = true
-									locElement.index = j
-									locElement.attached = element
-									table.insert(step.elements, j, locElement)
-									j = j + 1
-								end
-							end
-						end
+				local positions = QT.getQuestPositionsLimited(element.questId, element.t, element.objective, GuidelimeData.maxNumOfMarkersLOC, true)
+				if positions ~= nil then
+					local objectives = QT.getQuestObjectives(element.questId, element.t)						
+					for _, locElement in ipairs(positions) do
+						locElement.t = "LOC"
+						locElement.markerTyp = objectives and locElement.objectives and locElement.objectives[1] and objectives[locElement.objectives[1]] and objectives[locElement.objectives[1]].type or "LOC"
+						locElement.step = step
+						locElement.generated = true
+						locElement.available = true
+						locElement.index = j
+						locElement.attached = element
+						table.insert(step.elements, j, locElement)
+						j = j + 1
 					end
 					for k = j, #step.elements do
 						step.elements[k].index = k
