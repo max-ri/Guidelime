@@ -305,6 +305,7 @@ function MW.showMainFrame()
 		MW.mainFrame:SetMovable(true)
 		MW.mainFrame:EnableMouse(true)
 		MW.mainFrame:SetResizable(true)
+		MW.mainFrame:SetMinResize(50, 50)
 		MW.mainFrame:SetScript("OnMouseDown", function(self, button)
 			if (button == "LeftButton" and not GuidelimeDataChar.mainFrameLocked) then MW.mainFrame:StartMoving() end
 		end)
