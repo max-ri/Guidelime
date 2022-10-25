@@ -167,6 +167,7 @@ function O.fillOptions()
 		GuidelimeDataChar.mainFrameY = 0
 		GuidelimeDataChar.mainFrameRelative = "RIGHT"
 		if MW.mainFrame ~= nil then
+			MW.mainFrame:ClearAllPoints()
 			MW.mainFrame:SetPoint(GuidelimeDataChar.mainFrameRelative, UIParent, GuidelimeDataChar.mainFrameRelative, GuidelimeDataChar.mainFrameX, GuidelimeDataChar.mainFrameY)
 		end
 	end)
