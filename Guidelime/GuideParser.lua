@@ -7,6 +7,8 @@ addon.D = addon.D or {}; local D = addon.D     -- Data/Data
 addon.FM = addon.FM or {}; local FM = addon.FM -- Data/FlightMasterDB
 addon.DM = addon.DM or {}; local DM = addon.DM -- Data/MapDB
 addon.QT = addon.QT or {}; local QT = addon.QT -- Data/QuestsTools
+addon.SK = addon.SK or {}; local SK = addon.SK -- Data/SkillDB
+addon.SP = addon.SP or {}; local SP = addon.SP -- Data/SpellDB
 addon.F = addon.F or {}; local F = addon.F     -- Frames
 addon.CG = addon.CG or {}; local CG = addon.CG -- CurrentGuide
 addon.MW = addon.MW or {}; local MW = addon.MW -- MainWindow
@@ -42,6 +44,8 @@ codes:
  - TAR target npc
  - GT ON/OFF enable/disable automatically generating target
  - SP cast spell
+ - LE learn skill/spell
+ - SK skill up
 ]]
 
 GP.codes = {
@@ -77,6 +81,8 @@ GP.codes = {
 	AUTO_ADD_TARGET = "GT",
 	TARGET = "TAR",
 	SPELL = "SP",
+	LEARN = "LE",
+	SKILL = "SK",
 --deprecated
 	COMPLETE_WITH_NEXT = "C", -- same as OC
 	PICKUP = "QP", -- same as QA
@@ -257,7 +263,7 @@ function GP.parseLine(step, guide, strict, nameOnly)
 				err = true
 			end
 		elseif element.t == "GUIDE_APPLIES" then
-			tag:upper():gsub(" ",""):gsub("([^,%d%-<>]+)%s*([<>]?)%s*(%-?%d*)", function(c, less, value)
+			tag:upper():gsub(" ",""):gsub("([^,%d%-<>]+)%s*(%d*)([<>]?)%s*(%-?%d*)", function(c, value1, less, value2)
 				if D.isClass(c) then
 					if guide.classes == nil then guide.classes = {} end
 					table.insert(guide.classes, D.getClass(c))
@@ -266,15 +272,45 @@ function GP.parseLine(step, guide, strict, nameOnly)
 					table.insert(guide.races, D.getRace(c))
 				elseif D.isFaction(c) then
 					guide.faction = D.getFaction(c)
+				elseif c == "SP" and value1 ~= "" and value2 ~= "" then
+					guide.spellReq = SP.getSpellById(value1)
+					if less == "<" then
+						guide.spellMax = tonumber(value2)
+					else
+						guide.spellMin = tonumber(value2)
+					end
+					-- if none specified spell rank 1 is required
+					if guide.spellMin == nil and guide.spellMax == nil then guide.spellMin = 1 end
+				elseif value1 ~= "" and (less ~= "" or value2 ~= "") then
+					F.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
+					err = true
 				elseif D.isReputation(c) then
 					guide.reputation = D.getReputation(c)
 					if less == "<" then
-						guide.repMax = tonumber(value)
+						guide.repMax = tonumber(value1 == "" and value2 or value1)
 					else
-						guide.repMin = tonumber(value)
+						guide.repMin = tonumber(value1 == "" and value2 or value1)
 					end
 					-- if none specified friendly reputation is required
 					if guide.repMin == nil and guide.repMax == nil then guide.repMin = 3000 end
+				elseif SK.isSkill(c) then
+					step.skillReq = SK.getSkill(c)
+					if less == "<" then
+						guide.skillMax = tonumber(value1 == "" and value2 or value1)
+					else
+						guide.skillMin = tonumber(value1 == "" and value2 or value1)
+					end
+					-- if none specified skill rank 1 is required
+					if guide.skillMin == nil and guide.skillMax == nil then guide.skillMin = 1 end
+				elseif SP.isSpell(c) then
+					guide.spellReq = SP.getSpell(c)
+					if less == "<" then
+						guide.spellMax = tonumber(value1 == "" and value2 or value1)
+					else
+						guide.spellMin = tonumber(value1 == "" and value2 or value1)
+					end
+					-- if none specified spell rank 1 is required
+					if guide.spellMin == nil and guide.spellMax == nil then guide.spellMin = 1 end
 				else
 					F.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
 					err = true
@@ -381,22 +417,52 @@ function GP.parseLine(step, guide, strict, nameOnly)
 			end
 		elseif element.t == "APPLIES" then
 			local classes, races = {}, {}
-			tag:upper():gsub(" ",""):gsub("([^,%d%-<>]+)%s*([<>]?)%s*(%-?%d*)", function(c, less, value)
+			tag:upper():gsub(" ",""):gsub("([^,%d%-<>]+)%s*(%d*)([<>]?)%s*(%-?%d*)", function(c, value1, less, value2)
 				if D.isClass(c) then
 					table.insert(classes, D.getClass(c))
 				elseif D.isRace(c) then
 					table.insert(races, D.getRace(c))
 				elseif D.isFaction(c) then
 					step.faction = D.getFaction(c)
+				elseif c == "SP" and value1 ~= "" and value2 ~= "" then
+					step.spellReq = SP.getSpellById(value1)
+					if less == "<" then
+						step.spellMax = tonumber(value2)
+					else
+						step.spellMin = tonumber(value2)
+					end
+					-- if none specified spell rank 1 is required
+					if step.spellMin == nil and step.spellMax == nil then step.spellMin = 1 end
+				elseif value1 ~= "" and (less ~= "" or value2 ~= "") then
+					F.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
+					err = true
 				elseif D.isReputation(c) then
 					step.reputation = D.getReputation(c)
 					if less == "<" then
-						step.repMax = tonumber(value)
+						step.repMax = tonumber(value1 == "" and value2 or value1)
 					else
-						step.repMin = tonumber(value)
+						step.repMin = tonumber(value1 == "" and value2 or value1)
 					end
 					-- if none specified friendly reputation is required
 					if step.repMin == nil and step.repMax == nil then step.repMin = 3000 end
+				elseif SK.isSkill(c) then
+					step.skillReq = SK.getSkill(c)
+					if less == "<" then
+						step.skillMax = tonumber(value1 == "" and value2 or value1)
+					else
+						step.skillMin = tonumber(value1 == "" and value2 or value1)
+					end
+					-- if none specified skill rank 1 is required
+					if step.skillMin == nil and step.skillMax == nil then step.skillMin = 1 end
+				elseif SP.isSpell(c) then
+					step.spellReq = SP.getSpell(c)
+					if less == "<" then
+						step.spellMax = tonumber(value1 == "" and value2 or value1)
+					else
+						step.spellMin = tonumber(value1 == "" and value2 or value1)
+					end
+					-- if none specified spell rank 1 is required
+					if step.spellMin == nil and step.spellMax == nil then step.spellMin = 1 end
 				else
 					F.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
 					err = true
@@ -498,6 +564,73 @@ function GP.parseLine(step, guide, strict, nameOnly)
 				F.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
 				err = true
 			end
+		elseif element.t == "LEARN" then
+			local _, c = tag:gsub("([^,%d%-]+)%s*(%d*)%s*(%d*)%s*(.*)", function(c, value1, value2, text)
+				if addon.debugging then print("LIME: LEARN", c, value1, value2, text) end
+				c = c:upper():gsub(" ","")
+				if c == "SP" and value1 ~= "" and value2 ~= "" then
+					element.spell = SP.getSpellById(value1)
+					element.spellMin = tonumber(value2) or 1
+				elseif value2 ~= "" then
+					F.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
+					err = true
+				elseif SK.isSkill(c) then
+					element.skill = SK.getSkill(c)
+					if element.skill == "RIDING" then
+						element.skillMin = tonumber(value1) or 1
+					else
+						element.maxSkillMin = tonumber(value1) or 1
+					end
+				elseif SP.isSpell(c) then
+					element.spell = SP.getSpell(c)
+					element.spellMin = tonumber(value1) or 1
+				else
+					F.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
+					err = true
+				end
+				if text ~= "" then
+					if text == "-" then text = "" end
+					element.text, element.textInactive, _ = textFormatting(text:gsub("%s*(.*)", "%1", 1))
+				end
+				if element.text == nil then
+					if element.spell then
+						element.text = SP.getLocalizedName(element.spell)
+					elseif element.skill then
+						element.text = SK.getLocalizedName(element.skill)
+					end
+					element.textInactive = element.text
+				end
+				lastAutoStep = element
+			end, 1)
+			if c ~= 1 then
+				F.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
+				err = true
+			end
+		elseif element.t == "SKILL" then
+			local _, c = tag:gsub("([^,%d%-]+)%s*(%d*)%s*(.*)", function(c, value, text)
+				if addon.debugging then print("LIME: SKILL", c, value, text) end
+				c = c:upper():gsub(" ","")
+				if SK.isSkill(c) then
+					element.skill = SK.getSkill(c)
+					element.skillMin = tonumber(value) or 1
+				else
+					F.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
+					err = true
+				end
+				if text ~= "" then
+					if text == "-" then text = "" end
+					element.text, element.textInactive, _ = textFormatting(text:gsub("%s*(.*)", "%1", 1))
+				end
+				if element.text == nil then
+					element.text = SK.getLocalizedName(element.skill)
+					element.textInactive = element.text
+				end
+				lastAutoStep = element
+			end, 1)
+			if c ~= 1 then
+				F.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
+				err = true
+			end
 		elseif element.t == "OPTIONAL_COMPLETE_WITH_NEXT" then
 			element.text, element.textInactive, _ = textFormatting(tag)
 			step.completeWithNext = true
@@ -541,6 +674,10 @@ function GP.parseLine(step, guide, strict, nameOnly)
 					err = true
 				end
 			end, 1)
+			if c ~= 1 then
+				F.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
+				err = true
+			end
 		elseif element.t == "USE_ITEM" then
 			local _, c = tag:gsub("%s*(%d+)%s*(.-)%s*$", function(id, title)	
 				if id ~= "" then
@@ -555,6 +692,10 @@ function GP.parseLine(step, guide, strict, nameOnly)
 					err = true
 				end
 			end, 1)
+			if c ~= 1 then
+				F.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
+				err = true
+			end
 		elseif element.t == "TARGET" then
 			local _, c = tag:gsub("%s*(%d+)%s*(.-)%s*$", function(id, title)	
 				if id ~= "" then
@@ -569,10 +710,15 @@ function GP.parseLine(step, guide, strict, nameOnly)
 					err = true
 				end
 			end, 1)
+			if c ~= 1 then
+				F.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
+				err = true
+			end
 		elseif element.t == "SPELL" then
-			local _, c = tag:gsub("%s*(%d+)%s*(.-)%s*$", function(id, title)	
-				if id ~= "" then
-					element.spellId = tonumber(id)
+			local _, c = tag:gsub("%s*([%w%d]+)%s*(.-)%s*$", function(spell, title)	
+				element.spellId = tonumber(spell)
+				element.spell = element.spellId and SP.getSpellById(element.spellId) or SP.getSpell(spell)
+				if element.spellId or element.spell then
 					if title == "-" then
 						element.title = ""
 					elseif title ~= "" then
@@ -583,6 +729,10 @@ function GP.parseLine(step, guide, strict, nameOnly)
 					err = true
 				end
 			end, 1)
+			if c ~= 1 then
+				F.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
+				err = true
+			end
 		else
 			element.text, element.textInactive = textFormatting(tag)
 		end

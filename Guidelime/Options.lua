@@ -130,7 +130,7 @@ function O.fillOptions()
 		content.options.showMinimapButtonHiddenMainframe:SetChecked(true) 
 		content.options.showMinimapButton:SetChecked(false)
 	end
-	content.options.showMinimapButtonHiddenMainframe:SetScript("OnClick", function()
+	content.options.showMinimapButtonHiddenMainframe:SetScript("OnClick", function(checkbox)
 		GuidelimeDataChar.showMinimapButton = checkbox:GetChecked() and "hiddenMainFrame"
 		content.options.showMinimapButton:SetChecked(false)
 		addon.setupMinimapButton()
@@ -666,6 +666,10 @@ function O.fillOptions()
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
 	prev = checkbox
 
+	checkbox = F.addCheckOption(content, GuidelimeData, "autoTrain", L.AUTO_TRAIN)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
+	prev = checkbox
+	
 	checkbox = F.addCheckOption(content, GuidelimeData, "skipCutscenes", L.SKIP_CUTSCENES, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
 			CG.updateStepsText()

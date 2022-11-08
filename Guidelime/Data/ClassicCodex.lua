@@ -226,6 +226,100 @@ function CLASSIC_CODEX.getQuestPositions(id, typ, index, filterZone)
 	return positions
 end
 
+function CLASSIC_CODEX.getNPCPositions(id)
+	if id == nil or not CLASSIC_CODEX.isDataSourceInstalled() then return end
+	local positions = {}
+	local npc = CodexDB.units.data[id]
+	--if npc == nil then error("npc " .. npcId .. " not found for quest " .. questid .. typ) end
+	--if addon.debugging then print("LIME: npc", npc[1]) end
+	if npc ~= nil and npc.coords ~= nil then
+		for _, pos in ipairs(npc.coords) do
+			table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[CodexMap.zones[pos[3]]] or CodexMap.zones[pos[3]], npcId = id})
+		end
+	end
+	local i = 1
+	while i <= #positions do
+		local pos = positions[i]
+		if pos.wx == -1 and pos.wy == -1 then
+			-- locations inside instances are marked with -1,-1
+			table.remove(positions, i)
+		else
+			pos.mapID = DM.mapIDs[pos.zone]
+			pos.wx, pos.wy, pos.instance = HBD:GetWorldCoordinatesFromZone(pos.x / 100, pos.y / 100, pos.mapID)
+			--if addon.debugging then print("LIME: found position", pos.wx, pos.wy, pos.instance) end
+			if pos.wx == nil then
+				if addon.debugging then print("LIME: error transforming (", pos.x, ",", pos.y, pos.zone, DM.mapIDs[pos.zone], ") into world coordinates for npc #", id) end
+				table.remove(positions, i)
+			else
+				i = i + 1
+			end
+		end
+	end
+	--if addon.debugging then print("LIME: found ", #positions, "positions") end
+	return positions
+end
+
+function CLASSIC_CODEX.getItemPositions(id, typ, index, filterZone)
+	if id == nil or not CLASSIC_CODEX.isDataSourceInstalled() then return end
+	local ids = {npc = {}, object = {}}
+	local item = CodexDB.items.data[id]
+	if item ~= nil then
+		if item.U ~= nil then
+			for npcId, chance in pairs(item.U) do
+				if not D.contains(ids.npc, npcId) then table.insert(ids.npc, npcId) end
+			end
+		end
+		if item.O ~= nil then
+			for objectId, chance in pairs(item.O) do
+				if not D.contains(ids.object, objectId) then table.insert(ids.object, objectId) end
+			end
+		end
+	end
+	local positions = {}
+	for _, npcId in ipairs(ids.npc) do
+		local npc = CodexDB.units.data[npcId]
+		--if npc == nil then error("npc " .. npcId .. " not found for quest " .. questid .. typ) end
+		--if addon.debugging then print("LIME: npc", npc[1]) end
+		if npc ~= nil and npc.coords ~= nil then
+			for _, pos in ipairs(npc.coords) do
+				table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[CodexMap.zones[pos[3]]] or CodexMap.zones[pos[3]], npcId = npcId})
+			end
+		end
+	end
+	for _, objectId in ipairs(ids.object) do
+		local object = CodexDB.objects.data[objectId]
+		--if object == nil then error("object " .. objectId .. " not found for quest " .. id .. typ) end
+		--if addon.debugging then print("LIME: object", object[1]) end
+		if object ~= nil and object.coords ~= nil then
+			for _, pos in ipairs(object.coords) do
+				if filterZone == nil or filterZone == CodexMap.zones[pos[3]] then
+					table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[CodexMap.zones[pos[3]]] or CodexMap.zones[pos[3]], objectId = objectId})
+				end
+			end
+		end
+	end
+	local i = 1
+	while i <= #positions do
+		local pos = positions[i]
+		if pos.wx == -1 and pos.wy == -1 then
+			-- locations inside instances are marked with -1,-1
+			table.remove(positions, i)
+		else
+			pos.mapID = DM.mapIDs[pos.zone]
+			pos.wx, pos.wy, pos.instance = HBD:GetWorldCoordinatesFromZone(pos.x / 100, pos.y / 100, pos.mapID)
+			--if addon.debugging then print("LIME: found position", pos.wx, pos.wy, pos.instance) end
+			if pos.wx == nil then
+				if addon.debugging then print("LIME: error transforming (", pos.x, ",", pos.y, pos.zone, DM.mapIDs[pos.zone], ") into world coordinates for item #", id) end
+				table.remove(positions, i)
+			else
+				i = i + 1
+			end
+		end
+	end
+	--if addon.debugging then print("LIME: found ", #positions, "positions") end
+	return positions
+end
+
 function CLASSIC_CODEX.getQuestNPCs(id, typ, index)
 	if id == nil or not CLASSIC_CODEX.isDataSourceInstalled() then return end
 	local ids = {npc = {}, object = {}, item = {}}
@@ -346,22 +440,6 @@ function CLASSIC_CODEX.getQuestObjectives(id, typ)
 		end
 	end
 	return objectives
-end
-
-function CLASSIC_CODEX.getNPCPosition(id)
-	if id == nil or not CLASSIC_CODEX.isDataSourceInstalled() then return end
-	local npc = CodexDB.units.data[id]
-	if npc ~= nil and npc.coords ~= nil then
-		for _, pos in ipairs(npc.coords) do
-			local p = {x = pos[1], y = pos[2], mapID = CodexMap.zones[pos[3]], zone = DM.zoneNames[CodexMap.zones[pos[3]]] or CodexMap.zones[pos[3]]}
-			p.wx, p.wy, p.instance = HBD:GetWorldCoordinatesFromZone(p.x / 100, p.y / 100, p.mapID)
-			if p.wx == nil then
-				if addon.debugging then print("LIME: error transforming (", p.x, ",", p.y, p.zone, p.mapID, ") into world coordinates for npc #", id) end
-			else
-				return p
-			end
-		end
-	end
 end
 
 function CLASSIC_CODEX.getQuestItems(id)

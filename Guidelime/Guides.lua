@@ -48,7 +48,7 @@ end
 
 local function selectGuide(name)
 	if addon.guides[name].reputation == nil or
-		D.isRequiredReputation(addon.guides[name].reputation, addon.guides[name].repMin, addon.guides[name].repMax) then
+		D.hasRequirements(addon.guides[name]) then
 		G.loadGuide(name)
 	end
 end
@@ -218,7 +218,7 @@ function G.fillGuides()
 				text = text .. " "
 			end
 			if guide.title ~= nil then
-				if guide.reputation ~= nil and not D.isRequiredReputation(guide.reputation, guide.repMin, guide.repMax) then
+				if D.hasRequirements(guide) then
 					text = text .. MW.COLOR_INACTIVE
 				else
 					text = text .. MW.COLOR_WHITE

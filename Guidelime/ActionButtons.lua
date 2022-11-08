@@ -2,6 +2,7 @@ local addonName, addon = ...
 local L = addon.L
 
 addon.D = addon.D or {}; local D = addon.D     -- Data/Data
+addon.SP = addon.SP or {}; local SP = addon.SP -- Data/SpellDB
 addon.EV = addon.EV or {}; local EV = addon.EV -- Events
 addon.F = addon.F or {}; local F = addon.F     -- Frames
 addon.CG = addon.CG or {}; local CG = addon.CG -- CurrentGuide
@@ -281,20 +282,21 @@ function AB.updateUseItemButtons()
 					button:Update()
 					table.insert(previousIds, element.useItemId)
 					i = i + 1
-				elseif element.t == "SPELL" and element.spellId > 0 and	not element.completed then
-					if addon.debugging then print("LIME: show button for spell", element.spellId) end
+				elseif element.t == "SPELL" and element.spellId ~= 0 and not element.completed then
+					local id = element.spellId or SP.getSpellId(element.spell)
+					if addon.debugging then print("LIME: show button for spell", id) end
 					if InCombatLockdown() then
 						EV.updateAfterCombat = true
 						return 
 					end
-					local name, _, icon = GetSpellInfo(element.spellId)
+					local name, _, icon = GetSpellInfo(id)
 					if name then
 						local button = AB.createUseItemButton(i)
 						button:SetPoint("TOP" .. GuidelimeDataChar.showUseItemButtons, MW.mainFrame, "TOP" .. GuidelimeDataChar.showUseItemButtons, 
 							GuidelimeDataChar.showUseItemButtons == "LEFT" and -36 or (GuidelimeDataChar.mainFrameShowScrollBar and 60 or 37), 
 							39 - i * 41 - startPos)
-						button.spellId = element.spellId
-						button.texture:SetTexture(icon)
+						button.spellId = id
+						button.texture:SetTexture(icon or addon.icons.SPELL)
 						button.texture:SetAlpha(1)
 						button:SetAttribute("type", "spell")
 						button:SetAttribute("spell", name)

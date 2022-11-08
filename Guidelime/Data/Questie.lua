@@ -248,9 +248,6 @@ function QUESTIE.getQuestPositions(id, typ, index, filterZone)
 				end
 			end
 		end
-	elseif typ == "COLLECT_ITEM" then
-		ids.item = {id}
-		objectives.item[id] = {}
 	else
 		return
 	end
@@ -330,6 +327,102 @@ function QUESTIE.getQuestPositions(id, typ, index, filterZone)
 			--if addon.debugging then print("LIME: found position", pos.wx, pos.wy, pos.instance) end
 			if pos.wx == nil then
 				if addon.debugging then print("LIME: error transforming (", pos.x, ",", pos.y, pos.zone, DM.mapIDs[pos.zone], ") into world coordinates for quest #", id) end
+				table.remove(positions, i)
+			else
+				i = i + 1
+			end
+		end
+	end
+	--if addon.debugging then print("LIME: found ", #positions, "positions") end
+	return positions
+end
+
+function QUESTIE.getItemPositions(id)
+	if id == nil or not check() then return end
+	local ids = {npc = {}, object = {}}
+	local positions = {}
+	local item = QuestieDB:GetItem(id)
+	if item ~= nil then
+		if item.npcDrops ~= nil then
+			for i = 1, #item.npcDrops do
+				if not D.contains(ids.npc, item.npcDrops[i]) then table.insert(ids.npc, item.npcDrops[i]) end
+			end
+		end
+		if item.objectDrops ~= nil then
+			for i = 1, #item.objectDrops do
+				if not D.contains(ids.object, item.objectDrops[i]) then table.insert(ids.object, item.objectDrops[i]) end
+			end
+		end
+	end
+	for _, npcId in ipairs(ids.npc) do
+		local npc = QuestieDB:GetNPC(npcId)
+		--if npc == nil then error("npc " .. npcId .. " not found for quest " .. questid .. typ) end
+		--if addon.debugging then print("LIME: npc", npc[1]) end
+		if npc ~= nil and npc.spawns ~= nil then
+			for zone, posList in pairs(npc.spawns) do
+				for _, pos in ipairs(posList) do
+					table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[ZoneDB:GetUiMapIdByAreaId(zone)] or zone, npcId = npcId})
+				end
+			end
+		end
+	end
+	for _, objectId in ipairs(ids.object) do
+		local object = QuestieDB:GetObject(objectId)
+		if object == nil then error("object " .. objectId .. " not found for quest " .. id .. typ) end
+		--if addon.debugging then print("LIME: object", object[1]) end
+		if object.spawns ~= nil then
+			for zone, posList in pairs(object.spawns) do
+				for _, pos in ipairs(posList) do
+					table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[ZoneDB:GetUiMapIdByAreaId(zone)] or zone, objectId = objectId})
+				end
+			end
+		end
+	end
+	local i = 1
+	while i <= #positions do
+		local pos = positions[i]
+		if pos.wx == -1 and pos.wy == -1 then
+			-- locations inside instances are marked with -1,-1
+			table.remove(positions, i)
+		else
+			pos.mapID = DM.mapIDs[pos.zone]
+			pos.wx, pos.wy, pos.instance = HBD:GetWorldCoordinatesFromZone(pos.x / 100, pos.y / 100, pos.mapID)
+			--if addon.debugging then print("LIME: found position", pos.wx, pos.wy, pos.instance) end
+			if pos.wx == nil then
+				if addon.debugging then print("LIME: error transforming (", pos.x, ",", pos.y, pos.zone, DM.mapIDs[pos.zone], ") into world coordinates for item #", id) end
+				table.remove(positions, i)
+			else
+				i = i + 1
+			end
+		end
+	end
+	--if addon.debugging then print("LIME: found ", #positions, "positions") end
+	return positions
+end
+
+function QUESTIE.getNPCPositions(id)
+	if id == nil or not check() then return end
+	local positions = {}
+	local npc = QuestieDB:GetNPC(id)
+	if npc ~= nil and npc.spawns ~= nil then
+		for zone, posList in pairs(npc.spawns) do
+			for _, pos in ipairs(posList) do
+				table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[ZoneDB:GetUiMapIdByAreaId(zone)] or zone, npcId = id})
+			end
+		end
+	end
+	local i = 1
+	while i <= #positions do
+		local pos = positions[i]
+		if pos.wx == -1 and pos.wy == -1 then
+			-- locations inside instances are marked with -1,-1
+			table.remove(positions, i)
+		else
+			pos.mapID = DM.mapIDs[pos.zone]
+			pos.wx, pos.wy, pos.instance = HBD:GetWorldCoordinatesFromZone(pos.x / 100, pos.y / 100, pos.mapID)
+			--if addon.debugging then print("LIME: found position", pos.wx, pos.wy, pos.instance) end
+			if pos.wx == nil then
+				if addon.debugging then print("LIME: error transforming (", pos.x, ",", pos.y, pos.zone, DM.mapIDs[pos.zone], ") into world coordinates for npc #", id) end
 				table.remove(positions, i)
 			else
 				i = i + 1
@@ -497,24 +590,6 @@ function QUESTIE.getQuestObjectives(id, typ)
 		return objectives2
 	end
 	return objectives
-end
-
-function QUESTIE.getNPCPosition(id)
-	if id == nil or not check() then return end
-	local npc = QuestieDB:GetNPC(id)
-	if npc ~= nil and npc.spawns ~= nil then
-		for zone, posList in pairs(npc.spawns) do
-			for _, pos in ipairs(posList) do
-				local p = {x = pos[1], y = pos[2], mapID = ZoneDB:GetUiMapIdByAreaId(zone), zone = DM.zoneNames[ZoneDB:GetUiMapIdByAreaId(zone)] or zone}
-				p.wx, p.wy, p.instance = HBD:GetWorldCoordinatesFromZone(p.x / 100, p.y / 100, p.mapID)
-				if p.wx == nil then
-					if addon.debugging then print("LIME: error transforming (", p.x, ",", p.y, p.zone, p.mapID, ") into world coordinates for npc #", id) end
-				else
-					return p
-				end
-			end
-		end
-	end
 end
 
 function QUESTIE.getNPCName(id)

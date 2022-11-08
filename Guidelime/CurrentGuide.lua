@@ -5,7 +5,10 @@ local HBD = LibStub("HereBeDragons-2.0")
 
 addon.D = addon.D or {}; local D = addon.D     -- Data/Data
 addon.FM = addon.FM or {}; local FM = addon.FM -- Data/FlightMasterDB
+addon.PT = addon.PT or {}; local PT = addon.PT -- Data/PositionTools
 addon.QT = addon.QT or {}; local QT = addon.QT -- Data/QuestTools
+addon.SK = addon.SK or {}; local SK = addon.SK -- Data/SkillDB
+addon.SP = addon.SP or {}; local SP = addon.SP -- Data/SpellDB
 addon.AB = addon.AB or {}; local AB = addon.AB -- ActionButtons
 addon.CC = addon.CC or {}; local CC = addon.CC -- CustomCode
 addon.EV = addon.EV or {}; local EV = addon.EV -- Events
@@ -100,7 +103,7 @@ function CG.loadCurrentGuide(reset)
 				local element = step.elements[i]
 				element.available = true
 
-				if element.t == "ACCEPT" or element.t == "COMPLETE" or element.t == "TURNIN" or element.t == "XP" or element.t == "REPUTATION" or element.t == "SPELL" then
+				if element.t == "ACCEPT" or element.t == "COMPLETE" or element.t == "TURNIN" or element.t == "XP" or element.t == "REPUTATION" or element.t == "SPELL" or element.t == "LEARN" or element.t == "SKILL" then
 					if step.manual == nil then step.manual = false end
 				elseif element.t == "TRAIN" or element.t == "VENDOR" or element.t == "REPAIR" or element.t == "SET_HEARTH" or element.t == "GET_FLIGHT_POINT" then
 					step.manual = true
@@ -138,61 +141,19 @@ function CG.loadCurrentGuide(reset)
 						end
 					end
 					if guide.autoAddCoordinatesGOTO and (GuidelimeData.showMapMarkersGOTO or GuidelimeData.showMinimapMarkersGOTO) and not step.hasGoto and not element.optional then
-						local gotoElement = QT.getQuestPosition(element.questId, element.t, element.objective, lastGoto)
-						if gotoElement ~= nil then
-							gotoElement.t = "GOTO"
-							gotoElement.step = step
-							gotoElement.radius = gotoElement.radius + CG.DEFAULT_GOTO_RADIUS
-							gotoElement.generated = true
-							gotoElement.available = true
-							gotoElement.attached = element
-							table.insert(step.elements, i, gotoElement)
-							for j = i, #step.elements do
-								step.elements[j].index = j
-							end
-							i = i + 1
-							if lastGoto ~= nil and lastGoto.step.line == element.step.line then lastGoto.lastGoto = false end
-							gotoElement.lastGoto = true
-							lastGoto = gotoElement
+						if CG.addElement(CG.updatePosElement(PT.getQuestPosition(element.questId, element.t, element.objective, lastGoto), {t = "GOTO"}), element) then
+							i = i + 1 
 						end
 					end
 				elseif element.t == "FLY" then
 					if guide.autoAddCoordinatesGOTO and (GuidelimeData.showMapMarkersGOTO or GuidelimeData.showMinimapMarkersGOTO) and not step.hasGoto and not element.optional then
-						local gotoElement = {}
-						gotoElement.t = "GOTO"
-						gotoElement.specialLocation = "NEAREST_FLIGHT_POINT"
-						gotoElement.step = step
-						gotoElement.radius = CG.DEFAULT_GOTO_RADIUS
-						gotoElement.generated = true
-						gotoElement.available = true
-						gotoElement.attached = element
-						table.insert(step.elements, i, gotoElement)
-						for j = i, #step.elements do
-							step.elements[j].index = j
-						end
+						CG.addElement({t = "GOTO", specialLocation = "NEAREST_FLIGHT_POINT", radius = CG.DEFAULT_GOTO_RADIUS}, element)
 						i = i + 1
-						if lastGoto ~= nil and lastGoto.step.line == element.step.line then lastGoto.lastGoto = false end
-						gotoElement.lastGoto = true
-						lastGoto = gotoElement
 					end						
 				elseif element.t == "GET_FLIGHT_POINT" then
 					if guide.autoAddCoordinatesGOTO and (GuidelimeData.showMapMarkersGOTO or GuidelimeData.showMinimapMarkersGOTO) and not step.hasGoto and not element.optional then
-						local gotoElement = FM.getFlightPoint(element.flightmaster)
-						if gotoElement ~= nil and gotoElement.x ~= nil then
-							gotoElement.t = "GOTO"
-							gotoElement.step = step
-							gotoElement.radius = CG.DEFAULT_GOTO_RADIUS
-							gotoElement.generated = true
-							gotoElement.available = true
-							gotoElement.attached = element
-							table.insert(step.elements, i, gotoElement)
-							for j = i, #step.elements do
-								step.elements[j].index = j
-							end
-							i = i + 1
-							if lastGoto ~= nil and lastGoto.step.line == element.step.line then lastGoto.lastGoto = false end
-							gotoElement.lastGoto = true
-							lastGoto = gotoElement
+						if CG.addElement(CG.updatePosElement(FM.getFlightPoint(element.flightmaster), {t = "GOTO"}), element) then
+							i = i + 1 
 						end
 					end						
 				elseif element.t == "COLLECT_ITEM" then
@@ -200,22 +161,26 @@ function CG.loadCurrentGuide(reset)
 						table.insert(guide.itemUpdateIndices,step.index)
 					end
 					if step.manual == nil then step.manual = false end
+					if guide.autoAddCoordinatesGOTO and (GuidelimeData.showMapMarkersGOTO or GuidelimeData.showMinimapMarkersGOTO) and 
+						not step.hasGoto and not element.optional and not step.targetElement then
+						if CG.addElement(CG.updatePosElement(PT.getItemPosition(element.itemId, lastGoto), {t = "GOTO"}), element) then
+							i = i + 1 
+						end
+					end
 				elseif element.t == "USE_ITEM" then
 					if not element.generated then step.useItemElement = true end
 				elseif element.t == "TARGET" then
-					if not element.generated then step.targetElement = true end
-				elseif guide.autoAddUseItem and not step.useItemElement and element.t == "HEARTH" then
-					local useElement = {}
-					useElement.t = "USE_ITEM"
-					useElement.useItemId = 6948
-					useElement.generated = true
-					useElement.available = true
-					useElement.title = ""
-					useElement.attached = element
-					table.insert(step.elements, i + 1, useElement)
-					for j = i + 1, #step.elements do
-						step.elements[j].index = j
+					if not element.generated then 
+						step.targetElement = true
+						if guide.autoAddCoordinatesGOTO and (GuidelimeData.showMapMarkersGOTO or GuidelimeData.showMinimapMarkersGOTO) and not step.hasGoto and not element.optional then
+							if CG.addElement(CG.updatePosElement(PT.getNPCPosition(element.targetNpcId, lastGoto), {t = "GOTO"}), element) then	
+								i = i + 1 
+							end
+						end
 					end
+				elseif guide.autoAddUseItem and not step.useItemElement and element.t == "HEARTH" then
+					CG.addElement({t = "USE_ITEM", useItemId = 6948}, element, 1)
+					i = i + 1
 				end
 				i = i + 1
 			end
@@ -237,6 +202,36 @@ function CG.loadCurrentGuide(reset)
 	QS.scanGuideQuests(guide.name)
 end
 
+function CG.addElement(newElement, element, offset, keepIndex)
+	if not newElement then return end
+	newElement.step = element.step
+	newElement.attached = element
+	newElement.generated = true
+	newElement.available = true
+	table.insert(element.step.elements, element.index + (offset or 0), newElement)
+	if not keepIndex then
+		for j = element.step.index + (offset or 0), #element.step.elements do
+			element.step.elements[j].index = j
+		end
+	else
+		newElement.index = element.index + (offset or 0)
+	end
+	if newElement.t == "GOTO" then
+		if lastGoto ~= nil and lastGoto.step.line == element.step.line then lastGoto.lastGoto = false end
+		newElement.lastGoto = true
+		lastGoto = newElement
+	end
+	return newElement
+end
+	
+function CG.updatePosElement(pos, element)
+	if not pos or not pos.x then return end 
+	if not element then element = {} end
+	for k,v in pairs(pos) do element[k] = v end
+	element.radius = element.radius or CG.DEFAULT_GOTO_RADIUS
+	return element
+end
+
 function CG.loadStepUseItems(i, recheck)
 	local step = CG.currentGuide.steps[i]
 	if addon.guides[GuidelimeDataChar.currentGuide].autoAddUseItem and GuidelimeDataChar.showUseItemButtons and not step.useItemElement then
@@ -250,17 +245,7 @@ function CG.loadStepUseItems(i, recheck)
 				if element.t == "ACCEPT" and not recheck then
 					local itemId = QT.getItemStartingQuest(element.questId)
 					if itemId then
-						local useElement = {}
-						useElement.t = "USE_ITEM"
-						useElement.useItemId = itemId
-						useElement.generated = true
-						useElement.available = true
-						useElement.title = ""
-						useElement.attached = element
-						table.insert(step.elements, j, useElement)
-						for k = j, #step.elements do
-							step.elements[k].index = k
-						end
+						CG.addElement({t = "USE_ITEM", useItemId = itemId, title = ""}, element)
 						j = j + 1
 					end
 				elseif element.t == "COMPLETE" or element.t == "TURNIN" then
@@ -268,17 +253,7 @@ function CG.loadStepUseItems(i, recheck)
 					if items then
 						for _, itemId in ipairs(items) do
 							if QT.questItemIsFor[itemId] == element.t and not D.contains(previousUseItems, itemId) then
-								local useElement = {}
-								useElement.t = "USE_ITEM"
-								useElement.useItemId = itemId
-								useElement.generated = true
-								useElement.available = true
-								useElement.title = ""
-								useElement.attached = element
-								table.insert(step.elements, j, useElement)
-								for k = j, #step.elements do
-									step.elements[k].index = k
-								end
+								CG.addElement({t = "USE_ITEM", useItemId = itemId, title = ""}, element)
 								j = j + 1
 							end
 						end
@@ -299,39 +274,39 @@ local function loadStepOnActivation(i)
 		while j <= #step.elements do
 			local element = step.elements[j]
 			if element.questId ~= nil and element.available then
-				local positions = QT.getQuestPositionsLimited(element.questId, element.t, element.objective, GuidelimeData.maxNumOfMarkersLOC, true)
+				local positions = PT.getQuestPositionsLimited(element.questId, element.t, element.objective, GuidelimeData.maxNumOfMarkersLOC, true)
 				if positions ~= nil then
 					local objectives = QT.getQuestObjectives(element.questId, element.t)						
-					for _, locElement in ipairs(positions) do
-						locElement.t = "LOC"
-						locElement.markerTyp = objectives and locElement.objectives and locElement.objectives[1] and objectives[locElement.objectives[1]] and objectives[locElement.objectives[1]].type or "LOC"
-						locElement.step = step
-						locElement.generated = true
-						locElement.available = true
-						locElement.index = j
-						locElement.attached = element
-						table.insert(step.elements, j, locElement)
+					for _, pos in ipairs(positions) do
+						CG.addElement(CG.updatePosElement(pos, {t = "LOC", 
+								markerTyp = objectives and locElement.objectives and locElement.objectives[1] and objectives[locElement.objectives[1]] and objectives[locElement.objectives[1]].type or "LOC"
+							}),	element, 0, true)
 						j = j + 1
 					end
 					for k = j, #step.elements do
 						step.elements[k].index = k
 					end
 				end
-			elseif element.t == "COLLECT_ITEM" then
-				local positions = QT.getQuestPositionsLimited(element.itemId, element.t, nil, GuidelimeData.maxNumOfMarkersLOC, true)
+			elseif element.t == "COLLECT_ITEM" and not step.targetElement then
+				local positions = PT.getItemPositionsLimited(element.itemId, GuidelimeData.maxNumOfMarkersLOC, true)
 				if positions ~= nil then
-					for _, locElement in ipairs(positions) do
-						locElement.t = "LOC"
-						locElement.markerTyp = "item"
-						locElement.step = step
-						locElement.generated = true
-						locElement.available = true
-						locElement.attached = element
-						table.insert(step.elements, j, locElement)
-						for k = j, #step.elements do
-							step.elements[k].index = k
-						end
+					for _, pos in ipairs(positions) do
+						CG.addElement(CG.updatePosElement(pos, {t = "LOC", markerTyp = "item"}), element, 0, true)
 						j = j + 1
+					end
+					for k = j, #step.elements do
+						step.elements[k].index = k
+					end
+				end
+			elseif element.t == "TARGET" and not element.generated then
+				local positions = PT.getNPCPositionsLimited(element.targetNpcId, GuidelimeData.maxNumOfMarkersLOC, true)
+				if positions ~= nil then
+					for _, pos in ipairs(positions) do
+						CG.addElement(CG.updatePosElement(pos, {t = "LOC", markerTyp = "npc"}), element, 0, true)
+						j = j + 1
+					end
+					for k = j, #step.elements do
+						step.elements[k].index = k
 					end
 				end
 			end
@@ -346,18 +321,7 @@ local function loadStepOnActivation(i)
 				local npcs = QT.getQuestNPCs(element.questId, element.t, element.objective)
 				if npcs then
 					for _, npc in ipairs(npcs) do
-						local targetElement = {}
-						targetElement.t = "TARGET"
-						targetElement.targetNpcId = npc.id
-						targetElement.generated = true
-						targetElement.available = true
-						targetElement.title = ""
-						targetElement.attached = element
-						targetElement.objectives = npc.objectives
-						table.insert(step.elements, j, targetElement)
-						for k = j, #step.elements do
-							step.elements[k].index = k
-						end
+						CG.addElement({t = "TARGET", targetNpcId = npc.id, title = "", objectives = npc.objectives}, element)
 						j = j + 1
 					end
 				end
@@ -520,8 +484,14 @@ function CG.getElementIcon(element, prevElement)
 		elseif element.mapIndex ~= nil then
 			return M.getMapMarkerText(element)
 		end
-	elseif element.t == "SPELL" then
-		return "|T" .. select(3, GetSpellInfo(element.spellId)) .. ":12|t"
+	elseif element.t == "SPELL" or element.t == "LEARN" or element.t == "SKILL" then
+		if element.spellId then
+			return "|T" .. (select(3, GetSpellInfo(element.spellId)) or addon.icons[element.t]) .. ":12|t"
+		elseif element.spell and SP.spells[element.spell] then
+			return "|T" .. (SP.spells[element.spell].icon or addon.icons[element.t]) .. ":12|t"
+		elseif element.skill then
+			return "|T" .. SK.getSkillIcon(element.skill) .. ":12|t"
+		end
 	elseif addon.icons[element.t] ~= nil then
 		return "|T" .. addon.icons[element.t] .. ":12|t"
 	end
@@ -653,13 +623,18 @@ function CG.getStepText(step)
 				end
 			end
 		elseif element.t == "SPELL" and element.title ~= "" then
-			local name = element.title or (GetSpellInfo(element.spellId))
+			local name = element.title or (GetSpellInfo(element.spellId or SP.getSpellId(element.spell)))
 			if name and name ~= "" then
 				if step.active then
 					text = text .. MW.COLOR_WHITE .. name .. "|r"
 				else
 					text = text .. name
 				end
+			end
+		elseif element.t == "SKILL" and step.active then
+			local rank, max = SK.getSkillRank(element.skill)
+			if rank then
+				itemText = string.format("\n    - %d/%d", rank, element.skillMin)
 			end
 		end
 		if element.empty == nil or not element.empty then prevElement = element end
@@ -751,6 +726,14 @@ local function updateStepCompletion(i, completedIndexes)
 			autoCompleteStep = true
 		elseif element.t == "REPUTATION" then
 			element.completed = D.isRequiredReputation(element.reputation, element.repMin, element.repMax)
+			if step.completed == nil or not element.completed then step.completed = element.completed end
+			autoCompleteStep = true
+		elseif element.t == "LEARN" or element.t == "SKILL" then
+			if element.spell then
+				element.completed = SP.isRequiredSpell(element.spell, element.spellMin, element.spellMax)
+			elseif element.skill then
+				element.completed = SK.isRequiredSkill(element.skill, element.skillMin, nil, element.maxSkillMin)
+			end
 			if step.completed == nil or not element.completed then step.completed = element.completed end
 			autoCompleteStep = true
 		elseif element.t == "COLLECT_ITEM" and step.active then
@@ -850,7 +833,7 @@ local function updateStepAvailability(i, changedIndexes, scheduled)
 				scheduled.SKIP[element.questId] = true
 			end
 			if not element.completed then step.available = step.available or false or element.available	end
-		elseif element.t == "XP" or element.t == "REPUTATION" then
+		elseif element.t == "XP" or element.t == "REPUTATION" or element.t == "LEARN" or element.t == "SKILL" then
 			if not element.completed then step.available = true end			
 		end
 	end
@@ -886,7 +869,7 @@ end
 function CG.stepIsVisible(step)
 	return ((not step.completed and (not step.skip or not step.available)) or GuidelimeDataChar.showCompletedSteps) and
 			(step.available or GuidelimeDataChar.showUnavailableSteps) and
-			(step.reputation == nil or D.isRequiredReputation(step.reputation, step.repMin, step.repMax))
+			D.hasRequirements(step)
 end
 
 local function keepFading()
@@ -940,13 +923,11 @@ end
 function CG.updateStepsActivation()
 	CG.currentGuide.activeQuests = {}
 	for i, step in ipairs(CG.currentGuide.steps) do
-		step.active = not step.completed and not step.skip and step.available and
-			(step.reputation == nil or D.isRequiredReputation(step.reputation, step.repMin, step.repMax))
+		step.active = not step.completed and not step.skip and step.available and D.hasRequirements(step)
 		if step.active then
 			for j, pstep in ipairs(CG.currentGuide.steps) do
 				if j == i then break end
-				if not pstep.optional and not pstep.skip and not pstep.completed and pstep.available and 
-					(pstep.reputation == nil or D.isRequiredReputation(pstep.reputation, pstep.repMin, pstep.repMax)) then
+				if not pstep.optional and not pstep.skip and not pstep.completed and pstep.available and D.hasRequirements(pstep) then
 					step.active = false
 					break
 				end
@@ -1036,8 +1017,13 @@ function CG.updateStepsText(scrollToFirstActive)
 				MW.mainFrame.steps ~= nil and
 				MW.mainFrame.steps[CG.currentGuide.firstActiveIndex] ~= nil and
 				MW.mainFrame.steps[CG.currentGuide.firstActiveIndex]:GetTop() ~= nil then
-					if MW.mainFrame:GetTop() and MW.mainFrame.bottomElement and MW.mainFrame.bottomElement:GetBottom() and 
-						MW.mainFrame:GetTop() - MW.mainFrame.bottomElement:GetBottom() <= MW.mainFrame:GetHeight() then
+					local bottom
+					for _, message in ipairs(MW.mainFrame.message or {}) do
+						if message:IsShown() then bottom = message:GetBottom() end
+					end
+					if not bottom then bottom = MW.mainFrame.bottomElement and MW.mainFrame.bottomElement:GetBottom() end
+					if MW.mainFrame:GetTop() and bottom and 
+						MW.mainFrame:GetTop() - bottom <= MW.mainFrame:GetHeight() then
 						MW.mainFrame.scrollFrame:SetVerticalScroll(0)
 					else
 						MW.mainFrame.scrollFrame:SetVerticalScroll(
@@ -1128,20 +1114,28 @@ function CG.skipCurrentSteps()
 	end
 end
 
-function CG.completeSemiAutomaticByType(t)
+function CG.forEveryActiveElement(func)
 	if CG.currentGuide ~= nil and CG.currentGuide.firstActiveIndex ~= nil and
 		CG.currentGuide.lastActiveIndex ~= nil then
 		for i = CG.currentGuide.firstActiveIndex, CG.currentGuide.lastActiveIndex do
 			local step = CG.currentGuide.steps[i]
 			--if addon.debugging then print("LIME:", step.text, step.optional) end
 			for _, element in ipairs(step.elements) do
-				if not element.completed and element.t == t then
-					CG.completeSemiAutomatic(element)
-					return
+				if not element.completed then
+					if func(element) == false then return end
 				end
 			end
 		end
 	end
+end
+
+function CG.completeSemiAutomaticByType(t)
+	CG.forEveryActiveElement(function(element)
+		if not element.completed and element.t == t then
+			CG.completeSemiAutomatic(element)
+			return false
+		end
+	end)
 end
 
 function CG.completeSemiAutomatic(element)
@@ -1155,7 +1149,9 @@ function CG.completeSemiAutomatic(element)
 					element.t == "COMPLETE" or
 					element.t == "TURNIN" or
 					element.t == "XP" or 
-					element.t == "REPUTATION" then
+					element.t == "REPUTATION" or
+					element.t == "LEARN" or
+					element.t == "SKILL" then
 					if not element.completed then 
 						CG.updateSteps()
 						return

@@ -26,6 +26,7 @@ Data\Internal\QuestsDB_Locales.lua
 Data\Internal\CreaturesDB_Locales.lua
 Data\Internal\ObjectsDB_Locales.lua
 Data\Internal\ItemsDB_Locales.lua
+Data\PositionTools.lua
 Data\QuestsTools.lua
 Data\QuestieCorrections.lua
 Data\Questie.lua
@@ -33,6 +34,9 @@ Data\ClassicCodexCorrections.lua
 Data\ClassicCodex.lua
 Data\FlightmasterDB.lua
 Data\FlightmasterDB_Locales.lua
+Data\SpellDB.lua
+Data\SkillDB.lua
+Data\SkillDB_Locales.lua
 Localization.lua
 Guidelime.lua
 MainWindow.lua

@@ -3,7 +3,10 @@ local L = addon.L
 
 local HBD = LibStub("HereBeDragons-2.0")
 
-addon.D = addon.D or {}; local D = addon.D
+addon.SK = addon.SK or {}; local SK = addon.SK -- Data/SkillDB
+addon.SP = addon.SP or {}; local SP = addon.SP -- Data/SpellDB
+
+addon.D = addon.D or {}; local D = addon.D     -- Data/Data
 
 D.factions = {"Alliance", "Horde"}
 D.races = {Human = "Alliance", NightElf = "Alliance", Dwarf = "Alliance", Gnome = "Alliance", Orc = "Horde", Troll = "Horde", Tauren = "Horde", Undead = "Horde", Draenei = "Alliance", BloodElf = "Horde"}
@@ -206,6 +209,14 @@ function D.applies(guide)
 		if not D.contains(guide.classes, D.class) then return false end
 	end
 	if guide.faction ~= nil and guide.faction ~= D.faction then return false end
+	return true
+end
+
+function D.hasRequirements(guide)
+	if guide == nil then return true end
+	if guide.reputation and not D.isRequiredReputation(guide.reputation, guide.repMin, guide.repMax) then return false end
+	if guide.skillReq and not SK.isRequiredSkill(guide.skillReq, guide.skillMin, guide.skillMax) then return false end
+	if guide.spellReq and not SP.isRequiredSpell(guide.spellReq, guide.spellMin, guide.spellMax) then return false end
 	return true
 end
 

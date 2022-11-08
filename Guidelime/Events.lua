@@ -6,6 +6,8 @@ local HBD = LibStub("HereBeDragons-2.0")
 addon.D = addon.D or {}; local D = addon.D     -- Data/Data
 addon.FM = addon.FM or {}; local FM = addon.FM -- Data/FlightmasterDB
 addon.QT = addon.QT or {}; local QT = addon.QT -- Data/QuestTools
+addon.SK = addon.SK or {}; local SK = addon.SK -- Data/SkillDB
+addon.SP = addon.SP or {}; local SP = addon.SP -- Data/SpellDB
 addon.AB = addon.AB or {}; local AB = addon.AB -- ActionButtons
 addon.CG = addon.CG or {}; local CG = addon.CG -- CurrentGuide
 addon.M = addon.M or {}; local M = addon.M     -- Map
@@ -279,24 +281,66 @@ function EV.frame:GOSSIP_SHOW()
 			end)
 		end
 	end
-	if GuidelimeData.autoSelectFlight and not IsShiftKeyDown() and CG.currentGuide ~= nil and CG.currentGuide.firstActiveIndex ~= nil and CG.currentGuide.lastActiveIndex ~= nil then
-		for i = CG.currentGuide.firstActiveIndex, CG.currentGuide.lastActiveIndex do
-			local step = CG.currentGuide.steps[i]
-			for _, element in ipairs(step.elements) do
-				if not element.completed then
-					if element.t == "FLY" or element.t == "GET_FLIGHT_POINT" then
-						local gossip = {GetGossipOptions()}
-						for i = 1, GetNumGossipOptions() do
-							if gossip[i * 2] == "taxi" then
-								QT.SelectGossipOption(i)
-							end
+	if not IsShiftKeyDown() then
+		local gossip = {GetGossipOptions()}
+		for i = 1, GetNumGossipOptions() do
+			if gossip[i * 2] == "taxi" then
+				if GuidelimeData.autoSelectFlight then
+					CG.forEveryActiveElement(function (element)
+						if element.t == "FLY" or element.t == "GET_FLIGHT_POINT" then
+							QT.SelectGossipOption(i)
+							return false
 						end
-					end
+					end)
+				end
+			elseif gossip[i * 2] == "trainer" then
+				if GuidelimeData.autoTrain then
+					CG.forEveryActiveElement(function (element)
+						if element.t == "LEARN" and (element.maxSkillMin or element.spell) then
+							QT.SelectGossipOption(i)
+							SetTrainerServiceTypeFilter("available", 1)
+							return false
+						end
+					end)
 				end
 			end
 		end
 	end
 end
+
+EV.frame:RegisterEvent('TRAINER_UPDATE')
+function EV.frame:TRAINER_UPDATE()
+	if addon.debugging then print ("LIME: TRAINER_UPDATE") end
+	if not IsShiftKeyDown() and GuidelimeData.autoTrain then
+		for i = 1, GetNumTrainerServices() do
+			local name, _, category = GetTrainerServiceInfo(i)
+			if name == nil then break end
+			if category == "available" then
+				CG.forEveryActiveElement(function (element)
+					if element.t == "LEARN" and element.skill and SK.getSkillLearnedBy(element.skill) and (element.maxSkillMin or element.skill == "RIDING") then
+						for _, id in ipairs(SK.getSkillLearnedBy(element.skill)) do
+							if name == (GetSpellInfo(id)) then
+								BuyTrainerService(i)
+								return false
+							end
+						end
+					elseif element.t == "LEARN" and element.spell then
+						if name == (GetSpellInfo(SP.getSpellId(element.spell))) then
+							BuyTrainerService(i)
+							return false
+						end
+					end
+				end)
+			end
+		end
+	end
+end
+
+EV.frame:RegisterEvent('TRAINER_SHOW')
+function EV.frame:TRAINER_SHOW()
+	if addon.debugging then print ("LIME: TRAINER_SHOW") end
+end
+
 
 EV.frame:RegisterEvent('QUEST_GREETING')
 function EV.frame:QUEST_GREETING()
@@ -391,34 +435,29 @@ end
 
 EV.frame:RegisterEvent('TAXIMAP_OPENED')
 function EV.frame:TAXIMAP_OPENED()
-	if GuidelimeData.autoSelectFlight and not IsShiftKeyDown() and CG.currentGuide ~= nil and CG.currentGuide.firstActiveIndex ~= nil and CG.currentGuide.lastActiveIndex ~= nil then
-		for i = CG.currentGuide.firstActiveIndex, CG.currentGuide.lastActiveIndex do
-			local step = CG.currentGuide.steps[i]
-			for _, element in ipairs(step.elements) do
-				if not element.completed then
-					if element.flightmaster ~= nil then
-						local master = FM.flightmasterDB[element.flightmaster]
-						if addon.debugging then print("LIME: looking for", master.zone, master.place) end
-						for j = 1, NumTaxiNodes() do
-							--if addon.debugging then print("LIME: ", TaxiNodeName(j)) end
-							if FM.isFlightmasterMatch(master, TaxiNodeName(j)) then
-								if element.t == "FLY" and TaxiNodeGetType(j) == "REACHABLE" then
-									if IsMounted() then Dismount() end -- dismount before using the flightpoint
-									if addon.debugging then print ("LIME: Flying to " .. (master.place or master.zone)) end
-									if _G["TaxiButton"..j] then TaxiNodeOnButtonEnter(_G["TaxiButton"..j]) end
-									C_Timer.After(0.5, function()
-										TakeTaxiNode(j)
-									end)
-								elseif element.t == "GET_FLIGHT_POINT" and TaxiNodeGetType(j) == "CURRENT" then
-									CG.completeSemiAutomatic(element)
-								end
-								return
-							end
+	if GuidelimeData.autoSelectFlight and not IsShiftKeyDown() then
+		CG.forEveryActiveElement(function(element)
+			if element.flightmaster ~= nil then
+				local master = FM.flightmasterDB[element.flightmaster]
+				if addon.debugging then print("LIME: looking for", master.zone, master.place) end
+				for j = 1, NumTaxiNodes() do
+					--if addon.debugging then print("LIME: ", TaxiNodeName(j)) end
+					if FM.isFlightmasterMatch(master, TaxiNodeName(j)) then
+						if element.t == "FLY" and TaxiNodeGetType(j) == "REACHABLE" then
+							if IsMounted() then Dismount() end -- dismount before using the flightpoint
+							if addon.debugging then print ("LIME: Flying to " .. (master.place or master.zone)) end
+							if _G["TaxiButton"..j] then TaxiNodeOnButtonEnter(_G["TaxiButton"..j]) end
+							C_Timer.After(0.5, function()
+								TakeTaxiNode(j)
+							end)
+						elseif element.t == "GET_FLIGHT_POINT" and TaxiNodeGetType(j) == "CURRENT" then
+							CG.completeSemiAutomatic(element)
 						end
+						return
 					end
 				end
 			end
-		end
+		end)
 	end
 end
 
@@ -453,16 +492,33 @@ function EV.frame:UNIT_SPELLCAST_SUCCEEDED(unitTarget, castGUID, spellID)
 		-- hearthstone was used (or Astral Recall)
 		CG.completeSemiAutomaticByType("HEARTH")
 	end
-	if CG.currentGuide ~= nil and CG.currentGuide.firstActiveIndex ~= nil and CG.currentGuide.lastActiveIndex ~= nil then
-		for i = CG.currentGuide.firstActiveIndex, CG.currentGuide.lastActiveIndex do
-			local step = CG.currentGuide.steps[i]
-			for _, element in ipairs(step.elements) do
-				if element.t == "SPELL" and not element.completed and element.spellId == spellID then
-					CG.completeSemiAutomatic(element)
-				end
-			end
+	CG.forEveryActiveElement(function(element)
+		if element.t == "SPELL" and element.spellId == spellID then
+			CG.completeSemiAutomatic(element)
 		end
-	end
+	end)
+end
+
+EV.frame:RegisterEvent('LEARNED_SPELL_IN_TAB')
+function EV.frame:LEARNED_SPELL_IN_TAB(spellID, skillInfoIndex, isGuildPerkSpell)
+	if addon.debugging then print("LIME: LEARNED_SPELL_IN_TAB", spellID, skillInfoIndex, isGuildPerkSpell) end
+	CG.forEveryActiveElement(function(element)
+		if element.t == "LEARN" and element.spellId == spellID then
+			CG.completeSemiAutomatic(element)
+		end
+	end)
+end
+
+EV.frame:RegisterEvent('SKILL_LINES_CHANGED')
+function EV.frame:SKILL_LINES_CHANGED()
+	if addon.debugging then print("LIME: SKILL_LINES_CHANGED") end
+	local learnSteps = {}
+	CG.forEveryActiveElement(function(element)
+		if element.t == "LEARN" then
+			table.insert(learnSteps, element.step.index)
+		end
+	end)
+	if #learnSteps > 0 then CG.updateSteps(learnSteps) end
 end
 
 EV.requestItemInfo = {}
@@ -477,6 +533,7 @@ function EV.GetItemInfo(id)
 	end
 	return itemName, itemLink, itemQuality
 end
+
 EV.frame:RegisterEvent('GET_ITEM_INFO_RECEIVED')
 function EV.frame:GET_ITEM_INFO_RECEIVED(itemId,success)
 	if EV.requestItemInfo[itemId] and success then

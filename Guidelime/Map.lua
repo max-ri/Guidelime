@@ -6,7 +6,7 @@ local HBDPins = LibStub("HereBeDragons-Pins-2.0")
 
 addon.D = addon.D or {}; local D = addon.D     -- Data/Data
 addon.FM = addon.FM or {}; local FM = addon.FM -- Data/FlightmasterDB
-addon.QT = addon.QT or {}; local QT = addon.QT -- Data/QuestTools
+addon.PT = addon.PT or {}; local PT = addon.PT -- Data/PositionTools
 addon.CG = addon.CG or {}; local CG = addon.CG -- CurrentGuide
 addon.E = addon.E or {}; local E = addon.E     -- Editor
 addon.F = addon.F or {}; local F = addon.F     -- Frames
@@ -439,10 +439,14 @@ function M.updateStepsMapIcons()
 						for k,v in pairs(fp or {}) do element[k] = v end
 						if addon.debugging then print("LIME: nearest flight point", element.x, element.y, element.mapID, element.wx, element.wy, element.instance) end
 					elseif element.attached and element.attached.questId and D.wx ~= nil and D.wy ~= nil then
-						local qp = QT.getQuestPosition(element.attached.questId, element.attached.t, CG.getQuestActiveObjectives(element.attached.questId, element.attached.objective), D)
-						if qp ~= nil then qp.radius = qp.radius + CG.DEFAULT_GOTO_RADIUS end
-						for k,v in pairs(qp or {}) do element[k] = v end
-						if addon.debugging then print("LIME: quest position", element.x, element.y, element.mapID, element.wx, element.wy, element.instance) end
+						CG.updatePosElement(PT.getQuestPosition(element.attached.questId, element.attached.t, CG.getQuestActiveObjectives(element.attached.questId, element.attached.objective), D), element)
+						if addon.debugging and element.x then print("LIME: quest position", element.x, element.y, element.mapID, element.wx, element.wy, element.instance) end
+					elseif element.attached and element.type == "COLLECT_ITEM" and D.wx ~= nil and D.wy ~= nil then
+						CG.updatePosElement(PT.getItemPosition(element.attached.itemId, D), element)
+						if addon.debugging and element.x then print("LIME: quest position", element.x, element.y, element.mapID, element.wx, element.wy, element.instance) end
+					elseif element.attached and element.type == "TARGET" and D.wx ~= nil and D.wy ~= nil then
+						CG.updatePosElement(PT.getNPCPosition(element.attached.targetNpcId, D), element)
+						if addon.debugging and element.x then print("LIME: quest position", element.x, element.y, element.mapID, element.wx, element.wy, element.instance) end
 					end
 					if not element.completed and element.x ~= nil then
 						M.addMapIcon(element, highlight)

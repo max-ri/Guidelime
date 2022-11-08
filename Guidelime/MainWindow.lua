@@ -271,6 +271,8 @@ function MW.updateMainFrame(reset)
 			end
 		end
 
+		MW.mainFrame.bottomElement = prev
+
 		for i, message in ipairs(MW.mainFrame.message) do
 			if not prev then
 				message:SetPoint("TOPLEFT", MW.mainFrame.scrollChild, "TOPLEFT", 0, -5)
@@ -281,8 +283,6 @@ function MW.updateMainFrame(reset)
 			end
 			prev = message
 		end
-		
-		MW.mainFrame.bottomElement = prev
 		
 		if addon.debugging then print("LIME: updateMainFrame " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	end
