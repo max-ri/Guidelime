@@ -6,6 +6,7 @@ local HBD = LibStub("HereBeDragons-2.0")
 addon.DM = addon.DM or {}; local DM = addon.DM                                             -- Data/MapDB
 addon.QT = addon.QT or {}; local QT = addon.QT                                             -- Data/QuestTools
 addon.CG = addon.CG or {}; local CG = addon.CG                                             -- CurrentGuide
+addon.GP = addon.GP or {}; local GP = addon.GP                                             -- GuideParser
 
 addon.PT = addon.PT or {}; local PT = addon.PT                                             -- Data/PositionTools
 
@@ -148,7 +149,7 @@ function PT.getQuestPosition(id, typ, index, currentPos)
 			zone = maxCluster.zone, mapID = DM.mapIDs[maxCluster.zone],
 			radius = math.floor(math.sqrt(maxCluster.radius)) + CG.DEFAULT_GOTO_RADIUS, estimate = estimate,
 			clusters = clusters}
-		QT.questPosition[id][typ][table.concat(index,",")] = pos 
+		PT.questPosition[id][typ][table.concat(index,",")] = pos 
 		return pos
 	end
 end
@@ -162,10 +163,10 @@ function PT.getQuestPositionsLimited(id, typ, index, maxNumber, onlyWorld)
 		positions = QT.getQuestPositions(id, typ, index)
 		if positions == nil then return end
 	end
-	return getPositionsLimited(positions, maxNumber, onlyWorld)
+	return PT.getPositionsLimited(positions, maxNumber, onlyWorld)
 end	
 
-local function getPositionsLimited(positions, maxNumber, onlyWorld)
+function PT.getPositionsLimited(positions, maxNumber, onlyWorld)
 	local clusters = {}
 	if maxNumber > 0 and #positions > maxNumber then
 		local positions2 = {}
@@ -275,7 +276,7 @@ end
 function PT.getNPCPositionsLimited(id, maxNumber, onlyWorld)
 	local positions = QT.getNPCPositions(id)
 	if positions == nil then return end
-	return getPositionsLimited(positions, maxNumber, onlyWorld)
+	return PT.getPositionsLimited(positions, maxNumber, onlyWorld)
 end	
 
 function PT.getItemPosition(id, currentPos)
@@ -305,7 +306,7 @@ end
 function PT.getItemPositionsLimited(id, maxNumber, onlyWorld)
 	local positions = QT.getItemPositions(id)
 	if positions == nil then return end
-	return getPositionsLimited(positions, maxNumber, onlyWorld)
+	return PT.getPositionsLimited(positions, maxNumber, onlyWorld)
 end	
 
 

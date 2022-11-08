@@ -279,7 +279,7 @@ local function loadStepOnActivation(i)
 					local objectives = QT.getQuestObjectives(element.questId, element.t)						
 					for _, pos in ipairs(positions) do
 						CG.addElement(CG.updatePosElement(pos, {t = "LOC", 
-								markerTyp = objectives and locElement.objectives and locElement.objectives[1] and objectives[locElement.objectives[1]] and objectives[locElement.objectives[1]].type or "LOC"
+								markerTyp = objectives and pos.objectives and pos.objectives[1] and objectives[pos.objectives[1]] and objectives[pos.objectives[1]].type or "LOC"
 							}),	element, 0, true)
 						j = j + 1
 					end

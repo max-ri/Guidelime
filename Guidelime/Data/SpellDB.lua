@@ -26,7 +26,7 @@ function SP.getSpellById(id)
 	return SP.spellsById[id]
 end
 
-function SK.getLocalizedName(name)
+function SP.getLocalizedName(name)
 	local id = ((type(name) == "number") and name) or (SP.spells[name] and SP.spells[name].id)
 	return id and (GetSpellInfo(id))
 end
