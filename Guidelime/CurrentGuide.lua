@@ -1004,37 +1004,38 @@ function CG.isQuestObjectiveActive(questId, searchObjectives, filterObjective)
 	return found
 end
 
-function CG.updateStepsText(scrollToFirstActive)
+function CG.updateStepsText()
 	--if addon.debugging then print("LIME: update step texts") end
 	if MW.mainFrame == nil then return end
 	if CG.currentGuide == nil then return end
 	for i in ipairs(CG.currentGuide.steps) do
 		CG.updateStepText(i)
 	end
-	if scrollToFirstActive then
-		C_Timer.After(0.2, function()
-			if CG.currentGuide.firstActiveIndex ~= nil and
+end
+
+function CG.scrollToFirstActive()
+	C_Timer.After(0.2, function()
+		if MW.mainFrame:GetTop() then
+			local top = CG.currentGuide.firstActiveIndex ~= nil and 
 				MW.mainFrame.steps ~= nil and
 				MW.mainFrame.steps[CG.currentGuide.firstActiveIndex] ~= nil and
-				MW.mainFrame.steps[CG.currentGuide.firstActiveIndex]:GetTop() ~= nil then
-					local bottom
-					for _, message in ipairs(MW.mainFrame.message or {}) do
-						if message:IsShown() then bottom = message:GetBottom() end
-					end
-					if not bottom then bottom = MW.mainFrame.bottomElement and MW.mainFrame.bottomElement:GetBottom() end
-					if MW.mainFrame:GetTop() and bottom and 
-						MW.mainFrame:GetTop() - bottom <= MW.mainFrame:GetHeight() then
-						MW.mainFrame.scrollFrame:SetVerticalScroll(0)
-					else
-						MW.mainFrame.scrollFrame:SetVerticalScroll(
-							MW.mainFrame:GetTop()
-							- MW.mainFrame.steps[CG.currentGuide.firstActiveIndex]:GetTop()
-							+ MW.mainFrame.scrollFrame:GetVerticalScroll()
-							- 20)
-				end
+				MW.mainFrame.steps[CG.currentGuide.firstActiveIndex]:GetTop() ~= nil and
+				MW.mainFrame.steps[CG.currentGuide.firstActiveIndex]:GetTop() + 20
+			local bottom = MW.mainFrame.bottomElement and MW.mainFrame.bottomElement:GetBottom()
+			for _, message in ipairs(MW.mainFrame.message or {}) do
+				if message:IsShown() then bottom = message:GetBottom() end
 			end
-		end)
-	end
+			if bottom and MW.mainFrame:GetTop() - bottom + MW.mainFrame.scrollFrame:GetVerticalScroll() <= MW.mainFrame:GetHeight() then
+				MW.mainFrame.scrollFrame:SetVerticalScroll(0)
+			elseif bottom and (not top or top < bottom + MW.mainFrame:GetHeight()) then
+				MW.mainFrame.scrollFrame:SetVerticalScroll(MW.mainFrame.scrollFrame:GetVerticalScroll() + 
+					MW.mainFrame:GetTop() - bottom - MW.mainFrame:GetHeight())
+			elseif top then
+				MW.mainFrame.scrollFrame:SetVerticalScroll(MW.mainFrame.scrollFrame:GetVerticalScroll() + 
+					MW.mainFrame:GetTop() - top)
+			end
+		end
+	end)
 end
 
 function CG.updateSteps(completedIndexes)
@@ -1069,7 +1070,8 @@ function CG.updateSteps(completedIndexes)
 	--if addon.debugging then print("LIME: updateFirstActiveIndex " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	M.updateStepsMapIcons()
 	--if addon.debugging then print("LIME: updateStepsMapIcons " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
-	CG.updateStepsText(scrollToFirstActive)
+	CG.updateStepsText()
+	if scrollToFirstActive then	CG.scrollToFirstActive() end
 	--if addon.debugging then print("LIME: updateStepsText " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	AB.updateTargetButtons()
 	AB.updateUseItemButtons()

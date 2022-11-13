@@ -285,6 +285,7 @@ function MW.updateMainFrame(reset)
 		end
 		
 		if addon.debugging then print("LIME: updateMainFrame " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
+		CG.scrollToFirstActive()
 	end
 end
 
@@ -345,8 +346,7 @@ function MW.showMainFrame()
 
 		MW.mainFrame.scrollChild = CreateFrame("FRAME", nil, MW.mainFrame)
 		MW.mainFrame.scrollFrame:SetScrollChild(MW.mainFrame.scrollChild);
-		MW.mainFrame.scrollChild:SetWidth(GuidelimeDataChar.mainFrameWidth)
-		MW.mainFrame.scrollChild:SetHeight(MW.mainFrame:GetHeight())
+		MW.mainFrame.scrollChild:SetSize(MW.mainFrame:GetSize())
 		
 		if not GuidelimeDataChar.mainFrameShowScrollBar then MW.mainFrame.scrollFrame.ScrollBar:SetAlpha(0) end
 
