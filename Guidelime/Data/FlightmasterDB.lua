@@ -3,7 +3,7 @@ local addonName, addon = ...
 local HBD = LibStub("HereBeDragons-2.0")
 
 addon.DM = addon.DM or {}; local DM = addon.DM -- Data/MapDB
-addon.QT = addon.QT or {}; local QT = addon.QT -- Data/QuestsTools
+addon.PT = addon.PT or {}; local PT = addon.PT -- Data/PositionTools
 
 addon.FM = addon.FM or {}; local FM = addon.FM -- Data/FlightmasterDB
 
@@ -176,7 +176,7 @@ end
 function FM.getNearestFlightPoint(x, y, instance, faction)
 	local minDist, minPos, minId
 	for id, master in pairs(FM.flightmasterDB) do
-		local pos = QT.getNPCPosition(id)
+		local pos = PT.getNPCPosition(id)
 		if pos and pos.instance == instance and ((master.faction or faction) == faction) then
 			local dist = (x - pos.wx) * (x - pos.wx) + (y - pos.wy) * (y - pos.wy)
 			if minDist == nil or dist < minDist then
@@ -191,7 +191,7 @@ end
 
 function FM.getFlightPoint(id)
 	if id == nil then return end
-	return QT.getNPCPosition(id)
+	return PT.getNPCPosition(id)
 end
 
 local function getFlightmasterByPlaceHelper(place, faction, func)
