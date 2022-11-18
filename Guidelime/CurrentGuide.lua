@@ -1023,11 +1023,14 @@ function CG.scrollToFirstActive()
 				MW.mainFrame.steps[CG.currentGuide.firstActiveIndex]:GetTop() + 20
 			local bottom = MW.mainFrame.bottomElement and MW.mainFrame.bottomElement:GetBottom()
 			for _, message in ipairs(MW.mainFrame.message or {}) do
-				if message:IsShown() then bottom = message:GetBottom() end
+				if message:IsShown() then 
+					bottom = message:GetBottom() 
+					if not top then top = message:GetTop() + 20 end
+				end
 			end
 			if bottom and MW.mainFrame:GetTop() - bottom + MW.mainFrame.scrollFrame:GetVerticalScroll() <= MW.mainFrame:GetHeight() then
 				MW.mainFrame.scrollFrame:SetVerticalScroll(0)
-			elseif bottom and (not top or top < bottom + MW.mainFrame:GetHeight()) then
+			elseif bottom and top and top < bottom + MW.mainFrame:GetHeight() then
 				MW.mainFrame.scrollFrame:SetVerticalScroll(MW.mainFrame.scrollFrame:GetVerticalScroll() + 
 					MW.mainFrame:GetTop() - bottom - MW.mainFrame:GetHeight())
 			elseif top then
