@@ -179,7 +179,7 @@ function CG.loadCurrentGuide(reset)
 						end
 					end
 				elseif guide.autoAddUseItem and not step.useItemElement and element.t == "HEARTH" then
-					CG.addElement({t = "USE_ITEM", useItemId = 6948}, element, 1)
+					CG.addElement({t = "USE_ITEM", useItemId = 6948, title = ""}, element, 1)
 					i = i + 1
 				end
 				i = i + 1
