@@ -566,7 +566,7 @@ function GP.parseLine(step, guide, strict, nameOnly)
 			end
 		elseif element.t == "LEARN" then
 			local _, c = tag:gsub("([^,%d%-]+)%s*(%d*)%s*(%d*)%s*(.*)", function(c, value1, value2, text)
-				if addon.debugging then print("LIME: LEARN", c, value1, value2, text) end
+				--if addon.debugging then print("LIME: LEARN", c, value1, value2, text) end
 				c = c:upper():gsub(" ","")
 				if c == "SP" and value1 ~= "" then
 					element.spell = SP.getSpellById(tonumber(value1))
@@ -608,7 +608,7 @@ function GP.parseLine(step, guide, strict, nameOnly)
 			end
 		elseif element.t == "SKILL" then
 			local _, c = tag:gsub("([^,%d%-]+)%s*(%d*)%s*(.*)", function(c, value, text)
-				if addon.debugging then print("LIME: SKILL", c, value, text) end
+				--if addon.debugging then print("LIME: SKILL", c, value, text) end
 				c = c:upper():gsub(" ","")
 				if SK.isSkill(c) then
 					element.skill = SK.getSkill(c)

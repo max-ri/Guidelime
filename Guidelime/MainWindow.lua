@@ -238,6 +238,7 @@ function MW.updateMainFrame(reset)
 						MW.mainFrame.steps[i].textBox = F.addMultilineText(MW.mainFrame.steps[i], nil, nil, "", function(self, button)
 							local j = CG.getElementByTextPos(self:GetCursorPosition(), i)
 							local element = CG.currentGuide.steps[i].elements[j]
+							if not element then return end
 							if button == "RightButton" then
 								MW.showContextMenu(true, element.questId)
 							else

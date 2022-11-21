@@ -17,6 +17,7 @@ addon.QS = addon.QS or {}; local QS = addon.QS -- QuestScan
 addon.EV = addon.EV or {}; local EV = addon.EV -- Events
 
 EV.AUTO_COMPLETE_DELAY = 0.01
+EV.BAG_UPDATE_DELAY = 0.3
 
 EV.frame = CreateFrame("Frame", addonName .. "Frame", UIParent)
 
@@ -311,6 +312,13 @@ end
 EV.frame:RegisterEvent('TRAINER_UPDATE')
 function EV.frame:TRAINER_UPDATE()
 	if addon.debugging then print ("LIME: TRAINER_UPDATE") end
+	local steps = {}
+	CG.forEveryActiveElement(function(element)
+		if element.t == "LEARN" then
+			table.insert(steps, element.step.index)
+		end
+	end)
+	if #steps > 0 then CG.updateSteps(steps) end
 	if not IsShiftKeyDown() and GuidelimeData.autoTrain then
 		for i = 1, GetNumTrainerServices() do
 			local name, _, category = GetTrainerServiceInfo(i)
@@ -321,12 +329,14 @@ function EV.frame:TRAINER_UPDATE()
 						for _, id in ipairs(SK.getSkillLearnedBy(element.skill)) do
 							if name == (GetSpellInfo(id)) then
 								BuyTrainerService(i)
+								CG.completeSemiAutomatic(element)
 								return false
 							end
 						end
 					elseif element.t == "LEARN" and element.spell then
 						if name == (GetSpellInfo(SP.getSpellId(element.spell))) then
 							BuyTrainerService(i)
+							CG.completeSemiAutomatic(element)
 							return false
 						end
 					end
@@ -341,6 +351,20 @@ function EV.frame:TRAINER_SHOW()
 	if addon.debugging then print ("LIME: TRAINER_SHOW") end
 end
 
+EV.frame:RegisterEvent('TRADE_SKILL_SHOW')
+function EV.frame:TRADE_SKILL_SHOW()
+	if addon.debugging then print ("LIME: TRADE_SKILL_SHOW") end
+	local steps = {}
+	CG.forEveryActiveElement(function(element)
+		if element.t == "LEARN" or element.t == "SPELL" then
+			table.insert(steps, element.step.index)
+		end
+	end)
+	if #steps > 0 then 
+		CG.updateSteps(steps) 
+		AB.updateUseItemButtons()
+	end
+end
 
 EV.frame:RegisterEvent('QUEST_GREETING')
 function EV.frame:QUEST_GREETING()
@@ -502,23 +526,25 @@ end
 EV.frame:RegisterEvent('LEARNED_SPELL_IN_TAB')
 function EV.frame:LEARNED_SPELL_IN_TAB(spellID, skillInfoIndex, isGuildPerkSpell)
 	if addon.debugging then print("LIME: LEARNED_SPELL_IN_TAB", spellID, skillInfoIndex, isGuildPerkSpell) end
+	local steps = {}
 	CG.forEveryActiveElement(function(element)
 		if element.t == "LEARN" and element.spellId == spellID then
-			CG.completeSemiAutomatic(element)
+			table.insert(steps, element.step.index)
 		end
 	end)
+	if #steps > 0 then CG.updateSteps(steps) end
 end
 
 EV.frame:RegisterEvent('SKILL_LINES_CHANGED')
 function EV.frame:SKILL_LINES_CHANGED()
 	if addon.debugging then print("LIME: SKILL_LINES_CHANGED") end
-	local learnSteps = {}
+	local steps = {}
 	CG.forEveryActiveElement(function(element)
-		if element.t == "LEARN" then
-			table.insert(learnSteps, element.step.index)
+		if element.t == "LEARN" or element.t == "SKILL" then
+			table.insert(steps, element.step.index)
 		end
 	end)
-	if #learnSteps > 0 then CG.updateSteps(learnSteps) end
+	if #steps > 0 then CG.updateSteps(steps) end
 end
 
 EV.requestItemInfo = {}
@@ -545,11 +571,18 @@ end
 
 EV.frame:RegisterEvent('BAG_UPDATE')
 function EV.frame:BAG_UPDATE()
-	local guide = GuidelimeDataChar and addon.guides[GuidelimeDataChar.currentGuide]
-	if guide and guide.itemUpdateIndices and #guide.itemUpdateIndices > 0 then
-		CG.updateSteps(guide.itemUpdateIndices)
-	else
-		AB.updateUseItemButtons()
+	if not EV.queueBagUpdate then
+		EV.queueBagUpdate = true
+		C_Timer.After(EV.BAG_UPDATE_DELAY, function() 
+			EV.queueBagUpdate = false
+			if addon.debugging then print("LIME: BAG_UPDATE", GetTradeSkillInfo(6)) end
+			local guide = GuidelimeDataChar and addon.guides[GuidelimeDataChar.currentGuide]
+			if guide and guide.itemUpdateIndices and #guide.itemUpdateIndices > 0 then
+				CG.updateSteps(guide.itemUpdateIndices)
+			else
+				AB.updateUseItemButtons()
+			end
+		end)
 	end
 end
 

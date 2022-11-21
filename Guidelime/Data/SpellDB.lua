@@ -36,10 +36,17 @@ function SP.getSpellRank(name)
 	if not s then return 0 end
 	local localizedName = GetSpellInfo(s.id)
 	local id = select(7, GetSpellInfo(localizedName))
-	if not id or not IsSpellKnown(id) then return 0 end
+	if not id or not IsSpellKnown(id) then return (SP.getTradeSkillIndex(localizedName) and 1) or 0 end
 	local rank = GetSpellSubtext(id)
 	if rank:sub(1, RANK:len()) == RANK then	return tonumber(rank:sub(RANK:len() + 2)) end
 	return 1 
+end
+
+function SP.getTradeSkillIndex(name)
+	for i = 1, GetNumTradeSkills() do
+		local skillName = GetTradeSkillInfo(i)
+		if skillName == name then return i end
+	end
 end
 
 function SP.isRequiredSpell(name, spellMin, spellMax)
@@ -14961,5 +14968,13 @@ SP.spells = {
 			["id"] = 28597,
 			["icon"] = 136240,
 			["name"] = "Master Alchemist",
+		},
+		["ROUGHBLASTINGPOWDER"] = {
+			["maxRange"] = 0,
+			["minRange"] = 0,
+			["castTime"] = 2000,
+			["id"] = 3918,
+			["icon"] = 133848,
+			["name"] = "Rough Blasting Powder",
 		},
 	}
