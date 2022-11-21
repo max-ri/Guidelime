@@ -568,8 +568,8 @@ function GP.parseLine(step, guide, strict, nameOnly)
 			local _, c = tag:gsub("([^,%d%-]+)%s*(%d*)%s*(%d*)%s*(.*)", function(c, value1, value2, text)
 				if addon.debugging then print("LIME: LEARN", c, value1, value2, text) end
 				c = c:upper():gsub(" ","")
-				if c == "SP" and value1 ~= "" and value2 ~= "" then
-					element.spell = SP.getSpellById(value1)
+				if c == "SP" and value1 ~= "" then
+					element.spell = SP.getSpellById(tonumber(value1))
 					element.spellMin = tonumber(value2) or 1
 				elseif value2 ~= "" then
 					F.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
