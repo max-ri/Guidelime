@@ -575,7 +575,7 @@ function EV.frame:BAG_UPDATE()
 		EV.queueBagUpdate = true
 		C_Timer.After(EV.BAG_UPDATE_DELAY, function() 
 			EV.queueBagUpdate = false
-			if addon.debugging then print("LIME: BAG_UPDATE", GetTradeSkillInfo(6)) end
+			if addon.debugging then print("LIME: BAG_UPDATE") end
 			local guide = GuidelimeDataChar and addon.guides[GuidelimeDataChar.currentGuide]
 			if guide and guide.itemUpdateIndices and #guide.itemUpdateIndices > 0 then
 				CG.updateSteps(guide.itemUpdateIndices)
