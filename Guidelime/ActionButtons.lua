@@ -265,8 +265,7 @@ function AB.updateUseItemButtons()
 					button.texture:SetTexture(GetItemIcon(button.itemId))
 					local count = GetItemCount(button.itemId)
 					button.count:SetText(count > 1 and count or "")
-					local enabled = count > 0
-					button.texture:SetAlpha((enabled and 1) or 0.2)
+					button.texture:SetAlpha((count > 0 and 1) or 0.2)
 					local name = QT.getItemName(button.itemId)
 					if name then
 						button:SetAttribute("type", "item")
@@ -300,7 +299,19 @@ function AB.updateUseItemButtons()
 						button.texture:SetAlpha(1)
 						button:SetAttribute("type", "spell")
 						button:SetAttribute("spell", name)
-						F.setTooltip(button, "spell:" .. button.spellId, function(self, s) 
+						if not IsSpellKnown(id) then
+							local index = SP.getTradeSkillIndex(name)
+							if index then
+								button:SetAttribute("type", "macro")
+								button:SetAttribute("macrotext", "/run DoTradeSkill(" .. index .. ")")
+								local count = select(3, GetTradeSkillInfo(index))
+								button.count:SetText(count)
+								button.texture:SetAlpha((count > 0 and 1) or 0.2)
+							else
+								button:SetAlpha(0.2)
+							end
+						end
+						F.setTooltip(button, "spell:" .. id, function(self, s) 
 							GameTooltip:SetHyperlink(s)
 							GameTooltip:AddLine(getTooltipHint())
 						end)
