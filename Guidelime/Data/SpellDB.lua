@@ -359,7 +359,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["name"] = "Heavy Mithril Gauntlet",
-			["icon"] = 136192,
+			["icon"] = 132961, --136192,
 			["id"] = 9928,
 		},
 		["SMOOTHSUNCRYSTAL"] = {
@@ -455,7 +455,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 3000,
 			["name"] = "Runed Copper Pants",
-			["icon"] = 136192,
+			["icon"] = 134583, --136192,
 			["id"] = 3324,
 		},
 		["DARKARCTICLEGGINGS"] = {
@@ -887,7 +887,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 2000,
 			["name"] = "Heavy Sharpening Stone",
-			["icon"] = 136192,
+			["icon"] = 135250, --136192,
 			["id"] = 2674,
 		},
 		["GLYPHOFFLASHOFLIGHT"] = {
@@ -903,7 +903,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 45000,
 			["id"] = 10015,
-			["icon"] = 136192,
+			["icon"] = 135317, --136192,
 			["name"] = "Truesilver Champion",
 		},
 		["SHOOT"] = {
@@ -1023,7 +1023,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 2000,
 			["name"] = "Copper Shortsword",
-			["icon"] = 136192,
+			["icon"] = 135327, --136192,
 			["id"] = 2739,
 		},
 		["BRILLIANTGOLDENDRAENITE"] = {
@@ -1175,7 +1175,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["name"] = "Steel Plate Helm",
-			["icon"] = 136192,
+			["icon"] = 133071, --136192,
 			["id"] = 9935,
 		},
 		["ELIXIROFMIGHTYAGILITY"] = {
@@ -1351,7 +1351,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["id"] = 29557,
-			["icon"] = 136192,
+			["icon"] = 132402, --136192,
 			["name"] = "Fel Iron Hatchet",
 		},
 		["HEAVYCOPPERMAUL"] = {
@@ -1359,7 +1359,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 3000,
 			["name"] = "Heavy Copper Maul",
-			["icon"] = 136192,
+			["icon"] = 133055, --136192,
 			["id"] = 7408,
 		},
 		["TRUESILVERCOMMANDERSRING"] = {
@@ -1415,7 +1415,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 45000,
 			["name"] = "Green Iron Hauberk",
-			["icon"] = 136192,
+			["icon"] = 132624, --136192,
 			["id"] = 3508,
 		},
 		["HEARTSEEKERSCOPE"] = {
@@ -1543,7 +1543,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 2000,
 			["name"] = "Coarse Sharpening Stone",
-			["icon"] = 136192,
+			["icon"] = 135249, --136192,
 			["id"] = 2665,
 		},
 		["MANGLEBEAR"] = {
@@ -1639,7 +1639,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 45000,
 			["id"] = 36133,
-			["icon"] = 136192,
+			["icon"] = 135347, --136192,
 			["name"] = "Stoneforged Claymore",
 		},
 		["LESSERHEAL"] = {
@@ -1695,7 +1695,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["name"] = "Ornate Thorium Handaxe",
-			["icon"] = 136192,
+			["icon"] = 132403, --136192,
 			["id"] = 16969,
 		},
 		["GLYPHOFTHEGHOUL"] = {
@@ -1711,7 +1711,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 2000,
 			["name"] = "Solid Sharpening Stone",
-			["icon"] = 136192,
+			["icon"] = 135251, --136192,
 			["id"] = 9918,
 		},
 		["STRENGTHOFEARTHTOTEM"] = {
@@ -1815,7 +1815,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["name"] = "Steel Breastplate",
-			["icon"] = 136192,
+			["icon"] = 132740, --136192,
 			["id"] = 9916,
 		},
 		["DRAGONSBREATH"] = {
@@ -1863,7 +1863,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 2000,
 			["name"] = "Dense Sharpening Stone",
-			["icon"] = 136192,
+			["icon"] = 135252, --136192,
 			["id"] = 16641,
 		},
 		["VISAGELIQUIFICATIONGOGGLES"] = {
@@ -1911,7 +1911,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 45000,
 			["id"] = 36131,
-			["icon"] = 136192,
+			["icon"] = 135340, --136192,
 			["name"] = "Windforged Rapier",
 		},
 		["THORIUMWIDGET"] = {
@@ -2055,7 +2055,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["name"] = "Thorium Belt",
-			["icon"] = 136192,
+			["icon"] = 132519, --136192,
 			["id"] = 16643,
 		},
 		["RIGIDGOLDENDRAENITE"] = {
@@ -2407,7 +2407,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 3000,
 			["name"] = "Copper Battle Axe",
-			["icon"] = 136192,
+			["icon"] = 135420, --136192,
 			["id"] = 3293,
 		},
 		["WATERBREATHING"] = {
@@ -2503,7 +2503,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["name"] = "Huge Thorium Battleaxe",
-			["icon"] = 136192,
+			["icon"] = 135581, --136192,
 			["id"] = 16971,
 		},
 		["WORMHOLEGENERATORNORTHREND"] = {
@@ -2639,7 +2639,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["id"] = 29551,
-			["icon"] = 136192,
+			["icon"] = 133137, --136192,
 			["name"] = "Fel Iron Chain Coif",
 		},
 		["HAMMEROFWRATH"] = {
@@ -2751,7 +2751,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 2000,
 			["name"] = "Dry Pork Ribs",
-			["icon"] = 136192,
+			["icon"] = 134004, --136192,
 			["id"] = 2546,
 		},
 		["MALACHITEPENDANT"] = {
@@ -2935,7 +2935,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 3000,
 			["name"] = "Runed Copper Gauntlets",
-			["icon"] = 136192,
+			["icon"] = 132938, --136192,
 			["id"] = 3323,
 		},
 		["BLACKMAGEWEAVEROBE"] = {
@@ -3127,7 +3127,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 1500,
 			["name"] = "Runecloth Bandage",
-			["icon"] = 136192,
+			["icon"] = 133681, --136192,
 			["id"] = 18629,
 		},
 		["COBALTLEGPLATES"] = {
@@ -3359,7 +3359,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 12500,
 			["name"] = "Big Bronze Knife",
-			["icon"] = 136192,
+			["icon"] = 135640, --136192,
 			["id"] = 3491,
 		},
 		["DEMORALIZINGROAR"] = {
@@ -3439,7 +3439,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 2000,
 			["name"] = "Copper Axe",
-			["icon"] = 136192,
+			["icon"] = 132417, --136192,
 			["id"] = 2738,
 		},
 		["EAGLEBANEBRACERS"] = {
@@ -3639,7 +3639,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["name"] = "Heavy Mithril Breastplate",
-			["icon"] = 136192,
+			["icon"] = 132745, --136192,
 			["id"] = 9959,
 		},
 		["ELIXIROFDETECTDEMON"] = {
@@ -3687,7 +3687,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 45000,
 			["id"] = 36134,
-			["icon"] = 136192,
+			["icon"] = 132432, --136192,
 			["name"] = "Stormforged Axe",
 		},
 		["PARRY"] = {
@@ -3999,7 +3999,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["id"] = 32655,
-			["icon"] = 136192,
+			["icon"] = 134926, --136192,
 			["name"] = "Fel Iron Rod",
 		},
 		["EMBOSSEDLEATHERBOOTS"] = {
@@ -4159,7 +4159,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["name"] = "Big Black Mace",
-			["icon"] = 136192,
+			["icon"] = 133490, --136192,
 			["id"] = 10001,
 		},
 		["GOLDENROD"] = {
@@ -4167,7 +4167,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 3000,
 			["name"] = "Golden Rod",
-			["icon"] = 136192,
+			["icon"] = 135147, --136192,
 			["id"] = 14379,
 		},
 		["CUREDLIGHTHIDE"] = {
@@ -4199,7 +4199,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 45000,
 			["id"] = 36137,
-			["icon"] = 136192,
+			["icon"] = 133046, --136192,
 			["name"] = "Great Earthforged Hammer",
 		},
 		["HUNTERSINK"] = {
@@ -4215,7 +4215,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["id"] = 29545,
-			["icon"] = 136192,
+			["icon"] = 132937, --136192,
 			["name"] = "Fel Iron Plate Gloves",
 		},
 		["RETICULATEDARMORWEBBING"] = {
@@ -4503,7 +4503,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 45000,
 			["id"] = 9954,
-			["icon"] = 136192,
+			["icon"] = 132963, --136192,
 			["name"] = "Truesilver Gauntlets",
 		},
 		["GLYPHOFCLEANSING"] = {
@@ -4599,7 +4599,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["id"] = 55732,
-			["icon"] = 136192,
+			["icon"] = 237444, --136192,
 			["name"] = "Titanium Rod",
 		},
 		["GLYPHOFMONSOON"] = {
@@ -4631,7 +4631,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["id"] = 29548,
-			["icon"] = 136192,
+			["icon"] = 132554, --136192,
 			["name"] = "Fel Iron Plate Boots",
 		},
 		["RAISEALLY"] = {
@@ -4711,7 +4711,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 45000,
 			["id"] = 36128,
-			["icon"] = 136192,
+			["icon"] = 133058, --136192,
 			["name"] = "Light Emberforged Hammer",
 		},
 		["MECHANIZEDSNOWGOGGLES"] = {
@@ -4743,7 +4743,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 3000,
 			["name"] = "Copper Chain Belt",
-			["icon"] = 136192,
+			["icon"] = 132491, --136192,
 			["id"] = 2661,
 		},
 		["BRIGHTCLOTHGLOVES"] = {
@@ -4775,7 +4775,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 3000,
 			["name"] = "Rough Bronze Boots",
-			["icon"] = 136192,
+			["icon"] = 132535, --136192,
 			["id"] = 7817,
 		},
 		["FROSTSTEELTUBE"] = {
@@ -4975,7 +4975,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 45000,
 			["id"] = 36135,
-			["icon"] = 136192,
+			["icon"] = 132436, --136192,
 			["name"] = "Skyforged Great Axe",
 		},
 		["GHOSTWEAVEPANTS"] = {
@@ -5007,7 +5007,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 3000,
 			["name"] = "Runed Copper Belt",
-			["icon"] = 136192,
+			["icon"] = 132492, --136192,
 			["id"] = 2666,
 		},
 		["SMOOTHGOLDENDRAENITE"] = {
@@ -5079,7 +5079,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 12500,
 			["name"] = "Silvered Bronze Gauntlets",
-			["icon"] = 136192,
+			["icon"] = 132939, --136192,
 			["id"] = 3333,
 		},
 		["DREAMWEAVEVEST"] = {
@@ -5095,7 +5095,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 12500,
 			["name"] = "Bronze Battle Axe",
-			["icon"] = 136192,
+			["icon"] = 132415, --136192,
 			["id"] = 9987,
 		},
 		["GRANDMASTERSKINNER"] = {
@@ -5151,7 +5151,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 2000,
 			["name"] = "Spiced Wolf Meat",
-			["icon"] = 136192,
+			["icon"] = 134021, --136192,
 			["id"] = 2539,
 		},
 		["DIPLOMACY"] = {
@@ -5287,7 +5287,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 45000,
 			["id"] = 10003,
-			["icon"] = 136192,
+			["icon"] = 133055, --136192,
 			["name"] = "The Shatterer",
 		},
 		["GOBLINMININGHELMET"] = {
@@ -5479,7 +5479,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["id"] = 29556,
-			["icon"] = 136192,
+			["icon"] = 132636, --136192,
 			["name"] = "Fel Iron Chain Tunic",
 		},
 		["GRANDMASTERFIRSTAID"] = {
@@ -5503,7 +5503,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["id"] = 29565,
-			["icon"] = 136192,
+			["icon"] = 135327, --136192,
 			["name"] = "Fel Iron Greatsword",
 		},
 		["TITANIUMSKELETONKEY"] = {
@@ -5543,7 +5543,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 1500,
 			["name"] = "Heavy Wool Bandage",
-			["icon"] = 136192,
+			["icon"] = 133687, --136192,
 			["id"] = 3278,
 		},
 		["BRILLIANTTITANSTEELTREADS"] = {
@@ -5727,7 +5727,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["id"] = 29547,
-			["icon"] = 136192,
+			["icon"] = 132510, --136192,
 			["name"] = "Fel Iron Plate Belt",
 		},
 		["GOBLINCONSTRUCTIONHELMET"] = {
@@ -5839,7 +5839,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 2000,
 			["name"] = "Coyote Steak",
-			["icon"] = 136192,
+			["icon"] = 134021, --136192,
 			["id"] = 2541,
 		},
 		["VOLATILEBLASTINGTRIGGER"] = {
@@ -5903,7 +5903,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 3000,
 			["name"] = "Silver Rod",
-			["icon"] = 136192,
+			["icon"] = 135138, --136192,
 			["id"] = 7818,
 		},
 		["EXORCISM"] = {
@@ -5975,7 +5975,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 12500,
 			["name"] = "Heavy Bronze Mace",
-			["icon"] = 136192,
+			["icon"] = 133483, --136192,
 			["id"] = 3296,
 		},
 		["CONJUREWATER"] = {
@@ -6167,7 +6167,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 45000,
 			["id"] = 36129,
-			["icon"] = 136192,
+			["icon"] = 132741, --136192,
 			["name"] = "Heavy Earthforged Breastplate",
 		},
 		["TURTLESCALELEGGINGS"] = {
@@ -6255,7 +6255,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 45000,
 			["id"] = 36126,
-			["icon"] = 136192,
+			["icon"] = 132454, --136192,
 			["name"] = "Light Skyforged Axe",
 		},
 		["ICELANCE"] = {
@@ -6287,7 +6287,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 12500,
 			["name"] = "Shining Silver Breastplate",
-			["icon"] = 136192,
+			["icon"] = 132750, --136192,
 			["id"] = 2675,
 		},
 		["DEMONSKIN"] = {
@@ -6335,7 +6335,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 2000,
 			["name"] = "Iron Buckle",
-			["icon"] = 136192,
+			["icon"] = 133607, --136192,
 			["id"] = 8768,
 		},
 		["ADVANCEDTARGETDUMMY"] = {
@@ -6447,7 +6447,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 1500,
 			["id"] = 27032,
-			["icon"] = 136192,
+			["icon"] = 133691, --136192,
 			["name"] = "Netherweave Bandage",
 		},
 		["WIZARDWEAVETURBAN"] = {
@@ -6559,7 +6559,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 2000,
 			["id"] = 29654,
-			["icon"] = 136192,
+			["icon"] = 135253, --136192,
 			["name"] = "Fel Sharpening Stone",
 		},
 		["LAVAFORGEDWARHAMMER"] = {
@@ -6567,7 +6567,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 45000,
 			["id"] = 36136,
-			["icon"] = 136192,
+			["icon"] = 133054, --136192,
 			["name"] = "Lavaforged Warhammer",
 		},
 		["JADEFIREINK"] = {
@@ -6823,7 +6823,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["name"] = "Green Iron Helm",
-			["icon"] = 136192,
+			["icon"] = 133071, --136192,
 			["id"] = 3502,
 		},
 		["ELIXIROFGREATERAGILITY"] = {
@@ -6839,7 +6839,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 1500,
 			["name"] = "Heavy Silk Bandage",
-			["icon"] = 136192,
+			["icon"] = 133672, --136192,
 			["id"] = 7929,
 		},
 		["GLYPHOFSEALOFCOMMAND"] = {
@@ -6895,7 +6895,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 2000,
 			["name"] = "Copper Chain Pants",
-			["icon"] = 136192,
+			["icon"] = 134583, --136192,
 			["id"] = 2662,
 		},
 		["ELEGANTSILVERRING"] = {
@@ -7423,7 +7423,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 1500,
 			["name"] = "Heavy Runecloth Bandage",
-			["icon"] = 136192,
+			["icon"] = 133682, --136192,
 			["id"] = 18630,
 		},
 		["LIONHEARTBLADE"] = {
@@ -7455,7 +7455,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["name"] = "Heavy Mithril Axe",
-			["icon"] = 136192,
+			["icon"] = 132405, --136192,
 			["id"] = 9993,
 		},
 		["EXECUTE"] = {
@@ -7479,7 +7479,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 3000,
 			["name"] = "Heavy Copper Broadsword",
-			["icon"] = 136192,
+			["icon"] = 135312, --136192,
 			["id"] = 3292,
 		},
 		["TEMPEREDSARONITEGAUNTLETS"] = {
@@ -7527,7 +7527,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["name"] = "Heavy Mithril Shoulder",
-			["icon"] = 136192,
+			["icon"] = 135053, --136192,
 			["id"] = 9926,
 		},
 		["GLYPHOFARCANESHOT"] = {
@@ -7575,7 +7575,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 2000,
 			["id"] = 34607,
-			["icon"] = 136192,
+			["icon"] = 135260, --136192,
 			["name"] = "Fel Weightstone",
 		},
 		["SCROLLOFINTELLECTV"] = {
@@ -7607,7 +7607,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["id"] = 29553,
-			["icon"] = 136192,
+			["icon"] = 132612, --136192,
 			["name"] = "Fel Iron Chain Bracers",
 		},
 		["FLASKOFENDLESSRAGE"] = {
@@ -7655,7 +7655,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 12500,
 			["name"] = "Rough Bronze Shoulders",
-			["icon"] = 136192,
+			["icon"] = 135036, --136192,
 			["id"] = 3328,
 		},
 		["SILKBANDAGE"] = {
@@ -7663,7 +7663,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 1500,
 			["name"] = "Silk Bandage",
-			["icon"] = 136192,
+			["icon"] = 133671, --136192,
 			["id"] = 7928,
 		},
 		["PROTECTION"] = {
@@ -7703,7 +7703,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 2000,
 			["name"] = "Solid Grinding Stone",
-			["icon"] = 136192,
+			["icon"] = 135246, --136192,
 			["id"] = 9920,
 		},
 		["MASTERSCRIBE"] = {
@@ -7823,7 +7823,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["id"] = 29550,
-			["icon"] = 136192,
+			["icon"] = 132742, --136192,
 			["name"] = "Fel Iron Breastplate",
 		},
 		["GLOVESOFMEDITATION"] = {
@@ -7871,7 +7871,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 12500,
 			["name"] = "Pearl-handled Dagger",
-			["icon"] = 136192,
+			["icon"] = 135641, --136192,
 			["id"] = 6517,
 		},
 		["CRABCAKE"] = {
@@ -7879,7 +7879,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 2000,
 			["name"] = "Crab Cake",
-			["icon"] = 136192,
+			["icon"] = 133950, --136192,
 			["id"] = 2544,
 		},
 		["NETHERWEAVENET"] = {
@@ -7911,7 +7911,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["name"] = "Green Iron Bracers",
-			["icon"] = 136192,
+			["icon"] = 132605, --136192,
 			["id"] = 3501,
 		},
 		["MONARCHCRAB"] = {
@@ -7967,7 +7967,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 45000,
 			["id"] = 36122,
-			["icon"] = 136192,
+			["icon"] = 134693, --136192,
 			["name"] = "Earthforged Leggings",
 		},
 		["GLYPHOFUNBREAKABLEARMOR"] = {
@@ -8039,7 +8039,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["name"] = "Arcanite Rod",
-			["icon"] = 136192,
+			["icon"] = 135156, --136192,
 			["id"] = 20201,
 		},
 		["ETHEREALINK"] = {
@@ -8103,7 +8103,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 12500,
 			["name"] = "Rough Bronze Cuirass",
-			["icon"] = 136192,
+			["icon"] = 132630, --136192,
 			["id"] = 2670,
 		},
 		["AZURESILKPANTS"] = {
@@ -8775,7 +8775,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 1500,
 			["name"] = "Heavy Linen Bandage",
-			["icon"] = 136192,
+			["icon"] = 133688, --136192,
 			["id"] = 3276,
 		},
 		["GRANDMASTERCOOK"] = {
@@ -8807,7 +8807,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 2000,
 			["name"] = "Coarse Grinding Stone",
-			["icon"] = 136192,
+			["icon"] = 135244, --136192,
 			["id"] = 3326,
 		},
 		["HEAVYARMORKIT"] = {
@@ -8959,7 +8959,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["name"] = "Glinting Steel Dagger",
-			["icon"] = 136192,
+			["icon"] = 135641, --136192,
 			["id"] = 15972,
 		},
 		["SILVERCONTACT"] = {
@@ -9151,7 +9151,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 12500,
 			["name"] = "Rough Bronze Leggings",
-			["icon"] = 136192,
+			["icon"] = 134583, --136192,
 			["id"] = 2668,
 		},
 		["LESSERWIZARDSROBE"] = {
@@ -9167,7 +9167,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 1500,
 			["id"] = 27033,
-			["icon"] = 136192,
+			["icon"] = 133692, --136192,
 			["name"] = "Heavy Netherweave Bandage",
 		},
 		["IRONBOUNDTOME"] = {
@@ -9231,7 +9231,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 45000,
 			["id"] = 36124,
-			["icon"] = 136192,
+			["icon"] = 134662, --136192,
 			["name"] = "Windforged Leggings",
 		},
 		["JOURNEYMANSKINNER"] = {
@@ -9511,7 +9511,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 45000,
 			["id"] = 9974,
-			["icon"] = 136192,
+			["icon"] = 132739, --136192,
 			["name"] = "Truesilver Breastplate",
 		},
 		["PACKOFENDLESSPOCKETS"] = {
@@ -9575,7 +9575,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["name"] = "Thorium Helm",
-			["icon"] = 136192,
+			["icon"] = 133125, --136192,
 			["id"] = 16653,
 		},
 		["GOLDENRINGOFPOWER"] = {
@@ -9607,7 +9607,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 3000,
 			["name"] = "Thick War Axe",
-			["icon"] = 136192,
+			["icon"] = 135419, --136192,
 			["id"] = 3294,
 		},
 		["BLACKMAGEWEAVELEGGINGS"] = {
@@ -9679,7 +9679,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 45000,
 			["id"] = 36130,
-			["icon"] = 136192,
+			["icon"] = 132639, --136192,
 			["name"] = "Stormforged Hauberk",
 		},
 		["CATFORM"] = {
@@ -9703,7 +9703,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 12500,
 			["name"] = "Patterned Bronze Bracers",
-			["icon"] = 136192,
+			["icon"] = 132606, --136192,
 			["id"] = 2672,
 		},
 		["MYSTICTOME"] = {
@@ -9743,7 +9743,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["name"] = "Thorium Leggings",
-			["icon"] = 136192,
+			["icon"] = 134584, --136192,
 			["id"] = 16662,
 		},
 		["DARKLEATHERBOOTS"] = {
@@ -9767,7 +9767,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 2000,
 			["name"] = "Copper Chain Boots",
-			["icon"] = 136192,
+			["icon"] = 132535, --136192,
 			["id"] = 3319,
 		},
 		["FROSTWEAVEBANDAGE"] = {
@@ -9943,7 +9943,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["name"] = "Truesilver Rod",
-			["icon"] = 136192,
+			["icon"] = 135148, --136192,
 			["id"] = 14380,
 		},
 		["SCROLLOFSTAMINAVI"] = {
@@ -10015,7 +10015,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["name"] = "Mithril Scale Pants",
-			["icon"] = 136192,
+			["icon"] = 134583, --136192,
 			["id"] = 9931,
 		},
 		["THICKBRONZENECKLACE"] = {
@@ -10079,7 +10079,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["id"] = 29558,
-			["icon"] = 136192,
+			["icon"] = 133043, --136192,
 			["name"] = "Fel Iron Hammer",
 		},
 		["SOLIDDYNAMITE"] = {
@@ -10287,7 +10287,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 3000,
 			["name"] = "Copper Claymore",
-			["icon"] = 136192,
+			["icon"] = 135322, --136192,
 			["id"] = 9983,
 		},
 		["FIREOIL"] = {
@@ -10327,7 +10327,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 2000,
 			["name"] = "Rough Grinding Stone",
-			["icon"] = 136192,
+			["icon"] = 135243, --136192,
 			["id"] = 3320,
 		},
 		["SCOURGESTRIKE"] = {
@@ -10343,7 +10343,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 2000,
 			["name"] = "Solid Weightstone",
-			["icon"] = 136192,
+			["icon"] = 135258, --136192,
 			["id"] = 9921,
 		},
 		["GNOMISHBATTLECHICKEN"] = {
@@ -10551,7 +10551,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["name"] = "Thorium Armor",
-			["icon"] = 136192,
+			["icon"] = 132743, --136192,
 			["id"] = 16642,
 		},
 		["DEATHCOIL"] = {
@@ -10583,7 +10583,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["name"] = "Heavy Mithril Boots",
-			["icon"] = 136192,
+			["icon"] = 132582, --136192,
 			["id"] = 9968,
 		},
 		["CATSEYEELIXIR"] = {
@@ -10639,7 +10639,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["id"] = 29549,
-			["icon"] = 136192,
+			["icon"] = 134694, --136192,
 			["name"] = "Fel Iron Plate Pants",
 		},
 		["GLIMMERINGHUGECITRINE"] = {
@@ -10663,7 +10663,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 12500,
 			["name"] = "Bronze Shortsword",
-			["icon"] = 136192,
+			["icon"] = 135274, --136192,
 			["id"] = 2742,
 		},
 		["TRACKBEASTS"] = {
@@ -10879,7 +10879,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["name"] = "Mithril Coif",
-			["icon"] = 136192,
+			["icon"] = 133137, --136192,
 			["id"] = 9961,
 		},
 		["BRILLIANTSARONITEHELM"] = {
@@ -11431,7 +11431,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 12500,
 			["name"] = "Bronze Warhammer",
-			["icon"] = 136192,
+			["icon"] = 133055, --136192,
 			["id"] = 9985,
 		},
 		["HEROICTHROW"] = {
@@ -11471,7 +11471,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 2000,
 			["name"] = "Heavy Weightstone",
-			["icon"] = 136192,
+			["icon"] = 135257, --136192,
 			["id"] = 3117,
 		},
 		["GREATERBLESSINGOFSANCTUARY"] = {
@@ -11519,7 +11519,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 2000,
 			["name"] = "Coarse Weightstone",
-			["icon"] = 136192,
+			["icon"] = 135256, --136192,
 			["id"] = 3116,
 		},
 		["GLYPHOFRAPIDCHARGE"] = {
@@ -11655,7 +11655,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 2000,
 			["name"] = "Spider Sausage",
-			["icon"] = 136192,
+			["icon"] = 134022, --136192,
 			["id"] = 21175,
 		},
 		["GLYPHOFHEALINGSTREAMTOTEM"] = {
@@ -11735,7 +11735,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 2000,
 			["name"] = "Spice Bread",
-			["icon"] = 136192,
+			["icon"] = 134051, --136192,
 			["id"] = 37836,
 		},
 		["MAGEWEAVEBANDAGE"] = {
@@ -11743,7 +11743,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 1500,
 			["name"] = "Mageweave Bandage",
-			["icon"] = 136192,
+			["icon"] = 133689, --136192,
 			["id"] = 10840,
 		},
 		["ENGINEERINGSPECIALIZATION"] = {
@@ -11823,7 +11823,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 12500,
 			["name"] = "Bronze Axe",
-			["icon"] = 136192,
+			["icon"] = 132408, --136192,
 			["id"] = 2741,
 		},
 		["GREENIRONLEGGINGS"] = {
@@ -11831,7 +11831,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["name"] = "Green Iron Leggings",
-			["icon"] = 136192,
+			["icon"] = 134585, --136192,
 			["id"] = 3506,
 		},
 		["HANDOFPROTECTION"] = {
@@ -11903,7 +11903,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["id"] = 29552,
-			["icon"] = 136192,
+			["icon"] = 132945, --136192,
 			["name"] = "Fel Iron Chain Gloves",
 		},
 		["ICEBORNEHELM"] = {
@@ -11927,7 +11927,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 12500,
 			["name"] = "Bronze Mace",
-			["icon"] = 136192,
+			["icon"] = 133483, --136192,
 			["id"] = 2740,
 		},
 		["CRYSTALCHALCEDONYAMULET"] = {
@@ -11975,7 +11975,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 2000,
 			["name"] = "Dense Weightstone",
-			["icon"] = 136192,
+			["icon"] = 135259, --136192,
 			["id"] = 16640,
 		},
 		["MASTERFIRSTAID"] = {
@@ -11999,7 +11999,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 12500,
 			["name"] = "Silvered Bronze Boots",
-			["icon"] = 136192,
+			["icon"] = 132535, --136192,
 			["id"] = 3331,
 		},
 		["HEAVYGRINDINGSTONE"] = {
@@ -12007,7 +12007,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 2000,
 			["name"] = "Heavy Grinding Stone",
-			["icon"] = 136192,
+			["icon"] = 135245, --136192,
 			["id"] = 3337,
 		},
 		["HATOFWINTRYDOOM"] = {
@@ -12335,7 +12335,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 12500,
 			["name"] = "Bronze Greatsword",
-			["icon"] = 136192,
+			["icon"] = 135321, --136192,
 			["id"] = 9986,
 		},
 		["THORIUMTUBE"] = {
@@ -12407,7 +12407,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["name"] = "Thorium Boots",
-			["icon"] = 136192,
+			["icon"] = 132589, --136192,
 			["id"] = 16652,
 		},
 		["WICKEDLEATHERBRACERS"] = {
@@ -12575,7 +12575,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 45000,
 			["id"] = 36125,
-			["icon"] = 136192,
+			["icon"] = 135411, --136192,
 			["name"] = "Light Earthforged Blade",
 		},
 		["TITANSTEELDESTROYER"] = {
@@ -12831,7 +12831,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 3000,
 			["name"] = "Runed Copper Bracers",
-			["icon"] = 136192,
+			["icon"] = 132602, --136192,
 			["id"] = 2664,
 		},
 		["BOLTOFWOOLENCLOTH"] = {
@@ -13095,7 +13095,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 2000,
 			["name"] = "Copper Mace",
-			["icon"] = 136192,
+			["icon"] = 133476, --136192,
 			["id"] = 2737,
 		},
 		["BLACKMAGEWEAVEBOOTS"] = {
@@ -13119,7 +13119,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 3000,
 			["name"] = "Copper Dagger",
-			["icon"] = 136192,
+			["icon"] = 135650, --136192,
 			["id"] = 8880,
 		},
 		["WOOLBANDAGE"] = {
@@ -13127,7 +13127,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 1500,
 			["name"] = "Wool Bandage",
-			["icon"] = 136192,
+			["icon"] = 133684, --136192,
 			["id"] = 3277,
 		},
 		["BRILLIANTSARONITEGAUNTLETS"] = {
@@ -13151,7 +13151,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 3000,
 			["name"] = "Dense Grinding Stone",
-			["icon"] = 136192,
+			["icon"] = 135247, --136192,
 			["id"] = 16639,
 		},
 		["THORIUMBRACERS"] = {
@@ -13159,7 +13159,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["name"] = "Thorium Bracers",
-			["icon"] = 136192,
+			["icon"] = 132612, --136192,
 			["id"] = 16644,
 		},
 		["ARTISANJEWELCRAFTER"] = {
@@ -13303,7 +13303,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 25000,
 			["name"] = "Golden Scale Bracers",
-			["icon"] = 136192,
+			["icon"] = 132609, --136192,
 			["id"] = 7223,
 		},
 		["SPELLSTEAL"] = {
@@ -13487,7 +13487,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 1500,
 			["name"] = "Heavy Mageweave Bandage",
-			["icon"] = 136192,
+			["icon"] = 133690, --136192,
 			["id"] = 10841,
 		},
 		["GLYPHOFFOCUS"] = {
@@ -13533,9 +13533,9 @@ SP.spells = {
 		["SUMMONWATERELEMENTAL"] = {
 			["maxRange"] = 0,
 			["minRange"] = 0,
-			["castTime"] = 1882,
-			["id"] = 17162,
-			["icon"] = 136192,
+			["castTime"] = 0,
+			["id"] = 31687,
+			["icon"] = 135862,
 			["name"] = "Summon Water Elemental",
 		},
 		["SAVAGESARONITEBRACERS"] = {
@@ -13815,7 +13815,7 @@ SP.spells = {
 			["minRange"] = 0,
 			["castTime"] = 45000,
 			["id"] = 10007,
-			["icon"] = 136192,
+			["icon"] = 135350, --136192,
 			["name"] = "Phantom Blade",
 		},
 		["NORTHRENDINSCRIPTIONRESEARCH"] = {
