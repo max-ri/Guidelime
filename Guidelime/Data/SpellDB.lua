@@ -31,21 +31,31 @@ function SP.getLocalizedName(name)
 	return id and (GetSpellInfo(id))
 end
 
+local function isTradeSkillKnown(name, localizedName)
+	if GuidelimeDataChar.tradeSkills and GuidelimeDataChar.tradeSkills[name] then return true end
+	if SP.getTradeSkillIndex(localizedName) then
+		if not GuidelimeDataChar.tradeSkills then GuidelimeDataChar.tradeSkills = {} end
+		GuidelimeDataChar.tradeSkills[name] = true 
+		return true
+	end
+	return false
+end
+
 function SP.getSpellRank(name)
 	local s = SP.spells[name]
 	if not s then return 0 end
 	local localizedName = GetSpellInfo(s.id)
 	local id = select(7, GetSpellInfo(localizedName))
-	if not id or not IsSpellKnown(id) then return (SP.getTradeSkillIndex(localizedName) and 1) or 0 end
+	if not id or not IsSpellKnown(id) then return (isTradeSkillKnown(name, localizedName) and 1) or 0 end
 	local rank = GetSpellSubtext(id)
 	if rank:sub(1, RANK:len()) == RANK then	return tonumber(rank:sub(RANK:len() + 2)) end
 	return 1 
 end
 
-function SP.getTradeSkillIndex(name)
+function SP.getTradeSkillIndex(localizedName)
 	for i = 1, GetNumTradeSkills() do
 		local skillName = GetTradeSkillInfo(i)
-		if skillName == name then return i end
+		if skillName == localizedName then return i end
 	end
 end
 
