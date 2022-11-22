@@ -55,6 +55,7 @@ addon.icons = {
 	VENDOR = "Interface\\GossipFrame\\VendorGossipIcon",
 	REPAIR = "Interface\\Addons\\" .. addonName .. "\\Icons\\repair", -- made from "Interface\\Icons\\Trade_BlackSmithing",
 	HEARTH = "Interface\\Addons\\" .. addonName .. "\\Icons\\hearth", -- made from "Interface\\Icons\\INV_Misc_Rune_01",
+	COLLECT_ITEM = "Interface\\GossipFrame\\VendorGossipIcon",
 	FLY = "Interface\\GossipFrame\\TaxiGossipIcon",
 	TRAIN = "Interface\\GossipFrame\\TrainerGossipIcon",
 	LEARN = "Interface\\GossipFrame\\TrainerGossipIcon",

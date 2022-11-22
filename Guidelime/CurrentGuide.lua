@@ -492,7 +492,9 @@ function CG.getElementIcon(element, prevElement)
 		elseif element.skill then
 			return "|T" .. SK.getSkillIcon(element.skill) .. ":12|t"
 		end
-	elseif addon.icons[element.t] ~= nil then
+	elseif element.t == "USE_ITEM" and element.title ~= "" then
+		return "|T" .. (GetItemIcon(element.useItemId) or addon.icons.item) .. ":12|t"
+	elseif addon.icons[element.t] ~= nil and (not prevElement or element.t ~= prevElement.t) then
 		return "|T" .. addon.icons[element.t] .. ":12|t"
 	end
 	return ""
@@ -564,7 +566,6 @@ function CG.getStepText(step)
 			end
 		elseif element.t == "COLLECT_ITEM" then
 			local name,_,rarity = EV.GetItemInfo(element.itemId)
-			local textIcon = "|T" .. addon.icons.item .. ":12|t"
 			local colour = ITEM_QUALITY_COLORS[1].hex
 			if name then
 				if step.active then
@@ -574,15 +575,11 @@ function CG.getStepText(step)
 					local count = GetItemCount(element.itemId)
 					if count >= element.qty then
 						count = element.qty
-						textIcon = "|T" .. addon.icons.COMPLETED .. ":12|t"
 					end
 					itemText = string.format("%s\n    - %s%s: %d/%d",itemText,icon,name,count,element.qty)
 				end
 			end
-
 			name = element.title or name
-			text = text .. textIcon
-
 			if name and name ~= "" then
 				if step.active then
 					text = text .. colour .. name .. "|r"
@@ -592,17 +589,13 @@ function CG.getStepText(step)
 			end
 		elseif element.t == "USE_ITEM" and element.title ~= "" then
 			local name,_,rarity = EV.GetItemInfo(element.useItemId)
-			local textIcon = "|T" .. (GetItemIcon(element.useItemId) or addon.icons.item) .. ":12|t"
 			local colour = ITEM_QUALITY_COLORS[1].hex
 			if name then
 				if step.active then
 					colour = ITEM_QUALITY_COLORS[rarity].hex
 				end
 			end
-
 			name = element.title or name
-			text = text .. textIcon
-
 			if name and name ~= "" then
 				if step.active then
 					text = text .. colour .. name .. "|r"
@@ -637,6 +630,7 @@ function CG.getStepText(step)
 				itemText = string.format("\n    - %d/%d", rank, element.skillMin)
 			end
 		end
+		if element.textStartPos == #text then element.empty = true end
 		if element.empty == nil or not element.empty then prevElement = element end
 	end
 	if step.skippedQuests ~= nil and #step.skippedQuests > 0 then
