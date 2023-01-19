@@ -57,7 +57,7 @@ function AB.createTargetButton(i)
 		button.index = i
 		button:SetAttribute("type", "macro")
 		button.texture = button:CreateTexture(nil, "BACKGROUND")
-		button.texture:SetTexture(i == "Multi" and addon.icons.MULTI_TARGET_BUTTON or addon.icons.TARGET_BUTTON)
+		button.texture:SetTexture(addon.icons.TARGET_BUTTON)
 		button.texture:SetPoint("TOPLEFT", button, -2, 1)					
 		button.texture:SetPoint("BOTTOMRIGHT", button, 2, -2)
 		local marker = AB.targetRaidMarkerIndex[i]
@@ -217,7 +217,7 @@ function AB.createUseItemButton(i)
 			if self.spellId then
             	start, duration, enable = GetSpellCooldown(self.spellId)
 			else
-            	start, duration, enable = C_Container.GetItemCooldown(self.itemId)
+            	start, duration, enable = GetItemCooldown(self.itemId)
 			end
             if enable == 1 and duration > 0 then
                 self.cooldown:Show()

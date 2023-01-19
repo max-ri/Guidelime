@@ -39,7 +39,7 @@ Localization.lua
 Guidelime.lua
 MainWindow.lua
 CurrentGuide.lua
-ActionButtons.lua
+ActionButtons-Classic.lua
 Events.lua
 Frames.lua
 Guides.lua

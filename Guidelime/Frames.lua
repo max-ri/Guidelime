@@ -113,7 +113,7 @@ end
 
 function F.addTextbox(frame, text, width, tooltip)
 	local textbox = CreateFrame("EditBox", nil, frame, "InputBoxTemplate")
-	textbox.text = frame:CreateFontString(nil, frame, "GameFontNormal")
+	textbox.text = frame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	textbox.text:SetText(text)
 	textbox:SetFontObject("GameFontNormal")
 	textbox:SetHeight(10)
@@ -152,7 +152,7 @@ function F.createPopupFrame(message, okFunc, hasCancel, height)
 	end)
 	
 	if message ~= nil then
-		F.popupFrame.message = F.popupFrame:CreateFontString(nil, F.popupFrame, "GameFontNormal")	
+		F.popupFrame.message = F.popupFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")	
 		F.popupFrame.message:SetWidth(530)
 		F.popupFrame.message:SetWordWrap(true)
 		F.popupFrame.message:SetText(message);
@@ -203,7 +203,7 @@ function F.showCopyPopup(value, text, textwidth, height, multiline)
 		popup.textbox:SetMultiLine(true)
 		popup.textbox:SetFontObject("GameFontNormal")
 		popup.textbox:SetWidth(550 - textwidth - 30)
-		popup.textbox.text = popup:CreateFontString(nil, content, "GameFontNormal")
+		popup.textbox.text = popup:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		popup.textbox.text:SetText(text)
 	else
 		popup.textbox = F.addTextbox(popup, text, 550 - textwidth - 30)
