@@ -134,7 +134,7 @@ function MW.updateMainFrame(reset)
 				G.showGuides()
 			end
 		end)
-		MW.mainFrame.message[1]:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize)
+		MW.mainFrame.message[1]:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
 		MW.mainFrame.message[1]:SetPoint("TOPLEFT", MW.mainFrame.scrollChild, "TOPLEFT", 10, -25)
 		MW.mainFrame.message[1]:Show()
 	else
@@ -170,21 +170,21 @@ function MW.updateMainFrame(reset)
 							G.loadGuide(CG.currentGuide.group .. " " .. next)
 						end
 					end)
-					MW.mainFrame.message[i]:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize)
+					MW.mainFrame.message[i]:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
 					MW.mainFrame.message[i]:Hide()
 					i = i + 1
 				end
 			end
 		end
 		if #MW.mainFrame.message == 0 then
-			MW.mainFrame.message[1] = F.addMultilineText(MW.mainFrame.scrollChild, L.GUIDE_FINISHED, MW.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
+			MW.mainFrame.message[1] = F.addMultilineText(MW.mainFrame.scrollChild, ARTWORK, MW.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
 				if (button == "RightButton") then
 					MW.showContextMenu(true)
 				else
 					G.showGuides()
 				end
 			end)
-			MW.mainFrame.message[1]:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize)
+			MW.mainFrame.message[1]:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
 			MW.mainFrame.message[1]:Hide()
 			local guide = addon.guides[CG.currentGuide.name]
 			if demo then
@@ -197,7 +197,7 @@ function MW.updateMainFrame(reset)
 						F.showUrlPopup(guide.downloadUrl) 
 					end
 				end)
-				MW.mainFrame.message[2]:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize)
+				MW.mainFrame.message[2]:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
 				MW.mainFrame.message[2]:Hide()
 			end
 		end
@@ -211,7 +211,7 @@ function MW.updateMainFrame(reset)
 		local prev
 		if GuidelimeDataChar.showTitle then
 			MW.mainFrame.titleBox:SetText(CG.currentGuide.name)
-			MW.mainFrame.titleBox:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize)
+			MW.mainFrame.titleBox:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
 			MW.mainFrame.titleBox:Show()
 			prev = MW.mainFrame.titleBox
 		else
@@ -249,7 +249,7 @@ function MW.updateMainFrame(reset)
 								end
 							end
 						end)
-						MW.mainFrame.steps[i].textBox:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize)
+						MW.mainFrame.steps[i].textBox:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
 					end
 					MW.mainFrame.steps[i].textBox:SetPoint("TOPLEFT", MW.mainFrame.steps[i], "TOPLEFT", 35, -9)
 					MW.mainFrame.steps[i].textBox:SetWidth(MW.mainFrame.scrollChild:GetWidth() - 40)
@@ -307,7 +307,6 @@ function MW.showMainFrame()
 		MW.mainFrame:SetMovable(true)
 		MW.mainFrame:EnableMouse(true)
 		MW.mainFrame:SetResizable(true)
-		MW.mainFrame:SetMinResize(50, 50)
 		MW.mainFrame:SetScript("OnMouseDown", function(self, button)
 			if (button == "LeftButton" and not GuidelimeDataChar.mainFrameLocked) then MW.mainFrame:StartMoving() end
 		end)
@@ -349,10 +348,7 @@ function MW.showMainFrame()
 		MW.mainFrame.scrollFrame:SetScrollChild(MW.mainFrame.scrollChild);
 		MW.mainFrame.scrollChild:SetSize(MW.mainFrame:GetSize())
 		
-		if not GuidelimeDataChar.mainFrameShowScrollBar then 
-			MW.mainFrame.scrollFrame.ScrollBar:SetAlpha(0) 
-			MW.mainFrame.scrollFrame.ScrollBar:SetEnabled(false)
-		end
+		if not GuidelimeDataChar.mainFrameShowScrollBar then MW.mainFrame.scrollFrame.ScrollBar:SetAlpha(0) end
 
 		MW.mainFrame.titleBox = F.addMultilineText(MW.mainFrame.scrollChild, nil, MW.mainFrame.scrollChild:GetWidth() - 40, "")
 		MW.mainFrame.titleBox:SetPoint("TOPLEFT", MW.mainFrame.scrollChild, "TOPLEFT", 35, -14)

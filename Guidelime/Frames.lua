@@ -61,8 +61,10 @@ end
 function F.addCheckbox(frame, text, tooltip)
 	local checkbox = CreateFrame("CheckButton", nil, frame, "UICheckButtonTemplate")
 	if text ~= nil then
-		checkbox.text:SetText(text)
-		checkbox.text:SetFontObject("GameFontNormal")
+		local textString = checkbox:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		textString:SetText(text)
+		textString:SetPoint("LEFT", checkbox, "RIGHT", 0, 0)
+		checkbox:SetFontString(textString)
 	end
 	F.setTooltip(checkbox, tooltip)
 	return checkbox
