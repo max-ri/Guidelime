@@ -348,8 +348,11 @@ function MW.showMainFrame()
 		MW.mainFrame.scrollFrame:SetScrollChild(MW.mainFrame.scrollChild);
 		MW.mainFrame.scrollChild:SetSize(MW.mainFrame:GetSize())
 		
-		if not GuidelimeDataChar.mainFrameShowScrollBar then MW.mainFrame.scrollFrame.ScrollBar:SetAlpha(0) end
-
+		if not GuidelimeDataChar.mainFrameShowScrollBar then 
+			MW.mainFrame.scrollFrame.ScrollBar:SetAlpha(0) 
+			MW.mainFrame.scrollFrame.ScrollBar:SetEnabled(false)
+		end
+		
 		MW.mainFrame.titleBox = F.addMultilineText(MW.mainFrame.scrollChild, nil, MW.mainFrame.scrollChild:GetWidth() - 40, "")
 		MW.mainFrame.titleBox:SetPoint("TOPLEFT", MW.mainFrame.scrollChild, "TOPLEFT", 35, -14)
 		
