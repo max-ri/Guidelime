@@ -49,7 +49,7 @@ function O.fillOptions()
 	O.optionsFrame.parent = GetAddOnMetadata(addonName, "title")
 	InterfaceOptions_AddCategory(O.optionsFrame)
 
-	O.optionsFrame.title = O.optionsFrame:CreateFontString(nil, O.optionsFrame, "GameFontNormal")
+	O.optionsFrame.title = O.optionsFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	O.optionsFrame.title:SetText(GetAddOnMetadata(addonName, "title") .. " |cFFFFFFFF" .. GetAddOnMetadata(addonName, "version") .." - " .. GAMEOPTIONS_MENU)
 	O.optionsFrame.title:SetPoint("TOPLEFT", 20, -20)
 	O.optionsFrame.title:SetFontObject("GameFontNormalLarge")
@@ -141,7 +141,7 @@ function O.fillOptions()
 
 	-- Guide window options
 
-	O.optionsFrame.titleGuideWindow = content:CreateFontString(nil, content, "GameFontNormal")
+	O.optionsFrame.titleGuideWindow = content:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	O.optionsFrame.titleGuideWindow:SetText("|cFFFFFFFF___ " .. L.GUIDE_WINDOW:gsub("^%l", string.upper) .. " _______________________________________________________")
 	O.optionsFrame.titleGuideWindow:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
 	O.optionsFrame.titleGuideWindow:SetFontObject("GameFontNormalLarge")
@@ -229,8 +229,11 @@ function O.fillOptions()
 	prev = O.optionsFrame.mainFrameLocked
 	
 	O.optionsFrame.showCompletedSteps = F.addCheckOption(content, GuidelimeDataChar, "mainFrameShowScrollBar", L.MAIN_FRAME_SHOW_SCROLLBAR, nil, function()
-		MW.mainFrame.scrollFrame.ScrollBar:SetAlpha(GuidelimeDataChar.mainFrameShowScrollBar and 1 or 0)
-		MW.mainFrame.scrollFrame.ScrollBar:SetEnabled(GuidelimeDataChar.mainFrameShowScrollBar)
+		if GuidelimeDataChar.mainFrameShowScrollBar then
+			MW.mainFrame.scrollFrame.ScrollBar:SetAlpha(1)
+		else
+			MW.mainFrame.scrollFrame.ScrollBar:SetAlpha(0)
+		end
 		if GuidelimeDataChar.showUseItemButtons == "RIGHT" or GuidelimeDataChar.showTargetButtons == "RIGHT" then
 			AB.updateTargetButtons()
 			AB.updateUseItemButtons()
@@ -279,7 +282,7 @@ function O.fillOptions()
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = checkbox
 
-	local text = content:CreateFontString(nil, content, "GameFontNormal")
+	local text = content:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	text:SetText(L.SHOW_TARGET_BUTTONS)
 	text:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 30, -10)
 	prev = text
@@ -326,7 +329,7 @@ function O.fillOptions()
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -30, -10)
 	prev = checkbox
 
-	local text = content:CreateFontString(nil, content, "GameFontNormal")
+	local text = content:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	text:SetText(L.SHOW_USE_ITEM_BUTTONS)
 	text:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 30, -10)
 	prev = text
@@ -353,7 +356,7 @@ function O.fillOptions()
 		content.options["showUseItemButtons" .. v]:SetPoint("TOPLEFT", prev, "TOPLEFT", i * 180, 10)
 	end
 
-	text = content:CreateFontString(nil, content, "GameFontNormal")
+	text = content:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	text:SetText(L.SELECT_COLORS)
 	text:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -20)
 	prev = text
@@ -417,7 +420,7 @@ function O.fillOptions()
 
 	-- Arrow options
 
-	O.optionsFrame.titleArrow = content:CreateFontString(nil, content, "GameFontNormal")
+	O.optionsFrame.titleArrow = content:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	O.optionsFrame.titleArrow:SetText("|cFFFFFFFF___ " .. L.ARROW .. " _____________________________________________________________________")
 	O.optionsFrame.titleArrow:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -30, -30)
 	O.optionsFrame.titleArrow:SetFontObject("GameFontNormalLarge")
@@ -495,13 +498,13 @@ function O.fillOptions()
 
 	-- Waypoint options
 
-	O.optionsFrame.titleMapMarkersGoto = content:CreateFontString(nil, content, "GameFontNormal")
+	O.optionsFrame.titleMapMarkersGoto = content:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	O.optionsFrame.titleMapMarkersGoto:SetText("|cFFFFFFFF___ " .. string.format(L.MAP_MARKERS_GOTO, M.getMapMarkerText({t = "GOTO", mapIndex = 0}) .. "," .. M.getMapMarkerText({t = "GOTO", mapIndex = 1}) .. "," .. M.getMapMarkerText({t = "GOTO", mapIndex = 2}) .. "," .. M.getMapMarkerText({t = "GOTO", mapIndex = 3})) .. " _______________________________________________________")
 	O.optionsFrame.titleMapMarkersGoto:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -20)
 	O.optionsFrame.titleMapMarkersGoto:SetFontObject("GameFontNormalLarge")
 	prev = O.optionsFrame.titleMapMarkersGoto
 
-	O.optionsFrame.textShowMarkersGOTO = content:CreateFontString(nil, content, "GameFontNormal")
+	O.optionsFrame.textShowMarkersGOTO = content:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	O.optionsFrame.textShowMarkersGOTO:SetText(L.SHOW_MARKERS_ON)
 	O.optionsFrame.textShowMarkersGOTO:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -20)
 	prev = O.optionsFrame.textShowMarkersGOTO
@@ -566,13 +569,13 @@ function O.fillOptions()
 
 	-- Additional markers options
 
-	O.optionsFrame.titleMapMarkersLoc = content:CreateFontString(nil, content, "GameFontNormal")
+	O.optionsFrame.titleMapMarkersLoc = content:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	O.optionsFrame.titleMapMarkersLoc:SetText("|cFFFFFFFF___ " .. string.format(L.MAP_MARKERS_LOC, M.getMapMarkerText({t = "monster"}) .. "," .. M.getMapMarkerText({t = "item"}) .. "," .. M.getMapMarkerText({t = "object"}) .. "," .. M.getMapMarkerText({t = "LOC"})) .. " _______________________________________________________")
 	O.optionsFrame.titleMapMarkersLoc:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -100)
 	O.optionsFrame.titleMapMarkersLoc:SetFontObject("GameFontNormalLarge")
 	prev = O.optionsFrame.titleMapMarkersLoc
 
-	O.optionsFrame.textShowMarkersGOTO = content:CreateFontString(nil, content, "GameFontNormal")
+	O.optionsFrame.textShowMarkersGOTO = content:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	O.optionsFrame.textShowMarkersGOTO:SetText(L.SHOW_MARKERS_ON)
 	O.optionsFrame.textShowMarkersGOTO:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -20)
 	prev = O.optionsFrame.textShowMarkersGOTO
@@ -633,14 +636,14 @@ function O.fillOptions()
 
 	-- General options
 	
-	O.optionsFrame.titleGeneral = content:CreateFontString(nil, content, "GameFontNormal")
+	O.optionsFrame.titleGeneral = content:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	O.optionsFrame.titleGeneral:SetText("|cFFFFFFFF___ " .. L.GENERAL_OPTIONS .. " _______________________________________________________")
 	O.optionsFrame.titleGeneral:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -100)
 	O.optionsFrame.titleGeneral:SetFontObject("GameFontNormalLarge")
 	prev = O.optionsFrame.titleGeneral
 	
 	for _, option in ipairs({"Accept", "TurnIn"}) do
-		local text = content:CreateFontString(nil, content, "GameFontNormal")
+		local text = content:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		text:SetText(L["AUTO_" .. string.upper(option) .. "_QUESTS"])
 		text:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -20)
 		prev = text
@@ -690,7 +693,7 @@ function O.fillOptions()
 
 	-- Debugging options
 
-	O.optionsFrame.titleDebugging = content:CreateFontString(nil, content, "GameFontNormal")
+	O.optionsFrame.titleDebugging = content:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	O.optionsFrame.titleDebugging:SetText("|cFFFFFFFF___ " .. L.DEBUGGING_OPTIONS .. " _______________________________________________________")
 	O.optionsFrame.titleDebugging:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
 	O.optionsFrame.titleDebugging:SetFontObject("GameFontNormalLarge")
@@ -741,7 +744,7 @@ function O.fillOptions()
 		end)
 		content.options["dataSource" .. source]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, i == 1 and -10 or 0)
 		content.options["dataSource" .. source]:SetEnabled(addon[source].isDataSourceInstalled())
-		if not addon[source].isDataSourceInstalled() then content.options["dataSource" .. source].text:SetTextColor(0.4, 0.4, 0.4) end
+		if not addon[source].isDataSourceInstalled() then content.options["dataSource" .. source]:GetFontString():SetTextColor(0.4, 0.4, 0.4) end
 		prev = content.options["dataSource" .. source]
 	end
 end

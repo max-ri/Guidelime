@@ -55,22 +55,22 @@ end
 
 function G.fillGuides()
 	if G.guidesFrame == nil then
-    	G.guidesFrame = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContainer)
+    	G.guidesFrame = CreateFrame("Frame")
     	G.guidesFrame.name = GetAddOnMetadata(addonName, "title")
     	InterfaceOptions_AddCategory(G.guidesFrame)
 	
-		G.guidesFrame.title = G.guidesFrame:CreateFontString(nil, G.guidesFrame, "GameFontNormal")
+		G.guidesFrame.title = G.guidesFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		G.guidesFrame.title:SetText(GetAddOnMetadata(addonName, "title") .. " |cFFFFFFFF" .. GetAddOnMetadata(addonName, "version"))
 		G.guidesFrame.title:SetPoint("TOPLEFT", G.guidesFrame, "TOPLEFT", 20, -20)
 		G.guidesFrame.title:SetFontObject("GameFontNormalLarge")
 		local prev = G.guidesFrame.title
 		
-		G.guidesFrame.text1 = G.guidesFrame:CreateFontString(nil, G.guidesFrame, "GameFontNormal")
+		G.guidesFrame.text1 = G.guidesFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		G.guidesFrame.text1:SetText(L.CURRENT_GUIDE .. ": |cFFFFFFFF" .. (GuidelimeDataChar.currentGuide or "") .. "\n")
 		G.guidesFrame.text1:SetPoint("TOPLEFT", prev, "TOPLEFT", 0, -30)
 		prev = G.guidesFrame.text1
 		
-		G.guidesFrame.text2 = G.guidesFrame:CreateFontString(nil, G.guidesFrame, "GameFontNormal")
+		G.guidesFrame.text2 = G.guidesFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		G.guidesFrame.text2:SetText(L.AVAILABLE_GUIDES .. ":\n")
 		G.guidesFrame.text2:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
 		prev = G.guidesFrame.text2
@@ -93,7 +93,7 @@ function G.fillGuides()
 	
 		prev = scrollFrame
 		
-		G.guidesFrame.text3 = G.guidesFrame:CreateFontString(nil, G.guidesFrame, "GameFontNormal")
+		G.guidesFrame.text3 = G.guidesFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		G.guidesFrame.text3:SetText(L.DETAILS .. ":\n")
 		G.guidesFrame.text3:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -20)
 		prev = G.guidesFrame.text3
@@ -114,7 +114,7 @@ function G.fillGuides()
 			end
 		end)
 		G.guidesFrame.textDetails:SetPoint("TOPLEFT", content, "BOTTOMLEFT", 0, 0)
-		G.guidesFrame.textDetails:SetTextColor(255,255,255,255)
+		G.guidesFrame.textDetails:SetTextColor(1,1,1,1)
 		if addon.guides[GuidelimeDataChar.currentGuide] ~= nil and addon.guides[GuidelimeDataChar.currentGuide].details ~= nil then
 			G.guidesFrame.textDetails:SetText(addon.guides[GuidelimeDataChar.currentGuide].details)
 			G.guidesFrame.textDetails.url = addon.guides[GuidelimeDataChar.currentGuide].detailsUrl or ""
@@ -193,7 +193,7 @@ function G.fillGuides()
 		end
 		if download == nil or GuidelimeData.displayDemoGuides then]]
 		
-		G.guidesFrame.groups[group] = G.guidesFrame.content:CreateFontString(nil, G.guidesFrame.content, "GameFontNormal")
+		G.guidesFrame.groups[group] = G.guidesFrame.content:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		if prev == G.guidesFrame.content then
 			G.guidesFrame.groups[group]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
 		else
@@ -233,7 +233,7 @@ function G.fillGuides()
 			else
 				G.guidesFrame.guides[name]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 			end
-			G.guidesFrame.guides[name]:SetTextColor(255,255,255,255)
+			G.guidesFrame.guides[name]:SetTextColor(1,1,1,1)
 			G.guidesFrame.guides[name]:SetBackdrop({
 				--bgFile = "Interface\\QuestFrame\\UI-QuestLogTitleHighlight",
 				bgFile = "Interface\\AddOns\\" .. addonName .. "\\Icons\\TitleHighlight",
@@ -298,5 +298,4 @@ function G.showGuides()
 		InterfaceOptionsFrame_OpenToCategory(G.guidesFrame)
 	end
 end
-
 
