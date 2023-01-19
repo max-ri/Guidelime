@@ -280,7 +280,7 @@ function E.showEditPopupDETAILS(typ, guide)
 		end
 		insertCode(typ, " " .. popup.textboxName:GetText(), true)
 	end, 200)
-	popup.textName = popup:CreateFontString(nil, popup, "GameFontNormal")
+	popup.textName = popup:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	popup.textName:SetText(L.DETAILS)
 	popup.textName:SetPoint("TOPLEFT", 20, -20)
 	popup.textboxName = CreateFrame("EditBox", nil, popup)
@@ -525,7 +525,7 @@ function E.showEditPopupQUEST(typ, guide, selection)
 	popup.textboxId = F.addTextbox(popup, L.QUEST_ID, 370, L.QUEST_ID_TOOLTIP)
 	popup.textboxId.text:SetPoint("TOPLEFT", 20, -50)
 	popup.textboxId:SetPoint("TOPLEFT", 170, -50)
-	popup.textQuestname = popup:CreateFontString(nil, popup, "GameFontNormal")
+	popup.textQuestname = popup:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	popup.textQuestname:SetPoint("TOPLEFT", 280, -50)
 	if selection ~= nil then 
 		popup.textboxId:SetText(selection.questId) 
@@ -710,7 +710,7 @@ local function addEditButton(typ, prev, point, offsetX, offsetY)
 	button:SetWidth(30)
 	button:SetHeight(24)
 	if addon.icons[typ] ~= nil then
-	    button.texture = button:CreateTexture(nil, "TOOLTIP")
+	    button.texture = button:CreateTexture(nil, "ARTWORK")
 	    button.texture:SetTexture(addon.icons[typ])
 	    button.texture:SetAllPoints(button)
 		button.texture:SetTexCoord(-0.5,1.5,-0.5,1.5)
@@ -789,13 +789,13 @@ function E.showEditor()
 		E.editorFrame.okBtn:SetSize(24, 24)
 		E.editorFrame.okBtn:SetText(nil)
 		
-		E.editorFrame.title = E.editorFrame:CreateFontString(nil, E.editorFrame, "GameFontNormal")
+		E.editorFrame.title = E.editorFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		E.editorFrame.title:SetText(GetAddOnMetadata(addonName, "title") .. " |cFFFFFFFF" .. GetAddOnMetadata(addonName, "version") .." - " .. L.EDITOR)
 		E.editorFrame.title:SetPoint("TOPLEFT", 20, -20)
 		E.editorFrame.title:SetFontObject("GameFontNormalLarge")
 		local prev = E.editorFrame.title
 		
-		E.editorFrame.text1 = E.editorFrame:CreateFontString(nil, E.editorFrame, "GameFontNormal")
+		E.editorFrame.text1 = E.editorFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		E.editorFrame.text1:SetText(L.CURRENT_GUIDE .. ": |cFFFFFFFF" .. (GuidelimeDataChar.currentGuide or "") .. "\n")
 		E.editorFrame.text1:SetPoint("TOPLEFT", prev, "TOPLEFT", 0, -30)
 		prev = E.editorFrame.text1
@@ -879,7 +879,7 @@ function E.showEditor()
 		E.editorFrame.linesBox:SetWidth(E.editorFrame:GetWidth() - 390)
 		E.editorFrame.linesBox:SetFrameLevel(0)
 		
-		E.editorFrame.questInfoText = E.editorFrame:CreateFontString(nil, E.editorFrame, "GameFontNormal")
+		E.editorFrame.questInfoText = E.editorFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		E.editorFrame.questInfoText:SetText(L.QUEST_INFO)
 		E.editorFrame.questInfoText:SetPoint("TOPLEFT", E.editorFrame.scrollFrame, "TOPRIGHT", 40, 0)
 		prev = E.editorFrame.questInfoText
@@ -898,7 +898,7 @@ function E.showEditor()
 		E.editorFrame.questInfo:SetPoint("TOPLEFT", content, "TOPLEFT", 0, 0)
 		prev = E.editorFrame.questInfoScrollFrame
 
-		E.editorFrame.gotoInfoText = E.editorFrame:CreateFontString(nil, E.editorFrame, "GameFontNormal")
+		E.editorFrame.gotoInfoText = E.editorFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		E.editorFrame.gotoInfoText:SetText(L.GOTO_INFO)
 		E.editorFrame.gotoInfoText:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -20)
 		prev = E.editorFrame.gotoInfoText

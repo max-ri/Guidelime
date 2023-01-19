@@ -20,7 +20,13 @@ M.mapIcons = {}
 
 local function createIconFrame(t, index)
     local f = CreateFrame("Button")
-    f.texture = f:CreateTexture(nil, "TOOLTIP")
+	
+	local frameLevel, layer = 7 - index, "OVERLAY"
+	if frameLevel < -8 then frameLevel = frameLevel + 16; layer = "ARTWORK" end
+	if frameLevel < -8 then frameLevel = frameLevel + 16; layer = "BORDER" end
+	if frameLevel < -8 then frameLevel = frameLevel + 16; layer = "BACKGROUND" end
+	if frameLevel < -8 then frameLevel = -8 end
+    f.texture = f:CreateTexture(nil, layer, nil, frameLevel)
 	M.setMapIconTexture(f, t)
 	if t ~= "GOTO" then
 		index = M.SPECIAL_MAP_INDEX[t]
@@ -40,12 +46,6 @@ local function createIconFrame(t, index)
 	f.isSkinned = true
 	
     f.texture:SetAllPoints(f)
-	local frameLevel, layer = 7 - index, "OVERLAY"
-	if frameLevel < -8 then frameLevel = frameLevel + 16; layer = "ARTWORK" end
-	if frameLevel < -8 then frameLevel = frameLevel + 16; layer = "BORDER" end
-	if frameLevel < -8 then frameLevel = frameLevel + 16; layer = "BACKGROUND" end
-	if frameLevel < -8 then frameLevel = -8 end
-	f.texture:SetDrawLayer(layer, frameLevel)
 
     f:SetPoint("CENTER", 0, 0)
     f:EnableMouse(false)

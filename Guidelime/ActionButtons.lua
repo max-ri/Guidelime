@@ -68,7 +68,7 @@ function AB.createTargetButton(i)
 			button.texture2:SetPoint("TOPLEFT", button, 20, -22)					
 			button.texture2:SetPoint("BOTTOMRIGHT", button, -2, 0)
 		end
-		button.hotkey = button:CreateFontString(nil, button, "NumberFontNormalSmallGray")
+		button.hotkey = button:CreateFontString(nil, "ARTWORK", "NumberFontNormalSmallGray")
 		button.hotkey:SetSize(32, 10)
 		button.hotkey:SetPoint("TOPRIGHT", button, 0, -1)
 		button.hotkey:SetJustifyH("RIGHT")
