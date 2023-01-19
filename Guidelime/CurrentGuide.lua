@@ -880,6 +880,7 @@ local function keepFading()
 					update = true
 				else
 					step.fading = step.fading - 0.05
+					if step.fading < 0 then step.fading = 0 end
 					if MW.mainFrame.steps ~= nil and MW.mainFrame.steps[i] ~= nil and MW.mainFrame.steps[i].visible then
 						MW.mainFrame.steps[i]:SetAlpha(step.fading)
 					end

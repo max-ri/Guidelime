@@ -243,22 +243,27 @@ function EV.frame:GOSSIP_SHOW()
 	if (GuidelimeData.autoAcceptQuests or GuidelimeData.autoTurnInQuests) and not IsShiftKeyDown() then 
 		if addon.debugging then print ("LIME: GOSSIP_SHOW", QT.GetGossipActiveQuests()) end
 		if addon.debugging then print ("LIME: GOSSIP_SHOW", QT.GetGossipAvailableQuests()) end
+		local q = { QT.GetGossipActiveQuests() }
 		local selectActive = nil
 		local selectAvailable = nil
 		EV.openNpcAgain = false
-		for _, q in ipairs(QT.GetGossipActiveQuests()) do
-			if q.isComplete and EV.isQuestAuto(GuidelimeData.autoTurnInQuests, q.questID) then
+		for i = 1, QT.GetNumGossipActiveQuests() do
+			local name = q[(i-1) * 6 + 1]
+			local complete = q[(i-1) * 6 + 4]
+			if complete and EV.isQuestAuto(GuidelimeData.autoTurnInQuests, function(id) return name == QT.getQuestNameById(id) end) then
 				if selectActive == nil then
-					selectActive = q.questID
+					selectActive = i
 				else
 					EV.openNpcAgain = true
 				end			
 			end
 		end
-		for _, q in ipairs(QT.GetGossipAvailableQuests()) do
-			if EV.isQuestAuto(GuidelimeData.autoAcceptQuests, q.questID) then
+		q = { QT.GetGossipAvailableQuests() }
+		for i = 1, QT.GetNumGossipAvailableQuests() do
+			local name = q[(i-1) * 7 + 1]
+			if EV.isQuestAuto(GuidelimeData.autoAcceptQuests, function(id) return name == QT.getQuestNameById(id) end) then
 				if selectActive == nil and selectAvailable == nil then
-					selectAvailable = q.questID
+					selectAvailable = i
 				else
 					EV.openNpcAgain = true
 				end			
@@ -278,23 +283,22 @@ function EV.frame:GOSSIP_SHOW()
 		end
 	end
 	if not IsShiftKeyDown() then
-		for _, gossip in ipairs(QT.GetGossipOptions()) do
-			if gossip.icon == 132057 then
+		local gossip = {QT.GetGossipOptions()}
+		for i = 1, QT.GetNumGossipOptions() do
+			if gossip[i * 2] == "taxi" then
 				if GuidelimeData.autoSelectFlight then
 					CG.forEveryActiveElement(function (element)
 						if element.t == "FLY" or element.t == "GET_FLIGHT_POINT" then
-							if addon.debugging then print ("LIME: GOSSIP_SHOW SelectGossipOption", gossip.gossipOptionID) end
-							C_GossipInfo.SelectOption(gossip.gossipOptionID)
+							QT.SelectGossipOption(i)
 							return false
 						end
 					end)
 				end
-			elseif gossip.icon == 132058 then
+			elseif gossip[i * 2] == "trainer" then
 				if GuidelimeData.autoTrain then
 					CG.forEveryActiveElement(function (element)
 						if element.t == "LEARN" and (element.maxSkillMin or element.spell) then
-							if addon.debugging then print ("LIME: GOSSIP_SHOW SelectGossipOption", gossip.gossipOptionID) end
-							C_GossipInfo.SelectOption(gossip.gossipOptionID)
+							QT.SelectGossipOption(i)
 							SetTrainerServiceTypeFilter("available", 1)
 							return false
 						end

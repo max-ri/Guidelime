@@ -177,7 +177,7 @@ function MW.updateMainFrame(reset)
 			end
 		end
 		if #MW.mainFrame.message == 0 then
-			MW.mainFrame.message[1] = F.addMultilineText(MW.mainFrame.scrollChild, ARTWORK, MW.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
+			MW.mainFrame.message[1] = F.addMultilineText(MW.mainFrame.scrollChild, L.GUIDE_FINISHED, MW.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
 				if (button == "RightButton") then
 					MW.showContextMenu(true)
 				else

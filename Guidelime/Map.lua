@@ -242,7 +242,7 @@ function M.showMapIcons()
 			local _
 			_, _, GuidelimeDataChar.arrowRelative, GuidelimeDataChar.arrowX, GuidelimeDataChar.arrowY = M.arrowFrame:GetPoint()
 		end)
-		M.arrowFrame.text = M.arrowFrame:CreateFontString(nil, ARTWORK, "GameFontNormal")
+		M.arrowFrame.text = M.arrowFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		M.arrowFrame.text:SetPoint("TOP", M.arrowFrame, "BOTTOM", 0, 0)
 		M.arrowFrame:SetScript("OnEnter", function(self) 
 			if D.isAlive() then

@@ -61,7 +61,17 @@ function QT.SelectGossipOption(i)
 	if SelectGossipOption ~= nil then return SelectGossipOption(i) end 
 	return C_GossipInfo.SelectOption(i)
 end
+
+function QT.GetGossipOptions()
+	if GetGossipOptions ~= nil then return GetGossipOptions() end
+	return C_GossipInfo.GetOptions()
+end
 	
+function QT.GetNumGossipOptions()
+	if GetNumGossipOptions ~= nil then return GetNumGossipOptions() end
+	return #C_GossipInfo.GetOptions()
+end
+
 function QT.resetCachedQuestData()
 	QT.questPosition = nil
 	QT.questObjectives = nil

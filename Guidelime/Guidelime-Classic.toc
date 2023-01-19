@@ -40,7 +40,7 @@ Guidelime.lua
 MainWindow.lua
 CurrentGuide.lua
 ActionButtons-Classic.lua
-Events.lua
+Events-Classic.lua
 Frames.lua
 Guides.lua
 Options.lua
