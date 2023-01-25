@@ -217,6 +217,7 @@ function D.hasRequirements(guide)
 	if guide.reputation and not D.isRequiredReputation(guide.reputation, guide.repMin, guide.repMax) then return false end
 	if guide.skillReq and not SK.isRequiredSkill(guide.skillReq, guide.skillMin, guide.skillMax) then return false end
 	if guide.spellReq and not SP.isRequiredSpell(guide.spellReq, guide.spellMin, guide.spellMax) then return false end
+	if guide.itemReq and not D.hasItem(guide.itemReq, guide.itemMin, guide.itemMax) then return false end
 	return true
 end
 
@@ -232,4 +233,38 @@ end
 -- Typical call:  if hasbit(x, bit(3)) then ...
 function D.hasbit(x, p)
   return x % (p + p) >= p       
+end
+
+function D.hasItem(itemReq, itemMin, itemMax)
+	if not itemReq then return nil end
+	
+	local itemid = tonumber(itemReq)
+	local itemcnt = 0
+
+	-- note: will NOT scan for items in bank or mailbox, even if opened
+	-- look into KEYRING_CONTAINER (special ID) first
+	for slot = 1, C_Container.GetContainerNumSlots(KEYRING_CONTAINER) do
+		local item = C_Container.GetContainerItemInfo(KEYRING_CONTAINER, slot)
+		if item and tonumber(item["itemID"]) == tonumber(itemid) then
+			itemcnt = itemcnt + tonumber(item["stackCount"])
+			-- if we dont' have a max limit and already found what we need, don't bother looking further
+			if itemMin and itemcnt >= itemMin then return true end
+		end
+	end
+	-- look into all bags
+	for bag = BACKPACK_CONTAINER, NUM_BAG_SLOTS do
+		for slot = 1, C_Container.GetContainerNumSlots(bag) do
+			local item = C_Container.GetContainerItemInfo(bag, slot)
+			if item and tonumber(item["itemID"]) == tonumber(itemid) then
+				itemcnt = itemcnt + tonumber(item["stackCount"])
+				-- if we dont' have a max limit and already found what we need, don't bother looking further
+				if itemMin and itemcnt >= itemMin then return true end
+			end
+		end
+	end
+	
+	-- itemMin was already checked as last command in for loop, so let's look at itemMax
+	if itemMax and itemcnt <= itemMax then return true end
+	
+	return false
 end
