@@ -8,14 +8,14 @@ Guides are shown as a list of steps where the progress is updated automatically 
 items looted / mobs killed, etc). Only for some steps completion has to be confirmed manually (such as resupplying, getting new skills, etc). 
 Locations referenced in the guide are shown on the map and minimap. Also there is an arrow pointing in the direction towards the next step.
 
-It competely supports Burning Crusade Classic and Wrath of the Lich King Classic. There are guides for Draenei, Blood Elf, and Death Knight starting zones, as well as Alliance and Horde Outland and Northrend guides.
+It completely supports Burning Crusade Classic and Wrath of the Lich King Classic. There are guides for Draenei, Blood Elf, and Death Knight starting zones, as well as Alliance and Horde Outland and Northrend guides.
 
 The addon comes with an editor so even if the number of guides included is small (yet) it is very easy to create your own guides or to import
 your favorite guide.
 
-<img src="https://i.imgur.com/6aCB623.png" alt="Guidelime"/>
+*This is for WoW Classic only. It will not run on private servers and/or retail.*
 
-*This is for WoW Classic. It will not run on private servers and/or retail.*
+<img src="https://i.imgur.com/6aCB623.png" alt="Guidelime"/>
 
 ## Where do I find guides for the addon?
 

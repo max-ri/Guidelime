@@ -212,7 +212,7 @@ function F.showCopyPopup(value, text, textwidth, height, multiline)
 	popup.textbox:SetPoint("TOPLEFT", 20 + textwidth, -20)
 	popup.textbox:SetText(value)
 	popup.textbox:SetFocus()
-	popup.textbox:HighlightText(false)
+	popup.textbox:HighlightText()
 	popup:Show()
 	return popup
 end
