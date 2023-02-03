@@ -13,9 +13,9 @@ It completely supports Burning Crusade Classic and Wrath of the Lich King Classi
 The addon comes with an editor so even if the number of guides included is small (yet) it is very easy to create your own guides or to import
 your favorite guide.
 
-<img src="https://i.imgur.com/6aCB623.png" alt="Guidelime"/>
+*This is for WoW Classic only. It will not run on private servers and/or retail.*
 
-*This is for WoW Classic. It will not run on private servers and/or retail.*
+<img src="https://i.imgur.com/6aCB623.png" alt="Guidelime"/>
 
 ## Where do I find guides for the addon?
 
