@@ -433,6 +433,20 @@ function GP.parseLine(step, guide, strict, nameOnly)
 					end
 					-- if none specified spell rank 1 is required
 					if step.spellMin == nil and step.spellMax == nil then step.spellMin = 1 end
+				elseif c == "IT" and value1 ~= "" then
+					step.itemReq = tonumber(value1)
+					-- note that itemMin is not "minimum number of items", but "greater than" (not "greater or equal"), analog itemMax
+					if less == "<" then
+						-- if value2 is not filled, assume we don't want that item at all, so <1
+						step.itemMax = tonumber(value2) or 1
+					elseif less == ">" then
+						-- if value2 is not filled, assume we want at least one of these items, so >0
+						step.itemMin = tonumber(value2) or 0
+					end
+					-- if neither min nor max is set, check for "exists", that is: at least one, so >0
+					if step.itemMin == nil and step.itemMax == nil then
+						step.itemMin = 0
+					end
 				elseif value1 ~= "" and (less ~= "" or value2 ~= "") then
 					F.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
 					err = true

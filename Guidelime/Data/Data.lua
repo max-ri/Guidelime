@@ -217,6 +217,7 @@ function D.hasRequirements(guide)
 	if guide.reputation and not D.isRequiredReputation(guide.reputation, guide.repMin, guide.repMax) then return false end
 	if guide.skillReq and not SK.isRequiredSkill(guide.skillReq, guide.skillMin, guide.skillMax) then return false end
 	if guide.spellReq and not SP.isRequiredSpell(guide.spellReq, guide.spellMin, guide.spellMax) then return false end
+	if guide.itemReq and not D.hasItem(guide.itemReq, guide.itemMin, guide.itemMax) then return false end
 	return true
 end
 
@@ -232,4 +233,16 @@ end
 -- Typical call:  if hasbit(x, bit(3)) then ...
 function D.hasbit(x, p)
   return x % (p + p) >= p       
+end
+
+function D.hasItem(itemReq, itemMin, itemMax)
+	-- note that itemMin is not "minimum number of items", but "greater than" (not "greater or equal"), analog itemMax
+	-- as pattern match for element.t == "APPLIES" in GuideParser.lua does not allow for <= or >=
+
+	local itemcnt = GetItemCount(tonumber(itemReq))
+
+	if itemMin ~= nil then return (itemcnt > itemMin) end
+	if itemMax ~= nil then return (itemcnt < itemMax) end
+
+	return nil
 end
