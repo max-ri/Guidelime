@@ -231,6 +231,7 @@ function O.fillOptions()
 	O.optionsFrame.showCompletedSteps = F.addCheckOption(content, GuidelimeDataChar, "mainFrameShowScrollBar", L.MAIN_FRAME_SHOW_SCROLLBAR, nil, function()
 		MW.mainFrame.scrollFrame.ScrollBar:SetAlpha(GuidelimeDataChar.mainFrameShowScrollBar and 1 or 0)
 		MW.mainFrame.scrollFrame.ScrollBar:SetEnabled(GuidelimeDataChar.mainFrameShowScrollBar)
+		MW.mainFrame.scrollFrame.ScrollBar:SetFrameLevel(GuidelimeDataChar.mainFrameShowScrollBar and 1000 or 0)
 		if GuidelimeDataChar.showUseItemButtons == "RIGHT" or GuidelimeDataChar.showTargetButtons == "RIGHT" then
 			AB.updateTargetButtons()
 			AB.updateUseItemButtons()
