@@ -284,48 +284,48 @@ function addon.loadData()
 
 	if addon.debugging then Guidelime.addon = addon end
 	--if addon.debugging then addon.testLocalization() end
+end
+
+function addon.init()
+	if not GuidelimeData then GuidelimeData = {} end
+    LibDBIcon:Register(addonName, LibDataBroker:NewDataObject(addonName, 
+	{
+        type = "data source",
+        icon = "Interface\\Addons\\" .. addonName .. "\\Icons\\lime",
+        OnClick = function(_, button)
+			if not IsShiftKeyDown() then
+	            if button == "LeftButton" then
+	                Guidelime.toggleMainFrame()
+	            else
+					addon.O.showOptions()
+	            end
+			else
+	            if button == "LeftButton" then
+	                Guidelime.toggleMapMarkers()
+	            else
+					Guidelime.toggleMinimapMarkers()
+	            end
+			end
+        end,
+        OnTooltipShow = function(tooltip)
+            tooltip:AddLine(addonName)
+            tooltip:AddLine(addon.MW.COLOR_INACTIVE .. L.LEFT_CLICK .. ":|r " .. (GuidelimeDataChar.mainFrameShowing and L.HIDE_MAINFRAME or L.SHOW_MAINFRAME))
+            tooltip:AddLine(addon.MW.COLOR_INACTIVE .. L.RIGHT_CLICK .. ":|r " .. GAMEOPTIONS_MENU)
+            tooltip:AddLine(addon.MW.COLOR_INACTIVE .. L.SHIFT_LEFT_CLICK .. ":|r " .. ((GuidelimeData.showMapMarkersGOTO or GuidelimeData.showMapMarkersLOC) and L.HIDE_MARKERS_ON or L.SHOW_MARKERS_ON) .. " " .. L.MAP)
+            tooltip:AddLine(addon.MW.COLOR_INACTIVE .. L.SHIFT_RIGHT_CLICK .. ":|r " .. ((GuidelimeData.showMinimapMarkersGOTO or GuidelimeData.showMinimapMarkersLOC) and L.HIDE_MARKERS_ON or L.SHOW_MARKERS_ON) .. " " .. L.MINIMAP)
+        end
+    }), GuidelimeData)
+	addon.minimapButtonFlash = LibDBIcon:GetMinimapButton(addonName):CreateAnimationGroup()
+	local flash = addon.minimapButtonFlash:CreateAnimation("Alpha")
+	flash:SetOrder(1)
+	flash:SetDuration(0.5)
+	flash:SetFromAlpha(0)
+	flash:SetToAlpha(1)
+	addon.minimapButtonFlash:SetToFinalAlpha(true)	
 	addon.setupMinimapButton()
 end
 
 function addon.setupMinimapButton()
-	if not LibDBIcon:GetMinimapButton(addonName) then
-	    LibDBIcon:Register(addonName, LibDataBroker:NewDataObject(addonName, 
-		{
-	        type = "data source",
-	        label = addonName,
-	        icon = "Interface\\Addons\\" .. addonName .. "\\Icons\\lime",
-	        tocname = addonName,
-	        OnClick = function(_, button)
-				if not IsShiftKeyDown() then
-		            if button == "LeftButton" then
-		                Guidelime.toggleMainFrame()
-		            else
-						addon.O.showOptions()
-		            end
-				else
-		            if button == "LeftButton" then
-		                Guidelime.toggleMapMarkers()
-		            else
-						Guidelime.toggleMinimapMarkers()
-		            end
-				end
-	        end,
-	        OnTooltipShow = function(tooltip)
-	            tooltip:AddLine(addonName)
-	            tooltip:AddLine(addon.MW.COLOR_INACTIVE .. L.LEFT_CLICK .. ":|r " .. (GuidelimeDataChar.mainFrameShowing and L.HIDE_MAINFRAME or L.SHOW_MAINFRAME))
-	            tooltip:AddLine(addon.MW.COLOR_INACTIVE .. L.RIGHT_CLICK .. ":|r " .. GAMEOPTIONS_MENU)
-	            tooltip:AddLine(addon.MW.COLOR_INACTIVE .. L.SHIFT_LEFT_CLICK .. ":|r " .. ((GuidelimeData.showMapMarkersGOTO or GuidelimeData.showMapMarkersLOC) and L.HIDE_MARKERS_ON or L.SHOW_MARKERS_ON) .. " " .. L.MAP)
-	            tooltip:AddLine(addon.MW.COLOR_INACTIVE .. L.SHIFT_RIGHT_CLICK .. ":|r " .. ((GuidelimeData.showMinimapMarkersGOTO or GuidelimeData.showMinimapMarkersLOC) and L.HIDE_MARKERS_ON or L.SHOW_MARKERS_ON) .. " " .. L.MINIMAP)
-	        end
-	    }), GuidelimeData)
-		addon.minimapButtonFlash = LibDBIcon:GetMinimapButton(addonName):CreateAnimationGroup()
-		local flash = addon.minimapButtonFlash:CreateAnimation("Alpha")
-		flash:SetOrder(1)
-		flash:SetDuration(0.5)
-		flash:SetFromAlpha(0)
-		flash:SetToAlpha(1)
-		addon.minimapButtonFlash:SetToFinalAlpha(true)
-	end
 	if (GuidelimeDataChar.showMinimapButton == "hiddenMainFrame" and not GuidelimeDataChar.mainFrameShowing) or GuidelimeDataChar.showMinimapButton == true then
 		LibDBIcon:Show(addonName)
 	else
