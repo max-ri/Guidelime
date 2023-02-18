@@ -288,6 +288,7 @@ end
 
 function addon.init()
 	if not GuidelimeData then GuidelimeData = {} end
+	if not GuidelimeDataChar then GuidelimeDataChar = {} end
     LibDBIcon:Register(addonName, LibDataBroker:NewDataObject(addonName, 
 	{
         type = "data source",
