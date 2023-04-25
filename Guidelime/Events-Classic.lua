@@ -27,14 +27,13 @@ EV.frame:SetScript("OnEvent", function(self, event, ...)
 	EV.frame[event](self, ...)
 end)
 
-local function init()
-	if not addon.dataLoaded then addon.loadData() end
-	if GuidelimeDataChar.mainFrameShowing then MW.showMainFrame() end
-end
-
 EV.frame:RegisterEvent('PLAYER_LOGIN')
 function EV.frame:PLAYER_LOGIN()
-	C_Timer.After(2, init)
+	addon.init()
+	C_Timer.After(2, function()
+		if not addon.dataLoaded then addon.loadData() end
+		if GuidelimeDataChar.mainFrameShowing then MW.showMainFrame() end
+	end)
 end
 
 EV.frame:RegisterEvent('PLAYER_LEVEL_UP')
