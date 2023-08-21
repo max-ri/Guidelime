@@ -305,6 +305,7 @@ function D.getRaceIconText(race, sex, size)
 end
 
 function D.getClassIconText(class, size)
+	-- cf https://wowpedia.fandom.com/wiki/Class_icon; alternative icon suggestions there as well
 	local coords = CLASS_ICON_TCOORDS[D.getClass(class):upper()]
 	return "|TInterface\\GLUES\\CHARACTERCREATE\\UI-CHARACTERCREATE-CLASSES:" .. (size or 12) .. ":" .. (size or 12) .. ":0:0:128:128:" .. 
 		coords[1] * 128 .. ":" .. coords[2] * 128 .. ":" .. coords[3] * 128 .. ":" .. coords[4] * 128 .. ":::|t"

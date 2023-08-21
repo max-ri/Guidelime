@@ -66,62 +66,6 @@ function SP.isRequiredSpell(name, spellMin, spellMax)
 	return true
 end
 
------------------------- remove this
-
-function SP.scanSpells()
-	SP.allSpells = {}
-	for id = 1, 99999 do
-		local s = {}
-		s.name, s.rank, s.icon, s.castTime, s.minRange, s.maxRange, _, s.originalIcon = GetSpellInfo(id)
-		if s.name then
-			SP.allSpells[id] = s
-		end
-	end
-	print("LIME: scanning spells done")
-end
-
-local function discoverSpell(name)
-	local id = SP.getSpellIdByName(name)
-	local s = SP.allSpells[id]
-	name = name:upper():gsub("[ :%-%(%)'\"]", "")
-	if not s then
-		print("LIME: unknown spell found", id, name)
-	elseif not SP.spells[name] and (not GuidelimeData.spells[name] or GuidelimeData.spells[name].id > id) then
-		print("LIME: spell found", id, name)
-		GuidelimeData.spells[name] = s
-		GuidelimeData.spells[name].id = id
-	end
-end
-
-function SP.discoverSpells()
-	if SP.allSpells == nil then SP.scanSpells() end
-	GuidelimeData.spells = {}
-	SetTrainerServiceTypeFilter("available", 1)
-	SetTrainerServiceTypeFilter("unavailable", 1)
-	SetTrainerServiceTypeFilter("used", 1)
-	for i = 1, GetNumTrainerServices() do
-		local name, rank, category = GetTrainerServiceInfo(i)
-		if (name == nil) then break end
-		discoverSpell(name)
-	end
-	print("LIME: discover spells done")
-end
-
-function SP.getSpellIdByName(name)
-	if not SP.spellIDsByName then
-		SP.spellIDsByName = {}
-		for id, spell in pairs(SP.allSpells) do
-			if not SP.spellIDsByName[spell.name] or id < SP.spellIDsByName[spell.name] then
-				SP.spellIDsByName[spell.name] = id
-			end
-		end
-	end
-	return SP.spellIDsByName[name]
-end
-
--------------------
-
-
 SP.spells = {
 		["FLYINGCARPET"] = {
 			["maxRange"] = 0,

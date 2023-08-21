@@ -82,7 +82,7 @@ function LIME_Mark(iconId)
 end
 
 local function getTargetMacro(t)
-	return "/targetexact [nodead] " .. t.name .. 
+	return "/targetexact " .. t.name .. 
 		(t.marker and "\n/run LIME_Mark(".. t.marker .. ")" or "")
 end
 
