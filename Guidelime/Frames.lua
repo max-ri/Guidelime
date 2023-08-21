@@ -216,3 +216,12 @@ function F.showCopyPopup(value, text, textwidth, height, multiline)
 	popup:Show()
 	return popup
 end
+
+function F.SetResizeBounds(frame, minW, minH, maxW, maxH)
+	if frame.SetResizeBounds ~= nil then
+		frame:SetResizeBounds(minW, minH, maxW, maxH)
+	else
+		frame:SetMinResize(minW, minH)
+		if maxW ~= nil or maxH ~= nil then frame:SetMaxResize(max) end
+	end
+end
