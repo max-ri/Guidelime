@@ -128,7 +128,7 @@ if select(4, GetBuildInfo()) >= 30000 then
 	FM.flightmasterDB[27046] = {zone = "Coldarra", name = "Warmage Adami", place = "Transitus Shield", localesIndex = 226}
 	FM.flightmasterDB[30271] = {zone = "Crystalsong Forest", name = "Galendror Whitewing", place = "Windrunner's Overlook", faction = "Alliance", localesIndex = 336}
 	FM.flightmasterDB[30269] = {zone = "Crystalsong Forest", name = "Skymaster Baeric ", place = "Sunreaver's Command", faction = "Horde", localesIndex = 337}
-	FM.flightmasterDB[96813] = {zone = "Dalaran", name = "Aludane Whitecloud", localesIndex = 310}
+	FM.flightmasterDB[28674] = {zone = "Dalaran", name = "Aludane Whitecloud", localesIndex = 310}
 	FM.flightmasterDB[26878] = {zone = "Dragonblight", name = "Rodney Wells", place = "Wintergarde Keep", faction = "Alliance", localesIndex = 244}
 	FM.flightmasterDB[26881] = {zone = "Dragonblight", name = "Palena Silvercloud ", place = "Stars' Rest", faction = "Alliance", localesIndex = 247}
 	FM.flightmasterDB[26877] = {zone = "Dragonblight", name = "Derek Rammel", place = "Fordragon Hold", faction = "Alliance", localesIndex = 251}
