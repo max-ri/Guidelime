@@ -136,7 +136,7 @@ function F.createPopupFrame(message, okFunc, hasCancel, height)
 		insets = { left = 11, right = 12, top = 12, bottom = 11}
 	})
 	F.popupFrame:SetBackdropColor(0,0,0,1)
-	--F.popupFrame:SetFrameStrata("DIALOG")
+	F.popupFrame:SetFrameStrata("DIALOG")
 	F.popupFrame:SetFrameLevel(F.popupFrame:GetParent():GetFrameLevel() + 2)
 	F.popupFrame:SetMovable(true)
 	F.popupFrame:SetScript("OnKeyDown", function(self,key) 

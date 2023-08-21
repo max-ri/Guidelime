@@ -27,6 +27,8 @@ MW.COLOR_WHITE = "|cFFFFFFFF"
 MW.COLOR_LIGHT_BLUE = "|cFF99CCFF"
 MW.COLOR_INACTIVE = "|cFF666666"
 
+MW.GAP = 2
+
 function MW.getLevelColor(level)
 	if level == nil then
 		return MW.COLOR_LEVEL_GRAY
@@ -51,37 +53,36 @@ function MW.getRequiredLevelColor(level)
 	end
 end
 
-function MW.showContextMenu(inMainFrame, questId)
+function MW.showContextMenu(questId)
 	local menu = {
+		{text = L.SHOW_MAINFRAME, checked = true, func = MW.hideMainFrame},
 		{text = L.AVAILABLE_GUIDES .. "...", checked = G.isGuidesShowing(), func = G.showGuides},
 		{text = GAMEOPTIONS_MENU .. "...", checked = O.isOptionsShowing(), func = O.showOptions},
-	}
-	if inMainFrame then
-		menu[#menu + 1] = {text = L.EDITOR .. "...", checked = E.isEditorShowing(), func = E.showEditor}
-		menu[#menu + 1] = {text = L.SHOW_GUIDE_TITLE, checked = GuidelimeDataChar.showTitle, func = function()
+		{text = L.EDITOR .. "...", checked = E.isEditorShowing(), func = E.showEditor},
+		{text = L.SHOW_GUIDE_TITLE, checked = GuidelimeDataChar.showTitle, func = function()
 			GuidelimeDataChar.showTitle = not GuidelimeDataChar.showTitle
 			if O.optionsFrame ~= nil then
 				O.optionsFrame.showTitle:SetChecked(GuidelimeDataChar.showTitle)
 			end
 			MW.updateMainFrame()
-		end}
-		menu[#menu + 1] = {text = L.SHOW_COMPLETED_STEPS, checked = GuidelimeDataChar.showCompletedSteps, func = function()
+		end},
+		{text = L.SHOW_COMPLETED_STEPS, checked = GuidelimeDataChar.showCompletedSteps, func = function()
 			GuidelimeDataChar.showCompletedSteps = not GuidelimeDataChar.showCompletedSteps
 			if O.optionsFrame ~= nil then
 				O.optionsFrame.showCompletedSteps:SetChecked(GuidelimeDataChar.showCompletedSteps)
 			end
 			MW.updateMainFrame()
-		end}
-		menu[#menu + 1] = {text = L.SHOW_UNAVAILABLE_STEPS, checked = GuidelimeDataChar.showUnavailableSteps, func = function()
+		end},
+		{text = L.SHOW_UNAVAILABLE_STEPS, checked = GuidelimeDataChar.showUnavailableSteps, func = function()
 			GuidelimeDataChar.showUnavailableSteps = not GuidelimeDataChar.showUnavailableSteps
 			if O.optionsFrame ~= nil then
 				O.optionsFrame.showUnavailableSteps:SetChecked(GuidelimeDataChar.showUnavailableSteps)
 			end
 			MW.updateMainFrame()
-		end}
-	end
-	menu[#menu + 1] = {text = L.SHOW_MARKERS_ON .. " " .. L.MAP, checked = GuidelimeData.showMapMarkersGOTO or GuidelimeData.showMapMarkersLOC, func = Guidelime.toggleMapMarkers}
-	menu[#menu + 1] = {text = L.SHOW_MARKERS_ON .. " " .. L.MINIMAP, checked = GuidelimeData.showMinimapMarkersGOTO or GuidelimeData.showMinimapMarkersLOC, func = Guidelime.toggleMinimapMarkers}
+		end},
+		{text = L.SHOW_MARKERS_ON .. " " .. L.MAP, checked = GuidelimeData.showMapMarkersGOTO or GuidelimeData.showMapMarkersLOC, func = Guidelime.toggleMapMarkers},
+		{text = L.SHOW_MARKERS_ON .. " " .. L.MINIMAP, checked = GuidelimeData.showMinimapMarkersGOTO or GuidelimeData.showMinimapMarkersLOC, func = Guidelime.toggleMinimapMarkers}
+	}
 	if questId then
 		menu[#menu + 1] = {text = L.WOWHEAD_OPEN_QUEST, notCheckable = true, func = function()
 			F.showUrlPopup((select(4, GetBuildInfo()) < 20000 and L.WOWHEAD_URL_CLASSIC or L.WOWHEAD_URL_WOTLK) .. "/quest=" .. questId)
@@ -99,6 +100,29 @@ end
 function Guidelime.toggleMinimapMarkers()
 	O.toggleOptions(GuidelimeData, "showMinimapMarkersGOTO", "showMinimapMarkersLOC")
 	MW.updateMainFrame()
+end
+
+local function onMouseDown(self, button)
+	if button == "LeftButton" then
+		if not GuidelimeDataChar.mainFrameLocked then 
+			MW.mainFrame:StartMoving() 
+		end
+		MW.mainFrame.lockBtn:SetAlpha(1)
+	end
+end
+
+local function onMouseUp(self, button)
+	if button == "LeftButton" then
+		MW.mainFrame:StopMovingOrSizing()
+		MW.mainFrame.lockBtn:SetAlpha(0)
+		local _, _, rel, x, y = MW.mainFrame:GetPoint()
+		x = math.floor(tonumber(x)); y = math.floor(tonumber(y))
+		GuidelimeDataChar.mainFrameRelative = rel
+		GuidelimeDataChar.mainFrameX = x
+		GuidelimeDataChar.mainFrameY = y
+	elseif button == "RightButton" then
+		MW.showContextMenu()
+	end
 end
 
 function MW.updateMainFrame(reset)
@@ -129,7 +153,7 @@ function MW.updateMainFrame(reset)
 		if addon.debugging then print("LIME: No guide loaded") end
 		MW.mainFrame.message[1] = F.addMultilineText(MW.mainFrame.scrollChild, L.NO_GUIDE_LOADED, MW.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
 			if (button == "RightButton") then
-				MW.showContextMenu(true)
+				MW.showContextMenu()
 			else
 				G.showGuides()
 			end
@@ -165,7 +189,7 @@ function MW.updateMainFrame(reset)
 					end
 					MW.mainFrame.message[i] = F.addMultilineText(MW.mainFrame.scrollChild, msg, MW.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
 						if (button == "RightButton") then
-							MW.showContextMenu(true)
+							MW.showContextMenu()
 						else
 							G.loadGuide(CG.currentGuide.group .. " " .. next)
 						end
@@ -179,7 +203,7 @@ function MW.updateMainFrame(reset)
 		if #MW.mainFrame.message == 0 then
 			MW.mainFrame.message[1] = F.addMultilineText(MW.mainFrame.scrollChild, L.GUIDE_FINISHED, MW.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
 				if (button == "RightButton") then
-					MW.showContextMenu(true)
+					MW.showContextMenu()
 				else
 					G.showGuides()
 				end
@@ -192,7 +216,7 @@ function MW.updateMainFrame(reset)
 					string.format(L.DOWNLOAD_FULL_GUIDE, guide.downloadMinLevel, guide.downloadMaxLevel, guide.download, "\n|cFFAAAAAA" .. guide.downloadUrl), 
 					MW.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
 					if (button == "RightButton") then
-						MW.showContextMenu(true)
+						MW.showContextMenu()
 					else
 						F.showUrlPopup(guide.downloadUrl) 
 					end
@@ -208,15 +232,18 @@ function MW.updateMainFrame(reset)
 		local time
 		if addon.debugging then time = debugprofilestop() end
 
-		local prev
 		if GuidelimeDataChar.showTitle then
 			MW.mainFrame.titleBox:SetText(CG.currentGuide.name)
 			MW.mainFrame.titleBox:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
 			MW.mainFrame.titleBox:Show()
-			prev = MW.mainFrame.titleBox
+			MW.mainFrame.titleLine:Show()
+			MW.mainFrame.scrollFrame:SetPoint("TOPLEFT", MW.mainFrame.titleLine)
 		else
 			MW.mainFrame.titleBox:Hide()
+			MW.mainFrame.titleLine:Hide()
+			MW.mainFrame.scrollFrame:SetPoint("TOPLEFT", MW.mainFrame)
 		end
+		local prev
 		for i, step in ipairs(CG.currentGuide.steps) do
 			if CG.stepIsVisible(step) then
 				if step.active or GuidelimeData.maxNumOfSteps == 0 or (CG.currentGuide.lastActiveIndex ~= nil and i - CG.currentGuide.lastActiveIndex < GuidelimeData.maxNumOfSteps) then
@@ -240,7 +267,7 @@ function MW.updateMainFrame(reset)
 							local element = CG.currentGuide.steps[i].elements[j]
 							if not element then return end
 							if button == "RightButton" then
-								MW.showContextMenu(true, element.questId)
+								MW.showContextMenu(element.questId)
 							else
 								if element.questId then
 									QL.showQuestLogFrame(element.questId)
@@ -250,6 +277,8 @@ function MW.updateMainFrame(reset)
 							end
 						end)
 						MW.mainFrame.steps[i].textBox:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
+						MW.mainFrame.steps[i].textBox:SetScript("OnMouseDown", onMouseDown)
+						MW.mainFrame.steps[i].textBox:SetScript("OnMouseUp", onMouseUp)
 					end
 					MW.mainFrame.steps[i].textBox:SetPoint("TOPLEFT", MW.mainFrame.steps[i], "TOPLEFT", 35, -9)
 					MW.mainFrame.steps[i].textBox:SetWidth(MW.mainFrame.scrollChild:GetWidth() - 40)
@@ -257,9 +286,9 @@ function MW.updateMainFrame(reset)
 					MW.mainFrame.steps[i]:Show()
 					MW.mainFrame.steps[i].visible = true
 					if prev then
-						MW.mainFrame.steps[i]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -35, -2)
+						MW.mainFrame.steps[i]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -35, -MW.GAP)
 					else
-						MW.mainFrame.steps[i]:SetPoint("TOPLEFT", MW.mainFrame.scrollChild, "TOPLEFT", 0, -5)
+						MW.mainFrame.steps[i]:SetPoint("TOPLEFT", MW.mainFrame.scrollChild, "TOPLEFT", 0, -MW.GAP)
 					end
 					MW.mainFrame.steps[i]:SetChecked(step.completed or step.skip)
 					MW.mainFrame.steps[i]:SetEnabled(not step.completed or step.skip)
@@ -307,18 +336,9 @@ function MW.showMainFrame()
 		MW.mainFrame:SetMovable(true)
 		MW.mainFrame:EnableMouse(true)
 		MW.mainFrame:SetResizable(true)
-		MW.mainFrame:SetScript("OnMouseDown", function(self, button)
-			if (button == "LeftButton" and not GuidelimeDataChar.mainFrameLocked) then MW.mainFrame:StartMoving() end
-		end)
-		MW.mainFrame:SetScript("OnMouseUp", function(self, button)
-			if (button == "LeftButton") then
-				MW.mainFrame:StopMovingOrSizing()
-				local _
-				_, _, GuidelimeDataChar.mainFrameRelative, GuidelimeDataChar.mainFrameX, GuidelimeDataChar.mainFrameY = MW.mainFrame:GetPoint()
-			elseif (button == "RightButton") then
-				MW.showContextMenu(true)
-			end
-		end)
+		MW.mainFrame:SetResizeBounds(250, 250)
+		MW.mainFrame:SetScript("OnMouseDown", onMouseDown)
+		MW.mainFrame:SetScript("OnMouseUp", onMouseUp)
 		MW.mainFrame.sizeGrabber = CreateFrame("Button", nil, MW.mainFrame)
 		MW.mainFrame.sizeGrabber:SetFrameLevel(999)
 		MW.mainFrame.sizeGrabber:SetSize(16, 16)
@@ -332,7 +352,7 @@ function MW.showMainFrame()
 			MW.mainFrame:StopMovingOrSizing()
 			GuidelimeDataChar.mainFrameWidth, GuidelimeDataChar.mainFrameHeight = MW.mainFrame:GetSize()
 			MW.mainFrame.scrollChild:SetSize(MW.mainFrame:GetSize())
-			MW.mainFrame.titleBox:SetWidth(GuidelimeDataChar.mainFrameWidth - 40)
+			MW.mainFrame.titleBox:SetWidth(GuidelimeDataChar.mainFrameWidth)
 			if O.optionsFrame then
 				O.optionsFrame.mainFrameWidth:SetValue(GuidelimeDataChar.mainFrameWidth)
 				O.optionsFrame.mainFrameHeight:SetValue(GuidelimeDataChar.mainFrameHeight)
@@ -341,9 +361,29 @@ function MW.showMainFrame()
 		end)
 		if GuidelimeDataChar.mainFrameLocked then MW.mainFrame.sizeGrabber:Hide() end
 		
+		MW.mainFrame.titleBox = F.addMultilineText(MW.mainFrame, nil, MW.mainFrame:GetWidth(), "")
+		MW.mainFrame.titleBox:SetPoint("TOPLEFT", MW.mainFrame, "TOPLEFT", 0, -5)
+		MW.mainFrame.titleBox:SetJustifyH("CENTER")
+		MW.mainFrame.titleBox:SetScript("OnMouseDown", onMouseDown)
+		MW.mainFrame.titleBox:SetScript("OnMouseUp", onMouseUp)
+    	MW.mainFrame.titleLine = MW.mainFrame:CreateLine()
+    	MW.mainFrame.titleLine:SetColorTexture(0.4, 0.4, 0.4)
+		MW.mainFrame.titleLine:SetThickness(1)
+    	MW.mainFrame.titleLine:SetStartPoint("TOPLEFT", MW.mainFrame, 0, -25)
+    	MW.mainFrame.titleLine:SetEndPoint("TOPRIGHT", MW.mainFrame, 0, -25)
+
 		MW.mainFrame.scrollFrame = CreateFrame("SCROLLFRAME", nil, MW.mainFrame, "UIPanelScrollFrameTemplate")
 		MW.mainFrame.scrollFrame:SetAllPoints(MW.mainFrame)
-
+		MW.mainFrame.scrollFrame.ScrollBar:SetThumbTexture(addon.icons.SCROLL_THUMB)
+		--MW.mainFrame.scrollFrame.ScrollBar.ScrollDownButton.Normal:SetTexture(addon.icons.SCROLL_DOWN)
+		--MW.mainFrame.scrollFrame.ScrollBar.ScrollDownButton.Disabled:SetTexture(addon.icons.SCROLL_DOWN)
+		--MW.mainFrame.scrollFrame.ScrollBar.ScrollDownButton.Disabled:SetDesaturated(true)
+		--MW.mainFrame.scrollFrame.ScrollBar.ScrollDownButton.Highlight:SetTexture(addon.icons.SCROLL_DOWN)
+		--MW.mainFrame.scrollFrame.ScrollBar.ScrollDownButton.Pushed:SetTexture(addon.icons.SCROLL_DOWN)
+		--MW.mainFrame.scrollFrame.ScrollBar.ScrollDownButton.Pushed:SetRotation(0.5)
+		--MW.mainFrame.scrollFrame.ScrollBar.ScrollUpButton.Normal:SetTexture(addon.icons.SCROLL_UP)
+		--MW.mainFrame.scrollFrame.ScrollBar.ScrollUpButton.Disabled:SetTexture(addon.icons.SCROLL_UP)
+		--MW.mainFrame.scrollFrame.ScrollBar.ScrollUpButton.Disabled:SetDesaturated(true)
 		MW.mainFrame.scrollChild = CreateFrame("FRAME", nil, MW.mainFrame)
 		MW.mainFrame.scrollFrame:SetScrollChild(MW.mainFrame.scrollChild);
 		MW.mainFrame.scrollChild:SetSize(MW.mainFrame:GetSize())
@@ -354,62 +394,71 @@ function MW.showMainFrame()
 			MW.mainFrame.scrollFrame.ScrollBar:SetFrameLevel(0)
 		end
 		
-		MW.mainFrame.titleBox = F.addMultilineText(MW.mainFrame.scrollChild, nil, MW.mainFrame.scrollChild:GetWidth() - 40, "")
-		MW.mainFrame.titleBox:SetPoint("TOPLEFT", MW.mainFrame.scrollChild, "TOPLEFT", 35, -14)
-		
 		if EV.firstLogUpdate then
 			EV.updateFromQuestLog()
 			MW.updateMainFrame()
 		end
 
-		MW.mainFrame.doneBtn = CreateFrame("BUTTON", "doneBtn", MW.mainFrame)
-		MW.mainFrame.doneBtn:SetFrameLevel(9999)
-		MW.mainFrame.doneBtn:SetSize(24, 24)
-		MW.mainFrame.doneBtn:SetNormalTexture("Interface/Buttons/UI-Panel-MinimizeButton-Up")
-		MW.mainFrame.doneBtn:SetHighlightTexture("Interface/Buttons/UI-Panel-MinimizeButton-Highlight")
-		MW.mainFrame.doneBtn:SetPushedTexture("Interface/Buttons/UI-Panel-MinimizeButton-Down")
-		MW.mainFrame.doneBtn:SetPoint("TOPRIGHT", MW.mainFrame, "TOPRIGHT", 0,0)
-		MW.mainFrame.doneBtn:SetScript("OnClick", function()
-			MW.hideMainFrame()
-		end)
-
 		MW.mainFrame.lockBtn = CreateFrame("BUTTON", "lockBtn", MW.mainFrame)
 		MW.mainFrame.lockBtn:SetFrameLevel(9999)
 		MW.mainFrame.lockBtn:SetSize(24, 24)
-		MW.mainFrame.lockBtn:SetPoint("TOPRIGHT", MW.mainFrame, "TOPRIGHT", -20,0)
+		MW.mainFrame.lockBtn:SetPoint("TOPRIGHT", MW.mainFrame, "TOPRIGHT", 0,0)
 		if GuidelimeDataChar.mainFrameLocked then
-			MW.mainFrame.lockBtn:SetPushedTexture("Interface/Buttons/LockButton-Unlocked-Down")
 			MW.mainFrame.lockBtn:SetNormalTexture("Interface/Buttons/LockButton-Locked-Up")
+			MW.mainFrame.lockBtn:SetPushedTexture("Interface/Buttons/LockButton-Unlocked-Down")
 		else
 			MW.mainFrame.lockBtn:SetNormalTexture("Interface/Buttons/LockButton-Unlocked-Down")
-			MW.mainFrame.lockBtn:SetPushedTexture("Interface/Buttons/LockButton-Locked-Up")
+			MW.mainFrame.lockBtn:SetPushedTexture("Interface/Buttons/LockButton-Unlocked-Down")
 		end
-		MW.mainFrame.lockBtn:SetScript("OnClick", function()
-			GuidelimeDataChar.mainFrameLocked = not GuidelimeDataChar.mainFrameLocked
-			if O.optionsFrame ~= nil then O.optionsFrame.mainFrameLocked:SetChecked(GuidelimeDataChar.mainFrameLocked) end
-			if GuidelimeDataChar.mainFrameLocked then
-				MW.mainFrame.lockBtn:SetPushedTexture("Interface/Buttons/LockButton-Unlocked-Down")
-				MW.mainFrame.lockBtn:SetNormalTexture("Interface/Buttons/LockButton-Locked-Up")
-				MW.mainFrame.sizeGrabber:Hide()
-			else
-				MW.mainFrame.lockBtn:SetNormalTexture("Interface/Buttons/LockButton-Unlocked-Down")
-				MW.mainFrame.lockBtn:SetPushedTexture("Interface/Buttons/LockButton-Locked-Up")
-				MW.mainFrame.sizeGrabber:Show()
+		
+		MW.mainFrame.lockBtn:SetScript("OnMouseDown", function(self, button)
+			if button == "LeftButton" then
+				MW.mainFrame:StartMoving() 
 			end
 		end)
-
+		MW.mainFrame.lockBtn:SetScript("OnMouseUp", function(self, button)
+			if button == "LeftButton" then
+				MW.mainFrame:StopMovingOrSizing()
+				local _, _, rel, x, y = MW.mainFrame:GetPoint()
+				x = math.floor(tonumber(x)); y = math.floor(tonumber(y))
+				if rel ~= GuidelimeDataChar.mainFrameRelative or x ~= GuidelimeDataChar.mainFrameX or GuidelimeDataChar.mainFrameY ~= y then
+					GuidelimeDataChar.mainFrameRelative = rel
+					GuidelimeDataChar.mainFrameX = x
+					GuidelimeDataChar.mainFrameY = y
+				else
+					GuidelimeDataChar.mainFrameLocked = not GuidelimeDataChar.mainFrameLocked
+				end
+				if O.optionsFrame ~= nil then O.optionsFrame.mainFrameLocked:SetChecked(GuidelimeDataChar.mainFrameLocked) end
+				if GuidelimeDataChar.mainFrameLocked then
+					MW.mainFrame.lockBtn:SetPushedTexture("Interface/Buttons/LockButton-Unlocked-Down")
+					MW.mainFrame.lockBtn:SetNormalTexture("Interface/Buttons/LockButton-Locked-Up")
+					MW.mainFrame.sizeGrabber:Hide()
+				else
+					MW.mainFrame.lockBtn:SetNormalTexture("Interface/Buttons/LockButton-Unlocked-Down")
+					MW.mainFrame.lockBtn:SetPushedTexture("Interface/Buttons/LockButton-Unlocked-Down")
+					MW.mainFrame.sizeGrabber:Show()
+				end
+			end
+		end)
+		MW.mainFrame.lockBtn:SetScript("OnEnter", function(self, button)
+			MW.mainFrame.lockBtn:SetAlpha(1)
+		end)
+		MW.mainFrame.lockBtn:SetScript("OnLeave", function(self, button)
+			MW.mainFrame.lockBtn:SetAlpha(0)
+		end)
+		MW.mainFrame.lockBtn:SetAlpha(0)
 		if addon.debugging then
 			MW.mainFrame.reloadBtn = CreateFrame("BUTTON", nil, MW.mainFrame, "UIPanelButtonTemplate")
 			MW.mainFrame.reloadBtn:SetFrameLevel(9999)
 			MW.mainFrame.reloadBtn:SetSize(12, 16)
 			MW.mainFrame.reloadBtn:SetText("R")
-			MW.mainFrame.reloadBtn:SetPoint("TOPRIGHT", MW.mainFrame, "TOPRIGHT", -45, -4)
+			MW.mainFrame.reloadBtn:SetPoint("TOPRIGHT", MW.mainFrame, "TOPRIGHT", -25, -4)
 			MW.mainFrame.reloadBtn:SetScript("OnClick", function() ReloadUI() end)
 			MW.mainFrame.inspectBtn = CreateFrame("BUTTON", nil, MW.mainFrame, "UIPanelButtonTemplate,SecureActionButtonTemplate")
 			MW.mainFrame.inspectBtn:SetFrameLevel(9999)
 			MW.mainFrame.inspectBtn:SetSize(12, 16)
 			MW.mainFrame.inspectBtn:SetText("T")
-			MW.mainFrame.inspectBtn:SetPoint("TOPRIGHT", MW.mainFrame, "TOPRIGHT", -60, -4)
+			MW.mainFrame.inspectBtn:SetPoint("TOPRIGHT", MW.mainFrame, "TOPRIGHT", -40, -4)
 			MW.mainFrame.inspectBtn:SetAttribute("type", "macro")
 			MW.mainFrame.inspectBtn:SetAttribute("macrotext","/tinspect Guidelime.addon")
 		end

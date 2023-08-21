@@ -1,10 +1,11 @@
-## Title: Guidelime
+## Title: |TInterface/Addons/Guidelime/Icons/lime:16:16|t Guidelime
 ## Author: Borick of Arthas(EU)
 ## Version: 3.025
-## Interface: 30401
+## Interface: 30402
 ## SavedVariables: GuidelimeData
 ## SavedVariablesPerCharacter: GuidelimeDataChar
-## Notes: Leveling guides with automatic progress updates 
+## Notes: Leveling guides with automatic progress updates|r|n|n|TInterface/Addons/Guidelime/Icons/Paypal:12:12|t |cff82c5ffhttps://tinyurl.com/guidelime-paypal|r|n|TInterface/Addons/BagBrother/Art/Discord:12:12:0:-2|t |cff82c5ffhttps://tinyurl.com/guidelime-discord|r|n|n
+## X-License: All Rights Reserved
 ## OptionalDeps: Questie
 ## OptionalDeps: ClassicCodex
 ## OptionalDeps: HereBeDragons

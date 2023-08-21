@@ -321,7 +321,7 @@ function GP.parseLine(step, guide, strict, nameOnly)
 				element.t = "ACCEPT"
 			elseif element.t == "WORK" then
 				element.t = "COMPLETE"
-				element.optional = true
+				step.optional = true
 			elseif element.t == "QUEST" then
 				element.t = "COMPLETE"
 			end
@@ -347,19 +347,21 @@ function GP.parseLine(step, guide, strict, nameOnly)
 					elseif title ~= "" --[[ and (not strict or DB.questsDB[element.questId] == nil or title ~= DB.questsDB[element.questId].name) ]] then
 						element.title = title
 					end
-					if step.races == nil and QT.getQuestRaces(element.questId) ~= nil then 
-						step.races = {}
-						for i, r in pairs(QT.getQuestRaces(element.questId)) do step.races[i] = r end
+					local races = QT.getQuestRaces(element.questId)
+					if step.races == nil and races ~= nil then 
+						step.races = races;	element.races = races
 					end
-					if step.classes == nil and QT.getQuestClasses(element.questId) ~= nil then 
-						step.classes = {}
-						for i, r in pairs(QT.getQuestClasses(element.questId)) do step.classes[i] = r end
+					local classes = QT.getQuestClasses(element.questId)
+					if step.classes == nil and classes ~= nil then 
+						step.classes = classes;	element.classes = classes
 					end
-					if step.faction == nil and QT.getQuestFaction(element.questId) ~= nil then 
-						step.faction = QT.getQuestFaction(element.questId) 
+					local faction = QT.getQuestFaction(element.questId)
+					if step.faction == nil and faction ~= nil then 
+						step.faction = faction; element.faction = faction
 					end
-					if step.reputation == nil and QT.getQuestReputation(element.questId) ~= nil then
-						step.reputation, step.repMin, step.repMax = QT.getQuestReputation(element.questId)
+					local reputation, repMin, repMax = QT.getQuestReputation(element.questId)
+					if step.reputation == nil and reputation ~= nil then
+						step.reputation = reputation; step.repMin = repMin; step.repMax = repMax
 					end
 					-- here we use internal data only intentionally
 					-- guides should not parse with errors or not depending on data source used
@@ -482,8 +484,8 @@ function GP.parseLine(step, guide, strict, nameOnly)
 					err = true
 				end
 			end)
-			if #classes > 0 then step.classes = classes end
-			if #races > 0 then step.races = races end
+			if #classes > 0 then step.classes = classes; element.classes = classes end
+			if #races > 0 then step.races = races; element.races = races end
 		elseif element.t == "GOTO" then
 			local _, c = tag:gsub("%s*(%d+%.?%d*)%s?,%s?(%d+%.?%d*)%s?,?%s?(%d*%.?%d*)%s?(.*)", function(x, y, radius, zone)
 				element.x = tonumber(x)

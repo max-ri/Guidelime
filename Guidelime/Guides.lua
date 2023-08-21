@@ -53,11 +53,28 @@ local function selectGuide(name)
 	end
 end
 
-function G.fillGuides()
+function G.showGuides()
+	if not addon.dataLoaded then loadData() end
+
+	if G.isGuidesShowing() then
+		G.guidesFrame:Hide()
+		return
+	end
+	
+	InterfaceOptionsFrame:Hide() 
+
 	if G.guidesFrame == nil then
-    	G.guidesFrame = CreateFrame("Frame")
-    	G.guidesFrame.name = GetAddOnMetadata(addonName, "title")
-    	InterfaceOptions_AddCategory(G.guidesFrame)
+		G.guidesFrame = F.createPopupFrame(nil, nil, false, 700)
+		G.guidesFrame:SetWidth(800)
+		G.guidesFrame:SetPoint(GuidelimeDataChar.editorFrameRelative, UIParent, GuidelimeDataChar.editorFrameRelative, GuidelimeDataChar.editorFrameX, GuidelimeDataChar.editorFrameY)
+		
+		G.guidesFrame.okBtn:SetNormalTexture("Interface/Buttons/UI-Panel-MinimizeButton-Up")
+		G.guidesFrame.okBtn:SetHighlightTexture("Interface/Buttons/UI-Panel-MinimizeButton-Highlight")
+		G.guidesFrame.okBtn:SetPushedTexture("Interface/Buttons/UI-Panel-MinimizeButton-Down")
+		G.guidesFrame.okBtn:ClearAllPoints()
+		G.guidesFrame.okBtn:SetPoint("TOPRIGHT", G.guidesFrame, -10, -10)
+		G.guidesFrame.okBtn:SetSize(24, 24)
+		G.guidesFrame.okBtn:SetText(nil)
 	
 		G.guidesFrame.title = G.guidesFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		G.guidesFrame.title:SetText(GetAddOnMetadata(addonName, "title") .. " |cFFFFFFFF" .. GetAddOnMetadata(addonName, "version"))
@@ -281,21 +298,10 @@ function G.fillGuides()
 	else
 		G.guidesFrame.guideListMessage:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -10, -20)
 	end
+
+	G.guidesFrame:Show()
 end
 
 function G.isGuidesShowing()
-	return InterfaceOptionsFrame:IsShown() and InterfaceOptionsFramePanelContainer.displayedPanel == G.guidesFrame
+	return G.guidesFrame ~= nil and G.guidesFrame:IsVisible()
 end
-
-function G.showGuides()
-	if not addon.dataLoaded then loadData() end
-	if G.isGuidesShowing() then 
-		InterfaceOptionsFrame:Hide()
-	else
-		if E.isEditorShowing() then E.editorFrame:Hide() end
-		-- calling twice ensures guides are shown. calling once might only show game options. why? idk
-		InterfaceOptionsFrame_OpenToCategory(G.guidesFrame)
-		InterfaceOptionsFrame_OpenToCategory(G.guidesFrame)
-	end
-end
-

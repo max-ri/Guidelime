@@ -38,9 +38,17 @@ function D.getRace(race)
 		if r:upper() == race then return r end
 	end
 end
+function D.getSex(sex)
+	if type(sex) == "number" then
+		return sex == 2 and "Male" or "Female"
+	else
+		return sex:upper() == "MALE" and "Male" or "Female"
+	end
+end
 
 D.class = D.getClass(select(2, UnitClass("player")))
 D.race = D.getRace(select(2, UnitRace("player")))
+D.sex = D.getSex(UnitSex("player"))
 D.faction = UnitFactionGroup("player")
 D.level = UnitLevel("player")
 D.xp = UnitXP("player")
@@ -245,4 +253,59 @@ function D.hasItem(itemReq, itemMin, itemMax)
 	if itemMax ~= nil then return (itemcnt < itemMax) end
 
 	return nil
+end
+
+D.RACE_ICON_TCOORDS = {
+	["Human"] = {
+		["Male"] = {0, 0.125, 0, 0.25},
+		["Female"]	= {0, 0.125, 0.5, 0.75},  
+	},
+	["Dwarf"] = {
+		["Male"] = {0.125, 0.25, 0, 0.25},
+		["Female"]	= {0.125, 0.25, 0.5, 0.75},
+	},
+	["Gnome"] = {
+		["Male"] = {0.25, 0.375, 0, 0.25},
+		["Female"]	= {0.25, 0.375, 0.5, 0.75},
+	},
+	["NightElf"] = {
+		["Male"] = {0.375, 0.5, 0, 0.25},
+		["Female"]	= {0.375, 0.5, 0.5, 0.75},
+	},
+	["Tauren"] = {
+		["Male"] = {0, 0.125, 0.25, 0.5},
+		["Female"]	= {0, 0.125, 0.75, 1.0},   
+	},
+	["Undead"] = {
+		["Male"] = {0.125, 0.25, 0.25, 0.5},
+		["Female"]	= {0.125, 0.25, 0.75, 1.0}, 
+	},
+	["Troll"] = {
+		["Male"] = {0.25, 0.375, 0.25, 0.5},
+		["Female"]	= {0.25, 0.375, 0.75, 1.0}, 
+	},
+	["Orc"] = {
+		["Male"] = {0.375, 0.5, 0.25, 0.5},
+		["Female"] = {0.375, 0.5, 0.75, 1.0}, 
+	},
+	["BloodElf"] = {
+		["Male"] = {0.5, 0.625, 0.25, 0.5},
+		["Female"] = {0.5, 0.625, 0.75, 1.0}, 
+	},
+	["Draenei"] = {
+		["Male"] = {0.5, 0.625, 0, 0.25},
+		["Female"] = {0.5, 0.625, 0.5, 0.75}, 
+	},
+};
+
+function D.getRaceIconText(race, sex, size)
+	local coords = D.RACE_ICON_TCOORDS[D.getRace(race)][D.getSex(sex)]
+	return "|TInterface\\GLUES\\CHARACTERCREATE\\UI-CHARACTERCREATE-RACES:" .. (size or 12) .. ":" .. (size or 12) .. ":0:0:64:128:" .. 
+		coords[1] * 128 .. ":" .. coords[2] * 128 .. ":" .. coords[3] * 128 .. ":" .. coords[4] * 128 .. ":::|t"
+end
+
+function D.getClassIconText(class, size)
+	local coords = CLASS_ICON_TCOORDS[D.getClass(class):upper()]
+	return "|TInterface\\GLUES\\CHARACTERCREATE\\UI-CHARACTERCREATE-CLASSES:" .. (size or 12) .. ":" .. (size or 12) .. ":0:0:128:128:" .. 
+		coords[1] * 128 .. ":" .. coords[2] * 128 .. ":" .. coords[3] * 128 .. ":" .. coords[4] * 128 .. ":::|t"
 end

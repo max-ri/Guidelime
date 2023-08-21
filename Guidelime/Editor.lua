@@ -5,6 +5,7 @@ local HBD = LibStub("HereBeDragons-2.0")
 
 addon.D = addon.D or {}; local D = addon.D     -- Data/Data
 addon.DM = addon.DM or {}; local DM = addon.DM -- Data/MapDB
+addon.PT = addon.PT or {}; local PT = addon.PT -- Data/PositionTools
 addon.QT = addon.QT or {}; local QT = addon.QT -- Data/QuestTools
 addon.ET = addon.ET or {}; local ET = addon.ET -- EditorTools
 addon.F = addon.F or {}; local F = addon.F     -- Frames
@@ -95,7 +96,7 @@ local function setQuestInfo(id)
 				text = text .. "|r\n"
 			end
 			if count > 1 then
-				local pos = QT.getQuestPosition(id, key)
+				local pos = PT.getQuestPosition(id, key)
 				if pos ~= nil then
 					pos.t = "GOTO"
 					pos.questId = id

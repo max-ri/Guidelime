@@ -20,8 +20,6 @@ for i = 2, 5 do
 	_G["BINDING_NAME_GUIDELIME_USE_ITEM_" .. i] = string.format(L.USE_ITEM_X, i)
 end
 
-AB.MAX_NUM_OF_TARGET_BUTTONS = 10
-
 function AB.resetButtons(buttons)
 	if not buttons then return end
 	for _, button in pairs(buttons) do
@@ -42,10 +40,8 @@ AB.targetRaidMarkerIndex = {4, 6, 2, 3, 1, 5, 7, 8}
 
 function AB.getTargetButtonIconText(i, raidMarker)
 	local marker = AB.targetRaidMarkerIndex[i]
-	if marker and (GuidelimeData.targetRaidMarkersor or raidMarker) then
-		local x1, y1 = (marker - 1) % 4 * 0.25, marker > 4 and 0.25 or 0
-		local x2, y2 = x1 + 0.25, y1 + 0.25
-		return "|TInterface\\TargetingFrame\\UI-RaidTargetingIcons:12:12:0:0:512:512:" .. (x1*512) .. ":" .. (x2*512) .. ":" .. (y1*512) .. ":".. (y2*512) .. "|t"
+	if marker and (GuidelimeData.targetRaidMarkers or raidMarker) then
+		return "|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_" .. marker .. ":12|t"
 	end
 	return "|T" .. addon.icons.TARGET_BUTTON .. ":12|t"
 end
@@ -86,7 +82,7 @@ function LIME_Mark(iconId)
 end
 
 local function getTargetMacro(t)
-	return "/targetexact " .. t.name .. 
+	return "/targetexact [nodead] " .. t.name .. 
 		(t.marker and "\n/run LIME_Mark(".. t.marker .. ")" or "")
 end
 
@@ -161,8 +157,8 @@ function AB.updateTargetButtons()
 					local name = QT.getNPCName(element.targetNpcId)
 					if name and not D.contains(targets, function(t) return t.name == name end) then
 						targets[i] = {name = name, element = element, index = i, marker = GuidelimeData.targetRaidMarkers and AB.targetRaidMarkerIndex[i]}
+						if GuidelimeDataChar.maxNumOfTargetButtons > 0 and i >= GuidelimeDataChar.maxNumOfTargetButtons then break end
 						i = i + 1
-						if i > AB.MAX_NUM_OF_TARGET_BUTTONS then break end
 					end
 				end
 			end
@@ -217,7 +213,7 @@ function AB.createUseItemButton(i)
 			if self.spellId then
             	start, duration, enable = GetSpellCooldown(self.spellId)
 			else
-            	start, duration, enable = C_Container.GetItemCooldown(self.itemId)
+            	start, duration, enable = QT.GetItemCooldown(self.itemId)
 			end
             if enable == 1 and duration > 0 then
                 self.cooldown:Show()
@@ -318,6 +314,7 @@ function AB.updateUseItemButtons()
 						keyBindButton(button, "GUIDELIME_USE_ITEM_" .. i, "GuidelimeUseItemButton" .. i, name)
 						button:Show()
 						button:Update()
+						if GuidelimeDataChar.maxNumOfItemButtons > 0 and i >= GuidelimeDataChar.maxNumOfItemButtons then break end
 						i = i + 1
 					end
 				end

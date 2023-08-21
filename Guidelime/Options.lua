@@ -44,9 +44,8 @@ local function getColorPickerColor()
 end
 
 function O.fillOptions()
-	O.optionsFrame = CreateFrame("FRAME", nil, G.guidesFrame)
-	O.optionsFrame.name = GAMEOPTIONS_MENU
-	O.optionsFrame.parent = GetAddOnMetadata(addonName, "title")
+	O.optionsFrame = CreateFrame("FRAME", nil, nil)
+	O.optionsFrame.name = addonName
 	InterfaceOptions_AddCategory(O.optionsFrame)
 
 	O.optionsFrame.title = O.optionsFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
@@ -67,7 +66,7 @@ function O.fillOptions()
 	content.options = {}		
 
 	local importButton = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
-	importButton:SetWidth(310)
+	importButton:SetWidth(270)
 	importButton:SetHeight(24)
 	importButton:SetText(L.IMPORT_SETTINGS)
 	importButton:SetPoint("TOPLEFT", prev, "TOPLEFT", 0, -4)
@@ -77,12 +76,15 @@ function O.fillOptions()
 		if GuidelimeData.chars then
 			for guid, settings in pairs(GuidelimeData.chars) do
 				if guid ~= UnitGUID("player") then
-					local _, class, _, race, _, name, realm = GetPlayerInfoByGUID(guid)
+					local _, class, _, race, sex, name, realm = GetPlayerInfoByGUID(guid)
 					if name then
 						local menuItem = {
-							text = name .. (realm ~= "" and ("-" .. (realm or "?")) or ""), 
+							text = D.getRaceIconText(race, sex, 18) ..
+								D.getClassIconText(class, 18) .. " " ..
+								--"|T" .. addon.icons[class] .. ":18|t " ..
+								name .. (realm ~= "" and ("-" .. (realm or "?")) or ""), 
 							colorCode = "|c" .. select(4, GetClassColor(class)),
-							icon = addon.icons[class],
+							-- icon = addon.icons[class],
 							notCheckable = true, 
 							func = function()
 								GuidelimeDataChar = settings
@@ -108,6 +110,16 @@ function O.fillOptions()
 			end
 		end
 	end)
+	prev = importButton
+
+	local defaultButton = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
+	defaultButton:SetWidth(310)
+	defaultButton:SetHeight(24)
+	defaultButton:SetText(L.DEFAULT_SETTINGS)
+	defaultButton:SetPoint("TOPLEFT", prev, "TOPRIGHT", 0, 0)
+	defaultButton:SetScript("OnClick", function()
+		GuidelimeData.defaultCharOptions = GuidelimeDataChar
+	end)
 
 	--[[local button = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
 	button:SetWidth(205)
@@ -117,8 +129,6 @@ function O.fillOptions()
 	button:SetScript("OnClick", function()
 		ShowUIPanel(KeyBindingFrame, true)
 	end)]]
-
-	prev = importButton
 
 	F.addCheckOption(content, GuidelimeDataChar, "showMinimapButton", L.SHOW_MINIMAP_BUTTON, nil, function()
 		content.options.showMinimapButtonHiddenMainframe:SetChecked(false)
@@ -172,7 +182,7 @@ function O.fillOptions()
 		end
 	end)
 
-	O.optionsFrame.mainFrameWidth = F.addSliderOption(content, GuidelimeDataChar, "mainFrameWidth", 50, 800, 1, L.MAIN_FRAME_WIDTH, nil, function()
+	O.optionsFrame.mainFrameWidth = F.addSliderOption(content, GuidelimeDataChar, "mainFrameWidth", 250, 1000, 1, L.MAIN_FRAME_WIDTH, nil, function()
 		if MW.mainFrame ~= nil then 
 			MW.mainFrame:SetWidth(GuidelimeDataChar.mainFrameWidth) 
 			MW.mainFrame.scrollChild:SetWidth(GuidelimeDataChar.mainFrameWidth)
@@ -184,7 +194,7 @@ function O.fillOptions()
 		end
 	end)
 	O.optionsFrame.mainFrameWidth:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -10)
-	O.optionsFrame.mainFrameHeight = F.addSliderOption(content, GuidelimeDataChar, "mainFrameHeight", 50, 600, 1, L.MAIN_FRAME_HEIGHT, nil, function()
+	O.optionsFrame.mainFrameHeight = F.addSliderOption(content, GuidelimeDataChar, "mainFrameHeight", 250, 1000, 1, L.MAIN_FRAME_HEIGHT, nil, function()
 		if MW.mainFrame ~= nil then 
 			MW.mainFrame:SetHeight(GuidelimeDataChar.mainFrameHeight) 
 			MW.mainFrame.scrollChild:SetWidth(GuidelimeDataChar.mainFrameWidth)
@@ -282,7 +292,7 @@ function O.fillOptions()
 
 	local text = content:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	text:SetText(L.SHOW_TARGET_BUTTONS)
-	text:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 30, -10)
+	text:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
 	prev = text
 	local choices = {"LEFT", "RIGHT"}
 	for i, v in ipairs(choices) do
@@ -303,8 +313,14 @@ function O.fillOptions()
 				MW.updateMainFrame()
 			end
 		end)
-		content.options["showTargetButtons" .. v]:SetPoint("TOPLEFT", prev, "TOPLEFT", i * 180, 10)
+		content.options["showTargetButtons" .. v]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", (i - 1) * 180, 0)
 	end
+	local slider = F.addSliderOption(content, GuidelimeDataChar, "maxNumOfTargetButtons", 0, 20, 1, L.MAX_NUM_OF_TARGET_BUTTONS, nil, function()
+		if GuidelimeDataChar.mainFrameShowing then
+			MW.updateMainFrame()
+		end
+	end)
+	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -20)
 	
 	local markers = ""
 	for i, _ in ipairs(AB.targetRaidMarkerIndex) do markers = markers .. AB.getTargetButtonIconText(i, true) end
@@ -324,12 +340,12 @@ function O.fillOptions()
 			AB.updateUseItemButtons()
 		end
 	end)
-	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -30, -10)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -30)
 	prev = checkbox
 
 	local text = content:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	text:SetText(L.SHOW_USE_ITEM_BUTTONS)
-	text:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 30, -10)
+	text:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
 	prev = text
 	local choices = {"LEFT", "RIGHT"}
 	for i, v in ipairs(choices) do
@@ -351,12 +367,18 @@ function O.fillOptions()
 			end
 			
 		end)
-		content.options["showUseItemButtons" .. v]:SetPoint("TOPLEFT", prev, "TOPLEFT", i * 180, 10)
+		content.options["showUseItemButtons" .. v]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", (i - 1) * 180, 0)
 	end
+	local slider = F.addSliderOption(content, GuidelimeDataChar, "maxNumOfItemButtons", 0, 20, 1, L.MAX_NUM_OF_ITEM_BUTTONS, nil, function()
+		if GuidelimeDataChar.mainFrameShowing then
+			MW.updateMainFrame()
+		end
+	end)
+	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -20)
 
 	text = content:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	text:SetText(L.SELECT_COLORS)
-	text:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -20)
+	text:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -40)
 	prev = text
 
 	button = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
@@ -420,7 +442,7 @@ function O.fillOptions()
 
 	O.optionsFrame.titleArrow = content:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	O.optionsFrame.titleArrow:SetText("|cFFFFFFFF___ " .. L.ARROW .. " _____________________________________________________________________")
-	O.optionsFrame.titleArrow:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -30, -30)
+	O.optionsFrame.titleArrow:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -30)
 	O.optionsFrame.titleArrow:SetFontObject("GameFontNormalLarge")
 	prev = O.optionsFrame.titleArrow
 
@@ -665,7 +687,7 @@ function O.fillOptions()
 	prev = checkbox
 
 	checkbox = F.addCheckOption(content, GuidelimeData, "autoTrain", L.AUTO_TRAIN)
-	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = checkbox
 	
 	checkbox = F.addCheckOption(content, GuidelimeData, "skipCutscenes", L.SKIP_CUTSCENES, nil, function()
@@ -711,7 +733,7 @@ function O.fillOptions()
 			CG.updateStepsText()
 		end
 	end)
-	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
 	prev = checkbox
 
 	checkbox = F.addCheckOption(content, GuidelimeData, "showQuestIds", L.SHOW_QUEST_IDS, nil, function()
@@ -757,9 +779,8 @@ function O.showOptions()
 		InterfaceOptionsFrame:Hide()
 	else
 		if E.isEditorShowing() then E.editorFrame:Hide() end
-		-- calling twice ensures options are shown. calling once might only show game options. why? idk
-		InterfaceOptionsFrame_OpenToCategory(O.optionsFrame)
-		InterfaceOptionsFrame_OpenToCategory(O.optionsFrame)
+		InterfaceAddOnsList_Update()
+		InterfaceOptionsFrame_OpenToCategory(addonName)
 	end
 end
 

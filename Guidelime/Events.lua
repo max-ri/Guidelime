@@ -239,13 +239,18 @@ end
 
 EV.frame:RegisterEvent('GOSSIP_SHOW')
 function EV.frame:GOSSIP_SHOW()
-	if (GuidelimeData.autoAcceptQuests or GuidelimeData.autoTurnInQuests) and not IsShiftKeyDown() then 
-		if addon.debugging then print ("LIME: GOSSIP_SHOW", QT.GetGossipActiveQuests()) end
-		if addon.debugging then print ("LIME: GOSSIP_SHOW", QT.GetGossipAvailableQuests()) end
+	if IsShiftKeyDown() then return end
+	if GetGossipActiveQuests ~= nil then
+		EV.frame.GOSSIP_SHOW_old(self)
+		return
+	end
+	if (GuidelimeData.autoAcceptQuests or GuidelimeData.autoTurnInQuests) then 
+		if addon.debugging then print ("LIME: GOSSIP_SHOW", C_GossipInfo.GetActiveQuests()) end
+		if addon.debugging then print ("LIME: GOSSIP_SHOW", C_GossipInfo.GetAvailableQuests()) end
 		local selectActive = nil
 		local selectAvailable = nil
 		EV.openNpcAgain = false
-		for _, q in ipairs(QT.GetGossipActiveQuests()) do
+		for _, q in ipairs(C_GossipInfo.GetActiveQuests()) do
 			if q.isComplete and EV.isQuestAuto(GuidelimeData.autoTurnInQuests, q.questID) then
 				if selectActive == nil then
 					selectActive = q.questID
@@ -254,7 +259,7 @@ function EV.frame:GOSSIP_SHOW()
 				end			
 			end
 		end
-		for _, q in ipairs(QT.GetGossipAvailableQuests()) do
+		for _, q in ipairs(C_GossipInfo.GetAvailableQuests()) do
 			if EV.isQuestAuto(GuidelimeData.autoAcceptQuests, q.questID) then
 				if selectActive == nil and selectAvailable == nil then
 					selectAvailable = q.questID
@@ -267,39 +272,141 @@ function EV.frame:GOSSIP_SHOW()
 		if selectActive ~= nil then
 			C_Timer.After(EV.AUTO_COMPLETE_DELAY, function() 
 				if addon.debugging then print ("LIME: GOSSIP_SHOW selectActive", selectActive) end
-				QT.SelectGossipActiveQuest(selectActive)
+				C_GossipInfo.SelectActiveQuest(selectActive)
 			end)
 		elseif selectAvailable ~= nil then
 			C_Timer.After(EV.AUTO_COMPLETE_DELAY, function() 
 				if addon.debugging then print ("LIME: GOSSIP_SHOW selectAvailable", selectAvailable) end
-				QT.SelectGossipAvailableQuest(selectAvailable)
+				C_GossipInfo.SelectAvailableQuest(selectAvailable)
 			end)
 		end
 	end
-	if not IsShiftKeyDown() then
-		for _, gossip in ipairs(QT.GetGossipOptions()) do
-			if gossip.icon == 132057 then
-				if GuidelimeData.autoSelectFlight then
-					CG.forEveryActiveElement(function (element)
-						if element.t == "FLY" or element.t == "GET_FLIGHT_POINT" then
-							if addon.debugging then print ("LIME: GOSSIP_SHOW SelectGossipOption", gossip.gossipOptionID) end
-							C_GossipInfo.SelectOption(gossip.gossipOptionID)
-							return false
-						end
-					end)
-				end
-			elseif gossip.icon == 132058 then
-				if GuidelimeData.autoTrain then
-					CG.forEveryActiveElement(function (element)
-						if element.t == "LEARN" and (element.maxSkillMin or element.spell) then
-							if addon.debugging then print ("LIME: GOSSIP_SHOW SelectGossipOption", gossip.gossipOptionID) end
-							C_GossipInfo.SelectOption(gossip.gossipOptionID)
-							SetTrainerServiceTypeFilter("available", 1)
-							return false
-						end
-					end)
-				end
+	for _, gossip in ipairs(C_GossipInfo.GetOptions()) do
+		if gossip.icon == 132057 then
+			if GuidelimeData.autoSelectFlight then
+				CG.forEveryActiveElement(function (element)
+					if element.t == "FLY" or element.t == "GET_FLIGHT_POINT" then
+						if addon.debugging then print ("LIME: GOSSIP_SHOW SelectGossipOption", gossip.gossipOptionID) end
+						C_GossipInfo.SelectOption(gossip.gossipOptionID)
+						return
+					end
+				end)
 			end
+		elseif gossip.icon == 132058 then
+			if GuidelimeData.autoTrain then
+				CG.forEveryActiveElement(function (element)
+					if element.t == "LEARN" and (element.maxSkillMin or element.spell) then
+						if addon.debugging then print ("LIME: GOSSIP_SHOW SelectGossipOption", gossip.gossipOptionID) end
+						C_GossipInfo.SelectOption(gossip.gossipOptionID)
+						SetTrainerServiceTypeFilter("available", 1)
+						return
+					end
+				end)
+			end
+		end
+	end
+end
+
+function EV.frame:GOSSIP_SHOW_old()
+	if (GuidelimeData.autoAcceptQuests or GuidelimeData.autoTurnInQuests) then 
+		if addon.debugging then print ("LIME: GOSSIP_SHOW", GetGossipActiveQuests()) end
+		if addon.debugging then print ("LIME: GOSSIP_SHOW", GetGossipAvailableQuests()) end
+		local q = { GetGossipActiveQuests() }
+		local selectActive = nil
+		local selectAvailable = nil
+		EV.openNpcAgain = false
+		for i = 1, GetNumGossipActiveQuests() do
+			local name = q[(i-1) * 6 + 1]
+			local complete = q[(i-1) * 6 + 4]
+			if complete and EV.isQuestAuto(GuidelimeData.autoTurnInQuests, function(id) return name == QT.getQuestNameById(id) end) then
+				if selectActive == nil then
+					selectActive = i
+				else
+					EV.openNpcAgain = true
+				end			
+			end
+		end
+		q = { GetGossipAvailableQuests() }
+		for i = 1, GetNumGossipAvailableQuests() do
+			local name = q[(i-1) * 7 + 1]
+			if EV.isQuestAuto(GuidelimeData.autoAcceptQuests, function(id) return name == QT.getQuestNameById(id) end) then
+				if selectActive == nil and selectAvailable == nil then
+					selectAvailable = i
+				else
+					EV.openNpcAgain = true
+				end			
+			end
+		end
+
+		if selectActive ~= nil then
+			C_Timer.After(EV.AUTO_COMPLETE_DELAY, function() 
+				if addon.debugging then print ("LIME: GOSSIP_SHOW selectActive", selectActive) end
+				SelectGossipActiveQuest(selectActive)
+			end)
+		elseif selectAvailable ~= nil then
+			C_Timer.After(EV.AUTO_COMPLETE_DELAY, function() 
+				if addon.debugging then print ("LIME: GOSSIP_SHOW selectAvailable", selectAvailable) end
+				SelectGossipAvailableQuest(selectAvailable)
+			end)
+		end
+	end
+	local gossip = {GetGossipOptions()}
+	for i = 1, GetNumGossipOptions() do
+		if gossip[i * 2] == "taxi" then
+			if GuidelimeData.autoSelectFlight then
+				CG.forEveryActiveElement(function (element)
+					if element.t == "FLY" or element.t == "GET_FLIGHT_POINT" then
+						if addon.debugging then print ("LIME: GOSSIP_SHOW SelectGossipOption", i) end
+						SelectGossipOption(i)
+						return
+					end
+				end)
+			end
+		elseif gossip[i * 2] == "trainer" then
+			if GuidelimeData.autoTrain then
+				CG.forEveryActiveElement(function (element)
+					if element.t == "LEARN" and (element.maxSkillMin or element.spell) then
+						if addon.debugging then print ("LIME: GOSSIP_SHOW SelectGossipOption", i) end
+						SelectGossipOption(i)
+						SetTrainerServiceTypeFilter("available", 1)
+						return
+					end
+				end)
+			end
+		end
+	end
+end
+
+local function doAutoTrain()
+	if IsShiftKeyDown() or not GuidelimeData.autoTrain then return end
+	if addon.debugging then print ("LIME: doAutoTrain GetNumTrainerServices", GetNumTrainerServices()) end
+	for i = 1, GetNumTrainerServices() do
+		local name, _, category = GetTrainerServiceInfo(i)
+		if name == nil then break end
+		if category == "available" then
+			CG.forEveryActiveElement(function (element)
+				if element.t == "LEARN" and element.skill and SK.getSkillLearnedBy(element.skill) and (element.maxSkillMin or element.skill == "RIDING") then
+					for _, id in ipairs(SK.getSkillLearnedBy(element.skill)) do
+						if name == (GetSpellInfo(id)) then
+							C_Timer.After(EV.AUTO_COMPLETE_DELAY, function() 
+								if addon.debugging then print ("LIME: doAutoTrain BuyTrainerService", i) end
+								BuyTrainerService(i)
+								CG.updateSteps({element.step.index})
+							end)
+							return
+						end
+					end
+				elseif element.t == "LEARN" and element.spell then
+					if name == (GetSpellInfo(SP.getSpellId(element.spell))) then
+						C_Timer.After(EV.AUTO_COMPLETE_DELAY, function() 
+							if addon.debugging then print ("LIME: doAutoTrain BuyTrainerService", i) end
+							BuyTrainerService(i)
+							CG.updateSteps({element.step.index})
+						end)
+						return
+					end
+				end
+			end)
 		end
 	end
 end
@@ -314,42 +421,13 @@ function EV.frame:TRAINER_UPDATE()
 		end
 	end)
 	if #steps > 0 then CG.updateSteps(steps) end
-	if not IsShiftKeyDown() and GuidelimeData.autoTrain then
-		for i = 1, GetNumTrainerServices() do
-			local name, _, category = GetTrainerServiceInfo(i)
-			if name == nil then break end
-			if category == "available" then
-				CG.forEveryActiveElement(function (element)
-					if element.t == "LEARN" and element.skill and SK.getSkillLearnedBy(element.skill) and (element.maxSkillMin or element.skill == "RIDING") then
-						for _, id in ipairs(SK.getSkillLearnedBy(element.skill)) do
-							if name == (GetSpellInfo(id)) then
-								C_Timer.After(EV.AUTO_COMPLETE_DELAY, function() 
-									if addon.debugging then print ("LIME: TRAINER_UPDATE BuyTrainerService", i) end
-									BuyTrainerService(i)
-									CG.updateSteps({element.step.index})
-								end)
-								return false
-							end
-						end
-					elseif element.t == "LEARN" and element.spell then
-						if name == (GetSpellInfo(SP.getSpellId(element.spell))) then
-							C_Timer.After(EV.AUTO_COMPLETE_DELAY, function() 
-								if addon.debugging then print ("LIME: TRAINER_UPDATE BuyTrainerService", i) end
-								BuyTrainerService(i)
-								CG.updateSteps({element.step.index})
-							end)
-							return false
-						end
-					end
-				end)
-			end
-		end
-	end
+	doAutoTrain()
 end
 
 EV.frame:RegisterEvent('TRAINER_SHOW')
 function EV.frame:TRAINER_SHOW()
 	if addon.debugging then print ("LIME: TRAINER_SHOW") end
+	doAutoTrain()
 end
 
 EV.frame:RegisterEvent('TRADE_SKILL_SHOW')

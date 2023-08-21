@@ -48,7 +48,7 @@ function SP.getSpellRank(name)
 	local id = select(7, GetSpellInfo(localizedName))
 	if not id or not IsSpellKnown(id) then return (isTradeSkillKnown(name, localizedName) and 1) or 0 end
 	local rank = GetSpellSubtext(id)
-	if rank:sub(1, RANK:len()) == RANK then	return tonumber(rank:sub(RANK:len() + 2)) end
+	if rank ~= nil and rank:sub(1, RANK:len()) == RANK then return tonumber(rank:sub(RANK:len() + 2)) end
 	return 1 
 end
 
@@ -65,6 +65,62 @@ function SP.isRequiredSpell(name, spellMin, spellMax)
 	if spellMax ~= nil and value >= spellMax then return false end
 	return true
 end
+
+------------------------ remove this
+
+function SP.scanSpells()
+	SP.allSpells = {}
+	for id = 1, 99999 do
+		local s = {}
+		s.name, s.rank, s.icon, s.castTime, s.minRange, s.maxRange, _, s.originalIcon = GetSpellInfo(id)
+		if s.name then
+			SP.allSpells[id] = s
+		end
+	end
+	print("LIME: scanning spells done")
+end
+
+local function discoverSpell(name)
+	local id = SP.getSpellIdByName(name)
+	local s = SP.allSpells[id]
+	name = name:upper():gsub("[ :%-%(%)'\"]", "")
+	if not s then
+		print("LIME: unknown spell found", id, name)
+	elseif not SP.spells[name] and (not GuidelimeData.spells[name] or GuidelimeData.spells[name].id > id) then
+		print("LIME: spell found", id, name)
+		GuidelimeData.spells[name] = s
+		GuidelimeData.spells[name].id = id
+	end
+end
+
+function SP.discoverSpells()
+	if SP.allSpells == nil then SP.scanSpells() end
+	GuidelimeData.spells = {}
+	SetTrainerServiceTypeFilter("available", 1)
+	SetTrainerServiceTypeFilter("unavailable", 1)
+	SetTrainerServiceTypeFilter("used", 1)
+	for i = 1, GetNumTrainerServices() do
+		local name, rank, category = GetTrainerServiceInfo(i)
+		if (name == nil) then break end
+		discoverSpell(name)
+	end
+	print("LIME: discover spells done")
+end
+
+function SP.getSpellIdByName(name)
+	if not SP.spellIDsByName then
+		SP.spellIDsByName = {}
+		for id, spell in pairs(SP.allSpells) do
+			if not SP.spellIDsByName[spell.name] or id < SP.spellIDsByName[spell.name] then
+				SP.spellIDsByName[spell.name] = id
+			end
+		end
+	end
+	return SP.spellIDsByName[name]
+end
+
+-------------------
+
 
 SP.spells = {
 		["FLYINGCARPET"] = {
@@ -14986,5 +15042,293 @@ SP.spells = {
 			["id"] = 3918,
 			["icon"] = 133848,
 			["name"] = "Rough Blasting Powder",
+		},
+		["WYVERNSTING"] = {
+			["maxRange"] = 35,
+			["minRange"] = 5,
+			["castTime"] = -999500,
+			["id"] = 19386,
+			["icon"] = 135125,
+			["name"] = "Wyvern Sting",
+		},
+		["ASPECTOFTHEBEAST"] = {
+			["maxRange"] = 0,
+			["minRange"] = 0,
+			["castTime"] = 0,
+			["id"] = 13161,
+			["icon"] = 132252,
+			["name"] = "Aspect of the Beast",
+		},
+		["VIPERSTING"] = {
+			["maxRange"] = 35,
+			["minRange"] = 5,
+			["castTime"] = -999500,
+			["id"] = 3034,
+			["icon"] = 132157,
+			["name"] = "Viper Sting",
+		},
+		["ASPECTOFTHEPACK"] = {
+			["maxRange"] = 0,
+			["minRange"] = 0,
+			["castTime"] = 0,
+			["id"] = 13159,
+			["icon"] = 132267,
+			["name"] = "Aspect of the Pack",
+		},
+		["SCORPIDSTING"] = {
+			["maxRange"] = 35,
+			["minRange"] = 5,
+			["castTime"] = -999500,
+			["id"] = 3043,
+			["icon"] = 132169,
+			["name"] = "Scorpid Sting",
+		},
+		["TRACKDRAGONKIN"] = {
+			["maxRange"] = 0,
+			["minRange"] = 0,
+			["castTime"] = 0,
+			["id"] = 19879,
+			["icon"] = 134153,
+			["name"] = "Track Dragonkin",
+		},
+		["COUNTERATTACK"] = {
+			["maxRange"] = 0,
+			["minRange"] = 0,
+			["castTime"] = 0,
+			["id"] = 19306,
+			["icon"] = 132336,
+			["name"] = "Counterattack",
+		},
+		["TRACKDEMONS"] = {
+			["maxRange"] = 0,
+			["minRange"] = 0,
+			["castTime"] = 0,
+			["id"] = 19878,
+			["icon"] = 136217,
+			["name"] = "Track Demons",
+		},
+		["TRACKGIANTS"] = {
+			["maxRange"] = 0,
+			["minRange"] = 0,
+			["castTime"] = 0,
+			["id"] = 19882,
+			["icon"] = 132275,
+			["name"] = "Track Giants",
+		},
+		["VOLLEY"] = {
+			["maxRange"] = 35,
+			["minRange"] = 0,
+			["castTime"] = -999500,
+			["id"] = 1510,
+			["icon"] = 132222,
+			["name"] = "Volley",
+		},
+		["WINGCLIP"] = {
+			["maxRange"] = 0,
+			["minRange"] = 0,
+			["castTime"] = 0,
+			["id"] = 2974,
+			["icon"] = 132309,
+			["name"] = "Wing Clip",
+		},
+		["SCAREBEAST"] = {
+			["maxRange"] = 30,
+			["minRange"] = 0,
+			["castTime"] = 1411,
+			["id"] = 1513,
+			["icon"] = 132118,
+			["name"] = "Scare Beast",
+		},
+		["ASPECTOFTHEWILD"] = {
+			["maxRange"] = 0,
+			["minRange"] = 0,
+			["castTime"] = 0,
+			["id"] = 20043,
+			["icon"] = 136074,
+			["name"] = "Aspect of the Wild",
+		},
+		["FEIGNDEATH"] = {
+			["maxRange"] = 0,
+			["minRange"] = 0,
+			["castTime"] = 0,
+			["id"] = 5384,
+			["icon"] = 132293,
+			["name"] = "Feign Death",
+		},
+		["TRACKUNDEAD"] = {
+			["maxRange"] = 0,
+			["minRange"] = 0,
+			["castTime"] = 0,
+			["id"] = 19884,
+			["icon"] = 136142,
+			["name"] = "Track Undead",
+		},
+		["DISTRACTINGSHOT"] = {
+			["maxRange"] = 35,
+			["minRange"] = 5,
+			["castTime"] = -999500,
+			["id"] = 20736,
+			["icon"] = 135736,
+			["name"] = "Distracting Shot",
+		},
+		["ASPECTOFTHEHAWK"] = {
+			["maxRange"] = 0,
+			["minRange"] = 0,
+			["castTime"] = 0,
+			["id"] = 13165,
+			["icon"] = 136076,
+			["name"] = "Aspect of the Hawk",
+		},
+		["EAGLEEYE"] = {
+			["maxRange"] = 50000,
+			["minRange"] = 0,
+			["castTime"] = 0,
+			["id"] = 6197,
+			["icon"] = 132172,
+			["name"] = "Eagle Eye",
+		},
+		["ASPECTOFTHECHEETAH"] = {
+			["maxRange"] = 0,
+			["minRange"] = 0,
+			["castTime"] = 0,
+			["id"] = 5118,
+			["icon"] = 132242,
+			["name"] = "Aspect of the Cheetah",
+		},
+		["MENDPET"] = {
+			["maxRange"] = 45,
+			["minRange"] = 0,
+			["castTime"] = 0,
+			["id"] = 136,
+			["icon"] = 132179,
+			["name"] = "Mend Pet",
+		},
+		["IMMOLATIONTRAP"] = {
+			["maxRange"] = 0,
+			["minRange"] = 0,
+			["castTime"] = 0,
+			["id"] = 13795,
+			["icon"] = 135813,
+			["name"] = "Immolation Trap",
+		},
+		["EYESOFTHEBEAST"] = {
+			["maxRange"] = 50000,
+			["minRange"] = 0,
+			["castTime"] = 1882,
+			["id"] = 1002,
+			["icon"] = 132150,
+			["name"] = "Eyes of the Beast",
+		},
+		["MULTISHOT"] = {
+			["maxRange"] = 35,
+			["minRange"] = 5,
+			["castTime"] = 500,
+			["id"] = 2643,
+			["icon"] = 132330,
+			["name"] = "Multi-Shot",
+		},
+		["TRACKHIDDEN"] = {
+			["maxRange"] = 0,
+			["minRange"] = 0,
+			["castTime"] = 0,
+			["id"] = 19885,
+			["icon"] = 132320,
+			["name"] = "Track Hidden",
+		},
+		["FREEZINGTRAP"] = {
+			["maxRange"] = 0,
+			["minRange"] = 0,
+			["castTime"] = 0,
+			["id"] = 1499,
+			["icon"] = 135834,
+			["name"] = "Freezing Trap",
+		},
+		["FLARE"] = {
+			["maxRange"] = 30,
+			["minRange"] = 0,
+			["castTime"] = 0,
+			["id"] = 1543,
+			["icon"] = 135815,
+			["name"] = "Flare",
+		},
+		["DISENGAGE"] = {
+			["maxRange"] = 50000,
+			["minRange"] = 0,
+			["castTime"] = 0,
+			["id"] = 781,
+			["icon"] = 132294,
+			["name"] = "Disengage",
+		},
+		["BEASTLORE"] = {
+			["maxRange"] = 40,
+			["minRange"] = 0,
+			["castTime"] = 0,
+			["id"] = 1462,
+			["icon"] = 132270,
+			["name"] = "Beast Lore",
+		},
+		["EXPLOSIVETRAP"] = {
+			["maxRange"] = 0,
+			["minRange"] = 0,
+			["castTime"] = 0,
+			["id"] = 13813,
+			["icon"] = 135826,
+			["name"] = "Explosive Trap",
+		},
+		["TRACKELEMENTALS"] = {
+			["maxRange"] = 0,
+			["minRange"] = 0,
+			["castTime"] = 0,
+			["id"] = 19880,
+			["icon"] = 135861,
+			["name"] = "Track Elementals",
+		},
+		["MONGOOSEBITE"] = {
+			["maxRange"] = 0,
+			["minRange"] = 0,
+			["castTime"] = 0,
+			["id"] = 1495,
+			["icon"] = 132215,
+			["name"] = "Mongoose Bite",
+		},
+		["CONCUSSIVESHOT"] = {
+			["maxRange"] = 35,
+			["minRange"] = 5,
+			["castTime"] = -999500,
+			["id"] = 5116,
+			["icon"] = 135860,
+			["name"] = "Concussive Shot",
+		},
+		["RAPIDFIRE"] = {
+			["maxRange"] = 0,
+			["minRange"] = 0,
+			["castTime"] = 0,
+			["id"] = 3045,
+			["icon"] = 132208,
+			["name"] = "Rapid Fire",
+		},
+		["AIMEDSHOT"] = {
+			["maxRange"] = 35,
+			["minRange"] = 5,
+			["castTime"] = -999500,
+			["id"] = 19434,
+			["icon"] = 135130,
+			["name"] = "Aimed Shot",
+		},
+		["TRUESHOTAURA"] = {
+			["maxRange"] = 0,
+			["minRange"] = 0,
+			["castTime"] = 0,
+			["id"] = 19506,
+			["icon"] = 132329,
+			["name"] = "Trueshot Aura",
+		},
+		["FROSTTRAP"] = {
+			["id"] = 13809,
+			["maxRange"] = 0,
+			["minRange"] = 0,
+			["castTime"] = 0,
+			["name"] = "Frost Trap",
+			["icon"] = 135840,
 		},
 	}

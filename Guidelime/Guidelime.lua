@@ -64,19 +64,33 @@ addon.icons = {
 	GOTO = "Interface\\Addons\\" .. addonName .. "\\Icons\\lime0",
 	LOC = "Interface\\Addons\\" .. addonName .. "\\Icons\\lime",
 	TARGET_BUTTON = "Interface\\Icons\\Ability_Hunter_Snipershot",
-	MULTI_TARGET_BUTTON = "Interface\\Icons\\Ability_Hunter_FocusedAim",
+	MULTI_TARGET_BUTTON = "Interface\\Icons\\Ability_Marksmanship",
 	-- normally class icons could be obtained by using SetTextCoord with CLASS_ICON_TCOORDS[class] on "Interface\\GLUES\\CHARACTERCREATE\\UI-CHARACTERCREATE-CLASSES"
 	-- but since this is not so easily done e.g. in EasyMenu we provide alternative class icons here (cf https://wowpedia.fandom.com/wiki/Class_icon)
-	DEATHKNIGHT = "Interface\\Icons\\spell_deathknight_classicon",
-	DRUID = "Interface\\Icons\\inv_misc_monsterclaw_04",
-	HUNTER = "Interface\\Icons\\inv_weapon_bow_07",
-	MAGE = "Interface\\Icons\\inv_staff_13",
-	PALADIN = "Interface\\Icons\\inv_hammer_01",
-	PRIEST = "Interface\\Icons\\inv_staff_30",
-	ROGUE = "Interface\\Icons\\inv_throwingknife_04",
-	SHAMAN = "Interface\\Icons\\inv_jewelry_talisman_04",
-	WARLOCK = "Interface\\Icons\\spell_nature_drowsy",
-	WARRIOR = "Interface\\Icons\\inv_sword_27",
+	DEATHKNIGHT = "Interface\\Addons\\" .. addonName .. "\\Icons\\Deathknight", --"Interface\\Icons\\spell_deathknight_classicon",
+	DRUID = "Interface\\Addons\\" .. addonName .. "\\Icons\\Druid", --"Interface\\Icons\\inv_misc_monsterclaw_04",
+	HUNTER = "Interface\\Addons\\" .. addonName .. "\\Icons\\Hunter", --"Interface\\Icons\\inv_weapon_bow_07",
+	MAGE = "Interface\\Addons\\" .. addonName .. "\\Icons\\Mage", --"Interface\\Icons\\inv_staff_13",
+	PALADIN = "Interface\\Addons\\" .. addonName .. "\\Icons\\Paladin", --"Interface\\Icons\\inv_hammer_01",
+	PRIEST = "Interface\\Addons\\" .. addonName .. "\\Icons\\Priest", --"Interface\\Icons\\inv_staff_30",
+	ROGUE = "Interface\\Addons\\" .. addonName .. "\\Icons\\Rogue", --"Interface\\Icons\\inv_throwingknife_04",
+	SHAMAN = "Interface\\Addons\\" .. addonName .. "\\Icons\\Shaman", --"Interface\\Icons\\inv_jewelry_talisman_04",
+	WARLOCK = "Interface\\Addons\\" .. addonName .. "\\Icons\\Warlock", --"Interface\\Icons\\spell_nature_drowsy",
+	WARRIOR = "Interface\\Addons\\" .. addonName .. "\\Icons\\Warrior", --"Interface\\Icons\\inv_sword_27",
+	HUMAN = "Interface\\Addons\\" .. addonName .. "\\Icons\\HUMAN",
+	DWARF = "Interface\\Addons\\" .. addonName .. "\\Icons\\DWARF",
+	GNOME = "Interface\\Addons\\" .. addonName .. "\\Icons\\GNOME",
+	NIGHTELF = "Interface\\Addons\\" .. addonName .. "\\Icons\\NIGHTELF",
+	DRAENEI = "Interface\\Addons\\" .. addonName .. "\\Icons\\DRAENEI",
+	ORC = "Interface\\Addons\\" .. addonName .. "\\Icons\\ORC",
+	TROLL = "Interface\\Addons\\" .. addonName .. "\\Icons\\TROLL",
+	UNDEAD = "Interface\\Addons\\" .. addonName .. "\\Icons\\UNDEAD",
+	TAUREN = "Interface\\Addons\\" .. addonName .. "\\Icons\\TAUREN",
+	BLOODELF = "Interface\\Addons\\" .. addonName .. "\\Icons\\BLOODELF",
+	
+	SCROLL_THUMB = "Interface\\Addons\\" .. addonName .. "\\Icons\\scroll",
+	SCROLL_DOWN = "Interface\\Addons\\" .. addonName .. "\\Icons\\leaf_down",
+	SCROLL_UP = "Interface\\Addons\\" .. addonName .. "\\Icons\\leaf_up",
 
 	--LOC = "Interface\\Icons\\Ability_Tracking",
 	--KILL = "Interface\\Icons\\Ability_Creature_Cursed_02",
@@ -170,14 +184,16 @@ function addon.loadData()
 		completedSteps = {},
 		showTargetButtons = "LEFT",
 		showUseItemButtons = "LEFT",
-		showMinimapButton = true
+		showMinimapButton = true,
+		maxNumOfTargetButtons = 8,
+		maxNumOfItemButtons = 8
 	}
 	if GuidelimeData == nil then GuidelimeData = {} end
 	if GuidelimeDataChar == nil then GuidelimeDataChar = {} end
 	for option, default in pairs(defaultOptions) do
 		if GuidelimeData[option] == nil then GuidelimeData[option] = default end
 	end
-	for option, default in pairs(defaultOptionsChar) do
+	for option, default in pairs(GuidelimeData.defaultCharOptions or defaultOptionsChar) do
 		if GuidelimeDataChar[option] == nil then GuidelimeDataChar[option] = default end
 	end
 
@@ -277,7 +293,7 @@ function addon.loadData()
 
 	addon.CG.loadCurrentGuide(false)
 
-	addon.G.fillGuides()
+	--addon.G.fillGuides()
 	addon.O.fillOptions()
 
 	addon.dataLoaded = true

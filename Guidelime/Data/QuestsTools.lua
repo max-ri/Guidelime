@@ -27,49 +27,9 @@ function QT.GetQuestsCompleted()
 	return t
 end
 
-function QT.GetNumGossipActiveQuests()
-	if GetNumGossipActiveQuests ~= nil then return GetNumGossipActiveQuests() end
-	return C_GossipInfo.GetNumActiveQuests()
-end
-
-function QT.GetGossipActiveQuests()
-	if GetGossipActiveQuests ~= nil then return GetGossipActiveQuests() end
-	return C_GossipInfo.GetActiveQuests()
-end
-
-function QT.SelectGossipActiveQuest(i)
-	if SelectGossipActiveQuest ~= nil then return SelectGossipActiveQuest(i) end 
-	return C_GossipInfo.SelectActiveQuest(i)
-end
-
-function QT.GetNumGossipAvailableQuests()
-	if GetNumGossipAvailableQuests ~= nil then return GetNumGossipAvailableQuests() end 
-	return C_GossipInfo.GetNumAvailableQuests()
-end
-
-function QT.GetGossipAvailableQuests()
-	if GetGossipAvailableQuests ~= nil then return GetGossipAvailableQuests() end 
-	return C_GossipInfo.GetAvailableQuests()
-end
-
-function QT.SelectGossipAvailableQuest(i)
-	if SelectGossipAvailableQuest ~= nil then return SelectGossipAvailableQuest(i) end 
-	return C_GossipInfo.SelectAvailableQuest(i)
-end
-
-function QT.SelectGossipOption(i)
-	if SelectGossipOption ~= nil then return SelectGossipOption(i) end 
-	return C_GossipInfo.SelectOption(i)
-end
-
-function QT.GetGossipOptions()
-	if GetGossipOptions ~= nil then return GetGossipOptions() end
-	return C_GossipInfo.GetOptions()
-end
-	
-function QT.GetNumGossipOptions()
-	if GetNumGossipOptions ~= nil then return GetNumGossipOptions() end
-	return #C_GossipInfo.GetOptions()
+function QT.GetItemCooldown(id)
+	if GetItemCooldown ~= nil then return getItemCooldown(id) end
+	return C_Container.GetItemCooldown(id)
 end
 
 function QT.resetCachedQuestData()
