@@ -1,6 +1,6 @@
 ## Title: |TInterface/Addons/Guidelime/Icons/lime:16:16|t Guidelime
 ## Author: Borick of Arthas(EU)
-## Version: 3.026
+## Version: 3.027
 ## Interface: 30402
 ## SavedVariables: GuidelimeData
 ## SavedVariablesPerCharacter: GuidelimeDataChar
