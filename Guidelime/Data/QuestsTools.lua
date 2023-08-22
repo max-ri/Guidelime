@@ -28,7 +28,7 @@ function QT.GetQuestsCompleted()
 end
 
 function QT.GetItemCooldown(id)
-	if GetItemCooldown ~= nil then return getItemCooldown(id) end
+	if GetItemCooldown ~= nil then return GetItemCooldown(id) end
 	return C_Container.GetItemCooldown(id)
 end
 
