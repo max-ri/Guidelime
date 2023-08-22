@@ -111,7 +111,7 @@ local function onMouseDown(self, button)
 	end
 end
 
-local function onMouseUp(self, button)
+local function onMouseUp(self, button, questId, url)
 	if button == "LeftButton" then
 		MW.mainFrame:StopMovingOrSizing()
 		MW.mainFrame.lockBtn:SetAlpha(0)
@@ -120,8 +120,13 @@ local function onMouseUp(self, button)
 		GuidelimeDataChar.mainFrameRelative = rel
 		GuidelimeDataChar.mainFrameX = x
 		GuidelimeDataChar.mainFrameY = y
+		if type(questId) == 'number' then
+			QL.showQuestLogFrame(questId)
+		elseif url then
+			F.showUrlPopup(url) 
+		end
 	elseif button == "RightButton" then
-		MW.showContextMenu()
+		MW.showContextMenu(type(questId) == 'number' and questId)
 	end
 end
 
@@ -262,23 +267,14 @@ function MW.updateMainFrame(reset)
 								end, true, 120 + lines * 10):Show()
 							end
 						end)
-						MW.mainFrame.steps[i].textBox = F.addMultilineText(MW.mainFrame.steps[i], nil, nil, "", function(self, button)
-							local j = CG.getElementByTextPos(self:GetCursorPosition(), i)
-							local element = CG.currentGuide.steps[i].elements[j]
-							if not element then return end
-							if button == "RightButton" then
-								MW.showContextMenu(element.questId)
-							else
-								if element.questId then
-									QL.showQuestLogFrame(element.questId)
-								elseif element.url then
-									F.showUrlPopup(element.url) 
-								end
-							end
-						end)
+						MW.mainFrame.steps[i].textBox = F.addMultilineText(MW.mainFrame.steps[i])
 						MW.mainFrame.steps[i].textBox:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
 						MW.mainFrame.steps[i].textBox:SetScript("OnMouseDown", onMouseDown)
-						MW.mainFrame.steps[i].textBox:SetScript("OnMouseUp", onMouseUp)
+						MW.mainFrame.steps[i].textBox:SetScript("OnMouseUp", function(self, button)
+							local j = CG.getElementByTextPos(self:GetCursorPosition(), i)
+							local element = CG.currentGuide.steps[i].elements[j]
+							onMouseUp(self, button, element and element.questId, element and element.url)
+						end)
 					end
 					MW.mainFrame.steps[i].textBox:SetPoint("TOPLEFT", MW.mainFrame.steps[i], "TOPLEFT", 35, -9)
 					MW.mainFrame.steps[i].textBox:SetWidth(MW.mainFrame.scrollChild:GetWidth() - 40)
