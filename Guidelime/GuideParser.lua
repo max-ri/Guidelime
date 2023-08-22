@@ -586,7 +586,7 @@ function GP.parseLine(step, guide, strict, nameOnly)
 				c = c:upper():gsub(" ","")
 				if c == "SP" and value1 ~= "" then
 					element.spell = SP.getSpellById(tonumber(value1))
-					element.spellMin = tonumber(value2) or 1
+					element.spellMin = tonumber(value2) or SP.getSpellRankById(tonumber(value1))
 				elseif value2 ~= "" then
 					F.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
 					err = true

@@ -23,7 +23,7 @@ function SP.getSpellById(id)
 			SP.spellsById[s.id] = key
 		end
 	end
-	return SP.spellsById[id]
+	return SP.spellsById[id] or (GetSpellInfo(id)):upper():gsub("[ :%-%(%)'\"]","")
 end
 
 function SP.getLocalizedName(name)
@@ -47,6 +47,10 @@ function SP.getSpellRank(name)
 	local localizedName = GetSpellInfo(s.id)
 	local id = select(7, GetSpellInfo(localizedName))
 	if not id or not IsSpellKnown(id) then return (isTradeSkillKnown(name, localizedName) and 1) or 0 end
+	return SP.getSpellRankById(id)
+end
+
+function SP.getSpellRankById(id)
 	local rank = GetSpellSubtext(id)
 	if rank ~= nil and rank:sub(1, RANK:len()) == RANK then return tonumber(rank:sub(RANK:len() + 2)) end
 	return 1 
