@@ -16,20 +16,20 @@ G.GUIDE_LIST_URL = "https://github.com/max-ri/guidelime/wiki/GuideList"
 function G.loadGuide(name)
 	if addon.debugging then print("LIME: load guide", name) end
 	
-	if GuidelimeDataChar.currentGuide ~= nil and G.guidesFrame.guides[GuidelimeDataChar.currentGuide] ~= nil then
-		G.guidesFrame.guides[GuidelimeDataChar.currentGuide]:SetBackdropColor(0,0,0,0)	
-	end
-	G.guidesFrame.guides[name]:SetBackdropColor(1,1,0,1)
-	GuidelimeDataChar.currentGuide = name
 	if G.guidesFrame ~= nil then
+		if GuidelimeDataChar.currentGuide ~= nil and G.guidesFrame.guides[GuidelimeDataChar.currentGuide] ~= nil then
+			G.guidesFrame.guides[GuidelimeDataChar.currentGuide]:SetBackdropColor(0,0,0,0)	
+		end
+		G.guidesFrame.guides[name]:SetBackdropColor(1,1,0,1)
 		G.guidesFrame.text1:SetText(L.CURRENT_GUIDE .. ": |cFFFFFFFF" .. name .. "\n")
 	end
 	if E.editorFrame ~= nil then
 		E.editorFrame.text1:SetText(L.CURRENT_GUIDE .. ": |cFFFFFFFF" .. name .. "\n")
-		if addon.guides[GuidelimeDataChar.currentGuide] ~= nil then
-			E.editorFrame.textBox:SetText(addon.guides[GuidelimeDataChar.currentGuide].text:gsub("|","¦"))
+		if addon.guides[name] ~= nil then
+			E.editorFrame.textBox:SetText(addon.guides[name].text:gsub("|","¦"))
 		end
 	end
+	GuidelimeDataChar.currentGuide = name
 	CG.loadCurrentGuide(true)
 	EV.updateFromQuestLog()
 	if GuidelimeDataChar.mainFrameShowing then
