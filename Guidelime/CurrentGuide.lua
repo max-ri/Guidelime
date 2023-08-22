@@ -619,10 +619,11 @@ function CG.getStepText(step)
 				end
 			end
 		elseif element.t == "TARGET" and element.title ~= "" then
-			if element.targetButton then
+			local npc = QT.getNPCName(element.targetNpcId)
+			if element.targetButton and element.targetButton.npc == npc then
 				text = text .. AB.getTargetButtonIconText(element.targetButton.index)
 			end
-			local name = element.title or QT.getNPCName(element.targetNpcId)
+			local name = element.title or npc
 			if name and name ~= "" then
 				if step.active then
 					text = text .. MW.COLOR_WHITE .. name .. "|r"
@@ -1084,11 +1085,11 @@ function CG.updateSteps(completedIndexes)
 	--if addon.debugging then print("LIME: updateFirstActiveIndex " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	M.updateStepsMapIcons()
 	--if addon.debugging then print("LIME: updateStepsMapIcons " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
+	AB.updateTargetButtons()
+	AB.updateUseItemButtons()
 	CG.updateStepsText()
 	if scrollToFirstActive then	CG.scrollToFirstActive() end
 	--if addon.debugging then print("LIME: updateStepsText " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
-	AB.updateTargetButtons()
-	AB.updateUseItemButtons()
 
 	if customCodeData then
 		for i,v in ipairs(customCodeData) do
