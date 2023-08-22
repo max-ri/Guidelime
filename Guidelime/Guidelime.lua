@@ -153,23 +153,29 @@ function addon.loadData()
 		editorFrameX = 0,
 		editorFrameY = 0,
 		editorFrameRelative = "CENTER",
-		guideSkip = {},
-		guideSize = {},
 		version = GetAddOnMetadata(addonName, "version"),
-		completedSteps = {},
 		showTargetButtons = "LEFT",
 		showUseItemButtons = "LEFT",
 		showMinimapButton = true,
 		maxNumOfTargetButtons = 8,
 		maxNumOfItemButtons = 8
 	}
+	local noSnapshotOptionsChar = {
+		currentGuide = "",
+		guideSkip = {},
+		guideSize = {},
+		completedSteps = {},
+	}
 	if GuidelimeData == nil then GuidelimeData = {} end
 	if GuidelimeDataChar == nil then GuidelimeDataChar = {} end
 	for option, default in pairs(defaultOptions) do
 		if GuidelimeData[option] == nil then GuidelimeData[option] = default end
 	end
-	for option, default in pairs(GuidelimeData.defaultCharOptions or defaultOptionsChar) do
+	for option, default in pairs(noSnapshotOptionsChar) do
 		if GuidelimeDataChar[option] == nil then GuidelimeDataChar[option] = default end
+	end
+	for option, default in pairs(GuidelimeData.defaultCharOptions or defaultOptionsChar) do
+		if GuidelimeDataChar[option] == nil and noSnapshotOptionsChar[option] == nil then GuidelimeDataChar[option] = default end
 	end
 
 	GuidelimeDataChar.version:gsub("(%d+).(%d+)", function(major, minor)
