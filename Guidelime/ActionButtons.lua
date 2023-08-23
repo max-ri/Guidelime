@@ -262,7 +262,7 @@ function AB.updateUseItemButtons()
 					local count = GetItemCount(button.itemId)
 					button.count:SetText(count ~= 1 and count or "")
 					button.texture:SetAlpha((count > 0 and 1) or 0.5)
-					local name = QT.getItemName(button.itemId)
+					local name = EV.GetItemInfo(button.itemId)
 					if name then
 						button:SetAttribute("type", "item")
 						button:SetAttribute("item", name)
