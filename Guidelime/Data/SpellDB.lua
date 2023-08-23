@@ -33,24 +33,24 @@ function SP.getLocalizedName(name)
 	return id and (GetSpellInfo(id))
 end
 
-local function isTradeSkillKnown(name, localizedName)
-	if GuidelimeDataChar.tradeSkills and GuidelimeDataChar.tradeSkills[name] then return true end
+local function isTradeSkillKnown(localizedName)
+	if GuidelimeDataChar.tradeSkills and GuidelimeDataChar.tradeSkills[localizedName] then return true end
 	if SP.getTradeSkillIndex(localizedName) then
 		if not GuidelimeDataChar.tradeSkills then GuidelimeDataChar.tradeSkills = {} end
-		GuidelimeDataChar.tradeSkills[name] = true 
+		GuidelimeDataChar.tradeSkills[localizedName] = true 
 		return true
 	end
 	return false
 end
 
 function SP.getSpellRank(name)
-	local s = SP.spells[name]
-	if not s then return 0 end
-	local skill, max = SK.getMaxSkillLearnedBySpell(s.id)
+	local id = ((type(name) == "number") and name) or (SP.spells[name] and SP.spells[name].id)
+	if not id then return 0 end
+	local skill, max = SK.getMaxSkillLearnedBySpell(id)
 	if skill ~= nil then return select(2, SK.getSkillRank(skill)) >= max and 1 or 0 end
-	local localizedName = GetSpellInfo(s.id)
-	local id = select(7, GetSpellInfo(localizedName))
-	if not id or not IsSpellKnown(id) then return (isTradeSkillKnown(name, localizedName) and 1) or 0 end
+	local localizedName = GetSpellInfo(id)
+	id = select(7, GetSpellInfo(localizedName))
+	if not id or not IsSpellKnown(id) then return (isTradeSkillKnown(localizedName) and 1) or 0 end
 	return SP.getSpellRankById(id)
 end
 
@@ -4905,7 +4905,7 @@ SP.spells = {
 			["castTime"] = 0,
 			["name"] = "Battle Shout",
 			["icon"] = 132333,
-			["id"] = 2048,
+			["id"] = 6673,
 		},
 		["GUNS"] = {
 			["maxRange"] = 0,

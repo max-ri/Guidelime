@@ -594,7 +594,8 @@ function GP.parseLine(step, guide, strict, nameOnly)
 							element.maxSkillMin = tonumber(value2) or 1
 						end
 					else
-						element.spell = spell
+						element.spellId = tonumber(value1)
+						element.spell = tonumber(value1)
 						element.spellMin = tonumber(value2) or SP.getSpellRankById(tonumber(value1))
 					end
 				elseif value2 ~= "" then
