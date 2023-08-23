@@ -625,6 +625,10 @@ function GP.parseLine(step, guide, strict, nameOnly)
 						element.text = SK.getLocalizedName(element.skill)
 					end
 					element.textInactive = element.text
+					if element.spellMin ~= nil and element.spellMin > 1 then
+						element.text = element.text .. " |cFFD1B38A(" .. RANK .. " " .. element.spellMin .. ")|r"
+						element.textInactive = element.textInactive .. " (" .. RANK .. " " .. element.spellMin .. ")"
+					end
 				end
 				lastAutoStep = element
 			end, 1)
