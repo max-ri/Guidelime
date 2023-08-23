@@ -267,7 +267,7 @@ function MW.updateMainFrame(reset)
 								end, true, 120 + lines * 10):Show()
 							end
 						end)
-						MW.mainFrame.steps[i].textBox = F.addMultilineText(MW.mainFrame.steps[i])
+						MW.mainFrame.steps[i].textBox = F.addMultilineText(MW.mainFrame.steps[i], nil, nil, "")
 						MW.mainFrame.steps[i].textBox:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
 						MW.mainFrame.steps[i].textBox:SetScript("OnMouseDown", onMouseDown)
 						MW.mainFrame.steps[i].textBox:SetScript("OnMouseUp", function(self, button)
