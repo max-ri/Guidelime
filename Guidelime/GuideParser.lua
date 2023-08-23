@@ -585,8 +585,18 @@ function GP.parseLine(step, guide, strict, nameOnly)
 				--if addon.debugging then print("LIME: LEARN", c, value1, value2, text) end
 				c = c:upper():gsub(" ","")
 				if c == "SP" and value1 ~= "" then
-					element.spell = SP.getSpellById(tonumber(value1))
-					element.spellMin = tonumber(value2) or SP.getSpellRankById(tonumber(value1))
+					local spell = SP.getSpellById(tonumber(value1))
+					if SK.isSkill(spell) then
+						element.skill = SK.getSkill(spell)
+						if element.skill == "RIDING" then
+							element.skillMin = tonumber(value2) or 1
+						else
+							element.maxSkillMin = tonumber(value2) or 1
+						end
+					else
+						element.spell = spell
+						element.spellMin = tonumber(value2) or SP.getSpellRankById(tonumber(value1))
+					end
 				elseif value2 ~= "" then
 					F.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
 					err = true
