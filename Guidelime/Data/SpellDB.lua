@@ -47,7 +47,7 @@ function SP.getSpellRank(name)
 	local id = ((type(name) == "number") and name) or (SP.spells[name] and SP.spells[name].id)
 	if not id then return 0 end
 	local skill, max = SK.getMaxSkillLearnedBySpell(id)
-	if skill ~= nil then return select(2, SK.getSkillRank(skill)) >= max and 1 or 0 end
+	if skill ~= nil then return SK.getSkillRank(skill) ~= nil and select(2, SK.getSkillRank(skill)) >= max and 1 or 0 end
 	local localizedName = GetSpellInfo(id)
 	id = select(7, GetSpellInfo(localizedName))
 	if not id or not IsSpellKnown(id) then return (isTradeSkillKnown(localizedName) and 1) or 0 end
