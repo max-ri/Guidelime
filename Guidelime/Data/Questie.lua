@@ -289,6 +289,23 @@ function QUESTIE.getQuestPositions(id, typ, index, filterZone)
 				end
 			end
 		end
+		if npc ~= nil and npc.waypoints ~= nil then
+			if filterZone == nil then
+				for zone, pathList in pairs(npc.waypoints) do
+					for _, posList in ipairs(pathList) do
+						for _, pos in ipairs(posList) do
+							table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[ZoneDB:GetUiMapIdByAreaId(zone)] or zone, npcId = npcId, objectives = objectives.npc[npcId]})
+						end
+					end
+				end
+			elseif npc.waypoints[filterZoneId] ~= nil then
+				for _, posList in ipairs(npc.waypoints[filterZoneId]) do
+					for _, pos in ipairs(posList) do
+						table.insert(positions, {x = pos[1], y = pos[2], zone = filterZone, npcId = npcId, objectives = objectives.npc[npcId]})
+					end
+				end
+			end
+		end
 	end
 	for _, objectId in ipairs(ids.object) do
 		local object = QuestieDB:GetObject(objectId)
@@ -365,6 +382,15 @@ function QUESTIE.getItemPositions(id)
 				end
 			end
 		end
+		if npc ~= nil and npc.waypoints ~= nil then
+			for zone, pathList in pairs(npc.waypoints) do
+				for _, posList in ipairs(pathList) do
+					for _, pos in ipairs(posList) do
+						table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[ZoneDB:GetUiMapIdByAreaId(zone)] or zone, npcId = npcId})
+					end
+				end
+			end
+		end
 	end
 	for _, objectId in ipairs(ids.object) do
 		local object = QuestieDB:GetObject(objectId)
@@ -408,6 +434,15 @@ function QUESTIE.getNPCPositions(id)
 		for zone, posList in pairs(npc.spawns) do
 			for _, pos in ipairs(posList) do
 				table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[ZoneDB:GetUiMapIdByAreaId(zone)] or zone, npcId = id})
+			end
+		end
+	end
+	if npc ~= nil and npc.waypoints ~= nil then
+		for zone, pathList in pairs(npc.waypoints) do
+			for _, posList in ipairs(pathList) do
+				for _, pos in ipairs(posList) do
+					table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[ZoneDB:GetUiMapIdByAreaId(zone)] or zone, npcId = id})
+				end
 			end
 		end
 	end

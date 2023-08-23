@@ -609,7 +609,7 @@ function O.fillOptions()
 	end)
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -20)
 
-	slider = F.addSliderOption(content, GuidelimeData, "mapMarkerStyleLOC", 1, 2, 1, L.MAP_MARKER_STYLE, nil, function(self)
+	slider = F.addSliderOption(content, GuidelimeData, "mapMarkerStyleLOC", 1, 3, 1, L.MAP_MARKER_STYLE, nil, function(self)
 		self.editbox:SetText(M.getMapMarkerText({t = "monster"}) .. M.getMapMarkerText({t = "item"}))
     	self.editbox:SetCursorPosition(0)
 		O.optionsFrame.titleMapMarkersLoc:SetText("|cFFFFFFFF___ " .. string.format(L.MAP_MARKERS_LOC, M.getMapMarkerText({t = "monster"}) .. "," .. M.getMapMarkerText({t = "item"}) .. "," .. M.getMapMarkerText({t = "object"}) .. "," .. M.getMapMarkerText({t = "LOC"})) .. " _______________________________________________________")

@@ -14,8 +14,8 @@ addon.MW = addon.MW or {}; local MW = addon.MW -- MainWindow
 
 addon.M = addon.M or {}; local M = addon.M     -- Map
 
-M.MAX_MAP_INDEX = 59
-M.SPECIAL_MAP_INDEX = {monster = 60, item = 61, object = 62, npc = 63, LOC = 63}
+M.MAX_MAP_INDEX = 58
+M.SPECIAL_MAP_INDEX = {monster = 60, item = 61, object = 62, npc = 63, LOC = 63, ACCEPT = 59, TURNIN = 59}
 M.mapIcons = {}
 
 local function createIconFrame(t, index)

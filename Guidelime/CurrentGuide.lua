@@ -282,9 +282,12 @@ local function loadStepOnActivation(i)
 				if positions ~= nil then
 					local objectives = QT.getQuestObjectives(element.questId, element.t)						
 					for _, pos in ipairs(positions) do
-						CG.addElement(CG.updatePosElement(pos, {t = "LOC", 
-								markerTyp = objectives and pos.objectives and pos.objectives[1] and objectives[pos.objectives[1]] and objectives[pos.objectives[1]].type or "LOC"
-							}),	element, 0, true)
+						local locElement = CG.addElement(CG.updatePosElement(pos, {t = "LOC"}),	element, 0, true)
+						if element.t == "COMPLETE" then
+							locElement.markerTyp = objectives and pos.objectives and pos.objectives[1] and objectives[pos.objectives[1]] and objectives[pos.objectives[1]].type or "LOC"
+						else
+							locElement.markerTyp = element.t
+						end
 						j = j + 1
 					end
 					for k = j, #step.elements do
