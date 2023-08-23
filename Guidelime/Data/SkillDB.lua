@@ -87,4 +87,21 @@ function SK.getSkillLearnedBy(name)
 	return SK.skills[name] and SK.skills[name].learnedBy
 end
 
-		
+function SK.getMaxSkillLearnedBySpell(id)
+	if SK.maxSkillLearnedBy == nil then
+		SK.maxSkillLearnedBy = {}
+		local maxSkill = { 75, 125, 225, 300, 375, 450 }
+		for name, S in pairs(SK.skills) do
+			if S.learnedBy ~= nil then
+				for i, id in ipairs(S.learnedBy) do
+					SK.maxSkillLearnedBy[id] = { name, maxSkill[i] }
+				end
+			end
+		end
+	end
+	if SK.maxSkillLearnedBy[id] ~= nil then 
+		return unpack(SK.maxSkillLearnedBy[id]) 
+	end
+end
+	
+	

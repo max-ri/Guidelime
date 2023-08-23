@@ -1,5 +1,7 @@
 local addonName, addon = ...
 
+addon.SK = addon.SK or {}; local SK = addon.SK     -- Data/SkillDB
+
 addon.SP = addon.SP or {}; local SP = addon.SP
 
 function SP.getSpell(name)
@@ -44,6 +46,8 @@ end
 function SP.getSpellRank(name)
 	local s = SP.spells[name]
 	if not s then return 0 end
+	local skill, max = SK.getMaxSkillLearnedBySpell(s.id)
+	if skill ~= nil then return select(2, SK.getSkillRank(skill)) >= max and 1 or 0 end
 	local localizedName = GetSpellInfo(s.id)
 	local id = select(7, GetSpellInfo(localizedName))
 	if not id or not IsSpellKnown(id) then return (isTradeSkillKnown(name, localizedName) and 1) or 0 end
