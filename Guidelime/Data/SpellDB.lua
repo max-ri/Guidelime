@@ -14,6 +14,7 @@ function SP.isSpell(name)
 end
 
 function SP.getSpellId(name)
+	if type(name) == "number" then return name end
 	local s = SP.spells[name]
 	return s and s.id
 end
