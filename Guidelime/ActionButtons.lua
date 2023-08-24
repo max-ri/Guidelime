@@ -155,10 +155,15 @@ function AB.updateTargetButtons()
 						return 
 					end
 					local name = QT.getNPCName(element.targetNpcId)
-					if name and not D.contains(targets, function(t) return t.name == name end) then
-						targets[i] = {name = name, element = element, index = i, marker = GuidelimeData.targetRaidMarkers and AB.targetRaidMarkerIndex[i]}
-						if GuidelimeDataChar.maxNumOfTargetButtons > 0 and i >= GuidelimeDataChar.maxNumOfTargetButtons then break end
-						i = i + 1
+					if name then
+						local t = D.find(targets, function(t) return t.name == name end)
+						if not t then
+							targets[i] = {name = name, elements = {element}, index = i, marker = GuidelimeData.targetRaidMarkers and AB.targetRaidMarkerIndex[i]}
+							if GuidelimeDataChar.maxNumOfTargetButtons > 0 and i >= GuidelimeDataChar.maxNumOfTargetButtons then break end
+							i = i + 1
+						else
+							table.insert(t.elements, element)
+						end
 					end
 				end
 			end
@@ -177,7 +182,9 @@ function AB.updateTargetButtons()
 	end
 	for _, t in ipairs(targets) do
 		local button = AB.createTargetButton(t.index)
-		t.element.targetButton = button
+		for _, element in ipairs(t.elements) do
+			element.targetButton = button
+		end
 		button:SetPoint("TOP" .. GuidelimeDataChar.showTargetButtons, MW.mainFrame, "TOP" .. GuidelimeDataChar.showTargetButtons, 
 			GuidelimeDataChar.showTargetButtons == "LEFT" and -36 or (GuidelimeDataChar.mainFrameShowScrollBar and 60 or 37), 
 			39 - pos * 41)

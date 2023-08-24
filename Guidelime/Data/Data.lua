@@ -193,6 +193,13 @@ function D.contains(array, value)
 	return false
 end
 
+function D.find(array, func)
+	if not array then return end
+	for i, v in ipairs(array) do
+		if func(v) then return v end
+	end
+end
+
 function D.containsIgnoreCase(array, value)
 	return D.contains(array, function(v) return v:upper() == value:upper() end)
 end
