@@ -26,7 +26,7 @@ function SP.getSpellById(id)
 			SP.spellsById[s.id] = key
 		end
 	end
-	return SP.spellsById[id] or (GetSpellInfo(id)):upper():gsub("[ :%-%(%)'\"]","")
+	return SP.spellsById[id] or (GetSpellInfo(id) and (GetSpellInfo(id)):upper():gsub("[ :%-%(%)'\"]",""))
 end
 
 function SP.getLocalizedName(name)

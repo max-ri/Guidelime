@@ -749,7 +749,7 @@ function GP.parseLine(step, guide, strict, nameOnly)
 			local _, c = tag:gsub("%s*([%w%d]+)%s*(.-)%s*$", function(spell, title)	
 				element.spellId = tonumber(spell)
 				element.spell = element.spellId and SP.getSpellById(element.spellId) or SP.getSpell(spell)
-				if element.spellId or element.spell then
+				if element.spell then
 					if title == "-" then
 						element.title = ""
 					elseif title ~= "" then
