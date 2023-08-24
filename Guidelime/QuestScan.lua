@@ -13,12 +13,16 @@ function QS.scanGuideQuests(guide)
 	if not addon.guides[guide] or QS.scannedGuides[guide] then return end
 	local time
 	if addon.debugging then time = debugprofilestop() end
-	for _,step in ipairs(addon.guides[guide].steps) do
-		for _, element in ipairs(step.elements) do
-			if element.questId then
-				if not QS.scannedQuests[element.questId] then QS.scannedQuests[element.questId] = {} end
-				local entry = {name = guide, line = step.line, t = element.t}
-				table.insert(QS.scannedQuests[element.questId], entry)
+	if addon.guides[guide].steps ~= nil then
+		for _,step in ipairs(addon.guides[guide].steps) do
+			if step.elements ~= nil then
+				for _, element in ipairs(step.elements) do
+					if element.questId then
+						if not QS.scannedQuests[element.questId] then QS.scannedQuests[element.questId] = {} end
+						local entry = {name = guide, line = step.line, t = element.t}
+						table.insert(QS.scannedQuests[element.questId], entry)
+					end
+				end
 			end
 		end
 	end
