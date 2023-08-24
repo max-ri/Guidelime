@@ -266,9 +266,6 @@ function AB.updateUseItemButtons()
 						39 - i * 41 - startPos)
 					button.itemId = element.useItemId
 					button.texture:SetTexture(GetItemIcon(button.itemId))
-					local count = GetItemCount(button.itemId)
-					button.count:SetText(count ~= 1 and count or "")
-					button.texture:SetAlpha((count > 0 and 1) or 0.5)
 					local name = EV.GetItemInfo(button.itemId)
 					if name then
 						button:SetAttribute("type", "item")
@@ -280,6 +277,9 @@ function AB.updateUseItemButtons()
 						end)
 						keyBindButton(button, "GUIDELIME_USE_ITEM_" .. i, "GuidelimeUseItemButton" .. i, name)
 					end
+					local count = GetItemCount(button.itemId) or 0
+					button.count:SetText(count ~= 1 and count or "")
+					button.texture:SetAlpha((count > 0 and 1) or 0.5)
 					button:Show()
 					button:Update()
 					table.insert(previousIds, element.useItemId)
