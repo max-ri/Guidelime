@@ -251,8 +251,8 @@ function EV.frame:GOSSIP_SHOW()
 		local selectAvailable = nil
 		EV.openNpcAgain = false
 		for _, q in ipairs(C_GossipInfo.GetActiveQuests()) do
-			if q.isComplete and EV.isQuestAuto(GuidelimeData.autoTurnInQuests, q.questID) then
-				if selectActive == nil then
+			if EV.isQuestAuto(GuidelimeData.autoTurnInQuests, q.questID) then
+				if selectActive == nil or q.isComplete then
 					selectActive = q.questID
 				else
 					EV.openNpcAgain = true
@@ -299,6 +299,7 @@ function EV.frame:GOSSIP_SHOW()
 						if addon.debugging then print ("LIME: GOSSIP_SHOW SelectGossipOption", gossip.gossipOptionID) end
 						C_GossipInfo.SelectOption(gossip.gossipOptionID)
 						SetTrainerServiceTypeFilter("available", 1)
+						SetTrainerServiceTypeFilter("used", 1)
 						return
 					end
 				end)
@@ -381,8 +382,9 @@ local function doAutoTrain()
 	if IsShiftKeyDown() or not GuidelimeData.autoTrain then return end
 	if addon.debugging then print ("LIME: doAutoTrain GetNumTrainerServices", GetNumTrainerServices()) end
 	for i = 1, GetNumTrainerServices() do
-		local name, _, category = GetTrainerServiceInfo(i)
+		local name, rank, category = GetTrainerServiceInfo(i)
 		if name == nil then break end
+		rank = tonumber(rank:sub(RANK:len() + 2)) or 1
 		if category == "available" then
 			CG.forEveryActiveElement(function (element)
 				if element.t == "LEARN" and element.skill and SK.getSkillLearnedBy(element.skill) and (element.maxSkillMin or element.skill == "RIDING") then
@@ -404,6 +406,20 @@ local function doAutoTrain()
 							CG.updateSteps({element.step.index})
 						end)
 						return
+					end
+				end
+			end)
+		elseif category == "used" then
+			if GuidelimeDataChar.learnedSpells == nil then GuidelimeDataChar.learnedSpells = {} end
+			if GuidelimeDataChar.learnedSpells[name] == nil or GuidelimeDataChar.learnedSpells[name] < rank then 
+				GuidelimeDataChar.learnedSpells[name] = rank
+			end
+			CG.forEveryActiveElement(function (element)
+				if element.t == "LEARN" and element.spell then
+					local id = SP.getSpellId(element.spell)
+					local elName, elRank = GetSpellInfo(id)
+					if name == elName and (elRank == nil or elRank == rank) then
+						CG.completeSemiAutomatic(element)
 					end
 				end
 			end)
@@ -730,4 +746,10 @@ function EV.frame:PLAYER_LOGOUT()
 	-- save a copy of character setting for import
 	if not GuidelimeData.chars then GuidelimeData.chars = {} end
 	GuidelimeData.chars[UnitGUID("player")] = GuidelimeDataChar
+end
+
+
+EV.frame:RegisterEvent('PET_TALENT_UPDATE')
+function EV.frame:PET_TALENT_UPDATE(x)
+	if addon.debugging then print("LIME: PET_TALENT_UPDATE", x) end
 end
