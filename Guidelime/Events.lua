@@ -252,9 +252,10 @@ function EV.frame:GOSSIP_SHOW()
 		EV.openNpcAgain = false
 		for _, q in ipairs(C_GossipInfo.GetActiveQuests()) do
 			if EV.isQuestAuto(GuidelimeData.autoTurnInQuests, q.questID) then
-				if selectActive == nil or q.isComplete then
+				if selectActive == nil then
 					selectActive = q.questID
 				else
+					if q.isComplete then selectActive = q.questID end
 					EV.openNpcAgain = true
 				end			
 			end
@@ -380,51 +381,49 @@ end
 
 local function doAutoTrain()
 	if IsShiftKeyDown() or not GuidelimeData.autoTrain then return end
-	if addon.debugging then print ("LIME: doAutoTrain GetNumTrainerServices", GetNumTrainerServices()) end
-	for i = 1, GetNumTrainerServices() do
-		local name, rank, category = GetTrainerServiceInfo(i)
-		if name == nil then break end
-		rank = tonumber(rank:sub(RANK:len() + 2)) or 1
-		if category == "available" then
-			CG.forEveryActiveElement(function (element)
-				if element.t == "LEARN" and element.skill and SK.getSkillLearnedBy(element.skill) and (element.maxSkillMin or element.skill == "RIDING") then
-					for _, id in ipairs(SK.getSkillLearnedBy(element.skill)) do
-						if name == (GetSpellInfo(id)) then
-							C_Timer.After(EV.AUTO_COMPLETE_DELAY, function() 
+	C_Timer.After(EV.AUTO_COMPLETE_DELAY, function() 
+		if addon.debugging then print ("LIME: doAutoTrain GetNumTrainerServices", GetNumTrainerServices()) end
+		for i = 1, GetNumTrainerServices() do
+			local name, rank, category = GetTrainerServiceInfo(i)
+			if name == nil then break end
+			rank = rank and tonumber(rank:sub(RANK:len() + 2)) or 1
+			if category == "available" then
+				CG.forEveryActiveElement(function (element)
+					if element.t == "LEARN" and element.skill and SK.getSkillLearnedBy(element.skill) and (element.maxSkillMin or element.skill == "RIDING") then
+						for _, id in ipairs(SK.getSkillLearnedBy(element.skill)) do
+							if name == (GetSpellInfo(id)) then
 								if addon.debugging then print ("LIME: doAutoTrain BuyTrainerService", i) end
 								BuyTrainerService(i)
 								CG.updateSteps({element.step.index})
-							end)
-							return
+								return
+							end
 						end
-					end
-				elseif element.t == "LEARN" and element.spell then
-					if name == (GetSpellInfo(SP.getSpellId(element.spell))) then
-						C_Timer.After(EV.AUTO_COMPLETE_DELAY, function() 
+					elseif element.t == "LEARN" and element.spell then
+						if name == (GetSpellInfo(SP.getSpellId(element.spell))) then
 							if addon.debugging then print ("LIME: doAutoTrain BuyTrainerService", i) end
 							BuyTrainerService(i)
 							CG.updateSteps({element.step.index})
-						end)
-						return
+							return
+						end
 					end
+				end)
+			elseif category == "used" then
+				if GuidelimeDataChar.learnedSpells == nil then GuidelimeDataChar.learnedSpells = {} end
+				if GuidelimeDataChar.learnedSpells[name] == nil or GuidelimeDataChar.learnedSpells[name] < rank then 
+					GuidelimeDataChar.learnedSpells[name] = rank
 				end
-			end)
-		elseif category == "used" then
-			if GuidelimeDataChar.learnedSpells == nil then GuidelimeDataChar.learnedSpells = {} end
-			if GuidelimeDataChar.learnedSpells[name] == nil or GuidelimeDataChar.learnedSpells[name] < rank then 
-				GuidelimeDataChar.learnedSpells[name] = rank
+				CG.forEveryActiveElement(function (element)
+					if element.t == "LEARN" and element.spell then
+						local id = SP.getSpellId(element.spell)
+						local elName, elRank = GetSpellInfo(id)
+						if name == elName and (elRank == nil or elRank == rank) then
+							CG.completeSemiAutomatic(element)
+						end
+					end
+				end)
 			end
-			CG.forEveryActiveElement(function (element)
-				if element.t == "LEARN" and element.spell then
-					local id = SP.getSpellId(element.spell)
-					local elName, elRank = GetSpellInfo(id)
-					if name == elName and (elRank == nil or elRank == rank) then
-						CG.completeSemiAutomatic(element)
-					end
-				end
-			end)
 		end
-	end
+	end)
 end
 
 EV.frame:RegisterEvent('TRAINER_UPDATE')
