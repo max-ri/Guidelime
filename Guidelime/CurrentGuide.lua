@@ -803,7 +803,7 @@ local function updateStepCompletion(i, completedIndexes)
 	--skips the completeWithNext check if the step is already complete, fixing a bug where the step persisted even when all elements were complete
 	if not step.completed and i < #CG.currentGuide.steps and step.completeWithNext ~= nil and step.completeWithNext then
 		local nstep = CG.currentGuide.steps[i + 1]
-		local c = nstep.completed or nstep.skip
+		local c = nstep.completed or nstep.skip or not nstep.available
 		if step.completed ~= c then
 			--if addon.debugging then print("LIME: complete with next ", i - 1, c, nstep.skip, nstep.available) end
 			step.completed = c
@@ -913,7 +913,7 @@ local function keepFading()
 					--if addon.debugging then print("LIME: fade out", i) end
 					update = true
 				else
-					step.fading = step.fading - 0.05
+					step.fading = step.fading - 0.2
 					if step.fading < 0 then step.fading = 0 end
 					if MW.mainFrame.steps ~= nil and MW.mainFrame.steps[i] ~= nil and MW.mainFrame.steps[i].visible then
 						MW.mainFrame.steps[i]:SetAlpha(step.fading)
