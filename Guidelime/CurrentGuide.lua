@@ -269,7 +269,7 @@ function CG.loadStepUseItems(i, recheck)
 	end
 end
 
-local function loadStepOnActivation(i)
+local function loadQuestStepOnActivation(i)
 	local time
 	if addon.debugging then time = debugprofilestop() end
 	local step = CG.currentGuide.steps[i]
@@ -294,7 +294,38 @@ local function loadStepOnActivation(i)
 						step.elements[k].index = k
 					end
 				end
-			elseif element.t == "COLLECT_ITEM" and not step.targetElement then
+			end
+			j = j + 1
+		end
+	end
+	if addon.guides[GuidelimeDataChar.currentGuide].autoAddTarget and GuidelimeDataChar.showTargetButtons then --and not step.targetElement then
+		local j = 1
+		while j <= #step.elements do
+			local element = step.elements[j]
+			if element.questId ~= nil and element.available then
+				element.questNpcs = QT.getQuestNPCs(element.questId, element.t, element.objective)
+				if element.questNpcs then
+					for _, npc in ipairs(element.questNpcs) do
+						CG.addElement({t = "TARGET", targetNpcId = npc.id, title = "", objectives = npc.objectives}, element)
+						j = j + 1
+					end
+				end
+			end
+			j = j + 1
+		end
+	end
+	if addon.debugging then print("LIME: loadQuestStepOnActivation " .. i .. " " .. math.floor(debugprofilestop() - time) .. " ms") end
+end
+
+local function loadStepOnActivation(i)
+	local time
+	if addon.debugging then time = debugprofilestop() end
+	local step = CG.currentGuide.steps[i]
+	if addon.guides[GuidelimeDataChar.currentGuide].autoAddCoordinatesLOC and (GuidelimeData.showMapMarkersLOC or GuidelimeData.showMinimapMarkersLOC) and not step.hasLoc then
+		local j = 1
+		while j <= #step.elements do
+			local element = step.elements[j]
+			if element.t == "COLLECT_ITEM" and not step.targetElement then
 				local positions = PT.getItemPositionsLimited(element.itemId, GuidelimeData.maxNumOfMarkersLOC, true)
 				if positions ~= nil then
 					for _, pos in ipairs(positions) do
@@ -305,7 +336,7 @@ local function loadStepOnActivation(i)
 						step.elements[k].index = k
 					end
 				end
-			elseif element.t == "TARGET" and not element.generated then
+			elseif element.t == "TARGET" and not element.generated and not D.contains(CG.currentGuide.activeQuestNpcs, element.targetNpcId) then
 				local positions = PT.getNPCPositionsLimited(element.targetNpcId, GuidelimeData.maxNumOfMarkersLOC, true)
 				if positions ~= nil then
 					for _, pos in ipairs(positions) do
@@ -314,22 +345,6 @@ local function loadStepOnActivation(i)
 					end
 					for k = j, #step.elements do
 						step.elements[k].index = k
-					end
-				end
-			end
-			j = j + 1
-		end
-	end
-	if addon.guides[GuidelimeDataChar.currentGuide].autoAddTarget and GuidelimeDataChar.showTargetButtons and not step.targetElement then
-		local j = 1
-		while j <= #step.elements do
-			local element = step.elements[j]
-			if element.questId ~= nil and element.available then
-				local npcs = QT.getQuestNPCs(element.questId, element.t, element.objective)
-				if npcs then
-					for _, npc in ipairs(npcs) do
-						CG.addElement({t = "TARGET", targetNpcId = npc.id, title = "", objectives = npc.objectives}, element)
-						j = j + 1
 					end
 				end
 			end
@@ -936,6 +951,7 @@ end
 
 function CG.updateStepsActivation()
 	CG.currentGuide.activeQuests = {}
+	CG.currentGuide.activeQuestNpcs = {}
 	for i, step in ipairs(CG.currentGuide.steps) do
 		step.active = not step.completed and not step.skip and step.available and D.hasRequirements(step)
 		if step.active then
@@ -948,15 +964,25 @@ function CG.updateStepsActivation()
 			end
 		end
 		if step.active then
+			if not step.wasActive then
+				loadQuestStepOnActivation(i)
+			end
 			for _, element in ipairs(step.elements) do
 				if not element.completed and (element.t == "ACCEPT" or element.t == "TURNIN") then
 					table.insert(CG.currentGuide.activeQuests, element.questId)
 				end
+				if element.questNpcs ~= nil then
+					for _, npc in ipairs(element.questNpcs) do
+						table.insert(CG.currentGuide.activeQuestNpcs, npc.id)
+					end
+				end
 			end
-			if not step.wasActive then
-				loadStepOnActivation(i)
-				step.wasActive = true
-			end
+		end
+	end
+	for i, step in ipairs(CG.currentGuide.steps) do
+		if step.active and not step.wasActive then
+			loadStepOnActivation(i)
+			step.wasActive = true
 		end
 	end
 	-- accepting a follow up: maybe a quest dialog is still open and the quest just became active? try to accept it in that case
