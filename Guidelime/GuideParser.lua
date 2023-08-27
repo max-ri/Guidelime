@@ -171,8 +171,8 @@ end
 
 local function textFormatting(text, color)
 	local url
-	local formatted = text:gsub("(https?://[%w%./#%-%?=#]*)", function(u) if not url then url = u else url = url .. "\n" .. u end; return "|cFFAAAAAA" .. u .. "|r" end)
-		:gsub("(www%.[%w%./#%-%?=#]*)", function(u) if not url then url = u elseif not url:find(u) then url = url .. "\n" .. u end; return "|cFFAAAAAA" .. u .. "|r" end)
+	local formatted = text:gsub("(https?://[%w%./#%-%?=#&]*)", function(u) if not url then url = u else url = url .. "\n" .. u end; return "|cFFAAAAAA" .. u .. "|r" end)
+		:gsub("(www%.[%w%./#%-%?=#&]*)", function(u) if not url then url = u elseif not url:find(u, 1, true) then url = url .. "\n" .. u end; return "|cFFAAAAAA" .. u .. "|r" end)
 		:gsub("%*([^\n\r]-)%*", (color or "|cFFFFD100") .. "%1|r")
 		:gsub("%*%*","%*")
 	local formattedInactive = formatted:gsub("|r", MW.COLOR_INACTIVE)
@@ -392,9 +392,9 @@ function GP.parseLine(step, guide, strict, nameOnly)
 			end
 		elseif element.t == "AUTO_ADD_COORDINATES_LOC" then
 			if tag:upper():gsub(" ","") == "ON" then
-				guide.autoAddCoordinatesGOTO = true
+				guide.autoAddCoordinatesLOC = true
 			elseif tag:upper():gsub(" ","") == "OFF" then
-				guide.autoAddCoordinatesGOTO = false
+				guide.autoAddCoordinatesLOC = false
 			else
 				F.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
 				err = true
