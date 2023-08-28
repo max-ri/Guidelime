@@ -117,13 +117,16 @@ local function getMapIcon(t, element, highlight)
 		return M.mapIcons[t][0] 
 	end
 	if M.mapIcons[t] ~= nil then
-		for i, mapIcon in ipairs(M.mapIcons[t]) do
-			if mapIcon.inUse then 
-				if mapIcon.mapID == element.mapID and mapIcon.x == element.x and mapIcon.y == element.y then
+		for i = 0, #M.mapIcons[t] do
+			local mapIcon = M.mapIcons[t][i]
+			if mapIcon ~= nil then
+				if mapIcon.inUse then 
+					if mapIcon.mapID == element.mapID and mapIcon.x == element.x and mapIcon.y == element.y then
+						return mapIcon
+					end
+				else
 					return mapIcon
 				end
-			else
-				return mapIcon
 			end
 		end
 	end
@@ -164,12 +167,6 @@ function M.addMapIcon(element, highlight, ignoreMaxNumOfMarkers)
 		if element.t == "GOTO" and mapIcon.index >= GuidelimeData.maxNumOfMarkersGOTO and GuidelimeData.maxNumOfMarkersGOTO > 0 then return end
 		if not element.step.active and element.t ~= "GOTO" then return end
 	end
-	mapIcon.instance = element.instance
-	mapIcon.wx = element.wx
-	mapIcon.wy = element.wy	
-	mapIcon.mapID = element.mapID
-	mapIcon.x = element.x
-	mapIcon.y = element.y
 	local tooltip = M.getMapTooltip(element)
 	if not mapIcon.inUse then
 		mapIcon.map.tooltip = tooltip
@@ -178,8 +175,19 @@ function M.addMapIcon(element, highlight, ignoreMaxNumOfMarkers)
 		mapIcon.map.tooltip = (mapIcon.map.tooltip or "") .. "\n" .. tooltip
 		mapIcon.minimap.tooltip = (mapIcon.minimap.tooltip or "") .. "\n" .. tooltip
 	end
+	if element.t == "GOTO" and element.step.gotoIndexes and element.step.gotoIndexes[mapIcon.index] then return end
+	mapIcon.instance = element.instance
+	mapIcon.wx = element.wx
+	mapIcon.wy = element.wy	
+	mapIcon.mapID = element.mapID
+	mapIcon.x = element.x
+	mapIcon.y = element.y
 	mapIcon.inUse = true
 	element.mapIndex = mapIcon.index
+	if element.t == "GOTO" then 
+		if element.step.gotoIndexes == nil then element.step.gotoIndexes = {} end
+		element.step.gotoIndexes[element.mapIndex] = true
+	end
 	--if addon.debugging then print("LIME : addMapIcon", element.mapID, element.x / 100, element.y / 100, highlight) end
 end
 
@@ -195,6 +203,7 @@ function M.removeMapIcons()
 		for j, element in ipairs(step.elements) do
 			element.mapIndex = nil
 		end
+		step.gotoIndexes = nil
 	end
 end
 
