@@ -586,7 +586,7 @@ function GP.parseLine(step, guide, strict, nameOnly)
 				c = c:upper():gsub(" ","")
 				if c == "SP" and value1 ~= "" then
 					local spell = SP.getSpellById(tonumber(value1))
-					if SK.isSkill(spell) then
+					if spell and SK.isSkill(spell) then
 						element.skill = SK.getSkill(spell)
 						if element.skill == "RIDING" then
 							element.skillMin = tonumber(value2) or 1
