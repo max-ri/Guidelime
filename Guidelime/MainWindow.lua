@@ -26,6 +26,10 @@ MW.COLOR_LEVEL_GRAY = "|cFF808080"
 MW.COLOR_WHITE = "|cFFFFFFFF"
 MW.COLOR_LIGHT_BLUE = "|cFF99CCFF"
 MW.COLOR_INACTIVE = "|cFF666666"
+MW.COLOR_Hostile = "|cFFCC4C38"
+MW.COLOR_Friendly = "|cFF009919"
+MW.COLOR_Neutral = "|cFFE59D00"
+MW.COLOR_SPELL_RANK = "|cFFD1B38A"
 
 MW.GAP = 2
 
@@ -131,7 +135,7 @@ local function onMouseUp(self, button, questId, url)
 end
 
 function MW.updateMainFrame(reset)
-	if MW.mainFrame == nil or not GuidelimeDataChar.mainFrameShowing then return end
+	if MW.mainFrame == nil or not GuidelimeDataChar.mainFrameShowing or not QT.isDataSourceReady() then return end
 	if addon.debugging then print("LIME: updating main frame") end
 
 	if F.showingTooltip then GameTooltip:Hide(); F.showingTooltip = false end
@@ -151,6 +155,7 @@ function MW.updateMainFrame(reset)
 			message:Hide()
 		end
 	end
+	if MW.mainFrame.waitMessage ~= nil then MW.mainFrame.waitMessage:Hide() end
 	MW.mainFrame.message = {}
 	CG.stopFading()
 
@@ -301,7 +306,7 @@ function MW.updateMainFrame(reset)
 
 		for i, message in ipairs(MW.mainFrame.message) do
 			if not prev then
-				message:SetPoint("TOPLEFT", MW.mainFrame.scrollChild, "TOPLEFT", 0, -5)
+				message:SetPoint("TOPLEFT", MW.mainFrame.scrollChild, "TOPLEFT", 10, -15)
 			elseif i == 1 then
 				message:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -25, -15)
 			else
@@ -311,7 +316,9 @@ function MW.updateMainFrame(reset)
 		end
 		
 		if addon.debugging then print("LIME: updateMainFrame " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
-		CG.scrollToFirstActive()
+		C_Timer.After(0.1, function()
+			CG.scrollToFirstActive()
+		end)
 	end
 end
 
@@ -361,7 +368,10 @@ function MW.showMainFrame()
 		MW.mainFrame.titleBox:SetPoint("TOPLEFT", MW.mainFrame, "TOPLEFT", 0, -5)
 		MW.mainFrame.titleBox:SetJustifyH("CENTER")
 		MW.mainFrame.titleBox:SetScript("OnMouseDown", onMouseDown)
-		MW.mainFrame.titleBox:SetScript("OnMouseUp", onMouseUp)
+		MW.mainFrame.titleBox:SetScript("OnMouseUp", function(self, button)
+			CG.scrollToFirstActive()
+			onMouseUp(self, button)
+		end)
 		MW.mainFrame.titleBox:Hide()
     	MW.mainFrame.titleLine = MW.mainFrame:CreateLine()
     	MW.mainFrame.titleLine:SetColorTexture(0.4, 0.4, 0.4)
@@ -451,8 +461,16 @@ function MW.showMainFrame()
 			MW.mainFrame.inspectBtn:SetAttribute("type", "macro")
 			MW.mainFrame.inspectBtn:SetAttribute("macrotext","/tinspect Guidelime.addon")
 		end
+		MW.mainFrame.waitMessage = F.addMultilineText(MW.mainFrame.scrollChild, L.PLEASE_WAIT, MW.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
+			if (button == "RightButton") then
+				MW.showContextMenu()
+			end
+		end)
+		MW.mainFrame.waitMessage:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
+		MW.mainFrame.waitMessage:SetPoint("TOPLEFT", MW.mainFrame.scrollChild, "TOPLEFT", 10, -15)
 	end
 	MW.mainFrame:Show()
+	MW.mainFrame.waitMessage:Show()
 	CG.updateSteps()
 	if O.optionsFrame ~= nil then O.optionsFrame.mainFrameShowing:SetChecked(true) end
 	addon.setupMinimapButton()

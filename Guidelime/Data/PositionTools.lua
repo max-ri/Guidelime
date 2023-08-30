@@ -99,8 +99,8 @@ local function selectBestCluster(clusters, currentPos)
 			end
 		end
 	end
-	if addon.debugging and count > 1 then print("LIME: biggest cluster out of", count, "count", maxCluster.count, "at", maxCluster.wx, maxCluster.wy, maxCluster.instance) end
-	if addon.debugging and count > 1 and currentPos then print("LIME: distance", maxCluster.distance, "from", currentPos.wx, currentPos.wy, "weight", maxCluster.weight) end
+	--if addon.debugging and count > 1 then print("LIME: biggest cluster out of", count, "count", maxCluster.count, "at", maxCluster.wx, maxCluster.wy, maxCluster.instance) end
+	--if addon.debugging and count > 1 and currentPos then print("LIME: distance", maxCluster.distance, "from", currentPos.wx, currentPos.wy, "weight", maxCluster.weight) end
 	return maxCluster
 end
 

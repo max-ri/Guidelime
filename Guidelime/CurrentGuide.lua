@@ -161,9 +161,7 @@ function CG.loadCurrentGuide(reset)
 						end
 					end						
 				elseif element.t == "COLLECT_ITEM" then
-					if #guide.itemUpdateIndices == 0 or guide.itemUpdateIndices[#guide.itemUpdateIndices] ~= step.index then
-						table.insert(guide.itemUpdateIndices,step.index)
-					end
+					guide.itemUpdate = true
 					if step.manual == nil then step.manual = false end
 					if guide.autoAddCoordinatesGOTO and (GuidelimeData.showMapMarkersGOTO or GuidelimeData.showMinimapMarkersGOTO) and 
 						not step.hasGoto and not step.optional and not step.targetElement then
@@ -192,7 +190,7 @@ function CG.loadCurrentGuide(reset)
 			if step.completeWithNext == nil then step.completeWithNext = false end
 			if step.completeWithNext then step.optional = true end
 			if step.optional == nil then step.optional = false end
-			step.skip = GuidelimeDataChar.guideSkip[CG.currentGuide.name][#CG.currentGuide.steps] or GuidelimeDataChar.completedSteps[#CG.currentGuide.steps] or false
+			step.skip = GuidelimeDataChar.guideSkip[CG.currentGuide.name][step.index] or GuidelimeDataChar.completedSteps[step.index] or false
 			step.active = false
 			step.wasActive = false
 			step.completed = false
@@ -298,7 +296,7 @@ local function loadQuestStepOnActivation(i)
 			j = j + 1
 		end
 	end
-	if addon.guides[GuidelimeDataChar.currentGuide].autoAddTarget and GuidelimeDataChar.showTargetButtons then --and not step.targetElement then
+	if addon.guides[GuidelimeDataChar.currentGuide].autoAddTarget and GuidelimeDataChar.showTargetButtons then
 		local j = 1
 		while j <= #step.elements do
 			local element = step.elements[j]
@@ -353,7 +351,7 @@ local function loadStepOnActivation(i)
 	end
 	CG.loadStepUseItems(i)
 	C_Timer.After(1, function()
-		if addon.debugging then print("LIME: recheck use items for step", i) end
+		if addon.debugging then print("LIME: recheck use items for step", step.line) end
 		CG.loadStepUseItems(i, true)
 		AB.updateUseItemButtons()
 	end)
@@ -507,7 +505,7 @@ function CG.getElementIcon(element, prevElement)
 			return M.getMapMarkerText(element)
 		end
 	elseif element.t == "SPELL" or element.t == "LEARN" or element.t == "SKILL" then
-		if element.spellId then
+		if element.spellId and GetSpellInfo(element.spellId) then
 			return "|T" .. (select(3, GetSpellInfo(element.spellId)) or addon.icons[element.t]) .. ":12|t"
 		elseif element.spell and SP.spells[element.spell] then
 			return "|T" .. (SP.spells[element.spell].icon or addon.icons[element.t]) .. ":12|t"
@@ -638,19 +636,17 @@ function CG.getStepText(step)
 			end
 		elseif element.t == "TARGET" and element.title ~= "" then
 			local npc = QT.getNPCName(element.targetNpcId)
-			if element.targetButton and element.targetButton.npc == npc then
-				text = text .. AB.getTargetButtonIconText(element.targetButton.index)
-			end
+			text = text .. AB.getTargetButtonIconText(element.targetNpcId)
 			local name = element.title or npc
 			if name and name ~= "" then
 				if step.active then
-					text = text .. MW.COLOR_WHITE .. name .. "|r"
+					text = text .. MW["COLOR_" .. QT.isFriendlyNpc(element.targetNpcId)] .. name .. "|r"
 				else
 					text = text .. name
 				end
 			end
 		elseif element.t == "SPELL" and element.title ~= "" then
-			local name = element.title or (GetSpellInfo(element.spellId or SP.getSpellId(element.spell)))
+			local name = element.title or SP.getLocalizedName(element.spell)
 			if name and name ~= "" then
 				if step.active then
 					text = text .. MW.COLOR_WHITE .. name .. "|r"
@@ -873,25 +869,29 @@ local function updateStepAvailability(i, changedIndexes, scheduled)
 	end
 end
 
-local function updateStepsCompletion(changedIndexes)
+local function updateStepsCompletion()
 	--if addon.debugging then print("LIME: update steps completion") end
 	CG.currentGuide.unavailableQuests = {}
+	local changedIndexes = {}
 	repeat
 		local numNew = #changedIndexes
 		local scheduled = {ACCEPT = {}, COMPLETE = {}, TURNIN = {}, SKIP = {}}
 		for i, step in ipairs(CG.currentGuide.steps) do
-			updateStepCompletion(i, changedIndexes)
-			if step.itemsCollected and step.completed then
-				step.skip = true --once all items are collected, don't re-enable the step again if you lose the item later
-			end
-			updateStepAvailability(i, changedIndexes, scheduled)
-			if MW.mainFrame.steps ~= nil and MW.mainFrame.steps[i] ~= nil and MW.mainFrame.steps[i].visible then
-				MW.mainFrame.steps[i]:SetChecked(step.completed or step.skip)
-				MW.mainFrame.steps[i]:SetEnabled(not step.completed or step.skip)
+			if not step.skip then
+				updateStepCompletion(i, changedIndexes)
+				if step.itemsCollected and step.completed then
+					step.skip = true --once all items are collected, don't re-enable the step again if you lose the item later
+				end
+				updateStepAvailability(i, changedIndexes, scheduled)
+				if MW.mainFrame.steps ~= nil and MW.mainFrame.steps[i] ~= nil and MW.mainFrame.steps[i].visible then
+					MW.mainFrame.steps[i]:SetChecked(step.completed or step.skip)
+					MW.mainFrame.steps[i]:SetEnabled(not step.completed or step.skip)
+				end
 			end
 		end
 	until(numNew == #changedIndexes)
 	--if addon.debugging then print("LIME: changed", #changedIndexes) end
+	return changedIndexes
 end
 
 function CG.stepIsVisible(step)
@@ -903,7 +903,7 @@ end
 local function keepFading()
 	local update = false
 	local isFading = false
-	for i, step in ipairs(CG.currentGuide.steps)	do
+	for i, step in ipairs(CG.currentGuide.steps) do
 		if step.fading ~= nil then
 			if not CG.stepIsVisible(step) then
 				step.active = false
@@ -1010,7 +1010,7 @@ local function updateFirstActiveIndex()
 			end
 		end
 	end
-	--if addon.debugging then print("LIME: firstActiveIndex ", CG.currentGuide.firstActiveIndex) end
+	if addon.debugging then print("LIME: firstActiveIndex ", CG.currentGuide.firstActiveIndex) end
 	return oldFirstActiveIndex ~= CG.currentGuide.firstActiveIndex
 end
 
@@ -1077,16 +1077,15 @@ function CG.scrollToFirstActive()
 				MW.mainFrame.scrollFrame:SetVerticalScroll(MW.mainFrame.scrollFrame:GetVerticalScroll() + 
 					MW.mainFrame.scrollFrame:GetTop() - top)
 			end
-			if addon.debugging then print("LIME: scrollToFirstActive", MW.mainFrame.scrollFrame:GetVerticalScroll()) end
+			if addon.debugging then print("LIME: scrollToFirstActive", MW.mainFrame.scrollFrame:GetVerticalScroll(), CG.currentGuide.firstActiveIndex and CG.currentGuide.steps[CG.currentGuide.firstActiveIndex] and CG.currentGuide.steps[CG.currentGuide.firstActiveIndex].line) end
 		end
 	end)
 end
 
-function CG.updateSteps(completedIndexes)
+function CG.updateSteps()
 	if MW.mainFrame == nil then return end
 	if CG.currentGuide == nil then return end
 	if F.showingTooltip then GameTooltip:Hide(); F.showingTooltip = false end
-	if completedIndexes == nil then completedIndexes = {} end
 
 	local customCodeData = CC.customCodeData
 	local isStepActive = {}
@@ -1104,7 +1103,7 @@ function CG.updateSteps(completedIndexes)
 	--local time
 	--if addon.debugging then time = debugprofilestop() end
 	--if addon.debugging then print("LIME: update steps " .. GetTime()) end
-	updateStepsCompletion(completedIndexes)
+	local completedIndexes = updateStepsCompletion()
 	--if addon.debugging then print("LIME: updateStepsCompletion " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	CG.updateStepsActivation()
 	--if addon.debugging then print("LIME: updateStepsActivation " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
@@ -1138,18 +1137,16 @@ end
 function CG.setStepSkip(value, a, b)
 	if a == nil then a = 1; b = #CG.currentGuide.steps end
 	if b == nil then b = a end
-	local indexes = {}
 	for i = a, b do
 		local step = CG.currentGuide.steps[i]
 		step.skip = value
 		GuidelimeDataChar.guideSkip[CG.currentGuide.name][i] = step.skip
-		table.insert(indexes, i)
 		GuidelimeDataChar.completedSteps[i] = GuidelimeDataChar.completedSteps[i] and value
 	end
 	if not value and not GuidelimeDataChar.showUnavailableSteps then
 		MW.updateMainFrame()
 	else
-		CG.updateSteps(indexes)
+		CG.updateSteps()
 	end
 end
 
@@ -1205,7 +1202,7 @@ function CG.completeSemiAutomatic(element)
 	end
 	GuidelimeDataChar.completedSteps[step.index] = true
 	step.skip = true
-	CG.updateSteps({step.index})
+	CG.updateSteps()
 end
 
 function CG.getElementByTextPos(pos, step)

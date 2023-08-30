@@ -34,6 +34,7 @@ addon.icons = {
 	MAP = "Interface\\Addons\\" .. addonName .. "\\Icons\\lime",
 	MAP_ARROW = "Interface\\Addons\\" .. addonName .. "\\Icons\\Arrow",
 	MAP_LIME_ARROW = "Interface\\Addons\\" .. addonName .. "\\Icons\\lime_arrow",
+	MAP_LIME_ARROW_INACTIVE = "Interface\\Addons\\" .. addonName .. "\\Icons\\limev",
 	MAP_MARKER_1 = "Interface\\Addons\\" .. addonName .. "\\Icons\\lime_marker",
 	MAP_MARKER_2 = "Interface\\Addons\\" .. addonName .. "\\Icons\\lime_marker_friz_green",
 	MAP_MARKER_3 = "Interface\\Addons\\" .. addonName .. "\\Icons\\lime_marker_friz",
@@ -150,9 +151,13 @@ function addon.loadData()
 		arrowLocked = false,
 		arrowAlpha = 0.8,
 		arrowSize = 64,
+		arrowFontSize = 14,
 		editorFrameX = 0,
 		editorFrameY = 0,
 		editorFrameRelative = "CENTER",
+		guidesFrameX = 0,
+		guidesFrameY = 0,
+		guidesFrameRelative = "CENTER",
 		version = GetAddOnMetadata(addonName, "version"),
 		showTargetButtons = "LEFT",
 		showUseItemButtons = "LEFT",
@@ -160,22 +165,28 @@ function addon.loadData()
 		maxNumOfTargetButtons = 8,
 		maxNumOfItemButtons = 8
 	}
-	local noSnapshotOptionsChar = {
+	addon.noSnapshotOptionsChar = {
 		currentGuide = "",
 		guideSkip = {},
 		guideSize = {},
 		completedSteps = {},
+		learnedSpells = {}
 	}
 	if GuidelimeData == nil then GuidelimeData = {} end
 	if GuidelimeDataChar == nil then GuidelimeDataChar = {} end
 	for option, default in pairs(defaultOptions) do
 		if GuidelimeData[option] == nil then GuidelimeData[option] = default end
 	end
-	for option, default in pairs(noSnapshotOptionsChar) do
+	for option, default in pairs(addon.noSnapshotOptionsChar) do
 		if GuidelimeDataChar[option] == nil then GuidelimeDataChar[option] = default end
 	end
-	for option, default in pairs(GuidelimeData.defaultCharOptions or defaultOptionsChar) do
-		if GuidelimeDataChar[option] == nil and noSnapshotOptionsChar[option] == nil then GuidelimeDataChar[option] = default end
+	if GuidelimeData.defaultCharOptions then
+		for option, default in pairs(GuidelimeData.defaultCharOptions) do
+			if GuidelimeDataChar[option] == nil and addon.noSnapshotOptionsChar[option] == nil then GuidelimeDataChar[option] = default end
+		end
+	end
+	for option, default in pairs(defaultOptionsChar) do
+		if GuidelimeDataChar[option] == nil then GuidelimeDataChar[option] = default end
 	end
 
 	GuidelimeDataChar.version:gsub("(%d+).(%d+)", function(major, minor)

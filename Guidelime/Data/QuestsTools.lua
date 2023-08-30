@@ -15,6 +15,11 @@ addon.QT = addon.QT or {}; local QT = addon.QT                                  
 local LIMIT_CENTER_POSITION = 400
 local LIMIT_POSITIONS = 1000
 
+function QT.isDataSourceReady()
+	if addon.dataSource == "QUESTIE" then return QUESTIE.isDataSourceReady() end
+	return true
+end
+
 function QT.GetQuestsCompleted()
 	if GetQuestsCompleted ~= nil then return GetQuestsCompleted() end
 	local t = {}
@@ -190,16 +195,19 @@ function QT.getQuestObjectives(id, typ)
 		local locale = GetLocale()
 		local ids = {}
 		local objectives = {}
+		if QT.friendlyNpcs == nil then QT.friendlyNpcs = {} end
 		if typ == "ACCEPT" then 
 			if DB.questsDB[id].source ~= nil then
 				for i, e in ipairs(DB.questsDB[id].source) do
 					objectives[i] = {type = e.type, ids = {[e.type] = {e.id}}}
+					if e.type == "npc" then QT.friendlyNpcs[e.id] = true end
 				end
 			end
 		elseif typ == "TURNIN" then
 			if DB.questsDB[id].deliver ~= nil then
 				for i, e in ipairs(DB.questsDB[id].deliver) do
 					objectives[i] = {type = e.type, ids = {[e.type] = {e.id}}}
+					if e.type == "npc" then QT.friendlyNpcs[e.id] = true end
 				end
 			end
 		elseif typ == "COMPLETE" then
@@ -288,6 +296,7 @@ function QT.getQuestPositions(id, typ, objective, filterZone)
 	--if addon.debugging then time = debugprofilestop() end
 	local ids = {npc = {}, object = {}, item = {}}
 	local objectives = {npc = {}, object = {}, item = {}}
+	if QT.friendlyNpcs == nil then QT.friendlyNpcs = {} end
 	if typ == "ACCEPT" then 
 		if DB.questsDB[id].source ~= nil then
 			for i, e in ipairs(DB.questsDB[id].source) do
@@ -295,6 +304,7 @@ function QT.getQuestPositions(id, typ, objective, filterZone)
 					table.insert(ids[e.type], e.id)
 					if objectives[e.type][e.id] == nil then objectives[e.type][e.id] = {} end
 					table.insert(objectives[e.type][e.id], i)
+					if e.type == "npc" then QT.friendlyNpcs[e.id] = true end
 				end
 			end
 		end
@@ -305,6 +315,7 @@ function QT.getQuestPositions(id, typ, objective, filterZone)
 					table.insert(ids[e.type], e.id)
 					if objectives[e.type][e.id] == nil then objectives[e.type][e.id] = {} end
 					table.insert(objectives[e.type][e.id], i)
+					if e.type == "npc" then QT.friendlyNpcs[e.id] = true end
 				end
 			end
 		end
@@ -890,4 +901,10 @@ function QT.getQuestNPCs(id, typ, index)
 		end
 	end
 	return npcs
+end
+
+function QT.isFriendlyNpc(id)
+	if addon.dataSource == "QUESTIE" then return QUESTIE.isFriendlyNpc(id) end
+	-- hack: internal data does not contain information about friendly npcs; just return friendly for any quest giver/turn in
+	return QT.friendlyNpcs[id] and 'Friendly' or 'Neutral'
 end

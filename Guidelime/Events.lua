@@ -394,7 +394,7 @@ local function doAutoTrain()
 							if name == (GetSpellInfo(id)) then
 								if addon.debugging then print ("LIME: doAutoTrain BuyTrainerService", i) end
 								BuyTrainerService(i)
-								CG.updateSteps({element.step.index})
+								CG.updateSteps()
 								return
 							end
 						end
@@ -402,7 +402,7 @@ local function doAutoTrain()
 						if name == (GetSpellInfo(SP.getSpellId(element.spell))) then
 							if addon.debugging then print ("LIME: doAutoTrain BuyTrainerService", i) end
 							BuyTrainerService(i)
-							CG.updateSteps({element.step.index})
+							CG.updateSteps()
 							return
 						end
 					end
@@ -429,13 +429,13 @@ end
 EV.frame:RegisterEvent('TRAINER_UPDATE')
 function EV.frame:TRAINER_UPDATE()
 	if addon.debugging then print ("LIME: TRAINER_UPDATE") end
-	local steps = {}
+	local found = false
 	CG.forEveryActiveElement(function(element)
 		if element.t == "LEARN" then
-			table.insert(steps, element.step.index)
+			found = true
 		end
 	end)
-	if #steps > 0 then CG.updateSteps(steps) end
+	if found then CG.updateSteps() end
 	doAutoTrain()
 end
 
@@ -448,14 +448,14 @@ end
 EV.frame:RegisterEvent('TRADE_SKILL_SHOW')
 function EV.frame:TRADE_SKILL_SHOW()
 	if addon.debugging then print ("LIME: TRADE_SKILL_SHOW") end
-	local steps = {}
+	local found = false
 	CG.forEveryActiveElement(function(element)
 		if element.t == "LEARN" or element.t == "SPELL" then
-			table.insert(steps, element.step.index)
+			found = true
 		end
 	end)
-	if #steps > 0 then 
-		CG.updateSteps(steps) 
+	if found then 
+		CG.updateSteps() 
 		AB.updateUseItemButtons()
 	end
 end
@@ -620,25 +620,25 @@ end
 EV.frame:RegisterEvent('LEARNED_SPELL_IN_TAB')
 function EV.frame:LEARNED_SPELL_IN_TAB(spellID, skillInfoIndex, isGuildPerkSpell)
 	if addon.debugging then print("LIME: LEARNED_SPELL_IN_TAB", spellID, skillInfoIndex, isGuildPerkSpell) end
-	local steps = {}
+	local found = false
 	CG.forEveryActiveElement(function(element)
 		if element.t == "LEARN" and element.spellId == spellID then
-			table.insert(steps, element.step.index)
+			found = true
 		end
 	end)
-	if #steps > 0 then CG.updateSteps(steps) end
+	if found then CG.updateSteps() end
 end
 
 EV.frame:RegisterEvent('SKILL_LINES_CHANGED')
 function EV.frame:SKILL_LINES_CHANGED()
 	if addon.debugging then print("LIME: SKILL_LINES_CHANGED") end
-	local steps = {}
+	local found = false
 	CG.forEveryActiveElement(function(element)
 		if element.t == "LEARN" or element.t == "SKILL" then
-			table.insert(steps, element.step.index)
+			found = true
 		end
 	end)
-	if #steps > 0 then CG.updateSteps(steps) end
+	if found then CG.updateSteps() end
 end
 
 EV.requestItemInfo = {}
@@ -671,8 +671,8 @@ function EV.frame:BAG_UPDATE()
 			EV.queueBagUpdate = false
 			if addon.debugging then print("LIME: BAG_UPDATE") end
 			local guide = GuidelimeDataChar and addon.guides[GuidelimeDataChar.currentGuide]
-			if guide and guide.itemUpdateIndices and #guide.itemUpdateIndices > 0 then
-				CG.updateSteps(guide.itemUpdateIndices)
+			if guide and guide.itemUpdate then
+				CG.updateSteps()
 			else
 				AB.updateUseItemButtons()
 			end

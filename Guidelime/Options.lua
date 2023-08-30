@@ -81,13 +81,16 @@ function O.fillOptions()
 						local menuItem = {
 							text = D.getRaceIconText(race, sex, 18) ..
 								D.getClassIconText(class, 18) .. " " ..
-								--"|T" .. addon.icons[class] .. ":18|t " ..
 								name .. (realm ~= "" and ("-" .. (realm or "?")) or ""), 
 							colorCode = "|c" .. select(4, GetClassColor(class)),
-							-- icon = addon.icons[class],
 							notCheckable = true, 
 							func = function()
-								GuidelimeDataChar = settings
+								GuidelimeDataChar = {}
+								for option, value in pairs(settings) do
+									if addon.noSnapshotOptionsChar[option] == nil then
+										GuidelimeDataChar[option] = value
+									end
+								end
 								ReloadUI()
 							end
 						}
@@ -176,6 +179,12 @@ function O.fillOptions()
 		GuidelimeDataChar.mainFrameX = 0
 		GuidelimeDataChar.mainFrameY = 0
 		GuidelimeDataChar.mainFrameRelative = "RIGHT"
+		GuidelimeDataChar.editorFrameX = 0
+		GuidelimeDataChar.editorFrameY = 0
+		GuidelimeDataChar.editorFrameRelative = "CENTER"
+		GuidelimeDataChar.guidesFrameX = 0
+		GuidelimeDataChar.guidesFrameY = 0
+		GuidelimeDataChar.guidesFrameRelative = "CENTER"
 		if MW.mainFrame ~= nil then
 			MW.mainFrame:ClearAllPoints()
 			MW.mainFrame:SetPoint(GuidelimeDataChar.mainFrameRelative, UIParent, GuidelimeDataChar.mainFrameRelative, GuidelimeDataChar.mainFrameX, GuidelimeDataChar.mainFrameY)
@@ -323,7 +332,7 @@ function O.fillOptions()
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -20)
 	
 	local markers = ""
-	for i, _ in ipairs(AB.targetRaidMarkerIndex) do markers = markers .. AB.getTargetButtonIconText(i, true) end
+	for _, i in ipairs(AB.targetRaidMarkerIndex) do markers = markers .. AB.getTargetMarkerIconText(i) end
 	checkbox = F.addCheckOption(content, GuidelimeData, "targetRaidMarkers", string.format(L.TARGET_RAID_MARKERS, markers), nil, function()
 		if InCombatLockdown() then 
 			content.options.targetRaidMarkers:SetChecked(not content.options.targetRaidMarkers:GetChecked())
@@ -442,7 +451,7 @@ function O.fillOptions()
 
 	O.optionsFrame.titleArrow = content:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	O.optionsFrame.titleArrow:SetText("|cFFFFFFFF___ " .. L.ARROW .. " _____________________________________________________________________")
-	O.optionsFrame.titleArrow:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -30)
+	O.optionsFrame.titleArrow:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -40)
 	O.optionsFrame.titleArrow:SetFontObject("GameFontNormalLarge")
 	prev = O.optionsFrame.titleArrow
 
@@ -469,17 +478,28 @@ function O.fillOptions()
 		GuidelimeDataChar.arrowY = -20
 		GuidelimeDataChar.arrowRelative = "TOP"
 		if M.arrowFrame ~= nil then
+			M.arrowFrame:ClearAllPoints()
 			M.arrowFrame:SetPoint(GuidelimeDataChar.arrowRelative, UIParent, GuidelimeDataChar.arrowRelative, GuidelimeDataChar.arrowX, GuidelimeDataChar.arrowY)
 		end
 	end)
 
+	checkbox = F.addCheckOption(content, GuidelimeDataChar, "arrowLocked", L.LOCK_ARROW)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+
+	F.addCheckOption(content, GuidelimeData, "arrowDistance", L.SHOW_DISTANCE, nil, function()
+		if M.arrowFrame ~= nil then 
+			CG.updateSteps() 
+		end
+	end):SetPoint("TOPLEFT", checkbox, "BOTTOMLEFT", 0, 0)
+
 	slider = F.addSliderOption(content, GuidelimeData, "arrowStyle", 1, 2, 1, L.ARROW_STYLE, nil, 
 	function(self)
+		if M.arrowFrame ~= nil then
+			M.setArrowTexture(M.arrowFrame.wasActive)
+			M.updateArrow()
+		end
 		self.editbox:SetText("   " .. M.getArrowIconText())
     	self.editbox:SetCursorPosition(0)
-		if M.arrowFrame ~= nil then
-			M.setArrowTexture()
-		end
 	end, function()
 		if M.arrowFrame ~= nil then
 			CG.updateSteps() 
@@ -503,24 +523,20 @@ function O.fillOptions()
 		end
 	end)
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -90)
-
-	checkbox = F.addCheckOption(content, GuidelimeDataChar, "arrowLocked", L.LOCK_ARROW)
-	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
-	prev = checkbox
-
-	checkbox = F.addCheckOption(content, GuidelimeData, "arrowDistance", L.SHOW_DISTANCE, nil, function()
+	
+	slider = F.addSliderOption(content, GuidelimeDataChar, "arrowFontSize", 8, 24, 1, L.ARROW_FONT_SIZE, nil, function()
 		if M.arrowFrame ~= nil then 
-			CG.updateSteps() 
+			M.arrowFrame.text:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.arrowFontSize, "")
 		end
 	end)
-	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
-	prev = checkbox
+	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -130)
+	prev = slider
 
 	-- Waypoint options
 
 	O.optionsFrame.titleMapMarkersGoto = content:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	O.optionsFrame.titleMapMarkersGoto:SetText("|cFFFFFFFF___ " .. string.format(L.MAP_MARKERS_GOTO, M.getMapMarkerText({t = "GOTO", mapIndex = 0}) .. "," .. M.getMapMarkerText({t = "GOTO", mapIndex = 1}) .. "," .. M.getMapMarkerText({t = "GOTO", mapIndex = 2}) .. "," .. M.getMapMarkerText({t = "GOTO", mapIndex = 3})) .. " _______________________________________________________")
-	O.optionsFrame.titleMapMarkersGoto:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -20)
+	O.optionsFrame.titleMapMarkersGoto:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -350, -20)
 	O.optionsFrame.titleMapMarkersGoto:SetFontObject("GameFontNormalLarge")
 	prev = O.optionsFrame.titleMapMarkersGoto
 
@@ -591,7 +607,7 @@ function O.fillOptions()
 
 	O.optionsFrame.titleMapMarkersLoc = content:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	O.optionsFrame.titleMapMarkersLoc:SetText("|cFFFFFFFF___ " .. string.format(L.MAP_MARKERS_LOC, M.getMapMarkerText({t = "monster"}) .. "," .. M.getMapMarkerText({t = "item"}) .. "," .. M.getMapMarkerText({t = "object"}) .. "," .. M.getMapMarkerText({t = "LOC"})) .. " _______________________________________________________")
-	O.optionsFrame.titleMapMarkersLoc:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -100)
+	O.optionsFrame.titleMapMarkersLoc:SetPoint("TOPLEFT", slider, "BOTTOMLEFT", -350, -20)
 	O.optionsFrame.titleMapMarkersLoc:SetFontObject("GameFontNormalLarge")
 	prev = O.optionsFrame.titleMapMarkersLoc
 
@@ -658,7 +674,7 @@ function O.fillOptions()
 	
 	O.optionsFrame.titleGeneral = content:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	O.optionsFrame.titleGeneral:SetText("|cFFFFFFFF___ " .. L.GENERAL_OPTIONS .. " _______________________________________________________")
-	O.optionsFrame.titleGeneral:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -100)
+	O.optionsFrame.titleGeneral:SetPoint("TOPLEFT", slider, "BOTTOMLEFT", -350, -20)
 	O.optionsFrame.titleGeneral:SetFontObject("GameFontNormalLarge")
 	prev = O.optionsFrame.titleGeneral
 	
@@ -779,6 +795,7 @@ function O.showOptions()
 		InterfaceOptionsFrame:Hide()
 	else
 		if E.isEditorShowing() then E.editorFrame:Hide() end
+		if G.isGuidesShowing() then G.guidesFrame:Hide() end
 		InterfaceAddOnsList_Update()
 		InterfaceOptionsFrame_OpenToCategory(addonName)
 	end

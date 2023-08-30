@@ -61,12 +61,13 @@ function G.showGuides()
 		return
 	end
 	
-	InterfaceOptionsFrame:Hide() 
+	InterfaceOptionsFrame:Hide()
+	if E.isEditorShowing() then E.editorFrame:Hide() end 
 
 	if G.guidesFrame == nil then
 		G.guidesFrame = F.createPopupFrame(nil, nil, false, 700)
 		G.guidesFrame:SetWidth(800)
-		G.guidesFrame:SetPoint(GuidelimeDataChar.editorFrameRelative, UIParent, GuidelimeDataChar.editorFrameRelative, GuidelimeDataChar.editorFrameX, GuidelimeDataChar.editorFrameY)
+		G.guidesFrame:SetPoint(GuidelimeDataChar.guidesFrameRelative, UIParent, GuidelimeDataChar.guidesFrameRelative, GuidelimeDataChar.guidesFrameX, GuidelimeDataChar.guidesFrameY)
 		
 		G.guidesFrame.okBtn:SetNormalTexture("Interface/Buttons/UI-Panel-MinimizeButton-Up")
 		G.guidesFrame.okBtn:SetHighlightTexture("Interface/Buttons/UI-Panel-MinimizeButton-Highlight")

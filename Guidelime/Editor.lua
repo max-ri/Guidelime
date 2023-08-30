@@ -9,6 +9,7 @@ addon.PT = addon.PT or {}; local PT = addon.PT -- Data/PositionTools
 addon.QT = addon.QT or {}; local QT = addon.QT -- Data/QuestTools
 addon.ET = addon.ET or {}; local ET = addon.ET -- EditorTools
 addon.F = addon.F or {}; local F = addon.F     -- Frames
+addon.G = addon.G or {}; local G = addon.G     -- Guides
 addon.GP = addon.GP or {}; local GP = addon.GP -- GuideParser
 addon.I = addon.I or {}; local I = addon.I     -- Import
 addon.M = addon.M or {}; local M = addon.M     -- Map
@@ -760,6 +761,7 @@ function E.showEditor()
 	end
 	
 	InterfaceOptionsFrame:Hide() 
+	if G.isGuidesShowing() then G.guidesFrame:Hide() end 
 
 	if E.editorFrame == nil then
 		E.editorFrame = F.createPopupFrame(nil, nil, false, 700)

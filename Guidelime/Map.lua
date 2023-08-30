@@ -236,7 +236,7 @@ function M.showMapIcons()
 		M.arrowFrame = CreateFrame("FRAME", nil, UIParent)
 		M.arrowFrame:SetPoint(GuidelimeDataChar.arrowRelative, UIParent, GuidelimeDataChar.arrowRelative, GuidelimeDataChar.arrowX, GuidelimeDataChar.arrowY)
 	    M.arrowFrame.texture = M.arrowFrame:CreateTexture(nil, "OVERLAY")
-	    M.setArrowTexture()
+	    M.setArrowTexture(true)
 	    M.arrowFrame.texture:SetAllPoints()
 		M.arrowFrame:SetAlpha(GuidelimeDataChar.arrowAlpha)
 		M.arrowFrame:SetWidth(GuidelimeDataChar.arrowSize)
@@ -252,7 +252,8 @@ function M.showMapIcons()
 			_, _, GuidelimeDataChar.arrowRelative, GuidelimeDataChar.arrowX, GuidelimeDataChar.arrowY = M.arrowFrame:GetPoint()
 		end)
 		M.arrowFrame.text = M.arrowFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-		M.arrowFrame.text:SetPoint("TOP", M.arrowFrame, "BOTTOM", 0, 0)
+		M.arrowFrame.text:SetPoint("TOP", M.arrowFrame, "BOTTOM", 0, -5)
+		M.arrowFrame.text:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.arrowFontSize, "")
 		M.arrowFrame:SetScript("OnEnter", function(self) 
 			if D.isAlive() then
 				self.tooltip = M.getMapTooltip(self.element)
@@ -289,13 +290,14 @@ function M.getMapMarkerText(element)
 		math.floor(index / 8) * 64 .. ":" .. (math.floor(index / 8) + 1) * 64 .. ":::|t"
 end
 
-function M.setArrowTexture()
+function M.setArrowTexture(active)
 	if GuidelimeData.arrowStyle == 1 then
-		M.arrowFrame.texture:SetTexture(addon.icons.MAP_LIME_ARROW)
-		M.arrowFrame.texture:SetVertexColor(1,1,1)
+		M.arrowFrame.texture:SetTexture(active and addon.icons.MAP_LIME_ARROW or addon.icons.MAP_LIME_ARROW_INACTIVE)
+		M.arrowFrame.texture:SetVertexColor(1, 1, 1, active and 1 or 0.25)
+		if not active then M.arrowFrame.texture:SetTexCoord(0, 1, 0, 1) end
 	elseif GuidelimeData.arrowStyle == 2 then
 		M.arrowFrame.texture:SetTexture(addon.icons.MAP_ARROW)
-		M.arrowFrame.texture:SetVertexColor(0.5,1,0.2)
+		M.arrowFrame.texture:SetVertexColor(0.5, 1, 0.2, active and 1 or 0.25)
 	end
 	M.arrowFrame:SetWidth(GuidelimeDataChar.arrowSize)
 	M.arrowFrame:SetHeight(GuidelimeDataChar.arrowSize)
@@ -354,10 +356,11 @@ function M.updateArrow()
 		M.lastArrowX, M.lastArrowY, M.lastArrowInstance = M.arrowX, M.arrowY, M.arrowInstance
 	end
 	
+	local active = M.arrowX ~= nil and M.arrowY ~= nil and M.arrowInstance == D.instance
+	local alpha = active and 1 or 0.25
 	local angle, dist2, alpha
-	if M.arrowX == nil or M.arrowY == nil or M.arrowInstance ~= D.instance then
+	if not active then
 		angle = math.pi
-		alpha = 0.25
 	else
 		angle = D.face - math.atan2(M.arrowX - D.wx, M.arrowY - D.wy)
 		dist2 = (D.wx - M.arrowX) * (D.wx - M.arrowX) + (D.wy - M.arrowY) * (D.wy - M.arrowY)
@@ -371,15 +374,16 @@ function M.updateArrow()
 			M.arrowRadius2 = nil
 		end
 		M.lastDistance2 = dist2
-		alpha = 1
 	end
 	if GuidelimeData.arrowStyle == 1 then
-		local index = angle * 32 / math.pi
-		if index >= 64 then index = index - 64 elseif index < 0 then index = index + 64 end
-		M.arrowFrame.col = math.floor(index % 8)
-		M.arrowFrame.row = math.floor(index / 8)
-		M.arrowFrame.texture:SetTexCoord(M.arrowFrame.col / 8, (M.arrowFrame.col + 1) / 8, M.arrowFrame.row / 8, (M.arrowFrame.row + 1) / 8)
-		M.arrowFrame.texture:SetVertexColor(1,1,1,alpha)
+		if active ~= M.arrowFrame.wasActive then M.setArrowTexture(active) end
+		if active then
+			local index = angle * 32 / math.pi
+			if index >= 64 then index = index - 64 elseif index < 0 then index = index + 64 end
+			M.arrowFrame.col = math.floor(index % 8)
+			M.arrowFrame.row = math.floor(index / 8)
+			M.arrowFrame.texture:SetTexCoord(M.arrowFrame.col / 8, (M.arrowFrame.col + 1) / 8, M.arrowFrame.row / 8, (M.arrowFrame.row + 1) / 8)
+		end
 	elseif GuidelimeData.arrowStyle == 2 then
 		local index = -angle * 54 / math.pi
 		if index < 0 then index = index + 108 end
@@ -389,6 +393,7 @@ function M.updateArrow()
 		M.arrowFrame.texture:SetTexCoord(M.arrowFrame.col * 56 / 512, (M.arrowFrame.col + 1) * 56 / 512, M.arrowFrame.row * 42 / 512, (M.arrowFrame.row + 1) * 42 / 512)
 		M.arrowFrame.texture:SetVertexColor(0.5,1,0.2,alpha)
 	end
+	M.arrowFrame.wasActive = active
 	if M.arrowFrame.element and M.arrowFrame.element.completed then
 		M.arrowFrame.text:SetText(L.ARROW_POSITION_REACHED)
 		M.arrowFrame.text:Show()
@@ -446,16 +451,16 @@ function M.updateStepsMapIcons()
 					if element.specialLocation == "NEAREST_FLIGHT_POINT" and D.wx ~= nil and D.wy ~= nil then
 						local fp = FM.getNearestFlightPoint(D.wx, D.wy, D.instance, D.faction)
 						for k,v in pairs(fp or {}) do element[k] = v end
-						if addon.debugging then print("LIME: nearest flight point", element.x, element.y, element.mapID, element.wx, element.wy, element.instance) end
+						--if addon.debugging then print("LIME: nearest flight point", element.x, element.y, element.mapID, element.wx, element.wy, element.instance) end
 					elseif element.attached and element.attached.questId and D.wx ~= nil and D.wy ~= nil then
 						CG.updatePosElement(PT.getQuestPosition(element.attached.questId, element.attached.t, CG.getQuestActiveObjectives(element.attached.questId, element.attached.objective), D), element)
-						if addon.debugging and element.x then print("LIME: quest position", element.x, element.y, element.mapID, element.wx, element.wy, element.instance) end
+						--if addon.debugging and element.x then print("LIME: quest position", element.x, element.y, element.mapID, element.wx, element.wy, element.instance) end
 					elseif element.attached and element.type == "COLLECT_ITEM" and D.wx ~= nil and D.wy ~= nil then
 						CG.updatePosElement(PT.getItemPosition(element.attached.itemId, D), element)
-						if addon.debugging and element.x then print("LIME: quest position", element.x, element.y, element.mapID, element.wx, element.wy, element.instance) end
+						--if addon.debugging and element.x then print("LIME: quest position", element.x, element.y, element.mapID, element.wx, element.wy, element.instance) end
 					elseif element.attached and element.type == "TARGET" and D.wx ~= nil and D.wy ~= nil then
 						CG.updatePosElement(PT.getNPCPosition(element.attached.targetNpcId, D), element)
-						if addon.debugging and element.x then print("LIME: quest position", element.x, element.y, element.mapID, element.wx, element.wy, element.instance) end
+						--if addon.debugging and element.x then print("LIME: quest position", element.x, element.y, element.mapID, element.wx, element.wy, element.instance) end
 					end
 					if not element.completed and element.x ~= nil then
 						M.addMapIcon(element, highlight)

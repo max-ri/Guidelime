@@ -35,15 +35,20 @@ function AB.resetButtons(buttons)
 end
 
 -- ordering of raid markers to use
--- default to triangle because it is green
-AB.targetRaidMarkerIndex = {4, 6, 2, 3, 1, 5, 7, 8}	
+-- default to triangle for friends because it is green and skull for enemies
+AB.targetRaidMarkerIndex = {4, 6, 3, 5, 1, 2, 7, 8}	
 
-function AB.getTargetButtonIconText(i, raidMarker)
-	local marker = AB.targetRaidMarkerIndex[i]
-	if marker and (GuidelimeData.targetRaidMarkers or raidMarker) then
+function AB.getTargetButtonIconText(npcId)
+	if AB.targetNpcIdMarker == null or AB.targetNpcIdMarker[npcId] == null then return "" end
+	return AB.getTargetMarkerIconText(AB.targetNpcIdMarker[npcId]) .. " "
+end
+
+function AB.getTargetMarkerIconText(marker)
+	if marker and marker > 0 then
 		return "|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_" .. marker .. ":12|t"
+	else
+		return "|T" .. addon.icons.TARGET_BUTTON .. ":12|t"
 	end
-	return "|T" .. addon.icons.TARGET_BUTTON .. ":12|t"
 end
 
 function AB.createTargetButton(i)
@@ -60,7 +65,6 @@ function AB.createTargetButton(i)
 		if GuidelimeData.targetRaidMarkers and marker then
 			button.texture2 = button:CreateTexture(nil, "OVERLAY")
 			button.texture2:SetTexture("Interface\\TargetingFrame\\UI-RaidTargetingIcons")
-			SetRaidTargetIconTexture(button.texture2, AB.targetRaidMarkerIndex[i])
 			button.texture2:SetPoint("TOPLEFT", button, 20, -22)					
 			button.texture2:SetPoint("BOTTOMRIGHT", button, -2, 0)
 		end
@@ -107,7 +111,7 @@ end
 
 local function getTargetTooltip(t, last)
 	return GuidelimeData.showTooltips and 
-		(table.concat({string.format(L.TARGET_TOOLTIP, MW.COLOR_WHITE .. t.name .. "|r"), M.getMapTooltip(t.element)}, "\n") ..
+		(table.concat({string.format(L.TARGET_TOOLTIP, MW["COLOR_" .. QT.isFriendlyNpc(t.npcId)] .. t.name .. "|r"), M.getMapTooltip(t.element)}, "\n") ..
 		getTooltipHint(true, last == false))
 		
 end
@@ -141,14 +145,16 @@ function AB.updateTargetButtons()
 	if not GuidelimeDataChar.showTargetButtons or not CG.currentGuide or not CG.currentGuide.firstActiveIndex then return end
 	local targets = {}
 	local i = 1
+	local iFriendly = 1
+	local iHostile = #AB.targetRaidMarkerIndex
 	for s = CG.currentGuide.firstActiveIndex, CG.currentGuide.lastActiveIndex do
 		local step = CG.currentGuide.steps[s]
 		if step.active then
 			for _, element in ipairs(step.elements) do
 				if element.t == "TARGET" and element.targetNpcId > 0 and 
-					(not step.targetElement or not element.generated) and 
 					(not element.attached or not element.attached.completed) and
-					(not element.attached or element.attached.t ~= "COMPLETE" or CG.isQuestObjectiveActive(element.attached.questId, element.objectives, element.attached.objective)) then
+					(not element.attached or element.attached.t ~= "COMPLETE" or CG.isQuestObjectiveActive(element.attached.questId, element.objectives, element.attached.objective)) and
+					(element.generated or not D.contains(CG.currentGuide.activeQuestNpcs, element.targetNpcId)) then
 					if addon.debugging then print("LIME: show target button for npc", element.targetNpcId) end
 					if InCombatLockdown() then
 						EV.updateAfterCombat = true
@@ -158,11 +164,20 @@ function AB.updateTargetButtons()
 					if name then
 						local t = D.find(targets, function(t) return t.name == name end)
 						if not t then
-							targets[i] = {name = name, elements = {element}, index = i, marker = GuidelimeData.targetRaidMarkers and AB.targetRaidMarkerIndex[i]}
+							local marker
+							if GuidelimeData.targetRaidMarkers and iFriendly <= iHostile then
+								local friendly = QT.isFriendlyNpc(element.targetNpcId) == 'Friendly'
+								if friendly then
+									marker = AB.targetRaidMarkerIndex[iFriendly]
+									iFriendly = iFriendly + 1
+								else
+									marker = AB.targetRaidMarkerIndex[iHostile]
+									iHostile = iHostile - 1
+								end
+							end
+							targets[i] = {name = name, index = i, marker = marker, npcId = element.targetNpcId}
 							if GuidelimeDataChar.maxNumOfTargetButtons > 0 and i >= GuidelimeDataChar.maxNumOfTargetButtons then break end
 							i = i + 1
-						else
-							table.insert(t.elements, element)
 						end
 					end
 				end
@@ -180,15 +195,16 @@ function AB.updateTargetButtons()
 		button:Show()
 		pos = 2
 	end
+	AB.targetNpcIdMarker = {}
 	for _, t in ipairs(targets) do
 		local button = AB.createTargetButton(t.index)
-		for _, element in ipairs(t.elements) do
-			element.targetButton = button
-		end
+		AB.targetNpcIdMarker[t.npcId] = t.marker or 0
+		SetRaidTargetIconTexture(button.texture2, t.marker)
 		button:SetPoint("TOP" .. GuidelimeDataChar.showTargetButtons, MW.mainFrame, "TOP" .. GuidelimeDataChar.showTargetButtons, 
 			GuidelimeDataChar.showTargetButtons == "LEFT" and -36 or (GuidelimeDataChar.mainFrameShowScrollBar and 60 or 37), 
 			39 - pos * 41)
 		button.npc = t.name
+		button.marker = t.marker
 		button:SetAttribute("macrotext", "/cleartarget\n" .. getTargetMacro(t))
 		F.setTooltip(button, getTargetTooltip(t))
 		keyBindButton(button, "GUIDELIME_TARGET_" .. pos, "GuidelimeTargetButton" .. t.index, t.name)
@@ -285,7 +301,10 @@ function AB.updateUseItemButtons()
 					table.insert(previousIds, element.useItemId)
 					i = i + 1
 				elseif element.t == "SPELL" and element.spellId ~= 0 and not element.completed then
-					local id = element.spellId or SP.getSpellId(element.spell)
+				
+					local id
+					if element.spellId and GetSpellInfo(element.spellId) then id = element.spellId end
+					if id == nil then id = SP.getSpellId(element.spell) end
 					if addon.debugging then print("LIME: show button for spell", id) end
 					if InCombatLockdown() then
 						EV.updateAfterCombat = true

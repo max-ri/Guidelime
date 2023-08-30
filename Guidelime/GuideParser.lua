@@ -117,7 +117,6 @@ function GP.parseGuide(guide, group, strict, nameOnly)
 		guide.lines = 1
 		guide.steps = {}
 		guide.next = {}
-		guide.itemUpdateIndices = {}
 		guide.autoAddCoordinatesGOTO = true
 		guide.autoAddCoordinatesLOC = true
 		guide.autoAddUseItem = true
@@ -585,8 +584,12 @@ function GP.parseLine(step, guide, strict, nameOnly)
 				--if addon.debugging then print("LIME: LEARN", c, value1, value2, text) end
 				c = c:upper():gsub(" ","")
 				if c == "SP" and value1 ~= "" then
-					local spell = SP.getSpellById(tonumber(value1))
-					if spell and SK.isSkill(spell) then
+					element.spellId = tonumber(value1)
+					local spell = element.spellId and SP.getSpellById(element.spellId) or SP.getSpell(value1)
+					if not spell or not SP.getLocalizedName(spell) then
+						F.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
+						err = true
+					elseif SK.isSkill(spell) then
 						element.skill = SK.getSkill(spell)
 						if element.skill == "RIDING" then
 							element.skillMin = tonumber(value2) or 1
@@ -594,8 +597,7 @@ function GP.parseLine(step, guide, strict, nameOnly)
 							element.maxSkillMin = tonumber(value2) or 1
 						end
 					else
-						element.spellId = tonumber(value1)
-						element.spell = tonumber(value1)
+						element.spell = spell
 						element.spellMin = tonumber(value2) or SP.getSpellRankById(tonumber(value1))
 					end
 				elseif value2 ~= "" then
@@ -627,7 +629,7 @@ function GP.parseLine(step, guide, strict, nameOnly)
 					end
 					element.textInactive = element.text
 					if element.spellMin ~= nil and element.spellMin > 1 then
-						element.text = element.text .. " |cFFD1B38A(" .. RANK .. " " .. element.spellMin .. ")|r"
+						element.text = element.text .. MW.COLOR_SPELL_RANK .. " (" .. RANK .. " " .. element.spellMin .. ")|r"
 						element.textInactive = element.textInactive .. " (" .. RANK .. " " .. element.spellMin .. ")"
 					end
 				end
