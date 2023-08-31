@@ -61,13 +61,10 @@ function AB.createTargetButton(i)
 		button.texture:SetTexture(i == "Multi" and addon.icons.MULTI_TARGET_BUTTON or addon.icons.TARGET_BUTTON)
 		button.texture:SetPoint("TOPLEFT", button, -2, 1)					
 		button.texture:SetPoint("BOTTOMRIGHT", button, 2, -2)
-		local marker = AB.targetRaidMarkerIndex[i]
-		if GuidelimeData.targetRaidMarkers and marker then
-			button.texture2 = button:CreateTexture(nil, "OVERLAY")
-			button.texture2:SetTexture("Interface\\TargetingFrame\\UI-RaidTargetingIcons")
-			button.texture2:SetPoint("TOPLEFT", button, 20, -22)					
-			button.texture2:SetPoint("BOTTOMRIGHT", button, -2, 0)
-		end
+		button.texture2 = button:CreateTexture(nil, "OVERLAY")
+		button.texture2:SetTexture("Interface\\TargetingFrame\\UI-RaidTargetingIcons")
+		button.texture2:SetPoint("TOPLEFT", button, 20, -22)					
+		button.texture2:SetPoint("BOTTOMRIGHT", button, -2, 0)
 		button.hotkey = button:CreateFontString(nil, "ARTWORK", "NumberFontNormalSmallGray")
 		button.hotkey:SetSize(32, 10)
 		button.hotkey:SetPoint("TOPRIGHT", button, 0, -1)
@@ -199,7 +196,12 @@ function AB.updateTargetButtons()
 	for _, t in ipairs(targets) do
 		local button = AB.createTargetButton(t.index)
 		AB.targetNpcIdMarker[t.npcId] = t.marker or 0
-		SetRaidTargetIconTexture(button.texture2, t.marker)
+		if t.marker then
+			SetRaidTargetIconTexture(button.texture2, t.marker)
+			button.texture2:Show()
+		else
+			button.texture2:Show()
+		end
 		button:SetPoint("TOP" .. GuidelimeDataChar.showTargetButtons, MW.mainFrame, "TOP" .. GuidelimeDataChar.showTargetButtons, 
 			GuidelimeDataChar.showTargetButtons == "LEFT" and -36 or (GuidelimeDataChar.mainFrameShowScrollBar and 60 or 37), 
 			39 - pos * 41)
