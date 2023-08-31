@@ -200,7 +200,7 @@ function AB.updateTargetButtons()
 			SetRaidTargetIconTexture(button.texture2, t.marker)
 			button.texture2:Show()
 		else
-			button.texture2:Show()
+			button.texture2:Hide()
 		end
 		button:SetPoint("TOP" .. GuidelimeDataChar.showTargetButtons, MW.mainFrame, "TOP" .. GuidelimeDataChar.showTargetButtons, 
 			GuidelimeDataChar.showTargetButtons == "LEFT" and -36 or (GuidelimeDataChar.mainFrameShowScrollBar and 60 or 37), 
