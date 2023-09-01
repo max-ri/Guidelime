@@ -184,6 +184,7 @@ function AB.updateTargetButtons()
 	local pos = 1
 	if #targets > 1 then
 		local button = AB.createTargetButton("Multi")
+		button.texture2:Hide()
 		button:SetPoint("TOP" .. GuidelimeDataChar.showTargetButtons, MW.mainFrame, "TOP" .. GuidelimeDataChar.showTargetButtons, 
 			GuidelimeDataChar.showTargetButtons == "LEFT" and -36 or (GuidelimeDataChar.mainFrameShowScrollBar and 60 or 37), -2)
 		button:SetAttribute("macrotext", "/cleartarget\n" .. getTargetMacroMulti(targets))
