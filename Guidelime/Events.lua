@@ -747,8 +747,15 @@ function EV.frame:PLAYER_LOGOUT()
 	GuidelimeData.chars[UnitGUID("player")] = GuidelimeDataChar
 end
 
-
-EV.frame:RegisterEvent('PET_TALENT_UPDATE')
-function EV.frame:PET_TALENT_UPDATE(x)
-	if addon.debugging then print("LIME: PET_TALENT_UPDATE", x) end
+EV.frame:RegisterEvent('SPELL_DATA_LOAD_RESULT')
+function EV.frame:SPELL_DATA_LOAD_RESULT()
+	if addon.debugging then print("LIME: SPELL_DATA_LOAD_RESULT") end
+	if SP.reloadOnSpellData then
+		SP.reloadOnSpellData = false
+		CG.loadCurrentGuide(false)
+		EV.updateFromQuestLog()
+		if GuidelimeDataChar.mainFrameShowing then
+			MW.updateMainFrame()
+		end
+	end
 end

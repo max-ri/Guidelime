@@ -43,6 +43,10 @@ function SP.getLocalizedName(name)
 	if (type(name) == "number") then 
 		local id = name
 		local localized = (GetSpellInfo(id))
+		if not localized and not SP.reloadOnSpellData then 
+			SP.reloadOnSpellData = true 
+			C_Spell.RequestLoadSpellData(id)
+		end
 		if localized then return localized end
 		name = SP.getSpellById(id)
 		if not name then return end
@@ -79,6 +83,10 @@ end
 
 function SP.getSpellRankById(id)
 	local rank = GetSpellSubtext(id)
+	if not rank and not SP.reloadOnSpellData then 
+		SP.reloadOnSpellData = true 
+		C_Spell.RequestLoadSpellData(id)
+	end
 	if rank ~= nil and rank:sub(1, RANK:len()) == RANK then return tonumber(rank:sub(RANK:len() + 2)) end
 	return 1 
 end
