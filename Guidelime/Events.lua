@@ -655,7 +655,7 @@ function EV.GetItemInfo(id)
 end
 
 EV.frame:RegisterEvent('GET_ITEM_INFO_RECEIVED')
-function EV.frame:GET_ITEM_INFO_RECEIVED(itemId,success)
+function EV.frame:GET_ITEM_INFO_RECEIVED(itemId, success)
 	if EV.requestItemInfo[itemId] and success then
 		EV.requestItemInfo[itemId] = nil
 		CG.updateStepsText()
@@ -742,15 +742,15 @@ end
 
 EV.frame:RegisterEvent('PLAYER_LOGOUT')
 function EV.frame:PLAYER_LOGOUT()
-	-- save a copy of character setting for import
+	-- save a copy of character settings for import
 	if not GuidelimeData.chars then GuidelimeData.chars = {} end
 	GuidelimeData.chars[UnitGUID("player")] = GuidelimeDataChar
 end
 
 EV.frame:RegisterEvent('SPELL_DATA_LOAD_RESULT')
-function EV.frame:SPELL_DATA_LOAD_RESULT()
-	if addon.debugging then print("LIME: SPELL_DATA_LOAD_RESULT") end
-	if SP.reloadOnSpellData then
+function EV.frame:SPELL_DATA_LOAD_RESULT(spellId, success)
+	if addon.debugging then print("LIME: SPELL_DATA_LOAD_RESULT", spellId, success) end
+	if SP.reloadOnSpellData and success then
 		SP.reloadOnSpellData = false
 		CG.loadCurrentGuide(false)
 		EV.updateFromQuestLog()
