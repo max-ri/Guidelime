@@ -191,7 +191,7 @@ function O.fillOptions()
 		end
 	end)
 
-	O.optionsFrame.mainFrameWidth = F.addSliderOption(content, GuidelimeDataChar, "mainFrameWidth", 250, 1000, 1, L.MAIN_FRAME_WIDTH, nil, function()
+	O.optionsFrame.mainFrameWidth = F.addSliderOption(content, GuidelimeDataChar, "mainFrameWidth", MW.MIN_WIDTH, 1000, 1, L.MAIN_FRAME_WIDTH, nil, function()
 		if MW.mainFrame ~= nil then 
 			MW.mainFrame:SetWidth(GuidelimeDataChar.mainFrameWidth) 
 			MW.mainFrame.scrollChild:SetWidth(GuidelimeDataChar.mainFrameWidth)
@@ -203,7 +203,7 @@ function O.fillOptions()
 		end
 	end)
 	O.optionsFrame.mainFrameWidth:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -10)
-	O.optionsFrame.mainFrameHeight = F.addSliderOption(content, GuidelimeDataChar, "mainFrameHeight", 250, 1000, 1, L.MAIN_FRAME_HEIGHT, nil, function()
+	O.optionsFrame.mainFrameHeight = F.addSliderOption(content, GuidelimeDataChar, "mainFrameHeight", MW.MIN_HEIGHT, 1000, 1, L.MAIN_FRAME_HEIGHT, nil, function()
 		if MW.mainFrame ~= nil then 
 			MW.mainFrame:SetHeight(GuidelimeDataChar.mainFrameHeight) 
 			MW.mainFrame.scrollChild:SetWidth(GuidelimeDataChar.mainFrameWidth)

@@ -33,6 +33,9 @@ MW.COLOR_SPELL_RANK = "|cFFD1B38A"
 
 MW.GAP = 2
 
+MW.MIN_WIDTH = 120
+MW.MIN_HEIGHT = 30
+
 function MW.getLevelColor(level)
 	if level == nil then
 		return MW.COLOR_LEVEL_GRAY
@@ -339,7 +342,7 @@ function MW.showMainFrame()
 		MW.mainFrame:SetMovable(true)
 		MW.mainFrame:EnableMouse(true)
 		MW.mainFrame:SetResizable(true)
-		F.SetResizeBounds(MW.mainFrame, 250, 250)
+		F.SetResizeBounds(MW.mainFrame, MW.MIN_WIDTH, MW.MIN_HEIGHT)
 		MW.mainFrame:SetScript("OnMouseDown", onMouseDown)
 		MW.mainFrame:SetScript("OnMouseUp", onMouseUp)
 		MW.mainFrame.sizeGrabber = CreateFrame("Button", nil, MW.mainFrame)
