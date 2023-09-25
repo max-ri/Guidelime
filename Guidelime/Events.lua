@@ -749,8 +749,8 @@ end
 
 EV.frame:RegisterEvent('SPELL_DATA_LOAD_RESULT')
 function EV.frame:SPELL_DATA_LOAD_RESULT(spellId, success)
-	if addon.debugging then print("LIME: SPELL_DATA_LOAD_RESULT", spellId, success) end
 	if SP.reloadOnSpellData and success then
+		if addon.debugging then print("LIME: SPELL_DATA_LOAD_RESULT", spellId, success) end
 		SP.reloadOnSpellData = false
 		CG.loadCurrentGuide(false)
 		EV.updateFromQuestLog()

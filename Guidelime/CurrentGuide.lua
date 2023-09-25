@@ -140,7 +140,7 @@ function CG.loadCurrentGuide(reset)
 							end
 						end
 					end
-					if guide.autoAddCoordinatesGOTO and (GuidelimeData.showMapMarkersGOTO or GuidelimeData.showMinimapMarkersGOTO) and not step.hasGoto and not step.optional then
+					if guide.autoAddCoordinatesGOTO and not step.hasGoto and not step.optional then
 						if CG.addElement(CG.updatePosElement(PT.getQuestPosition(element.questId, element.t, element.objective, lastGoto), {t = "GOTO"}), element) then
 							i = i + 1 
 						end
@@ -150,12 +150,12 @@ function CG.loadCurrentGuide(reset)
 						i = i + 1
 					end
 				elseif element.t == "FLY" then
-					if guide.autoAddCoordinatesGOTO and (GuidelimeData.showMapMarkersGOTO or GuidelimeData.showMinimapMarkersGOTO) and not step.hasGoto and not step.optional then
+					if guide.autoAddCoordinatesGOTO and not step.hasGoto and not step.optional then
 						CG.addElement({t = "GOTO", specialLocation = "NEAREST_FLIGHT_POINT", radius = CG.DEFAULT_GOTO_RADIUS}, element)
 						i = i + 1
 					end						
 				elseif element.t == "GET_FLIGHT_POINT" then
-					if guide.autoAddCoordinatesGOTO and (GuidelimeData.showMapMarkersGOTO or GuidelimeData.showMinimapMarkersGOTO) and not step.hasGoto and not step.optional then
+					if guide.autoAddCoordinatesGOTO and not step.hasGoto and not step.optional then
 						if CG.addElement(CG.updatePosElement(FM.getFlightPoint(element.flightmaster), {t = "GOTO"}), element) then
 							i = i + 1 
 						end
@@ -163,7 +163,7 @@ function CG.loadCurrentGuide(reset)
 				elseif element.t == "COLLECT_ITEM" then
 					guide.itemUpdate = true
 					if step.manual == nil then step.manual = false end
-					if guide.autoAddCoordinatesGOTO and (GuidelimeData.showMapMarkersGOTO or GuidelimeData.showMinimapMarkersGOTO) and 
+					if guide.autoAddCoordinatesGOTO and 
 						not step.hasGoto and not step.optional and not step.targetElement then
 						if CG.addElement(CG.updatePosElement(PT.getItemPosition(element.itemId, lastGoto), {t = "GOTO"}), element) then
 							i = i + 1 
@@ -174,7 +174,7 @@ function CG.loadCurrentGuide(reset)
 				elseif element.t == "TARGET" then
 					if not element.generated then 
 						step.targetElement = true
-						if guide.autoAddCoordinatesGOTO and (GuidelimeData.showMapMarkersGOTO or GuidelimeData.showMinimapMarkersGOTO) and not step.hasGoto and not step.optional then
+						if guide.autoAddCoordinatesGOTO and not step.hasGoto and not step.optional then
 							if CG.addElement(CG.updatePosElement(PT.getNPCPosition(element.targetNpcId, lastGoto), {t = "GOTO"}), element) then	
 								i = i + 1 
 							end
