@@ -129,6 +129,9 @@ local function keyBindButton(button, bindingName, buttonName, functionName)
 		SetOverrideBindingClick(button, true, key, buttonName)
 		if addon.debugging then print("LIME: binding " .. key .. " to " .. functionName) end
 		GuidelimeData.keyBound = true
+		button.hotkey:Show()
+	else
+		button.hotkey:Hide()
 	end
 end
 
