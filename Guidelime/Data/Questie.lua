@@ -39,19 +39,19 @@ end
 
 function QUESTIE.isQuestId(id)
 	if id == nil or not QUESTIE.isDataSourceReady() then return false end
-	return QuestieDB:GetQuest(id) ~= nil
+	return QuestieDB.GetQuest(id) ~= nil
 end
 
 function QUESTIE.getQuestName(id)
 	if id == nil or not QUESTIE.isDataSourceReady() then return end
-	local quest = QuestieDB:GetQuest(id)
+	local quest = QuestieDB.GetQuest(id)
 	if quest == nil then return end
 	return quest.name
 end
 
 function QUESTIE.getQuestSort(id)
 	if id == nil or not QUESTIE.isDataSourceReady() then return end
-	local quest = QuestieDB:GetQuest(id)
+	local quest = QuestieDB.GetQuest(id)
 	if quest == nil then return end
 	if quest.zoneOrSort > 0 then
     	local parentZoneID = ZoneDB:GetParentZoneId(quest.zoneOrSort)
@@ -67,14 +67,14 @@ end
 
 function QUESTIE.getQuestPrequests(id)
 	if id == nil or not QUESTIE.isDataSourceReady() then return end
-	local quest = QuestieDB:GetQuest(id)
+	local quest = QuestieDB.GetQuest(id)
 	if quest == nil then return end
 	return quest.preQuestSingle or quest.preQuestGroup
 end
 
 function QUESTIE.getQuestOneOfPrequests(id)
 	if id == nil or not QUESTIE.isDataSourceReady() then return end
-	local quest = QuestieDB:GetQuest(id)
+	local quest = QuestieDB.GetQuest(id)
 	if quest == nil then return end
 	return quest.preQuestSingle ~= nil
 end
@@ -90,28 +90,28 @@ end
 
 function QUESTIE.getQuestLevel(id)
 	if id == nil or not QUESTIE.isDataSourceReady() then return end
-	local quest = QuestieDB:GetQuest(id)
+	local quest = QuestieDB.GetQuest(id)
 	if quest == nil then return end
 	return quest.questLevel
 end
 
 function QUESTIE.getQuestMinimumLevel(id)
 	if id == nil or not QUESTIE.isDataSourceReady() then return end
-	local quest = QuestieDB:GetQuest(id)
+	local quest = QuestieDB.GetQuest(id)
 	if quest == nil then return end
 	return quest.requiredLevel
 end
 
 function QUESTIE.getQuestNext(id)
 	if id == nil or not QUESTIE.isDataSourceReady() then return end
-	local quest = QuestieDB:GetQuest(id)
+	local quest = QuestieDB.GetQuest(id)
 	if quest == nil then return end
 	return quest.nextQuestInChain
 end
 
 function QUESTIE.getQuestRaces(id)
 	if id == nil or not QUESTIE.isDataSourceReady() then return end
-	local quest = QuestieDB:GetQuest(id)
+	local quest = QuestieDB.GetQuest(id)
 	if quest == nil then return end
 	local bitmask = quest.requiredRaces
 	if bitmask == nil or bitmask == 0 then return end
@@ -126,7 +126,7 @@ end
 
 function QUESTIE.getQuestClasses(id)
 	if id == nil or not QUESTIE.isDataSourceReady() then return end
-	local quest = QuestieDB:GetQuest(id)
+	local quest = QuestieDB.GetQuest(id)
 	if quest == nil then return end
 	local bitmask = quest.requiredClasses
 	if bitmask == nil or bitmask == 0 then return end
@@ -141,7 +141,7 @@ end
 
 function QUESTIE.getQuestFaction(id)
 	if id == nil or not QUESTIE.isDataSourceReady() then return end
-	local quest = QuestieDB:GetQuest(id)
+	local quest = QuestieDB.GetQuest(id)
 	if quest == nil then return end
 	local bitmask = quest.requiredRaces
 	if bitmask == nil then return end
@@ -151,14 +151,14 @@ end
 
 function QUESTIE.getQuestObjective(id)
 	if id == nil or not QUESTIE.isDataSourceReady() then return end
-	local quest = QuestieDB:GetQuest(id)
+	local quest = QuestieDB.GetQuest(id)
 	if quest == nil then return end
 	return quest.objectivesText[1]
 end
 
 function QUESTIE.getQuestReputation(id)
 	if id == nil or not QUESTIE.isDataSourceReady() then return end
-	local quest = QuestieDB:GetQuest(id)
+	local quest = QuestieDB.GetQuest(id)
 	if quest == nil then return end
 	local reputation, repMin, repMax
 	if quest.requiredMinRep ~= nil then
@@ -182,7 +182,7 @@ function QUESTIE.getQuestPositions(id, typ, index, filterZone)
 	local filterZoneId = filterZone and DM.mapIDs[filterZone] and ZoneDB:GetAreaIdByUiMapId(DM.mapIDs[filterZone])
 	local specialObjectivesIndex
 	if GP.getSuperCode(typ) == "QUEST" then
-		local quest = QuestieDB:GetQuest(id)
+		local quest = QuestieDB.GetQuest(id)
 		if quest == nil then return end
 		local list
 		if typ == "ACCEPT" then 
@@ -473,7 +473,7 @@ function QUESTIE.getQuestNPCs(id, typ, index)
 	local ids = {npc = {}, item = {}}
 	local objectives = {npc = {}, item = {}}
 	if GP.getSuperCode(typ) == "QUEST" then
-		local quest = QuestieDB:GetQuest(id)
+		local quest = QuestieDB.GetQuest(id)
 		if quest == nil then return end
 		local list
 		if typ == "ACCEPT" then 
@@ -548,7 +548,7 @@ end
 -- returns a type (npc/item/object) and a list of names for quest source / each objective / turn in; e.g. {{type="item", names={"Huge Gnoll Claw", "Hogger"}, ids={item={1931},npc={448}} for id = 176, typ = "COMPLETE"
 function QUESTIE.getQuestObjectives(id, typ)
 	if id == nil or not QUESTIE.isDataSourceReady() then return end
-	local quest = QuestieDB:GetQuest(id)
+	local quest = QuestieDB.GetQuest(id)
 	if quest == nil then return end
 	if typ == "ACCEPT" then 
 		list = {quest.Starts}
@@ -647,7 +647,7 @@ end
 
 function QUESTIE.getItemProvidedByQuest(id)
 	if id == nil or not QUESTIE.isDataSourceReady() then return end
-	local quest = QuestieDB:GetQuest(id)
+	local quest = QuestieDB.GetQuest(id)
 	return quest and quest.sourceItemId > 0 and quest.sourceItemId
 end
 
@@ -660,7 +660,7 @@ end
 
 function QUESTIE.getQuestItems(id)
 	if id == nil or not QUESTIE.isDataSourceReady() then return end
-	local quest = QuestieDB:GetQuest(id)
+	local quest = QuestieDB.GetQuest(id)
 	if not quest then return end
 	local items
 	if quest.sourceItemId > 0 then
@@ -689,7 +689,7 @@ function QUESTIE.listQuestWithItems()
     for qid, _ in pairs(QuestieDB.QuestPointers) do
 		local items = QUESTIE.getUsableQuestItems(qid)
 		if items then
-			local quest = QuestieDB:GetQuest(qid)
+			local quest = QuestieDB.GetQuest(qid)
 			t = t .. qid .. ";" .. quest.name
 			for _, id in ipairs(items) do
 				local item = QuestieDB:GetItem(id)
