@@ -9,7 +9,7 @@ addon.QUESTIE.correctionsObjectiveOrder = {
 	[10861] = {2, 1},
 }
 
--- for some reason (probably a good one e.g. performance) questie reports quests started by an item as started by the item dropping the item
+-- questie reports quests started by an item as started by the npc dropping the item
 -- we want to know which quests is started by an item in order to generate the use item button
 -- therefore we 'correct' this here
 -- ids for items starting a quest exported from wowhead: https://www.wowhead.com/wotlk/items?filter=6;1;0

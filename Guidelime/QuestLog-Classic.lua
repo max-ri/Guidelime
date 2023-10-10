@@ -52,17 +52,18 @@ function QL.updateQuestLog()
 				else
 					tooltip = tooltip .. "|T" .. addon.icons.MAP .. ":12|t" .. L.QUEST_NOT_CONTAINED_IN_GUIDE
 				end
-				if newTitle ~= title or GuidelimeData.showTooltips then
+				if newTitle ~= title then
 					questLogTitle = _G["QuestLogTitle"..i]
 					questCheck = _G["QuestLogTitle"..i.."Check"]
 					questLogTitle:SetText(newTitle)
 					QuestLogDummyText:SetText(newTitle)
 					questCheck:SetPoint("LEFT", questLogTitle, "LEFT", QuestLogDummyText:GetWidth()+24, 0);
-					if GuidelimeData.showTooltips and tooltip ~= "" then
-						questLogTitle.tooltip = tooltip
-						questLogTitle:SetScript("OnEnter", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32);  GameTooltip:SetText(self.tooltip); GameTooltip:Show(); F.showingTooltip = true end end)
-						questLogTitle:SetScript("OnLeave", function(self) if self.tooltip ~= nil and self.tooltip ~= "" and F.showingTooltip then GameTooltip:Hide(); F.showingTooltip = false end end)
-					end
+				end
+				if GuidelimeData.showTooltips and tooltip ~= "" then
+					questLogTitle = _G["QuestLogTitle"..i]
+					questLogTitle.tooltip = tooltip
+					questLogTitle:SetScript("OnEnter", function(self) if self.tooltip ~= nil and self.tooltip ~= "" then GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32);  GameTooltip:SetText(self.tooltip); GameTooltip:Show(); F.showingTooltip = true end end)
+					questLogTitle:SetScript("OnLeave", function(self) if self.tooltip ~= nil and self.tooltip ~= "" and F.showingTooltip then GameTooltip:Hide(); F.showingTooltip = false end end)
 				end
 			end
 		end
