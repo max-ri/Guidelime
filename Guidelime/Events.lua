@@ -62,8 +62,8 @@ function EV.updateFromQuestLog()
 	local questLog = {}
 	local isCollapsed = {}
 	local currentHeader
+	local i = 1
 	if C_QuestLog.GetInfo ~= nil then
-		local i = 1
 		while (true) do	
 			local info = C_QuestLog.GetInfo(i)
 			if not info then break end
@@ -84,8 +84,9 @@ function EV.updateFromQuestLog()
 			i = i + 1
 		end
 	else
-		for i = 1, GetNumQuestLogEntries() do
+		while(true) do
 			local name, _, _, header, collapsed, completed, _, id = GetQuestLogTitle(i)
+			if not name then break end
 			if header then
 				isCollapsed[name] = collapsed
 				currentHeader = name
@@ -97,6 +98,7 @@ function EV.updateFromQuestLog()
 				questLog[id].name = name
 				questLog[id].sort = currentHeader	
 			end
+			i = i + 1
 		end
 	end
 	
@@ -219,6 +221,7 @@ end
 
 EV.frame:RegisterEvent('QUEST_LOG_UPDATE')
 function EV.frame:QUEST_LOG_UPDATE()
+	if addon.debugging then print ("LIME: QUEST_LOG_UPDATE") end
 	doQuestUpdate()
 end
 
