@@ -869,10 +869,9 @@ local function updateStepAvailability(i, changedIndexes, scheduled)
 	end
 end
 
-local function updateStepsCompletion()
+local function updateStepsCompletion(changedIndexes)
 	--if addon.debugging then print("LIME: update steps completion") end
 	CG.currentGuide.unavailableQuests = {}
-	local changedIndexes = {}
 	repeat
 		local numNew = #changedIndexes
 		local scheduled = {ACCEPT = {}, COMPLETE = {}, TURNIN = {}, SKIP = {}}
@@ -891,7 +890,6 @@ local function updateStepsCompletion()
 		end
 	until(numNew == #changedIndexes)
 	--if addon.debugging then print("LIME: changed", #changedIndexes) end
-	return changedIndexes
 end
 
 function CG.stepIsVisible(step)
@@ -1082,7 +1080,7 @@ function CG.scrollToFirstActive()
 	end)
 end
 
-function CG.updateSteps()
+function CG.updateSteps(completedIndexes)
 	if MW.mainFrame == nil then return end
 	if CG.currentGuide == nil then return end
 	if F.showingTooltip then GameTooltip:Hide(); F.showingTooltip = false end
@@ -1103,7 +1101,8 @@ function CG.updateSteps()
 	--local time
 	--if addon.debugging then time = debugprofilestop() end
 	--if addon.debugging then print("LIME: update steps " .. GetTime()) end
-	local completedIndexes = updateStepsCompletion()
+	if completedIndexes == nil then completedIndexes = {} end
+	updateStepsCompletion(completedIndexes)
 	--if addon.debugging then print("LIME: updateStepsCompletion " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	CG.updateStepsActivation()
 	--if addon.debugging then print("LIME: updateStepsActivation " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
@@ -1137,16 +1136,18 @@ end
 function CG.setStepSkip(value, a, b)
 	if a == nil then a = 1; b = #CG.currentGuide.steps end
 	if b == nil then b = a end
+	local indexes = {}
 	for i = a, b do
 		local step = CG.currentGuide.steps[i]
 		step.skip = value
 		GuidelimeDataChar.guideSkip[CG.currentGuide.name][i] = step.skip
 		GuidelimeDataChar.completedSteps[i] = GuidelimeDataChar.completedSteps[i] and value
+		table.insert(indexes, i)
 	end
 	if not value and not GuidelimeDataChar.showUnavailableSteps then
 		MW.updateMainFrame()
 	else
-		CG.updateSteps()
+		CG.updateSteps(indexes)
 	end
 end
 
@@ -1202,7 +1203,7 @@ function CG.completeSemiAutomatic(element)
 	end
 	GuidelimeDataChar.completedSteps[step.index] = true
 	step.skip = true
-	CG.updateSteps()
+	CG.updateSteps({step.index})
 end
 
 function CG.getElementByTextPos(pos, step)
