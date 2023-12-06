@@ -254,7 +254,7 @@ function EV.frame:GOSSIP_SHOW()
 		local selectAvailable = nil
 		EV.openNpcAgain = false
 		for _, q in ipairs(C_GossipInfo.GetActiveQuests()) do
-			if EV.isQuestAuto(GuidelimeData.autoTurnInQuests, q.questID) then
+			if q.isComplete and EV.isQuestAuto(GuidelimeData.autoTurnInQuests, q.questID) then
 				if selectActive == nil then
 					selectActive = q.questID
 				else
