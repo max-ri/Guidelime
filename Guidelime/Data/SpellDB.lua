@@ -47,7 +47,7 @@ function SP.getLocalizedName(name)
 			SP.reloadOnSpellData = true 
 			C_Spell.RequestLoadSpellData(id)
 		end
-		if localized then return localized end
+		if localized then return localized, id end
 		name = SP.getSpellById(id)
 		if not name then return end
 	end
@@ -55,9 +55,9 @@ function SP.getLocalizedName(name)
 	if s then
 		for _, id in ipairs(s.id) do
 			local localized = (GetSpellInfo(id))
-			if localized then return localized end
+			if localized then return localized, id end
 		end
-		return s.name
+		return s.name, s.id[1]
 	end
 end
 
@@ -72,12 +72,11 @@ local function isTradeSkillKnown(localizedName)
 end
 
 function SP.getSpellRank(name)
-	local localizedName = SP.getLocalizedName(name)
+	local localizedName, id = SP.getLocalizedName(name)
 	if GuidelimeDataChar.learnedSpells ~= nil and GuidelimeDataChar.learnedSpells[localizedName] ~= nil then return GuidelimeDataChar.learnedSpells[localizedName] end
-	id = select(7, GetSpellInfo(localizedName))
-	if not id or not IsSpellKnown(id) then return (isTradeSkillKnown(localizedName) and 1) or 0 end
 	local skill, max = SK.getMaxSkillLearnedBySpell(id)
 	if skill ~= nil then return SK.getSkillRank(skill) ~= nil and select(2, SK.getSkillRank(skill)) >= max and 1 or 0 end
+	if not id or not IsSpellKnown(id) then return (isTradeSkillKnown(localizedName) and 1) or 0 end
 	return SP.getSpellRankById(id)
 end
 
