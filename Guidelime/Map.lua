@@ -175,7 +175,7 @@ function M.addMapIcon(element, highlight, ignoreMaxNumOfMarkers)
 		mapIcon.map.tooltip = (mapIcon.map.tooltip or "") .. "\n" .. tooltip
 		mapIcon.minimap.tooltip = (mapIcon.minimap.tooltip or "") .. "\n" .. tooltip
 	end
-	if element.t == "GOTO" and element.step.gotoIndexes and element.step.gotoIndexes[mapIcon.index] then return end
+	if element.t == "GOTO" and element.step and element.step.gotoIndexes and element.step.gotoIndexes[mapIcon.index] then return end
 	mapIcon.instance = element.instance
 	mapIcon.wx = element.wx
 	mapIcon.wy = element.wy	
@@ -184,7 +184,7 @@ function M.addMapIcon(element, highlight, ignoreMaxNumOfMarkers)
 	mapIcon.y = element.y
 	mapIcon.inUse = true
 	element.mapIndex = mapIcon.index
-	if element.t == "GOTO" then 
+	if element.t == "GOTO" and element.step then 
 		if element.step.gotoIndexes == nil then element.step.gotoIndexes = {} end
 		element.step.gotoIndexes[element.mapIndex] = true
 	end
