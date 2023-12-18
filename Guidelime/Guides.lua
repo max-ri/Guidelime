@@ -42,6 +42,7 @@ function G.loadGuide(name)
 end
 
 local function resetGuide() 
+	if GuidelimeDataChar.currentGuide == nil then return end
 	GuidelimeDataChar.guideSkip[GuidelimeDataChar.currentGuide] = {}
 	G.loadGuide(GuidelimeDataChar.currentGuide)
 end
