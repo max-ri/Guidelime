@@ -292,7 +292,7 @@ function EV.frame:GOSSIP_SHOW()
 					if element.t == "FLY" or element.t == "GET_FLIGHT_POINT" then
 						if addon.debugging then print ("LIME: GOSSIP_SHOW SelectGossipOption", gossip.gossipOptionID) end
 						C_GossipInfo.SelectOption(gossip.gossipOptionID)
-						return
+						return false
 					end
 				end)
 			end
@@ -304,7 +304,7 @@ function EV.frame:GOSSIP_SHOW()
 						C_GossipInfo.SelectOption(gossip.gossipOptionID)
 						SetTrainerServiceTypeFilter("available", 1)
 						SetTrainerServiceTypeFilter("used", 1)
-						return
+						return false
 					end
 				end)
 			end
@@ -363,7 +363,7 @@ function EV.frame:GOSSIP_SHOW_old()
 					if element.t == "FLY" or element.t == "GET_FLIGHT_POINT" then
 						if addon.debugging then print ("LIME: GOSSIP_SHOW SelectGossipOption", i) end
 						SelectGossipOption(i)
-						return
+						return false
 					end
 				end)
 			end
@@ -374,7 +374,7 @@ function EV.frame:GOSSIP_SHOW_old()
 						if addon.debugging then print ("LIME: GOSSIP_SHOW SelectGossipOption", i) end
 						SelectGossipOption(i)
 						SetTrainerServiceTypeFilter("available", 1)
-						return
+						return false
 					end
 				end)
 			end
@@ -398,7 +398,7 @@ local function doAutoTrain()
 								if addon.debugging then print ("LIME: doAutoTrain BuyTrainerService", i) end
 								BuyTrainerService(i)
 								CG.updateSteps()
-								return
+								return false
 							end
 						end
 					elseif element.t == "LEARN" and element.spell then
@@ -406,7 +406,7 @@ local function doAutoTrain()
 							if addon.debugging then print ("LIME: doAutoTrain BuyTrainerService", i) end
 							BuyTrainerService(i)
 							CG.updateSteps()
-							return
+							return false
 						end
 					end
 				end)
@@ -436,6 +436,7 @@ function EV.frame:TRAINER_UPDATE()
 	CG.forEveryActiveElement(function(element)
 		if element.t == "LEARN" then
 			found = true
+			return false
 		end
 	end)
 	if found then CG.updateSteps() end
@@ -455,6 +456,7 @@ function EV.frame:TRADE_SKILL_SHOW()
 	CG.forEveryActiveElement(function(element)
 		if element.t == "LEARN" or element.t == "SPELL" then
 			found = true
+			return false
 		end
 	end)
 	if found then 
@@ -574,7 +576,7 @@ function EV.frame:TAXIMAP_OPENED()
 						elseif element.t == "GET_FLIGHT_POINT" and TaxiNodeGetType(j) == "CURRENT" then
 							CG.completeSemiAutomatic(element)
 						end
-						return
+						return false
 					end
 				end
 			end
@@ -627,6 +629,7 @@ function EV.frame:LEARNED_SPELL_IN_TAB(spellID, skillInfoIndex, isGuildPerkSpell
 	CG.forEveryActiveElement(function(element)
 		if element.t == "LEARN" and element.spellId == spellID then
 			found = true
+			return false
 		end
 	end)
 	if found then CG.updateSteps() end
@@ -639,6 +642,7 @@ function EV.frame:SKILL_LINES_CHANGED()
 	CG.forEveryActiveElement(function(element)
 		if element.t == "LEARN" or element.t == "SKILL" then
 			found = true
+			return false
 		end
 	end)
 	if found then CG.updateSteps() end
