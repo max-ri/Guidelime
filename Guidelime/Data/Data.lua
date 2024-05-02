@@ -9,21 +9,23 @@ addon.SP = addon.SP or {}; local SP = addon.SP -- Data/SpellDB
 addon.D = addon.D or {}; local D = addon.D     -- Data/Data
 
 D.factions = {"Alliance", "Horde"}
-D.races = {Human = "Alliance", NightElf = "Alliance", Dwarf = "Alliance", Gnome = "Alliance", Orc = "Horde", Troll = "Horde", Tauren = "Horde", Undead = "Horde", Draenei = "Alliance", BloodElf = "Horde"}
-D.raceIDs = {Human = 1, NightElf = 4, Dwarf = 3, Gnome = 7, Orc = 2, Troll = 8, Tauren = 6, Undead = 5, BloodElf = 10, Draenei = 11}
+D.races = {Human = "Alliance", NightElf = "Alliance", Dwarf = "Alliance", Gnome = "Alliance", Orc = "Horde", Troll = "Horde", Tauren = "Horde", Undead = "Horde", Draenei = "Alliance", BloodElf = "Horde", Worgen = "Alliance", Goblin = "Horde"}
+D.raceIDs = {Human = 1, NightElf = 4, Dwarf = 3, Gnome = 7, Orc = 2, Troll = 8, Tauren = 6, Undead = 5, BloodElf = 10, Draenei = 11, Worgen = 22, Goblin = 9}
 D.classes = {"Warrior", "Rogue", "Mage", "Warlock", "Hunter", "Priest", "Druid", "Paladin", "Shaman", "DeathKnight"}
 D.classesWithFaction = {}
 D.classesPerRace = {
-	Human = {"Warrior", "Paladin", "Rogue", "Priest", "Mage", "Warlock", "DeathKnight"},
-	NightElf = {"Warrior", "Hunter", "Rogue", "Priest", "Druid", "DeathKnight"},
-	Dwarf = {"Warrior", "Paladin", "Hunter", "Rogue", "Priest", "DeathKnight"},
-	Gnome = {"Warrior", "Rogue", "Mage", "Warlock", "DeathKnight"},
-	Orc = {"Warrior", "Hunter", "Rogue", "Shaman", "Warlock", "DeathKnight"},
-	Troll = {"Warrior", "Hunter", "Rogue", "Priest", "Shaman", "Mage", "DeathKnight"},
-	Tauren = {"Warrior", "Hunter", "Shaman", "Druid", "DeathKnight"},
-	Undead = {"Warrior", "Rogue", "Priest", "Mage", "Warlock", "DeathKnight"},
+	Human = {"Warrior", "Paladin", "Hunter", "Rogue", "Priest", "Mage", "Warlock", "DeathKnight"},
+	NightElf = {"Warrior", "Hunter", "Rogue", "Priest", "Mage", "Druid", "DeathKnight"},
+	Dwarf = {"Warrior", "Paladin", "Hunter", "Rogue", "Priest", "Shaman", "Mage", "Warlock", "DeathKnight"},
+	Gnome = {"Warrior", "Rogue", "Priest", "Mage", "Warlock", "DeathKnight"},
+	Orc = {"Warrior", "Hunter", "Rogue", "Shaman", "Mage", "Warlock", "DeathKnight"},
+	Troll = {"Warrior", "Hunter", "Rogue", "Priest", "Shaman", "Mage", "Warlock", "Druid", "DeathKnight"},
+	Tauren = {"Warrior", "Paladin", "Hunter", "Priest", "Shaman", "Druid", "DeathKnight"},
+	Undead = {"Warrior", "Hunter", "Rogue", "Priest", "Mage", "Warlock", "DeathKnight"},
 	Draenei = {"Hunter", "Mage", "Paladin", "Priest", "Shaman", "Warrior", "DeathKnight"},
-	BloodElf = {"Hunter", "Mage", "Paladin", "Priest", "Rogue", "Warlock", "DeathKnight"}
+	BloodElf = {"Warrior", "Hunter", "Mage", "Paladin", "Priest", "Rogue", "Warlock", "DeathKnight"},
+	Worgen = {"Warrior", "Hunter", "Rogue", "Priest", "Mage", "Warlock", "Druid", "DeathKnight"},
+	Goblin = {"Warrior", "Hunter", "Rogue", "Priest", "Shaman", "Mage", "Warlock", "DeathKnight"}
 }
 function D.getClass(class)
 	class = class:upper():gsub(" ","")
@@ -113,6 +115,7 @@ D.reputations = {
 	shatariskyguard = 1031,
 	ogrila = 1038,
 	shatteredsunoffensive = 1077,
+	
 	valianceexpedition = 1050,
 	silvercovenant = 1094,
 	explorersleague = 1068,
@@ -123,6 +126,19 @@ D.reputations = {
 	taunka = 1064,
 	oracles = 1105,
 	frenzyhearttribe = 1104,
+	
+	guild = 1169,
+	gilneas = 1134,
+	earthenring = 1135,
+	guardiansofhyjal = 1158,
+	therazane = 1171,
+	dragonmawclan = 1172,
+	ramkahen = 1173,
+	wildhammerclan = 1174,
+	baradinswardens = 1177,
+	hellscreamsreach = 1178,
+	avengersofhyjal = 1204,
+	bilgewatercartel = 1133,
 }
 
 D.racesPerFaction = {}

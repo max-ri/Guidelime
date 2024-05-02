@@ -1,13 +1,15 @@
 # Lib: HereBeDragons
 
-## [2.08-release-4-gc32dc23](https://github.com/Nevcairiel/HereBeDragons/tree/c32dc2388d6be8ebb6913a3db750c2e655d80733) (2022-08-09)
-[Full Changelog](https://github.com/Nevcairiel/HereBeDragons/compare/2.08-release...c32dc2388d6be8ebb6913a3db750c2e655d80733) [Previous Releases](https://github.com/Nevcairiel/HereBeDragons/releases)
+## [2.13-release](https://github.com/Nevcairiel/HereBeDragons/tree/2.13-release) (2023-07-12)
+[Full Changelog](https://github.com/Nevcairiel/HereBeDragons/compare/2.12-release...2.13-release) [Previous Releases](https://github.com/Nevcairiel/HereBeDragons/releases)
 
-- Move DK starting area override into transforms  
-    The instance ID overrides were meant for dynamic phasing, not  
-    permanently instanced zones, which the transform was designed for  
-    instead, even if the map coordinates are not transformed.  
-    This should make the behavior more consistent for users.  
-- Don't use expansion level checks, they may not be present in all clients  
-- Fix handling of pins from phased sub maps  
-- Add Wrath Classic support  
+- Update TOC for 10.1.5  
+- HBD-Pins-2.0: Hack around combat limitations in 10.1.5  
+    SetPassThroughButtons can no longer be called in combat, but we allow  
+    creating pins at any time during play. Until such a point when this is  
+    fixed by Blizzard, noop out the function so that creating pins no longer  
+    errors.  
+    This function is called on the pin by Blizzards pin handler, which is of  
+    course insecure on addon-created pins.  
+- Update TOC for 10.1  
+- Update TOC for 10.0.7  

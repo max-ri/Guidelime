@@ -215,7 +215,7 @@ local function showMapIcon(mapIcon, t)
 		if mapIcon.mapID == 124 then
 			if GuidelimeData["showMapMarkers" .. t] then HBDPins:AddWorldMapIconMap(M, mapIcon.map, mapIcon.mapID, mapIcon.x / 100, mapIcon.y / 100, 3) end
 			if GuidelimeData["showMinimapMarkers" .. t] and not M.hideMinimapIconsAndArrowWhileBuffed then HBDPins:AddMinimapIconMap(M, mapIcon.minimap, mapIcon.mapID, mapIcon.x / 100, mapIcon.y / 100, true, mapIcon.index == 0) end
-		else
+		elseif mapIcon.instance and mapIcon.wx and mapIcon.wy then
 			if GuidelimeData["showMapMarkers" .. t] then HBDPins:AddWorldMapIconWorld(M, mapIcon.map, mapIcon.instance, mapIcon.wx, mapIcon.wy, 3) end
 			if GuidelimeData["showMinimapMarkers" .. t] and not M.hideMinimapIconsAndArrowWhileBuffed then HBDPins:AddMinimapIconWorld(M, mapIcon.minimap, mapIcon.instance, mapIcon.wx, mapIcon.wy, true, mapIcon.index == 0) end
 		end
