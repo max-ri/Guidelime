@@ -8,7 +8,10 @@ Guides are shown as a list of steps where the progress is updated automatically 
 items looted / mobs killed, etc). Only for some steps completion has to be confirmed manually (such as resupplying, getting new skills, etc). 
 Locations referenced in the guide are shown on the map and minimap. Also there is an arrow pointing in the direction towards the next step.
 
-It completely supports Burning Crusade Classic and Wrath of the Lich King Classic. There are guides for Draenei, Blood Elf, and Death Knight starting zones, as well as Alliance and Horde Outland and Northrend guides.
+It completely supports **Burning Crusade** Classic and **Wrath of the Lich King** Classic. There are guides for Draenei, Blood Elf, and Death Knight starting zones, as well as Alliance and Horde Outland and Northrend guides.
+
+**Cataclysm** Classic is supported as well. Currently there are guides for the Worgen starting zone and for the new zones for leveling from 80 to 85. Unfortunately due to the world revamp old guides for leveling from 1 to 60 will not be useful anymore. **Stay tuned for new guides for leveling 1-60**.
+
 
 The addon comes with an editor so even if the number of guides included is small (yet) it is very easy to create your own guides or to import
 your favorite guide.
