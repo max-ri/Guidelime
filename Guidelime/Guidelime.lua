@@ -270,6 +270,13 @@ function addon.loadData()
 			end
 		end
 	end, 1)
+	
+	if GuidelimeDataChar.level ~= nil and GuidelimeDataChar.level > addon.D.level then
+		if GuidelimeData.debugging then print("LIME: character reset detected; deleting cached skills and spells") end
+		GuidelimeDataChar.tradeSkills = {}
+		GuidelimeDataChar.learnedSpells = {}
+	end
+	GuidelimeDataChar.level = addon.D.level
 
 	addon.debugging = GuidelimeData.debugging
 	addon.dataSource = GuidelimeData.dataSource

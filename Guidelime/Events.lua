@@ -40,6 +40,7 @@ EV.frame:RegisterEvent('PLAYER_LEVEL_UP')
 function EV.frame:PLAYER_LEVEL_UP(level)
 	C_Timer.After(0.1, function()
 		D.level = level
+		GuidelimeDataChar.level = level
 		D.xpMax = UnitXPMax("player")
 		if addon.debugging then print("LIME: You reached level " .. D.level .. ". Grats! new xp max is " .. D.xpMax) end
 		CG.updateSteps()
