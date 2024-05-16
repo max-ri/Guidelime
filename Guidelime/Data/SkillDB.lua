@@ -44,7 +44,8 @@ SK.skills = {
 	LEATHER = {icon = "Interface\\Icons\\inv_chest_leather_09"},
 	CLOTH = {icon = "Interface\\Icons\\inv_chest_cloth_21"},
 	SHIELD = {icon = "Interface\\Icons\\inv_shield_04"},
-	LOCKPICKING = {icon = "Interface\\Icons\\spell_nature_moonkey"}
+	LOCKPICKING = {icon = "Interface\\Icons\\spell_nature_moonkey"},
+	ARCHAEOLOGY = {icon = "Interface\\Icons\\Trade_Archaeology"}
  }
 
 function SK.getSkill(name)

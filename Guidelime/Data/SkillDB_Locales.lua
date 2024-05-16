@@ -40,6 +40,7 @@ addon.SK.skillDB_Locales = {
   LEATHER = "Leder",
   CLOTH = "Stoff",
   SHIELD = "Schild",
+  ARCHAEOLOGY = "Archäologie",
 },
 ["enUS"] = {
   COOKING = "Cooking",
@@ -80,6 +81,7 @@ addon.SK.skillDB_Locales = {
   LEATHER = "Leather",
   CLOTH = "Cloth",
   SHIELD = "Shield",
+  ARCHAEOLOGY = "Archaeology",
 },
 ["esES"] = {
   COOKING = "Cocina",
@@ -120,6 +122,7 @@ addon.SK.skillDB_Locales = {
   LEATHER = "Cuero",
   CLOTH = "Tela",
   SHIELD = "Escudo",
+  ARCHAEOLOGY = "Arqueología",
 },
 ["esMX"] = {
   COOKING = "Cocina",
@@ -160,6 +163,7 @@ addon.SK.skillDB_Locales = {
   LEATHER = "Cuero",
   CLOTH = "Tela",
   SHIELD = "Escudo",
+  ARCHAEOLOGY = "Arqueología",
 },
 ["frFR"] = {
   COOKING = "Cuisine",
@@ -200,6 +204,7 @@ addon.SK.skillDB_Locales = {
   LEATHER = "Cuir",
   CLOTH = "Tissu",
   SHIELD = "Bouclier",
+  ARCHAEOLOGY = "Archéologie",
 },
 ["itIT"] = {
   COOKING = "Cucina",
@@ -240,6 +245,7 @@ addon.SK.skillDB_Locales = {
   LEATHER = "Cuoio",
   CLOTH = "Stoffa",
   SHIELD = "Scudo",
+  ARCHAEOLOGY = "Archeologia",
 },
 ["koKR"] = {
   COOKING = "요리",
@@ -280,6 +286,7 @@ addon.SK.skillDB_Locales = {
   LEATHER = "가죽",
   CLOTH = "천",
   SHIELD = "방패",
+  ARCHAEOLOGY = "고고학",
 },
 ["ptBR"] = {
   COOKING = "Culinária",
@@ -320,6 +327,7 @@ addon.SK.skillDB_Locales = {
   LEATHER = "Couro",
   CLOTH = "Tecido",
   SHIELD = "Escudo",
+  ARCHAEOLOGY = "Arqueologia",
 },
 ["ruRU"] = {
   COOKING = "Кулинария",
@@ -360,6 +368,7 @@ addon.SK.skillDB_Locales = {
   LEATHER = "Кожа",
   CLOTH = "Ткань",
   SHIELD = "Щит",
+  ARCHAEOLOGY = "Археология",
 },
 ["zhCN"] = {
   COOKING = "烹饪",
@@ -400,6 +409,7 @@ addon.SK.skillDB_Locales = {
   LEATHER = "皮甲",
   CLOTH = "布甲",
   SHIELD = "盾牌",
+  ARCHAEOLOGY = "考古学",
 },
 ["zhTW"] = {
   COOKING = "烹飪",
@@ -440,5 +450,6 @@ addon.SK.skillDB_Locales = {
   LEATHER = "皮甲",
   CLOTH = "布甲",
   SHIELD = "盾牌",
+  ARCHAEOLOGY = "考古学",
 },
 }
