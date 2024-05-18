@@ -218,6 +218,7 @@ L.SHIFT_RIGHT_CLICK = "Shift + Right Click"
 L.SHOW_MINIMAP_BUTTON = "Show minimap button"
 L.ONLY_WHEN_MAINFRAME_HIDDEN = "only when guide window is hidden"
 L.PLEASE_WAIT = "Please wait..."
+L.AUTO_SELECT_START_GUIDE = "Automatically select a guide on a new level 1 character"
 
 -- Word lists used by the plain text parser
 -- Spaces at the start and end of each word will make it so that a match cannot occur in the middle of a word. Spaces will match any whitespace or punctuation marks.
@@ -647,6 +648,7 @@ L["AT"] = "in"
 L["ALL_QUESTS"] = "alle"
 L["AUTO_ACCEPT_QUESTS"] = "Quests automatisch annehmen"
 L["AUTO_SELECT_FLIGHT"] = "Flugroute automatisch auswählen"
+L["AUTO_SELECT_START_GUIDE"] = "Auf neuem Level 1 Charakter automatisch einen Guide auswählen"
 L["AUTO_TURNIN_QUESTS"] = "Quests automatisch einlösen"
 L["AUTO_TRAIN"] = "Automatisch neue Zaubersprüche und Fähigkeiten beim Trainer erwerben, wenn der Guide dies verlangt"
 L["AVAILABLE_GUIDES"] = "Verfügbare Guides"

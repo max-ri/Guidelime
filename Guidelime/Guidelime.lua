@@ -128,6 +128,7 @@ function addon.loadData()
 		showQuestIds = false,
 		showMapMarkersInGuide = true,
 		targetRaidMarkers = true,
+		autoSelectStartGuide = true,
 		version = GetAddOnMetadata(addonName, "version")
 	}
 	local defaultOptionsChar = {

@@ -30,6 +30,9 @@ function G.loadGuide(name)
 		end
 	end
 	GuidelimeDataChar.currentGuide = name
+	if addon.guides[name] ~= nil then 
+		GuidelimeData.lastGuideGroup = addon.guides[name].group
+	end
 	CG.loadCurrentGuide(true)
 	EV.updateFromQuestLog()
 	if GuidelimeDataChar.mainFrameShowing then
@@ -306,4 +309,46 @@ end
 
 function G.isGuidesShowing()
 	return G.guidesFrame ~= nil and G.guidesFrame:IsVisible()
+end
+
+function G.selectStartGuide()
+	local raceStarterZoneDict = {
+    	Dwarf = {'dwarf', 'dunmorogh', 'coldridgevalley'},
+    	Gnome = {'gnome', 'dunmorogh', 'coldridgevalley'},
+    	Human = {'human', 'elwynnforest', 'northshireabbey'},
+    	NightElf = {'nightelf', 'shadowglen', 'teldrassil'},
+    	Orc = {'orc', 'durotar', 'valleyoftrials'},
+    	Tauren = {'tauren', 'mulgore', 'campnarache'},
+    	Troll = {'troll', 'durotar', 'valleyoftrials'},
+    	Undead = {'undead', 'tirisfalglades', 'deathknell'},
+		Draenei = {'draenei', 'azuremystisle'},
+		BloodElf = {'bloodelf', 'eversongwoods'},
+		Worgen = {'worgen', 'gilneas'},
+		Goblin = {'goblin', 'kezan'}	
+	}
+	local matchingGuides = {}
+	for name, guide in pairs(addon.guides) do
+		if guide.minLevel == 1 then
+			local n = guide.title:lower():gsub("%s+", "")
+			for _, phrase in ipairs(raceStarterZoneDict[D.race]) do
+				if string.find(n, phrase) then
+					table.insert(matchingGuides, name)
+					break
+				end
+			end
+		end
+	end
+	if #matchingGuides > 1 and GuidelimeData.lastGuideGroup ~= nil then
+		local filteredGuides = {}
+		for _, name in ipairs(matchingGuides) do 
+			if addon.guides[name].group == GuidelimeData.lastGuideGroup then
+				table.insert(filteredGuides, name)
+			end
+			if #filteredGuides > 0 then matchingGuides = filteredGuides end
+		end
+	end
+	if #matchingGuides > 0 then
+		return matchingGuides[1]
+	end
+	if addon.debugging then print("LIME: no matching starting guide was found")	end
 end

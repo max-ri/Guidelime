@@ -706,6 +706,10 @@ function O.fillOptions()
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = checkbox
 	
+	checkbox = F.addCheckOption(content, GuidelimeData, "autoSelectStartGuide", L.AUTO_SELECT_START_GUIDE)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	prev = checkbox
+
 	checkbox = F.addCheckOption(content, GuidelimeData, "skipCutscenes", L.SKIP_CUTSCENES, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
 			CG.updateStepsText()

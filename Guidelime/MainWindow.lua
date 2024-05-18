@@ -162,6 +162,12 @@ function MW.updateMainFrame(reset)
 	MW.mainFrame.message = {}
 	CG.stopFading()
 
+	if CG.currentGuide == nil or CG.currentGuide.name == nil and addon.D.level == 1 and GuidelimeData.autoSelectStartGuide then
+		if addon.debugging then print("LIME: Automatically loading starting guide") end
+		GuidelimeDataChar.currentGuide = addon.G.selectStartGuide()
+		addon.CG.loadCurrentGuide(false)
+	end
+	
 	if CG.currentGuide == nil or CG.currentGuide.name == nil then
 		if addon.debugging then print("LIME: No guide loaded") end
 		MW.mainFrame.message[1] = F.addMultilineText(MW.mainFrame.scrollChild, L.NO_GUIDE_LOADED, MW.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
