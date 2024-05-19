@@ -319,11 +319,19 @@ D.RACE_ICON_TCOORDS = {
 		["Male"] = {0.5, 0.625, 0, 0.25},
 		["Female"] = {0.5, 0.625, 0.5, 0.75}, 
 	},
+	["Worgen"] = {
+		["Male"] = {0.625, 0.75, 0, 0.25},
+		["Female"] = {0.625, 0.75, 0.5, 0.75}, 
+	},
+	["Goblin"] = {
+		["Male"] = {0.625, 0.75, 0.25, 0.5},
+		["Female"] = {0.625, 0.75, 0.75, 1.0}, 
+	},
 };
 
 function D.getRaceIconText(race, sex, size)
 	local coords = D.RACE_ICON_TCOORDS[D.getRace(race)][D.getSex(sex)]
-	return "|TInterface\\GLUES\\CHARACTERCREATE\\UI-CHARACTERCREATE-RACES:" .. (size or 12) .. ":" .. (size or 12) .. ":0:0:64:128:" .. 
+	return "|TInterface\\GLUES\\CHARACTERCREATE\\UI-CHARACTERCREATE-RACES:" .. (size or 12) .. ":" .. (size or 12) .. ":0:0:128:128:" .. 
 		coords[1] * 128 .. ":" .. coords[2] * 128 .. ":" .. coords[3] * 128 .. ":" .. coords[4] * 128 .. ":::|t"
 end
 
