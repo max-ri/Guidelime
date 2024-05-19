@@ -219,6 +219,7 @@ L.SHOW_MINIMAP_BUTTON = "Show minimap button"
 L.ONLY_WHEN_MAINFRAME_HIDDEN = "only when guide window is hidden"
 L.PLEASE_WAIT = "Please wait..."
 L.AUTO_SELECT_START_GUIDE = "Automatically select a guide on a new level 1 character"
+L.INACTIVE = "Inactive"
 
 -- Word lists used by the plain text parser
 -- Spaces at the start and end of each word will make it so that a match cannot occur in the middle of a word. Spaces will match any whitespace or punctuation marks.
@@ -735,6 +736,7 @@ L["Horde"] = "Horde"
 L["IMPORT_GUIDE"] = "Guide importieren"
 L["IMPORT_GUIDE_MESSAGE"] = "Importiere einen als Text geschriebenen Guide. Quest-Namen müssen in Anführungszeichen(\"\") gesetzt werden. Es kann vorkommen, dass Quest-IDs manuell ergänzt werden müssen. Zeilen, in denen eine ID fehlt oder in denen ein anderer Fehler vorliegt, werden markiert. Wenn die Fehler beseitigt und erneut importiert wird, werden die Markierungen entfernt."
 L["IMPORT_SETTINGS"] = "Charakter-Einstellungen übernehmen"
+L["INACTIVE"] = "Inaktiv"
 L["LEFT_CLICK"] = "Linksklick"
 L["LEVEL"] = "Stufe"
 L["LOAD_GUIDE"] = "Guide laden"

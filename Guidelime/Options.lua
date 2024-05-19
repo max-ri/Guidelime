@@ -28,19 +28,19 @@ local function RGBToHex(r, g, b)
 	return string.format("|cFF%02x%02x%02x", r*255, g*255, b*255)
 end
 
-local function showColorPicker(color, callback)
-	ColorPickerFrame.hasOpacity, ColorPickerFrame.opacity = false, nil;
-	local r,g,b = HexToRGB(color)
-	ColorPickerFrame.previousValues = {r,g,b,1};
-	ColorPickerFrame.func, ColorPickerFrame.opacityFunc, ColorPickerFrame.cancelFunc = callback, nil, nil;
-	ColorPickerFrame:SetColorRGB(r,g,b);
-	ColorPickerFrame:Hide(); -- Need to run the OnShow handler.
-	ColorPickerFrame:Show();
-end
-
 local function getColorPickerColor()
 	local r, g, b = ColorPickerFrame:GetColorRGB()
 	return RGBToHex(r, g, b)
+end
+
+local function showColorPicker(color, callback)
+	ColorPickerFrame.hasOpacity, ColorPickerFrame.opacity = false, nil;
+	local r,g,b = HexToRGB(color)
+	ColorPickerFrame.swatchFunc = function() callback(getColorPickerColor()) end;
+	ColorPickerFrame.cancelFunc = function() callback(color) end;
+	ColorPickerFrame:SetColorRGB(r,g,b);
+	ColorPickerFrame:Hide(); -- Need to run the OnShow handler.
+	ColorPickerFrame:Show();
 end
 
 function O.fillOptions()
@@ -396,8 +396,8 @@ function O.fillOptions()
 	button:SetText(GuidelimeData.fontColorACCEPT .. L.QUEST_ACCEPT)
 	button:SetPoint("TOPLEFT", prev, "TOPLEFT", 110, 4)
 	button:SetScript("OnClick", function()
-		showColorPicker(GuidelimeData.fontColorACCEPT, function()
-			GuidelimeData.fontColorACCEPT = getColorPickerColor()
+		showColorPicker(GuidelimeData.fontColorACCEPT, function(color)
+			GuidelimeData.fontColorACCEPT = color
 			button:SetText(GuidelimeData.fontColorACCEPT .. L.QUEST_ACCEPT)
 			if GuidelimeDataChar.mainFrameShowing then
 				CG.updateStepsText()
@@ -441,6 +441,20 @@ function O.fillOptions()
 		showColorPicker(GuidelimeData.fontColorSKIP, function()
 			GuidelimeData.fontColorSKIP = getColorPickerColor()
 			button:SetText(GuidelimeData.fontColorSKIP .. L.QUEST_SKIP)
+			if GuidelimeDataChar.mainFrameShowing then
+				CG.updateStepsText()
+			end
+		end)
+	end)
+	local button = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
+	button:SetWidth(100)
+	button:SetHeight(20)
+	button:SetText(GuidelimeData.fontColorInactive .. L.INACTIVE)
+	button:SetPoint("TOPLEFT", prev, "TOPLEFT", 310, 4)
+	button:SetScript("OnClick", function()
+		showColorPicker(GuidelimeData.fontColorInactive, function()
+			GuidelimeData.fontColorInactive = getColorPickerColor()
+			button:SetText(GuidelimeData.fontColorInactive .. L.INACTIVE)
 			if GuidelimeDataChar.mainFrameShowing then
 				CG.updateStepsText()
 			end

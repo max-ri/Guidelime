@@ -129,6 +129,7 @@ function addon.loadData()
 		showMapMarkersInGuide = true,
 		targetRaidMarkers = true,
 		autoSelectStartGuide = true,
+		fontColorInactive = addon.MW.COLOR_INACTIVE,
 		version = GetAddOnMetadata(addonName, "version")
 	}
 	local defaultOptionsChar = {

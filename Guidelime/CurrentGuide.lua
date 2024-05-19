@@ -369,7 +369,7 @@ function CG.getQuestText(id, t, title, colored)
 			if colored == true then
 				q = q .. "|r"
 			else
-				q = q .. MW.COLOR_INACTIVE
+				q = q .. GuidelimeData.fontColorInactive
 			end
 			q = q .. "-"
 		end
@@ -388,7 +388,7 @@ function CG.getQuestText(id, t, title, colored)
 		if colored == true then
 			q = q .. "|r"
 		else
-			q = q .. MW.COLOR_INACTIVE
+			q = q .. GuidelimeData.fontColorInactive
 		end
 		q = q .. "]"
 	end
@@ -542,7 +542,7 @@ function CG.getStepText(step)
 
 	if GuidelimeData.showLineNumbers and step.line ~= nil then text = text .. step.line .. " " end
 	if not step.active then
-		text = text .. MW.COLOR_INACTIVE
+		text = text .. GuidelimeData.fontColorInactive
 	elseif step.manual then
 		skipTooltip = L.STEP_MANUAL
 	else
