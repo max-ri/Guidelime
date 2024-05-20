@@ -212,7 +212,9 @@ local function showMapIcon(mapIcon, t)
 		if t ~= "GOTO" then t = "LOC" end
 		-- Hack for Scarlet Enclave: world map icons are not shown in Scarlet Enclave therefore use map icon
 		-- map icons are not useful for other zones on the other hand as then the icon will only appear in the map of the given zone and not in others
-		if mapIcon.mapID == 124 then
+		-- same thing for Gilneas/Kezan
+		if mapIcon.mapID == 124 or
+		   mapIcon.mapID == 174 or mapIcon.mapID == 179 or mapIcon.mapID == 194 or mapIcon.mapID == 202 then
 			if GuidelimeData["showMapMarkers" .. t] then HBDPins:AddWorldMapIconMap(M, mapIcon.map, mapIcon.mapID, mapIcon.x / 100, mapIcon.y / 100, 3) end
 			if GuidelimeData["showMinimapMarkers" .. t] and not M.hideMinimapIconsAndArrowWhileBuffed then HBDPins:AddMinimapIconMap(M, mapIcon.minimap, mapIcon.mapID, mapIcon.x / 100, mapIcon.y / 100, true, mapIcon.index == 0) end
 		elseif mapIcon.instance and mapIcon.wx and mapIcon.wy then
