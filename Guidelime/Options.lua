@@ -46,7 +46,13 @@ end
 function O.fillOptions()
 	O.optionsFrame = CreateFrame("FRAME", nil, nil)
 	O.optionsFrame.name = addonName
-	InterfaceOptions_AddCategory(O.optionsFrame)
+	if InterfaceOptions_AddCategory then
+		InterfaceOptions_AddCategory(O.optionsFrame)
+	else
+		local category, layout = _G.Settings.RegisterCanvasLayoutCategory(O.optionsFrame, addonName)
+		_G.Settings.RegisterAddOnCategory(category)
+		O.optionsFrame.category = category:GetID()
+	end
 
 	O.optionsFrame.title = O.optionsFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	O.optionsFrame.title:SetText(GetAddOnMetadata(addonName, "title") .. " |cFFFFFFFF" .. GetAddOnMetadata(addonName, "version") .." - " .. GAMEOPTIONS_MENU)
@@ -804,18 +810,31 @@ function O.fillOptions()
 end
 
 function O.isOptionsShowing()
-	return InterfaceOptionsFrame:IsShown() and InterfaceOptionsFramePanelContainer.displayedPanel == O.optionsFrame
+	if InterfaceOptionsFrame then
+		return InterfaceOptionsFrame:IsShown() and InterfaceOptionsFramePanelContainer.displayedPanel == O.optionsFrame
+	else
+		return SettingsPanel:IsShown()
+	end
 end
 
 function O.showOptions()
 	if not addon.dataLoaded then loadData() end
 	if O.isOptionsShowing() then 
-		InterfaceOptionsFrame:Hide()
+		if InterfaceOptionsFrame then
+			InterfaceOptionsFrame:Hide()
+		else
+			HideUIPanel(SettingsPanel)
+		end
 	else
 		if E.isEditorShowing() then E.editorFrame:Hide() end
 		if G.isGuidesShowing() then G.guidesFrame:Hide() end
-		InterfaceAddOnsList_Update()
-		InterfaceOptionsFrame_OpenToCategory(addonName)
+		if InterfaceOptionsFrame_OpenToCategory then
+			InterfaceAddOnsList_Update()
+			InterfaceOptionsFrame_OpenToCategory(addonName)
+		else
+			HideUIPanel(SettingsPanel)
+    		Settings.OpenToCategory(O.optionsFrame.category)
+		end
 	end
 end
 

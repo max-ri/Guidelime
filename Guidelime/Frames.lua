@@ -12,7 +12,7 @@ function F.setTooltip(frame, tooltip, setupFunction)
 end
 
 function F.addSliderOption(frame, optionsTable, option, min, max, step, text, tooltip, updateFunction, afterUpdateFunction)
-    local slider = CreateFrame("Slider", addonName .. option, frame, "OptionsSliderTemplate")
+    --[[local slider = CreateFrame("Slider", addonName .. option, frame, "OptionsSliderTemplate")
 	frame.options[option] = slider
     slider.editbox = CreateFrame("EditBox", nil, slider, "InputBoxTemplate")
     slider:SetMinMaxValues(min, max)
@@ -55,6 +55,30 @@ function F.addSliderOption(frame, optionsTable, option, min, max, step, text, to
         end
     end)
 	F.setTooltip(slider, tooltip)
+    return slider--]]
+	local slider = frame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	frame.options[option] = slider
+    slider.editbox = CreateFrame("EditBox", nil, frame, "InputBoxTemplate")
+    slider:SetText(text .. ' (' .. min .. ' - ' .. max .. ')')
+    slider.editbox:SetSize(45,30)
+    slider.editbox:ClearAllPoints()
+    slider.editbox:SetPoint("LEFT", slider, "RIGHT", 15, 0)
+    slider.editbox:SetText(tostring(optionsTable[option]))
+    slider.editbox:SetCursorPosition(0)
+    slider.editbox:SetAutoFocus(false)
+    slider.editbox:SetScript("OnEditFocusGained", function()
+        slider.editbox:SetText(tostring(optionsTable[option]))
+    end)
+    slider.editbox:SetScript("OnEnterPressed", function()
+        local val = slider.editbox:GetText()
+        if tonumber(val) then
+            slider.editbox:ClearFocus()
+			optionsTable[option] = tonumber(val)
+			if updateFunction ~= nil then updateFunction(slider) end
+			if afterUpdateFunction ~= nil then afterUpdateFunction(slider) end
+        end
+    end)
+    F.setTooltip(slider, tooltip)
     return slider
 end
 

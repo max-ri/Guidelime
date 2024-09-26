@@ -61,42 +61,53 @@ function MW.getRequiredLevelColor(level)
 end
 
 function MW.showContextMenu(questId)
-	local menu = {
-		{text = L.SHOW_MAINFRAME, checked = true, func = MW.hideMainFrame},
-		{text = L.AVAILABLE_GUIDES .. "...", checked = G.isGuidesShowing(), func = G.showGuides},
-		{text = GAMEOPTIONS_MENU .. "...", checked = O.isOptionsShowing(), func = O.showOptions},
-		{text = L.EDITOR .. "...", checked = E.isEditorShowing(), func = E.showEditor},
-		{text = L.SHOW_GUIDE_TITLE, checked = GuidelimeDataChar.showTitle, func = function()
+	local menuFrame = CreateFrame("Frame", "GuidelimeContextMenu", nil, "UIDropDownMenuTemplate")
+	UIDropDownMenu_Initialize(menuFrame, function(self, level, menuList)
+  		local info = UIDropDownMenu_CreateInfo()
+		info.text, info.checked, info.func = L.SHOW_MAINFRAME, true, MW.hideMainFrame
+    	UIDropDownMenu_AddButton(info)
+		info.text, info.checked, info.func = GAMEOPTIONS_MENU .. "...", O.isOptionsShowing(), O.showOptions
+    	UIDropDownMenu_AddButton(info)
+		info.text, info.checked, info.func = L.EDITOR .. "...", E.isEditorShowing(), E.showEditor
+    	UIDropDownMenu_AddButton(info)
+		info.text, info.checked, info.func = L.SHOW_GUIDE_TITLE, GuidelimeDataChar.showTitle, function()
 			GuidelimeDataChar.showTitle = not GuidelimeDataChar.showTitle
 			if O.optionsFrame ~= nil then
 				O.optionsFrame.showTitle:SetChecked(GuidelimeDataChar.showTitle)
 			end
 			MW.updateMainFrame()
-		end},
-		{text = L.SHOW_COMPLETED_STEPS, checked = GuidelimeDataChar.showCompletedSteps, func = function()
+		end
+    	UIDropDownMenu_AddButton(info)
+		info.text, info.checked, info.func = L.SHOW_COMPLETED_STEPS, GuidelimeDataChar.showCompletedSteps, function()
 			GuidelimeDataChar.showCompletedSteps = not GuidelimeDataChar.showCompletedSteps
 			if O.optionsFrame ~= nil then
 				O.optionsFrame.showCompletedSteps:SetChecked(GuidelimeDataChar.showCompletedSteps)
 			end
 			MW.updateMainFrame()
-		end},
-		{text = L.SHOW_UNAVAILABLE_STEPS, checked = GuidelimeDataChar.showUnavailableSteps, func = function()
+		end
+    	UIDropDownMenu_AddButton(info)
+		info.text, info.checked, info.func = L.SHOW_UNAVAILABLE_STEPS, GuidelimeDataChar.showUnavailableSteps, function()
 			GuidelimeDataChar.showUnavailableSteps = not GuidelimeDataChar.showUnavailableSteps
 			if O.optionsFrame ~= nil then
 				O.optionsFrame.showUnavailableSteps:SetChecked(GuidelimeDataChar.showUnavailableSteps)
 			end
 			MW.updateMainFrame()
-		end},
-		{text = L.SHOW_MARKERS_ON .. " " .. L.MAP, checked = GuidelimeData.showMapMarkersGOTO or GuidelimeData.showMapMarkersLOC, func = Guidelime.toggleMapMarkers},
-		{text = L.SHOW_MARKERS_ON .. " " .. L.MINIMAP, checked = GuidelimeData.showMinimapMarkersGOTO or GuidelimeData.showMinimapMarkersLOC, func = Guidelime.toggleMinimapMarkers}
-	}
-	if questId then
-		menu[#menu + 1] = {text = L.WOWHEAD_OPEN_QUEST, notCheckable = true, func = function()
-			F.showUrlPopup((select(4, GetBuildInfo()) < 20000 and L.WOWHEAD_URL_CLASSIC or L.WOWHEAD_URL_WOTLK) .. "/quest=" .. questId)
-		end}
-	end
-	menu[#menu + 1] = {text = _G.CLOSE, notCheckable = true, func = function(self) self:Hide() end}
-	EasyMenu(menu, CreateFrame("Frame", "GuidelimeContextMenu", nil, "UIDropDownMenuTemplate"), "cursor", 0 , 0, "MENU")
+		end
+    	UIDropDownMenu_AddButton(info)
+		info.text, info.checked, info.func = L.SHOW_MARKERS_ON .. " " .. L.MAP, GuidelimeData.showMapMarkersGOTO or GuidelimeData.showMapMarkersLOC, Guidelime.toggleMapMarkers
+    	UIDropDownMenu_AddButton(info)
+		info.text, info.checked, info.func = L.SHOW_MARKERS_ON .. " " .. L.MINIMAP, GuidelimeData.showMinimapMarkersGOTO or GuidelimeData.showMinimapMarkersLOC, Guidelime.toggleMinimapMarkers
+    	UIDropDownMenu_AddButton(info)
+		if questId then
+			info.text, info.notCheckable, info.func = L.WOWHEAD_OPEN_QUEST, true, function()
+				F.showUrlPopup((select(4, GetBuildInfo()) < 20000 and L.WOWHEAD_URL_CLASSIC or L.WOWHEAD_URL_WOTLK) .. "/quest=" .. questId)
+			end
+    		UIDropDownMenu_AddButton(info)
+		end
+		info.text, info.notCheckable, info.func = _G.CLOSE, true, function(self) self:Hide() end
+    	UIDropDownMenu_AddButton(info)
+   	end)
+	ToggleDropDownMenu(1, nil, menuFrame, "cursor", 3, -3)
 end
 
 function Guidelime.toggleMapMarkers()
