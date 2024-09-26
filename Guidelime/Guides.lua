@@ -65,7 +65,11 @@ function G.showGuides()
 		return
 	end
 	
-	InterfaceOptionsFrame:Hide()
+	if InterfaceOptionsFrame then
+		InterfaceOptionsFrame:Hide() 
+	else
+		HideUIPanel(SettingsPanel)
+	end
 	if E.isEditorShowing() then E.editorFrame:Hide() end 
 
 	if G.guidesFrame == nil then

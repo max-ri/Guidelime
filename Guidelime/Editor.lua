@@ -760,7 +760,11 @@ function E.showEditor()
 		return
 	end
 	
-	InterfaceOptionsFrame:Hide() 
+	if InterfaceOptionsFrame then
+		InterfaceOptionsFrame:Hide() 
+	else
+		HideUIPanel(SettingsPanel)
+	end
 	if G.isGuidesShowing() then G.guidesFrame:Hide() end 
 
 	if E.editorFrame == nil then

@@ -66,6 +66,8 @@ function MW.showContextMenu(questId)
   		local info = UIDropDownMenu_CreateInfo()
 		info.text, info.checked, info.func = L.SHOW_MAINFRAME, true, MW.hideMainFrame
     	UIDropDownMenu_AddButton(info)
+		info.text, info.checked, info.func = L.AVAILABLE_GUIDES .. "...", G.isGuidesShowing(), G.showGuides
+    	UIDropDownMenu_AddButton(info)
 		info.text, info.checked, info.func = GAMEOPTIONS_MENU .. "...", O.isOptionsShowing(), O.showOptions
     	UIDropDownMenu_AddButton(info)
 		info.text, info.checked, info.func = L.EDITOR .. "...", E.isEditorShowing(), E.showEditor
