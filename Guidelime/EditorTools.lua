@@ -3,6 +3,7 @@ local L = addon.L
 
 addon.D = addon.D or {}; local D = addon.D     -- Data/Data
 addon.QT = addon.QT or {}; local QT = addon.QT -- Data/QuestTools
+addon.PT = addon.PT or {}; local PT = addon.PT -- Data/PositionTools
 addon.CG = addon.CG or {}; local CG = addon.CG -- CurrentGuide
 addon.GP = addon.GP or {}; local GP = addon.GP -- GuideParser
 
@@ -69,7 +70,7 @@ function ET.addQuestTag(guide, selection, id, key, objectiveIndex, text, addCoor
 	end
 	local coords = ""
 	if addCoordinates then
-		local pos = QT.getQuestPosition(id, key, objectiveIndex)
+		local pos = PT.getQuestPosition(id, key, objectiveIndex)
 		if pos ~= nil then
 			if pos.radius == 0 then
 				coords = "[G" .. pos.x .. "," .. pos.y .. pos.zone .. "]"
