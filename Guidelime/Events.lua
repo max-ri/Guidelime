@@ -767,3 +767,12 @@ function EV.frame:SPELL_DATA_LOAD_RESULT(spellId, success)
 		end
 	end
 end
+
+EV.frame:RegisterEvent('MERCHANT_SHOW')
+function EV.frame:MERCHANT_SHOW()
+	if addon.debugging then print("LIME: MERCHANT_SHOW", CanMerchantRepair()) end
+	CG.completeSemiAutomaticByType("VENDOR")
+	if CanMerchantRepair() then
+		CG.completeSemiAutomaticByType("REPAIR")
+	end
+end
