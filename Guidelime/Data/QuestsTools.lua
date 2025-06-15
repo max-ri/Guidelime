@@ -560,16 +560,19 @@ function QT.getPossibleQuestIdsByName(name, part, faction, race, class)
 		QT.questsDBReverse = {}
 		for _, id in ipairs(QT.getQuestIDs()) do
 			if QT.getQuestReplacement(id) == nil then
-				local n = QT.getQuestNameById(id):lower():gsub("[%(%)\"%s%p]","")
-				if QT.questsDBReverse[n] == nil then QT.questsDBReverse[n] = {} end
-				table.insert(QT.questsDBReverse[n], id)
-				-- if localized quest name is different from english name also include english name
-				--[[
-				if QT.getQuestNameById(id) ~= DB.questsDB[id].name then
-					n = DB.questsDB[id].name:lower():gsub("[%(%)\"%s%p]",""):gsub("  ", " ")
+				local n = QT.getQuestNameById(id)
+				if n ~= nil then
+					n = n:lower():gsub("[%(%)\"%s%p]","")
 					if QT.questsDBReverse[n] == nil then QT.questsDBReverse[n] = {} end
 					table.insert(QT.questsDBReverse[n], id)
-				end]]
+					-- if localized quest name is different from english name also include english name
+					--[[
+					if QT.getQuestNameById(id) ~= DB.questsDB[id].name then
+						n = DB.questsDB[id].name:lower():gsub("[%(%)\"%s%p]",""):gsub("  ", " ")
+						if QT.questsDBReverse[n] == nil then QT.questsDBReverse[n] = {} end
+						table.insert(QT.questsDBReverse[n], id)
+					end]]
+				end
 			end
 		end
 	end

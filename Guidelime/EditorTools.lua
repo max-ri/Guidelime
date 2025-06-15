@@ -2,6 +2,7 @@ local addonName, addon = ...
 local L = addon.L
 
 addon.D = addon.D or {}; local D = addon.D     -- Data/Data
+addon.FM = addon.FM or {}; local FM = addon.FM -- Data/FlightmasterDB
 addon.QT = addon.QT or {}; local QT = addon.QT -- Data/QuestTools
 addon.PT = addon.PT or {}; local PT = addon.PT -- Data/PositionTools
 addon.CG = addon.CG or {}; local CG = addon.CG -- CurrentGuide
@@ -154,4 +155,54 @@ function ET.addQuestTag(guide, selection, id, key, objectiveIndex, text, addCoor
 	text = text or ""
 	if text ~= "" then text = " " .. text end
 	return coords .. "[" .. GP.codes["QUEST"] .. key:sub(1, 1) .. id .. objective .. text  .. "]" --[[.. applies]], firstElement, lastElement, coords
+end
+
+function ET.addFlightTag(guide, selection, id, key, text, addCoordinates)
+	local firstElement, lastElement = selection, selection
+	local coords = ""
+	if addCoordinates then
+		local pos = FM.getFlightPoint(id)
+		if pos ~= nil then
+			if pos.radius == 0 then
+				coords = "[G" .. pos.x .. "," .. pos.y .. pos.zone .. "]"
+			else
+				coords = "[G" .. pos.x .. "," .. pos.y .. "," .. (pos.radius + CG.DEFAULT_GOTO_RADIUS) .. pos.zone .. "]"
+			end
+			if firstElement ~= nil and firstElement.index > 1 and firstElement.step.elements[firstElement.index - 1].t == "GOTO" then 
+				firstElement = firstElement.step.elements[firstElement.index - 1] 
+			elseif lastElement ~= nil and #lastElement.step.elements > lastElement.index and lastElement.step.elements[lastElement.index + 1].t == "GOTO" then 
+				lastElement = lastElement.step.elements[lastElement.index + 1] 
+			end
+		end
+	end
+	text = text or ""
+	if text ~= "" then text = " " .. text end
+	return coords .. "[" .. GP.codes[key] .. text  .. "]", firstElement, lastElement, coords
+end
+
+function ET.addTargetTag(guide, selection, id, key, text, addCoordinates)
+	local firstElement, lastElement = selection, selection
+	local coords = ""
+	if addCoordinates then
+		local pos = PT.getNPCPosition(id)
+		if pos ~= nil then
+			if pos.radius == 0 then
+				coords = "[G" .. pos.x .. "," .. pos.y .. pos.zone .. "]"
+			else
+				coords = "[G" .. pos.x .. "," .. pos.y .. "," .. (pos.radius + CG.DEFAULT_GOTO_RADIUS) .. pos.zone .. "]"
+			end
+			if firstElement ~= nil and firstElement.index > 1 and firstElement.step.elements[firstElement.index - 1].t == "GOTO" then 
+				firstElement = firstElement.step.elements[firstElement.index - 1] 
+			elseif lastElement ~= nil and #lastElement.step.elements > lastElement.index and lastElement.step.elements[lastElement.index + 1].t == "GOTO" then 
+				lastElement = lastElement.step.elements[lastElement.index + 1] 
+			end
+		end
+	end
+	text = text or ""
+	if text ~= "" then text = " " .. text end
+	local tar = ""
+	if id ~= nil then
+		tar = "[TAR" .. id .. "]"
+	end
+	return coords .. tar .. "[" .. GP.codes[key] .. text  .. "]", firstElement, lastElement, coords
 end

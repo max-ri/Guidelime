@@ -5,8 +5,10 @@ local HBD = LibStub("HereBeDragons-2.0")
 
 addon.D = addon.D or {}; local D = addon.D     -- Data/Data
 addon.DM = addon.DM or {}; local DM = addon.DM -- Data/MapDB
+addon.FM = addon.FM or {}; local FM = addon.FM -- Data/FlightmasterDB
 addon.PT = addon.PT or {}; local PT = addon.PT -- Data/PositionTools
 addon.QT = addon.QT or {}; local QT = addon.QT -- Data/QuestTools
+addon.SP = addon.SP or {}; local SP = addon.SP -- Data/SpellDB
 addon.ET = addon.ET or {}; local ET = addon.ET -- EditorTools
 addon.F = addon.F or {}; local F = addon.F     -- Frames
 addon.G = addon.G or {}; local G = addon.G     -- Guides
@@ -353,28 +355,11 @@ function E.popupAppliesSetEnabledCheckboxes(popup, typ, guide)
 			end
 		end
 	end
-	for _, faction in ipairs(D.factions) do
-		local box = popup.checkboxes[faction]
+	for _, box in pairs(popup.checkboxes) do
 		if box:IsEnabled() then
-			box.text:SetText(L[faction])
+			box:GetFontString():SetTextColor(1, 1, 1)
 		else
-			box.text:SetText(MW.COLOR_INACTIVE .. L[faction])
-		end
-	end
-	for _, class in ipairs(D.classes) do
-		local box = popup.checkboxes[class]
-		if box:IsEnabled() then
-			box.text:SetText(D.getLocalizedClass(class))
-		else
-			box.text:SetText(MW.COLOR_INACTIVE .. D.getLocalizedClass(class))
-		end
-	end
-	for _, race in ipairs(D.races) do
-		local box = popup.checkboxes[race]
-		if box:IsEnabled() then
-			box.text:SetText(D.getLocalizedRace(race))
-		else
-			box.text:SetText(MW.COLOR_INACTIVE .. D.getLocalizedRace(class))
+			box:GetFontString():SetTextColor(0.4, 0.4, 0.4)
 		end
 	end
 end
@@ -409,13 +394,13 @@ function E.showEditPopupAPPLIES(typ, guide, selection)
 		end		
 		if text ~= "" then text = " " .. text end
 		insertCode(typ, text, typ == "GUIDE_APPLIES", selection)
-	end, 300)
+	end, 350)
 	
 	popup.checkboxes = {}
 	local left = {}
 	for i, faction in ipairs(D.factions) do
 		popup.checkboxes[faction] = F.addCheckbox(popup, L[faction])
-		left[faction] = 20 + i * 160
+		left[faction] = 20 + i * 140
 		popup.checkboxes[faction]:SetPoint("TOPLEFT", left[faction], -20)
 		if typ == "GUIDE_APPLIES" then
 			if guide.faction ~= nil and guide.faction == faction then popup.checkboxes[faction]:SetChecked(true) end
@@ -426,6 +411,7 @@ function E.showEditPopupAPPLIES(typ, guide, selection)
 			E.popupAppliesSetEnabledCheckboxes(popup, typ, guide)
 		end)
 	end
+	left.Neutral = 20 + 3 * 140
 	for i, class in ipairs(D.classes) do
 		popup.checkboxes[class] = F.addCheckbox(popup, D.getLocalizedClass(class))
 		popup.checkboxes[class]:SetPoint("TOPLEFT", 20, 5 - i * 25)
@@ -706,6 +692,112 @@ function E.showEditPopupXP(typ, guide, selection)
 	popup:Show()
 end
 
+function E.showEditPopupFLY(typ, guide, selection)
+	local popup = createEditPopup(function(popup)
+		local text = popup.textboxName:GetText()
+		local id
+		if text ~= nil and text ~= "" then
+			id = FM.getFlightmasterByPlace(text, faction)
+			if id == nil then
+				F.createPopupFrame(string.format(L.ERROR_FLIGHT_POINT_NOT_FOUND, text)):Show()
+				return false
+			end
+		end
+		local newCode, firstElement, lastElement = ET.addFlightTag(guide, selection, id, typ, text, typ == "GET_FLIGHT_POINT" and popup.checkboxCoords:GetChecked())
+		if newCode == nil then return false end
+		insertCode(nil, newCode, false, firstElement, lastElement)
+	end, typ == "GET_FLIGHT_POINT" and 140 or 100)
+	popup.textboxName = F.addTextbox(popup, L.FLIGHT_POINT, 370)
+	popup.textboxName.text:SetPoint("TOPLEFT", 20, -30)
+	popup.textboxName:SetPoint("TOPLEFT", 170, -30)
+	if selection ~= nil then 
+		popup.textboxName:SetText(selection.text or "") 
+	end
+	if typ == "GET_FLIGHT_POINT" then
+		popup.checkboxCoords = F.addCheckbox(popup, L.QUEST_ADD_COORDINATES)
+		popup.checkboxCoords:SetPoint("TOPLEFT", 20, -60)
+	end
+	popup:Show()
+end
+E.showEditPopupGET_FLIGHT_POINT = E.showEditPopupFLY
+
+function E.showEditPopupTRAIN(typ, guide, selection)
+	local popup = createEditPopup(function(popup)
+		local text = popup.textboxName:GetText()
+		local id = tonumber(popup.textboxId:GetText())
+		if id == nil and popup.textboxId:GetText() ~= "" then 
+			F.createPopupFrame(string.format(L.ERROR_NOT_A_NUMBER, L.QUEST_ID)):Show()
+			return false
+		end
+		if id ~= nil then
+			if QT.getNPCName(id) == nil then 
+				F.createPopupFrame(string.format(L.ERROR_NPC_NOT_FOUND, id)):Show() 
+				return false
+			end
+			if text == "" then text = QT.getNPCName(id) end
+		end
+		local newCode, firstElement, lastElement = ET.addTargetTag(guide, selection, id, typ, text, popup.checkboxCoords:GetChecked())
+		if newCode == nil then return false end
+		insertCode(nil, newCode, false, firstElement, lastElement)
+	end, 170)
+	popup.textboxId = F.addTextbox(popup, L.NPC_ID, 370)
+	popup.textboxId.text:SetPoint("TOPLEFT", 20, -30)
+	popup.textboxId:SetPoint("TOPLEFT", 170, -30)
+	popup.textname = popup:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	popup.textname:SetPoint("TOPLEFT", 280, -30)
+	popup.textboxId:SetScript("OnTextChanged", function(self) 
+		popup.textname:SetText(QT.getNPCName(tonumber(popup.textboxId:GetText())) or "")
+	end)
+	popup.textboxName = F.addTextbox(popup, L.NPC_NAME, 370)
+	popup.textboxName.text:SetPoint("TOPLEFT", 20, -60)
+	popup.textboxName:SetPoint("TOPLEFT", 170, -60)
+	if selection ~= nil then 
+		popup.textboxName:SetText(selection.text or "") 
+	end
+	popup.checkboxCoords = F.addCheckbox(popup, L.QUEST_ADD_COORDINATES, L.QUEST_ADD_COORDINATES_TOOLTIP)
+	popup.checkboxCoords:SetPoint("TOPLEFT", 20, -90)
+	popup:Show()
+end
+E.showEditPopupSET_HEARTH = E.showEditPopupTRAIN
+E.showEditPopupVENDOR = E.showEditPopupTRAIN
+E.showEditPopupREPAIR = E.showEditPopupTRAIN
+
+function E.showEditPopupLEARN(typ, guide, selection)
+	local popup = createEditPopup(function(popup)
+		local text = popup.textboxName:GetText()
+		local id = tonumber(popup.textboxId:GetText())
+		if id == nil and popup.textboxId:GetText() ~= "" then 
+			F.createPopupFrame(string.format(L.ERROR_NOT_A_NUMBER, L.QUEST_ID)):Show()
+			return false
+		end
+		if id ~= nil then
+			if SP.getSpellById(id) == nil then 
+				F.createPopupFrame(string.format(L.ERROR_NPC_NOT_FOUND, id)):Show() 
+				return false
+			end
+			if text == "" then text = SP.getLocalizedName(SP.getSpellById(id)) end
+		end
+		local newCode, firstElement, lastElement = "[LE" .. (id or "") .. text .. "]", selection, selection
+		if newCode == nil then return false end
+		insertCode(nil, newCode, false, firstElement, lastElement)
+	end, 140)
+	popup.textboxId = F.addTextbox(popup, L.SPELL_ID, 370)
+	popup.textboxId.text:SetPoint("TOPLEFT", 20, -30)
+	popup.textboxId:SetPoint("TOPLEFT", 170, -30)
+	popup.textname = popup:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	popup.textname:SetPoint("TOPLEFT", 280, -30)
+	popup.textboxId:SetScript("OnTextChanged", function(self) 
+		popup.textname:SetText(SP.getLocalizedName(SP.getSpellById(tonumber(popup.textboxId:GetText()))) or "")
+	end)
+	popup.textboxName = F.addTextbox(popup, L.SPELL_NAME, 370)
+	popup.textboxName.text:SetPoint("TOPLEFT", 20, -60)
+	popup.textboxName:SetPoint("TOPLEFT", 170, -60)
+	if selection ~= nil then 
+		popup.textboxName:SetText(selection.text or "") 
+	end
+	popup:Show()
+end
+
 local function addEditButton(typ, prev, point, offsetX, offsetY)
 	local button = CreateFrame("BUTTON", nil, E.editorFrame, "UIPanelButtonTemplate")
 	button.typ = typ
@@ -820,6 +912,7 @@ function E.showEditor()
 		prev = addEditButton("HEARTH", prev, "TOPRIGHT", 3)
 		prev = addEditButton("FLY", prev)
 		prev = addEditButton("TRAIN", prev)
+		prev = addEditButton("LEARN", prev)
 		prev = addEditButton("SET_HEARTH", prev)
 		prev = addEditButton("GET_FLIGHT_POINT", prev)
 		prev = addEditButton("VENDOR", prev)

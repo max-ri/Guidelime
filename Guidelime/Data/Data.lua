@@ -174,10 +174,11 @@ function D.isFaction(faction)
 end
 function D.getLocalizedRace(race)
 	if C_CreatureInfo == nil then return race end
-	return C_CreatureInfo.GetRaceInfo(D.raceIDs[race]).raceName
+	local raceInfo = C_CreatureInfo.GetRaceInfo(D.raceIDs[race])
+	return raceInfo and raceInfo.raceName or race
 end
 function D.getLocalizedClass(class)
-	return LOCALIZED_CLASS_NAMES_MALE[class:upper()]
+	return LOCALIZED_CLASS_NAMES_MALE[class:upper()] or class
 end
 
 function D.getReputation(rep)
