@@ -447,6 +447,7 @@ end
 EV.frame:RegisterEvent('TRAINER_SHOW')
 function EV.frame:TRAINER_SHOW()
 	if addon.debugging then print ("LIME: TRAINER_SHOW") end
+	CG.completeSemiAutomaticByType("TRAIN")
 	doAutoTrain()
 end
 
