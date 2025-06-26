@@ -119,6 +119,20 @@ DM.mapIDs = {
 	["Uldum"]=249,
 	["The Maelstrom"]=276,
 	
+	-- Mists of Pandaria
+	["Dread Wastes"]=422,
+	["Isle of Giants"]=507,
+	["Isle of Thunder"]=504,
+	["Krasarang Wilds"]=418,
+	["Kun-Lai Summit"]=379,
+	["The Jade Forest"]=371,
+	["The Veiled Stair"]=433,
+	["Timeless Isle"]=554,
+	["Townlong Steppes"]=388,
+	["Vale of Eternal Blossoms"]=390,
+	["Valley of the Four Winds"]=376,
+	["The Wandering Isle"]=378,
+	
 }
 
 DM.zoneNames = {}

@@ -309,6 +309,61 @@ if select(4, GetBuildInfo()) >= 40000 then
 	FM.flightmasterDB[781] = {zone = "Hyjal", place = "Sanctuary of Malorne", wx = -2107.5300292969, wy = 4397.7900390625, instance = 1, id = 781}
 end
 
+-- Mists of Pandaria
+if select(4, GetBuildInfo()) >= 50000 then
+	FM.flightmasterDB[894] = {zone = "Jade Forest", place = "Grookin Hill", faction = "Horde", id = 894, wx = 14185699462891.0, wy = -48770300292969.0, instance = 870}
+	FM.flightmasterDB[895] = {zone = "Jade Forest", place = "Dawn's Blossom", id = 895, wx = 15037099609375.0, wy = -18321300048828.0, instance = 870}
+	FM.flightmasterDB[966] = {zone = "Jade Forest", place = "Paw'Don Village", faction = "Alliance", id = 966, wx = -30720001220703.0, wy = -17627700195312.0, instance = 870}
+	FM.flightmasterDB[967] = {zone = "Jade Forest", place = "The Arboretum", id = 967, wx = 16006600341797.0, wy = -25302700195312.0, instance = 870}
+	FM.flightmasterDB[968] = {zone = "Jade Forest", place = "Jade Temple Grounds", id = 968, wx = 77324700927734.0, wy = -23589599609375.0, instance = 870}
+	FM.flightmasterDB[969] = {zone = "Jade Forest", place = "Sri-La Village", id = 969, wx = 25507600097656.0, wy = -24183200683594.0, instance = 870}
+	FM.flightmasterDB[970] = {zone = "Jade Forest", place = "Emperor's Omen", id = 970, wx = 2400.75, wy = -20994299316406.0, instance = 870}
+	FM.flightmasterDB[971] = {zone = "Jade Forest", place = "Tian Monastery", id = 971, wx = 25058999023438.0, wy = -15908900146484.0, instance = 870}
+	FM.flightmasterDB[972] = {zone = "Jade Forest", place = "Pearlfin Village", faction = "Alliance", id = 972, wx = -18609700012207.0, wy = -25946101074219.0, instance = 870}
+	FM.flightmasterDB[973] = {zone = "Jade Forest", place = "Honeydew Village", faction = "Horde", id = 973, wx = 29271599121094.0, wy = -50918399047852.0, instance = 870}
+	FM.flightmasterDB[984] = {zone = "Valley of the Four Winds", place = "Pang's Stead", id = 984, wx = 54391497802734.0, wy = -63781402587891.0, instance = 870}
+	FM.flightmasterDB[985] = {zone = "Valley of the Four Winds", place = "Halfhill", id = 985, wx = -22132600402832.0, wy = 46455899047852.0, instance = 870}
+	FM.flightmasterDB[986] = {zone = "Krasarang Wilds", place = "Zhu's Watch", id = 986, wx = -37568399047852.0, wy = -64796502685547.0, instance = 870}
+	FM.flightmasterDB[987] = {zone = "Krasarang Wilds", place = "Thunder Cleft", faction = "Horde", id = 987, wx = -87827600097656.0, wy = 17140299987793.0, instance = 870}
+	FM.flightmasterDB[988] = {zone = "Krasarang Wilds", place = "The Incursion", faction = "Alliance", id = 988, wx = -11253100585938.0, wy = -22774699401856.0, instance = 870}
+	FM.flightmasterDB[989] = {zone = "Valley of the Four Winds", place = "Stoneplow", id = 989, wx = -43654000854492.0, wy = 18866999511719.0, instance = 870}
+	FM.flightmasterDB[990] = {zone = "Krasarang Wilds", place = "Dawnchaser Retreat", faction = "Horde", id = 990, wx = -16856800537109.0, wy = 15903399658203.0, instance = 870}
+	FM.flightmasterDB[991] = {zone = "Krasarang Wilds", place = "Sentinel Basecamp", faction = "Alliance", id = 991, wx = -11566099853516.0, wy = 17703800048828.0, instance = 870}
+	FM.flightmasterDB[992] = {zone = "Krasarang Wilds", place = "Cradle of Chi-Ji", id = 992, wx = -20823000488281.0, wy = 14836300048828.0, instance = 870}
+	FM.flightmasterDB[993] = {zone = "Krasarang Wilds", place = "Marista", id = 993, wx = -25040900878906.0, wy = 4915830078125.0, instance = 870}
+	FM.flightmasterDB[1017] = {zone = "Kun-Lai Summit", place = "Binan Village", id = 1017, wx = 16901099853516.0, wy = 3039580078125.0, instance = 870}
+	FM.flightmasterDB[1018] = {zone = "Kun-Lai Summit", place = "Temple of the White Tiger", id = 1018, wx = 35040400390625.0, wy = 69067700195313.0, instance = 870}
+	FM.flightmasterDB[1019] = {zone = "Kun-Lai Summit", place = "Eastwind Rest", faction = "Horde", id = 1019, wx = 22505900878906.0, wy = 93156896972656.0, instance = 870}
+	FM.flightmasterDB[1020] = {zone = "Kun-Lai Summit", place = "Westwind Rest", faction = "Alliance", id = 1020, wx = 21033500976562.0, wy = 14638299560547.0, instance = 870}
+	FM.flightmasterDB[1021] = {zone = "Kun-Lai Summit", place = "Zouchin Village", id = 1021, wx = 43629599609375.0, wy = 93211798095703.0, instance = 870}
+	FM.flightmasterDB[1022] = {zone = "Kun-Lai Summit", place = "One Keg", id = 1022, wx = 31245200195312.0, wy = 12242800292969.0, instance = 870}
+	FM.flightmasterDB[1023] = {zone = "Kun-Lai Summit", place = "Kota Basecamp", id = 1023, wx = 27164299316406.0, wy = 21633100585938.0, instance = 870}
+	FM.flightmasterDB[1024] = {zone = "Kun-Lai Summit", place = "Shado-Pan Fallback", id = 1024, wx = 18805899658203.0, wy = 2088580078125.0, instance = 870}
+	FM.flightmasterDB[1025] = {zone = "Kun-Lai Summit", place = "Winter's Blossom", id = 1025, wx = 31518500976562.0, wy = 26777600097656.0, instance = 870}
+	FM.flightmasterDB[1029] = {zone = "The Veiled Stair", place = "Tavern in the Mists", id = 1029, wx = 78489898681641.0, wy = -20366999816895.0, instance = 870}
+	FM.flightmasterDB[1052] = {zone = "Valley of the Four Winds", place = "Grassy Cline", id = 1052, wx = 46054000854492.0, wy = -10046700286865.0, instance = 870}
+	FM.flightmasterDB[1053] = {zone = "Townlong Steppes", place = "Longying Outpost", id = 1053, wx = 23632299804688.0, wy = 29943898925781.0, instance = 870}
+	FM.flightmasterDB[1054] = {zone = "Townlong Steppes", place = "Gao-Ran Battlefront", id = 1054, wx = 14407199707031.0, wy = 28044899902344.0, instance = 870}
+	FM.flightmasterDB[1055] = {zone = "Townlong Steppes", place = "Rensai's Watchpost", id = 1055, wx = 15317299804688.0, wy = 39636999511719.0, instance = 870}
+	FM.flightmasterDB[1056] = {zone = "Townlong Steppes", place = "Shado-Pan Garrison", id = 1056, wx = 18033199462891.0, wy = 42042299804688.0, instance = 870}
+	FM.flightmasterDB[1057] = {zone = "Vale of Eternal Blossoms", place = "Shrine of Seven Stars", faction = "Alliance", id = 1057, wx = 89645300292969.0, wy = 33435101318359.0, instance = 870}
+	FM.flightmasterDB[1058] = {zone = "Vale of Eternal Blossoms", place = "Shrine of Two Moons", faction = "Horde", id = 1058, wx = 15801600341797.0, wy = 8941669921875.0, instance = 870}
+	FM.flightmasterDB[1070] = {zone = "Dread Wastes", place = "Klaxxi'vess", id = 1070, wx = 17266299438477.0, wy = 3152.25, instance = 870}
+	FM.flightmasterDB[1071] = {zone = "Dread Wastes", place = "Soggy's Gamble", id = 1071, wx = -10862099609375.0, wy = 31361899414062.0, instance = 870}
+	FM.flightmasterDB[1072] = {zone = "Dread Wastes", place = "The Sunset Brewgarden", id = 1072, wx = 98267700195313.0, wy = 34518601074219.0, instance = 870}
+	FM.flightmasterDB[1073] = {zone = "Vale of Eternal Blossoms", place = "Serpent's Spine", id = 1073, wx = 61136499023438.0, wy = 21250300292969.0, instance = 870}
+	FM.flightmasterDB[1080] = {zone = "Jade Forest", place = "Serpent's Overlook", id = 1080, wx = 46585598754883.0, wy = -15585600585938.0, instance = 870}
+	FM.flightmasterDB[1090] = {zone = "Dread Wastes", place = "The Briny Muck", id = 1090, wx = -57040502929688.0, wy = 38597900390625.0, instance = 870}
+	FM.flightmasterDB[1115] = {zone = "Dread Wastes", place = "The Lion's Redoubt", faction = "Alliance", id = 1115, wx = 23440600585938.0, wy = 21980300292969.0, instance = 870}
+	FM.flightmasterDB[1117] = {zone = "Kun-Lai Summit", place = "Serpent's Spine", faction = "Horde", id = 1117, wx = 21231499023438.0, wy = 25849299316406.0, instance = 870}
+	FM.flightmasterDB[1190] = {zone = "Krasarang Wilds", place = "Lion's Landing", faction = "Alliance", id = 1190, wx = -11935600585938.0, wy = -11936999511719.0, instance = 870}
+	FM.flightmasterDB[1195] = {zone = "Krasarang Wilds", place = "Domination Point", faction = "Horde", id = 1195, wx = -17521899414062.0, wy = 24920200195312.0, instance = 870}
+	FM.flightmasterDB[1221] = {zone = "Isle Of Giants", place = "Beeble's Wreck", faction = "Alliance", id = 1221, wx = 5753759765625.0, wy = 12555500488281.0, instance = 870}
+	FM.flightmasterDB[1222] = {zone = "Isle Of Giants", place = "Bozzle's Wreck", faction = "Horde", id = 1222, wx = 57996401367188.0, wy = 10805699462891.0, instance = 870}
+	FM.flightmasterDB[1293] = {zone = "Timeless Isle", place = "Tushui Landing", faction = "Alliance", id = 1293, wx = -90136999511719.0, wy = -46391201171875.0, instance = 870}
+	FM.flightmasterDB[1294] = {zone = "Timeless Isle", place = "Huojin Landing", faction = "Horde", id = 1294, wx = -40495001220703.0, wy = -46085600585938.0, instance = 870}
+end
+
 function FM.getNearestFlightPoint(x, y, instance, faction)
 	local minDist, minPos, minId
 	for id, master in pairs(FM.flightmasterDB) do

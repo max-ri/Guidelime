@@ -102,7 +102,7 @@ function MW.showContextMenu(questId)
     	UIDropDownMenu_AddButton(info)
 		if questId then
 			info.text, info.notCheckable, info.func = L.WOWHEAD_OPEN_QUEST, true, function()
-				F.showUrlPopup((select(4, GetBuildInfo()) < 20000 and L.WOWHEAD_URL_CLASSIC or L.WOWHEAD_URL_CATA) .. "/quest=" .. questId)
+				F.showUrlPopup((select(4, GetBuildInfo()) < 20000 and L.WOWHEAD_URL_CLASSIC or L.WOWHEAD_URL_MOP) .. "/quest=" .. questId)
 			end
     		UIDropDownMenu_AddButton(info)
 		end

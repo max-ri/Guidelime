@@ -321,7 +321,7 @@ function E.popupAppliesSetEnabledCheckboxes(popup, typ, guide)
 		if D.isFaction(key) then
 			box:SetEnabled(not factionLocked and (faction == nil or faction == key))
 		elseif D.isRace(key) then
-			box:SetEnabled(faction == nil or faction == D.races[key])
+			box:SetEnabled(faction == nil or faction == D.races[key] or D.races[key] == "Neutral")
 		else
 			box:SetEnabled(faction == nil or D.classesWithFaction[key] == nil or faction == D.classesWithFaction[key])
 		end

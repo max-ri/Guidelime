@@ -9,23 +9,24 @@ addon.SP = addon.SP or {}; local SP = addon.SP -- Data/SpellDB
 addon.D = addon.D or {}; local D = addon.D     -- Data/Data
 
 D.factions = {"Alliance", "Horde"}
-D.races = {Human = "Alliance", NightElf = "Alliance", Dwarf = "Alliance", Gnome = "Alliance", Orc = "Horde", Troll = "Horde", Tauren = "Horde", Undead = "Horde", Draenei = "Alliance", BloodElf = "Horde", Worgen = "Alliance", Goblin = "Horde"}
-D.raceIDs = {Human = 1, NightElf = 4, Dwarf = 3, Gnome = 7, Orc = 2, Troll = 8, Tauren = 6, Undead = 5, BloodElf = 10, Draenei = 11, Worgen = 22, Goblin = 9}
-D.classes = {"Warrior", "Rogue", "Mage", "Warlock", "Hunter", "Priest", "Druid", "Paladin", "Shaman", "DeathKnight"}
+D.races = {Human = "Alliance", NightElf = "Alliance", Dwarf = "Alliance", Gnome = "Alliance", Orc = "Horde", Troll = "Horde", Tauren = "Horde", Undead = "Horde", Draenei = "Alliance", BloodElf = "Horde", Worgen = "Alliance", Goblin = "Horde", Pandaren = "Neutral"}
+D.raceIDs = {Human = 1, NightElf = 4, Dwarf = 3, Gnome = 7, Orc = 2, Troll = 8, Tauren = 6, Undead = 5, BloodElf = 10, Draenei = 11, Worgen = 22, Goblin = 9, Pandaren = 24}
+D.classes = {"Warrior", "Rogue", "Mage", "Warlock", "Hunter", "Priest", "Druid", "Paladin", "Shaman", "DeathKnight", "Monk"}
 D.classesWithFaction = {}
 D.classesPerRace = {
-	Human = {"Warrior", "Paladin", "Hunter", "Rogue", "Priest", "Mage", "Warlock", "DeathKnight"},
-	NightElf = {"Warrior", "Hunter", "Rogue", "Priest", "Mage", "Druid", "DeathKnight"},
-	Dwarf = {"Warrior", "Paladin", "Hunter", "Rogue", "Priest", "Shaman", "Mage", "Warlock", "DeathKnight"},
-	Gnome = {"Warrior", "Rogue", "Priest", "Mage", "Warlock", "DeathKnight"},
-	Orc = {"Warrior", "Hunter", "Rogue", "Shaman", "Mage", "Warlock", "DeathKnight"},
-	Troll = {"Warrior", "Hunter", "Rogue", "Priest", "Shaman", "Mage", "Warlock", "Druid", "DeathKnight"},
-	Tauren = {"Warrior", "Paladin", "Hunter", "Priest", "Shaman", "Druid", "DeathKnight"},
-	Undead = {"Warrior", "Hunter", "Rogue", "Priest", "Mage", "Warlock", "DeathKnight"},
-	Draenei = {"Hunter", "Mage", "Paladin", "Priest", "Shaman", "Warrior", "DeathKnight"},
-	BloodElf = {"Warrior", "Hunter", "Mage", "Paladin", "Priest", "Rogue", "Warlock", "DeathKnight"},
+	Human = {"Warrior", "Paladin", "Hunter", "Rogue", "Priest", "Mage", "Warlock", "DeathKnight", "Monk"},
+	NightElf = {"Warrior", "Hunter", "Rogue", "Priest", "Mage", "Druid", "DeathKnight", "Monk"},
+	Dwarf = {"Warrior", "Paladin", "Hunter", "Rogue", "Priest", "Shaman", "Mage", "Warlock", "DeathKnight", "Monk"},
+	Gnome = {"Warrior", "Rogue", "Priest", "Mage", "Warlock", "DeathKnight", "Monk"},
+	Orc = {"Warrior", "Hunter", "Rogue", "Shaman", "Mage", "Warlock", "DeathKnight", "Monk"},
+	Troll = {"Warrior", "Hunter", "Rogue", "Priest", "Shaman", "Mage", "Warlock", "Druid", "DeathKnight", "Monk"},
+	Tauren = {"Warrior", "Paladin", "Hunter", "Priest", "Shaman", "Druid", "DeathKnight", "Monk"},
+	Undead = {"Warrior", "Hunter", "Rogue", "Priest", "Mage", "Warlock", "DeathKnight", "Monk"},
+	Draenei = {"Hunter", "Mage", "Paladin", "Priest", "Shaman", "Warrior", "DeathKnight", "Monk"},
+	BloodElf = {"Warrior", "Hunter", "Mage", "Paladin", "Priest", "Rogue", "Warlock", "DeathKnight", "Monk"},
 	Worgen = {"Warrior", "Hunter", "Rogue", "Priest", "Mage", "Warlock", "Druid", "DeathKnight"},
-	Goblin = {"Warrior", "Hunter", "Rogue", "Priest", "Shaman", "Mage", "Warlock", "DeathKnight"}
+	Goblin = {"Warrior", "Hunter", "Rogue", "Priest", "Shaman", "Mage", "Warlock", "DeathKnight"},
+	Pandaren = {"Hunter", "Mage", "Monk", "Priest", "Rogue", "Shaman", "Warrior"}
 }
 function D.getClass(class)
 	class = class:upper():gsub(" ","")
@@ -139,6 +140,39 @@ D.reputations = {
 	hellscreamsreach = 1178,
 	avengersofhyjal = 1204,
 	bilgewatercartel = 1133,
+	
+	goldenlotus = 1269, 
+	orderofthecloudserpent = 1271, 
+	anglers = 1302, 
+	natpagle = 1358, 
+	tillers	= 1272, 
+	augustcelestials = 1341, 
+	shadopan = 1270, 
+	klaxxi = 1337, 
+	shadopanassault = 1435, 
+	lorewalkers = 1345, 
+	blackprince = 1359, 
+	sunreaveronslaught = 1388, 
+	pearlfinjinyu = 1242, 
+	kirintoroffensive = 1387, 
+	operationshieldwall = 1376, 
+	dominanceoffensive = 1375, 
+	tinamudclaw = 1280, 
+	emperorshaohao = 1492, 
+	ella = 1275, 
+	foresthozen = 1228, 
+	shangxisacademy = 1216, 
+	ginamudclaw = 1281, 
+	sho = 1278, 
+	fishfellreed = 1282, 
+	brewmasters = 1351, 
+	cheechee = 1277, 
+	haohanmudclaw = 1279, 
+	akamastrust = 1416, 
+	darkspearrebellion = 1440, 
+	joguthedrunk = 1273, 
+	farmerfung = 1283, 
+	oldhillpaw = 1276
 }
 
 D.racesPerFaction = {}
@@ -328,6 +362,10 @@ D.RACE_ICON_TCOORDS = {
 		["Male"] = {0.625, 0.75, 0.25, 0.5},
 		["Female"] = {0.625, 0.75, 0.75, 1.0}, 
 	},
+	["Pandaren"] = {
+		["Male"] = {0.75, 0.875, 0, 0.25},
+		["Female"] = {0.75, 0.875, 0.5, 0.75}, 
+	},	
 };
 
 function D.getRaceIconText(race, sex, size)
