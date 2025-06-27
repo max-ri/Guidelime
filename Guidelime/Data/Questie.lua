@@ -117,7 +117,7 @@ function QUESTIE.getQuestRaces(id)
 	if bitmask == nil or bitmask == 0 then return end
 	local races = {}
 	for i, race in ipairs({"Human", "Orc", "Dwarf", "NightElf", "Undead", "Tauren", "Gnome", "Troll", "Goblin", "BloodElf", "Draenei", 
-		"", "", "", "", "", "", "", "", "", "", "Worgen"}) do
+		"", "", "", "", "", "", "", "", "", "", "Worgen", "Pandaren", "Pandaren"}) do
 		if race ~= "" and D.hasbit(bitmask, D.bit(i)) then 
 			table.insert(races, race) 
 		end
@@ -132,7 +132,7 @@ function QUESTIE.getQuestClasses(id)
 	local bitmask = quest.requiredClasses
 	if bitmask == nil or bitmask == 0 then return end
 	local classes = {}
-	for i, class in pairs({"Warrior", "Paladin", "Hunter", "Rogue", "Priest", "DeathKnight", "Shaman", "Mage", "Warlock", "", "Druid"}) do
+	for i, class in pairs({"Warrior", "Paladin", "Hunter", "Rogue", "Priest", "DeathKnight", "Shaman", "Mage", "Warlock", "Monk", "Druid"}) do
 		if class ~= "" and D.hasbit(bitmask, D.bit(i)) then 
 			table.insert(classes, class) 
 		end
