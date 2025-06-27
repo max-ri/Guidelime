@@ -116,8 +116,14 @@ function QUESTIE.getQuestRaces(id)
 	local bitmask = quest.requiredRaces
 	if bitmask == nil or bitmask == 0 then return end
 	local races = {}
-	for i, race in ipairs({"Human", "Orc", "Dwarf", "NightElf", "Undead", "Tauren", "Gnome", "Troll", "Goblin", "BloodElf", "Draenei", 
-		"", "", "", "", "", "", "", "", "", "", "Worgen", "Pandaren", "Pandaren"}) do
+	for i, race in ipairs({
+		"Human", "Orc", "Dwarf", "NightElf", 
+		"Undead", "Tauren", "Gnome", "Troll", 
+		"Goblin", "BloodElf", "Draenei", "", 
+		"", "", "", "", 
+		"", "", "", "", 
+		"", "Worgen", "Pandaren" --[[neutral]], "Pandaren" --[[Horde]],
+		"Pandaren" --[[Alliance]]}) do
 		if race ~= "" and D.hasbit(bitmask, D.bit(i)) then 
 			table.insert(races, race) 
 		end
