@@ -328,7 +328,8 @@ function G.selectStartGuide()
 		Draenei = {'draenei', 'azuremystisle'},
 		BloodElf = {'bloodelf', 'eversongwoods'},
 		Worgen = {'worgen', 'gilneas'},
-		Goblin = {'goblin', 'kezan'}	
+		Goblin = {'goblin', 'kezan'},
+		Pandaren = {'pandaren', 'wanderingisle'}	
 	}
 	local matchingGuides = {}
 	for name, guide in pairs(addon.guides) do
