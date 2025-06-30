@@ -12,6 +12,7 @@ It completely supports **Burning Crusade** Classic and **Wrath of the Lich King*
 
 **Cataclysm** Classic is supported as well. Currently there are guides for the Worgen starting zone and for the new zones for leveling from 80 to 85. Unfortunately due to the world revamp old guides for leveling from 1 to 60 will not be useful anymore. **Stay tuned for new guides for leveling 1-60**.
 
+For **Mists of Pandaria** Classic there are guides for the Monk starting zones as well as guides for leveling from 85-90.
 
 The addon comes with an editor so even if the number of guides included is small (yet) it is very easy to create your own guides or to import
 your favorite guide.
