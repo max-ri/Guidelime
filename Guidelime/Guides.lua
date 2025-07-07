@@ -316,21 +316,40 @@ function G.isGuidesShowing()
 end
 
 function G.selectStartGuide()
-	local raceStarterZoneDict = {
-    	Dwarf = {'dwarf', 'dunmorogh', 'coldridgevalley'},
-    	Gnome = {'gnome', 'dunmorogh', 'coldridgevalley'},
-    	Human = {'human', 'elwynnforest', 'northshireabbey'},
-    	NightElf = {'nightelf', 'shadowglen', 'teldrassil'},
-    	Orc = {'orc', 'durotar', 'valleyoftrials'},
-    	Tauren = {'tauren', 'mulgore', 'campnarache'},
-    	Troll = {'troll', 'durotar', 'valleyoftrials'},
-    	Undead = {'undead', 'tirisfalglades', 'deathknell'},
-		Draenei = {'draenei', 'azuremystisle'},
-		BloodElf = {'bloodelf', 'eversongwoods'},
-		Worgen = {'worgen', 'gilneas'},
-		Goblin = {'goblin', 'kezan'},
-		Pandaren = {'pandaren', 'wanderingisle'}	
-	}
+	local raceStarterZoneDict
+	if select(4, GetBuildInfo()) >= 40000 then
+		raceStarterZoneDict = {
+			Dwarf = {'dwarf', 'dunmorogh', 'coldridgevalley'},
+			Gnome = {'gnome', 'gnomeregan'},
+			Human = {'human', 'elwynnforest', 'northshireabbey'},
+			NightElf = {'nightelf', 'shadowglen', 'teldrassil'},
+			Orc = {'orc', 'durotar', 'valleyoftrials'},
+			Tauren = {'tauren', 'mulgore', 'campnarache'},
+			Troll = {'troll', 'durotar', 'echoisles'},
+			Undead = {'undead', 'tirisfalglades', 'deathknell'},
+	        Draenei = {'draenei', 'azuremystisle'},
+	        BloodElf = {'bloodelf', 'eversongwoods'},
+	        Worgen = {'worgen', 'gilneas'},
+	        Goblin = {'goblin', 'kezan'},
+	        Pandaren = {'pandaren', 'wanderingisle', 'monk'}
+		}
+	else
+		raceStarterZoneDict = {
+	    	Dwarf = {'dwarf', 'dunmorogh', 'coldridgevalley'},
+	    	Gnome = {'gnome', 'dunmorogh', 'coldridgevalley'},
+	    	Human = {'human', 'elwynnforest', 'northshireabbey'},
+	    	NightElf = {'nightelf', 'shadowglen', 'teldrassil'},
+	    	Orc = {'orc', 'durotar', 'valleyoftrials'},
+	    	Tauren = {'tauren', 'mulgore', 'campnarache'},
+	    	Troll = {'troll', 'durotar', 'valleyoftrials'},
+	    	Undead = {'undead', 'tirisfalglades', 'deathknell'},
+			Draenei = {'draenei', 'azuremystisle'},
+			BloodElf = {'bloodelf', 'eversongwoods'},
+			Worgen = {'worgen', 'gilneas'},
+			Goblin = {'goblin', 'kezan'},
+			Pandaren = {'pandaren', 'wanderingisle'}	
+		}
+	end
 	local matchingGuides = {}
 	for name, guide in pairs(addon.guides) do
 		if guide.minLevel == 1 then
