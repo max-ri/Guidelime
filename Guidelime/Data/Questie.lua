@@ -122,8 +122,8 @@ function QUESTIE.getQuestRaces(id)
 		"Goblin", "BloodElf", "Draenei", "", 
 		"", "", "", "", 
 		"", "", "", "", 
-		"", "Worgen", "Pandaren" --[[neutral]], "Pandaren" --[[Horde]],
-		"Pandaren" --[[Alliance]]}) do
+		"", "Worgen", "Pandaren" --[[neutral]], "",
+		"Pandaren" --[[Alliance]], "Pandaren" --[[Horde]]}) do
 		if race ~= "" and D.hasbit(bitmask, D.bit(i)) then 
 			table.insert(races, race) 
 		end
