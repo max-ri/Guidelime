@@ -175,20 +175,17 @@ end
 
 -- Cataclysm
 if select(4, GetBuildInfo()) >= 40000 then
-	FM.flightmasterDB[1] = {zone = "Northshire Abbey", id = 1, wx = -0.54000002146, wy = -8888.98046875, instance = 0}
 	FM.flightmasterDB[2] = {zone = "Elwynn", place = "Stormwind", faction = "Alliance", id = 2, wx = 489.65600585938, wy = -8841.0595703125, instance = 0}
 	FM.flightmasterDB[4] = {zone = "Westfall", place = "Sentinel Hill", faction = "Alliance", id = 4, wx = 1034.3900146484, wy = -10551.900390625, instance = 0}
 	FM.flightmasterDB[5] = {zone = "Redridge", place = "Lakeshire", faction = "Alliance", id = 5, wx = -2231.3999023438, wy = -9429.099609375, instance = 0}
 	FM.flightmasterDB[6] = {zone = "Dun Morogh", place = "Ironforge", faction = "Alliance", id = 6, wx = -1155.4399414062, wy = -4821.7797851562, instance = 0}
 	FM.flightmasterDB[7] = {zone = "Wetlands", place = "Menethil Harbor", faction = "Alliance", id = 7, wx = -777.69598388672, wy = -3787.8100585938, instance = 0}
 	FM.flightmasterDB[8] = {zone = "Loch Modan", place = "Thelsamar", faction = "Alliance", id = 8, wx = -2930.0100097656, wy = -5421.91015625, instance = 0}
-	FM.flightmasterDB[9] = {zone = "Stranglethorn", place = "Booty Bay", id = 9, wx = 299.86999511719, wy = -14271.799804688, instance = 0}
 	FM.flightmasterDB[10] = {zone = "Silverpine Forest", place = "The Sepulcher", faction = "Horde", id = 10, wx = 1536.5899658203, wy = 478.85998535156, instance = 0}
 	FM.flightmasterDB[11] = {zone = "Tirisfal", place = "Undercity", faction = "Horde", id = 11, wx = 267.9700012207, wy = 1568.6199951172, instance = 0}
 	FM.flightmasterDB[12] = {zone = "Duskwood", place = "Darkshire", faction = "Alliance", id = 12, wx = -1261.6500244141, wy = -10515.5, instance = 0}
 	FM.flightmasterDB[13] = {zone = "Hillsbrad", place = "Tarren Mill", faction = "Horde", id = 13, wx = -874.20300292969, wy = -17.70660018921, instance = 0}
 	FM.flightmasterDB[14] = {zone = "Hillsbrad", place = "Southshore", id = 14, wx = -515.47998046875, wy = -711.47998046875, instance = 0}
-	FM.flightmasterDB[15] = {zone = "Eastern Plaguelands", id = 15, wx = -5344.8999023438, wy = 2253.3999023438, instance = 0}
 	FM.flightmasterDB[16] = {zone = "Arathi", place = "Refuge Pointe", faction = "Alliance", id = 16, wx = -2515.1101074219, wy = -1240.5300292969, instance = 0}
 	FM.flightmasterDB[17] = {zone = "Arathi", place = "Hammerfall", faction = "Horde", id = 17, wx = -3496.8898925781, wy = -916.28997802734, instance = 0}
 	FM.flightmasterDB[18] = {zone = "Stranglethorn", place = "Booty Bay", faction = "Horde", id = 18, wx = 509.61999511719, wy = -14444.290039062, instance = 0}
@@ -215,23 +212,13 @@ if select(4, GetBuildInfo()) >= 40000 then
 	FM.flightmasterDB[43] = {zone = "The Hinterlands", place = "Aerie Peak", faction = "Alliance", id = 43, wx = -2002.7600097656, wy = 283.73999023438, instance = 0}
 	FM.flightmasterDB[44] = {zone = "Azshara", place = "Bilgewater Harbor", faction = "Horde", id = 44, wx = -6294.66015625, wy = 3547.1999511719, instance = 1}
 	FM.flightmasterDB[45] = {zone = "Blasted Lands", place = "Nethergarde Keep", faction = "Alliance", id = 45, wx = -3435.7399902344, wy = -11112.299804688, instance = 0}
-	FM.flightmasterDB[46] = {zone = "Southshore", place = "Transport", id = 46, wx = -547.85998535156, wy = -986.42999267578, instance = 0}
-	FM.flightmasterDB[47] = {zone = "Grom'gol", place = "Transport", id = 47, wx = 235.42999267578, wy = -12418.76953125, instance = 0}
 	FM.flightmasterDB[49] = {zone = "Moonglade", faction = "Alliance", id = 49, wx = -2487.2099609375, wy = 7458.4501953125, instance = 1}
-	FM.flightmasterDB[50] = {zone = "Menethil Harbor", place = "Transport", id = 50, wx = 0.0, wy = 0.0, instance = 0}
-	FM.flightmasterDB[51] = {zone = "Auberdine", place = "Transport", id = 51, wx = 0.0, wy = 0.0, instance = 0}
 	FM.flightmasterDB[52] = {zone = "Winterspring", place = "Everlook", faction = "Alliance", id = 52, wx = -4742.3901367188, wy = 6796.7998046875, instance = 1}
 	FM.flightmasterDB[53] = {zone = "Winterspring", place = "Everlook", faction = "Horde", id = 53, wx = -4611.1201171875, wy = 6813.0600585938, instance = 1}
-	FM.flightmasterDB[54] = {zone = "Feathermoon", place = "Transport", id = 54, wx = 3284.0, wy = -4203.8701171875, instance = 1}
 	FM.flightmasterDB[55] = {zone = "Dustwallow Marsh", place = "Brackenwall Village", faction = "Horde", id = 55, wx = -2842.1799316406, wy = -3147.3898925781, instance = 1}
 	FM.flightmasterDB[56] = {zone = "Swamp of Sorrows", place = "Stonard", faction = "Horde", id = 56, wx = -3279.25, wy = -10457.0, instance = 0}
-	FM.flightmasterDB[57] = {zone = "Teldrassil", place = "Fishing Village", id = 57, wx = 991.36999511719, wy = 8701.509765625, instance = 1}
 	FM.flightmasterDB[58] = {zone = "Ashenvale", place = "Zoram'gar Outpost", faction = "Horde", id = 58, wx = 1052.3000488281, wy = 3351.8200683594, instance = 1}
-	FM.flightmasterDB[59] = {zone = "Alterac Valley", place = "Dun Baldar", id = 59, wx = -46.65000152588, wy = 574.21002197266, instance = 30}
-	FM.flightmasterDB[60] = {zone = "Alterac Valley", place = "Frostwolf Keep", id = 60, wx = -319.69000244141, wy = -1335.4399414062, instance = 30}
 	FM.flightmasterDB[61] = {zone = "Ashenvale", place = "Splintertree Post", faction = "Horde", id = 61, wx = -2524.5500488281, wy = 2302.3898925781, instance = 1}
-	FM.flightmasterDB[62] = {zone = "Moonglade", place = "Nighthaven", faction = "Alliance", id = 62, wx = -2403.4699707031, wy = 7793.6098632812, instance = 1}
-	FM.flightmasterDB[63] = {zone = "Moonglade", place = "Nighthaven", faction = "Horde", id = 63, wx = -2404.1000976562, wy = 7787.7202148438, instance = 1}
 	FM.flightmasterDB[65] = {zone = "Felwood", place = "Talonbranch Glade", faction = "Alliance", id = 65, wx = -1874.2800292969, wy = 6214.3198242188, instance = 1}
 	FM.flightmasterDB[66] = {zone = "Western Plaguelands", place = "Chillwind Camp", faction = "Alliance", id = 66, wx = -1430.1099853516, wy = 931.32000732422, instance = 0}
 	FM.flightmasterDB[67] = {zone = "Eastern Plaguelands", place = "Light's Hope Chapel", faction = "Alliance", id = 67, wx = -5340.7998046875, wy = 2271.0900878906, instance = 0}
@@ -245,7 +232,6 @@ if select(4, GetBuildInfo()) >= 40000 then
 	FM.flightmasterDB[75] = {zone = "Searing Gorge", place = "Thorium Point", faction = "Horde", id = 75, wx = -1100.0500488281, wy = -6554.9301757812, instance = 0}
 	FM.flightmasterDB[76] = {zone = "The Hinterlands", place = "Revantusk Village", faction = "Horde", id = 76, wx = -4720.5, wy = -635.26000976563, instance = 0}
 	FM.flightmasterDB[77] = {zone = "Southern Barrens", place = "Vendetta Point", faction = "Horde", id = 77, wx = -1724.3399658203, wy = -2152.3500976562, instance = 1}
-	FM.flightmasterDB[78] = {zone = "Naxxramas", id = 78, wx = -3399.9299316406, wy = 3133.3100585938, instance = 0}
 	FM.flightmasterDB[79] = {zone = "Un'Goro Crater", place = "Marshal's Stand", id = 79, wx = -1541.1300048828, wy = -7548.0498046875, instance = 1}
 	FM.flightmasterDB[80] = {zone = "Northern Barrens", place = "Ratchet", id = 80, wx = -3773.0100097656, wy = -894.59002685547, instance = 1}
 	FM.flightmasterDB[82] = {zone = "Silvermoon City", faction = "Horde", id = 82, wx = -7165.8901367188, wy = 9375.240234375, instance = 530}
@@ -254,9 +240,6 @@ if select(4, GetBuildInfo()) >= 40000 then
 	FM.flightmasterDB[85] = {zone = "Eastern Plaguelands", place = "Northpass Tower", id = 85, wx = -4354.7797851562, wy = 3134.2600097656, instance = 0}
 	FM.flightmasterDB[86] = {zone = "Eastern Plaguelands", place = "Eastwall Tower", id = 86, wx = -4769.5600585938, wy = 2524.4399414062, instance = 0}
 	FM.flightmasterDB[87] = {zone = "Eastern Plaguelands", place = "Crown Guard Tower", id = 87, wx = -3693.3200683594, wy = 1876.4000244141, instance = 0}
-	FM.flightmasterDB[88] = {zone = "Exodar", place = "Transport", id = 88, wx = -11194.740234375, wy = -4284.009765625, instance = 530}
-	FM.flightmasterDB[89] = {zone = "Theramore", place = "Transport", id = 89, wx = 0.0, wy = 0.0, instance = 0}
-	FM.flightmasterDB[90] = {zone = "Undercity", place = "Transport", id = 90, wx = 0.0, wy = 0.0, instance = 1}
 	FM.flightmasterDB[93] = {zone = "Bloodmyst Isle", place = "Blood Watch", faction = "Alliance", id = 93, wx = -11954.599609375, wy = -1933.2700195312, instance = 530}
 	FM.flightmasterDB[94] = {zone = "The Exodar", faction = "Alliance", id = 94, wx = -11641.099609375, wy = -3867.5600585938, instance = 530}
 	FM.flightmasterDB[99] = {zone = "Hellfire Peninsula", place = "Thrallmar", faction = "Horde", id = 99, wx = 2633.5700683594, wy = 228.5, instance = 530}
@@ -280,8 +263,6 @@ if select(4, GetBuildInfo()) >= 40000 then
 	FM.flightmasterDB[139] = {zone = "Netherstorm", place = "The Stormspire", id = 139, wx = 2959.6899414062, wy = 4157.580078125, instance = 530}
 	FM.flightmasterDB[140] = {zone = "Shadowmoon Valley", place = "Altar of Sha'tar", id = 140, wx = 749.41998291016, wy = -3065.6000976562, instance = 530}
 	FM.flightmasterDB[141] = {zone = "Hellfire Peninsula", place = "Spinebreaker Ridge", faction = "Horde", id = 141, wx = 2358.6201171875, wy = -1316.8399658203, instance = 530}
-	FM.flightmasterDB[142] = {zone = "Hellfire Peninsula - Reaver's Fall", id = 142, wx = 2125.7199707031, wy = -29.15999984741, instance = 530}
-	FM.flightmasterDB[147] = {zone = "Hellfire Peninsula - Force Camp Beach Head", id = 147, wx = 1988.6899414062, wy = 509.17001342773, instance = 530}
 	FM.flightmasterDB[149] = {zone = "Hellfire Peninsula", place = "Shatter Point", id = 149, wx = 1486.9100341797, wy = 276.20001220703, instance = 530}
 	FM.flightmasterDB[150] = {zone = "Netherstorm", place = "Cosmowrench", id = 150, wx = 1848.2399902344, wy = 2974.9499511719, instance = 530}
 	FM.flightmasterDB[151] = {zone = "Zangarmarsh", place = "Swamprat Post", faction = "Horde", id = 151, wx = 5214.919921875, wy = 91.66999816895, instance = 530}
@@ -292,8 +273,6 @@ if select(4, GetBuildInfo()) >= 40000 then
 	FM.flightmasterDB[164] = {zone = "Zangarmarsh", place = "Orebor Harborage", faction = "Alliance", id = 164, wx = 7399.16015625, wy = 966.66998291016, instance = 530}
 	FM.flightmasterDB[166] = {zone = "Felwood", place = "Emerald Sanctuary", id = 166, wx = -1324.5100097656, wy = 3972.8400878906, instance = 1}
 	FM.flightmasterDB[167] = {zone = "Ashenvale", place = "Forest Song", faction = "Alliance", id = 167, wx = -3202.4099121094, wy = 3000.25, instance = 1}
-	FM.flightmasterDB[171] = {zone = "Skettis", id = 171, wx = 3650.1799316406, wy = -3364.6799316406, instance = 530}
-	FM.flightmasterDB[172] = {zone = "Ogri'La", id = 172, wx = 7322.08984375, wy = 2531.1000976562, instance = 530}
 	FM.flightmasterDB[179] = {zone = "Dustwallow Marsh", place = "Mudsprocket", id = 179, wx = -3226.0500488281, wy = -4566.2299804688, instance = 1}
 	FM.flightmasterDB[183] = {zone = "Howling Fjord", place = "Valgarde Port", faction = "Alliance", id = 183, wx = -5010.9702148438, wy = 567.40997314453, instance = 571}
 	FM.flightmasterDB[184] = {zone = "Howling Fjord", place = "Fort Wildervar", faction = "Alliance", id = 184, wx = -5029.8198242188, wy = 2468.7700195312, instance = 571}
@@ -303,10 +282,7 @@ if select(4, GetBuildInfo()) >= 40000 then
 	FM.flightmasterDB[192] = {zone = "Howling Fjord", place = "Camp Winterhoof", faction = "Horde", id = 192, wx = -4392.7099609375, wy = 2652.8898925781, instance = 571}
 	FM.flightmasterDB[195] = {zone = "Stranglethorn Vale", place = "Rebel Camp", faction = "Alliance", id = 195, wx = -216.83000183106, wy = -11344.0, instance = 0}
 	FM.flightmasterDB[205] = {zone = "Ghostlands", place = "Zul'Aman", id = 205, wx = -7747.580078125, wy = 6789.7900390625, instance = 530}
-	FM.flightmasterDB[222] = {zone = "Borean", place = "Beryl Point", id = 222, wx = 6084.7202148438, wy = 3213.7399902344, instance = 571}
-	FM.flightmasterDB[224] = {zone = "Naglevar", place = "Borean Tundra", id = 224, wx = 0.0, wy = 0.0, instance = 0}
 	FM.flightmasterDB[226] = {zone = "Coldarra", place = "Transitus Shield", id = 226, wx = 6661.6401367188, wy = 3575.4399414062, instance = 571}
-	FM.flightmasterDB[234] = {zone = "Coldarra", place = "Coldarra Ledge", id = 234, wx = 7372.3100585938, wy = 4130.6201171875, instance = 571}
 	FM.flightmasterDB[244] = {zone = "Dragonblight", place = "Wintergarde Keep", faction = "Alliance", id = 244, wx = -694.85998535156, wy = 3712.4299316406, instance = 571}
 	FM.flightmasterDB[245] = {zone = "Borean Tundra", place = "Valiance Keep", faction = "Alliance", id = 245, wx = 5173.6899414062, wy = 2269.5400390625, instance = 571}
 	FM.flightmasterDB[246] = {zone = "Borean Tundra", place = "Fizzcrank Airstrip", faction = "Alliance", id = 246, wx = 5313.0698242188, wy = 4127.2299804688, instance = 571}
@@ -325,7 +301,6 @@ if select(4, GetBuildInfo()) >= 40000 then
 	FM.flightmasterDB[259] = {zone = "Borean Tundra", place = "Bor'gorok Outpost", faction = "Horde", id = 259, wx = 5712.1298828125, wy = 4474.7900390625, instance = 571}
 	FM.flightmasterDB[260] = {zone = "Dragonblight", place = "Kor'kron Vanguard", faction = "Horde", id = 260, wx = 1165.9399414062, wy = 4946.669921875, instance = 571}
 	FM.flightmasterDB[289] = {zone = "Borean Tundra", place = "Amber Ledge", id = 289, wx = 5973.2998046875, wy = 3587.8400878906, instance = 571}
-	FM.flightmasterDB[290] = {zone = "Zul'Drak", place = "Argent Stand", id = 290, wx = -2606.2700195312, wy = 5450.2998046875, instance = 571}
 	FM.flightmasterDB[294] = {zone = "Dragonblight", place = "Moa'ki", id = 294, wx = 908.96002197266, wy = 2792.4499511719, instance = 571}
 	FM.flightmasterDB[295] = {zone = "Howling Fjord", place = "Kamagua", id = 295, wx = -2887.7099609375, wy = 785.27001953125, instance = 571}
 	FM.flightmasterDB[296] = {zone = "Borean Tundra", place = "Unu'pe", id = 296, wx = 4046.0900878906, wy = 2919.1899414062, instance = 571}
@@ -356,8 +331,6 @@ if select(4, GetBuildInfo()) >= 40000 then
 	FM.flightmasterDB[338] = {zone = "Ashenvale", place = "Blackfathom Camp", faction = "Alliance", id = 338, wx = 654.15997314453, wy = 3880.5100097656, instance = 1}
 	FM.flightmasterDB[339] = {zone = "Darkshore", place = "Grove of the Ancients", faction = "Alliance", id = 339, wx = 147.64999389648, wy = 4970.5, instance = 1}
 	FM.flightmasterDB[340] = {zone = "Icecrown", place = "Argent Tournament Grounds", id = 340, wx = 891.20001220703, wy = 8475.7900390625, instance = 571}
-	FM.flightmasterDB[343] = {zone = "Ashenvale", place = "Splintertree", id = 343, wx = -2523.2099609375, wy = 2309.2299804688, instance = 1}
-	FM.flightmasterDB[349] = {zone = "Zoram'gar", place = "Andruk", id = 349, wx = 1054.1199951172, wy = 3350.2099609375, instance = 1}
 	FM.flightmasterDB[350] = {zone = "Ashenvale", place = "Hellscream's Watch", faction = "Horde", id = 350, wx = -498.95001220703, wy = 3049.080078125, instance = 1}
 	FM.flightmasterDB[351] = {zone = "Ashenvale", place = "Stardust Spire", faction = "Alliance", id = 351, wx = -321.98999023438, wy = 1905.1099853516, instance = 1}
 	FM.flightmasterDB[354] = {zone = "Ashenvale", place = "The Mor'Shan Ramparts", faction = "Horde", id = 354, wx = -2209.1499023438, wy = 1206.0500488281, instance = 1}
@@ -433,12 +406,8 @@ if select(4, GetBuildInfo()) >= 40000 then
 	FM.flightmasterDB[604] = {zone = "Blasted Lands", place = "Dreadmaul Hold", faction = "Horde", id = 604, wx = -2790.9799804688, wy = -10933.299804688, instance = 0}
 	FM.flightmasterDB[605] = {zone = "Vashj'ir", place = "Voldrin's Hold", faction = "Alliance", id = 605, wx = 3925.8500976562, wy = -7209.7099609375, instance = 0}
 	FM.flightmasterDB[606] = {zone = "Vashj'ir", place = "Sandy Beach", faction = "Alliance", id = 606, wx = 3914.419921875, wy = -5310.8500976562, instance = 0}
-	FM.flightmasterDB[607] = {zone = "Vashj'ir", place = "Sandy Beach", faction = "Alliance", id = 607, wx = 3900.2700195312, wy = -5267.3500976562, instance = 0}
 	FM.flightmasterDB[608] = {zone = "Vashj'ir", place = "Sandy Beach", faction = "Horde", id = 608, wx = 3720.0700683594, wy = -5671.0200195312, instance = 0}
-	FM.flightmasterDB[609] = {zone = "Vashj'ir", place = "Sandy Beach", faction = "Horde", id = 609, wx = 3711.8100585938, wy = -5669.1899414062, instance = 0}
 	FM.flightmasterDB[610] = {zone = "Vashj'ir", place = "Stygian Bounty", faction = "Horde", id = 610, wx = 4244.7099609375, wy = -6878.5200195312, instance = 0}
-	FM.flightmasterDB[611] = {zone = "Vashj'ir", place = "Voldrin's Hold", faction = "Alliance", id = 611, wx = 3912.3601074219, wy = -7198.9702148438, instance = 0}
-	FM.flightmasterDB[612] = {zone = "Vashj'ir", place = "Stygian Bounty", faction = "Horde", id = 612, wx = 4278.0600585938, wy = -6880.169921875, instance = 0}
 	FM.flightmasterDB[613] = {zone = "Azshara", place = "Southern Rocketway", faction = "Horde", id = 613, wx = -6214.3999023438, wy = 2647.7900390625, instance = 1}
 	FM.flightmasterDB[614] = {zone = "Azshara", place = "Northern Rocketway", faction = "Horde", id = 614, wx = -7041.7998046875, wy = 4611.3798828125, instance = 1}
 	FM.flightmasterDB[615] = {zone = "Redridge", place = "Camp Everstill", faction = "Alliance", id = 615, wx = -2836.9899902344, wy = -9446.6396484375, instance = 0}
