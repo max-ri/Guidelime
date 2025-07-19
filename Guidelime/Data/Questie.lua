@@ -152,8 +152,8 @@ function QUESTIE.getQuestFaction(id)
 	if quest == nil then return end
 	local bitmask = quest.requiredRaces
 	if bitmask == nil then return end
-	if bitmask == 77 or bitmask == 1101 then return "Alliance" end
-	if bitmask == 178 or bitmask == 690 then return "Horde" end
+	if bitmask == 77 or bitmask == 1101 or bitmask == 2098253 or bitmask == 18875469 then return "Alliance" end
+	if bitmask == 178 or bitmask == 690 or bitmask == 946 or bitmask == 33555378 then return "Horde" end
 end
 
 function QUESTIE.getQuestObjective(id)
