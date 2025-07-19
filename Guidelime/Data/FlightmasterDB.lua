@@ -282,7 +282,6 @@ if select(4, GetBuildInfo()) >= 40000 then
 	FM.flightmasterDB[141] = {zone = "Hellfire Peninsula", place = "Spinebreaker Ridge", faction = "Horde", id = 141, wx = 2358.6201171875, wy = -1316.8399658203, instance = 530}
 	FM.flightmasterDB[142] = {zone = "Hellfire Peninsula - Reaver's Fall", id = 142, wx = 2125.7199707031, wy = -29.15999984741, instance = 530}
 	FM.flightmasterDB[147] = {zone = "Hellfire Peninsula - Force Camp Beach Head", id = 147, wx = 1988.6899414062, wy = 509.17001342773, instance = 530}
-	FM.flightmasterDB[148] = {zone = "Hellfire Peninsula (Beach Assault)", place = "Shatter Point", id = 148, wx = 1501.1800537109, wy = 298.45999145508, instance = 530}
 	FM.flightmasterDB[149] = {zone = "Hellfire Peninsula", place = "Shatter Point", id = 149, wx = 1486.9100341797, wy = 276.20001220703, instance = 530}
 	FM.flightmasterDB[150] = {zone = "Netherstorm", place = "Cosmowrench", id = 150, wx = 1848.2399902344, wy = 2974.9499511719, instance = 530}
 	FM.flightmasterDB[151] = {zone = "Zangarmarsh", place = "Swamprat Post", faction = "Horde", id = 151, wx = 5214.919921875, wy = 91.66999816895, instance = 530}
