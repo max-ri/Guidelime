@@ -186,7 +186,8 @@ function QUESTIE.getQuestPositions(id, typ, index, filterZone)
 	local ids = {npc = {}, object = {}, item = {}}
 	local objectives = {npc = {}, object = {}, item = {}}
 	local positions = {}
-	local filterZoneId = filterZone and DM.mapIDs[filterZone] and ZoneDB:GetAreaIdByUiMapId(DM.mapIDs[filterZone])
+	local filterZoneId = filterZone and DM.mapIDs[filterZone]
+	local filterZoneUiId = filterZoneId and ZoneDB:GetAreaIdByUiMapId(filterZoneId)
 	local specialObjectivesIndex
 	if GP.getSuperCode(typ) == "QUEST" then
 		local quest = QuestieDB.GetQuest(id)
@@ -247,8 +248,8 @@ function QUESTIE.getQuestPositions(id, typ, index, filterZone)
 									table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[mapID] or zone, mapID = mapID, objectives = {oi}})
 								end
 							end
-						elseif list[i].Coordinates[filterZoneId] ~= nil then
-							for _, pos in ipairs(list[i].Coordinates[filterZoneId]) do
+						elseif list[i].Coordinates[filterZoneUiId] ~= nil then
+							for _, pos in ipairs(list[i].Coordinates[filterZoneUiId]) do
 								table.insert(positions, {x = pos[1], y = pos[2], zone = filterZone, mapID = filterZoneId, objectives = {oi}})
 							end
 						end
@@ -292,8 +293,8 @@ function QUESTIE.getQuestPositions(id, typ, index, filterZone)
 						table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[mapID] or zone, mapID = mapID, npcId = npcId, objectives = objectives.npc[npcId]})
 					end
 				end
-			elseif npc.spawns[filterZoneId] ~= nil then
-				for _, pos in ipairs(npc.spawns[filterZoneId]) do
+			elseif npc.spawns[filterZoneUiId] ~= nil then
+				for _, pos in ipairs(npc.spawns[filterZoneUiId]) do
 					table.insert(positions, {x = pos[1], y = pos[2], zone = filterZone, mapID = filterZoneId, npcId = npcId, objectives = objectives.npc[npcId]})
 				end
 			end
@@ -308,8 +309,8 @@ function QUESTIE.getQuestPositions(id, typ, index, filterZone)
 						end
 					end
 				end
-			elseif npc.waypoints[filterZoneId] ~= nil then
-				for _, posList in ipairs(npc.waypoints[filterZoneId]) do
+			elseif npc.waypoints[filterZoneUiId] ~= nil then
+				for _, posList in ipairs(npc.waypoints[filterZoneUiId]) do
 					for _, pos in ipairs(posList) do
 						table.insert(positions, {x = pos[1], y = pos[2], zone = filterZone, mapID = filterZoneId, npcId = npcId, objectives = objectives.npc[npcId]})
 					end
@@ -329,8 +330,8 @@ function QUESTIE.getQuestPositions(id, typ, index, filterZone)
 						table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[mapID] or zone, mapID = mapID, objectId = objectId, objectives = objectives.object[objectId]})
 					end
 				end
-			elseif object.spawns[filterZoneId] ~= nil then
-				for _, pos in ipairs(object.spawns[filterZoneId]) do
+			elseif object.spawns[filterZoneUiId] ~= nil then
+				for _, pos in ipairs(object.spawns[filterZoneUiId]) do
 					table.insert(positions, {x = pos[1], y = pos[2], zone = filterZone, mapID = filterZoneId, objectId = objectId, objectives = objectives.object[objectId]})
 				end
 			end
