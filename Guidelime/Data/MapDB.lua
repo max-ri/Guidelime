@@ -665,7 +665,7 @@ end
 
 DM.mapIDs = {}
 for id, zone in pairs(DM.zoneNames) do
-	DM.mapIDs[zone] = id
+	if DM.mapIDs[zone] == nil then DM.mapIDs[zone] = id end
 end
 
 function DM.getZoneName(name)
