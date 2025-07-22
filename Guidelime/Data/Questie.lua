@@ -242,13 +242,14 @@ function QUESTIE.getQuestPositions(id, typ, index, filterZone)
 					elseif list[i].Type == "event" and list[i].Coordinates ~= nil then
 						if filterZone == nil then
 							for zone, posList in pairs(list[i].Coordinates) do
+								local mapID = ZoneDB:GetUiMapIdByAreaId(zone)
 								for _, pos in ipairs(posList) do
-									table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[ZoneDB:GetUiMapIdByAreaId(zone)] or zone, objectives = {oi}})
+									table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[mapID] or zone, mapID = mapID, objectives = {oi}})
 								end
 							end
 						elseif list[i].Coordinates[filterZoneId] ~= nil then
 							for _, pos in ipairs(list[i].Coordinates[filterZoneId]) do
-								table.insert(positions, {x = pos[1], y = pos[2], zone = filterZone, objectives = {oi}})
+								table.insert(positions, {x = pos[1], y = pos[2], zone = filterZone, mapID = filterZoneId, objectives = {oi}})
 							end
 						end
 					end
@@ -286,29 +287,31 @@ function QUESTIE.getQuestPositions(id, typ, index, filterZone)
 		if npc ~= nil and npc.spawns ~= nil then
 			if filterZone == nil then
 				for zone, posList in pairs(npc.spawns) do
+					local mapID = ZoneDB:GetUiMapIdByAreaId(zone)
 					for _, pos in ipairs(posList) do
-						table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[ZoneDB:GetUiMapIdByAreaId(zone)] or zone, npcId = npcId, objectives = objectives.npc[npcId]})
+						table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[mapID] or zone, mapID = mapID, npcId = npcId, objectives = objectives.npc[npcId]})
 					end
 				end
 			elseif npc.spawns[filterZoneId] ~= nil then
 				for _, pos in ipairs(npc.spawns[filterZoneId]) do
-					table.insert(positions, {x = pos[1], y = pos[2], zone = filterZone, npcId = npcId, objectives = objectives.npc[npcId]})
+					table.insert(positions, {x = pos[1], y = pos[2], zone = filterZone, mapID = filterZoneId, npcId = npcId, objectives = objectives.npc[npcId]})
 				end
 			end
 		end
 		if npc ~= nil and npc.waypoints ~= nil then
 			if filterZone == nil then
 				for zone, pathList in pairs(npc.waypoints) do
+					local mapID = ZoneDB:GetUiMapIdByAreaId(zone)
 					for _, posList in ipairs(pathList) do
 						for _, pos in ipairs(posList) do
-							table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[ZoneDB:GetUiMapIdByAreaId(zone)] or zone, npcId = npcId, objectives = objectives.npc[npcId]})
+							table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[mapID] or zone, mapID = mapID, npcId = npcId, objectives = objectives.npc[npcId]})
 						end
 					end
 				end
 			elseif npc.waypoints[filterZoneId] ~= nil then
 				for _, posList in ipairs(npc.waypoints[filterZoneId]) do
 					for _, pos in ipairs(posList) do
-						table.insert(positions, {x = pos[1], y = pos[2], zone = filterZone, npcId = npcId, objectives = objectives.npc[npcId]})
+						table.insert(positions, {x = pos[1], y = pos[2], zone = filterZone, mapID = filterZoneId, npcId = npcId, objectives = objectives.npc[npcId]})
 					end
 				end
 			end
@@ -321,13 +324,14 @@ function QUESTIE.getQuestPositions(id, typ, index, filterZone)
 		if object.spawns ~= nil then
 			if filterZone == nil then
 				for zone, posList in pairs(object.spawns) do
+					local mapID = ZoneDB:GetUiMapIdByAreaId(zone)
 					for _, pos in ipairs(posList) do
-						table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[ZoneDB:GetUiMapIdByAreaId(zone)] or zone, objectId = objectId, objectives = objectives.object[objectId]})
+						table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[mapID] or zone, mapID = mapID, objectId = objectId, objectives = objectives.object[objectId]})
 					end
 				end
 			elseif object.spawns[filterZoneId] ~= nil then
 				for _, pos in ipairs(object.spawns[filterZoneId]) do
-					table.insert(positions, {x = pos[1], y = pos[2], zone = filterZone, objectId = objectId, objectives = objectives.object[objectId]})
+					table.insert(positions, {x = pos[1], y = pos[2], zone = filterZone, mapID = filterZoneId, objectId = objectId, objectives = objectives.object[objectId]})
 				end
 			end
 		end
@@ -346,7 +350,6 @@ function QUESTIE.getQuestPositions(id, typ, index, filterZone)
 			-- remove positions from special objectives
 			table.remove(positions, i)
 		else
-			pos.mapID = DM.mapIDs[pos.zone]
 			pos.wx, pos.wy, pos.instance = HBD:GetWorldCoordinatesFromZone(pos.x / 100, pos.y / 100, pos.mapID)
 			--if addon.debugging then print("LIME: found position", pos.wx, pos.wy, pos.instance) end
 			if pos.wx == nil then
@@ -384,16 +387,18 @@ function QUESTIE.getItemPositions(id)
 		--if addon.debugging then print("LIME: npc", npc[1]) end
 		if npc ~= nil and npc.spawns ~= nil then
 			for zone, posList in pairs(npc.spawns) do
+				local mapID = ZoneDB:GetUiMapIdByAreaId(zone)
 				for _, pos in ipairs(posList) do
-					table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[ZoneDB:GetUiMapIdByAreaId(zone)] or zone, npcId = npcId})
+					table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[mapID] or zone, mapID = mapID, npcId = npcId})
 				end
 			end
 		end
 		if npc ~= nil and npc.waypoints ~= nil then
 			for zone, pathList in pairs(npc.waypoints) do
+				local mapID = ZoneDB:GetUiMapIdByAreaId(zone)
 				for _, posList in ipairs(pathList) do
 					for _, pos in ipairs(posList) do
-						table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[ZoneDB:GetUiMapIdByAreaId(zone)] or zone, npcId = npcId})
+						table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[mapID] or zone, mapID = mapID, npcId = npcId})
 					end
 				end
 			end
@@ -405,8 +410,9 @@ function QUESTIE.getItemPositions(id)
 		--if addon.debugging then print("LIME: object", object[1]) end
 		if object.spawns ~= nil then
 			for zone, posList in pairs(object.spawns) do
+				local mapID = ZoneDB:GetUiMapIdByAreaId(zone)
 				for _, pos in ipairs(posList) do
-					table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[ZoneDB:GetUiMapIdByAreaId(zone)] or zone, objectId = objectId})
+					table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[mapID] or zone, mapID = mapID, objectId = objectId})
 				end
 			end
 		end
@@ -418,7 +424,6 @@ function QUESTIE.getItemPositions(id)
 			-- locations inside instances are marked with -1,-1
 			table.remove(positions, i)
 		else
-			pos.mapID = DM.mapIDs[pos.zone]
 			pos.wx, pos.wy, pos.instance = HBD:GetWorldCoordinatesFromZone(pos.x / 100, pos.y / 100, pos.mapID)
 			--if addon.debugging then print("LIME: found position", pos.wx, pos.wy, pos.instance) end
 			if pos.wx == nil then
@@ -439,16 +444,18 @@ function QUESTIE.getNPCPositions(id)
 	local npc = QuestieDB:GetNPC(id)
 	if npc ~= nil and npc.spawns ~= nil then
 		for zone, posList in pairs(npc.spawns) do
+			local mapID = ZoneDB:GetUiMapIdByAreaId(zone)
 			for _, pos in ipairs(posList) do
-				table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[ZoneDB:GetUiMapIdByAreaId(zone)] or zone, npcId = id})
+				table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[mapID] or zone, mapID = mapID, npcId = id})
 			end
 		end
 	end
 	if npc ~= nil and npc.waypoints ~= nil then
 		for zone, pathList in pairs(npc.waypoints) do
+			local mapID = ZoneDB:GetUiMapIdByAreaId(zone)
 			for _, posList in ipairs(pathList) do
 				for _, pos in ipairs(posList) do
-					table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[ZoneDB:GetUiMapIdByAreaId(zone)] or zone, npcId = id})
+					table.insert(positions, {x = pos[1], y = pos[2], zone = DM.zoneNames[mapID] or zone, mapID = mapID, npcId = id})
 				end
 			end
 		end
@@ -460,7 +467,6 @@ function QUESTIE.getNPCPositions(id)
 			-- locations inside instances are marked with -1,-1
 			table.remove(positions, i)
 		else
-			pos.mapID = DM.mapIDs[pos.zone]
 			pos.wx, pos.wy, pos.instance = HBD:GetWorldCoordinatesFromZone(pos.x / 100, pos.y / 100, pos.mapID)
 			--if addon.debugging then print("LIME: found position", pos.wx, pos.wy, pos.instance) end
 			if pos.wx == nil then
