@@ -1919,5 +1919,7 @@ local friendlyFaction =
 function QUESTIE.isFriendlyNpc(id)
 	if id == nil or not QUESTIE.isDataSourceReady() then return end
 	local npc = QuestieDB:GetNPC(id)
-	return npc and npc.factionID and friendlyFaction[npc.factionID] and friendlyFaction[npc.factionID][D.faction] or 'Neutral'
+	return (npc and npc.friendlyToFaction and string.match(npc.friendlyToFaction, string.sub(D.faction, 1, 1)) and 'Friendly') or
+		(npc and npc.factionID and friendlyFaction[npc.factionID] and friendlyFaction[npc.factionID][D.faction]) or
+		'Neutral'
 end
