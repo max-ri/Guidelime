@@ -320,9 +320,9 @@ function QUESTIE.getQuestPositions(id, typ, index, filterZone)
 	end
 	for _, objectId in ipairs(ids.object) do
 		local object = QuestieDB:GetObject(objectId)
-		if object == nil then error("object " .. objectId .. " not found for quest " .. id .. typ) end
+		--if object == nil then error("object " .. objectId .. " not found for quest " .. id .. typ) end
 		--if addon.debugging then print("LIME: object", object[1]) end
-		if object.spawns ~= nil then
+		if object ~= nil and object.spawns ~= nil then
 			if filterZone == nil then
 				for zone, posList in pairs(object.spawns) do
 					local mapID = ZoneDB:GetUiMapIdByAreaId(zone)
