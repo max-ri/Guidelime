@@ -55,7 +55,9 @@ function O.fillOptions()
 	end
 
 	O.optionsFrame.title = O.optionsFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-	O.optionsFrame.title:SetText(GetAddOnMetadata(addonName, "title") .. " |cFFFFFFFF" .. GetAddOnMetadata(addonName, "version") .." - " .. GAMEOPTIONS_MENU)
+	local version = GetAddOnMetadata and GetAddOnMetadata(addonName, "version") or C_AddOns.GetAddOnMetadata(addonName, "version")
+	local title = GetAddOnMetadata and GetAddOnMetadata(addonName, "title") or C_AddOns.GetAddOnMetadata(addonName, "title")
+	O.optionsFrame.title:SetText(title .. " |cFFFFFFFF" .. version .." - " .. GAMEOPTIONS_MENU)
 	O.optionsFrame.title:SetPoint("TOPLEFT", 20, -20)
 	O.optionsFrame.title:SetFontObject("GameFontNormalLarge")
 	local prev = O.optionsFrame.title
