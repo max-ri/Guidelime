@@ -130,7 +130,7 @@ function addon.loadData()
 		targetRaidMarkers = true,
 		autoSelectStartGuide = true,
 		fontColorInactive = addon.MW.COLOR_INACTIVE,
-		version = GetAddOnMetadata(addonName, "version")
+		version = C_AddOns.GetAddOnMetadata(addonName, "version")
 	}
 	local defaultOptionsChar = {
 		mainFrameX = 0,
@@ -160,7 +160,7 @@ function addon.loadData()
 		guidesFrameX = 0,
 		guidesFrameY = 0,
 		guidesFrameRelative = "CENTER",
-		version = GetAddOnMetadata(addonName, "version"),
+		version = C_AddOns.GetAddOnMetadata(addonName, "version"),
 		showTargetButtons = "LEFT",
 		showUseItemButtons = "LEFT",
 		showMinimapButton = true,
@@ -196,7 +196,7 @@ function addon.loadData()
 		if tonumber(major) < 1 or (tonumber(major) == 1 and tonumber(minor) < 2) then
 			--changed default value for showUnavailableSteps
 			GuidelimeDataChar.showUnavailableSteps = true
-			GuidelimeDataChar.version = GetAddOnMetadata(addonName, "version")
+			GuidelimeDataChar.version = C_AddOns.GetAddOnMetadata(addonName, "version")
 		end
 		if tonumber(major) == 0 and tonumber(minor) < 41 then
 			GuidelimeDataChar.autoCompleteQuest = nil
@@ -218,7 +218,7 @@ function addon.loadData()
 			GuidelimeData.autoAcceptQuests = (GuidelimeData.autoCompleteQuest ~= false and "Current") or false
 			GuidelimeData.autoTurnInQuests = GuidelimeData.autoAcceptQuests
 			GuidelimeData.autoCompleteQuest = nil
-			GuidelimeData.version = GetAddOnMetadata(addonName, "version")
+			GuidelimeData.version = C_AddOns.GetAddOnMetadata(addonName, "version")
 		end
 		if tonumber(major) < 2 or (tonumber(major) == 2 and tonumber(minor) < 15) then
 			-- dataSourceQuestie is removed and replaced with dataSource which should be set to "QUESTIE"
@@ -407,7 +407,7 @@ function addon.checkQuests()
 		text = "Reported by " .. (UnitName("player") or "?") .. "-" .. (GetRealmName() or "?")  .. "(" .. regions[GetCurrentRegion() or 6] .. "), " .. 
 			(addon.D.level or "?")  .. " " .. (addon.D.race or "?")  .. " " .. (addon.D.class or "?")  .. "," ..
 			" at " .. date("%Y/%m/%d %H:%M:%S", GetServerTime()) .. 
-			" with " .. GetAddOnMetadata(addonName, "title") .. " " .. GetAddOnMetadata(addonName, "version") .. "\r\n" .. text
+			" with " .. C_AddOns.GetAddOnMetadata(addonName, "title") .. " " .. C_AddOns.GetAddOnMetadata(addonName, "version") .. "\r\n" .. text
 		text = string.format(L.CHECK_QUESTS, addon.CONTACT_DISCORD, addon.CONTACT_CURSEFORGE, addon.CONTACT_REDDIT) .. "\r\n" .. text
 		text = string.format(L.CHECK_QUESTS_COMPLETED, count) .. ".\r" .. text
 		local popup = addon.F.showCopyPopup(text, "", 0, 500, true)
