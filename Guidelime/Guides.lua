@@ -86,7 +86,9 @@ function G.showGuides()
 		G.guidesFrame.okBtn:SetText(nil)
 	
 		G.guidesFrame.title = G.guidesFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-		G.guidesFrame.title:SetText(GetAddOnMetadata(addonName, "title") .. " |cFFFFFFFF" .. GetAddOnMetadata(addonName, "version"))
+		local version = GetAddOnMetadata and GetAddOnMetadata(addonName, "version") or C_AddOns.GetAddOnMetadata(addonName, "version")
+		local title = GetAddOnMetadata and GetAddOnMetadata(addonName, "title") or C_AddOns.GetAddOnMetadata(addonName, "title")
+		G.guidesFrame.title:SetText(title .. " |cFFFFFFFF" .. version)
 		G.guidesFrame.title:SetPoint("TOPLEFT", G.guidesFrame, "TOPLEFT", 20, -20)
 		G.guidesFrame.title:SetFontObject("GameFontNormalLarge")
 		local prev = G.guidesFrame.title
