@@ -71,6 +71,7 @@ QuestLogFrame:HookScript('OnUpdate', QL.updateQuestLog)
 function QL.showQuestLogFrame(questId)
 	local questLogIndex = GetQuestLogIndexByID(questId)
 	if questLogIndex == 0 then return end
+	if InCombatLockdown() then return end
 	
 	-- if Questie is installed we use Questie's TrackerUtils as it handles (and hopefully gets updates for) possible quest log addons (Thanks!)
 	local TrackerUtils = QuestieLoader and QuestieLoader:ImportModule("TrackerUtils")

@@ -624,7 +624,15 @@ function EV.frame:UNIT_SPELLCAST_SUCCEEDED(unitTarget, castGUID, spellID)
 	end)
 end
 
-EV.frame:RegisterEvent('LEARNED_SPELL_IN_TAB')
+-- new UI version for new TBC
+if select(4, GetBuildInfo()) >= 20505 and select(4, GetBuildInfo()) < 30000 then
+	EV.frame:RegisterEvent('LEARNED_SPELL_IN_SKILL_LINE')
+else
+	EV.frame:RegisterEvent('LEARNED_SPELL_IN_TAB')
+end
+function EV.frame:LEARNED_SPELL_IN_SKILL_LINE(spellID, skillInfoIndex, isGuildPerkSpell)
+	EV.frame:LEARNED_SPELL_IN_TAB(spellID, skillInfoIndex, isGuildPerkSpell)
+end
 function EV.frame:LEARNED_SPELL_IN_TAB(spellID, skillInfoIndex, isGuildPerkSpell)
 	if addon.debugging then print("LIME: LEARNED_SPELL_IN_TAB", spellID, skillInfoIndex, isGuildPerkSpell) end
 	local found = false

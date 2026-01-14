@@ -130,7 +130,7 @@ function addon.loadData()
 		targetRaidMarkers = true,
 		autoSelectStartGuide = true,
 		fontColorInactive = addon.MW.COLOR_INACTIVE,
-		version = GetAddOnMetadata(addonName, "version")
+		version = GetAddOnMetadata and GetAddOnMetadata(addonName, "version") or C_AddOns.GetAddOnMetadata(addonName, "version")
 	}
 	local defaultOptionsChar = {
 		mainFrameX = 0,
@@ -160,7 +160,7 @@ function addon.loadData()
 		guidesFrameX = 0,
 		guidesFrameY = 0,
 		guidesFrameRelative = "CENTER",
-		version = GetAddOnMetadata(addonName, "version"),
+		version = GetAddOnMetadata and GetAddOnMetadata(addonName, "version") or C_AddOns.GetAddOnMetadata(addonName, "version"),
 		showTargetButtons = "LEFT",
 		showUseItemButtons = "LEFT",
 		showMinimapButton = true,
