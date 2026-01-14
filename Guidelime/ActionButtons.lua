@@ -54,8 +54,9 @@ end
 function AB.createTargetButton(i)
 	local button = MW.mainFrame.targetButtons[i]
 	if not button then
-		button = CreateFrame("BUTTON", "GuidelimeTargetButton" .. i, MW.mainFrame, "SecureActionButtonTemplate,ActionButtonTemplate")
+		button = CreateFrame("BUTTON", "GuidelimeTargetButton" .. i, MW.mainFrame, "SecureActionButtonTemplate")
 		button.index = i
+		button:SetSize(32, 32)
 		button:SetAttribute("type", "macro")
 		button.texture = button:CreateTexture(nil, "BACKGROUND")
 		button.texture:SetTexture(i == "Multi" and addon.icons.MULTI_TARGET_BUTTON or addon.icons.TARGET_BUTTON)
@@ -223,7 +224,8 @@ end
 function AB.createUseItemButton(i)
 	local button = MW.mainFrame.useButtons[i]
 	if not button then
-		button = CreateFrame("BUTTON", "GuidelimeUseItemButton" .. i, MW.mainFrame, "SecureActionButtonTemplate,ActionButtonTemplate")
+		button = CreateFrame("BUTTON", "GuidelimeUseItemButton" .. i, MW.mainFrame, "SecureActionButtonTemplate")
+		button:SetSize(32, 32)
 		button.texture = button:CreateTexture(nil,"BACKGROUND")
 		button.texture:SetPoint("TOPLEFT", button, -2, 1)					
 		button.texture:SetPoint("BOTTOMRIGHT", button, 2, -2)
