@@ -889,7 +889,7 @@ function E.showEditor()
 		E.editorFrame.okBtn:SetText(nil)
 		
 		E.editorFrame.title = E.editorFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-		E.editorFrame.title:SetText(GetAddOnMetadata(addonName, "title") .. " |cFFFFFFFF" .. GetAddOnMetadata(addonName, "version") .." - " .. L.EDITOR)
+		E.editorFrame.title:SetText(C_AddOns.GetAddOnMetadata(addonName, "title") .. " |cFFFFFFFF" .. C_AddOns.GetAddOnMetadata(addonName, "version") .." - " .. L.EDITOR)
 		E.editorFrame.title:SetPoint("TOPLEFT", 20, -20)
 		E.editorFrame.title:SetFontObject("GameFontNormalLarge")
 		local prev = E.editorFrame.title

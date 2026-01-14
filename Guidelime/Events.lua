@@ -624,19 +624,6 @@ function EV.frame:UNIT_SPELLCAST_SUCCEEDED(unitTarget, castGUID, spellID)
 	end)
 end
 
-EV.frame:RegisterEvent('LEARNED_SPELL_IN_TAB')
-function EV.frame:LEARNED_SPELL_IN_TAB(spellID, skillInfoIndex, isGuildPerkSpell)
-	if addon.debugging then print("LIME: LEARNED_SPELL_IN_TAB", spellID, skillInfoIndex, isGuildPerkSpell) end
-	local found = false
-	CG.forEveryActiveElement(function(element)
-		if element.t == "LEARN" and element.spellId == spellID then
-			found = true
-			return false
-		end
-	end)
-	if found then CG.updateSteps() end
-end
-
 EV.frame:RegisterEvent('SKILL_LINES_CHANGED')
 function EV.frame:SKILL_LINES_CHANGED()
 	if addon.debugging then print("LIME: SKILL_LINES_CHANGED") end
