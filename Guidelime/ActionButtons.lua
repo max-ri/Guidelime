@@ -70,6 +70,8 @@ function AB.createTargetButton(i)
 		button.hotkey:SetSize(32, 10)
 		button.hotkey:SetPoint("TOPRIGHT", button, 0, -1)
 		button.hotkey:SetJustifyH("RIGHT")
+		button:RegisterForClicks("AnyUp", "AnyDown")
+		button:SetMouseClickEnabled(true)
 		MW.mainFrame.targetButtons[i] = button
 	end
 	button:ClearAllPoints()
@@ -239,6 +241,8 @@ function AB.createUseItemButton(i)
 		button.count = button:CreateFontString(nil, "ARTWORK", "NumberFontNormal")
 		button.count:SetPoint("BOTTOMRIGHT", button, -1, 1)
 		button.count:SetJustifyH("RIGHT")
+		button:RegisterForClicks("AnyUp", "AnyDown")
+		button:SetMouseClickEnabled(true)
 		button.Update = function(self)
             local start, duration, enable
 			if self.spellId then
