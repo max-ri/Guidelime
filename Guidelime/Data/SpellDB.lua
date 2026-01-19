@@ -43,9 +43,12 @@ function SP.getLocalizedName(name)
 	if (type(name) == "number") then 
 		local id = name
 		local localized = (GetSpellInfo(id))
-		if not localized and not SP.reloadOnSpellData then 
+		if not localized and (not SP.loadSpellRequest or not SP.loadSpellRequest[id]) then 
+			if addon.debugging then print("LIME: requesting spell data", id) end
 			SP.reloadOnSpellData = true 
 			C_Spell.RequestLoadSpellData(id)
+			if not SP.loadSpellRequest then SP.loadSpellRequest = {} end
+			SP.loadSpellRequest[id] = true
 		end
 		if localized then return localized, id end
 		name = SP.getSpellById(id)
@@ -82,9 +85,12 @@ end
 
 function SP.getSpellRankById(id)
 	local rank = GetSpellSubtext(id)
-	if not rank and not SP.reloadOnSpellData then 
+	if not rank and (not SP.loadSpellRequest or not SP.loadSpellRequest[id]) then 
+		if addon.debugging then print("LIME: requesting spell data", id) end
 		SP.reloadOnSpellData = true 
 		C_Spell.RequestLoadSpellData(id)
+		if not SP.loadSpellRequest then SP.loadSpellRequest = {} end
+		SP.loadSpellRequest[id] = true
 	end
 	if rank ~= nil and rank:sub(1, RANK:len()) == RANK then return tonumber(rank:sub(RANK:len() + 2)) end
 	return 1 
