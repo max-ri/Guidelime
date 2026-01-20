@@ -79,7 +79,7 @@ function AB.createTargetButton(i)
 end
 
 -- global function to be used in the macro: Set target marker on target if it does not have one already; remove existing marker when no target
-function LIME_Mark(iconId)
+function LIME(iconId)
 	SetRaidTarget("player", iconId)
 	SetRaidTarget("player", 0)
 	if UnitGUID("target") and not GetRaidTargetIndex("target") then SetRaidTarget("target", iconId) end
@@ -87,20 +87,28 @@ end
 
 local function getTargetMacro(t)
 	return "/targetexact " .. t.name .. 
-		(t.marker and "\n/run LIME_Mark(".. t.marker .. ")" or "")
+		(t.marker and "\n/run LIME(".. t.marker .. ")" or "")
 end
 
 local function getTargetMacroMulti(targets)
 	local macro = ""
 	for i, t in ipairs(targets) do
 		local m = getTargetMacro(t)
-		if #macro + #m + 1 > 1023 then
+		local maxMacroLength
+		if select(4, GetBuildInfo()) >= 20505 and select(4, GetBuildInfo()) < 30000 then		
+			maxMacroLength = 240
+		else
+			maxMacroLength = 1022
+		end
+		if #macro + #m > maxMacroLength then
 			if addon.debugging then print("LIME: target macro multi is too long") end
+			--if addon.debugging then print("LIME: target macro -", macro) end
 			return macro
 		end
 		macro = macro .. m .. "\n"
 	end
 	if addon.debugging then print("LIME: target macro multi length is", #macro) end
+	--if addon.debugging then print("LIME: target macro -", macro) end
 	return macro
 end
 
