@@ -196,7 +196,7 @@ function addon.loadData()
 		if tonumber(major) < 1 or (tonumber(major) == 1 and tonumber(minor) < 2) then
 			--changed default value for showUnavailableSteps
 			GuidelimeDataChar.showUnavailableSteps = true
-			GuidelimeDataChar.version = GetAddOnMetadata(addonName, "version")
+			GuidelimeDataChar.version = GetAddOnMetadata and GetAddOnMetadata(addonName, "version") or C_AddOns.GetAddOnMetadata(addonName, "version")
 		end
 		if tonumber(major) == 0 and tonumber(minor) < 41 then
 			GuidelimeDataChar.autoCompleteQuest = nil
@@ -218,7 +218,7 @@ function addon.loadData()
 			GuidelimeData.autoAcceptQuests = (GuidelimeData.autoCompleteQuest ~= false and "Current") or false
 			GuidelimeData.autoTurnInQuests = GuidelimeData.autoAcceptQuests
 			GuidelimeData.autoCompleteQuest = nil
-			GuidelimeData.version = GetAddOnMetadata(addonName, "version")
+			GuidelimeData.version = GetAddOnMetadata and GetAddOnMetadata(addonName, "version") or C_AddOns.GetAddOnMetadata(addonName, "version")
 		end
 		if tonumber(major) < 2 or (tonumber(major) == 2 and tonumber(minor) < 15) then
 			-- dataSourceQuestie is removed and replaced with dataSource which should be set to "QUESTIE"
