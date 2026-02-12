@@ -314,7 +314,7 @@ function M.getArrowIconText()
 		return "|T" .. addon.icons.MAP_LIME_ARROW .. ":15:15:0:1:512:512:" .. 
 			col * 64 .. ":" .. (col + 1) * 64 .. ":" .. 
 			row * 64 .. ":" .. (row + 1) * 64 .. ":::|t"
-	elseif GuidelimeData.arrowStyle == 2 then
+	else --if GuidelimeData.arrowStyle == 2 then
 		return "|T" .. addon.icons.MAP_ARROW .. ":15:15:0:1:512:512:" .. 
 			col * 56 .. ":" .. (col + 1) * 56 .. ":" .. 
 			row * 42 .. ":" .. (row + 1) * 42 .. ":127:255:51|t"
