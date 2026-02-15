@@ -820,7 +820,7 @@ function O.isOptionsShowing()
 end
 
 function O.showOptions()
-	if not addon.dataLoaded then loadData() end
+	if not addon.dataLoaded then addon.loadData() end
 	if O.isOptionsShowing() then 
 		if InterfaceOptionsFrame then
 			InterfaceOptionsFrame:Hide()
