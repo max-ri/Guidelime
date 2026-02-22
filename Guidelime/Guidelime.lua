@@ -190,6 +190,17 @@ function addon.loadData()
 	for option, default in pairs(defaultOptionsChar) do
 		if GuidelimeDataChar[option] == nil then GuidelimeDataChar[option] = default end
 	end
+	
+	-- Sanity checks for certain parameter values
+	if GuidelimeData.mapMarkerStyleGOTO < 1 or GuidelimeData.mapMarkerStyleGOTO > 3 then
+		GuidelimeData.mapMarkerStyleGOTO = defaultOptions.mapMarkerStyleGOTO
+	end
+	if GuidelimeData.mapMarkerStyleLOC < 1 or GuidelimeData.mapMarkerStyleLOC > 3 then
+		GuidelimeData.mapMarkerStyleLOC = defaultOptions.mapMarkerStyleLOC
+	end
+	if GuidelimeData.arrowStyle < 1 or GuidelimeData.arrowStyle > 2 then
+		GuidelimeData.arrowStyle = defaultOptions.arrowStyle
+	end
 
 	GuidelimeDataChar.version:gsub("(%d+).(%d+)", function(major, minor)
 		if GuidelimeData.debugging then print("LIME: last saved character data version", major, minor) end
