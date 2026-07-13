@@ -624,8 +624,8 @@ function EV.frame:UNIT_SPELLCAST_SUCCEEDED(unitTarget, castGUID, spellID)
 	end)
 end
 
--- new UI version for new TBC
-if select(4, GetBuildInfo()) >= 20505 and select(4, GetBuildInfo()) < 30000 then
+-- new UI version for new TBC/Mists but not for Classic Era (yet)
+if select(4, GetBuildInfo()) > 11508 then
 	EV.frame:RegisterEvent('LEARNED_SPELL_IN_SKILL_LINE')
 else
 	EV.frame:RegisterEvent('LEARNED_SPELL_IN_TAB')
