@@ -624,17 +624,9 @@ function EV.frame:UNIT_SPELLCAST_SUCCEEDED(unitTarget, castGUID, spellID)
 	end)
 end
 
--- new UI version for new TBC/Mists but not for Classic Era (yet)
-if select(4, GetBuildInfo()) > 11508 then
-	EV.frame:RegisterEvent('LEARNED_SPELL_IN_SKILL_LINE')
-else
-	EV.frame:RegisterEvent('LEARNED_SPELL_IN_TAB')
-end
+EV.frame:RegisterEvent('LEARNED_SPELL_IN_SKILL_LINE')
 function EV.frame:LEARNED_SPELL_IN_SKILL_LINE(spellID, skillInfoIndex, isGuildPerkSpell)
-	EV.frame:LEARNED_SPELL_IN_TAB(spellID, skillInfoIndex, isGuildPerkSpell)
-end
-function EV.frame:LEARNED_SPELL_IN_TAB(spellID, skillInfoIndex, isGuildPerkSpell)
-	if addon.debugging then print("LIME: LEARNED_SPELL_IN_TAB", spellID, skillInfoIndex, isGuildPerkSpell) end
+	if addon.debugging then print("LIME: LEARNED_SPELL_IN_SKILL_LINE", spellID, skillInfoIndex, isGuildPerkSpell) end
 	local found = false
 	CG.forEveryActiveElement(function(element)
 		if element.t == "LEARN" and element.spellId == spellID then
