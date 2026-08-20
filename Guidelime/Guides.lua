@@ -13,14 +13,151 @@ addon.G = addon.G or {}; local G = addon.G     -- Guides
 
 G.GUIDE_LIST_URL = "https://github.com/max-ri/guidelime/wiki/GuideList"
 
+local function setGuideBackdrop(guideFrame, hover)
+	if guideFrame == nil then return end
+	if hover and guideFrame.name ~= GuidelimeDataChar.currentGuide then
+		guideFrame:SetBackdropColor(0.5,0.5,1,1)
+	elseif guideFrame.searchHighlight then
+		guideFrame:SetBackdropColor(0.2,0.6,0.2,1)
+	elseif guideFrame.name == GuidelimeDataChar.currentGuide then
+		guideFrame:SetBackdropColor(1,1,0,1)
+	else
+		guideFrame:SetBackdropColor(0,0,0,0)
+	end
+end
+
+local function cleanSearchText(text)
+	return (text or ""):lower():gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", ""):gsub("^%s+", ""):gsub("%s+$", "")
+end
+
+local function guideMatchesSearch(name, guide, searchText)
+	return cleanSearchText(name):find(searchText, 1, true) ~= nil or
+		cleanSearchText(guide.title):find(searchText, 1, true) ~= nil or
+		cleanSearchText(guide.group):find(searchText, 1, true) ~= nil
+end
+
+local function scrollToGuide(guideFrame)
+	local scrollFrame = G.guidesFrame and G.guidesFrame.guidesScrollFrame
+	if scrollFrame == nil or guideFrame == nil then return end
+
+	local frameTop, frameBottom = guideFrame:GetTop(), guideFrame:GetBottom()
+	local scrollTop, scrollBottom = scrollFrame:GetTop(), scrollFrame:GetBottom()
+	if frameTop == nil or frameBottom == nil or scrollTop == nil or scrollBottom == nil then return end
+
+	local scroll = scrollFrame:GetVerticalScroll() or 0
+	local range = scrollFrame:GetVerticalScrollRange() or 0
+	if frameTop > scrollTop then
+		scroll = scroll - (frameTop - scrollTop) - 5
+	elseif frameBottom < scrollBottom then
+		scroll = scroll + (scrollBottom - frameBottom) + 5
+	else
+		return
+	end
+	scroll = math.max(0, math.min(scroll, range))
+	scrollFrame:SetVerticalScroll(scroll)
+	if scrollFrame.ScrollBar ~= nil then scrollFrame.ScrollBar:SetValue(scroll) end
+end
+
+local function showGuideSearchMatch(matchIndex)
+	if G.guidesFrame == nil or G.guidesFrame.searchMatches == nil then return end
+	local name = G.guidesFrame.searchMatches[matchIndex]
+	local guideFrame = name ~= nil and G.guidesFrame.guides and G.guidesFrame.guides[name]
+	if guideFrame == nil then return end
+
+	G.guidesFrame.searchMatchIndex = matchIndex
+	G.guidesFrame.searchMatch = name
+	guideFrame.searchHighlight = true
+	setGuideBackdrop(guideFrame)
+	scrollToGuide(guideFrame)
+end
+
+local function updateGuideSearch(resetMatch)
+	if G.guidesFrame == nil then return end
+	if G.guidesFrame.guides ~= nil then
+		for _, guideFrame in pairs(G.guidesFrame.guides) do
+			guideFrame.searchHighlight = false
+			setGuideBackdrop(guideFrame)
+		end
+	end
+	G.guidesFrame.searchMatch = nil
+	G.guidesFrame.searchMatches = {}
+
+	local searchBox = G.guidesFrame.searchBox
+	local searchText = cleanSearchText(searchBox and searchBox:GetText())
+	if searchText == "" or G.guidesFrame.guides == nil then
+		G.guidesFrame.searchText = searchText
+		G.guidesFrame.searchMatchIndex = nil
+		return
+	end
+
+	for _, name in ipairs(G.guidesFrame.guideOrder or {}) do
+		local guide = addon.guides[name]
+		local guideFrame = G.guidesFrame.guides[name]
+		if guide ~= nil and guideFrame ~= nil and guideMatchesSearch(name, guide, searchText) then
+			table.insert(G.guidesFrame.searchMatches, name)
+		end
+	end
+
+	if #G.guidesFrame.searchMatches == 0 then
+		G.guidesFrame.searchText = searchText
+		G.guidesFrame.searchMatchIndex = nil
+		return
+	end
+
+	if resetMatch or G.guidesFrame.searchText ~= searchText or G.guidesFrame.searchMatchIndex == nil or G.guidesFrame.searchMatchIndex > #G.guidesFrame.searchMatches then
+		G.guidesFrame.searchMatchIndex = 1
+	end
+	G.guidesFrame.searchText = searchText
+	showGuideSearchMatch(G.guidesFrame.searchMatchIndex)
+end
+
+local function nextGuideSearchMatch()
+	if G.guidesFrame == nil then return end
+	local searchText = cleanSearchText(G.guidesFrame.searchBox and G.guidesFrame.searchBox:GetText())
+	if searchText == "" then return end
+	if G.guidesFrame.searchText ~= searchText or G.guidesFrame.searchMatches == nil or #G.guidesFrame.searchMatches == 0 then
+		updateGuideSearch(true)
+		return
+	end
+
+	if G.guidesFrame.guides ~= nil and G.guidesFrame.searchMatch ~= nil and G.guidesFrame.guides[G.guidesFrame.searchMatch] ~= nil then
+		G.guidesFrame.guides[G.guidesFrame.searchMatch].searchHighlight = false
+		setGuideBackdrop(G.guidesFrame.guides[G.guidesFrame.searchMatch])
+	end
+	local nextIndex = (G.guidesFrame.searchMatchIndex or 0) + 1
+	if nextIndex > #G.guidesFrame.searchMatches then nextIndex = 1 end
+	showGuideSearchMatch(nextIndex)
+end
+
+local function hideGuideSearch()
+	if G.guidesFrame == nil or G.guidesFrame.searchBox == nil then return end
+	G.guidesFrame.searchBox:SetText("")
+	G.guidesFrame.searchBox:ClearFocus()
+	G.guidesFrame.searchBox:Hide()
+	updateGuideSearch(true)
+end
+
+local function showGuideSearch()
+	if G.guidesFrame == nil or G.guidesFrame.searchBox == nil then return end
+	G.guidesFrame.searchBox:Show()
+	G.guidesFrame.searchBox:SetFocus()
+	G.guidesFrame.searchBox:HighlightText()
+	updateGuideSearch(true)
+end
+
 function G.loadGuide(name)
 	if addon.debugging then print("LIME: load guide", name) end
+
+	local previousGuide = GuidelimeDataChar.currentGuide
+	GuidelimeDataChar.currentGuide = name
 	
 	if G.guidesFrame ~= nil then
-		if GuidelimeDataChar.currentGuide ~= nil and G.guidesFrame.guides[GuidelimeDataChar.currentGuide] ~= nil then
-			G.guidesFrame.guides[GuidelimeDataChar.currentGuide]:SetBackdropColor(0,0,0,0)	
+		if G.guidesFrame.guides ~= nil and previousGuide ~= nil and G.guidesFrame.guides[previousGuide] ~= nil then
+			setGuideBackdrop(G.guidesFrame.guides[previousGuide])
 		end
-		G.guidesFrame.guides[name]:SetBackdropColor(1,1,0,1)
+		if G.guidesFrame.guides ~= nil and G.guidesFrame.guides[name] ~= nil then
+			setGuideBackdrop(G.guidesFrame.guides[name])
+		end
 		G.guidesFrame.text1:SetText(L.CURRENT_GUIDE .. ": |cFFFFFFFF" .. name .. "\n")
 	end
 	if E.editorFrame ~= nil then
@@ -29,7 +166,6 @@ function G.loadGuide(name)
 			E.editorFrame.textBox:SetText(addon.guides[name].text:gsub("|","¦"))
 		end
 	end
-	GuidelimeDataChar.currentGuide = name
 	if addon.guides[name] ~= nil then 
 		GuidelimeData.lastGuideGroup = addon.guides[name].group
 	end
@@ -102,13 +238,42 @@ function G.showGuides()
 		G.guidesFrame.text2:SetText(L.AVAILABLE_GUIDES .. ":\n")
 		G.guidesFrame.text2:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
 		prev = G.guidesFrame.text2
-	
+
+		G.guidesFrame.searchBtn = CreateFrame("BUTTON", nil, G.guidesFrame, "UIPanelButtonTemplate")
+		G.guidesFrame.searchBtn:SetFrameLevel(G.guidesFrame:GetFrameLevel() + 3)
+		G.guidesFrame.searchBtn:SetSize(24, 20)
+		G.guidesFrame.searchBtn:SetPoint("TOPRIGHT", G.guidesFrame, "TOPRIGHT", -45, -79)
+		G.guidesFrame.searchBtn.icon = G.guidesFrame.searchBtn:CreateTexture(nil, "ARTWORK")
+		G.guidesFrame.searchBtn.icon:SetTexture("Interface\\Common\\UI-Searchbox-Icon")
+		G.guidesFrame.searchBtn.icon:SetSize(14, 14)
+		G.guidesFrame.searchBtn.icon:SetPoint("CENTER")
+		F.setTooltip(G.guidesFrame.searchBtn, SEARCH or "Search")
+		G.guidesFrame.searchBtn:SetScript("OnClick", function()
+			if G.guidesFrame.searchBox:IsShown() then
+				hideGuideSearch()
+			else
+				showGuideSearch()
+			end
+		end)
+
+		G.guidesFrame.searchBox = CreateFrame("EditBox", nil, G.guidesFrame, "InputBoxTemplate")
+		G.guidesFrame.searchBox:SetFrameLevel(G.guidesFrame:GetFrameLevel() + 3)
+		G.guidesFrame.searchBox:SetSize(250, 20)
+		G.guidesFrame.searchBox:SetPoint("RIGHT", G.guidesFrame.searchBtn, "LEFT", -6, 0)
+		G.guidesFrame.searchBox:SetFontObject("GameFontNormal")
+		G.guidesFrame.searchBox:SetAutoFocus(false)
+		G.guidesFrame.searchBox:SetScript("OnTextChanged", function() updateGuideSearch(true) end)
+		G.guidesFrame.searchBox:SetScript("OnEnterPressed", nextGuideSearchMatch)
+		G.guidesFrame.searchBox:SetScript("OnEscapePressed", hideGuideSearch)
+		G.guidesFrame.searchBox:Hide()
+
 	    local scrollFrame = CreateFrame("ScrollFrame", nil, G.guidesFrame, "UIPanelScrollFrameTemplate")
 	    scrollFrame:SetPoint("TOPLEFT", prev, "TOPLEFT", 0, -20)
 	    scrollFrame:SetPoint("RIGHT", G.guidesFrame, "RIGHT", -30, 0)
 	    scrollFrame:SetPoint("BOTTOM", G.guidesFrame, "BOTTOM", 0, 160)
-	
-	    G.guidesFrame.content = CreateFrame("Frame", nil, scrollFrame) 
+		G.guidesFrame.guidesScrollFrame = scrollFrame
+
+	    G.guidesFrame.content = CreateFrame("Frame", nil, scrollFrame)
 	    G.guidesFrame.content:SetSize(1, 1) 
 	    scrollFrame:SetScrollChild(G.guidesFrame.content)
 
@@ -198,6 +363,7 @@ function G.showGuides()
 	G.guidesFrame.groups = {}
 	G.guidesFrame.guides = {}
 	G.guidesFrame.messages = {}
+	G.guidesFrame.guideOrder = {}
 	
 	for i, group in ipairs(groupNames) do
 		local guides = groups[group]
@@ -231,6 +397,7 @@ function G.showGuides()
 		prev = G.guidesFrame.groups[group]
 		for j, name in ipairs(guides) do
 			local guide = addon.guides[name]
+			table.insert(G.guidesFrame.guideOrder, name)
 
 			local text = ""
 			if guide.minLevel ~= nil then
@@ -269,26 +436,19 @@ function G.showGuides()
 			})
 			G.guidesFrame.guides[name].name = name
 			G.guidesFrame.guides[name].guide = guide
-			if name == GuidelimeDataChar.currentGuide then
-				G.guidesFrame.guides[name]:SetBackdropColor(1,1,0,1)	
-			else
-				G.guidesFrame.guides[name]:SetBackdropColor(0,0,0,0)	
-			end
+			G.guidesFrame.guides[name].searchHighlight = name == G.guidesFrame.searchMatch
+			setGuideBackdrop(G.guidesFrame.guides[name])
 			G.guidesFrame.guides[name]:SetScript("OnEnter", function(self)
 				G.guidesFrame.textDetails:SetText(self.guide.details or "")
 				G.guidesFrame.textDetails.url = self.guide.detailsUrl or ""
-				if self.name ~= GuidelimeDataChar.currentGuide then
-					self:SetBackdropColor(0.5,0.5,1,1)	
-				end
+				setGuideBackdrop(self, true)
 			end)
 			G.guidesFrame.guides[name]:SetScript("OnLeave", function(self)
 				if GuidelimeDataChar.currentGuide ~= nil and addon.guides[GuidelimeDataChar.currentGuide] ~= nil then
 					G.guidesFrame.textDetails:SetText(addon.guides[GuidelimeDataChar.currentGuide].details or "")
 					G.guidesFrame.textDetails.url = addon.guides[GuidelimeDataChar.currentGuide].detailsUrl or ""
 				end
-				if self.name ~= GuidelimeDataChar.currentGuide then
-					self:SetBackdropColor(0,0,0,0)	
-				end
+				setGuideBackdrop(self)
 			end)
 			prev = G.guidesFrame.guides[name]
 		end
@@ -311,6 +471,7 @@ function G.showGuides()
 	end
 
 	G.guidesFrame:Show()
+	updateGuideSearch()
 end
 
 function G.isGuidesShowing()
