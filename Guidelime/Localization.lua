@@ -209,6 +209,7 @@ L.TARGET_X = "Target NPC %d" -- as in "Target NPC 1" by number for key bindings 
 L.TARGET_1 = "Target NPC 1 (also used to target any of the given NPCs)" -- as in "Target NPC 1" for key bindings dialog
 L.WOWHEAD_OPEN_QUEST = "Show quest on 'Wowhead'"
 L.WOWHEAD_URL_CLASSIC = "https://classic.wowhead.com"
+L.WOWHEAD_URL_TBC = "https://tbc.wowhead.com"
 L.WOWHEAD_URL_WOTLK = "https://www.wowhead.com/wotlk"
 L.WOWHEAD_URL_CATA = "https://www.wowhead.com/cata"
 L.WOWHEAD_URL_MOP = "https://www.wowhead.com/mop-classic"
