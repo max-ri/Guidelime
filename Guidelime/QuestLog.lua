@@ -10,6 +10,7 @@ addon.QS = addon.QS or {}; local QS = addon.QS -- QuestScan
 addon.QL = addon.QL or {}; local QL = addon.QL -- QuestLog
 
 function QL.updateQuestLog()
+	if not addon.dataLoaded or not QS.scannedQuests then return end
 	if not GuidelimeData.showQuestLevels and not GuidelimeData.showQuestIds and not GuidelimeData.showTooltips then return end
 
 	local numEntries, numQuests = GetNumQuestLogEntries();
