@@ -349,7 +349,8 @@ function G.selectStartGuide()
 			BloodElf = {'bloodelf', 'eversongwoods'},
 			Worgen = {'worgen', 'gilneas'},
 			Goblin = {'goblin', 'kezan'},
-			Pandaren = {'pandaren', 'wanderingisle'}	
+			Pandaren = {'pandaren', 'wanderingisle'},
+			Skyborne = {'skyborne', 'zephrasisle'}
 		}
 	end
 	local matchingGuides = {}

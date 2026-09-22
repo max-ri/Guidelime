@@ -10,8 +10,8 @@ addon.SP = addon.SP or {}; local SP = addon.SP -- Data/SpellDB
 addon.D = addon.D or {}; local D = addon.D     -- Data/Data
 
 D.factions = {"Alliance", "Horde"}
-D.races = {Human = "Alliance", NightElf = "Alliance", Dwarf = "Alliance", Gnome = "Alliance", Orc = "Horde", Troll = "Horde", Tauren = "Horde", Undead = "Horde", Draenei = "Alliance", BloodElf = "Horde", Worgen = "Alliance", Goblin = "Horde", Pandaren = "Neutral"}
-D.raceIDs = {Human = 1, NightElf = 4, Dwarf = 3, Gnome = 7, Orc = 2, Troll = 8, Tauren = 6, Undead = 5, BloodElf = 10, Draenei = 11, Worgen = 22, Goblin = 9, Pandaren = 24}
+D.races = {Human = "Alliance", NightElf = "Alliance", Dwarf = "Alliance", Gnome = "Alliance", Orc = "Horde", Troll = "Horde", Tauren = "Horde", Undead = "Horde", Draenei = "Alliance", BloodElf = "Horde", Worgen = "Alliance", Goblin = "Horde", Pandaren = "Neutral", Skyborne = "Neutral"}
+D.raceIDs = {Human = 1, NightElf = 4, Dwarf = 3, Gnome = 7, Orc = 2, Troll = 8, Tauren = 6, Undead = 5, BloodElf = 10, Draenei = 11, Worgen = 22, Goblin = 9, Pandaren = 24, Skyborne = 95}
 D.classes = {"Warrior", "Rogue", "Mage", "Warlock", "Hunter", "Priest", "Druid", "Paladin", "Shaman", "DeathKnight", "Monk"}
 D.classesWithFaction = {}
 D.classesPerRace = {
@@ -27,7 +27,8 @@ D.classesPerRace = {
 	BloodElf = {"Warrior", "Hunter", "Mage", "Paladin", "Priest", "Rogue", "Warlock", "DeathKnight", "Monk"},
 	Worgen = {"Warrior", "Hunter", "Rogue", "Priest", "Mage", "Warlock", "Druid", "DeathKnight"},
 	Goblin = {"Warrior", "Hunter", "Rogue", "Priest", "Shaman", "Mage", "Warlock", "DeathKnight"},
-	Pandaren = {"Hunter", "Mage", "Monk", "Priest", "Rogue", "Shaman", "Warrior"}
+	Pandaren = {"Hunter", "Mage", "Monk", "Priest", "Rogue", "Shaman", "Warrior"},
+	Skyborne = {"Warrior", "Hunter", "Rogue", "Druid", "Mage", "Shaman"}
 }
 function D.getClass(class)
 	class = class:upper():gsub(" ","")
@@ -370,7 +371,8 @@ D.RACE_ICON_TCOORDS = {
 };
 
 function D.getRaceIconText(race, sex, size)
-	local coords = D.RACE_ICON_TCOORDS[D.getRace(race)][D.getSex(sex)]
+	local coords = (D.RACE_ICON_TCOORDS[D.getRace(race)] or {})[D.getSex(sex)]
+	if not coords then return "" end -- no icon in the race atlas for Skyborne
 	return "|TInterface\\GLUES\\CHARACTERCREATE\\UI-CHARACTERCREATE-RACES:" .. (size or 12) .. ":" .. (size or 12) .. ":0:0:128:128:" .. 
 		coords[1] * 128 .. ":" .. coords[2] * 128 .. ":" .. coords[3] * 128 .. ":" .. coords[4] * 128 .. ":::|t"
 end
