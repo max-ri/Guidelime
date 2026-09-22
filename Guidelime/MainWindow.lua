@@ -17,6 +17,25 @@ addon.QL = addon.QL or {}; local QL = addon.QL -- QuestLog
 
 addon.MW = addon.MW or {}; local MW = addon.MW -- MainWindow
 
+local function getWowheadQuestUrl(questId)
+	local build = select(4, GetBuildInfo())
+	local baseUrl
+
+	if build < 20000 then
+		baseUrl = L.WOWHEAD_URL_CLASSIC
+	elseif build < 30000 then
+		baseUrl = L.WOWHEAD_URL_TBC
+	elseif build < 40000 then
+		baseUrl = L.WOWHEAD_URL_WOTLK
+	elseif build < 50000 then
+		baseUrl = L.WOWHEAD_URL_CATA
+	else
+		baseUrl = L.WOWHEAD_URL_MOP
+	end
+
+	return baseUrl .. "/quest=" .. questId
+end
+
 MW.COLOR_QUEST_DEFAULT = "|cFF59C4F1"
 MW.COLOR_LEVEL_RED = "|cFFFF1400"
 MW.COLOR_LEVEL_ORANGE = "|cFFFFA500"
@@ -60,7 +79,7 @@ function MW.getRequiredLevelColor(level)
 	end
 end
 
-function MW.showContextMenu(questId)
+function MW.showContextMenu(questId, anchor)
 	local menuFrame = CreateFrame("Frame", "GuidelimeContextMenu", nil, "UIDropDownMenuTemplate")
 	UIDropDownMenu_Initialize(menuFrame, function(self, level, menuList)
   		local info = UIDropDownMenu_CreateInfo()
@@ -102,7 +121,7 @@ function MW.showContextMenu(questId)
     	UIDropDownMenu_AddButton(info)
 		if questId then
 			info.text, info.notCheckable, info.func = L.WOWHEAD_OPEN_QUEST, true, function()
-				F.showUrlPopup((select(4, GetBuildInfo()) < 20000 and L.WOWHEAD_URL_CLASSIC or L.WOWHEAD_URL_MOP) .. "/quest=" .. questId)
+				F.showUrlPopup(getWowheadQuestUrl(questId), anchor)
 			end
     		UIDropDownMenu_AddButton(info)
 		end
@@ -146,7 +165,7 @@ local function onMouseUp(self, button, questId, url)
 			F.showUrlPopup(url) 
 		end
 	elseif button == "RightButton" then
-		MW.showContextMenu(type(questId) == 'number' and questId)
+		MW.showContextMenu(type(questId) == 'number' and questId, self)
 	end
 end
 

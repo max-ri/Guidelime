@@ -209,8 +209,69 @@ function F.createPopupFrame(message, okFunc, hasCancel, height)
 	return F.popupFrame
 end
 
-function F.showUrlPopup(url)
-	return F.showCopyPopup(url, L.URL, 100, 120, true)
+local function createQuestUrlPopup()
+	local popup = CreateFrame("Frame", nil, UIParent, BackdropTemplateMixin and "BackdropTemplate")
+	popup:SetSize(360, 72)
+	popup:SetBackdrop({
+		bgFile = "Interface/Addons/" .. addonName .. "/Icons/Black",
+		edgeFile = "Interface/DialogFrame/UI-DialogBox-Border",
+		tile = false, edgeSize = 24,
+		insets = { left = 8, right = 8, top = 8, bottom = 8 }
+	})
+	popup:SetBackdropColor(0, 0, 0, 1)
+	popup:SetFrameStrata("DIALOG")
+	popup:SetClampedToScreen(true)
+	popup:EnableMouse(true)
+
+	popup.textbox = CreateFrame("EditBox", nil, popup, "InputBoxTemplate")
+	popup.textbox:SetPoint("TOPLEFT", popup, "TOPLEFT", 14, -12)
+	popup.textbox:SetPoint("TOPRIGHT", popup, "TOPRIGHT", -14, -12)
+	popup.textbox:SetHeight(20)
+	popup.textbox:SetAutoFocus(false)
+	popup.textbox:SetFontObject("GameFontHighlight")
+	popup.textbox:SetScript("OnEditFocusGained", function(self)
+		self:HighlightText()
+	end)
+	popup.textbox:SetScript("OnEscapePressed", function()
+		popup:Hide()
+	end)
+	popup.textbox:SetScript("OnKeyUp", function(_, key)
+		local copyModifierDown = IsControlKeyDown() or (IsMetaKeyDown and IsMetaKeyDown())
+		if copyModifierDown and key == "C" then
+			popup:Hide()
+		end
+	end)
+
+	popup.okBtn = CreateFrame("Button", nil, popup, "UIPanelButtonTemplate")
+	popup.okBtn:SetSize(88, 22)
+	popup.okBtn:SetPoint("BOTTOMRIGHT", popup, "BOTTOMRIGHT", -12, 10)
+	popup.okBtn:SetText(OKAY)
+	popup.okBtn:SetScript("OnClick", function()
+		popup:Hide()
+	end)
+
+	popup.hint = popup:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+	popup.hint:SetPoint("BOTTOMLEFT", popup, "BOTTOMLEFT", 14, 15)
+	popup.hint:SetText(L.URL)
+
+	return popup
+end
+
+function F.showUrlPopup(url, anchor)
+	if anchor == nil then
+		return F.showCopyPopup(url, L.URL, 100, 120, true)
+	end
+
+	F.questUrlPopup = F.questUrlPopup or createQuestUrlPopup()
+	local popup = F.questUrlPopup
+	popup:Hide()
+	popup:ClearAllPoints()
+	popup:SetPoint("TOPLEFT", anchor, "BOTTOMLEFT", 0, -4)
+	popup.textbox:SetText(url)
+	popup:Show()
+	popup.textbox:SetFocus()
+	popup.textbox:HighlightText()
+	return popup
 end
 
 function F.showCopyPopup(value, text, textwidth, height, multiline)
