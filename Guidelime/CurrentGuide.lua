@@ -1,5 +1,5 @@
 local addonName, addon = ...
-local GetSpellInfo, GetItemCount = addon.GetSpellInfo, addon.GetItemCount
+local GetSpellInfo, GetItemCount, GetItemIcon = addon.GetSpellInfo, addon.GetItemCount, addon.GetItemIcon
 local L = addon.L
 
 local HBD = LibStub("HereBeDragons-2.0")
