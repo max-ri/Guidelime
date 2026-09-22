@@ -1,4 +1,5 @@
 local addonName, addon = ...
+local GetNumSkillLines, GetSkillLineInfo = addon.GetNumSkillLines, addon.GetSkillLineInfo
 
 addon.SK = addon.SK or {}; local SK = addon.SK     -- Data/SkillDB
 

@@ -1,4 +1,5 @@
 local addonName, addon = ...
+local GetSpellInfo = addon.GetSpellInfo
 
 addon.D = addon.D or {}; local D = addon.D         -- Data/Data
 addon.SK = addon.SK or {}; local SK = addon.SK     -- Data/SkillDB

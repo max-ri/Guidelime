@@ -66,16 +66,19 @@ function QL.updateQuestLog()
 		end
 	end
 end
-QuestLogFrame:HookScript('OnUpdate', QL.updateQuestLog)
+if QuestLogFrame then QuestLogFrame:HookScript('OnUpdate', QL.updateQuestLog) end
 
 function QL.showQuestLogFrame(questId)
-	local questLogIndex = GetQuestLogIndexByID(questId)
-	if questLogIndex == 0 then return end
+	local questLogIndex = GetQuestLogIndexByID and GetQuestLogIndexByID(questId) or C_QuestLog.GetLogIndexForQuestID(questId)
+	if not questLogIndex or questLogIndex == 0 then return end
 	if InCombatLockdown() then return end
-	
+
 	-- if Questie is installed we use Questie's TrackerUtils as it handles (and hopefully gets updates for) possible quest log addons (Thanks!)
 	local TrackerUtils = QuestieLoader and QuestieLoader:ImportModule("TrackerUtils")
 	if TrackerUtils then return TrackerUtils:ShowQuestLog({Id = questId}) end
+
+	-- ponytail: modern quest log (WoW: Forever), same call Questie makes there
+	if not QuestLogFrame then return QuestMapFrame_OpenToQuestDetails(questId) end
 
     SelectQuestLogEntry(questLogIndex)
     if not QuestLogFrame:IsShown() and not InCombatLockdown() then 

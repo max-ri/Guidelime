@@ -1,4 +1,5 @@
 local addonName, addon = ...
+local GetItemCount = addon.GetItemCount
 local L = addon.L
 
 local HBD = LibStub("HereBeDragons-2.0")
