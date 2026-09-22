@@ -11,6 +11,7 @@ addon.CG = addon.CG or {}; local CG = addon.CG                                  
 addon.GP = addon.GP or {}; local GP = addon.GP                                             -- GuideParser
 
 addon.QT = addon.QT or {}; local QT = addon.QT                                             -- Data/QuestTools
+QT.friendlyNpcs = QT.friendlyNpcs or {}
 
 local LIMIT_CENTER_POSITION = 400
 local LIMIT_POSITIONS = 1000
