@@ -8,6 +8,7 @@ addon.GetSpellInfo = GetSpellInfo or function(id)
 	if i then return i.name, C_Spell.GetSpellSubtext(i.spellID), i.iconID, i.castTime, i.minRange, i.maxRange, i.spellID end
 end
 
+addon.GetSpellSubtext = GetSpellSubtext or C_Spell.GetSpellSubtext
 addon.GetSpellCooldown = GetSpellCooldown or function(id)
 	local c = C_Spell.GetSpellCooldown(id)
 	if c then return c.startTime, c.duration, c.isEnabled, c.modRate end

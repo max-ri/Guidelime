@@ -78,6 +78,7 @@ function F.addSliderOption(frame, optionsTable, option, min, max, step, text, to
 			if afterUpdateFunction ~= nil then afterUpdateFunction(slider) end
         end
     end)
+    slider.SetValue = function(self, v) self.editbox:SetText(tostring(v)) end -- MainWindow resize syncs the option
     F.setTooltip(slider, tooltip)
     return slider
 end
