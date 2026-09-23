@@ -8,6 +8,8 @@ addon.GetSpellInfo = GetSpellInfo or function(id)
 	if i then return i.name, C_Spell.GetSpellSubtext(i.spellID), i.iconID, i.castTime, i.minRange, i.maxRange, i.spellID end
 end
 
+addon.GetSpellSubtext = GetSpellSubtext or C_Spell.GetSpellSubtext
+
 addon.GetSpellCooldown = GetSpellCooldown or function(id)
 	local c = C_Spell.GetSpellCooldown(id)
 	if c then return c.startTime, c.duration, c.isEnabled, c.modRate end
@@ -34,3 +36,16 @@ addon.GetSkillLineInfo = GetSkillLineInfo or function(i)
 	local name, _, rank, max = GetProfessionInfo(profs[i])
 	return name, false, nil, rank, nil, nil, max
 end
+
+local recipes = {}
+addon.GetNumTradeSkills = GetNumTradeSkills or function()
+	recipes = {}
+	for _, index in pairs(C_TradeSkillUI.GetAllRecipeIDs()) do recipes[#recipes + 1] = index end -- pairs skips nil gaps
+	return #recipes
+end
+addon.GetTradeSkillInfo = GetTradeSkillInfo or function(i)
+	local recipeInfo = C_TradeSkillUI.GetRecipeInfo(recipes[i])
+	return recipeInfo and recipeInfo.name
+end
+
+

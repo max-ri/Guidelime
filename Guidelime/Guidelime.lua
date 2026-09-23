@@ -93,7 +93,7 @@ end
 
 function addon.loadData()
 	local defaultOptions = {
-		debugging = true,
+		debugging = false,
 		showLineNumbers = false,
 		showQuestLevels = false,
 		showMinimumQuestLevels = false,

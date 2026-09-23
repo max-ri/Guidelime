@@ -1,11 +1,12 @@
 local addonName, addon = ...
-local GetSpellInfo = addon.GetSpellInfo
+local GetSpellInfo, GetSpellSubtext, GetNumTradeSkills, GetTradeSkillInfo = addon.GetSpellInfo, addon.GetSpellSubtext, addon.GetNumTradeSkills, addon.GetTradeSkillInfo
 
 addon.D = addon.D or {}; local D = addon.D         -- Data/Data
 addon.SK = addon.SK or {}; local SK = addon.SK     -- Data/SkillDB
 addon.F = addon.F or {}; local F = addon.F         -- Frames
 
 addon.SP = addon.SP or {}; local SP = addon.SP
+
 
 function SP.getSpell(name)
 	local s = name:upper():gsub("[ :%-%(%)'\"]","")
@@ -85,9 +86,9 @@ function SP.getSpellRank(name)
 end
 
 function SP.getSpellRankById(id)
+	if addon.debugging then print("LIME: requesting spell data", id) end
 	local rank = GetSpellSubtext(id)
 	if not rank and (not SP.loadSpellRequest or not SP.loadSpellRequest[id]) then 
-		if addon.debugging then print("LIME: requesting spell data", id) end
 		SP.reloadOnSpellData = true 
 		C_Spell.RequestLoadSpellData(id)
 		if not SP.loadSpellRequest then SP.loadSpellRequest = {} end
