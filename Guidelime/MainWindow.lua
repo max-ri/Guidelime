@@ -169,6 +169,182 @@ local function onMouseUp(self, button, questId, url)
 	end
 end
 
+local function cleanSearchText(text)
+	return (text or ""):lower()
+		:gsub("|c%x%x%x%x%x%x%x%x", "")
+		:gsub("|r", "")
+		:gsub("|T.-|t", "")
+		:gsub("^%s+", "")
+		:gsub("%s+$", "")
+end
+
+local function setStepSearchHighlight(stepFrame, highlighted)
+	if stepFrame == nil or stepFrame.textBox == nil then return end
+	stepFrame.searchHighlight = highlighted
+	stepFrame.textBox:SetBackdropColor(highlighted and 0.2 or 0, highlighted and 0.6 or 0, highlighted and 0.2 or 0, highlighted and 1 or 0)
+end
+
+local function layoutSearchButton()
+	if MW.mainFrame == nil or MW.mainFrame.searchBtn == nil then return end
+	MW.mainFrame.searchBtn:ClearAllPoints()
+	if GuidelimeDataChar.showTitle and MW.mainFrame.titleBox ~= nil and MW.mainFrame.titleBox:IsShown() then
+		MW.mainFrame.searchBtn:SetPoint("BOTTOMRIGHT", MW.mainFrame.titleBox, "BOTTOMRIGHT", -12, -3)
+	else
+		MW.mainFrame.searchBtn:SetPoint("TOPRIGHT", MW.mainFrame, "TOPRIGHT", -8, -7)
+	end
+end
+
+local function layoutSearchBox()
+	if MW.mainFrame == nil or MW.mainFrame.scrollFrame == nil then return end
+	if MW.mainFrame.searchBox ~= nil and MW.mainFrame.searchBox:IsShown() then
+		MW.mainFrame.searchBox:ClearAllPoints()
+		MW.mainFrame.searchBox:SetWidth(math.max(70, MW.mainFrame:GetWidth() - 50))
+		if GuidelimeDataChar.showTitle and MW.mainFrame.titleBox:IsShown() then
+			MW.mainFrame.searchBox:SetPoint("TOPLEFT", MW.mainFrame.titleBox, "BOTTOMLEFT", 10, -10)
+		else
+			MW.mainFrame.searchBox:SetPoint("TOPLEFT", MW.mainFrame, "TOPLEFT", 10, -8)
+		end
+		MW.mainFrame.scrollFrame:ClearAllPoints()
+		MW.mainFrame.scrollFrame:SetPoint("TOPLEFT", MW.mainFrame.searchBox, "BOTTOMLEFT", -10, -5)
+		MW.mainFrame.scrollFrame:SetPoint("BOTTOMRIGHT", MW.mainFrame, "BOTTOMRIGHT", 0, 0)
+	elseif GuidelimeDataChar.showTitle and MW.mainFrame.titleLine:IsShown() then
+		MW.mainFrame.scrollFrame:ClearAllPoints()
+		MW.mainFrame.scrollFrame:SetPoint("TOPLEFT", MW.mainFrame.titleLine)
+		MW.mainFrame.scrollFrame:SetPoint("BOTTOMRIGHT", MW.mainFrame, "BOTTOMRIGHT", 0, 0)
+	else
+		MW.mainFrame.scrollFrame:SetAllPoints(MW.mainFrame)
+	end
+end
+
+local function scrollToStep(stepFrame)
+	if MW.mainFrame == nil or MW.mainFrame.scrollFrame == nil or stepFrame == nil then return end
+	local frameTop, frameBottom = stepFrame:GetTop(), stepFrame:GetBottom()
+	local scrollTop, scrollBottom = MW.mainFrame.scrollFrame:GetTop(), MW.mainFrame.scrollFrame:GetBottom()
+	if frameTop == nil or frameBottom == nil or scrollTop == nil or scrollBottom == nil then return end
+
+	local scroll = MW.mainFrame.scrollFrame:GetVerticalScroll() or 0
+	local range = MW.mainFrame.scrollFrame:GetVerticalScrollRange() or 0
+	if frameTop > scrollTop then
+		scroll = scroll - (frameTop - scrollTop) - MW.GAP
+	elseif frameBottom < scrollBottom then
+		scroll = scroll + (scrollBottom - frameBottom) + MW.GAP
+	else
+		return
+	end
+	MW.mainFrame.scrollFrame:SetVerticalScroll(math.max(0, math.min(scroll, range)))
+end
+
+local function showStepSearchMatch(matchIndex)
+	if MW.mainFrame == nil or MW.mainFrame.searchMatches == nil then return end
+	local stepIndex = MW.mainFrame.searchMatches[matchIndex]
+	local stepFrame = stepIndex ~= nil and MW.mainFrame.steps and MW.mainFrame.steps[stepIndex]
+	if stepFrame == nil then return end
+
+	MW.mainFrame.searchMatchIndex = matchIndex
+	MW.mainFrame.searchMatch = stepIndex
+	setStepSearchHighlight(stepFrame, true)
+	scrollToStep(stepFrame)
+end
+
+local function updateStepSearch(resetMatch)
+	if MW.mainFrame == nil then return end
+	if MW.mainFrame.steps ~= nil then
+		for _, stepFrame in pairs(MW.mainFrame.steps) do
+			setStepSearchHighlight(stepFrame, false)
+		end
+	end
+	MW.mainFrame.searchMatch = nil
+	MW.mainFrame.searchMatches = {}
+
+	local searchText = cleanSearchText(MW.mainFrame.searchBox and MW.mainFrame.searchBox:GetText())
+	if searchText == "" or MW.mainFrame.steps == nil or CG.currentGuide == nil then
+		MW.mainFrame.searchText = searchText
+		MW.mainFrame.searchMatchIndex = nil
+		return
+	end
+
+	for i in ipairs(CG.currentGuide.steps) do
+		local stepFrame = MW.mainFrame.steps[i]
+		if stepFrame ~= nil and stepFrame.visible and stepFrame.textBox ~= nil and
+			cleanSearchText(stepFrame.textBox:GetText()):find(searchText, 1, true) ~= nil then
+			table.insert(MW.mainFrame.searchMatches, i)
+		end
+	end
+
+	if #MW.mainFrame.searchMatches == 0 then
+		MW.mainFrame.searchText = searchText
+		MW.mainFrame.searchMatchIndex = nil
+		return
+	end
+
+	if resetMatch or MW.mainFrame.searchText ~= searchText or MW.mainFrame.searchMatchIndex == nil or MW.mainFrame.searchMatchIndex > #MW.mainFrame.searchMatches then
+		MW.mainFrame.searchMatchIndex = 1
+	end
+	MW.mainFrame.searchText = searchText
+	showStepSearchMatch(MW.mainFrame.searchMatchIndex)
+end
+
+local function nextStepSearchMatch()
+	if MW.mainFrame == nil then return end
+	local searchText = cleanSearchText(MW.mainFrame.searchBox and MW.mainFrame.searchBox:GetText())
+	if searchText == "" then return end
+	if MW.mainFrame.searchText ~= searchText or MW.mainFrame.searchMatches == nil or #MW.mainFrame.searchMatches == 0 then
+		updateStepSearch(true)
+		return
+	end
+
+	if MW.mainFrame.steps ~= nil and MW.mainFrame.searchMatch ~= nil then
+		setStepSearchHighlight(MW.mainFrame.steps[MW.mainFrame.searchMatch], false)
+	end
+	local nextIndex = (MW.mainFrame.searchMatchIndex or 0) + 1
+	if nextIndex > #MW.mainFrame.searchMatches then nextIndex = 1 end
+	showStepSearchMatch(nextIndex)
+end
+
+local function stepSearchIsOpen()
+	return MW.mainFrame ~= nil and MW.mainFrame.searchBox ~= nil and MW.mainFrame.searchBox:IsShown()
+end
+
+local function setSearchButtonVisible(visible)
+	if MW.mainFrame == nil or MW.mainFrame.searchBtn == nil then return end
+	layoutSearchButton()
+	if visible or stepSearchIsOpen() then
+		MW.mainFrame.searchBtn:Show()
+		MW.mainFrame.searchBtn:SetAlpha(stepSearchIsOpen() and 1 or 0.85)
+	else
+		MW.mainFrame.searchBtn:Hide()
+	end
+end
+
+local function updateSearchButtonVisibility()
+	if MW.mainFrame == nil then return end
+	setSearchButtonVisible(MW.mainFrame.titleBox ~= nil and MW.mainFrame.titleBox:IsShown() and MW.mainFrame.titleBox:IsMouseOver())
+end
+
+local function updateSearchButtonVisibilitySoon()
+	C_Timer.After(0.15, updateSearchButtonVisibility)
+end
+
+local function hideStepSearch()
+	if MW.mainFrame == nil or MW.mainFrame.searchBox == nil then return end
+	MW.mainFrame.searchBox:SetText("")
+	MW.mainFrame.searchBox:ClearFocus()
+	MW.mainFrame.searchBox:Hide()
+	updateStepSearch(true)
+	layoutSearchBox()
+	updateSearchButtonVisibility()
+end
+
+local function showStepSearch()
+	if MW.mainFrame == nil or MW.mainFrame.searchBox == nil then return end
+	setSearchButtonVisible(true)
+	MW.mainFrame.searchBox:Show()
+	layoutSearchBox()
+	MW.mainFrame.searchBox:SetFocus()
+	MW.mainFrame.searchBox:HighlightText()
+	updateStepSearch(true)
+end
+
 function MW.updateMainFrame(reset)
 	if MW.mainFrame == nil or not GuidelimeDataChar.mainFrameShowing or not QT.isDataSourceReady() then return end
 	if addon.debugging then print("LIME: updating main frame") end
@@ -281,87 +457,93 @@ function MW.updateMainFrame(reset)
 		CG.updateSteps()
 
 		local time
-		if addon.debugging then time = debugprofilestop() end
+			if addon.debugging then time = debugprofilestop() end
 
-		if GuidelimeDataChar.showTitle then
-			MW.mainFrame.titleBox:SetText(CG.currentGuide.name)
-			MW.mainFrame.titleBox:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
-			MW.mainFrame.titleBox:Show()
-			MW.mainFrame.titleLine:Show()
-			MW.mainFrame.scrollFrame:SetPoint("TOPLEFT", MW.mainFrame.titleLine)
-		else
-			MW.mainFrame.titleBox:Hide()
-			MW.mainFrame.titleLine:Hide()
-			MW.mainFrame.scrollFrame:SetPoint("TOPLEFT", MW.mainFrame)
-		end
-		local prev
-		for i, step in ipairs(CG.currentGuide.steps) do
-			if CG.stepIsVisible(step) then
-				if step.active or GuidelimeData.maxNumOfSteps == 0 or (CG.currentGuide.lastActiveIndex ~= nil and i - CG.currentGuide.lastActiveIndex < GuidelimeData.maxNumOfSteps) then
-					if MW.mainFrame.steps[i] == nil then 
-						MW.mainFrame.steps[i] = F.addCheckbox(MW.mainFrame.scrollChild, nil, "") 
-						MW.mainFrame.steps[i]:SetScript("OnClick", function()
-							if not MW.mainFrame.steps[i]:GetChecked() or MW.mainFrame.steps[i].skipText == nil or MW.mainFrame.steps[i].skipText == "" then
-								CG.setStepSkip(MW.mainFrame.steps[i]:GetChecked(), i)
-							else
-								MW.mainFrame.steps[i]:SetChecked(false)
-								local _, lines = MW.mainFrame.steps[i].skipText:gsub("\n", "\n")
-								--if addon.debugging then print("LIME: " .. MW.mainFrame.steps[i].skipText .. lines) end
-								F.createPopupFrame(MW.mainFrame.steps[i].skipText, function()
-									MW.mainFrame.steps[i]:SetChecked(true)
-									CG.setStepSkip(true, i)
-								end, true, 120 + lines * 10):Show()
-							end
-						end)
-						MW.mainFrame.steps[i].textBox = F.addMultilineText(MW.mainFrame.steps[i], nil, nil, "")
-						MW.mainFrame.steps[i].textBox:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
-						MW.mainFrame.steps[i].textBox:SetScript("OnMouseDown", onMouseDown)
-						MW.mainFrame.steps[i].textBox:SetScript("OnMouseUp", function(self, button)
-							local j = CG.getElementByTextPos(self:GetCursorPosition(), i)
-							local element = CG.currentGuide.steps[i].elements[j]
-							onMouseUp(self, button, element and element.questId, element and element.url)
-						end)
+			if GuidelimeDataChar.showTitle then
+				MW.mainFrame.titleBox:SetText(CG.currentGuide.name)
+				MW.mainFrame.titleBox:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
+				MW.mainFrame.titleBox:Show()
+				MW.mainFrame.titleLine:Show()
+			else
+				MW.mainFrame.titleBox:Hide()
+				MW.mainFrame.titleLine:Hide()
+			end
+			layoutSearchButton()
+			layoutSearchBox()
+			local prev
+			for i, step in ipairs(CG.currentGuide.steps) do
+				if CG.stepIsVisible(step) then
+					if step.active or GuidelimeData.maxNumOfSteps == 0 or (CG.currentGuide.lastActiveIndex ~= nil and i - CG.currentGuide.lastActiveIndex < GuidelimeData.maxNumOfSteps) then
+						if MW.mainFrame.steps[i] == nil then
+							MW.mainFrame.steps[i] = F.addCheckbox(MW.mainFrame.scrollChild, nil, "")
+							MW.mainFrame.steps[i]:SetScript("OnClick", function()
+								if not MW.mainFrame.steps[i]:GetChecked() or MW.mainFrame.steps[i].skipText == nil or MW.mainFrame.steps[i].skipText == "" then
+									CG.setStepSkip(MW.mainFrame.steps[i]:GetChecked(), i)
+								else
+									MW.mainFrame.steps[i]:SetChecked(false)
+									local _, lines = MW.mainFrame.steps[i].skipText:gsub("\n", "\n")
+									--if addon.debugging then print("LIME: " .. MW.mainFrame.steps[i].skipText .. lines) end
+									F.createPopupFrame(MW.mainFrame.steps[i].skipText, function()
+										MW.mainFrame.steps[i]:SetChecked(true)
+										CG.setStepSkip(true, i)
+									end, true, 120 + lines * 10):Show()
+								end
+							end)
+							MW.mainFrame.steps[i].textBox = F.addMultilineText(MW.mainFrame.steps[i], nil, nil, "")
+							MW.mainFrame.steps[i].textBox:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
+							MW.mainFrame.steps[i].textBox:SetScript("OnMouseDown", onMouseDown)
+							MW.mainFrame.steps[i].textBox:SetScript("OnMouseUp", function(self, button)
+								local j = CG.getElementByTextPos(self:GetCursorPosition(), i)
+								local element = CG.currentGuide.steps[i].elements[j]
+								onMouseUp(self, button, element and element.questId, element and element.url)
+							end)
+							MW.mainFrame.steps[i].textBox:SetBackdrop({
+								bgFile = "Interface\\AddOns\\" .. addonName .. "\\Icons\\TitleHighlight",
+								tile = false, edgeSize = 1
+							})
+							setStepSearchHighlight(MW.mainFrame.steps[i], false)
+						end
+						MW.mainFrame.steps[i].textBox:SetPoint("TOPLEFT", MW.mainFrame.steps[i], "TOPLEFT", 35, -9)
+						MW.mainFrame.steps[i].textBox:SetWidth(MW.mainFrame.scrollChild:GetWidth() - 40)
+						MW.mainFrame.steps[i]:SetAlpha(1)
+						MW.mainFrame.steps[i]:Show()
+						MW.mainFrame.steps[i].visible = true
+						if prev then
+							MW.mainFrame.steps[i]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -35, -MW.GAP)
+						else
+							MW.mainFrame.steps[i]:SetPoint("TOPLEFT", MW.mainFrame.scrollChild, "TOPLEFT", 0, -MW.GAP)
+						end
+						MW.mainFrame.steps[i]:SetChecked(step.completed or step.skip)
+						MW.mainFrame.steps[i]:SetEnabled(not step.completed or step.skip)
+
+						MW.mainFrame.steps[i].textBox:Show()
+						CG.updateStepText(i)
+
+						prev = MW.mainFrame.steps[i].textBox
 					end
-					MW.mainFrame.steps[i].textBox:SetPoint("TOPLEFT", MW.mainFrame.steps[i], "TOPLEFT", 35, -9)
-					MW.mainFrame.steps[i].textBox:SetWidth(MW.mainFrame.scrollChild:GetWidth() - 40)
-					MW.mainFrame.steps[i]:SetAlpha(1)
-					MW.mainFrame.steps[i]:Show()
-					MW.mainFrame.steps[i].visible = true
-					if prev then
-						MW.mainFrame.steps[i]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -35, -MW.GAP)
-					else
-						MW.mainFrame.steps[i]:SetPoint("TOPLEFT", MW.mainFrame.scrollChild, "TOPLEFT", 0, -MW.GAP)
-					end
-					MW.mainFrame.steps[i]:SetChecked(step.completed or step.skip)
-					MW.mainFrame.steps[i]:SetEnabled(not step.completed or step.skip)
-
-					MW.mainFrame.steps[i].textBox:Show()
-					CG.updateStepText(i)
-
-					prev = MW.mainFrame.steps[i].textBox
 				end
 			end
-		end
 
-		MW.mainFrame.bottomElement = prev
+			MW.mainFrame.bottomElement = prev
 
-		for i, message in ipairs(MW.mainFrame.message) do
-			if not prev then
-				message:SetPoint("TOPLEFT", MW.mainFrame.scrollChild, "TOPLEFT", 10, -15)
-			elseif i == 1 then
-				message:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -25, -15)
-			else
-				message:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -15)
+			for i, message in ipairs(MW.mainFrame.message) do
+				if not prev then
+					message:SetPoint("TOPLEFT", MW.mainFrame.scrollChild, "TOPLEFT", 10, -15)
+				elseif i == 1 then
+					message:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -25, -15)
+				else
+					message:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -15)
+				end
+				prev = message
 			end
-			prev = message
+
+			if addon.debugging then print("LIME: updateMainFrame " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
+			updateStepSearch()
+			C_Timer.After(0.1, function()
+				if MW.mainFrame.searchMatch == nil then CG.scrollToFirstActive() end
+			end)
 		end
-		
-		if addon.debugging then print("LIME: updateMainFrame " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
-		C_Timer.After(0.1, function()
-			CG.scrollToFirstActive()
-		end)
 	end
-end
 
 function MW.showMainFrame()
 	if not addon.dataLoaded then addon.loadData() end
@@ -379,13 +561,13 @@ function MW.showMainFrame()
 		MW.mainFrame:SetFrameLevel(998)
 		MW.mainFrame:SetMovable(true)
 		MW.mainFrame:EnableMouse(true)
-		MW.mainFrame:SetResizable(true)
-		F.SetResizeBounds(MW.mainFrame, MW.MIN_WIDTH, MW.MIN_HEIGHT)
-		MW.mainFrame:SetScript("OnMouseDown", onMouseDown)
-		MW.mainFrame:SetScript("OnMouseUp", onMouseUp)
-		MW.mainFrame.sizeGrabber = CreateFrame("Button", nil, MW.mainFrame)
-		MW.mainFrame.sizeGrabber:SetFrameLevel(999)
-		MW.mainFrame.sizeGrabber:SetSize(16, 16)
+			MW.mainFrame:SetResizable(true)
+			F.SetResizeBounds(MW.mainFrame, MW.MIN_WIDTH, MW.MIN_HEIGHT)
+			MW.mainFrame:SetScript("OnMouseDown", onMouseDown)
+			MW.mainFrame:SetScript("OnMouseUp", onMouseUp)
+			MW.mainFrame.sizeGrabber = CreateFrame("Button", nil, MW.mainFrame)
+			MW.mainFrame.sizeGrabber:SetFrameLevel(999)
+			MW.mainFrame.sizeGrabber:SetSize(16, 16)
 		MW.mainFrame.sizeGrabber:SetPoint("BOTTOMRIGHT", MW.mainFrame, "BOTTOMRIGHT", -1, 3)
 		MW.mainFrame.sizeGrabber:SetNormalTexture("Interface/CHATFRAME/UI-ChatIM-SizeGrabber-Down")
 		MW.mainFrame.sizeGrabber:SetHighlightTexture("Interface/CHATFRAME/UI-ChatIM-SizeGrabber-Highlight", "ADD")
@@ -413,13 +595,47 @@ function MW.showMainFrame()
 			CG.scrollToFirstActive()
 			onMouseUp(self, button)
 		end)
+		MW.mainFrame.titleBox:SetScript("OnEnter", function() setSearchButtonVisible(true) end)
+		MW.mainFrame.titleBox:SetScript("OnLeave", updateSearchButtonVisibilitySoon)
 		MW.mainFrame.titleBox:Hide()
-    	MW.mainFrame.titleLine = MW.mainFrame:CreateLine()
-    	MW.mainFrame.titleLine:SetColorTexture(0.4, 0.4, 0.4)
+		MW.mainFrame.titleLine = MW.mainFrame:CreateLine()
+		MW.mainFrame.titleLine:SetColorTexture(0.4, 0.4, 0.4)
 		MW.mainFrame.titleLine:SetThickness(1)
-    	MW.mainFrame.titleLine:SetStartPoint("BOTTOMLEFT", MW.mainFrame.titleBox, 0, -5)
-    	MW.mainFrame.titleLine:SetEndPoint("BOTTOMRIGHT", MW.mainFrame.titleBox, 0, -5)
+		MW.mainFrame.titleLine:SetStartPoint("BOTTOMLEFT", MW.mainFrame.titleBox, 0, -5)
+		MW.mainFrame.titleLine:SetEndPoint("BOTTOMRIGHT", MW.mainFrame.titleBox, 0, -5)
 		MW.mainFrame.titleLine:Hide()
+
+			MW.mainFrame.searchBtn = CreateFrame("BUTTON", nil, MW.mainFrame)
+			MW.mainFrame.searchBtn:SetFrameLevel(9999)
+			MW.mainFrame.searchBtn:SetSize(18, 18)
+			MW.mainFrame.searchBtn.icon = MW.mainFrame.searchBtn:CreateTexture(nil, "ARTWORK")
+			MW.mainFrame.searchBtn.icon:SetTexture("Interface\\Common\\UI-Searchbox-Icon")
+			MW.mainFrame.searchBtn.icon:SetSize(14, 14)
+			MW.mainFrame.searchBtn.icon:SetPoint("CENTER")
+			MW.mainFrame.searchBtn:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square", "ADD")
+			F.setTooltip(MW.mainFrame.searchBtn, SEARCH or "Search")
+			MW.mainFrame.searchBtn:SetScript("OnClick", function()
+				if MW.mainFrame.searchBox:IsShown() then
+					hideStepSearch()
+				else
+					showStepSearch()
+				end
+			end)
+			MW.mainFrame.searchBtn:SetScript("OnEnter", function() setSearchButtonVisible(true) end)
+			MW.mainFrame.searchBtn:SetScript("OnLeave", updateSearchButtonVisibilitySoon)
+			MW.mainFrame.searchBtn:Hide()
+
+			MW.mainFrame.searchBox = CreateFrame("EditBox", nil, MW.mainFrame, "InputBoxTemplate")
+			MW.mainFrame.searchBox:SetFrameLevel(9999)
+			MW.mainFrame.searchBox:SetHeight(20)
+			MW.mainFrame.searchBox:SetFontObject("GameFontNormal")
+			MW.mainFrame.searchBox:SetAutoFocus(false)
+			MW.mainFrame.searchBox:SetScript("OnTextChanged", function() updateStepSearch(true) end)
+			MW.mainFrame.searchBox:SetScript("OnEnterPressed", nextStepSearchMatch)
+			MW.mainFrame.searchBox:SetScript("OnEscapePressed", hideStepSearch)
+			MW.mainFrame.searchBox:SetScript("OnEnter", function() setSearchButtonVisible(true) end)
+			MW.mainFrame.searchBox:SetScript("OnLeave", updateSearchButtonVisibilitySoon)
+			MW.mainFrame.searchBox:Hide()
 
 		MW.mainFrame.scrollFrame = CreateFrame("SCROLLFRAME", nil, MW.mainFrame, "UIPanelScrollFrameTemplate")
 		MW.mainFrame.scrollFrame:SetAllPoints(MW.mainFrame)
