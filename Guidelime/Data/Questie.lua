@@ -380,6 +380,11 @@ function QUESTIE.getItemPositions(id)
 				if not D.contains(ids.npc, item.npcDrops[i]) then table.insert(ids.npc, item.npcDrops[i]) end
 			end
 		end
+		if item.vendors ~= nil then
+			for i = 1, #item.vendors do
+				if not D.contains(ids.npc, item.vendors[i]) then table.insert(ids.npc, item.vendors[i]) end
+			end
+		end
 		if item.objectDrops ~= nil then
 			for i = 1, #item.objectDrops do
 				if not D.contains(ids.object, item.objectDrops[i]) then table.insert(ids.object, item.objectDrops[i]) end
