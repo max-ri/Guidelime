@@ -21,6 +21,7 @@ end
 addon.GetItemInfo = GetItemInfo or C_Item.GetItemInfo
 addon.GetItemCount = GetItemCount or C_Item.GetItemCount
 addon.GetItemIcon = GetItemIcon or C_Item.GetItemIconByID
+addon.GetQuestInfo = C_QuestLog.GetQuestInfo or C_QuestLog.GetTitleForQuestID
 
 -- ponytail: professions only (no weapon skills); covers the profession checks Guidelime uses
 local profs = {}

@@ -149,7 +149,7 @@ function QT.getQuestNameById(id)
 	if CG.quests ~= nil and CG.quests[id] ~= nil and CG.quests[id].name ~= nil then
 		return CG.quests[id].name
 	end
-	if C_QuestLog.GetQuestInfo(id) ~= nil then return C_QuestLog.GetQuestInfo(id) end
+	if addon.GetQuestInfo(id) ~= nil then return addon.GetQuestInfo(id) end
 	if addon.dataSource == "QUESTIE" then return QUESTIE.getQuestName(id) end
 	if addon.dataSource == "CLASSIC_CODEX" then return CLASSIC_CODEX.getQuestName(id) end
 	local locale = GetLocale()
