@@ -79,16 +79,10 @@ function AB.createTargetButton(i)
 	return button
 end
 
--- global function to be used in the macro: Set target marker on target if it does not have one already; remove existing marker when no target
-function LIME(iconId)
-	SetRaidTarget("player", iconId)
-	SetRaidTarget("player", 0)
-	if UnitGUID("target") and not GetRaidTargetIndex("target") then SetRaidTarget("target", iconId) end
-end
-
 local function getTargetMacro(t)
-	return "/targetexact " .. t.name .. 
-		(t.marker and "\n/run LIME(".. t.marker .. ")" or "")
+	return (t.marker and "/target PLAYER\n/tm ".. t.marker .. "\n/tm 0\n" or "") ..
+		"/targetexact " .. t.name .. 
+		(t.marker and "\n/tm ".. t.marker or "")
 end
 
 local function getTargetMacroMulti(targets)
