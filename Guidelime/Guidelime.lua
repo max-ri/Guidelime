@@ -113,6 +113,8 @@ function addon.loadData()
 		maxNumOfMarkersLOC = 50,
 		arrowStyle = 1,
 		arrowDistance = false,
+		arrowETA = false,
+		useTomTomArrow = false,
 		skipCutscenes = true,
 		dataSource = "QUESTIE",
 		autoAddCoordinates = true,

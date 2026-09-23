@@ -257,6 +257,9 @@ function M.showMapIcons()
 		M.arrowFrame.text = M.arrowFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		M.arrowFrame.text:SetPoint("TOP", M.arrowFrame, "BOTTOM", 0, -5)
 		M.arrowFrame.text:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.arrowFontSize, "")
+		M.arrowFrame.eta = M.arrowFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		M.arrowFrame.eta:SetPoint("TOP", M.arrowFrame.text, "BOTTOM", 0, -2)
+		M.arrowFrame.eta:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.arrowFontSize, "")
 		M.arrowFrame:SetScript("OnEnter", function(self) 
 			if D.isAlive() then
 				self.tooltip = M.getMapTooltip(self.element)
@@ -321,15 +324,124 @@ function M.getArrowIconText()
 	end
 end
 
+-- Estimates the time until the player reaches the active arrow target, the same way TomTom's
+-- crazy arrow does: measure how much the distance shrinks per second and average it over a
+-- couple of samples to smooth out jitter, then divide the remaining distance by that speed.
+local ETA_SAMPLE_INTERVAL = 1.0 -- seconds between speed samples
+function M.updateArrowETA(active, dist2, elapsed)
+	if not active or dist2 == nil then
+		M.arrowLastETADistance = nil
+		M.arrowSpeed = nil
+		M.arrowSpeedSampleCount = 0
+		M.arrowETAThrottle = 0
+		M.arrowETAText = nil
+		return
+	end
+
+	local dist = math.sqrt(dist2)
+	M.arrowETAThrottle = (M.arrowETAThrottle or 0) + (elapsed or 0)
+	if M.arrowETAThrottle >= ETA_SAMPLE_INTERVAL then
+		local currentSpeed = 0
+		if M.arrowLastETADistance and M.arrowLastETADistance > 0 then
+			currentSpeed = (M.arrowLastETADistance - dist) / M.arrowETAThrottle
+		end
+		if (M.arrowSpeedSampleCount or 0) < 2 then
+			M.arrowSpeed = ((M.arrowSpeed or 0) + currentSpeed) / 2
+			M.arrowSpeedSampleCount = (M.arrowSpeedSampleCount or 0) + 1
+		else
+			M.arrowSpeedSampleCount = 0
+			M.arrowSpeed = currentSpeed
+		end
+		M.arrowLastETADistance = dist
+		M.arrowETAThrottle = 0
+	end
+
+	if M.arrowSpeed and M.arrowSpeed > 0 then
+		local eta = dist / M.arrowSpeed
+		M.arrowETAText = string.format("%d:%02d", math.floor(eta / 60), math.floor(eta % 60))
+	else
+		M.arrowETAText = nil
+	end
+end
+
+-- Returns true when TomTom is installed, enabled and exposes the API Guidelime needs
+-- in order to feed it waypoints and let it drive the crazy arrow instead.
+function M.hasTomTomArrow()
+	return TomTom ~= nil and TomTom.AddWaypoint ~= nil and TomTom.SetCrazyArrow ~= nil
+end
+
+-- Removes the waypoint Guidelime last handed to TomTom, if any.
+function M.clearTomTomWaypoint()
+	if M.tomtomUID and M.hasTomTomArrow() then
+		TomTom:RemoveWaypoint(M.tomtomUID)
+	end
+	M.tomtomUID = nil
+	M.tomtomTargetKey = nil
+end
+
+-- Feeds the currently active arrow target (quest step location or corpse) to TomTom,
+-- so its own Crazy Arrow (with its own rendering, distance and ETA) tracks it instead
+-- of Guidelime's built-in arrow. Guidelime's own arrow frame is kept hidden meanwhile.
+function M.updateTomTomArrow()
+	if M.arrowFrame:IsShown() then M.arrowFrame:Hide() end
+
+	local element = M.arrowFrame.element
+	local mapID, x, y, radius, title
+
+	if not D.isAlive() then
+		local zone = HBD:GetPlayerZone()
+		local corpse = zone and C_DeathInfo.GetCorpseMapPosition(zone)
+		if corpse ~= nil then
+			mapID, x, y = zone, corpse.x, corpse.y
+			title = L.ARROW_TOOLTIP_CORPSE
+		end
+	elseif not M.hideMinimapIconsAndArrowWhileBuffed and element ~= nil and
+		element.mapID ~= nil and element.x ~= nil and element.y ~= nil and
+		not element.completed then
+		mapID, x, y = element.mapID, element.x / 100, element.y / 100
+		radius = element.radius
+		title = (element.attached and element.attached.title) or element.title or L.ARROW_CURRENT_STEP
+	end
+
+	if mapID == nil then
+		M.clearTomTomWaypoint()
+		return
+	end
+
+	local key = mapID .. ":" .. x .. ":" .. y
+	if key ~= M.tomtomTargetKey then
+		M.clearTomTomWaypoint()
+		M.tomtomUID = TomTom:AddWaypoint(mapID, x, y, {
+			title = title,
+			from = addonName,
+			persistent = false,
+			silent = true,
+			minimap = false,
+			world = false,
+			crazy = true,
+			arrivaldistance = radius or 0,
+		})
+		M.tomtomTargetKey = key
+	end
+end
+
 M.updateArrowCount = 0
-function M.updateArrow()
+function M.updateArrow(frame, elapsed)
 	D.wx, D.wy, D.instance = HBD:GetPlayerWorldPosition()
 	D.face = GetPlayerFacing()
 	if D.wx == nil or D.wy == nil or D.face == nil then return end
 	if M.arrowFrame == nil then return end
 	if not MW.mainFrame or not MW.mainFrame:IsShown() or not GuidelimeDataChar.showArrow then 
 		if M.arrowFrame:IsShown() then M.arrowFrame:Hide() end
+		M.clearTomTomWaypoint()
 		return 
+	end
+
+	if GuidelimeData.useTomTomArrow and M.hasTomTomArrow() then
+		M.updateTomTomArrow()
+		return
+	elseif M.tomtomUID then
+		M.clearTomTomWaypoint()
 	end
 	
 	M.arrowX, M.arrowY = nil, nil
@@ -378,6 +490,7 @@ function M.updateArrow()
 		end
 		M.lastDistance2 = dist2
 	end
+	M.updateArrowETA(active, dist2, elapsed)
 	if GuidelimeData.arrowStyle == 1 then
 		if active ~= M.arrowFrame.wasActive then M.setArrowTexture(active) end
 		if active then
@@ -400,18 +513,29 @@ function M.updateArrow()
 	if M.arrowFrame.element and M.arrowFrame.element.completed then
 		M.arrowFrame.text:SetText(L.ARROW_POSITION_REACHED)
 		M.arrowFrame.text:Show()
+		M.arrowFrame.eta:Hide()
 	elseif M.arrowX == nil or M.arrowY == nil then
 		M.arrowFrame.text:SetText(L.ARROW_CURRENT_STEP)
 		M.arrowFrame.text:Show()
+		M.arrowFrame.eta:Hide()
 	elseif M.arrowInstance ~= D.instance then
 		M.arrowFrame.text:SetText(string.format(L.ARROW_GO_TO_INSTANCE, GetRealZoneText(M.arrowInstance)))
 		M.arrowFrame.text:Show()
-	elseif GuidelimeData.arrowDistance then
-	 	local dist = math.floor(math.sqrt(dist2))
-		M.arrowFrame.text:SetText(dist .. " " .. L.YARDS)
-		M.arrowFrame.text:Show()
+		M.arrowFrame.eta:Hide()
 	else
-		M.arrowFrame.text:Hide()
+		if GuidelimeData.arrowDistance then
+			local dist = math.floor(math.sqrt(dist2))
+			M.arrowFrame.text:SetText(dist .. " " .. L.YARDS)
+			M.arrowFrame.text:Show()
+		else
+			M.arrowFrame.text:Hide()
+		end
+		if GuidelimeData.arrowETA and M.arrowETAText ~= nil then
+			M.arrowFrame.eta:SetText(M.arrowETAText)
+			M.arrowFrame.eta:Show()
+		else
+			M.arrowFrame.eta:Hide()
+		end
 	end
 	if M.arrowFrame.element and M.arrowFrame.element.step then 
 		CG.updateStepText(M.arrowFrame.element.step.index) 
@@ -431,6 +555,11 @@ function M.showArrow(element)
 		M.arrowFrame.element = element 
 	end
 	M.lastDistance2 = nil
+	M.arrowLastETADistance = nil
+	M.arrowSpeed = nil
+	M.arrowSpeedSampleCount = 0
+	M.arrowETAThrottle = 0
+	M.arrowETAText = nil
 end
 
 function M.hideArrow()

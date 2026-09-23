@@ -507,12 +507,31 @@ function O.fillOptions()
 
 	checkbox = F.addCheckOption(content, GuidelimeDataChar, "arrowLocked", L.LOCK_ARROW)
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	local arrowLockedCheckbox = checkbox
 
-	F.addCheckOption(content, GuidelimeData, "arrowDistance", L.SHOW_DISTANCE, nil, function()
+	local arrowDistanceCheckbox = F.addCheckOption(content, GuidelimeData, "arrowDistance", L.SHOW_DISTANCE, nil, function()
 		if M.arrowFrame ~= nil then 
 			CG.updateSteps() 
 		end
-	end):SetPoint("TOPLEFT", checkbox, "BOTTOMLEFT", 0, 0)
+	end)
+	arrowDistanceCheckbox:SetPoint("TOPLEFT", arrowLockedCheckbox, "BOTTOMLEFT", 0, 0)
+
+	local arrowETACheckbox = F.addCheckOption(content, GuidelimeData, "arrowETA", L.SHOW_ETA, nil, function()
+		if M.arrowFrame ~= nil then 
+			CG.updateSteps() 
+		end
+	end)
+	arrowETACheckbox:SetPoint("TOPLEFT", arrowDistanceCheckbox, "BOTTOMLEFT", 0, 0)
+
+	checkbox = F.addCheckOption(content, GuidelimeData, "useTomTomArrow", L.USE_TOMTOM_ARROW, L.USE_TOMTOM_ARROW_TOOLTIP, function()
+		if not GuidelimeData.useTomTomArrow then
+			M.clearTomTomWaypoint()
+		end
+		if M.arrowFrame ~= nil then 
+			CG.updateSteps() 
+		end
+	end)
+	checkbox:SetPoint("TOPLEFT", arrowETACheckbox, "BOTTOMLEFT", 0, 0)
 
 	slider = F.addSliderOption(content, GuidelimeData, "arrowStyle", 1, 2, 1, L.ARROW_STYLE, nil, 
 	function(self)
@@ -549,6 +568,7 @@ function O.fillOptions()
 	slider = F.addSliderOption(content, GuidelimeDataChar, "arrowFontSize", 8, 24, 1, L.ARROW_FONT_SIZE, nil, function()
 		if M.arrowFrame ~= nil then 
 			M.arrowFrame.text:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.arrowFontSize, "")
+			M.arrowFrame.eta:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.arrowFontSize, "")
 		end
 	end)
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -130)
