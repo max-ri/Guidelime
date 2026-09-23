@@ -587,10 +587,10 @@ function M.updateStepsMapIcons()
 					elseif element.attached and element.attached.questId and D.wx ~= nil and D.wy ~= nil then
 						CG.updatePosElement(PT.getQuestPosition(element.attached.questId, element.attached.t, CG.getQuestActiveObjectives(element.attached.questId, element.attached.objective), D), element)
 						--if addon.debugging and element.x then print("LIME: quest position", element.x, element.y, element.mapID, element.wx, element.wy, element.instance) end
-					elseif element.attached and element.type == "COLLECT_ITEM" and D.wx ~= nil and D.wy ~= nil then
+					elseif element.attached and element.attached.t == "COLLECT_ITEM" and D.wx ~= nil and D.wy ~= nil then
 						CG.updatePosElement(PT.getItemPosition(element.attached.itemId, D), element)
 						--if addon.debugging and element.x then print("LIME: quest position", element.x, element.y, element.mapID, element.wx, element.wy, element.instance) end
-					elseif element.attached and element.type == "TARGET" and D.wx ~= nil and D.wy ~= nil then
+					elseif element.attached and element.attached.t == "TARGET" and D.wx ~= nil and D.wy ~= nil then
 						CG.updatePosElement(PT.getNPCPosition(element.attached.targetNpcId, D), element)
 						--if addon.debugging and element.x then print("LIME: quest position", element.x, element.y, element.mapID, element.wx, element.wy, element.instance) end
 					end
