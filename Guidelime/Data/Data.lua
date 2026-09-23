@@ -61,6 +61,21 @@ D.xpMax = UnitXPMax("player")
 D.wx, D.wy, D.instance = HBD:GetPlayerWorldPosition()
 D.face = GetPlayerFacing()
 
+local build = select(4, GetBuildInfo())
+if build < 16000 then
+	D.flavor = "CLASSIC"
+elseif build < 20000 then
+	D.flavor = "FOREVER"
+elseif build < 30000 then
+	D.flavor = "TBC"
+elseif build < 40000 then
+	D.flavor = "WOTLK"
+elseif build < 50000 then
+	D.flavor = "CATA"
+else
+	D.flavor = "MOP"
+end
+
 D.reputations = {
 	bootybay = 21,
 	ironforge = 47,

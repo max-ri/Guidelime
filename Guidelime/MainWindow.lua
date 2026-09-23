@@ -18,22 +18,7 @@ addon.QL = addon.QL or {}; local QL = addon.QL -- QuestLog
 addon.MW = addon.MW or {}; local MW = addon.MW -- MainWindow
 
 local function getWowheadQuestUrl(questId)
-	local build = select(4, GetBuildInfo())
-	local baseUrl
-
-	if build < 20000 then
-		baseUrl = L.WOWHEAD_URL_CLASSIC
-	elseif build < 30000 then
-		baseUrl = L.WOWHEAD_URL_TBC
-	elseif build < 40000 then
-		baseUrl = L.WOWHEAD_URL_WOTLK
-	elseif build < 50000 then
-		baseUrl = L.WOWHEAD_URL_CATA
-	else
-		baseUrl = L.WOWHEAD_URL_MOP
-	end
-
-	return baseUrl .. "/quest=" .. questId
+	return L["WOWHEAD_URL_" .. D.flavor] .. "/quest=" .. questId
 end
 
 MW.COLOR_QUEST_DEFAULT = "|cFF59C4F1"
