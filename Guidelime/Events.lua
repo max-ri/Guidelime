@@ -1,4 +1,5 @@
 local addonName, addon = ...
+local GetSpellInfo, UnitAura, GetItemInfo, GetItemCount = addon.GetSpellInfo, addon.UnitAura, addon.GetItemInfo, addon.GetItemCount
 local L = addon.L
 
 local HBD = LibStub("HereBeDragons-2.0")
@@ -20,6 +21,12 @@ EV.AUTO_COMPLETE_DELAY = 0.01
 EV.BAG_UPDATE_DELAY = 0.3
 
 EV.frame = CreateFrame("Frame", addonName .. "Frame", UIParent)
+
+-- WoW: Forever throws on unknown events, which would abort loading this file
+local registerEvent = EV.frame.RegisterEvent
+function EV.frame:RegisterEvent(event)
+	if not C_EventUtils or C_EventUtils.IsEventValid(event) then registerEvent(self, event) end
+end
 
 -- Register events and call functions
 EV.frame:SetScript("OnEvent", function(self, event, ...)

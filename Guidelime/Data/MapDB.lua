@@ -659,7 +659,14 @@ else
 	    [126] = "The Underbelly",	
 		[124] = "The Scarlet Enclave",	
 		[127] = "Crystalsong Forest",
-		[170] = "Hrothgar's Landing"
+		[170] = "Hrothgar's Landing",
+
+		-- WoW: Forever (uiMapIDs from QuestieDB forever branch, build 1.60.1.69893)
+		[2482] = "Mount Hyjal",
+		[2521] = "Zephras Isle",
+		[2524] = "Darkspear Islands",
+		[2548] = "Riverglades",
+		[2652] = "Shen'dralas"
 	}
 end
 

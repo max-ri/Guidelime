@@ -1,4 +1,5 @@
 local addonName, addon = ...
+local GetSpellInfo, GetSpellCooldown, GetItemCount, GetItemIcon = addon.GetSpellInfo, addon.GetSpellCooldown, addon.GetItemCount, addon.GetItemIcon
 local L = addon.L
 
 addon.D = addon.D or {}; local D = addon.D     -- Data/Data

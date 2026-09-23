@@ -116,7 +116,7 @@ function O.fillOptions()
 					menu[#menu + 1] = menuItem
 				end
 			end
-			if #menu > 0 then
+			if #menu > 0 and EasyMenu then -- ponytail: no EasyMenu on WoW: Forever; menu items need ReloadUI which is protected there anyway
 				EasyMenu(menu, CreateFrame("Frame", "GuidelimeImportMenu", nil, "UIDropDownMenuTemplate"), "cursor", 0 , 0, "MENU")
 			end
 		end
