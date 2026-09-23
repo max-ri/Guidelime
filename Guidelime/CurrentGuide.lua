@@ -1015,7 +1015,7 @@ end
 
 function CG.getQuestActiveObjectives(id, objective)
 	local objectiveList = QT.getQuestObjectives(id)
-	if objectiveList == nil then return {} end
+	if objectiveList == nil then return end
 	local objectives
 	if objective == nil then
 		objectives = {}; for i = 1, #objectiveList do objectives[i] = i end
@@ -1030,6 +1030,7 @@ function CG.getQuestActiveObjectives(id, objective)
 			table.insert(active, i)
 		end
 	end
+	if #active == 0 then return end
 	return active
 end
 
