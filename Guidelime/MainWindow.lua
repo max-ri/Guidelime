@@ -537,11 +537,12 @@ function MW.updateMainFrame(reset)
 				prev = message
 			end
 
-			if addon.debugging then print("LIME: updateMainFrame " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 			updateStepSearch()
 			C_Timer.After(0.1, function()
 				if MW.mainFrame.searchMatch == nil then CG.scrollToFirstActive() end
 			end)
+			if MW.mainFrame.waitMessage ~= nil then MW.mainFrame.waitMessage:Hide() end
+			if addon.debugging then print("LIME: updateMainFrame " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 		end
 	end
 
@@ -550,7 +551,7 @@ function MW.showMainFrame()
 
 	GuidelimeDataChar.mainFrameShowing = true
 	if MW.mainFrame == nil then
-		--if addon.debugging then print("LIME: initializing main frame") end
+		if addon.debugging then print("LIME: initializing main frame") end
 		MW.mainFrame = CreateFrame("FRAME", nil, UIParent)
 		MW.mainFrame:SetWidth(GuidelimeDataChar.mainFrameWidth)
 		MW.mainFrame:SetHeight(GuidelimeDataChar.mainFrameHeight)
@@ -580,8 +581,8 @@ function MW.showMainFrame()
 			MW.mainFrame.scrollChild:SetSize(MW.mainFrame:GetSize())
 			MW.mainFrame.titleBox:SetWidth(GuidelimeDataChar.mainFrameWidth)
 			if O.optionsFrame then
-				O.optionsFrame.mainFrameWidth:SetValue(GuidelimeDataChar.mainFrameWidth)
-				O.optionsFrame.mainFrameHeight:SetValue(GuidelimeDataChar.mainFrameHeight)
+				O.optionsFrame.mainFrameWidth.editbox:SetText(tostring(math.floor(GuidelimeDataChar.mainFrameWidth)))
+				O.optionsFrame.mainFrameHeight.editbox:SetText(tostring(math.floor(GuidelimeDataChar.mainFrameHeight)))
 			end
 			MW.updateMainFrame(true)
 		end)
@@ -650,11 +651,6 @@ function MW.showMainFrame()
 			MW.mainFrame.scrollFrame.ScrollBar:SetFrameLevel(0)
 		end
 		
-		if EV.firstLogUpdate then
-			EV.updateFromQuestLog()
-			MW.updateMainFrame()
-		end
-
 		MW.mainFrame.lockBtn = CreateFrame("BUTTON", "lockBtn", MW.mainFrame)
 		MW.mainFrame.lockBtn:SetFrameLevel(9999)
 		MW.mainFrame.lockBtn:SetSize(24, 24)
@@ -718,16 +714,23 @@ function MW.showMainFrame()
 			MW.mainFrame.inspectBtn:SetAttribute("type", "macro")
 			MW.mainFrame.inspectBtn:SetAttribute("macrotext","/tinspect Guidelime.addon")
 		end
-		MW.mainFrame.waitMessage = F.addMultilineText(MW.mainFrame.scrollChild, L.PLEASE_WAIT, MW.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
-			if (button == "RightButton") then
-				MW.showContextMenu()
-			end
-		end)
-		MW.mainFrame.waitMessage:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
-		MW.mainFrame.waitMessage:SetPoint("TOPLEFT", MW.mainFrame.scrollChild, "TOPLEFT", 10, -15)
+
+		if EV.firstLogUpdate then
+			EV.updateFromQuestLog()
+			MW.updateMainFrame()
+		else
+			MW.mainFrame.waitMessage = F.addMultilineText(MW.mainFrame.scrollChild, L.PLEASE_WAIT, MW.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
+				if (button == "RightButton") then
+					MW.showContextMenu()
+				end
+			end)
+			MW.mainFrame.waitMessage:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
+			MW.mainFrame.waitMessage:SetPoint("TOPLEFT", MW.mainFrame.scrollChild, "TOPLEFT", 10, -15)
+		end
 	end
 	MW.mainFrame:Show()
-	MW.mainFrame.waitMessage:Show()
+	if MW.mainFrame.waitMessage ~= nil then MW.mainFrame.waitMessage:Show() end
+	if addon.debugging then print("LIME: show main frame done") end
 	CG.updateSteps()
 	if O.optionsFrame ~= nil then O.optionsFrame.mainFrameShowing:SetChecked(true) end
 	addon.setupMinimapButton()
