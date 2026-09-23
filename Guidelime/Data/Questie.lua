@@ -125,8 +125,8 @@ function QUESTIE.getQuestRaces(id)
 		"", "", "", "",
 		"", "", "", "",
 		"", "Worgen", "", "Pandaren" --[[neutral]],
-		"Pandaren" --[[Alliance]], "Pandaren" --[[Horde]], "", "",
-		"", "", "", "",
+		"Pandaren" --[[Alliance]], "Pandaren" --[[Horde]],
+		-- TODO: test later where Questie actually places Skyborne, once there is an update
 		"Skyborne" --[[High Order, Alliance]], "Skyborne" --[[Windshaper, Horde]]}) do
 		if race ~= "" and D.hasbit(bitmask, D.bit(i)) then 
 			table.insert(races, race) 
