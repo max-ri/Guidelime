@@ -80,7 +80,7 @@ function AB.createTargetButton(i)
 end
 
 local function getTargetMacro(t)
-	return (t.marker and "/target PLAYER\n/tm ".. t.marker .. "\n/tm 0\n" or "") ..
+	return (t.marker and "/target PLAYER\n/tm ".. t.marker .. "\n/tm 0\n/cleartarget\n" or "") ..
 		"/targetexact " .. t.name .. 
 		(t.marker and "\n/tm ".. t.marker or "")
 end
