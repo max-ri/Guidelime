@@ -296,15 +296,6 @@ function M.getMapMarkerText(element)
 		math.floor(index / 8) * 64 .. ":" .. (math.floor(index / 8) + 1) * 64 .. ":::|t"
 end
 
--- Formats a distance given in yards according to the configured measurement unit
-function M.getFormattedDistance(distanceInYards)
-	if GuidelimeData.metricUnits then
-		return math.floor(distanceInYards * 0.9144) .. " " .. L.METERS
-	else
-		return math.floor(distanceInYards) .. " " .. L.YARDS
-	end
-end
-
 function M.setArrowTexture(active)
 	if GuidelimeData.arrowStyle == 1 then
 		M.arrowFrame.texture:SetTexture(active and addon.icons.MAP_LIME_ARROW or addon.icons.MAP_LIME_ARROW_INACTIVE)
@@ -533,7 +524,8 @@ function M.updateArrow(frame, elapsed)
 		M.arrowFrame.eta:Hide()
 	else
 		if GuidelimeData.arrowDistance then
-			M.arrowFrame.text:SetText(M.getFormattedDistance(math.sqrt(dist2)))
+			local dist = math.floor(math.sqrt(dist2))
+			M.arrowFrame.text:SetText(dist .. " " .. L.YARDS)
 			M.arrowFrame.text:Show()
 		else
 			M.arrowFrame.text:Hide()

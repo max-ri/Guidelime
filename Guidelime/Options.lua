@@ -516,12 +516,6 @@ function O.fillOptions()
 	end)
 	arrowDistanceCheckbox:SetPoint("TOPLEFT", arrowLockedCheckbox, "BOTTOMLEFT", 0, 0)
 
-	F.addCheckOption(content, GuidelimeData, "metricUnits", L.METRIC_UNITS, nil, function()
-		if M.arrowFrame ~= nil then 
-			CG.updateSteps() 
-		end
-	end):SetPoint("TOPLEFT", arrowDistanceCheckbox, "TOPLEFT", 180, 0)
-
 	local arrowETACheckbox = F.addCheckOption(content, GuidelimeData, "arrowETA", L.SHOW_ETA, nil, function()
 		if M.arrowFrame ~= nil then 
 			CG.updateSteps() 

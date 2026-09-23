@@ -114,7 +114,6 @@ function addon.loadData()
 		arrowStyle = 1,
 		arrowDistance = false,
 		arrowETA = false,
-		metricUnits = false,
 		useTomTomArrow = false,
 		skipCutscenes = true,
 		dataSource = "QUESTIE",
