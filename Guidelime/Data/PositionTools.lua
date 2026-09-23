@@ -72,10 +72,13 @@ local function convertClusterCoordinates(clusters)
 	for instance, list in pairs(clusters) do
 		for i = 1, #list do
 			local cluster = list[i]
-			cluster.x, cluster.y, cluster.zone = PT.GetZoneCoordinatesFromWorld(cluster.wx, cluster.wy, cluster.instance)
-			if not cluster.x then
-				if addon.debugging then print("LIME: error transforming (" .. cluster.wx .. "," .. cluster.wy .. "," .. cluster.instance .. ") into zone coordinates") end
-				table.remove(list, i)
+			if cluster ~= nil then
+				cluster.x, cluster.y, cluster.zone = PT.GetZoneCoordinatesFromWorld(cluster.wx, cluster.wy, cluster.instance)
+				if not cluster.x then
+					if addon.debugging then print("LIME: error transforming (" .. cluster.wx .. "," .. cluster.wy .. "," .. cluster.instance .. ") into zone coordinates") end
+					table.remove(list, i)
+					i = i - 1
+				end
 			end
 		end
 	end
@@ -119,6 +122,19 @@ local function calculateClusters(positions)
 	return clusters
 end
 
+local function calculateNoClusters(positions)
+	local clusters = {}
+	for i = 1, #positions do 
+		local pos = positions[i]
+		pos.count = 1
+		pos.radius = 0
+		if clusters[pos.instance] == nil then clusters[pos.instance] = {} end
+		table.insert(clusters[pos.instance], pos)
+	end
+	convertClusterCoordinates(clusters)
+	return clusters
+end
+
 function PT.getQuestPosition(id, typ, index, currentPos)
 	if index == nil then index = 0 end
 	if type(index) == "number" then index = {index} end
@@ -136,8 +152,13 @@ function PT.getQuestPosition(id, typ, index, currentPos)
 		if positions ~= nil and #positions == 0 and filterZone ~= nil then
 			positions = QT.getQuestPositions(id, typ, index)
 		end
-		if positions == nil or #positions > LIMIT_CENTER_POSITION then return end
-		clusters = calculateClusters(positions)
+		if positions == nil then 
+			return 
+		elseif #positions > LIMIT_CENTER_POSITION then 
+			clusters = calculateNoClusters(positions)
+		else
+			clusters = calculateClusters(positions)
+		end
 		estimate = #positions > 1
 	end
 	local maxCluster = selectBestCluster(clusters, currentPos)
@@ -257,8 +278,13 @@ function PT.getNPCPosition(id, currentPos)
 	local estimate = true
 	if not clusters then 
 		local positions = QT.getNPCPositions(id)
-		if positions == nil or #positions > LIMIT_CENTER_POSITION then return end
-		clusters = calculateClusters(positions)
+		if positions == nil then 
+			return 
+		elseif #positions > LIMIT_CENTER_POSITION then 
+			clusters = calculateNoClusters(positions)
+		else
+			clusters = calculateClusters(positions)
+		end
 		estimate = #positions > 1
 	end
 	local maxCluster = selectBestCluster(clusters, currentPos)
@@ -287,8 +313,13 @@ function PT.getItemPosition(id, currentPos)
 	local estimate = true
 	if not clusters then 
 		local positions = QT.getItemPositions(id)
-		if positions == nil or #positions > LIMIT_CENTER_POSITION then return end
-		clusters = calculateClusters(positions)
+		if positions == nil then 
+			return
+		elseif #positions > LIMIT_CENTER_POSITION then 
+			clusters = calculateNoClusters(positions)
+		else
+			clusters = calculateClusters(positions)
+		end
 		estimate = #positions > 1
 	end
 	local maxCluster = selectBestCluster(clusters, currentPos)
