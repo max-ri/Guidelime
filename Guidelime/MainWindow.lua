@@ -14,6 +14,7 @@ addon.G = addon.G or {}; local G = addon.G     -- Guides
 addon.M = addon.M or {}; local M = addon.M     -- Map
 addon.O = addon.O or {}; local O = addon.O     -- Options
 addon.QL = addon.QL or {}; local QL = addon.QL -- QuestLog
+addon.QUESTIE = addon.QUESTIE or {}; local QUESTIE = addon.QUESTIE -- Data/Questie
 
 addon.MW = addon.MW or {}; local MW = addon.MW -- MainWindow
 
@@ -703,7 +704,9 @@ function MW.showMainFrame()
 		if EV.firstLogUpdate then
 			EV.updateFromQuestLog()
 			MW.updateMainFrame()
-		else
+		end
+		
+		if QUESTIE.waitingForQuestie then
 			MW.mainFrame.waitMessage = F.addMultilineText(MW.mainFrame.scrollChild, L.PLEASE_WAIT, MW.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
 				if (button == "RightButton") then
 					MW.showContextMenu()
