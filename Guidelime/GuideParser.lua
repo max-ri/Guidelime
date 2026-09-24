@@ -20,7 +20,7 @@ codes:
  - N Name and level range of the guide [N(min)-(max)(name)]
  - NX Name and level range of the next guide proposed after finishing this [NX(min)-(max)(name)]
  - D details of the guide [D(details)]
- - GA guide applies to [GA(race),(class),(faction),(reputation),...]
+ - GA guide applies to [GA(race),(class),(faction),(reputation),(flavor),...]
  - Q [QA/T/C/S(id)[,objective](title)] quest accept/turnin/complete/skip    -- QW is deprecated; replaced by [QC...][O]
  - L [L(x),(y)[zone] ] loc
  - G [G(x),(y)[zone] ] goto
@@ -310,6 +310,9 @@ function GP.parseLine(step, guide, strict, nameOnly)
 					end
 					-- if none specified spell rank 1 is required
 					if guide.spellMin == nil and guide.spellMax == nil then guide.spellMin = 1 end
+				elseif D.isFlavor(c) then
+					if guide.flavors == nil then guide.flavors = {} end
+					table.insert(guide.flavors, D.getFlavor(c))
 				else
 					F.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
 					err = true
