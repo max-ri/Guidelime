@@ -32,7 +32,7 @@ codes:
  - P get flight point
  - V vendor
  - R repair
- - A applies to [A(race),(class),(faction),(reputation),...]
+ - A applies to [A(race),(class),(faction),(reputation),(flavor),...]
  - O optional step
  - OC complete this step along with the next one
  - CI collect item
@@ -417,7 +417,7 @@ function GP.parseLine(step, guide, strict, nameOnly)
 				err = true
 			end
 		elseif element.t == "APPLIES" then
-			local classes, races = {}, {}
+			local classes, races, flavors = {}, {}, {}
 			tag:upper():gsub(" ",""):gsub("([^,%d%-<>]+)%s*(%d*)([<>]?)%s*(%-?%d*)", function(c, value1, less, value2)
 				if D.isClass(c) then
 					table.insert(classes, D.getClass(c))
@@ -478,6 +478,8 @@ function GP.parseLine(step, guide, strict, nameOnly)
 					end
 					-- if none specified spell rank 1 is required
 					if step.spellMin == nil and step.spellMax == nil then step.spellMin = 1 end
+				elseif D.isFlavor(c) then
+					table.insert(flavors, D.getFlavor(c))
 				else
 					F.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
 					err = true
@@ -485,6 +487,7 @@ function GP.parseLine(step, guide, strict, nameOnly)
 			end)
 			if #classes > 0 then step.classes = classes; element.classes = classes end
 			if #races > 0 then step.races = races; element.races = races end
+			if #flavors > 0 then step.flavors = flavors; element.flavors = flavors end
 		elseif element.t == "GOTO" then
 			local _, c = tag:gsub("%s*(%d+%.?%d*)%s?,%s?(%d+%.?%d*)%s?,?%s?(%d*%.?%d*)%s?(.*)", function(x, y, radius, zone)
 				element.x = tonumber(x)

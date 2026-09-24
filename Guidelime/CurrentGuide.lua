@@ -525,6 +525,9 @@ function CG.getElementIcon(element, prevElement)
 			--text = text .. "|T" .. addon.icons[D.class:upper()] .. ":12|t"
 			text = text .. D.getClassIconText(D.class)
 		end
+		if D.contains(element.flavors, D.flavor) then
+			text = text .. "|T" .. addon.icons[D.flavor] .. ":12|t"
+		end
 		return text
 	elseif addon.icons[element.t] ~= nil and (not prevElement or element.t ~= prevElement.t) then
 		return "|T" .. addon.icons[element.t] .. ":12|t"
@@ -660,6 +663,9 @@ function CG.getStepText(step)
 			if rank then
 				itemText = string.format("\n    - %d/%d", rank, element.skillMin)
 			end
+		elseif element.t == "APPLIES" and element.flavors ~= nil then
+			if tooltip ~= "" then tooltip = tooltip .. "\n" end
+			tooltip = tooltip .. L[D.flavor]
 		end
 		if element.textStartPos == #text then element.empty = true end
 		if element.empty == nil or not element.empty then prevElement = element end

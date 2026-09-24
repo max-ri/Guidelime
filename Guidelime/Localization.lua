@@ -235,6 +235,12 @@ L.NPC_ID = "NPC id"
 L.NPC_NAME = "NPC name"
 L.SPELL_ID = "Spell id"
 L.SPELL_NAME = "Spell name"
+L.CLASSIC = "World of Warcraft Classic"
+L.TBC = "The Burning Crusade"
+L.WOTLK = "Wrath of the Lich King"
+L.CATA = "Cataclysm"
+L.MOP = "Mists of Pandaria"
+L.FOREVER = "World of Warcraft Forever"
 
 -- Word lists used by the plain text parser
 -- Spaces at the start and end of each word will make it so that a match cannot occur in the middle of a word. Spaces will match any whitespace or punctuation marks.

@@ -61,6 +61,7 @@ D.xpMax = UnitXPMax("player")
 D.wx, D.wy, D.instance = HBD:GetPlayerWorldPosition()
 D.face = GetPlayerFacing()
 
+D.flavors = {"CLASSIC", "TBC", "WOTLK", "CATA", "MOP", "FOREVER"}
 local build = select(4, GetBuildInfo())
 if build < 16000 then
 	D.flavor = "CLASSIC"
@@ -74,6 +75,20 @@ elseif build < 50000 then
 	D.flavor = "CATA"
 else
 	D.flavor = "MOP"
+end
+function D.getFlavor(flavor)
+	flavor = flavor:upper():gsub("[%-_ ]","")
+	if flavor == "CLASSICERA" then return "CLASSIC" end
+	if flavor == "VANILLA" then return "CLASSIC" end
+	if flavor == "WRATH" then return "WOTLK" end
+	if flavor == "CATACLYSM" then return "CATA" end
+	if flavor == "MISTS" then return "MOP" end
+	for _, f in ipairs(D.flavors) do
+		if f == flavor then return f end
+	end
+end
+function D.isFlavor(flavor)
+	return D.getFlavor(flavor) ~= nil
 end
 
 D.reputations = {
@@ -292,6 +307,9 @@ function D.applies(guide)
 		if not D.contains(guide.classes, D.class) then return false end
 	end
 	if guide.faction ~= nil and guide.faction ~= D.faction then return false end
+	if guide.flavors ~= nil then
+		if not D.contains(guide.flavors, D.flavor) then return false end
+	end
 	return true
 end
 

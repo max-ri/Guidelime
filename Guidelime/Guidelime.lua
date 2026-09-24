@@ -67,6 +67,12 @@ addon.icons = {
 	TARGET_BUTTON = "Interface\\Icons\\Ability_Hunter_Snipershot",
 	MULTI_TARGET_BUTTON = "Interface\\Icons\\Ability_Marksmanship",
 	SCROLL_THUMB = "Interface\\Addons\\" .. addonName .. "\\Icons\\scroll",
+	CLASSIC = "Interface\\Addons\\" .. addonName .. "\\Icons\\classic",
+	TBC = "Interface\\Addons\\" .. addonName .. "\\Icons\\tbc",
+	WOTLK = "Interface\\Addons\\" .. addonName .. "\\Icons\\wotlk",
+	CATA = "Interface\\Addons\\" .. addonName .. "\\Icons\\cata",
+	MOP = "Interface\\Addons\\" .. addonName .. "\\Icons\\mop",
+	FOREVER = "Interface\\Addons\\" .. addonName .. "\\Icons\\forever",
 
 	--LOC = "Interface\\Icons\\Ability_Tracking",
 	--KILL = "Interface\\Icons\\Ability_Creature_Cursed_02",
