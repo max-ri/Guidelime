@@ -310,8 +310,8 @@ function EV.frame:GOSSIP_SHOW()
 					if element.t == "LEARN" and (element.maxSkillMin or element.spell) then
 						if addon.debugging then print ("LIME: GOSSIP_SHOW SelectGossipOption", gossip.gossipOptionID) end
 						C_GossipInfo.SelectOption(gossip.gossipOptionID)
-						SetTrainerServiceTypeFilter("available", 1)
-						SetTrainerServiceTypeFilter("used", 1)
+						SetTrainerServiceTypeFilter("available", true)
+						SetTrainerServiceTypeFilter("used", true)
 						return false
 					end
 				end)
@@ -381,7 +381,7 @@ function EV.frame:GOSSIP_SHOW_old()
 					if element.t == "LEARN" and (element.maxSkillMin or element.spell) then
 						if addon.debugging then print ("LIME: GOSSIP_SHOW SelectGossipOption", i) end
 						SelectGossipOption(i)
-						SetTrainerServiceTypeFilter("available", 1)
+						SetTrainerServiceTypeFilter("available", true)
 						return false
 					end
 				end)
