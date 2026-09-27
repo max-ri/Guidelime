@@ -261,7 +261,7 @@ function D.isReputation(rep)
 	return D.getReputation(rep) ~= nil
 end
 function D.getLocalizedReputation(id)
-	local name = GetFactionInfoByID(id)
+	local name = addon.GetFactionInfoByID(id)
 	return name
 end
 function D.isRequiredReputation(id, repMin, repMax)

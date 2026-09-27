@@ -48,4 +48,8 @@ addon.GetTradeSkillInfo = GetTradeSkillInfo or function(i)
 	return recipeInfo and recipeInfo.name
 end
 
+addon.GetFactionInfoByID = GetFactionInfoByID or function(i)
+	local factionInfo = C_Reputation.GetFactionDataByIndex(i)
+	return factionInfo and factionInfo.name
+end
 
