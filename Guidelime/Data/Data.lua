@@ -91,6 +91,13 @@ function D.isFlavor(flavor)
 	return D.getFlavor(flavor) ~= nil
 end
 
+function D.isHardcore()
+	if C_GameRules and C_GameRules.IsHardcoreActive then
+		return C_GameRules.IsHardcoreActive()
+	end
+	return true
+end
+
 D.reputations = {
 	bootybay = 21,
 	ironforge = 47,

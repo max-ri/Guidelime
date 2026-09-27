@@ -13,6 +13,20 @@ addon.GP = addon.GP or {}; local GP = addon.GP                                  
 addon.QT = addon.QT or {}; local QT = addon.QT                                             -- Data/QuestTools
 QT.friendlyNpcs = QT.friendlyNpcs or {}
 
+-- Internal sentinel used to cache "no data" without changing the original
+-- functions' nil return behavior.
+local function isHardcore()
+	if C_GameRules and C_GameRules.IsHardcoreActive then
+		return C_GameRules.IsHardcoreActive()
+	end
+	return true
+end
+
+-- These caches preserve the original return values and only avoid repeatedly
+-- querying static prerequisite/applicability data. They are safe and useful
+-- on both Hardcore and Softcore, so they intentionally remain enabled in both.
+local QT_CACHE_NIL = {}
+
 local LIMIT_CENTER_POSITION = 400
 local LIMIT_POSITIONS = 1000
 
@@ -42,6 +56,9 @@ function QT.resetCachedQuestData()
 	QT.questPosition = nil
 	QT.questObjectives = nil
 	QT.questsDBReverse = nil
+	QT.questPrequests = nil
+	QT.questOneOfPrequests = nil
+	QT.questApplies = nil
 	QT.npcNames = nil
 	QT.itemNames = nil
 	QT.objectNames = nil
@@ -71,15 +88,46 @@ function QT.getQuestZone(id)
 end
 
 function QT.getQuestPrequests(id)
-	if addon.dataSource == "QUESTIE" then return QUESTIE.getQuestPrequests(id) end
-	if addon.dataSource == "CLASSIC_CODEX" then return CLASSIC_CODEX.getQuestPrequests(id) end
-	if DB.questsDB[id] ~= nil then return DB.questsDB[id].prequests end
+	if id == nil then return end
+	if QT.questPrequests == nil then QT.questPrequests = {} end
+	if QT.questPrequests[id] ~= nil then
+		local cached = QT.questPrequests[id]
+		return cached == QT_CACHE_NIL and nil or cached
+	end
+
+	local result
+	if addon.dataSource == "QUESTIE" then
+		result = QUESTIE.getQuestPrequests(id)
+	elseif addon.dataSource == "CLASSIC_CODEX" then
+		result = CLASSIC_CODEX.getQuestPrequests(id)
+	elseif DB.questsDB[id] ~= nil then
+		result = DB.questsDB[id].prequests
+	end
+
+	QT.questPrequests[id] = result == nil and QT_CACHE_NIL or result
+	return result
 end
 
 function QT.getQuestOneOfPrequests(id)
-	if addon.dataSource == "QUESTIE" then return QUESTIE.getQuestOneOfPrequests(id) end
-	if addon.dataSource == "CLASSIC_CODEX" then return CLASSIC_CODEX.getQuestOneOfPrequests(id) end
-	if DB.questsDB[id] ~= nil then return DB.questsDB[id].oneOfPrequests end
+	if id == nil then return end
+	if QT.questOneOfPrequests == nil then QT.questOneOfPrequests = {} end
+	if QT.questOneOfPrequests[id] ~= nil then
+		local cached = QT.questOneOfPrequests[id]
+		return cached == QT_CACHE_NIL and nil or cached
+	end
+
+	local result
+	if addon.dataSource == "QUESTIE" then
+		result = QUESTIE.getQuestOneOfPrequests(id)
+	elseif addon.dataSource == "CLASSIC_CODEX" then
+		result = CLASSIC_CODEX.getQuestOneOfPrequests(id)
+	elseif DB.questsDB[id] ~= nil then
+		result = DB.questsDB[id].oneOfPrequests
+	end
+
+	-- Cache both a real value and "no data" so the source is only queried once.
+	QT.questOneOfPrequests[id] = result == nil and QT_CACHE_NIL or result
+	return result
 end
 
 function QT.getQuestType(id)
@@ -141,7 +189,20 @@ function QT.getQuestIDs()
 end
 
 function QT.getQuestApplies(id)
-	return D.applies({races = QT.getQuestRaces(id), classes = QT.getQuestClasses(id), faction = QT.getQuestFaction(id)})
+	if id == nil then return false end
+	if QT.questApplies == nil then QT.questApplies = {} end
+	if QT.questApplies[id] ~= nil then
+		local cached = QT.questApplies[id]
+		return cached == QT_CACHE_NIL and nil or cached
+	end
+
+	local result = D.applies({
+		races = QT.getQuestRaces(id),
+		classes = QT.getQuestClasses(id),
+		faction = QT.getQuestFaction(id)
+	})
+	QT.questApplies[id] = result == nil and QT_CACHE_NIL or result
+	return result
 end
 
 function QT.getQuestNameById(id)
@@ -637,14 +698,21 @@ end
 
 function QT.getMissingPrequests(id, isCompleteFunc)
 	local missingPrequests = {}
-	if QT.getQuestPrequests(id) ~= nil then
-		for _, pid in ipairs(QT.getQuestPrequests(id)) do
-			if QT.getQuestApplies(pid) then
-				if not isCompleteFunc(pid) then
-					table.insert(missingPrequests, pid)
-				elseif QT.getQuestOneOfPrequests(id) then
-					return {}
-				end
+	local prequests = QT.getQuestPrequests(id)
+	if prequests == nil or isCompleteFunc == nil then
+		return missingPrequests
+	end
+
+	-- These values are static for a quest, so fetch them once instead of once
+	-- per prerequisite. This reduces the amount of Lua work during guide loading.
+	local oneOfPrequests = QT.getQuestOneOfPrequests(id)
+
+	for _, pid in ipairs(prequests) do
+		if QT.getQuestApplies(pid) then
+			if not isCompleteFunc(pid) then
+				table.insert(missingPrequests, pid)
+			elseif oneOfPrequests then
+				return {}
 			end
 		end
 	end

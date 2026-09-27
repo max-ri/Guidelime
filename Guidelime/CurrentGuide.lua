@@ -715,7 +715,7 @@ function CG.updateStepText(i)
 	end
 end
 
-local function updateStepCompletion(i, completedIndexes)
+local function updateStepCompletion(i, completedIndexes, playerIsAlive)
 	local step = CG.currentGuide.steps[i]
 
 	local autoCompleteStep
@@ -790,7 +790,7 @@ local function updateStepCompletion(i, completedIndexes)
 				element.completed = true
 			elseif element.completed and not element.lastGoto and element.attached == nil then
 				-- do not reactivate unless it is the last goto of the step
-			elseif D.wx ~= nil and D.wy ~= nil and element.wx ~= nil and element.wy ~= nil and D.instance == element.instance and D.isAlive() and step.active then
+			elseif D.wx ~= nil and D.wy ~= nil and element.wx ~= nil and element.wy ~= nil and D.instance == element.instance and playerIsAlive and step.active then
 				local radius = element.radius * element.radius
 				-- add some hysteresis
 				if element.completed then radius = radius * CG.GOTO_HYSTERESIS_FACTOR end
@@ -879,23 +879,55 @@ end
 local function updateStepsCompletion(changedIndexes)
 	--if addon.debugging then print("LIME: update steps completion") end
 	CG.currentGuide.unavailableQuests = {}
+
+	-- Long guides can cause many complete rescans here. On newer Classic
+	-- clients this can hit the Lua watchdog ("script ran too long") even though
+	-- the individual element that appears in the error is harmless.
+	--
+	-- Keep the original repeat-until behavior, but put a safety ceiling on the
+	-- number of whole-guide passes. Normal dependency propagation converges
+	-- well before this limit; later game events call CG.updateSteps() again.
+	local pass = 0
+	-- Hardcore: cap whole-guide convergence passes to stay under the tighter
+	-- Lua watchdog. Softcore: no cap, matching Guidelime's original behavior.
+	local MAX_COMPLETION_PASSES = D.isHardcore() and 4 or nil
+	local stable = false
+	local playerIsAlive = D.isAlive()
+
 	repeat
+		pass = pass + 1
 		local numNew = #changedIndexes
 		local scheduled = {ACCEPT = {}, COMPLETE = {}, TURNIN = {}, SKIP = {}}
+
 		for i, step in ipairs(CG.currentGuide.steps) do
 			if not step.skip then
-				updateStepCompletion(i, changedIndexes)
+				updateStepCompletion(i, changedIndexes, playerIsAlive)
 				if step.itemsCollected and step.completed then
 					step.skip = true --once all items are collected, don't re-enable the step again if you lose the item later
 				end
 				updateStepAvailability(i, changedIndexes, scheduled)
-				if MW.mainFrame.steps ~= nil and MW.mainFrame.steps[i] ~= nil and MW.mainFrame.steps[i].visible then
-					MW.mainFrame.steps[i]:SetChecked(step.completed or step.skip)
-					MW.mainFrame.steps[i]:SetEnabled(not step.completed or step.skip)
-				end
 			end
 		end
-	until(numNew == #changedIndexes)
+
+		stable = (numNew == #changedIndexes)
+	until stable or (MAX_COMPLETION_PASSES ~= nil and pass >= MAX_COMPLETION_PASSES)
+
+	if addon.debugging and not stable and MAX_COMPLETION_PASSES ~= nil then
+		print("LIME: stopped updateStepsCompletion after " .. pass .. " passes to avoid Hardcore Lua timeout")
+	end
+
+	-- Updating WoW UI widgets inside every convergence pass is unnecessarily
+	-- expensive. Apply the final state only once after the calculations finish.
+	if MW.mainFrame.steps ~= nil then
+		for i, step in ipairs(CG.currentGuide.steps) do
+			local frame = MW.mainFrame.steps[i]
+			if frame ~= nil and frame.visible then
+				frame:SetChecked(step.completed or step.skip)
+				frame:SetEnabled(not step.completed or step.skip)
+			end
+		end
+	end
+
 	--if addon.debugging then print("LIME: changed", #changedIndexes) end
 end
 

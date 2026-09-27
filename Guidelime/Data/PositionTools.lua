@@ -3,6 +3,7 @@ local L = addon.L
 
 local HBD = LibStub("HereBeDragons-2.0")
 
+addon.D = addon.D or {}; local D = addon.D                                                 -- Data/Data
 addon.DM = addon.DM or {}; local DM = addon.DM                                             -- Data/MapDB
 addon.QT = addon.QT or {}; local QT = addon.QT                                             -- Data/QuestTools
 addon.CG = addon.CG or {}; local CG = addon.CG                                             -- CurrentGuide
@@ -10,7 +11,10 @@ addon.GP = addon.GP or {}; local GP = addon.GP                                  
 
 addon.PT = addon.PT or {}; local PT = addon.PT                                             -- Data/PositionTools
 
-local LIMIT_CENTER_POSITION = 400
+-- Hardcore has a much tighter Lua execution budget. Use the lightweight
+-- no-cluster path earlier there; keep Guidelime's original detailed threshold
+-- on Softcore.
+local LIMIT_CENTER_POSITION = D.isHardcore() and 50 or 400
 local LIMIT_POSITIONS = 1000
 
 local CLUSTER_DIST = 170
