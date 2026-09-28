@@ -317,6 +317,9 @@ function D.applies(guide)
 	if guide.flavors ~= nil then
 		if not D.contains(guide.flavors, D.flavor) then return false end
 	end
+	if guide.hardcore ~= nil then
+		if guide.hardcore ~= D.isHardcore() then return false end
+	end
 	return true
 end
 

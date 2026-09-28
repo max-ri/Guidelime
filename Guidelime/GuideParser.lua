@@ -313,6 +313,10 @@ function GP.parseLine(step, guide, strict, nameOnly)
 				elseif D.isFlavor(c) then
 					if guide.flavors == nil then guide.flavors = {} end
 					table.insert(guide.flavors, D.getFlavor(c))
+				elseif c == "HARDCORE" then
+					guide.hardcore = true
+				elseif c == "SOFTCORE" then
+					guide.hardcore = false
 				else
 					F.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
 					err = true
@@ -483,6 +487,10 @@ function GP.parseLine(step, guide, strict, nameOnly)
 					if step.spellMin == nil and step.spellMax == nil then step.spellMin = 1 end
 				elseif D.isFlavor(c) then
 					table.insert(flavors, D.getFlavor(c))
+				elseif c == "HARDCORE" then
+					step.hardcore = true
+				elseif c == "SOFTCORE" then
+					step.hardcore = false
 				else
 					F.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
 					err = true
