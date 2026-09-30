@@ -52,6 +52,13 @@ function AB.getTargetMarkerIconText(marker)
 	end
 end
 
+local function showTargetButtonPortrait(button)
+	if not button or not UnitExists("target") or UnitName("target") ~= button.npc then return end
+	SetPortraitTexture(button.portrait, "target")
+	button.portrait:Show()
+	button.texture:Hide()
+end
+
 function AB.createTargetButton(i)
 	local button = MW.mainFrame.targetButtons[i]
 	if not button then
@@ -63,6 +70,21 @@ function AB.createTargetButton(i)
 		button.texture:SetTexture(i == "Multi" and addon.icons.MULTI_TARGET_BUTTON or addon.icons.TARGET_BUTTON)
 		button.texture:SetPoint("TOPLEFT", button, -2, 1)					
 		button.texture:SetPoint("BOTTOMRIGHT", button, 2, -2)
+		button.portrait = button:CreateTexture(nil, "ARTWORK")
+		button.portrait:SetPoint("TOPLEFT", button, 3, -3)
+		button.portrait:SetPoint("BOTTOMRIGHT", button, -3, 3)
+		button.portrait:Hide()
+		button:SetScript("PostClick", function(self)
+			if self.index == "Multi" then
+				if UnitExists("target") then
+					for _, targetButton in pairs(MW.mainFrame.targetButtons) do
+						if targetButton:IsShown() and targetButton.index ~= "Multi" then showTargetButtonPortrait(targetButton) end
+					end
+				end
+			else
+				showTargetButtonPortrait(self)
+			end
+		end)
 		button.texture2 = button:CreateTexture(nil, "OVERLAY")
 		button.texture2:SetTexture("Interface\\TargetingFrame\\UI-RaidTargetingIcons")
 		button.texture2:SetPoint("TOPLEFT", button, 20, -22)					
@@ -126,6 +148,21 @@ local function getTargetTooltipMulti(targets)
 		tooltips[i] = getTargetTooltip(t, i == #targets)
 	end
 	return table.concat(tooltips, "\n")
+end
+
+local targetTooltipModel
+local function showTargetTooltip(button)
+	if button.index == "Multi" then return end
+	if not targetTooltipModel then
+		targetTooltipModel = CreateFrame("PlayerModel", nil, GameTooltip)
+		targetTooltipModel:SetSize(130, 150)
+		targetTooltipModel:SetPoint("BOTTOM", GameTooltip, "BOTTOM", 0, 8)
+	end
+	local loaded = pcall(targetTooltipModel.SetCreature, targetTooltipModel, button.npcId)
+	if not loaded and UnitExists("target") and UnitName("target") == button.npc then
+		targetTooltipModel:SetUnit("target")
+	end
+	targetTooltipModel:Show()
 end
 
 local function keyBindButton(button, bindingName, buttonName, functionName)
@@ -215,10 +252,44 @@ function AB.updateTargetButtons()
 		button:SetPoint("TOP" .. GuidelimeDataChar.showTargetButtons, MW.mainFrame, "TOP" .. GuidelimeDataChar.showTargetButtons, 
 			GuidelimeDataChar.showTargetButtons == "LEFT" and -36 or (GuidelimeDataChar.mainFrameShowScrollBar and 60 or 37), 
 			39 - pos * 41)
+		local keepPortrait = button.npcId == t.npcId and button.portrait:IsShown()
 		button.npc = t.name
+		button.npcId = t.npcId
 		button.marker = t.marker
+		if keepPortrait then
+			button.texture:Hide()
+		else
+			button.portrait:Hide()
+			button.texture:Show()
+		end
 		button:SetAttribute("macrotext", "/cleartarget\n" .. getTargetMacro(t))
 		F.setTooltip(button, getTargetTooltip(t))
+		button:SetScript("OnEnter", function(self)
+			if self.tooltip and self.tooltip ~= "" then
+				GameTooltip:SetOwner(self, "ANCHOR_RIGHT", 0, -32)
+				GameTooltip:SetText(self.tooltip)
+				GameTooltip:Show()
+				self.tooltipOriginalWidth = GameTooltip:GetWidth()
+				self.tooltipOriginalHeight = GameTooltip:GetHeight()
+				F.showingTooltip = true
+				showTargetTooltip(self)
+				if targetTooltipModel and targetTooltipModel:IsShown() then
+					GameTooltip:SetSize(math.max(self.tooltipOriginalWidth, 146), self.tooltipOriginalHeight + 166)
+				end
+			end
+		end)
+		button:SetScript("OnLeave", function(self)
+			if self.tooltip and self.tooltip ~= "" and F.showingTooltip then
+				GameTooltip:Hide()
+				F.showingTooltip = false
+			end
+			if targetTooltipModel then targetTooltipModel:Hide() end
+			if self.tooltipOriginalWidth and self.tooltipOriginalHeight then
+				GameTooltip:SetSize(self.tooltipOriginalWidth, self.tooltipOriginalHeight)
+				self.tooltipOriginalWidth = nil
+				self.tooltipOriginalHeight = nil
+			end
+		end)
 		keyBindButton(button, "GUIDELIME_TARGET_" .. pos, "GuidelimeTargetButton" .. t.index, t.name)
 		button:Show()
 		pos = pos + 1
