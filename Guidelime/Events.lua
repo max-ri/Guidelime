@@ -474,6 +474,25 @@ function EV.frame:TRADE_SKILL_SHOW()
 	end
 end
 
+EV.frame:RegisterEvent('PLAYER_EQUIPMENT_CHANGED')
+function EV.frame:PLAYER_EQUIPMENT_CHANGED()
+	if addon.debugging then print ("LIME: PLAYER_EQUIPMENT_CHANGED") end
+	CG.forEveryActiveElement(function(element)
+		if element.t == "USE_ITEM" then
+			if addon.debugging then print ("LIME: checking if item", element.useItemId, "was equipped") end
+			local _, _, _, _, _, _, _, _, equipLoc = GetItemInfo(element.useItemId)
+			if equipLoc and equipLoc ~= "" and not QT.isItemUsable(element.useItemId) then
+				local slotName = _G[equipLoc] .. "Slot" -- e.g., "ChestSlot"
+    			local slotID, _ = GetInventorySlotInfo(slotName)				
+				if GetInventoryItemID("player", slotID) == element.useItemId then
+					if addon.debugging then print ("LIME: item", elementUseItemId, "was equipped") end
+					CG.completeSemiAutomatic(element)
+				end
+			end
+		end
+	end)
+end
+
 EV.frame:RegisterEvent('QUEST_GREETING')
 function EV.frame:QUEST_GREETING()
 	if (GuidelimeData.autoAcceptQuests or GuidelimeData.autoTurnInQuests) and not IsShiftKeyDown() then 
