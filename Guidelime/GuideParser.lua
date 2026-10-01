@@ -57,6 +57,7 @@ GP.codes = {
 	APPLIES = "A",
 	OPTIONAL = "O",
 	OPTIONAL_COMPLETE_WITH_NEXT = "OC",
+	COMPLETE_WITH_NEXT = "C",
 	QUEST = "Q",
 		ACCEPT = "QA",
 		COMPLETE = "QC",
@@ -84,7 +85,6 @@ GP.codes = {
 	LEARN = "LE",
 	SKILL = "SK",
 --deprecated
-	COMPLETE_WITH_NEXT = "C", -- same as OC
 	PICKUP = "QP", -- same as QA
 	WORK = "QW", -- same as QC but optional
 }
@@ -685,7 +685,6 @@ function GP.parseLine(step, guide, strict, nameOnly)
 		elseif element.t == "COMPLETE_WITH_NEXT" then
 			element.text, element.textInactive, _ = textFormatting(tag)
 			step.completeWithNext = true
-			step.optional = true
 		elseif element.t == "OPTIONAL" then
 			element.text, element.textInactive, _ = textFormatting(tag)
 			if lastAutoStep ~= nil then

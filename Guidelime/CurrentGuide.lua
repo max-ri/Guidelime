@@ -189,7 +189,6 @@ function CG.loadCurrentGuide(reset)
 			end
 			if step.manual == nil then step.manual = true end
 			if step.completeWithNext == nil then step.completeWithNext = false end
-			if step.completeWithNext then step.optional = true end
 			if step.optional == nil then step.optional = false end
 			step.skip = GuidelimeDataChar.guideSkip[CG.currentGuide.name][step.index] or GuidelimeDataChar.completedSteps[step.index] or false
 			step.active = false
