@@ -19,6 +19,7 @@ addon.GP = addon.GP or {}; local GP = addon.GP -- GuideParser
 codes:
  - N Name and level range of the guide [N(min)-(max)(name)]
  - NX Name and level range of the next guide proposed after finishing this [NX(min)-(max)(name)]
+ - LI Inline link to another guide in the same group [LI(min)-(max)(name)]
  - D details of the guide [D(details)]
  - GA guide applies to [GA(race),(class),(faction),(reputation),(flavor),...]
  - Q [QA/T/C/S(id)[,objective](title)] quest accept/turnin/complete/skip    -- QW is deprecated; replaced by [QC...][O]
@@ -51,6 +52,7 @@ codes:
 GP.codes = {
 	NAME = "N",
 	NEXT = "NX",
+	LINK = "LI",
 	DETAILS = "D",
 	DOWNLOAD = "DL",
 	GUIDE_APPLIES = "GA",
@@ -195,6 +197,7 @@ function GP.parseLine(step, guide, strict, nameOnly)
 			local element = {}
 			element.t = "TEXT"
 			element.text, element.textInactive, element.url, element.empty = textFormatting(text, MW.COLOR_WHITE)
+			if element.url ~= nil then step.clickable = true end
 			if element.text ~= nil then
 				element.startPos = pos
 				pos = pos + #text
@@ -231,6 +234,23 @@ function GP.parseLine(step, guide, strict, nameOnly)
 					if minLevel ~= "" then title = minLevel .. title end
 				end
 				table.insert(guide.next, title)
+			end, 1)
+			if c ~= 1 then
+				F.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
+				err = true
+			end
+		elseif element.t == "LINK" then
+			local _, c = tag:gsub("%s*(%d*%.?%d*)%s*%-?%s*(%d*%.?%d*)%s*(.*)", function (minLevel, maxLevel, title)
+				if minLevel ~= "" or maxLevel ~= "" then
+					title = " " .. title
+					if maxLevel ~= "" then title = maxLevel .. title end
+					title = "-" .. title
+					if minLevel ~= "" then title = minLevel .. title end
+				end
+				element.linkGuide = title
+				element.text = MW.COLOR_LIGHT_BLUE .. title .. "|r"
+				element.textInactive = MW.COLOR_INACTIVE .. title .. "|r"
+				step.clickable = true
 			end, 1)
 			if c ~= 1 then
 				F.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
@@ -379,6 +399,7 @@ function GP.parseLine(step, guide, strict, nameOnly)
 						previousAutoStep = lastAutoStep
 						lastAutoStep = element 
 					end
+					step.clickable = true
 				end
 			end, 1)
 			if c ~= 1 then
@@ -790,6 +811,7 @@ function GP.parseLine(step, guide, strict, nameOnly)
 		local element = {}
 		element.t = "TEXT"
 		element.text, element.textInactive, element.url, element.empty = textFormatting(t, MW.COLOR_WHITE)
+		if element.url ~= nil then step.clickable = true end
 		if element.text ~= nil then
 			element.startPos = pos 
 			element.endPos = pos + #t - 1

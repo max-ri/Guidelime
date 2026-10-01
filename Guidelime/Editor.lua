@@ -904,6 +904,7 @@ function E.showEditor()
 		local firstButton = addEditButton("NAME", prev, "TOPLEFT", 0, -30)
 		prev = addEditButton("DETAILS", firstButton)
 		prev = addEditButton("NEXT", prev)
+		prev = addEditButton("LINK", prev)
 		prev = addEditButton("GUIDE_APPLIES", prev)
 
 		prev = addEditButton("QUEST", prev, "TOPRIGHT", 3)

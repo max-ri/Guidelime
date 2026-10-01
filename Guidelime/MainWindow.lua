@@ -127,16 +127,16 @@ function Guidelime.toggleMinimapMarkers()
 	MW.updateMainFrame()
 end
 
-local function onMouseDown(self, button)
+local function onMouseDown(self, button, dontMove)
 	if button == "LeftButton" then
-		if not GuidelimeDataChar.mainFrameLocked then 
+		if not GuidelimeDataChar.mainFrameLocked and not dontMove then 
 			MW.mainFrame:StartMoving() 
 		end
 		MW.mainFrame.lockBtn:SetAlpha(1)
 	end
 end
 
-local function onMouseUp(self, button, questId, url)
+local function onMouseUp(self, button, questId, url, linkGuide)
 	if button == "LeftButton" then
 		MW.mainFrame:StopMovingOrSizing()
 		MW.mainFrame.lockBtn:SetAlpha(0)
@@ -149,6 +149,9 @@ local function onMouseUp(self, button, questId, url)
 			QL.showQuestLogFrame(questId)
 		elseif url then
 			F.showUrlPopup(url) 
+		elseif linkGuide and CG.currentGuide.group then
+			local guideName = CG.currentGuide.group .. " " .. linkGuide
+			if addon.guides[guideName] ~= nil then G.loadGuide(guideName) end
 		end
 	elseif button == "RightButton" then
 		MW.showContextMenu(type(questId) == 'number' and questId, self)
@@ -475,13 +478,15 @@ function MW.updateMainFrame(reset)
 									end, true, 120 + lines * 10):Show()
 								end
 							end)
-							MW.mainFrame.steps[i].textBox = F.addMultilineText(MW.mainFrame.steps[i], nil, nil, "")
-							MW.mainFrame.steps[i].textBox:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
-							MW.mainFrame.steps[i].textBox:SetScript("OnMouseDown", onMouseDown)
-							MW.mainFrame.steps[i].textBox:SetScript("OnMouseUp", function(self, button)
+							MW.mainFrame.steps[i].textBox = F.addMultilineText(MW.mainFrame.steps[i], nil, nil, "", function(self, button)
+								self:HighlightText(0, 0)
 								local j = CG.getElementByTextPos(self:GetCursorPosition(), i)
 								local element = CG.currentGuide.steps[i].elements[j]
-								onMouseUp(self, button, element and element.questId, element and element.url)
+								onMouseUp(self, button, element and element.questId, element and element.url, element and element.linkGuide)
+							end)
+							MW.mainFrame.steps[i].textBox:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
+							MW.mainFrame.steps[i].textBox:HookScript("OnMouseDown", function(self, button)
+								onMouseDown(self, button, CG.currentGuide.steps[i].clickable)
 							end)
 							MW.mainFrame.steps[i].textBox:SetBackdrop({
 								bgFile = "Interface\\AddOns\\" .. addonName .. "\\Icons\\TitleHighlight",

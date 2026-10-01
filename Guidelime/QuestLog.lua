@@ -78,7 +78,7 @@ function QL.showQuestLogFrame(questId)
 	local TrackerUtils = QuestieLoader and QuestieLoader:ImportModule("TrackerUtils")
 	if TrackerUtils then return TrackerUtils:ShowQuestLog({Id = questId}) end
 
-	-- ponytail: modern quest log (WoW: Forever), same call Questie makes there
+	-- modern quest log (WoW: Forever), open quest/map frame
 	if not QuestLogFrame then return QuestMapFrame_OpenToQuestDetails(questId) end
 
     SelectQuestLogEntry(questLogIndex)
