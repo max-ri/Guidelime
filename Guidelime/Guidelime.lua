@@ -100,6 +100,7 @@ end
 function addon.loadData()
 	local defaultOptions = {
 		debugging = false,
+		recordedSteps = {},
 		showLineNumbers = false,
 		showQuestLevels = false,
 		showMinimumQuestLevels = false,
@@ -141,6 +142,7 @@ function addon.loadData()
 		version = GetAddOnMetadata and GetAddOnMetadata(addonName, "version") or C_AddOns.GetAddOnMetadata(addonName, "version")
 	}
 	local defaultOptionsChar = {
+		recording = false,
 		mainFrameX = 0,
 		mainFrameY = 0,
 		mainFrameRelative = "RIGHT",

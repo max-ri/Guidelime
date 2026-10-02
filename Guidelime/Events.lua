@@ -1,5 +1,5 @@
 local addonName, addon = ...
-local GetSpellInfo, UnitAura, GetItemInfo, GetItemCount = addon.GetSpellInfo, addon.UnitAura, addon.GetItemInfo, addon.GetItemCount
+local GetSpellInfo, UnitAura, GetItemInfo, GetItemCount, GetContainerNumSlots, GetContainerItemID = addon.GetSpellInfo, addon.UnitAura, addon.GetItemInfo, addon.GetItemCount, addon.GetContainerNumSlots, addon.GetContainerItemID
 local L = addon.L
 
 local HBD = LibStub("HereBeDragons-2.0")
@@ -20,6 +20,23 @@ addon.EV = addon.EV or {}; local EV = addon.EV -- Events
 EV.AUTO_COMPLETE_DELAY = 0.01
 EV.BAG_UPDATE_DELAY = 0.3
 
+function EV.recordStep(line)
+	if not GuidelimeDataChar or not GuidelimeDataChar.recording or type(line) ~= "string" or line == "" then return end
+	if type(GuidelimeData.recordedSteps) ~= "table" then GuidelimeData.recordedSteps = {} end
+	table.insert(GuidelimeData.recordedSteps, line)
+end
+
+function EV.recordMarker(message)
+	if not GuidelimeDataChar or not GuidelimeDataChar.recording then return end
+	if type(GuidelimeData.recordedSteps) ~= "table" then GuidelimeData.recordedSteps = {} end
+	table.insert(GuidelimeData.recordedSteps, "-- " .. date("%Y-%m-%d %H:%M:%S") .. " " .. message)
+end
+
+local function getQuestTitle(questID)
+	local title = questID and QT.getQuestNameById(questID)
+	return title and title ~= "" and title or "-"
+end
+
 EV.frame = CreateFrame("Frame", addonName .. "Frame", UIParent)
 
 -- WoW: Forever throws on unknown events, which would abort loading this file
@@ -37,6 +54,7 @@ end)
 EV.frame:RegisterEvent('PLAYER_LOGIN')
 function EV.frame:PLAYER_LOGIN()
 	addon.init()
+	EV.recordMarker(UnitName("player") .. " (" .. D.race .. " " .. D.class .. " level " .. D.level .. ") logged in (" .. D.flavor .. (D.isHardcore() or " HC" and "") .. ")")
 	C_Timer.After(2, function()
 		if not addon.dataLoaded then addon.loadData() end
 		if GuidelimeDataChar.mainFrameShowing then MW.showMainFrame() end
@@ -50,6 +68,7 @@ function EV.frame:PLAYER_LEVEL_UP(level)
 		GuidelimeDataChar.level = level
 		D.xpMax = UnitXPMax("player")
 		if addon.debugging then print("LIME: You reached level " .. D.level .. ". Grats! new xp max is " .. D.xpMax) end
+		EV.recordStep("[XP " .. level .. "]")
 		CG.updateSteps()
 	end)
 end
@@ -57,7 +76,6 @@ end
 EV.frame:RegisterEvent('PLAYER_XP_UPDATE')
 function EV.frame:PLAYER_XP_UPDATE(level)
 	D.xp = UnitXP("player")
-	--if addon.debugging then print("LIME: xp is " .. D.xp) end
 	CG.updateSteps()
 end
 
@@ -250,14 +268,14 @@ end
 
 EV.frame:RegisterEvent('GOSSIP_SHOW')
 function EV.frame:GOSSIP_SHOW()
-	if IsShiftKeyDown() then return end
 	if GetGossipActiveQuests ~= nil then
 		EV.frame.GOSSIP_SHOW_old(self)
 		return
 	end
+	EV.gossipNpc = select(6, strsplit("-", UnitGUID("npc")))
+	if IsShiftKeyDown() then return end
 	if (GuidelimeData.autoAcceptQuests or GuidelimeData.autoTurnInQuests) then 
-		if addon.debugging then print ("LIME: GOSSIP_SHOW", C_GossipInfo.GetActiveQuests()) end
-		if addon.debugging then print ("LIME: GOSSIP_SHOW", C_GossipInfo.GetAvailableQuests()) end
+		if addon.debugging then print ("LIME: GOSSIP_SHOW", #C_GossipInfo.GetActiveQuests(), #C_GossipInfo.GetAvailableQuests()) end
 		local selectActive = nil
 		local selectAvailable = nil
 		EV.openNpcAgain = false
@@ -321,6 +339,7 @@ function EV.frame:GOSSIP_SHOW()
 end
 
 function EV.frame:GOSSIP_SHOW_old()
+	if IsShiftKeyDown() then return end
 	if (GuidelimeData.autoAcceptQuests or GuidelimeData.autoTurnInQuests) then 
 		if addon.debugging then print ("LIME: GOSSIP_SHOW", GetGossipActiveQuests()) end
 		if addon.debugging then print ("LIME: GOSSIP_SHOW", GetGossipAvailableQuests()) end
@@ -495,6 +514,8 @@ end
 
 EV.frame:RegisterEvent('QUEST_GREETING')
 function EV.frame:QUEST_GREETING()
+	if addon.debugging then print ("LIME: QUEST_GREETING") end
+	EV.lastQuestNpc = select(6, strsplit("-", UnitGUID("npc")))
 	if (GuidelimeData.autoAcceptQuests or GuidelimeData.autoTurnInQuests) and not IsShiftKeyDown() then 
 		if addon.debugging then print ("LIME: QUEST_GREETING", GetNumActiveQuests()) end
 		if addon.debugging then print ("LIME: QUEST_GREETING", GetNumAvailableQuests()) end
@@ -539,6 +560,7 @@ end
 EV.frame:RegisterEvent('QUEST_DETAIL')
 function EV.frame:QUEST_DETAIL()
 	EV.lastQuestOpened = GetQuestID()
+	EV.lastQuestNpc = select(6, strsplit("-", UnitGUID("npc")))
 	if addon.debugging then print ("LIME: QUEST_DETAIL", EV.lastQuestOpened) end
 	if not IsShiftKeyDown() and EV.isQuestAuto(GuidelimeData.autoAcceptQuests, EV.lastQuestOpened) then
 		C_Timer.After(EV.AUTO_COMPLETE_DELAY, function()
@@ -567,6 +589,9 @@ end
 EV.frame:RegisterEvent('QUEST_COMPLETE')
 function EV.frame:QUEST_COMPLETE()
 	local id = GetQuestID()
+	if addon.debugging then print ("LIME: QUEST_COMPLETE", id) end
+	EV.lastQuestNpc = select(6, strsplit("-", UnitGUID("npc")))
+	if id then EV.recordStep("[QC " .. id .. " " .. getQuestTitle(id) .. "]") end
 	if not IsShiftKeyDown() and EV.isQuestAuto(GuidelimeData.autoTurnInQuests, id) then
 		if addon.debugging then print ("LIME: QUEST_COMPLETE", id) end
 		if (GetNumQuestChoices() <= 1) then
@@ -575,6 +600,25 @@ function EV.frame:QUEST_COMPLETE()
 		    end)
 		end
 	end
+end
+
+EV.frame:RegisterEvent('QUEST_ACCEPTED')
+function EV.frame:QUEST_ACCEPTED(questLogIndex, questID)
+	if addon.debugging then print ("LIME: QUEST_ACCEPTED", questID, EV.lastQuestNpc) end
+	if questID then EV.recordStep("[QA " .. questID .. " " .. getQuestTitle(questID) .. "]" .. (EV.lastQuestNpc and ("[TAR" .. EV.lastQuestNpc .. "]") or "")) end
+	EV.lastQuestNpc = nil
+end
+
+EV.frame:RegisterEvent('QUEST_TURNED_IN')
+function EV.frame:QUEST_TURNED_IN(questID)
+	if addon.debugging then print ("LIME: QUEST_TURNED_IN", questID) end
+	if questID then EV.recordStep("[QT " .. questID .. " " .. getQuestTitle(questID) .. "]" .. (EV.lastQuestNpc and ("[TAR" .. EV.lastQuestNpc .. "]") or "")) end
+end
+
+EV.frame:RegisterEvent('GOSSIP_CLOSED')
+function EV.frame:GOSSIP_CLOSED()
+	if addon.debugging then print ("LIME: GOSSIP_CLOSED") end
+	EV.lastQuestNpc = nil
 end
 
 EV.frame:RegisterEvent('CINEMATIC_START')
@@ -612,10 +656,21 @@ function EV.frame:TAXIMAP_OPENED()
 	end
 end
 
+-- Securely hook the internal function that initiates the flight
+hooksecurefunc("TakeTaxiNode", function(slotIndex)
+    -- Fetch the node name using the selected slot index
+    local nodeName = TaxiNodeName(slotIndex)
+    if nodeName and nodeName ~= "INVALID" then
+        if addon.debugging then print("LIME: Player selected flight destination: " .. nodeName) end
+        EV.flightDestination = nodeName
+    end
+end)
+
 EV.frame:RegisterEvent('PLAYER_CONTROL_LOST')
 function EV.frame:PLAYER_CONTROL_LOST()
 	C_Timer.After(1, function() 
 		if UnitOnTaxi("player") then
+			EV.recordStep("[F" .. (EV.flightDestination and (" " .. EV.flightDestination) or "") .. "]")
 			if addon.debugging then print ("LIME: UnitOnTaxi") end
 			CG.completeSemiAutomaticByType("FLY")
 		end
@@ -625,16 +680,19 @@ end
 EV.frame:RegisterEvent('UI_INFO_MESSAGE')
 function EV.frame:UI_INFO_MESSAGE(errorType, message)
 	if message == ERR_NEWTAXIPATH then
-		if addon.debugging then print ("LIME: ERR_NEWTAXIPATH") end
+		local npcId = select(6, strsplit("-", UnitGUID("npc")))
+		if addon.debugging then print("LIME: ERR_NEWTAXIPATH", npcId) end
+		EV.recordStep("[P][TAR" .. npcId .. "]")
 		CG.completeSemiAutomaticByType("GET_FLIGHT_POINT")
 	end
 end
 
 EV.frame:RegisterEvent('HEARTHSTONE_BOUND')
 function EV.frame:HEARTHSTONE_BOUND(errorType, message)
+	if addon.debugging then print("LIME: HEARTHSTONE_BOUND", EV.gossipNpc) end
+	EV.recordStep("[S][TAR" .. EV.gossipNpc .. "]")
 	CG.completeSemiAutomaticByType("SET_HEARTH")
 end
-
 
 EV.frame:RegisterEvent('UNIT_SPELLCAST_SUCCEEDED')
 function EV.frame:UNIT_SPELLCAST_SUCCEEDED(unitTarget, castGUID, spellID)
@@ -643,6 +701,7 @@ function EV.frame:UNIT_SPELLCAST_SUCCEEDED(unitTarget, castGUID, spellID)
 	if unitTarget ~= "player" or (issecretvalue and issecretvalue(spellID)) then return end
 	if spellID == 8690 or spellID == 556 then
 		-- hearthstone was used (or Astral Recall)
+		EV.recordStep("[H]")
 		CG.completeSemiAutomaticByType("HEARTH")
 	end
 	CG.forEveryActiveElement(function(element)
@@ -655,6 +714,7 @@ end
 EV.frame:RegisterEvent('LEARNED_SPELL_IN_SKILL_LINE')
 function EV.frame:LEARNED_SPELL_IN_SKILL_LINE(spellID, skillInfoIndex, isGuildPerkSpell)
 	if addon.debugging then print("LIME: LEARNED_SPELL_IN_SKILL_LINE", spellID, skillInfoIndex, isGuildPerkSpell) end
+	if spellID and SP.getSpellById(spellID) then EV.recordStep("[LE SP " .. spellID .. " " .. addon.GetSpellInfo(spellID) .. "]") end
 	local found = false
 	CG.forEveryActiveElement(function(element)
 		if element.t == "LEARN" and element.spellId == spellID then
@@ -668,6 +728,15 @@ end
 EV.frame:RegisterEvent('SKILL_LINES_CHANGED')
 function EV.frame:SKILL_LINES_CHANGED()
 	if addon.debugging then print("LIME: SKILL_LINES_CHANGED") end
+	EV.recordedSkills = EV.recordedSkills or {}
+	for i = 1, GetNumSkillLines() do
+		local name, isHeader, _, rank = GetSkillLineInfo(i)
+		if name and not isHeader and rank then
+			local oldRank = EV.recordedSkills[name]
+			if oldRank and rank > oldRank then EV.recordStep("[SK " .. name .. " " .. rank .. "]") end
+			EV.recordedSkills[name] = rank
+		end
+	end
 	local found = false
 	CG.forEveryActiveElement(function(element)
 		if element.t == "LEARN" or element.t == "SKILL" then
@@ -779,6 +848,7 @@ end
 
 EV.frame:RegisterEvent('PLAYER_LOGOUT')
 function EV.frame:PLAYER_LOGOUT()
+	EV.recordMarker("Player logged out")
 	-- save a copy of character settings for import
 	if not GuidelimeData.chars then GuidelimeData.chars = {} end
 	GuidelimeData.chars[UnitGUID("player")] = GuidelimeDataChar
@@ -799,9 +869,12 @@ end
 
 EV.frame:RegisterEvent('MERCHANT_SHOW')
 function EV.frame:MERCHANT_SHOW()
-	if addon.debugging then print("LIME: MERCHANT_SHOW", CanMerchantRepair()) end
+	local repair = CanMerchantRepair()
+	local npcId = select(6, strsplit("-", UnitGUID("npc")))
+	if addon.debugging then print("LIME: MERCHANT_SHOW", npcId, repair) end
+	EV.recordStep("[V]" .. (repair and "[R]" or "") .. "[TAR" .. npcId .. "]")
 	CG.completeSemiAutomaticByType("VENDOR")
-	if CanMerchantRepair() then
+	if repair then
 		CG.completeSemiAutomaticByType("REPAIR")
 	end
 end

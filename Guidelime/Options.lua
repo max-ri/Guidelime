@@ -781,6 +781,35 @@ function O.fillOptions()
 	O.optionsFrame.titleDebugging:SetFontObject("GameFontNormalLarge")
 	prev = O.optionsFrame.titleDebugging
 
+	checkbox = F.addCheckOption(content, GuidelimeDataChar, "recording", L.RECORDING, nil, function()
+		EV.recordMarker(GuidelimeDataChar.recording and "Recording enabled" or "Recording disabled")
+	end)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
+	prev = checkbox
+	local showRecordingButton = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
+	showRecordingButton:SetSize(130, 24)
+	showRecordingButton:SetText(L.SHOW_RECORDING)
+	showRecordingButton:SetPoint("LEFT", checkbox:GetFontString(), "RIGHT", 10, 0)
+	showRecordingButton:SetScript("OnClick", function()
+		if type(GuidelimeData.recordedSteps) ~= "table" then GuidelimeData.recordedSteps = {} end
+		local recordedSteps = GuidelimeData.recordedSteps
+		local popup = F.showCopyPopup(table.concat(recordedSteps, "\n"), "", 0, 500, true, function(self)
+			GuidelimeData.recordedSteps = {}
+			for s in string.gmatch(self.textbox:GetText(), "[^\n]+") do
+				table.insert(GuidelimeData.recordedSteps, s)
+			end
+		end)
+		local clearButton = CreateFrame("BUTTON", nil, popup, "UIPanelButtonTemplate")
+		clearButton:SetSize(128, 24)
+		clearButton:SetText("Clear recordings")
+		clearButton:SetPoint("RIGHT", popup.okBtn, "LEFT", -10, 0)
+		clearButton:SetScript("OnClick", function()
+			GuidelimeData.recordedSteps = {}
+			popup.textbox:SetText("")
+		end)
+	end)
+	O.optionsFrame.showRecordingButton = showRecordingButton
+
 	--[[checkbox = F.addCheckOption(content, GuidelimeData, "debugging", L.DEBUGGING, nil, function()
 		addon.debugging = GuidelimeData.debugging
 		if GuidelimeDataChar.mainFrameShowing then

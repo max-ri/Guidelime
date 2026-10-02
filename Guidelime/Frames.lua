@@ -274,8 +274,8 @@ function F.showUrlPopup(url, anchor)
 	return popup
 end
 
-function F.showCopyPopup(value, text, textwidth, height, multiline)
-	local popup = F.createPopupFrame(nil, nil, false, height)
+function F.showCopyPopup(value, text, textwidth, height, multiline, okFunc)
+	local popup = F.createPopupFrame(nil, okFunc, false, height)
 	if multiline then
     	local scrollFrame = CreateFrame("ScrollFrame", nil, popup, "UIPanelScrollFrameTemplate")
     	scrollFrame:SetPoint("TOPLEFT", popup, "TOPLEFT", 0, -20)
