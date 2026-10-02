@@ -49,7 +49,9 @@ addon.GetTradeSkillInfo = GetTradeSkillInfo or function(i)
 end
 
 addon.GetFactionInfoByID = GetFactionInfoByID or function(i)
-	local factionInfo = C_Reputation.GetFactionDataByIndex(i)
-	return factionInfo and factionInfo.name
+	local factionInfo = C_Reputation.GetFactionDataByID(i)
+	if not factionInfo then return end
+	return factionInfo.name, factionInfo.description, factionInfo.reaction, factionInfo.currentReactionThreshold, factionInfo.nextReactionThreshold, factionInfo.currentStanding,
+		factionInfo.atWarWith, factionInfo.canToggleAtWar, factionInfo.isHeader, factionInfo.isCollapsed, factionInfo.isHeaderWithRep, factionInfo.isWatched, factionInfo.isChild
 end
 
