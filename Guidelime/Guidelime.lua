@@ -354,7 +354,17 @@ function addon.init()
             tooltip:AddLine(addon.MW.COLOR_INACTIVE .. L.SHIFT_RIGHT_CLICK .. ":|r " .. ((GuidelimeData.showMinimapMarkersGOTO or GuidelimeData.showMinimapMarkersLOC) and L.HIDE_MARKERS_ON or L.SHOW_MARKERS_ON) .. " " .. L.MINIMAP)
         end
     }), GuidelimeData)
-	addon.minimapButtonFlash = LibDBIcon:GetMinimapButton(addonName):CreateAnimationGroup()
+	local minimapButton = LibDBIcon:GetMinimapButton(addonName)
+	local indicatorMask = minimapButton:CreateMaskTexture()
+	indicatorMask:SetTexture("Interface\\CharacterFrame\\TempPortraitAlphaMask")
+	indicatorMask:SetSize(8, 8)
+	indicatorMask:SetPoint("CENTER", minimapButton, "CENTER", 3, 3)
+	minimapButton.recordingIndicator = minimapButton:CreateTexture(nil, "OVERLAY")
+	minimapButton.recordingIndicator:SetColorTexture(1, 0, 0, 1)
+	minimapButton.recordingIndicator:SetSize(7, 7)
+	minimapButton.recordingIndicator:SetPoint("CENTER", minimapButton, "CENTER", 3, 3)
+	minimapButton.recordingIndicator:AddMaskTexture(indicatorMask)
+	addon.minimapButtonFlash = minimapButton:CreateAnimationGroup()
 	local flash = addon.minimapButtonFlash:CreateAnimation("Alpha")
 	flash:SetOrder(1)
 	flash:SetDuration(0.5)
@@ -365,6 +375,11 @@ function addon.init()
 end
 
 function addon.setupMinimapButton()
+	local minimapButton = LibDBIcon:GetMinimapButton(addonName)
+	if minimapButton and minimapButton.recordingIndicator then
+		if GuidelimeDataChar.recording then minimapButton.recordingIndicator:Show()
+		else minimapButton.recordingIndicator:Hide() end
+	end
 	if (GuidelimeDataChar.showMinimapButton == "hiddenMainFrame" and not GuidelimeDataChar.mainFrameShowing) or GuidelimeDataChar.showMinimapButton == true then
 		LibDBIcon:Show(addonName)
 	else

@@ -783,6 +783,7 @@ function O.fillOptions()
 
 	checkbox = F.addCheckOption(content, GuidelimeDataChar, "recording", L.RECORDING, nil, function()
 		EV.recordMarker(GuidelimeDataChar.recording and "Recording enabled" or "Recording disabled")
+		addon.setupMinimapButton()
 	end)
 	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
 	prev = checkbox
