@@ -1,5 +1,6 @@
 local addonName, addon = ...
-local GetSpellInfo, UnitAura, GetItemInfo, GetItemCount, GetContainerNumSlots, GetContainerItemID = addon.GetSpellInfo, addon.UnitAura, addon.GetItemInfo, addon.GetItemCount, addon.GetContainerNumSlots, addon.GetContainerItemID
+local GetSpellInfo, UnitAura, GetItemInfo, GetItemCount, GetContainerNumSlots, GetContainerItemID, GetNumSkillLines, GetSkillLineInfo = 
+	addon.GetSpellInfo, addon.UnitAura, addon.GetItemInfo, addon.GetItemCount, addon.GetContainerNumSlots, addon.GetContainerItemID, addon.GetNumSkillLines, addon.GetSkillLineInfo
 local L = addon.L
 
 local HBD = LibStub("HereBeDragons-2.0")
