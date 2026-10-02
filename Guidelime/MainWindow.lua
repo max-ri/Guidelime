@@ -399,9 +399,9 @@ function MW.updateMainFrame(reset)
 					(g.reputation == nil or D.isRequiredReputation(g.reputation, g.repMin, g.repMax)) then
 					local msg
 					if i == 1 then
-						msg = L.GUIDE_FINISHED_NEXT:format(MW.COLOR_WHITE .. next .. "|r")
+						msg = L.GUIDE_FINISHED .. " " .. L.GUIDE_NEXT:format(MW.COLOR_WHITE .. next .. "|r")
 					else
-						msg = L.GUIDE_FINISHED_NEXT_ALT:format(MW.COLOR_WHITE .. next .. "|r")
+						msg = L.GUIDE_NEXT_ALT:format(MW.COLOR_WHITE .. next .. "|r")
 					end
 					MW.mainFrame.message[i] = F.addMultilineText(MW.mainFrame.scrollChild, msg, MW.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
 						if (button == "RightButton") then
@@ -417,7 +417,7 @@ function MW.updateMainFrame(reset)
 			end
 		end
 		if #MW.mainFrame.message == 0 then
-			MW.mainFrame.message[1] = F.addMultilineText(MW.mainFrame.scrollChild, L.GUIDE_FINISHED, MW.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
+			MW.mainFrame.message[1] = F.addMultilineText(MW.mainFrame.scrollChild, L.GUIDE_FINISHED .. " " .. L.GUIDE_LOAD_ANOTHER, MW.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
 				if (button == "RightButton") then
 					MW.showContextMenu()
 				else

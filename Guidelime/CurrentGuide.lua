@@ -80,6 +80,19 @@ function CG.loadCurrentGuide(reset)
 	local time
 	if addon.debugging then time = debugprofilestop() end
 
+	if guide.next ~= nil then
+		local i = 1
+		for _, next in ipairs(guide.next) do
+			local g = addon.guides[CG.currentGuide.group .. " " .. next]
+			if g ~= nil and D.applies(g) and (g.reputation == nil or D.isRequiredReputation(g.reputation, g.repMin, g.repMax)) then
+				local step = {text = ((i == 1) and L.GUIDE_NEXT or L.GUIDE_NEXT_ALT):format("[LI" .. next .. "]"), startPos = 0, line = guide.lines, guide = guide}
+				table.insert(guide.steps, step)
+				guide.lines = guide.lines + 1
+				GP.parseLine(step, guide)
+			end
+		end
+	end
+
 	local completed = QT.GetQuestsCompleted()
 	local lastGoto
 	for _, step in ipairs(guide.steps) do
