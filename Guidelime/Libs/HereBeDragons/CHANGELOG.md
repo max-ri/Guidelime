@@ -1,9 +1,8 @@
 # Lib: HereBeDragons
 
-## [2.15-release](https://github.com/Nevcairiel/HereBeDragons/tree/2.15-release) (2025-07-02)
-[Full Changelog](https://github.com/Nevcairiel/HereBeDragons/compare/2.14.5-release...2.15-release) [Previous Releases](https://github.com/Nevcairiel/HereBeDragons/releases)
+## [2.18-release](https://github.com/Nevcairiel/HereBeDragons/tree/2.18-release) (2026-10-02)
+[Full Changelog](https://github.com/Nevcairiel/HereBeDragons/compare/2.17-release...2.18-release) [Previous Releases](https://github.com/Nevcairiel/HereBeDragons/releases)
 
-- Update TOCs  
-- Update TOC versions  
-- Add data for Mists Classic  
-- Remove pre-TWW retail data  
+- Update World Map Data and zone walking for Forever  
+- Add Forever to the TOC  
+- Disable transform data on Forever  

@@ -1,6 +1,6 @@
 -- HereBeDragons-Pins is a library to show pins/icons on the world map and minimap
 
-local MAJOR, MINOR = "HereBeDragons-Pins-2.0", 15
+local MAJOR, MINOR = "HereBeDragons-Pins-2.0", 17
 assert(LibStub, MAJOR .. " requires LibStub")
 
 local pins, oldversion = LibStub:NewLibrary(MAJOR, MINOR)
@@ -412,14 +412,14 @@ function worldmapProvider:HandlePin(icon, data)
         -- translate to the world map
         x, y = HBD:GetAzerothWorldMapCoordinatesFromWorld(data.x, data.y, data.instanceID)
     else
-        -- check that it matches the instance
-        if not HBD.mapData[uiMapID] or HBD.mapData[uiMapID].instance ~= data.instanceID then return end
+        -- check that there is data
+        if not HBD.mapData[uiMapID] then return end
 
         if uiMapID ~= data.uiMapID then
             local mapType = HBD.mapData[uiMapID].mapType
             if not data.uiMapID then
                 if mapType == Enum.UIMapType.Continent and data.worldMapShowFlag >= HBD_PINS_WORLDMAP_SHOW_CONTINENT then
-                    --pass
+                    -- pass
                 elseif mapType ~= Enum.UIMapType.Zone and mapType ~= Enum.UIMapType.Dungeon and mapType ~= Enum.UIMapType.Micro then
                     -- fail
                     return
@@ -451,7 +451,7 @@ function worldmapProvider:HandlePin(icon, data)
         end
 
         -- translate coordinates
-        x, y = HBD:GetZoneCoordinatesFromWorld(data.x, data.y, uiMapID)
+        x, y = HBD:GetZoneCoordinatesFromWorldInstance(data.x, data.y, data.instanceID, uiMapID)
     end
     if x and y then
         self:GetMap():AcquirePin("HereBeDragonsPinsTemplate", icon, x, y, data.frameLevelType)
@@ -503,6 +503,11 @@ end
 local last_update = 0
 local function OnUpdateHandler(frame, elapsed)
     last_update = last_update + elapsed
+
+    -- skip updates while the minimap is hidden
+    if pins.Minimap and not pins.Minimap:IsVisible() then return end
+
+    -- check for a full update every second, so pins coming in range get properly rendered
     if last_update > 1 or queueFullUpdate then
         UpdateMinimapPins(queueFullUpdate)
         last_update = 0
@@ -549,6 +554,7 @@ HBD.RegisterCallback(pins, "PlayerZoneChanged", UpdateMinimap)
 -- @param x X position in world coordinates
 -- @param y Y position in world coordinates
 -- @param floatOnEdge flag if the icon should float on the edge of the minimap when going out of range, or hide immediately (default false)
+-- @return true if the pin was added, false if not (invalid coordinates). An error is raised on an invalid call
 function pins:AddMinimapIconWorld(ref, icon, instanceID, x, y, floatOnEdge)
     if not ref then
         error(MAJOR..": AddMinimapIconWorld: 'ref' must not be nil", 2)
@@ -578,6 +584,8 @@ function pins:AddMinimapIconWorld(ref, icon, instanceID, x, y, floatOnEdge)
     queueFullUpdate = true
 
     icon:SetParent(pins.Minimap)
+
+    return true
 end
 
 --- Add a icon to the minimap (UiMapID zone coordinate version)
@@ -589,6 +597,7 @@ end
 -- @param y Y position in local/point coordinates (0-1), relative to the zone
 -- @param showInParentZone flag if the icon should be shown in its parent zone - ie. an icon in a microdungeon in the outdoor zone itself (default false)
 -- @param floatOnEdge flag if the icon should float on the edge of the minimap when going out of range, or hide immediately (default false)
+-- @return true if the pin was added, false if not (invalid coordinates). An error is raised on an invalid call
 function pins:AddMinimapIconMap(ref, icon, uiMapID, x, y, showInParentZone, floatOnEdge)
     if not ref then
         error(MAJOR..": AddMinimapIconMap: 'ref' must not be nil", 2)
@@ -602,13 +611,15 @@ function pins:AddMinimapIconMap(ref, icon, uiMapID, x, y, showInParentZone, floa
 
     -- convert to world coordinates and use our known adding function
     local xCoord, yCoord, instanceID = HBD:GetWorldCoordinatesFromZone(x, y, uiMapID)
-    if not xCoord then return end
+    if not xCoord then return false end
 
     self:AddMinimapIconWorld(ref, icon, instanceID, xCoord, yCoord, floatOnEdge)
 
     -- store extra information
     minimapPins[icon].uiMapID = uiMapID
     minimapPins[icon].showInParentZone = showInParentZone
+
+    return true
 end
 
 --- Check if a floating minimap icon is on the edge of the map
@@ -675,6 +686,7 @@ HBD_PINS_WORLDMAP_SHOW_WORLD     = 3
 -- @param y Y position in world coordinates
 -- @param showFlag Flag to control on which maps this pin will be shown
 -- @param frameLevel Optional Frame Level type registered with the WorldMapFrame, defaults to PIN_FRAME_LEVEL_AREA_POI
+-- @return true if the pin was added, false if not (invalid coordinates). An error is raised on an invalid call
 function pins:AddWorldMapIconWorld(ref, icon, instanceID, x, y, showFlag, frameLevel)
     if not ref then
         error(MAJOR..": AddWorldMapIconWorld: 'ref' must not be nil", 2)
@@ -706,6 +718,8 @@ function pins:AddWorldMapIconWorld(ref, icon, instanceID, x, y, showFlag, frameL
     worldmapPins[icon] = t
 
     worldmapProvider:HandlePin(icon, t)
+
+    return true
 end
 
 --- Add a icon to the world map (uiMapID zone coordinate version)
@@ -716,6 +730,7 @@ end
 -- @param y Y position in local/point coordinates (0-1), relative to the zone
 -- @param showFlag Flag to control on which maps this pin will be shown
 -- @param frameLevel Optional Frame Level type registered with the WorldMapFrame, defaults to PIN_FRAME_LEVEL_AREA_POI
+-- @return true if the pin was added, false if not (invalid coordinates). An error is raised on an invalid call
 function pins:AddWorldMapIconMap(ref, icon, uiMapID, x, y, showFlag, frameLevel)
     if not ref then
         error(MAJOR..": AddWorldMapIconMap: 'ref' must not be nil", 2)
@@ -732,7 +747,7 @@ function pins:AddWorldMapIconMap(ref, icon, uiMapID, x, y, showFlag, frameLevel)
 
     -- convert to world coordinates
     local xCoord, yCoord, instanceID = HBD:GetWorldCoordinatesFromZone(x, y, uiMapID)
-    if not xCoord then return end
+    if not xCoord then return false end
 
     if not worldmapPinRegistry[ref] then
         worldmapPinRegistry[ref] = {}
@@ -751,6 +766,8 @@ function pins:AddWorldMapIconMap(ref, icon, uiMapID, x, y, showFlag, frameLevel)
     worldmapPins[icon] = t
 
     worldmapProvider:HandlePin(icon, t)
+
+    return true
 end
 
 --- Remove a worldmap icon
