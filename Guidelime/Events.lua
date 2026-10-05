@@ -10,6 +10,7 @@ addon.FM = addon.FM or {}; local FM = addon.FM -- Data/FlightmasterDB
 addon.QT = addon.QT or {}; local QT = addon.QT -- Data/QuestTools
 addon.SK = addon.SK or {}; local SK = addon.SK -- Data/SkillDB
 addon.SP = addon.SP or {}; local SP = addon.SP -- Data/SpellDB
+addon.DM = addon.DM or {}; local DM = addon.DM -- Data/MapDB
 addon.AB = addon.AB or {}; local AB = addon.AB -- ActionButtons
 addon.CG = addon.CG or {}; local CG = addon.CG -- CurrentGuide
 addon.M = addon.M or {}; local M = addon.M     -- Map
@@ -21,8 +22,12 @@ addon.EV = addon.EV or {}; local EV = addon.EV -- Events
 EV.AUTO_COMPLETE_DELAY = 0.01
 EV.BAG_UPDATE_DELAY = 0.3
 
-function EV.recordStep(line)
+function EV.recordStep(line, withG)
 	if not GuidelimeDataChar or not GuidelimeDataChar.recording or type(line) ~= "string" or line == "" then return end
+	if withG then
+		local x, y, zone = HBD:GetPlayerZonePosition()
+		line = line .. "[G" .. (math.floor(x * 10000) / 100) .. "," .. (math.floor(y * 10000) / 100) .. " " .. DM.zoneNames[zone] .. "]"
+	end
 	if type(GuidelimeData.recordedSteps) ~= "table" then GuidelimeData.recordedSteps = {} end
 	table.insert(GuidelimeData.recordedSteps, line)
 end
@@ -274,6 +279,7 @@ function EV.frame:GOSSIP_SHOW()
 		return
 	end
 	EV.gossipNpc = select(6, strsplit("-", UnitGUID("npc")))
+	EV.gossipNpcName = UnitName("npc")
 	if IsShiftKeyDown() then return end
 	if (GuidelimeData.autoAcceptQuests or GuidelimeData.autoTurnInQuests) then 
 		if addon.debugging then print ("LIME: GOSSIP_SHOW", #C_GossipInfo.GetActiveQuests(), #C_GossipInfo.GetAvailableQuests()) end
@@ -517,6 +523,7 @@ EV.frame:RegisterEvent('QUEST_GREETING')
 function EV.frame:QUEST_GREETING()
 	if addon.debugging then print ("LIME: QUEST_GREETING") end
 	EV.lastQuestNpc = select(6, strsplit("-", UnitGUID("npc")))
+	EV.lastQuestNpcName = UnitName("npc")
 	if (GuidelimeData.autoAcceptQuests or GuidelimeData.autoTurnInQuests) and not IsShiftKeyDown() then 
 		if addon.debugging then print ("LIME: QUEST_GREETING", GetNumActiveQuests()) end
 		if addon.debugging then print ("LIME: QUEST_GREETING", GetNumAvailableQuests()) end
@@ -561,7 +568,11 @@ end
 EV.frame:RegisterEvent('QUEST_DETAIL')
 function EV.frame:QUEST_DETAIL()
 	EV.lastQuestOpened = GetQuestID()
-	EV.lastQuestNpc = select(6, strsplit("-", UnitGUID("npc")))
+	local guid = UnitGUID("npc")
+	if guid then
+		EV.lastQuestNpc = select(6, strsplit("-", guid))
+		EV.lastQuestNpcName = UnitName("npc")
+	end
 	if addon.debugging then print ("LIME: QUEST_DETAIL", EV.lastQuestOpened) end
 	if not IsShiftKeyDown() and EV.isQuestAuto(GuidelimeData.autoAcceptQuests, EV.lastQuestOpened) then
 		C_Timer.After(EV.AUTO_COMPLETE_DELAY, function()
@@ -592,6 +603,7 @@ function EV.frame:QUEST_COMPLETE()
 	local id = GetQuestID()
 	if addon.debugging then print ("LIME: QUEST_COMPLETE", id) end
 	EV.lastQuestNpc = select(6, strsplit("-", UnitGUID("npc")))
+	EV.lastQuestNpcName = UnitName("npc")
 	if id then EV.recordStep("[QC " .. id .. " " .. getQuestTitle(id) .. "]") end
 	if not IsShiftKeyDown() and EV.isQuestAuto(GuidelimeData.autoTurnInQuests, id) then
 		if addon.debugging then print ("LIME: QUEST_COMPLETE", id) end
@@ -606,14 +618,14 @@ end
 EV.frame:RegisterEvent('QUEST_ACCEPTED')
 function EV.frame:QUEST_ACCEPTED(questLogIndex, questID)
 	if addon.debugging then print ("LIME: QUEST_ACCEPTED", questID, EV.lastQuestNpc) end
-	if questID then EV.recordStep("[QA " .. questID .. " " .. getQuestTitle(questID) .. "]" .. (EV.lastQuestNpc and ("[TAR" .. EV.lastQuestNpc .. "]") or "")) end
+	if questID then EV.recordStep("[QA " .. questID .. " " .. getQuestTitle(questID) .. "]" .. (EV.lastQuestNpc and ("[TAR" .. EV.lastQuestNpc .. EV.lastQuestNpcName .. "]") or ""), true) end
 	EV.lastQuestNpc = nil
 end
 
 EV.frame:RegisterEvent('QUEST_TURNED_IN')
 function EV.frame:QUEST_TURNED_IN(questID)
 	if addon.debugging then print ("LIME: QUEST_TURNED_IN", questID) end
-	if questID then EV.recordStep("[QT " .. questID .. " " .. getQuestTitle(questID) .. "]" .. (EV.lastQuestNpc and ("[TAR" .. EV.lastQuestNpc .. "]") or "")) end
+	if questID then EV.recordStep("[QT " .. questID .. " " .. getQuestTitle(questID) .. "]" .. (EV.lastQuestNpc and ("[TAR" .. EV.lastQuestNpc .. EV.lastQuestNpcName .. "]") or ""), true) end
 end
 
 EV.frame:RegisterEvent('GOSSIP_CLOSED')
@@ -682,7 +694,7 @@ EV.frame:RegisterEvent('UI_INFO_MESSAGE')
 function EV.frame:UI_INFO_MESSAGE(errorType, message)
 	if message == ERR_NEWTAXIPATH then
 		if addon.debugging then print("LIME: ERR_NEWTAXIPATH", EV.gossipNpc) end
-		EV.recordStep("[P][TAR" .. EV.gossipNpc .. "]")
+		EV.recordStep("[P][TAR" .. EV.gossipNpc .. EV.gossipNpcName .. "]", true)
 		CG.completeSemiAutomaticByType("GET_FLIGHT_POINT")
 	end
 end
@@ -690,7 +702,7 @@ end
 EV.frame:RegisterEvent('HEARTHSTONE_BOUND')
 function EV.frame:HEARTHSTONE_BOUND(errorType, message)
 	if addon.debugging then print("LIME: HEARTHSTONE_BOUND", EV.gossipNpc) end
-	EV.recordStep("[S][TAR" .. EV.gossipNpc .. "]")
+	EV.recordStep("[S][TAR" .. EV.gossipNpc .. EV.gossipNpcName .. "]", true)
 	CG.completeSemiAutomaticByType("SET_HEARTH")
 end
 
@@ -872,7 +884,7 @@ function EV.frame:MERCHANT_SHOW()
 	local repair = CanMerchantRepair()
 	local npcId = select(6, strsplit("-", UnitGUID("npc")))
 	if addon.debugging then print("LIME: MERCHANT_SHOW", npcId, repair) end
-	EV.recordStep("[V]" .. (repair and "[R]" or "") .. "[TAR" .. npcId .. "]")
+	EV.recordStep("[V]" .. (repair and "[R]" or "") .. "[TAR" .. npcId .. UnitName("npc") .. "]", true)
 	CG.completeSemiAutomaticByType("VENDOR")
 	if repair then
 		CG.completeSemiAutomaticByType("REPAIR")

@@ -7,10 +7,12 @@ local HBDPins = LibStub("HereBeDragons-Pins-2.0")
 addon.D = addon.D or {}; local D = addon.D     -- Data/Data
 addon.FM = addon.FM or {}; local FM = addon.FM -- Data/FlightmasterDB
 addon.PT = addon.PT or {}; local PT = addon.PT -- Data/PositionTools
+addon.DM = addon.DM or {}; local DM = addon.DM -- Data/MapDB
 addon.CG = addon.CG or {}; local CG = addon.CG -- CurrentGuide
 addon.E = addon.E or {}; local E = addon.E     -- Editor
 addon.F = addon.F or {}; local F = addon.F     -- Frames
 addon.MW = addon.MW or {}; local MW = addon.MW -- MainWindow
+addon.EV = addon.EV or {}; local EV = addon.EV -- Events
 
 addon.M = addon.M or {}; local M = addon.M     -- Map
 
@@ -430,6 +432,11 @@ function M.updateArrow(frame, elapsed)
 	D.wx, D.wy, D.instance = HBD:GetPlayerWorldPosition()
 	D.face = GetPlayerFacing()
 	if D.wx == nil or D.wy == nil or D.face == nil then return end
+	if GuidelimeDataChar and GuidelimeDataChar.recording then 
+		local zone = HBD:GetPlayerZone()
+		if lastZone and zone ~= lastZone then EV.recordMarker("Player entering " .. DM.zoneNames[zone]) end
+		lastZone = zone
+	end
 	if M.arrowFrame == nil then return end
 	if not MW.mainFrame or not MW.mainFrame:IsShown() or not GuidelimeDataChar.showArrow then 
 		if M.arrowFrame:IsShown() then M.arrowFrame:Hide() end
