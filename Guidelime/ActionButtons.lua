@@ -203,8 +203,8 @@ function AB.updateTargetButtons()
 						EV.updateAfterCombat = true
 						return 
 					end
-					local name = QT.getNPCName(element.targetNpcId)
-					if name then
+					local name = QT.getNPCName(element.targetNpcId) or element.title
+					if name and name ~= "" then
 						local t = D.find(targets, function(t) return t.name == name end)
 						if not t then
 							local marker
