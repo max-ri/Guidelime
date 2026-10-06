@@ -627,7 +627,7 @@ function QUESTIE.getQuestObjectives(id, typ)
 					for i = 1, #item.objectDrops do
 						table.insert(objective.ids.object, item.objectDrops[i])
 						local obj = QuestieDB:GetObject(item.objectDrops[i])
-						if not D.contains(objective.names, obj.name) then table.insert(objective.names, obj.name) end
+						if obj and not D.contains(objective.names, obj.name) then table.insert(objective.names, obj.name) end
 					end
 				end
 			end
