@@ -60,7 +60,9 @@ end)
 EV.frame:RegisterEvent('PLAYER_LOGIN')
 function EV.frame:PLAYER_LOGIN()
 	addon.init()
-	EV.recordMarker(UnitName("player") .. " (" .. D.race .. " " .. D.class .. " level " .. D.level .. ") logged in (" .. D.flavor .. (D.isHardcore() or " HC" and "") .. ")")
+	local version = GetAddOnMetadata and GetAddOnMetadata(addonName, "version") or C_AddOns.GetAddOnMetadata(addonName, "version")
+	local wowVersion, _, _, uiVersion = GetBuildInfo()
+	EV.recordMarker(table.concat({UnitName("player")}, " ") .. " (" .. D.race .. " " .. D.class .. " level " .. D.level .. ") logged in (" .. D.flavor .. (D.isHardcore() or " HC " and " ") .. wowVersion .. " UI " .. uiVersion .. " Guidelime " .. version .. ")")
 	C_Timer.After(2, function()
 		if not addon.dataLoaded then addon.loadData() end
 		if GuidelimeDataChar.mainFrameShowing then MW.showMainFrame() end
@@ -740,15 +742,6 @@ end
 EV.frame:RegisterEvent('SKILL_LINES_CHANGED')
 function EV.frame:SKILL_LINES_CHANGED()
 	if addon.debugging then print("LIME: SKILL_LINES_CHANGED") end
-	EV.recordedSkills = EV.recordedSkills or {}
-	for i = 1, GetNumSkillLines() do
-		local name, isHeader, _, rank = GetSkillLineInfo(i)
-		if name and not isHeader and rank then
-			local oldRank = EV.recordedSkills[name]
-			if oldRank and rank > oldRank then EV.recordStep("[SK " .. name .. " " .. rank .. "]") end
-			EV.recordedSkills[name] = rank
-		end
-	end
 	local found = false
 	CG.forEveryActiveElement(function(element)
 		if element.t == "LEARN" or element.t == "SKILL" then
