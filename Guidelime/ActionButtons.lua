@@ -52,7 +52,7 @@ function AB.getTargetMarkerIconText(marker)
 	end
 end
 
-local function showTargetButtonPortrait(button)
+function AB.showTargetButtonPortrait(button)
 	if not button or not UnitExists("target") or UnitName("target") ~= button.npc then return end
 	SetPortraitTexture(button.portrait, "target")
 	button.portrait:Show()
@@ -74,17 +74,6 @@ function AB.createTargetButton(i)
 		button.portrait:SetPoint("TOPLEFT", button, 3, -3)
 		button.portrait:SetPoint("BOTTOMRIGHT", button, -3, 3)
 		button.portrait:Hide()
-		button:SetScript("PostClick", function(self)
-			if self.index == "Multi" then
-				if UnitExists("target") then
-					for _, targetButton in pairs(MW.mainFrame.targetButtons) do
-						if targetButton:IsShown() and targetButton.index ~= "Multi" then showTargetButtonPortrait(targetButton) end
-					end
-				end
-			else
-				showTargetButtonPortrait(self)
-			end
-		end)
 		button.texture2 = button:CreateTexture(nil, "OVERLAY")
 		button.texture2:SetTexture("Interface\\TargetingFrame\\UI-RaidTargetingIcons")
 		button.texture2:SetPoint("TOPLEFT", button, 20, -22)					
@@ -292,6 +281,7 @@ function AB.updateTargetButtons()
 		end)
 		keyBindButton(button, "GUIDELIME_TARGET_" .. pos, "GuidelimeTargetButton" .. t.index, t.name)
 		button:Show()
+		AB.showTargetButtonPortrait(button)
 		pos = pos + 1
 	end
 	AB.numberOfTargetButtons = pos - 1

@@ -883,3 +883,11 @@ function EV.frame:MERCHANT_SHOW()
 		CG.completeSemiAutomaticByType("REPAIR")
 	end
 end
+
+EV.frame:RegisterEvent('PLAYER_TARGET_CHANGED')
+function EV.frame:PLAYER_TARGET_CHANGED()
+	if not UnitExists("target") or not MW.mainFrame or not MW.mainFrame.targetButtons then return end
+	for _, button in pairs(MW.mainFrame.targetButtons) do
+		if button:IsShown() and button.index ~= "Multi" then AB.showTargetButtonPortrait(button) end
+	end
+end
