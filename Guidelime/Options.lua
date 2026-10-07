@@ -330,7 +330,7 @@ function O.fillOptions()
 				MW.updateMainFrame()
 			end
 		end)
-		content.options["showTargetButtons" .. v]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", (i - 1) * 180, 0)
+		content.options["showTargetButtons" .. v]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", (i - 1) * 170, 0)
 	end
 	local slider = F.addSliderOption(content, GuidelimeDataChar, "maxNumOfTargetButtons", 0, 20, 1, L.MAX_NUM_OF_TARGET_BUTTONS, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
@@ -384,7 +384,7 @@ function O.fillOptions()
 			end
 			
 		end)
-		content.options["showUseItemButtons" .. v]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", (i - 1) * 180, 0)
+		content.options["showUseItemButtons" .. v]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", (i - 1) * 170, 0)
 	end
 	local slider = F.addSliderOption(content, GuidelimeDataChar, "maxNumOfItemButtons", 0, 20, 1, L.MAX_NUM_OF_ITEM_BUTTONS, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
