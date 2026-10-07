@@ -53,7 +53,7 @@ function AB.getTargetMarkerIconText(marker)
 end
 
 function AB.showTargetButtonPortrait(button)
-	if not button or not UnitExists("target") or UnitName("target") ~= button.npc then return end
+	if not button or not UnitExists("target") or (issecretvalue and issecretvalue(UnitName("target"))) or UnitName("target") ~= button.npc then return end
 	SetPortraitTexture(button.portrait, "target")
 	button.portrait:Show()
 	button.texture:Hide()

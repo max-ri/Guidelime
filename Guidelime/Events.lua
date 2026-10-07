@@ -22,6 +22,14 @@ addon.EV = addon.EV or {}; local EV = addon.EV -- Events
 EV.AUTO_COMPLETE_DELAY = 0.01
 EV.BAG_UPDATE_DELAY = 0.3
 
+local function getUnitID()
+	local guid = UnitGUID("npc")
+	if not guid or (issecretvalue and issecretvalue(guid)) then return end
+	local id = select(6, strsplit("-", guid))
+	local name = UnitName("npc")
+	return id, name
+end
+
 function EV.recordStep(line, withG)
 	if not GuidelimeDataChar or not GuidelimeDataChar.recording or type(line) ~= "string" or line == "" then return end
 	if withG then
@@ -280,8 +288,7 @@ function EV.frame:GOSSIP_SHOW()
 		EV.frame.GOSSIP_SHOW_old(self)
 		return
 	end
-	EV.gossipNpc = select(6, strsplit("-", UnitGUID("npc")))
-	EV.gossipNpcName = UnitName("npc")
+	EV.gossipNpc, EV.gossipNpcName = getUnitID()
 	if IsShiftKeyDown() then return end
 	if (GuidelimeData.autoAcceptQuests or GuidelimeData.autoTurnInQuests) then 
 		if addon.debugging then print ("LIME: GOSSIP_SHOW", #C_GossipInfo.GetActiveQuests(), #C_GossipInfo.GetAvailableQuests()) end
@@ -524,8 +531,7 @@ end
 EV.frame:RegisterEvent('QUEST_GREETING')
 function EV.frame:QUEST_GREETING()
 	if addon.debugging then print ("LIME: QUEST_GREETING") end
-	EV.lastQuestNpc = select(6, strsplit("-", UnitGUID("npc")))
-	EV.lastQuestNpcName = UnitName("npc")
+	EV.lastQuestNpc, EV.lastQuestNpcName = getUnitID()
 	if (GuidelimeData.autoAcceptQuests or GuidelimeData.autoTurnInQuests) and not IsShiftKeyDown() then 
 		if addon.debugging then print ("LIME: QUEST_GREETING", GetNumActiveQuests()) end
 		if addon.debugging then print ("LIME: QUEST_GREETING", GetNumAvailableQuests()) end
@@ -570,11 +576,7 @@ end
 EV.frame:RegisterEvent('QUEST_DETAIL')
 function EV.frame:QUEST_DETAIL()
 	EV.lastQuestOpened = GetQuestID()
-	local guid = UnitGUID("npc")
-	if guid then
-		EV.lastQuestNpc = select(6, strsplit("-", guid))
-		EV.lastQuestNpcName = UnitName("npc")
-	end
+	EV.lastQuestNpc, EV.lastQuestNpcName = getUnitID()
 	if addon.debugging then print ("LIME: QUEST_DETAIL", EV.lastQuestOpened) end
 	if not IsShiftKeyDown() and EV.isQuestAuto(GuidelimeData.autoAcceptQuests, EV.lastQuestOpened) then
 		C_Timer.After(EV.AUTO_COMPLETE_DELAY, function()
@@ -604,8 +606,7 @@ EV.frame:RegisterEvent('QUEST_COMPLETE')
 function EV.frame:QUEST_COMPLETE()
 	local id = GetQuestID()
 	if addon.debugging then print ("LIME: QUEST_COMPLETE", id) end
-	EV.lastQuestNpc = select(6, strsplit("-", UnitGUID("npc")))
-	EV.lastQuestNpcName = UnitName("npc")
+	EV.lastQuestNpc, EV.lastQuestNpcName = getUnitID()
 	if id then EV.recordStep("[QC " .. id .. " " .. getQuestTitle(id) .. "]") end
 	if not IsShiftKeyDown() and EV.isQuestAuto(GuidelimeData.autoTurnInQuests, id) then
 		if addon.debugging then print ("LIME: QUEST_COMPLETE", id) end
@@ -875,9 +876,9 @@ end
 EV.frame:RegisterEvent('MERCHANT_SHOW')
 function EV.frame:MERCHANT_SHOW()
 	local repair = CanMerchantRepair()
-	local npcId = select(6, strsplit("-", UnitGUID("npc")))
+	local npcId, npcName = getUnitID()
 	if addon.debugging then print("LIME: MERCHANT_SHOW", npcId, repair) end
-	EV.recordStep("[V]" .. (repair and "[R]" or "") .. "[TAR" .. npcId .. UnitName("npc") .. "]", true)
+	EV.recordStep("[V]" .. (repair and "[R]" or "") .. "[TAR" .. npcId .. npcName .. "]", true)
 	CG.completeSemiAutomaticByType("VENDOR")
 	if repair then
 		CG.completeSemiAutomaticByType("REPAIR")
@@ -886,7 +887,7 @@ end
 
 EV.frame:RegisterEvent('PLAYER_TARGET_CHANGED')
 function EV.frame:PLAYER_TARGET_CHANGED()
-	if not UnitExists("target") or not MW.mainFrame or not MW.mainFrame.targetButtons then return end
+	if not MW.mainFrame or not MW.mainFrame.targetButtons then return end
 	for _, button in pairs(MW.mainFrame.targetButtons) do
 		if button:IsShown() and button.index ~= "Multi" then AB.showTargetButtonPortrait(button) end
 	end
