@@ -12,6 +12,7 @@ end
 function QS.scanGuideQuests(guide)
 	if not addon.guides[guide] or QS.scannedGuides[guide] then return end
 	local time
+	local linkedGuides = {}
 	if addon.debugging then time = debugprofilestop() end
 	if addon.guides[guide].steps ~= nil then
 		for _,step in ipairs(addon.guides[guide].steps) do
@@ -22,12 +23,18 @@ function QS.scanGuideQuests(guide)
 						local entry = {name = guide, line = step.line, t = element.t}
 						table.insert(QS.scannedQuests[element.questId], entry)
 					end
+					if element.linkGuide then
+						table.insert(linkedGuides, element.linkGuide)
+					end
 				end
 			end
 		end
 	end
 	if addon.debugging then print("LIME: scanning quests for " .. guide .. " in " .. math.floor(debugprofilestop() - time) .. " ms") end
 	QS.scannedGuides[guide] = true
+	for _, linkGuide in ipairs(linkedGuides) do
+		QS.scanGuideQuests(addon.guides[guide].group .. " " .. linkGuide)
+	end
 	for _, next in ipairs(addon.guides[guide].next) do
 		QS.scanGuideQuests(addon.guides[guide].group .. " " .. next)
 	end
