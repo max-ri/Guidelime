@@ -161,13 +161,18 @@ function M.getMapTooltip(element)
 	return tooltip
 end
 
-function M.addMapIcon(element, highlight, ignoreMaxNumOfMarkers)
+function M.addMapIcon(element, highlight, active)
 	if element.x == nil or element.y == nil or element.mapID == nil then return end	
 	local mapIcon = getMapIcon(element.markerTyp or element.t, element, highlight)
 	if mapIcon == nil then return end
-	if not ignoreMaxNumOfMarkers then
-		if element.t == "GOTO" and mapIcon.index >= GuidelimeData.maxNumOfMarkersGOTO and GuidelimeData.maxNumOfMarkersGOTO > 0 then return end
+	if not active then
+		if GuidelimeData.maxNumOfMarkersGOTO > 0 then
+			local maxIndex = M.lastActiveIndex and (GuidelimeData.maxNumOfMarkersGOTO + M.lastActiveIndex) or GuidelimeData.maxNumOfMarkersGOTO
+			if element.t == "GOTO" and mapIcon.index >= maxIndex - 1 then return end
+		end
 		if not element.step.active and element.t ~= "GOTO" then return end
+	else
+		M.lastActiveIndex = mapIcon.index
 	end
 	local tooltip = M.getMapTooltip(element)
 	if not mapIcon.inUse then
@@ -578,6 +583,7 @@ end
 function M.updateStepsMapIcons()
 	if E.isEditorShowing() or CG.currentGuide == nil then return end
 	M.removeMapIcons()
+	M.lastActiveIndex = nil
 	local arrowElement
 	local highlight = true
 	local activeGoto
@@ -602,7 +608,7 @@ function M.updateStepsMapIcons()
 						--if addon.debugging and element.x then print("LIME: quest position", element.x, element.y, element.mapID, element.wx, element.wy, element.instance) end
 					end
 					if not element.completed and element.x ~= nil then
-						M.addMapIcon(element, highlight)
+						M.addMapIcon(element, highlight, true)
 						if highlight then
 							if GuidelimeDataChar.showArrow then 
 								arrowElement = element
@@ -614,7 +620,7 @@ function M.updateStepsMapIcons()
 					not element.completed and element.specialLocation == nil and 
 						(element.attached == nil or not element.attached.completed) and
 						(element.attached == nil or element.attached.t ~= "COMPLETE" or CG.isQuestObjectiveActive(element.attached.questId, element.objectives, element.attached.objective)) then 
-					M.addMapIcon(element, false) 
+					M.addMapIcon(element, false, false) 
 				end
 			end
 		end
