@@ -439,7 +439,7 @@ function M.updateArrow(frame, elapsed)
 	if D.wx == nil or D.wy == nil or D.face == nil then return end
 	if GuidelimeDataChar and GuidelimeDataChar.recording then 
 		local zone = HBD:GetPlayerZone()
-		if lastZone and zone ~= lastZone then EV.recordMarker("Player entering " .. DM.zoneNames[zone]) end
+		if lastZone and zone ~= lastZone then EV.recordMarker("Player entering " .. (DM.zoneNames[zone] or zone)) end
 		lastZone = zone
 	end
 	if M.arrowFrame == nil then return end

@@ -54,5 +54,6 @@ Import.lua
 GuideParser.lua
 Map.lua
 QuestLog.lua
+MapFrame-Camelot.lua
 QuestScan.lua
 CustomCode.lua

@@ -26,6 +26,7 @@ addon.GetItemIcon = GetItemIcon or C_Item.GetItemIconByID
 addon.GetQuestInfo = C_QuestLog.GetQuestInfo or C_QuestLog.GetTitleForQuestID
 addon.GetContainerNumSlots = GetContainerNumSlots or C_Container.GetContainerNumSlots
 addon.GetContainerItemID = GetContainerItemID or C_Container.GetContainerItemID
+addon.GetQuestTagInfo = GetQuestTagInfo or C_QuestLog.GetQuestTagInfo
 
 -- professions only (no weapon skills); covers the profession checks Guidelime uses
 local profs = {}

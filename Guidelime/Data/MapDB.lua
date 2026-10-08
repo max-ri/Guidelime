@@ -666,7 +666,8 @@ else
 		[2521] = "Zephras Isle",
 		[2524] = "Darkspear Islands",
 		[2548] = "Riverglades",
-		[2652] = "Shen'dralas"
+		[2652] = "Shen'dralas",
+		[1415] = "Hall of Thanes"
 	}
 end
 
