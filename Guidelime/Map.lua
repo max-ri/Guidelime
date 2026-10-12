@@ -206,11 +206,13 @@ function M.removeMapIcons()
 			mapIcon.inUse = false
 		end
 	end
-	for i, step in ipairs(CG.currentGuide.steps) do
-		for j, element in ipairs(step.elements) do
-			element.mapIndex = nil
+	if CG.currentGuide ~= nil then
+		for i, step in ipairs(CG.currentGuide.steps) do
+			for j, element in ipairs(step.elements) do
+				element.mapIndex = nil
+			end
+			step.gotoIndexes = nil
 		end
-		step.gotoIndexes = nil
 	end
 end
 
@@ -436,7 +438,11 @@ M.updateArrowCount = 0
 function M.updateArrow(frame, elapsed)
 	D.wx, D.wy, D.instance = HBD:GetPlayerWorldPosition()
 	D.face = GetPlayerFacing()
-	if D.wx == nil or D.wy == nil or D.face == nil then return end
+	if D.wx == nil or D.wy == nil or D.face == nil then 
+		if M.arrowFrame ~= nil and M.arrowFrame:IsShown() then M.arrowFrame:Hide() end
+		M.clearTomTomWaypoint()
+		return 
+	end
 	if GuidelimeDataChar and GuidelimeDataChar.recording then 
 		local zone = HBD:GetPlayerZone()
 		if lastZone and zone ~= lastZone then EV.recordMarker("Player entering " .. (DM.zoneNames[zone] or zone)) end
