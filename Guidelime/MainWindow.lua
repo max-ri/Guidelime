@@ -724,7 +724,9 @@ function MW.showMainFrame()
 	MW.mainFrame:Show()
 	if MW.mainFrame.waitMessage ~= nil then MW.mainFrame.waitMessage:Show() end
 	if addon.debugging then print("LIME: show main frame done") end
-	CG.updateSteps()
+	if not QUESTIE.waitingForQuestie then
+		CG.updateSteps() 
+	end
 	if O.optionsFrame ~= nil then O.optionsFrame.mainFrameShowing:SetChecked(true) end
 	addon.setupMinimapButton()
 end

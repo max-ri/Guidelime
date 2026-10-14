@@ -22,7 +22,8 @@ end
 
 function QUESTIE.isDataSourceReady()
 	if QUESTIE.waitingForQuestie or not QUESTIE.isDataSourceInstalled() then return false end
-	if QuestieDB == nil or QuestieDB.QueryQuest == nil or type(QuestieDB.QueryQuest) ~= "function" then
+	if QuestieDB == nil or QuestieDB.QueryQuest == nil or type(QuestieDB.QueryQuest) ~= "function" or 
+		(Questie and Questie.API and not Questie.API.isReady) then
 		if addon.debugging then print("LIME: Questie is not yet initialized") end
 		QUESTIE.waitingForQuestie = true
 		C_Timer.After(4, function()
@@ -125,8 +126,8 @@ function QUESTIE.getQuestRaces(id)
 		"", "", "", "",
 		"", "", "", "",
 		"", "Worgen", "", "Pandaren" --[[neutral]],
-		"Pandaren" --[[Alliance]], "Pandaren" --[[Horde]],
-		-- TODO: test later where Questie actually places Skyborne, once there is an update
+		"Pandaren" --[[Alliance]], "Pandaren" --[[Horde]], "", "",
+		"", "", "", "",
 		"Skyborne" --[[High Order, Alliance]], "Skyborne" --[[Windshaper, Horde]]}) do
 		if race ~= "" and D.hasbit(bitmask, D.bit(i)) then 
 			table.insert(races, race) 
