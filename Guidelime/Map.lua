@@ -572,18 +572,18 @@ function M.showArrow(element)
 	if M.arrowFrame ~= nil then
 		M.arrowFrame.element = element 
 	end
-	M.lastDistance2 = nil
-	M.arrowLastETADistance = nil
-	M.arrowSpeed = nil
-	M.arrowSpeedSampleCount = 0
-	M.arrowETAThrottle = 0
-	M.arrowETAText = nil
 end
 
 function M.hideArrow()
 	if M.arrowFrame ~= nil then 
 		M.arrowFrame.element = nil
 	end
+	M.lastDistance2 = nil
+	M.arrowLastETADistance = nil
+	M.arrowSpeed = nil
+	M.arrowSpeedSampleCount = 0
+	M.arrowETAThrottle = 0
+	M.arrowETAText = nil
 end
 
 function M.updateStepsMapIcons()
