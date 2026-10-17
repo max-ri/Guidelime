@@ -54,18 +54,6 @@ function CG.loadCurrentGuide(reset)
 	CG.currentGuide.next = guide.next
 	CG.currentGuide.group = guide.group
 	
-	if GuidelimeDataChar.guideSize[GuidelimeDataChar.currentGuide] ~= #guide.steps then
-		GuidelimeDataChar.completedSteps = {}
-		GuidelimeDataChar.guideSkip[GuidelimeDataChar.currentGuide] = {}
-		GuidelimeDataChar.guideSize[GuidelimeDataChar.currentGuide] = #guide.steps
-	end
-	if GuidelimeDataChar.guideSkip[GuidelimeDataChar.currentGuide] == nil then
-		GuidelimeDataChar.guideSkip[GuidelimeDataChar.currentGuide] = {}
-	end
-	if reset then
-		GuidelimeDataChar.completedSteps = {}
-	end
-	--print(format(L.LOAD_MESSAGE, CG.currentGuide.name))
 	guide = GP.parseGuide(guide, guide.group)
 	if guide == nil then return end
 	addon.guides[GuidelimeDataChar.currentGuide] = guide
@@ -75,6 +63,19 @@ function CG.loadCurrentGuide(reset)
 		}}}}
 		CG.currentGuide.next = nil
 		return
+	end
+
+	if GuidelimeDataChar.guideSize[GuidelimeDataChar.currentGuide] ~= #guide.steps then
+		if addon.debugging then print("LIME: guide \"" .. CG.currentGuide.name .. "\" was changed! Resetting progress.") end
+		GuidelimeDataChar.completedSteps = {}
+		GuidelimeDataChar.guideSkip[GuidelimeDataChar.currentGuide] = {}
+		GuidelimeDataChar.guideSize[GuidelimeDataChar.currentGuide] = #guide.steps
+	end
+	if GuidelimeDataChar.guideSkip[GuidelimeDataChar.currentGuide] == nil then
+		GuidelimeDataChar.guideSkip[GuidelimeDataChar.currentGuide] = {}
+	end
+	if reset then
+		GuidelimeDataChar.completedSteps = {}
 	end
 
 	local time
