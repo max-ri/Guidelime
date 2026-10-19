@@ -715,6 +715,11 @@ function CG.updateStepText(i)
 	local step = CG.currentGuide.steps[i]
 	if MW.mainFrame.steps == nil or MW.mainFrame.steps[i] == nil or MW.mainFrame.steps[i].textBox == nil or not MW.mainFrame.steps[i].visible then return end
 	local text, tooltip, skipText, skipTooltip = CG.getStepText(step)
+	step.textEndPos = #text
+	local note = MW.getStepNoteText(step)
+	if note and note ~= "" then
+		text = text .. "\n" .. "|T" .. addon.icons.NOTE .. ":12|t  " .. MW.COLOR_LIGHT_BLUE .. "Note:|r " .. note
+	end
 	if text ~= MW.mainFrame.steps[i].textBox:GetText() then
 		MW.mainFrame.steps[i].textBox:SetText(text)
 	end
@@ -1263,7 +1268,7 @@ function CG.getElementByTextPos(pos, step)
 	for j, element in ipairs(CG.currentGuide.steps[step].elements) do
 		if element.textStartPos > pos then return j - 1 end
 	end
-	return #CG.currentGuide.steps[step].elements
+	if CG.currentGuide.steps[step].textEndPos > pos then return #CG.currentGuide.steps[step].elements end
 end
 
 function CG.simulateCompleteCurrentSteps()

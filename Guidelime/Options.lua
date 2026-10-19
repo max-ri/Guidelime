@@ -393,9 +393,45 @@ function O.fillOptions()
 	end)
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -20)
 
+	checkbox = F.addCheckOption(content, GuidelimeDataChar, "showNotes", L.SHOW_NOTES, nil, function()
+		CG.updateStepsText()
+	end)
+	checkbox:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -40)
+	prev = checkbox
+	
+	O.optionsFrame.resetGuideNotes = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
+	O.optionsFrame.resetGuideNotes:SetWidth(130)
+	O.optionsFrame.resetGuideNotes:SetHeight(24)
+	O.optionsFrame.resetGuideNotes:SetText(L.RESET_GUIDE_NOTES)
+	O.optionsFrame.resetGuideNotes:SetEnabled(GuidelimeData.notes and CG.currentGuide and GuidelimeData.notes[CG.currentGuide.name])
+	O.optionsFrame.resetGuideNotes:SetPoint("TOPLEFT", prev, "TOPLEFT", 180, -4)
+	O.optionsFrame.resetGuideNotes:SetScript("OnClick", function()
+		F.createPopupFrame(L.REALLY_RESET_GUIDE_NOTES:format(CG.currentGuide.name), function()
+			GuidelimeData.notes[CG.currentGuide.name] = nil
+			if #GuidelimeData.notes == 0 then GuidelimeData.notes = nil end
+			O.optionsFrame.resetGuideNotes:SetEnabled(false)
+			O.optionsFrame.resetAllNotes:SetEnabled(GuidelimeData.notes)
+			CG.updateStepsText()
+		end, true, 120)
+	end)
+	O.optionsFrame.resetAllNotes = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
+	O.optionsFrame.resetAllNotes:SetWidth(130)
+	O.optionsFrame.resetAllNotes:SetHeight(24)
+	O.optionsFrame.resetAllNotes:SetText(L.RESET_ALL_NOTES)
+	O.optionsFrame.resetAllNotes:SetEnabled(GuidelimeData.notes)
+	O.optionsFrame.resetAllNotes:SetPoint("TOPLEFT", prev, "TOPLEFT", 310, -4)
+	O.optionsFrame.resetAllNotes:SetScript("OnClick", function()
+		F.createPopupFrame(L.REALLY_RESET_ALL_NOTES, function()
+			GuidelimeData.notes = nil
+			O.optionsFrame.resetGuideNotes:SetEnabled(false)
+			O.optionsFrame.resetAllNotes:SetEnabled(false)
+			CG.updateStepsText()
+		end, true, 120)
+	end)
+
 	text = content:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	text:SetText(L.SELECT_COLORS)
-	text:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -40)
+	text:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
 	prev = text
 
 	button = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
@@ -790,7 +826,7 @@ function O.fillOptions()
 	local showRecordingButton = CreateFrame("BUTTON", nil, content, "UIPanelButtonTemplate")
 	showRecordingButton:SetSize(130, 24)
 	showRecordingButton:SetText(L.SHOW_RECORDING)
-	showRecordingButton:SetPoint("LEFT", checkbox:GetFontString(), "RIGHT", 10, 0)
+	showRecordingButton:SetPoint("TOPLEFT", checkbox, "TOPLEFT", 180, -4)
 	showRecordingButton:SetScript("OnClick", function()
 		if type(GuidelimeData.recordedSteps) ~= "table" then GuidelimeData.recordedSteps = {} end
 		local recordedSteps = GuidelimeData.recordedSteps

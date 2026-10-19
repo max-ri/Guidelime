@@ -73,6 +73,7 @@ addon.icons = {
 	CATA = "Interface\\Addons\\" .. addonName .. "\\Icons\\cata",
 	MOP = "Interface\\Addons\\" .. addonName .. "\\Icons\\mop",
 	FOREVER = "Interface\\Addons\\" .. addonName .. "\\Icons\\forever",
+	NOTE = "Interface\\Icons\\INV_Misc_Note_01"
 
 	--LOC = "Interface\\Icons\\Ability_Tracking",
 	--KILL = "Interface\\Icons\\Ability_Creature_Cursed_02",
@@ -175,7 +176,8 @@ function addon.loadData()
 		showUseItemButtons = "LEFT",
 		showMinimapButton = true,
 		maxNumOfTargetButtons = 8,
-		maxNumOfItemButtons = 8
+		maxNumOfItemButtons = 8,
+		showNotes = true
 	}
 	addon.noSnapshotOptionsChar = {
 		currentGuide = "",

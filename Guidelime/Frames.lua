@@ -147,7 +147,7 @@ function F.addTextbox(frame, text, width, tooltip)
 	return textbox
 end
 
-function F.createPopupFrame(message, okFunc, hasCancel, height)
+function F.createPopupFrame(message, okFunc, hasCancel, height, extraBtn)
 	F.popupFrame = CreateFrame("FRAME", nil, F.popupFrame or UIParent, BackdropTemplateMixin and "BackdropTemplate")
 	F.popupFrame:SetWidth(550)
 	if height == nil then height = 150 end
@@ -186,11 +186,7 @@ function F.createPopupFrame(message, okFunc, hasCancel, height)
 	F.popupFrame.okBtn = CreateFrame("BUTTON", nil, F.popupFrame, "UIPanelButtonTemplate")
 	F.popupFrame.okBtn:SetSize(128, 24)
 	F.popupFrame.okBtn:SetText( OKAY )
-	if hasCancel then
-		F.popupFrame.okBtn:SetPoint("BOTTOM", F.popupFrame, -70, 12)
-	else
-		F.popupFrame.okBtn:SetPoint("BOTTOM", F.popupFrame, 70, 12)
-	end
+	F.popupFrame.okBtn:SetPoint("BOTTOM", F.popupFrame, extraBtn and -140 or (hasCancel and -70 or 70), 12)
 	F.popupFrame.okBtn:SetScript("OnClick", function(self) 
 		if okFunc ~= nil and okFunc(self:GetParent()) == false then return end
 		self:GetParent():Hide()
@@ -200,12 +196,22 @@ function F.createPopupFrame(message, okFunc, hasCancel, height)
 		F.popupFrame.cancelBtn = CreateFrame("BUTTON", nil, F.popupFrame, "UIPanelButtonTemplate")
 		F.popupFrame.cancelBtn:SetSize(128, 24)
 		F.popupFrame.cancelBtn:SetText( CANCEL )
-		F.popupFrame.cancelBtn:SetPoint("BOTTOM", F.popupFrame, 70, 12)
+		F.popupFrame.cancelBtn:SetPoint("BOTTOM", F.popupFrame, extraBtn and 140 or 70, 12)
 		F.popupFrame.cancelBtn:SetScript("OnClick", function(self) 
 			self:GetParent():Hide()
 		end)
 	end
 
+	if extraBtn then
+		F.popupFrame.extraBtn = CreateFrame("BUTTON", nil, F.popupFrame, "UIPanelButtonTemplate")
+		F.popupFrame.extraBtn:SetSize(128, 24)
+		F.popupFrame.extraBtn:SetPoint("BOTTOM", F.popupFrame, 0, 12)
+		F.popupFrame.extraBtn:SetScript("OnClick", function(self) 
+			extraBtn(self:GetParent())
+			self:GetParent():Hide()
+		end)
+	end
+	
 	return F.popupFrame
 end
 

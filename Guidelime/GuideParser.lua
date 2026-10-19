@@ -161,7 +161,7 @@ function GP.parseGuide(guide, group, strict, nameOnly)
 	end
 	if guide.group ~= nil then guide.name = guide.group .. " " .. guide.name end
 
-	if addon.debugging then print("LIME: parseGuide " .. guide.name .. (nameOnly and " names only" or "") .. " in " .. math.floor(debugprofilestop() - time) .. " ms") end
+	if addon.debugging then print("LIME: parseGuide " .. guide.name .. (nameOnly and " names only" or "") .. " " .. #guide.steps .. " lines in " .. math.floor(debugprofilestop() - time) .. " ms") end
 	
 	if strict and guide.title == nil or guide.title == "" then 
 		F.createPopupFrame(L.ERROR_GUIDE_HAS_NO_NAME):Show()

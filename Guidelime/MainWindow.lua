@@ -18,10 +18,6 @@ addon.QUESTIE = addon.QUESTIE or {}; local QUESTIE = addon.QUESTIE -- Data/Quest
 
 addon.MW = addon.MW or {}; local MW = addon.MW -- MainWindow
 
-local function getWowheadQuestUrl(questId)
-	return L["WOWHEAD_URL_" .. D.flavor] .. "/quest=" .. questId
-end
-
 MW.COLOR_QUEST_DEFAULT = "|cFF59C4F1"
 MW.COLOR_LEVEL_RED = "|cFFFF1400"
 MW.COLOR_LEVEL_ORANGE = "|cFFFFA500"
@@ -65,19 +61,97 @@ function MW.getRequiredLevelColor(level)
 	end
 end
 
-function MW.showContextMenu(questId, anchor)
+local function getWowheadQuestUrl(questId)
+	return L["WOWHEAD_URL_" .. D.flavor] .. "/quest=" .. questId
+end
+
+function MW.getStepNoteText(step)
+	return GuidelimeDataChar.showNotes and step and step.guide and GuidelimeData.notes and 
+		GuidelimeData.notes[step.guide.name] and GuidelimeData.notes[step.guide.name][step.line] and 
+		GuidelimeData.notes[step.guide.name][step.line].text
+end
+
+local function saveStepNote(text, step)
+	if step == nil then return end
+	if addon.debugging then print("saveStepNote", text, step) end
+	if GuidelimeData.notes == nil then GuidelimeData.notes = {} end
+	if GuidelimeData.notes[step.guide.name] == nil then GuidelimeData.notes[step.guide.name] = {} end
+	if text == nil or text == "" then
+		GuidelimeData.notes[step.guide.name][step.line] = nil
+		if #GuidelimeData.notes[step.guide.name] == 0 then GuidelimeData.notes[step.guide.name] = nil end
+		if #GuidelimeData.notes == 0 then GuidelimeData.notes = nil end
+	else
+		GuidelimeData.notes[step.guide.name][step.line] = {text = text, stepText = step.text, stepDisplay = CG.getStepText(step)}
+	end
+	CG.updateStepsText()
+	if O.optionsFrame and O.optionsFrame.resetGuideNotes then O.optionsFrame.resetGuideNotes:SetEnabled(GuidelimeData.notes and CG.currentGuide and GuidelimeData.notes[CG.currentGuide.name]) end
+	if O.optionsFrame and O.optionsFrame.resetAllNotes then O.optionsFrame.resetAllNotes:SetEnabled(GuidelimeData.notes) end
+end
+
+local function showStepNotePopup(stepIndex)
+	local step = CG.currentGuide and CG.currentGuide.steps and CG.currentGuide.steps[stepIndex]
+	if step == nil or step.guide == nil then return end
+
+	local popup = F.createPopupFrame(nil, 
+		function(self) saveStepNote(self.textbox:GetText(), self.step) end, true, 190, 
+		function(self) saveStepNote(nil, self.step) end)
+	popup.step = step
+	
+    local scrollFrame = CreateFrame("ScrollFrame", nil, popup, "UIPanelScrollFrameTemplate")
+    scrollFrame:SetPoint("TOPLEFT", popup, "TOPLEFT", 0, -14)
+    scrollFrame:SetPoint("RIGHT", popup, "RIGHT", -34, 0)
+    scrollFrame:SetPoint("BOTTOM", popup, "BOTTOM", 0, 34)
+
+    local content = CreateFrame("Frame", nil, scrollFrame) 
+    content:SetSize(1, 1) 
+    scrollFrame:SetScrollChild(content)
+	
+	popup.title = F.addMultilineText(content, "Note for: " .. CG.getStepText(step))
+	popup.title:SetPoint("TOP", content, "TOP", 0, -10)
+	popup.title:SetPoint("LEFT", scrollFrame, "LEFT", 20, 0)
+	popup.title:SetPoint("RIGHT", scrollFrame, "RIGHT", 0, 0)
+	popup.textbox = CreateFrame("EditBox", nil, content, "InputBoxTemplate")
+	popup.textbox:SetPoint("TOP", popup.title, "BOTTOM", 0, -10)
+	popup.textbox:SetPoint("LEFT", scrollFrame, "LEFT", 20, 0)
+	popup.textbox:SetPoint("RIGHT", scrollFrame, "RIGHT", 0, 0)
+	popup.textbox:SetHeight(24)
+	popup.textbox:SetAutoFocus(false)
+	popup.textbox:SetFontObject("GameFontNormal")
+	popup.textbox:SetText(MW.getStepNoteText(step) or "")
+	popup.textbox:SetCursorPosition(0)
+	popup.textbox:SetScript("OnEnterPressed", function(self)
+		saveStepNote(popup.textbox:GetText(), step)
+		self:GetParent():GetParent():GetParent():Hide()
+	end)
+	popup.textbox:SetScript("OnEscapePressed", function(self) self:GetParent():Hide() end)
+	popup.okBtn:SetText(SAVE or "Save")
+	popup.extraBtn:SetText(DELETE or "Delete")
+	popup:Show()
+	popup.textbox:SetFocus()
+	popup.textbox:HighlightText()
+	return popup
+end
+
+function MW.showContextMenu(questId, anchor, index)
 	local menuFrame = CreateFrame("Frame", "GuidelimeContextMenu", nil, "UIDropDownMenuTemplate")
 	UIDropDownMenu_Initialize(menuFrame, function(self, level, menuList)
   		local info = UIDropDownMenu_CreateInfo()
-		info.text, info.checked, info.func = L.SHOW_MAINFRAME, true, MW.hideMainFrame
+		if index and GuidelimeDataChar.showNotes then
+			local note = MW.getStepNoteText(CG.currentGuide.steps[index])
+			info.text, info.notCheckable, info.icon, info.func = (note and note ~= "" and L.EDIT_NOTE or L.ADD_NOTE) .. "...", true, addon.icons.NOTE, function() 
+				showStepNotePopup(index) 
+			end
+    		UIDropDownMenu_AddButton(info)
+		end
+		info.text, info.icon, info.func = L.HIDE_MAINFRAME, nil, MW.hideMainFrame
     	UIDropDownMenu_AddButton(info)
-		info.text, info.checked, info.func = L.AVAILABLE_GUIDES .. "...", G.isGuidesShowing(), G.showGuides
+		info.text, info.func = L.AVAILABLE_GUIDES .. "...", G.showGuides
     	UIDropDownMenu_AddButton(info)
-		info.text, info.checked, info.func = GAMEOPTIONS_MENU .. "...", O.isOptionsShowing(), O.showOptions
+		info.text, info.func = GAMEOPTIONS_MENU .. "...", O.showOptions
     	UIDropDownMenu_AddButton(info)
-		info.text, info.checked, info.func = L.EDITOR .. "...", E.isEditorShowing(), E.showEditor
+		info.text, info.func = L.EDITOR .. "...", E.showEditor
     	UIDropDownMenu_AddButton(info)
-		info.text, info.checked, info.func = L.SHOW_GUIDE_TITLE, GuidelimeDataChar.showTitle, function()
+		info.text, info.notCheckable, info.isNotRadio, info.checked, info.func = L.SHOW_GUIDE_TITLE, false, true, GuidelimeDataChar.showTitle, function()
 			GuidelimeDataChar.showTitle = not GuidelimeDataChar.showTitle
 			if O.optionsFrame ~= nil then
 				O.optionsFrame.showTitle:SetChecked(GuidelimeDataChar.showTitle)
@@ -136,7 +210,12 @@ local function onMouseDown(self, button, dontMove)
 	end
 end
 
-local function onMouseUp(self, button, questId, url, linkGuide)
+local function onMouseUp(self, button, isInside, i)
+	local j = i and self.GetCursorPosition and CG.getElementByTextPos(self:GetCursorPosition(), i)
+	local element = i and j and CG.currentGuide.steps[i].elements[j]
+	local questId = element and element.questId
+	local url = element and element.url
+	local linkGuide = element and element.linkGuide
 	if button == "LeftButton" then
 		MW.mainFrame:StopMovingOrSizing()
 		MW.mainFrame.lockBtn:SetAlpha(0)
@@ -145,16 +224,19 @@ local function onMouseUp(self, button, questId, url, linkGuide)
 		GuidelimeDataChar.mainFrameRelative = rel
 		GuidelimeDataChar.mainFrameX = x
 		GuidelimeDataChar.mainFrameY = y
-		if type(questId) == 'number' then
+		if questId then
 			QL.showQuestLogFrame(questId)
 		elseif url then
 			F.showUrlPopup(url) 
 		elseif linkGuide and CG.currentGuide.group then
 			local guideName = CG.currentGuide.group .. " " .. linkGuide
 			if addon.guides[guideName] ~= nil then G.loadGuide(guideName) end
+		elseif i and not element then
+			local note = MW.getStepNoteText(CG.currentGuide.steps[i]) 
+			if note and note ~= "" then showStepNotePopup(i) end
 		end
 	elseif button == "RightButton" then
-		MW.showContextMenu(type(questId) == 'number' and questId, self)
+		MW.showContextMenu(questId, self, i)
 	end
 end
 
@@ -480,9 +562,7 @@ function MW.updateMainFrame(reset)
 							end)
 							MW.mainFrame.steps[i].textBox = F.addMultilineText(MW.mainFrame.steps[i], nil, nil, "", function(self, button)
 								self:HighlightText(0, 0)
-								local j = CG.getElementByTextPos(self:GetCursorPosition(), i)
-								local element = CG.currentGuide.steps[i].elements[j]
-								onMouseUp(self, button, element and element.questId, element and element.url, element and element.linkGuide)
+								onMouseUp(self, button, true, i)
 							end)
 							MW.mainFrame.steps[i].textBox:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
 							MW.mainFrame.steps[i].textBox:HookScript("OnMouseDown", function(self, button)

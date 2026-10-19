@@ -30,7 +30,7 @@ function QS.scanGuideQuests(guide)
 			end
 		end
 	end
-	if addon.debugging then print("LIME: scanning quests for " .. guide .. " in " .. math.floor(debugprofilestop() - time) .. " ms") end
+	--if addon.debugging then print("LIME: scanning quests for " .. guide .. " in " .. math.floor(debugprofilestop() - time) .. " ms") end
 	QS.scannedGuides[guide] = true
 	for _, linkGuide in ipairs(linkedGuides) do
 		QS.scanGuideQuests(addon.guides[guide].group .. " " .. linkGuide)
