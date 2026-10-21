@@ -136,19 +136,29 @@ local function getTargetTooltipMulti(targets)
 	return table.concat(tooltips, "\n")
 end
 
-local targetTooltipModel
 local function showTargetTooltip(button)
 	if button.index == "Multi" then return end
-	if not targetTooltipModel then
-		targetTooltipModel = CreateFrame("PlayerModel", nil, GameTooltip)
-		targetTooltipModel:SetSize(130, 150)
-		targetTooltipModel:SetPoint("BOTTOM", GameTooltip, "BOTTOM", 0, 8)
+	if not AB.targetTooltipModel then
+		AB.targetTooltipModel = CreateFrame("PlayerModel", nil, GameTooltip)
+		AB.targetTooltipModel:SetSize(130, 150)
+		AB.targetTooltipModel:SetPoint("BOTTOM", GameTooltip, "BOTTOM", 0, 8)
+		AB.targetTooltipModel:SetScript("OnModelLoaded", function(self)
+			AB.targetTooltipLoadedNpcId = AB.targetTooltipRequestedNpcId
+			if GameTooltip:IsShown() and AB.targetTooltipModel:IsShown() then self:SetAlpha(1) end
+		end)
 	end
-	local loaded = pcall(targetTooltipModel.SetCreature, targetTooltipModel, button.npcId)
-	if not loaded and UnitExists("target") and UnitName("target") == button.npc then
-		targetTooltipModel:SetUnit("target")
+	if AB.targetTooltipLoadedNpcId == button.npcId then
+		AB.targetTooltipModel:SetAlpha(1)
+		AB.targetTooltipModel:Show()
+		return
 	end
-	targetTooltipModel:Show()
+	AB.targetTooltipRequestedNpcId = button.npcId
+	AB.targetTooltipModel:SetAlpha(0)
+	local loaded, result = pcall(AB.targetTooltipModel.SetCreature, AB.targetTooltipModel, button.npcId)
+	if (not loaded or result == false) and UnitExists("target") and UnitName("target") == button.npc then
+		pcall(AB.targetTooltipModel.SetUnit, AB.targetTooltipModel, "target")
+	end
+	AB.targetTooltipModel:Show()
 end
 
 local function keyBindButton(button, bindingName, buttonName, functionName)
@@ -279,12 +289,12 @@ function AB.updateTargetButtons()
 				if self.spell then
 					GameTooltip:AddLine(SP.spells[self.spell] and SP.spells[self.spell].name or self.spell, 1, 1, 1, true)
 				end					
-				showTargetTooltip(self)
-				if targetTooltipModel and targetTooltipModel:IsShown() then
+				if self.index ~= "Multi" then
 					-- GameTooltip sizes itself from its content on some clients, so reserve
 					-- room through tooltip lines instead of changing the frame size.
 					for _ = 1, 12 do GameTooltip:AddLine(" ") end
 					if GameTooltip.SetMinimumWidth then GameTooltip:SetMinimumWidth(146) end
+					showTargetTooltip(self)
 				end
 				GameTooltip:Show()
 				F.showingTooltip = true
@@ -295,7 +305,7 @@ function AB.updateTargetButtons()
 				GameTooltip:Hide()
 				F.showingTooltip = false
 			end
-			if targetTooltipModel then targetTooltipModel:Hide() end
+			if AB.targetTooltipModel then AB.targetTooltipModel:Hide() end
 		end)
 		keyBindButton(button, "GUIDELIME_TARGET_" .. pos, "GuidelimeTargetButton" .. t.index, t.name)
 		button:Show()
