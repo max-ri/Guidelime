@@ -746,9 +746,10 @@ function GP.parseLine(step, guide, strict, nameOnly)
 				err = true
 			end
 		elseif element.t == "USE_ITEM" then
-			local _, c = tag:gsub("%s*(%d+)%s*(.-)%s*$", function(id, title)	
+			local _, c = tag:gsub("%s*(%d+)%s*,?%s*(%d*)%s*(.-)%s*$", function(id, targetId, title)	
 				if id ~= "" then
 					element.useItemId = tonumber(id)
+					if targetId ~= "" then element.targetNpcId = tonumber(targetId) end
 					if title == "-" then
 						element.title = ""
 					elseif title ~= "" then
@@ -782,7 +783,7 @@ function GP.parseLine(step, guide, strict, nameOnly)
 				err = true
 			end
 		elseif element.t == "SPELL" then
-			local _, c = tag:gsub("%s*([%w%d]+)%s*(.-)%s*$", function(spell, title)	
+			local _, c = tag:gsub("%s*([%w%d]+)%s*,?%s*(%d*)%s*(.-)%s*$", function(spell, targetId, title)	
 				element.spellId = tonumber(spell)
 				element.spell = element.spellId and SP.getSpellById(element.spellId) or SP.getSpell(spell)
 				if element.spell then
@@ -795,6 +796,7 @@ function GP.parseLine(step, guide, strict, nameOnly)
 					F.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
 					err = true
 				end
+				if targetId ~= "" then element.targetNpcId = tonumber(targetId) end
 			end, 1)
 			if c ~= 1 then
 				F.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()

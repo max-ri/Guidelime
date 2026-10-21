@@ -180,18 +180,27 @@ function AB.updateTargetButtons()
 		local step = CG.currentGuide.steps[s]
 		if step.active then
 			for _, element in ipairs(step.elements) do
+				local hasButton
 				if element.t == "TARGET" and element.targetNpcId > 0 and 
 					(not element.attached or not element.attached.completed) and
 					(not element.attached or element.attached.t ~= "COMPLETE" or CG.isQuestObjectiveActive(element.attached.questId, element.objectives, element.attached.objective)) and
 					(element.generated or not D.contains(CG.currentGuide.activeQuestNpcs, element.targetNpcId)) then
-					if addon.debugging then print("LIME: show target button for npc", element.targetNpcId) end
+					hasButton = true
+				elseif element.t == "USE_ITEM" and element.targetNpcId and element.useItemId > 0 and
+					not (step.useItemElement and element.generated) and not (element.attached and element.attached.completed) then
+					hasButton = true
+				elseif element.t == "SPELL" and element.spell and not element.completed and element.targetNpcId then
+					hasButton = true
+				end
+				if hasButton then
+					if addon.debugging then print("LIME: show target button for npc", targetNpcId) end
 					if InCombatLockdown() then
 						EV.updateAfterCombat = true
 						return 
 					end
 					local name = QT.getNPCName(element.targetNpcId) or element.title
 					if name and name ~= "" then
-						local t = D.find(targets, function(t) return t.name == name end)
+						local t = D.find(targets, function(t) return t.npcId == element.targetNpcId end)
 						if not t then
 							local marker
 							if GuidelimeData.targetRaidMarkers and iFriendly <= iHostile then
@@ -204,9 +213,12 @@ function AB.updateTargetButtons()
 									iHostile = iHostile - 1
 								end
 							end
-							targets[i] = {name = name, index = i, marker = marker, npcId = element.targetNpcId}
+							targets[i] = {name = name, index = i, marker = marker, npcId = element.targetNpcId, useItemId = element.useItemId, spell = element.spell}
 							if GuidelimeDataChar.maxNumOfTargetButtons > 0 and i >= GuidelimeDataChar.maxNumOfTargetButtons then break end
 							i = i + 1
+						else
+							if element.useItemId then t.useItemId = element.useItemId end
+							if element.spell then t.spell = element.spell end
 						end
 					end
 				end
@@ -219,7 +231,7 @@ function AB.updateTargetButtons()
 		button.texture2:Hide()
 		button:SetPoint("TOP" .. GuidelimeDataChar.showTargetButtons, MW.mainFrame, "TOP" .. GuidelimeDataChar.showTargetButtons, 
 			GuidelimeDataChar.showTargetButtons == "LEFT" and -36 or (GuidelimeDataChar.mainFrameShowScrollBar and 60 or 37), -2)
-		button:SetAttribute("macrotext", "/cleartarget\n" .. getTargetMacroMulti(targets))
+		button:SetAttribute("macrotext", getTargetMacroMulti(targets))
 		F.setTooltip(button, getTargetTooltipMulti(targets))
 		keyBindButton(button, "GUIDELIME_TARGET_1", "GuidelimeTargetButtonMulti", "multi target")
 		button:Show()
@@ -242,18 +254,31 @@ function AB.updateTargetButtons()
 		button.npc = t.name
 		button.npcId = t.npcId
 		button.marker = t.marker
+		button.useItemId = t.useItemId
+		button.spell = t.spell
 		if keepPortrait then
 			button.texture:Hide()
 		else
 			button.portrait:Hide()
 			button.texture:Show()
 		end
-		button:SetAttribute("macrotext", "/cleartarget\n" .. getTargetMacro(t))
+		button:SetAttribute("macrotext", "/cleartarget\n" .. getTargetMacro(t) .. 
+			(t.useItemId and "\n/use item:" .. t.useItemId or "") ..
+			(t.spell and "\n/cast " .. t.spell or ""))
 		F.setTooltip(button, getTargetTooltip(t))
 		button:SetScript("OnEnter", function(self)
 			if self.tooltip and self.tooltip ~= "" then
 				GameTooltip:SetOwner(self, "ANCHOR_RIGHT", 0, -32)
 				GameTooltip:SetText(self.tooltip)
+				if self.useItemId then
+					local itemName = EV.GetItemInfo(self.useItemId) or ("item:" .. self.useItemId)
+					local useTooltip = QT.getUseItemTooltip(self.useItemId)
+					GameTooltip:AddLine(itemName, 1, 1, 1, true)
+					if useTooltip then GameTooltip:AddLine(useTooltip, 0, 1, 0, true) end
+				end
+				if self.spell then
+					GameTooltip:AddLine(SP.spells[self.spell] and SP.spells[self.spell].name or self.spell, 1, 1, 1, true)
+				end					
 				GameTooltip:Show()
 				self.tooltipOriginalWidth = GameTooltip:GetWidth()
 				self.tooltipOriginalHeight = GameTooltip:GetHeight()
@@ -341,7 +366,7 @@ function AB.updateUseItemButtons()
 		local step = CG.currentGuide.steps[s]
 		if step.active then
 			for _, element in ipairs(step.elements) do
-				if element.t == "USE_ITEM" and element.useItemId > 0 and
+				if element.t == "USE_ITEM" and element.useItemId > 0 and not element.targetNpcId and
 					not (step.useItemElement and element.generated) and not (element.attached and element.attached.completed) and
 					not D.contains(previousIds, element.useItemId) then
 					if addon.debugging then print("LIME: show use item button for item", element.useItemId) end
@@ -373,8 +398,7 @@ function AB.updateUseItemButtons()
 					button:Update()
 					table.insert(previousIds, element.useItemId)
 					i = i + 1
-				elseif element.t == "SPELL" and element.spellId ~= 0 and not element.completed then
-				
+				elseif element.t == "SPELL" and element.spellId ~= 0 and not element.completed and not element.targetNpcId then
 					local id
 					if element.spellId and GetSpellInfo(element.spellId) then id = element.spellId end
 					if id == nil then id = SP.getSpellId(element.spell) end
