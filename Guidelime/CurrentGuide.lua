@@ -815,8 +815,8 @@ local function updateStepCompletion(i, completedIndexes, playerIsAlive)
 				element.completed = (D.wx - element.wx) * (D.wx - element.wx) + (D.wy - element.wy) * (D.wy - element.wy) <= radius
 			else
 				element.completed = false
-			end
-			if step.completed == nil or not element.completed then step.completed = element.completed end
+			end  
+			if element.attached == nil and (step.completed == nil or not element.completed) then step.completed = element.completed end
 		end
 	end
 	if step.completed == nil then step.completed = step.completeWithNext and wasCompleted end
@@ -1174,7 +1174,7 @@ function CG.updateSteps(completedIndexes)
 	--if addon.debugging then print("LIME: updateStepsCompletionAndActivation " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	CG.updateStepsActivation()
 	--if addon.debugging then print("LIME: updateStepsActivation " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
-	fadeoutStep(completedIndexes)
+	--fadeoutStep(completedIndexes)
 	--if addon.debugging then print("LIME: fadeoutStep " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	local scrollToFirstActive = updateFirstActiveIndex()
 	--if addon.debugging then print("LIME: updateFirstActiveIndex " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
