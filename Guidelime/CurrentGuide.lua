@@ -41,7 +41,6 @@ function CG.loadCurrentGuide(reset)
 		end
 		GuidelimeDataChar.currentGuide = nil
 		CG.currentGuide = {steps = {}}
-		GuidelimeDataChar.completedSteps = {}
 		QS.resetScannedQuests()
 		return
 	end
@@ -65,17 +64,17 @@ function CG.loadCurrentGuide(reset)
 		return
 	end
 
+	if GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide] == nil then
+		GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide] = {}
+	elseif reset then
+		for _, p in pairs(GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide]) do
+			p.completed = nil
+		end
+	end
 	if GuidelimeDataChar.guideSize[GuidelimeDataChar.currentGuide] ~= #guide.steps then
 		if addon.debugging then print("LIME: guide \"" .. CG.currentGuide.name .. "\" was changed! Resetting progress.") end
-		GuidelimeDataChar.completedSteps = {}
-		GuidelimeDataChar.guideSkip[GuidelimeDataChar.currentGuide] = {}
+		GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide] = {}
 		GuidelimeDataChar.guideSize[GuidelimeDataChar.currentGuide] = #guide.steps
-	end
-	if GuidelimeDataChar.guideSkip[GuidelimeDataChar.currentGuide] == nil then
-		GuidelimeDataChar.guideSkip[GuidelimeDataChar.currentGuide] = {}
-	end
-	if reset then
-		GuidelimeDataChar.completedSteps = {}
 	end
 
 	local time
@@ -204,7 +203,7 @@ function CG.loadCurrentGuide(reset)
 			if step.manual == nil then step.manual = true end
 			if step.completeWithNext == nil then step.completeWithNext = false end
 			if step.optional == nil then step.optional = false end
-			step.skip = GuidelimeDataChar.guideSkip[CG.currentGuide.name][step.index] or GuidelimeDataChar.completedSteps[step.index] or false
+			step.skip = GuidelimeDataChar.progress[CG.currentGuide.name][step.index] and (GuidelimeDataChar.progress[CG.currentGuide.name][step.index].skip or GuidelimeDataChar.progress[CG.currentGuide.name][step.index].completed) or false
 			step.active = false
 			step.wasActive = false
 			step.completed = false
@@ -833,7 +832,8 @@ local function updateStepCompletion(i, completedIndexes, playerIsAlive)
 
 	if step.completed ~= wasCompleted and not D.contains(completedIndexes, i) then
 		if not autoCompleteStep then
-			GuidelimeDataChar.completedSteps[step.index] = step.completed
+			if not GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.index] then GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.index] = {} end
+			GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.index].completed = step.completed
 		end
 		table.insert(completedIndexes, i)
 	end
@@ -1198,8 +1198,10 @@ function CG.setStepSkip(value, a, b)
 	for i = a, b do
 		local step = CG.currentGuide.steps[i]
 		step.skip = value
-		GuidelimeDataChar.guideSkip[CG.currentGuide.name][i] = step.skip
-		GuidelimeDataChar.completedSteps[i] = GuidelimeDataChar.completedSteps[i] and value
+		if not GuidelimeDataChar.progress[CG.currentGuide.name][i] then GuidelimeDataChar.progress[CG.currentGuide.name][i] = {} end
+		local progress = GuidelimeDataChar.progress[CG.currentGuide.name][i]
+		progress.skip = step.skip
+		progress.completed = progress.completed and value
 		table.insert(indexes, i)
 	end
 	if not value and not GuidelimeDataChar.showUnavailableSteps then
@@ -1259,7 +1261,8 @@ function CG.completeSemiAutomatic(element)
 			end
 		end
 	end
-	GuidelimeDataChar.completedSteps[step.index] = true
+	if not GuidelimeDataChar.progress[CG.currentGuide.name][step.index] then GuidelimeDataChar.progress[CG.currentGuide.name][step.index] = {} end
+	GuidelimeDataChar.progress[CG.currentGuide.name][step.index].completed = true
 	step.skip = true
 	CG.updateSteps({step.index})
 end
