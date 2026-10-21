@@ -92,26 +92,23 @@ end
 
 local function getTargetMacro(t)
 	return (t.marker and "/target PLAYER\n/tm ".. t.marker .. "\n/tm 0\n/cleartarget\n" or "") ..
-		"/targetexact " .. t.name .. 
-		(t.marker and "\n/tm ".. t.marker or "")
+		"/targetexact " .. t.name .. (t.marker and "\n/tm ".. t.marker or "")
 end
 
 local function getTargetMacroMulti(targets)
-	local macro = ""
+	local markers
 	for i, t in ipairs(targets) do
-		local m = getTargetMacro(t)
-		local maxMacroLength
-		if select(4, GetBuildInfo()) >= 20505 and select(4, GetBuildInfo()) < 30000 then		
-			maxMacroLength = 240
-		else
-			maxMacroLength = 1022
-		end
-		if #macro + #m > maxMacroLength then
+		if t.marker then markers = (markers or "") .. "/tm " .. t.marker .. "\n" end
+	end
+	local macro = (markers and "/target PLAYER\n" .. markers .. "/tm 0\n" or "") .. "/cleartarget\n"
+	for i, t in ipairs(targets) do
+		local m = (i > 1 and "\n" or "") .. "/targetexact " .. t.name .. (t.marker and "\n/tm ".. t.marker or "")
+		if #macro + #m > 255 then
 			if addon.debugging then print("LIME: target macro multi is too long") end
 			--if addon.debugging then print("LIME: target macro -", macro) end
 			return macro
 		end
-		macro = macro .. m .. "\n"
+		macro = macro .. m
 	end
 	if addon.debugging then print("LIME: target macro multi length is", #macro) end
 	--if addon.debugging then print("LIME: target macro -", macro) end
