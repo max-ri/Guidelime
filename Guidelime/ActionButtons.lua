@@ -279,14 +279,15 @@ function AB.updateTargetButtons()
 				if self.spell then
 					GameTooltip:AddLine(SP.spells[self.spell] and SP.spells[self.spell].name or self.spell, 1, 1, 1, true)
 				end					
-				GameTooltip:Show()
-				self.tooltipOriginalWidth = GameTooltip:GetWidth()
-				self.tooltipOriginalHeight = GameTooltip:GetHeight()
-				F.showingTooltip = true
 				showTargetTooltip(self)
 				if targetTooltipModel and targetTooltipModel:IsShown() then
-					GameTooltip:SetSize(math.max(self.tooltipOriginalWidth, 146), self.tooltipOriginalHeight + 166)
+					-- GameTooltip sizes itself from its content on some clients, so reserve
+					-- room through tooltip lines instead of changing the frame size.
+					for _ = 1, 12 do GameTooltip:AddLine(" ") end
+					if GameTooltip.SetMinimumWidth then GameTooltip:SetMinimumWidth(146) end
 				end
+				GameTooltip:Show()
+				F.showingTooltip = true
 			end
 		end)
 		button:SetScript("OnLeave", function(self)
@@ -295,11 +296,6 @@ function AB.updateTargetButtons()
 				F.showingTooltip = false
 			end
 			if targetTooltipModel then targetTooltipModel:Hide() end
-			if self.tooltipOriginalWidth and self.tooltipOriginalHeight then
-				GameTooltip:SetSize(self.tooltipOriginalWidth, self.tooltipOriginalHeight)
-				self.tooltipOriginalWidth = nil
-				self.tooltipOriginalHeight = nil
-			end
 		end)
 		keyBindButton(button, "GUIDELIME_TARGET_" .. pos, "GuidelimeTargetButton" .. t.index, t.name)
 		button:Show()
