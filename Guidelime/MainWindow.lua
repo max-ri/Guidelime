@@ -550,6 +550,7 @@ function MW.updateMainFrame(reset)
 							MW.mainFrame.steps[i]:SetScript("OnClick", function()
 								if not MW.mainFrame.steps[i]:GetChecked() or MW.mainFrame.steps[i].skipText == nil or MW.mainFrame.steps[i].skipText == "" then
 									CG.setStepSkip(MW.mainFrame.steps[i]:GetChecked(), i)
+									CG.updateSteps()
 								else
 									MW.mainFrame.steps[i]:SetChecked(false)
 									local _, lines = MW.mainFrame.steps[i].skipText:gsub("\n", "\n")
@@ -557,6 +558,7 @@ function MW.updateMainFrame(reset)
 									F.createPopupFrame(MW.mainFrame.steps[i].skipText, function()
 										MW.mainFrame.steps[i]:SetChecked(true)
 										CG.setStepSkip(true, i)
+										CG.updateSteps()
 									end, true, 120 + lines * 10):Show()
 								end
 							end)

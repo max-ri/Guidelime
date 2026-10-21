@@ -831,11 +831,18 @@ local function updateStepCompletion(i, completedIndexes, playerIsAlive)
 	end
 
 	if step.completed ~= wasCompleted and not D.contains(completedIndexes, i) then
+	--once all items are collected, don't re-enable the step again if you lose the item later
+	if step.itemsCollected and step.completed then
+		CG.setStepSkip(true, i)
+		if addon.debugging then print("LIME: items collected for " .. i .. " remembering completion") end
+	end
+
+	if step.completed ~= wasCompleted and not completedIndexes[i] then
 		if not autoCompleteStep then
-			if not GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.index] then GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.index] = {} end
-			GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.index].completed = step.completed
+			if not GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][i] then GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][i] = {} end
+			GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][i].completed = step.completed
 		end
-		table.insert(completedIndexes, i)
+		completedIndexes[i] = true
 	end
 end
 
@@ -889,12 +896,25 @@ local function updateStepAvailability(i, changedIndexes, scheduled)
 	if step.available == nil then step.available = true end
 	if step.manual and not step.completed then step.available = true end
 
-	if step.available ~= wasAvailable and not D.contains(changedIndexes, i) then
-		table.insert(changedIndexes, i)
-	end
+	if step.available ~= wasAvailable then changedIndexes[i] = true end
 end
 
-local function updateStepsCompletion(changedIndexes)
+local function updateStepActivation(i, changedIndexes)
+	local step = CG.currentGuide.steps[i]
+	step.active = not step.completed and not step.skip and step.available and D.hasRequirements(step)
+	if step.active then
+		for j, pstep in ipairs(CG.currentGuide.steps) do
+			if j == i then break end
+			if not pstep.optional and not pstep.skip and not pstep.completed and pstep.available and D.hasRequirements(pstep) then
+				step.active = false
+				break
+			end
+		end
+	end
+	if step.active ~= step.wasActive then changedIndexes[i] = true end
+end
+
+local function updateStepsCompletionAndActivation(changedIndexes)
 	--if addon.debugging then print("LIME: update steps completion") end
 	CG.currentGuide.unavailableQuests = {}
 
@@ -916,22 +936,22 @@ local function updateStepsCompletion(changedIndexes)
 		pass = pass + 1
 		local numNew = #changedIndexes
 		local scheduled = {ACCEPT = {}, COMPLETE = {}, TURNIN = {}, SKIP = {}}
-
+		local activePrev = {}
+		
 		for i, step in ipairs(CG.currentGuide.steps) do
 			if not step.skip then
 				updateStepCompletion(i, changedIndexes, playerIsAlive)
-				if step.itemsCollected and step.completed then
-					step.skip = true --once all items are collected, don't re-enable the step again if you lose the item later
-				end
 				updateStepAvailability(i, changedIndexes, scheduled)
+				updateStepActivation(i, changedIndexes)
 			end
 		end
-
 		stable = (numNew == #changedIndexes)
 	until stable or (MAX_COMPLETION_PASSES ~= nil and pass >= MAX_COMPLETION_PASSES)
 
 	if addon.debugging and not stable and MAX_COMPLETION_PASSES ~= nil then
-		print("LIME: stopped updateStepsCompletion after " .. pass .. " passes to avoid Hardcore Lua timeout")
+		print("LIME: stopped updateStepsCompletionAndActivation after " .. pass .. " passes to avoid Hardcore Lua timeout")
+	elseif addon.debugging then
+		print("LIME: updateStepsCompletionAndActivation " .. pass .. " passes")
 	end
 
 	-- Updating WoW UI widgets inside every convergence pass is unnecessarily
@@ -991,7 +1011,7 @@ local function keepFading()
 end
 
 local function fadeoutStep(indexes)
-	for _, i in ipairs(indexes) do
+	for i, _ in pairs(indexes) do
 		local step = CG.currentGuide.steps[i]
 		step.fading = 1
 	end
@@ -1008,16 +1028,6 @@ function CG.updateStepsActivation()
 	CG.currentGuide.activeQuests = {}
 	CG.currentGuide.activeQuestNpcs = {}
 	for i, step in ipairs(CG.currentGuide.steps) do
-		step.active = not step.completed and not step.skip and step.available and D.hasRequirements(step)
-		if step.active then
-			for j, pstep in ipairs(CG.currentGuide.steps) do
-				if j == i then break end
-				if not pstep.optional and not pstep.skip and not pstep.completed and pstep.available and D.hasRequirements(pstep) then
-					step.active = false
-					break
-				end
-			end
-		end
 		if step.active then
 			if not step.wasActive then
 				loadQuestStepOnActivation(i)
@@ -1160,8 +1170,8 @@ function CG.updateSteps(completedIndexes)
 	--if addon.debugging then time = debugprofilestop() end
 	--if addon.debugging then print("LIME: update steps " .. GetTime()) end
 	if completedIndexes == nil then completedIndexes = {} end
-	updateStepsCompletion(completedIndexes)
-	--if addon.debugging then print("LIME: updateStepsCompletion " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
+	updateStepsCompletionAndActivation(completedIndexes)
+	--if addon.debugging then print("LIME: updateStepsCompletionAndActivation " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	CG.updateStepsActivation()
 	--if addon.debugging then print("LIME: updateStepsActivation " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	fadeoutStep(completedIndexes)
@@ -1199,10 +1209,9 @@ function CG.setStepSkip(value, a, b)
 		local step = CG.currentGuide.steps[i]
 		step.skip = value
 		if not GuidelimeDataChar.progress[CG.currentGuide.name][i] then GuidelimeDataChar.progress[CG.currentGuide.name][i] = {} end
-		local progress = GuidelimeDataChar.progress[CG.currentGuide.name][i]
-		progress.skip = step.skip
-		progress.completed = progress.completed and value
-		table.insert(indexes, i)
+		GuidelimeDataChar.progress[CG.currentGuide.name][i].skip = step.skip
+		GuidelimeDataChar.progress[CG.currentGuide.name][i].completed = GuidelimeDataChar.progress[CG.currentGuide.name][i].completed and value
+		indexes[i] = true
 	end
 	if not value and not GuidelimeDataChar.showUnavailableSteps then
 		MW.updateMainFrame()
