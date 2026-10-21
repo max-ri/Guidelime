@@ -830,7 +830,6 @@ local function updateStepCompletion(i, completedIndexes, playerIsAlive)
 		end
 	end
 
-	if step.completed ~= wasCompleted and not D.contains(completedIndexes, i) then
 	--once all items are collected, don't re-enable the step again if you lose the item later
 	if step.itemsCollected and step.completed then
 		CG.setStepSkip(true, i)
