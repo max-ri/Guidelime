@@ -182,7 +182,7 @@ end
 
 local function resetGuide() 
 	if GuidelimeDataChar.currentGuide == nil then return end
-	GuidelimeDataChar.guideSkip[GuidelimeDataChar.currentGuide] = {}
+	GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide] = nil
 	G.loadGuide(GuidelimeDataChar.currentGuide)
 end
 

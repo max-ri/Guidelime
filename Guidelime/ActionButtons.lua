@@ -183,7 +183,6 @@ function AB.updateTargetButtons()
 	end
 	if not GuidelimeDataChar.showTargetButtons or not CG.currentGuide or not CG.currentGuide.firstActiveIndex then return end
 	local targets = {}
-	local i = 1
 	local iFriendly = 1
 	local iHostile = #AB.targetRaidMarkerIndex
 	for s = CG.currentGuide.firstActiveIndex, CG.currentGuide.lastActiveIndex do
@@ -199,7 +198,7 @@ function AB.updateTargetButtons()
 				elseif element.t == "USE_ITEM" and element.targetNpcId and element.useItemId > 0 and
 					not (step.useItemElement and element.generated) and not (element.attached and element.attached.completed) then
 					hasButton = true
-				elseif element.t == "SPELL" and element.spell and not element.completed and element.targetNpcId then
+				elseif element.t == "SPELL" and (element.spell or element.spellId) and not element.completed and element.targetNpcId then
 					hasButton = true
 				end
 				if hasButton then
@@ -212,6 +211,7 @@ function AB.updateTargetButtons()
 					if name and name ~= "" then
 						local t = D.find(targets, function(t) return t.npcId == element.targetNpcId end)
 						if not t then
+							if GuidelimeDataChar.maxNumOfTargetButtons > 0 and #targets >= GuidelimeDataChar.maxNumOfTargetButtons then break end
 							local marker
 							if GuidelimeData.targetRaidMarkers and iFriendly <= iHostile then
 								local friendly = QT.isFriendlyNpc(element.targetNpcId) == 'Friendly'
@@ -223,12 +223,15 @@ function AB.updateTargetButtons()
 									iHostile = iHostile - 1
 								end
 							end
-							targets[i] = {name = name, index = i, marker = marker, npcId = element.targetNpcId, useItemId = element.useItemId, spell = element.spell}
-							if GuidelimeDataChar.maxNumOfTargetButtons > 0 and i >= GuidelimeDataChar.maxNumOfTargetButtons then break end
-							i = i + 1
-						else
-							if element.useItemId then t.useItemId = element.useItemId end
-							if element.spell then t.spell = element.spell end
+							t = {name = name, index = #targets + 1, marker = marker, npcId = element.targetNpcId}
+							table.insert(targets, t)
+						end
+						if element.useItemId then t.useItemId = element.useItemId end
+						if element.spell or element.spellId then 
+							local id
+							if element.spellId and GetSpellInfo(element.spellId) then id = element.spellId end
+							if id == nil then id = SP.getSpellId(element.spell) end
+							t.spell = GetSpellInfo(id)
 						end
 					end
 				end
@@ -266,6 +269,7 @@ function AB.updateTargetButtons()
 		button.marker = t.marker
 		button.useItemId = t.useItemId
 		button.spell = t.spell
+		button.spellName = t.spellName
 		if keepPortrait then
 			button.texture:Hide()
 		else
@@ -287,7 +291,7 @@ function AB.updateTargetButtons()
 					if useTooltip then GameTooltip:AddLine(useTooltip, 0, 1, 0, true) end
 				end
 				if self.spell then
-					GameTooltip:AddLine(SP.spells[self.spell] and SP.spells[self.spell].name or self.spell, 1, 1, 1, true)
+					GameTooltip:AddLine(self.spell, 1, 1, 1, true)
 				end					
 				if self.index ~= "Multi" then
 					-- GameTooltip sizes itself from its content on some clients, so reserve

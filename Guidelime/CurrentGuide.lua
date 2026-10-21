@@ -249,6 +249,7 @@ end
 
 function CG.loadStepUseItems(i, recheck)
 	local step = CG.currentGuide.steps[i]
+	if not step then return end
 	if addon.guides[GuidelimeDataChar.currentGuide].autoAddUseItem and GuidelimeDataChar.showUseItemButtons and not step.useItemElement then
 		local j = 1
 		local previousUseItems = {}

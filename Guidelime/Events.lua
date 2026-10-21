@@ -711,16 +711,16 @@ end
 
 EV.frame:RegisterEvent('UNIT_SPELLCAST_SUCCEEDED')
 function EV.frame:UNIT_SPELLCAST_SUCCEEDED(unitTarget, castGUID, spellID)
-	--if addon.debugging then print("LIME: UNIT_SPELLCAST_SUCCEEDED", unitTarget, castGUID, spellID) end
 	-- other units' casts carry secret values on WoW: Forever; comparing them throws
 	if unitTarget ~= "player" or (issecretvalue and issecretvalue(spellID)) then return end
+	--if addon.debugging then print("LIME: UNIT_SPELLCAST_SUCCEEDED", unitTarget, spellID) end
 	if spellID == 8690 or spellID == 556 then
 		-- hearthstone was used (or Astral Recall)
 		EV.recordStep("[H]")
 		CG.completeSemiAutomaticByType("HEARTH")
 	end
 	CG.forEveryActiveElement(function(element)
-		if element.t == "SPELL" and element.spellId == spellID then
+		if element.t == "SPELL" and (element.spellId == spellID or (element.spell and element.spell == select(1, GetSpellInfo(spellID)))) then
 			CG.completeSemiAutomatic(element)
 		end
 	end)

@@ -32420,4 +32420,12 @@ SP.spells = {
 			["icon"] = 132274,
 			["name"] = "Wound Poison III",
 		},
+		
+		["TAMEBEAST"] = {
+			["id"] = { 1515 },
+			["icon"] = 132164,
+			["minRange"] = 0,
+			["maxRange"] = 30,
+			["name"] = "Tame Beast"
+		}
 	}
