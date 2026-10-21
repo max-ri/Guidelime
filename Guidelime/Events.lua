@@ -720,8 +720,13 @@ function EV.frame:UNIT_SPELLCAST_SUCCEEDED(unitTarget, castGUID, spellID)
 		CG.completeSemiAutomaticByType("HEARTH")
 	end
 	CG.forEveryActiveElement(function(element)
-		if element.t == "SPELL" and (element.spellId == spellID or (element.spell and element.spell == select(1, GetSpellInfo(spellID)))) then
-			CG.completeSemiAutomatic(element)
+		if element.t == "SPELL" then
+			local id
+			if element.spellId and GetSpellInfo(element.spellId) then id = element.spellId end
+			if id == nil then id = SP.getSpellId(element.spell) end
+			if id == spellID then 
+				CG.completeSemiAutomatic(element) 
+			end
 		end
 	end)
 end
