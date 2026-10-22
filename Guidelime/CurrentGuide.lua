@@ -914,7 +914,7 @@ local function updateStepActivation(i, changedIndexes)
 	if step.active ~= step.wasActive then changedIndexes[i] = true end
 end
 
-local function updateStepsCompletionAndActivation(changedIndexes)
+local function updateStepsCompletionAndActivation(completedIndexes)
 	--if addon.debugging then print("LIME: update steps completion") end
 	CG.currentGuide.unavailableQuests = {}
 
@@ -931,21 +931,22 @@ local function updateStepsCompletionAndActivation(changedIndexes)
 	local MAX_COMPLETION_PASSES = D.isHardcore() and 4 or nil
 	local stable = false
 	local playerIsAlive = D.isAlive()
+	local activatedIndexes = {}
 
 	repeat
 		pass = pass + 1
-		local numNew = #changedIndexes
+		local numNew = #completedIndexes + #activatedIndexes
 		local scheduled = {ACCEPT = {}, COMPLETE = {}, TURNIN = {}, SKIP = {}}
 		local activePrev = {}
 		
 		for i, step in ipairs(CG.currentGuide.steps) do
 			if not step.skip then
-				updateStepCompletion(i, changedIndexes, playerIsAlive)
-				updateStepAvailability(i, changedIndexes, scheduled)
-				updateStepActivation(i, changedIndexes)
+				updateStepCompletion(i, completedIndexes, playerIsAlive)
+				updateStepAvailability(i, completedIndexes, scheduled)
+				updateStepActivation(i, activatedIndexes)
 			end
 		end
-		stable = (numNew == #changedIndexes)
+		stable = (numNew == #completedIndexes + #activatedIndexes)
 	until stable or (MAX_COMPLETION_PASSES ~= nil and pass >= MAX_COMPLETION_PASSES)
 
 	if addon.debugging and not stable and MAX_COMPLETION_PASSES ~= nil then
@@ -954,8 +955,7 @@ local function updateStepsCompletionAndActivation(changedIndexes)
 		print("LIME: updateStepsCompletionAndActivation " .. pass .. " passes")
 	end
 
-	-- Updating WoW UI widgets inside every convergence pass is unnecessarily
-	-- expensive. Apply the final state only once after the calculations finish.
+	-- Apply the final state to UI widgets only once after the last convergence pass is finished.
 	if MW.mainFrame.steps ~= nil then
 		for i, step in ipairs(CG.currentGuide.steps) do
 			local frame = MW.mainFrame.steps[i]
@@ -965,7 +965,7 @@ local function updateStepsCompletionAndActivation(changedIndexes)
 			end
 		end
 	end
-
+	
 	--if addon.debugging then print("LIME: changed", #changedIndexes) end
 end
 
@@ -1174,7 +1174,7 @@ function CG.updateSteps(completedIndexes)
 	--if addon.debugging then print("LIME: updateStepsCompletionAndActivation " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	CG.updateStepsActivation()
 	--if addon.debugging then print("LIME: updateStepsActivation " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
-	--fadeoutStep(completedIndexes)
+	fadeoutStep(completedIndexes)
 	--if addon.debugging then print("LIME: fadeoutStep " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	local scrollToFirstActive = updateFirstActiveIndex()
 	--if addon.debugging then print("LIME: updateFirstActiveIndex " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
