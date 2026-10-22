@@ -246,6 +246,7 @@ function M.showMapIcons()
 	end
 	if M.arrowFrame == nil then
 		M.arrowFrame = CreateFrame("FRAME", nil, UIParent)
+		_G["GuidelimeArrow"] = M.arrowFrame
 		M.arrowFrame:SetPoint(GuidelimeDataChar.arrowRelative, UIParent, GuidelimeDataChar.arrowRelative, GuidelimeDataChar.arrowX, GuidelimeDataChar.arrowY)
 	    M.arrowFrame.texture = M.arrowFrame:CreateTexture(nil, "OVERLAY")
 	    M.setArrowTexture(true)

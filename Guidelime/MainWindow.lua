@@ -626,6 +626,7 @@ function MW.showMainFrame()
 	if MW.mainFrame == nil then
 		if addon.debugging then print("LIME: initializing main frame") end
 		MW.mainFrame = CreateFrame("FRAME", nil, UIParent)
+		_G["GuidelimeWindow"] = MW.mainFrame
 		MW.mainFrame:SetWidth(GuidelimeDataChar.mainFrameWidth)
 		MW.mainFrame:SetHeight(GuidelimeDataChar.mainFrameHeight)
 		MW.mainFrame:SetPoint(GuidelimeDataChar.mainFrameRelative, UIParent, GuidelimeDataChar.mainFrameRelative, GuidelimeDataChar.mainFrameX, GuidelimeDataChar.mainFrameY)
