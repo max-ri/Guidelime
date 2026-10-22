@@ -24,6 +24,54 @@ addon.CG = addon.CG or {}; local CG = addon.CG -- CurrentGuide
 CG.DEFAULT_GOTO_RADIUS = 6
 CG.GOTO_HYSTERESIS_FACTOR = 2
 
+local function matchUpdatedGuide(progress, isNotes)
+	if progress == nil then return end
+	local guideProgress = progress[CG.currentGuide.name]
+	if guideProgress == nil then return end
+	local matchedProgress = {}
+	local count = 0
+	for line, p in pairs(guideProgress) do
+		local found
+		for _, step in ipairs(CG.currentGuide.steps) do
+			if p.stepText == step.text then
+				found = true
+				matchedProgress[step.line] = p
+			end
+		end
+		if not found then
+			count = count + 1
+			if addon.debugging then	print("LIME: matchUpdatedGuide no match found for", 
+				isNotes and ("note '" .. p.text .. "' for '") or "progress of '", 
+				line, p.stepText, "' in modified guide '", CG.currentGuide.name, "'") end
+		end
+	end
+	if addon.debugging then	print("LIME: matchUpdatedGuide dropped", count, isNotes and "notes" or "completed steps", "for modified guide '", CG.currentGuide.name, "'") end
+	progress[CG.currentGuide.name] = matchedProgress
+end
+
+local function migrateOldProgressData()
+	-- move GuidelimeDataChar.completedSteps and GuidelimeDataChar.guideSkip into GuidelimeDataChar.progress
+	if GuidelimeDataChar.completedSteps then
+		for i, completed in pairs(GuidelimeDataChar.completedSteps) do
+			local step = CG.currentGuide.steps[i]
+			if GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.line] == nil then GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.line] = {stepText = step.text} end
+			GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.line].completed = completed
+		end
+		if addon.debugging then print("LIME: migrateOldProgressData migrated completedSteps", #GuidelimeDataChar.completedSteps) end
+		GuidelimeDataChar.completedSteps = nil
+	end
+	if GuidelimeDataChar.guideSkip and GuidelimeDataChar.guideSkip[CG.currentGuide.name] then
+		for i, skip in pairs(GuidelimeDataChar.guideSkip[CG.currentGuide.name]) do
+			local step = CG.currentGuide.steps[i]
+			if GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.line] == nil then GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.line] = {stepText = step.text} end
+			GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.line].skip = skip
+		end
+		if addon.debugging then print("LIME: migrateOldProgressData migrated guideSkip", CG.currentGuide.name, #GuidelimeDataChar.guideSkip[CG.currentGuide.name]) end
+		GuidelimeDataChar.guideSkip[CG.currentGuide.name] = nil
+		if #GuidelimeDataChar.guideSkip == 0 then GuidelimeDataChar.guideSkip = nil end
+	end
+end
+
 function CG.loadCurrentGuide(reset)
 
 	local guide = addon.guides[GuidelimeDataChar.currentGuide]
@@ -56,7 +104,7 @@ function CG.loadCurrentGuide(reset)
 	guide = GP.parseGuide(guide, guide.group)
 	if guide == nil then return end
 	addon.guides[GuidelimeDataChar.currentGuide] = guide
-	if guide.unknownQuests > 0 and D.flavor ~= 'CLASSIC' and addon.dataSource == "DB" then
+	if guide.unknownQuests > 0 and D.flavor ~= "CLASSIC" and addon.dataSource == "DB" then
 		if D.flavor == "TBC" then
 			CG.currentGuide.steps = {{elements = {{text = 
 				(addon.QUESTIE.isDataSourceInstalled() or addon.CLASSIC_CODEX.isDataSourceInstalled()) and L.ERROR_TBC_DATA_SOURCE or L.ERROR_TBC_DATA_SOURCE_INSTALL
@@ -66,19 +114,6 @@ function CG.loadCurrentGuide(reset)
 		end
 		CG.currentGuide.next = nil
 		return
-	end
-
-	if GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide] == nil then
-		GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide] = {}
-	elseif reset then
-		for _, p in pairs(GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide]) do
-			p.completed = nil
-		end
-	end
-	if GuidelimeDataChar.guideSize[GuidelimeDataChar.currentGuide] ~= #guide.steps then
-		if addon.debugging then print("LIME: guide \"" .. CG.currentGuide.name .. "\" was changed! Resetting progress.") end
-		GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide] = {}
-		GuidelimeDataChar.guideSize[GuidelimeDataChar.currentGuide] = #guide.steps
 	end
 
 	local time
@@ -207,13 +242,32 @@ function CG.loadCurrentGuide(reset)
 			if step.manual == nil then step.manual = true end
 			if step.completeWithNext == nil then step.completeWithNext = false end
 			if step.optional == nil then step.optional = false end
-			step.skip = GuidelimeDataChar.progress[CG.currentGuide.name][step.index] and (GuidelimeDataChar.progress[CG.currentGuide.name][step.index].skip or GuidelimeDataChar.progress[CG.currentGuide.name][step.index].completed) or false
 			step.active = false
 			step.wasActive = false
 			step.completed = false
 			step.available = true
 		end
 	end
+
+	if GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide] == nil then
+		GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide] = {}
+	elseif reset then
+		for _, p in pairs(GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide]) do
+			p.completed = nil
+		end
+	end
+	if GuidelimeDataChar.guideSize[GuidelimeDataChar.currentGuide] ~= #guide.steps then
+		if addon.debugging then print("LIME: guide \"" .. CG.currentGuide.name .. "\" was changed! Rematching progress.") end
+		matchUpdatedGuide(GuidelimeDataChar.progress, false)
+		matchUpdatedGuide(GuidelimeData.notes, true)
+		GuidelimeDataChar.guideSize[GuidelimeDataChar.currentGuide] = #guide.steps
+	elseif GuidelimeDataChar.completedSteps or (GuidelimeDataChar.guideSkip and GuidelimeDataChar.guideSkip[CG.currentGuide.name]) then
+		migrateOldProgressData()
+	end
+	for _, step in ipairs(CG.currentGuide.steps) do
+		step.skip = GuidelimeDataChar.progress[CG.currentGuide.name][step.line] and (GuidelimeDataChar.progress[CG.currentGuide.name][step.line].skip or GuidelimeDataChar.progress[CG.currentGuide.name][step.line].completed) or false
+	end
+
 	if addon.debugging then print("LIME: loadCurrentGuide " .. math.floor(debugprofilestop() - time) .. " ms") end
 
 	CC.parseCustomLuaCode()
@@ -843,8 +897,8 @@ local function updateStepCompletion(i, completedIndexes, playerIsAlive)
 
 	if step.completed ~= wasCompleted and not completedIndexes[i] then
 		if not autoCompleteStep then
-			if not GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][i] then GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][i] = {} end
-			GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][i].completed = step.completed
+			if not GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.line] then GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.line] = {stepText = step.text} end
+			GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.line].completed = step.completed
 		end
 		completedIndexes[i] = true
 	end
@@ -1212,9 +1266,9 @@ function CG.setStepSkip(value, a, b)
 	for i = a, b do
 		local step = CG.currentGuide.steps[i]
 		step.skip = value
-		if not GuidelimeDataChar.progress[CG.currentGuide.name][i] then GuidelimeDataChar.progress[CG.currentGuide.name][i] = {} end
-		GuidelimeDataChar.progress[CG.currentGuide.name][i].skip = step.skip
-		GuidelimeDataChar.progress[CG.currentGuide.name][i].completed = GuidelimeDataChar.progress[CG.currentGuide.name][i].completed and value
+		if not GuidelimeDataChar.progress[CG.currentGuide.name][step.line] then GuidelimeDataChar.progress[CG.currentGuide.name][step.line] = {stepText = step.text} end
+		GuidelimeDataChar.progress[CG.currentGuide.name][step.line].skip = step.skip
+		GuidelimeDataChar.progress[CG.currentGuide.name][step.line].completed = GuidelimeDataChar.progress[CG.currentGuide.name][step.line].completed and value
 		indexes[i] = true
 	end
 	if not value and not GuidelimeDataChar.showUnavailableSteps then
@@ -1274,8 +1328,8 @@ function CG.completeSemiAutomatic(element)
 			end
 		end
 	end
-	if not GuidelimeDataChar.progress[CG.currentGuide.name][step.index] then GuidelimeDataChar.progress[CG.currentGuide.name][step.index] = {} end
-	GuidelimeDataChar.progress[CG.currentGuide.name][step.index].completed = true
+	if not GuidelimeDataChar.progress[CG.currentGuide.name][step.line] then GuidelimeDataChar.progress[CG.currentGuide.name][step.line] = {stepText = step.text} end
+	GuidelimeDataChar.progress[CG.currentGuide.name][step.line].completed = true
 	step.skip = true
 	CG.updateSteps({step.index})
 end

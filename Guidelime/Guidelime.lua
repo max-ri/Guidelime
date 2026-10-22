@@ -215,35 +215,10 @@ function addon.loadData()
 
 	GuidelimeDataChar.version:gsub("(%d+).(%d+)", function(major, minor)
 		if GuidelimeData.debugging then print("LIME: last saved character data version", major, minor) end
-		if tonumber(major) < 6 or (tonumber(major) == 6 and tonumber(minor) < 9) then
-			-- moved GuidelimeDataChar.completedSteps and GuidelimeDataChar.guideSkip into GuidelimeDataChar.progress
-			if GuidelimeDataChar.completedSteps then
-				if GuidelimeDataChar.currentGuide then
-					if GuidelimeDataChar.progress == nil then GuidelimeDataChar.progress = {} end
-					if GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide] == nil then GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide] = {} end
-					for i, completed in pairs(GuidelimeDataChar.completedSteps) do
-						if GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][i] == nil then GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][i] = {} end
-						GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][i].completed = completed
-					end
-				end
-				GuidelimeDataChar.completedSteps = nil
-			end
-			if GuidelimeDataChar.guideSkip then
-				if GuidelimeDataChar.progress == nil then GuidelimeDataChar.progress = {} end
-				for guide, skippedSteps in pairs(GuidelimeDataChar.guideSkip) do
-					if GuidelimeDataChar.progress[guide] == nil then GuidelimeDataChar.progress[guide] = {} end
-					for i, skip in pairs(skippedSteps) do
-						if GuidelimeDataChar.progress[guide][i] == nil then GuidelimeDataChar.progress[guide][i] = {} end
-						GuidelimeDataChar.progress[guide][i].skip = skip
-					end
-				end
-				GuidelimeDataChar.guideSkip = nil
-			end
-			GuidelimeDataChar.version = GetAddOnMetadata and GetAddOnMetadata(addonName, "version") or C_AddOns.GetAddOnMetadata(addonName, "version")
-		end
 		if tonumber(major) < 1 or (tonumber(major) == 1 and tonumber(minor) < 2) then
 			--changed default value for showUnavailableSteps
 			GuidelimeDataChar.showUnavailableSteps = true
+			GuidelimeDataChar.version = GetAddOnMetadata and GetAddOnMetadata(addonName, "version") or C_AddOns.GetAddOnMetadata(addonName, "version")
 		end
 		if tonumber(major) == 0 and tonumber(minor) < 41 then
 			GuidelimeDataChar.autoCompleteQuest = nil
