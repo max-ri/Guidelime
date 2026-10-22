@@ -91,7 +91,7 @@ function AB.createTargetButton(i)
 end
 
 local function getTargetMacro(t)
-	return (t.marker and "/target PLAYER\n/tm ".. t.marker .. "\n/tm 0\n/cleartarget\n" or "") ..
+	return (t.marker and "/tar PLAYER\n/tm ".. t.marker .. "\n/tm 0\n/cleartarget\n" or "") ..
 		"/targetexact " .. t.name .. (t.marker and "\n/tm ".. t.marker or "")
 end
 
@@ -100,7 +100,7 @@ local function getTargetMacroMulti(targets)
 	for i, t in ipairs(targets) do
 		if t.marker then markers = (markers or "") .. "/tm " .. t.marker .. "\n" end
 	end
-	local macro = (markers and "/target PLAYER\n" .. markers .. "/tm 0\n" or "") .. "/cleartarget\n"
+	local macro = (markers and "/tar PLAYER\n" .. markers .. "/tm 0\n" or "") .. "/cleartarget\n"
 	for i, t in ipairs(targets) do
 		local m = (i > 1 and "\n" or "") .. "/targetexact " .. t.name .. (t.marker and "\n/tm ".. t.marker or "")
 		if #macro + #m > 255 then
