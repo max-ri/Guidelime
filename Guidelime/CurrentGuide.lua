@@ -57,7 +57,7 @@ local function migrateOldProgressData()
 			if GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.line] == nil then GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.line] = {stepText = step.text} end
 			GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.line].completed = completed
 		end
-		if addon.debugging then print("LIME: migrateOldProgressData migrated completedSteps", #GuidelimeDataChar.completedSteps) end
+		if addon.debugging then print("LIME: migrateOldProgressData migrated completedSteps", D.length(GuidelimeDataChar.completedSteps)) end
 		GuidelimeDataChar.completedSteps = nil
 	end
 	if GuidelimeDataChar.guideSkip and GuidelimeDataChar.guideSkip[CG.currentGuide.name] then
@@ -66,9 +66,9 @@ local function migrateOldProgressData()
 			if GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.line] == nil then GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.line] = {stepText = step.text} end
 			GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.line].skip = skip
 		end
-		if addon.debugging then print("LIME: migrateOldProgressData migrated guideSkip", CG.currentGuide.name, #GuidelimeDataChar.guideSkip[CG.currentGuide.name]) end
+		if addon.debugging then print("LIME: migrateOldProgressData migrated guideSkip", CG.currentGuide.name, D.length(GuidelimeDataChar.guideSkip[CG.currentGuide.name])) end
 		GuidelimeDataChar.guideSkip[CG.currentGuide.name] = nil
-		if #GuidelimeDataChar.guideSkip == 0 then GuidelimeDataChar.guideSkip = nil end
+		if GuidelimeDataChar.guideSkip == {} then GuidelimeDataChar.guideSkip = nil end
 	end
 end
 
@@ -993,7 +993,7 @@ local function updateStepsCompletionAndActivation(completedIndexes)
 
 	repeat
 		pass = pass + 1
-		local numNew = #completedIndexes + #activatedIndexes
+		local numNew = D.length(completedIndexes) + D.length(activatedIndexes)
 		local scheduled = {ACCEPT = {}, COMPLETE = {}, TURNIN = {}, SKIP = {}}
 		local activePrev = {}
 		
@@ -1004,7 +1004,7 @@ local function updateStepsCompletionAndActivation(completedIndexes)
 				updateStepActivation(i, activatedIndexes)
 			end
 		end
-		stable = (numNew == #completedIndexes + #activatedIndexes)
+		stable = (numNew == D.length(completedIndexes) + D.length(activatedIndexes))
 	until stable or (MAX_COMPLETION_PASSES ~= nil and pass >= MAX_COMPLETION_PASSES)
 
 	if addon.debugging and not stable and MAX_COMPLETION_PASSES ~= nil then

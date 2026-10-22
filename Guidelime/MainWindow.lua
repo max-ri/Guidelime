@@ -78,8 +78,8 @@ local function saveStepNote(text, step)
 	if GuidelimeData.notes[step.guide.name] == nil then GuidelimeData.notes[step.guide.name] = {} end
 	if text == nil or text == "" then
 		GuidelimeData.notes[step.guide.name][step.line] = nil
-		if #GuidelimeData.notes[step.guide.name] == 0 then GuidelimeData.notes[step.guide.name] = nil end
-		if #GuidelimeData.notes == 0 then GuidelimeData.notes = nil end
+		if GuidelimeData.notes[step.guide.name] == {} then GuidelimeData.notes[step.guide.name] = nil end
+		if GuidelimeData.notes == {} then GuidelimeData.notes = nil end
 	else
 		GuidelimeData.notes[step.guide.name][step.line] = {text = text, stepText = step.text, stepDisplay = CG.getStepText(step)}
 	end

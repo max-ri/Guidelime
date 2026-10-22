@@ -305,6 +305,14 @@ function D.containsKey(table, value)
 	return false
 end
 
+function D.length(table)
+	local count = 0
+	for _ in pairs(table) do
+		count = count + 1
+	end
+	return count
+end
+
 function D.applies(guide)
 	if guide == nil then return false end
 	if guide.races ~= nil then
