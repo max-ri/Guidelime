@@ -56,10 +56,14 @@ function CG.loadCurrentGuide(reset)
 	guide = GP.parseGuide(guide, guide.group)
 	if guide == nil then return end
 	addon.guides[GuidelimeDataChar.currentGuide] = guide
-	if guide.unknownQuests > 0 and select(4, GetBuildInfo()) >= 20000 and addon.dataSource == "DB" then
-		CG.currentGuide.steps = {{elements = {{text = 
-			(addon.QUESTIE.isDataSourceInstalled() or addon.CLASSIC_CODEX.isDataSourceInstalled()) and L.ERROR_TBC_DATA_SOURCE or L.ERROR_TBC_DATA_SOURCE_INSTALL
-		}}}}
+	if guide.unknownQuests > 0 and D.flavor ~= 'CLASSIC' and addon.dataSource == "DB" then
+		if D.flavor == "TBC" then
+			CG.currentGuide.steps = {{elements = {{text = 
+				(addon.QUESTIE.isDataSourceInstalled() or addon.CLASSIC_CODEX.isDataSourceInstalled()) and L.ERROR_TBC_DATA_SOURCE or L.ERROR_TBC_DATA_SOURCE_INSTALL
+			}}}}
+		else
+			CG.currentGuide.steps = {{elements = {{text = (addon.QUESTIE.isDataSourceInstalled()) and L.ERROR_DATA_SOURCE or L.ERROR_DATA_SOURCE_INSTALL}}}}
+		end
 		CG.currentGuide.next = nil
 		return
 	end
