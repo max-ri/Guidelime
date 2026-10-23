@@ -1001,7 +1001,6 @@ local function updateStepsCompletionAndActivation(completedIndexes)
 			if not step.skip then
 				updateStepCompletion(i, completedIndexes, playerIsAlive)
 				updateStepAvailability(i, completedIndexes, scheduled)
-				updateStepActivation(i, activatedIndexes)
 			end
 			updateStepActivation(i, activatedIndexes)
 		end
