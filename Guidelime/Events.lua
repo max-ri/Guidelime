@@ -724,11 +724,33 @@ function EV.frame:UNIT_SPELLCAST_SUCCEEDED(unitTarget, castGUID, spellID)
 			local id
 			if element.spellId and GetSpellInfo(element.spellId) then id = element.spellId end
 			if id == nil then id = SP.getSpellId(element.spell) end
-			if id == spellID then 
-				CG.completeSemiAutomatic(element) 
+			if id == spellID then
+				if id == 1515 then
+					-- delay completion of 'Tame Beast' until the UNIT_PET event is received
+					EV.tameBeastWasCast = true
+				else
+					CG.completeSemiAutomatic(element) 
+				end
 			end
 		end
 	end)
+end
+
+EV.frame:RegisterEvent('UNIT_PET')
+function EV.frame:UNIT_PET(unit)
+	if EV.tameBeastWasCast and unit == "player" and UnitExists("pet") then
+		EV.tameBeastWasCast = false
+		CG.forEveryActiveElement(function(element)
+			if element.t == "SPELL" then
+				local id
+				if element.spellId and GetSpellInfo(element.spellId) then id = element.spellId end
+				if id == nil then id = SP.getSpellId(element.spell) end
+				if id == 1515 then
+					CG.completeSemiAutomatic(element) 
+				end
+			end
+		end)
+	end
 end
 
 EV.frame:RegisterEvent('LEARNED_SPELL_IN_SKILL_LINE')
