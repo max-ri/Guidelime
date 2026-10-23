@@ -68,7 +68,7 @@ local function migrateOldProgressData()
 		end
 		if addon.debugging then print("LIME: migrateOldProgressData migrated guideSkip", CG.currentGuide.name, D.length(GuidelimeDataChar.guideSkip[CG.currentGuide.name])) end
 		GuidelimeDataChar.guideSkip[CG.currentGuide.name] = nil
-		if GuidelimeDataChar.guideSkip == {} then GuidelimeDataChar.guideSkip = nil end
+		if next(GuidelimeDataChar.guideSkip) == nil then GuidelimeDataChar.guideSkip = nil end
 	end
 end
 
@@ -1003,6 +1003,7 @@ local function updateStepsCompletionAndActivation(completedIndexes)
 				updateStepAvailability(i, completedIndexes, scheduled)
 				updateStepActivation(i, activatedIndexes)
 			end
+			updateStepActivation(i, activatedIndexes)
 		end
 		stable = (numNew == D.length(completedIndexes) + D.length(activatedIndexes))
 	until stable or (MAX_COMPLETION_PASSES ~= nil and pass >= MAX_COMPLETION_PASSES)
