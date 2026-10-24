@@ -54,8 +54,10 @@ local function migrateOldProgressData()
 	if GuidelimeDataChar.completedSteps then
 		for i, completed in pairs(GuidelimeDataChar.completedSteps) do
 			local step = CG.currentGuide.steps[i]
-			if GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.line] == nil then GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.line] = {stepText = step.text} end
-			GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.line].completed = completed
+			if step then
+				if GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.line] == nil then GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.line] = {stepText = step.text} end
+				GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.line].completed = completed
+			end
 		end
 		if addon.debugging then print("LIME: migrateOldProgressData migrated completedSteps", D.length(GuidelimeDataChar.completedSteps)) end
 		GuidelimeDataChar.completedSteps = nil
@@ -63,8 +65,10 @@ local function migrateOldProgressData()
 	if GuidelimeDataChar.guideSkip and GuidelimeDataChar.guideSkip[CG.currentGuide.name] then
 		for i, skip in pairs(GuidelimeDataChar.guideSkip[CG.currentGuide.name]) do
 			local step = CG.currentGuide.steps[i]
-			if GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.line] == nil then GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.line] = {stepText = step.text} end
-			GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.line].skip = skip
+			if step then
+				if GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.line] == nil then GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.line] = {stepText = step.text} end
+				GuidelimeDataChar.progress[GuidelimeDataChar.currentGuide][step.line].skip = skip
+			end
 		end
 		if addon.debugging then print("LIME: migrateOldProgressData migrated guideSkip", CG.currentGuide.name, D.length(GuidelimeDataChar.guideSkip[CG.currentGuide.name])) end
 		GuidelimeDataChar.guideSkip[CG.currentGuide.name] = nil
@@ -88,6 +92,8 @@ function CG.loadCurrentGuide(reset)
 			print("LIME: guide \"" .. (GuidelimeDataChar.currentGuide or "") .. "\" not found")
 		end
 		GuidelimeDataChar.currentGuide = nil
+		-- GuidelimeDataChar.completedSteps is deprecated; still delete it here after guide switch in order to prevent trying to migrate data from previous guide to new format
+		GuidelimeDataChar.completedSteps = nil
 		CG.currentGuide = {steps = {}}
 		QS.resetScannedQuests()
 		return
