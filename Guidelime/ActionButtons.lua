@@ -68,7 +68,9 @@ local function onUpdateButton(self, elapsed)
     local start, duration, enable, inRange
 	if self.spell then
     	start, duration, enable = GetSpellCooldown(self.spell)
-		inRange = not InCombatLockdown() and UnitExists("target") and C_Spell.IsSpellInRange(self.spell, "target")
+		if C_Spell.SpellHasRange(self.spell) then
+			inRange = UnitExists("target") and C_Spell.IsSpellInRange(self.spell, "target")
+		end
 	elseif self.useItemId then
     	start, duration, enable = QT.GetItemCooldown(self.useItemId)
 		if C_Item.ItemHasRange(self.useItemId) then
