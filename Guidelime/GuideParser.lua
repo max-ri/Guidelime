@@ -343,6 +343,8 @@ function GP.parseLine(step, guide, strict, nameOnly)
 				end
 			end)
 		elseif GP.getSuperCode(element.t) == "QUEST" then
+			-- if it is already determined that this step is not relevant it can be skipped for performance; also querying Questie possible generates error when quests are from another flavor
+			if not D.applies(step) then return end
 			if element.t == "PICKUP" then
 				element.t = "ACCEPT"
 			elseif element.t == "WORK" then
@@ -586,6 +588,8 @@ function GP.parseLine(step, guide, strict, nameOnly)
 				err = true
 			end
 		elseif element.t == "REPUTATION" then
+			-- if it is already determined that this step is not relevant it can be skipped for performance
+			if not D.applies(step) then return end
 			local _, c = tag:gsub("([^%d%-<>]+)%s*([<>]?)%s*(%-?%d*)%s*(.*)", function(c, less, value, text)
 				if D.isReputation(c) then
 					element.reputation = D.getReputation(c)
@@ -615,6 +619,8 @@ function GP.parseLine(step, guide, strict, nameOnly)
 				err = true
 			end
 		elseif element.t == "LEARN" then
+			-- if it is already determined that this step is not relevant it can be skipped for performance
+			if not D.applies(step) then return end
 			local _, c = tag:gsub("([^,%d%-]+)%s*(%d*)%s*(%d*)%s*(.*)", function(c, value1, value2, text)
 				--if addon.debugging then print("LIME: LEARN", c, value1, value2, text) end
 				c = c:upper():gsub(" ","")
@@ -675,6 +681,8 @@ function GP.parseLine(step, guide, strict, nameOnly)
 				err = true
 			end
 		elseif element.t == "SKILL" then
+			-- if it is already determined that this step is not relevant it can be skipped for performance
+			if not D.applies(step) then return end
 			local _, c = tag:gsub("([^,%d%-]+)%s*(%d*)%s*(.*)", function(c, value, text)
 				--if addon.debugging then print("LIME: SKILL", c, value, text) end
 				c = c:upper():gsub(" ","")
@@ -716,6 +724,8 @@ function GP.parseLine(step, guide, strict, nameOnly)
 				step.optional = true
 			end
 		elseif element.t == "FLY" or element.t == "GET_FLIGHT_POINT" then
+			-- if it is already determined that this step is not relevant it can be skipped for performance
+			if not D.applies(step) then return end
 			if tag:gsub(" ", "") ~= "" then
 				element.text, element.textInactive = textFormatting(tag)
 				element.flightmaster = FM.getFlightmasterByPlace(tag, step.faction or guide.faction or D.faction)
@@ -746,6 +756,8 @@ function GP.parseLine(step, guide, strict, nameOnly)
 				err = true
 			end
 		elseif element.t == "USE_ITEM" then
+			-- if it is already determined that this step is not relevant it can be skipped for performance
+			if not D.applies(step) then return end
 			local _, c = tag:gsub("%s*(%d+)%s*,?%s*(%d*)%s*(.-)%s*$", function(id, targetId, title)	
 				if id ~= "" then
 					element.useItemId = tonumber(id)
@@ -765,6 +777,8 @@ function GP.parseLine(step, guide, strict, nameOnly)
 				err = true
 			end
 		elseif element.t == "TARGET" then
+			-- if it is already determined that this step is not relevant it can be skipped for performance
+			if not D.applies(step) then return end
 			local _, c = tag:gsub("%s*(%d+)%s*(.-)%s*$", function(id, title)	
 				if id ~= "" then
 					element.targetNpcId = tonumber(id)
@@ -783,6 +797,8 @@ function GP.parseLine(step, guide, strict, nameOnly)
 				err = true
 			end
 		elseif element.t == "SPELL" then
+			-- if it is already determined that this step is not relevant it can be skipped for performance
+			if not D.applies(step) then return end
 			local _, c = tag:gsub("%s*([%w%d]+)%s*,?%s*(%d*)%s*(.-)%s*$", function(spell, targetId, title)	
 				element.spellId = tonumber(spell)
 				element.spell = element.spellId and SP.getSpellById(element.spellId) or SP.getSpell(spell)
