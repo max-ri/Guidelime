@@ -697,7 +697,7 @@ EV.frame:RegisterEvent('UI_INFO_MESSAGE')
 function EV.frame:UI_INFO_MESSAGE(errorType, message)
 	if message == ERR_NEWTAXIPATH then
 		if addon.debugging then print("LIME: ERR_NEWTAXIPATH", EV.gossipNpc) end
-		EV.recordStep("[P][TAR" .. EV.gossipNpc .. EV.gossipNpcName .. "]", true)
+		EV.recordStep("[P][TAR" .. EV.gossipNpc .. (EV.gossipNpcName or "") .. "]", true)
 		CG.completeSemiAutomaticByType("GET_FLIGHT_POINT")
 	end
 end
@@ -867,16 +867,6 @@ EV.frame:RegisterEvent('UPDATE_BINDINGS')
 function EV.frame:UPDATE_BINDINGS()
 	AB.updateTargetButtons()
 	AB.updateUseItemButtons()
-end
-
-EV.frame:RegisterEvent('BAG_UPDATE_COOLDOWN')
-function EV.frame:BAG_UPDATE_COOLDOWN()
-	if not MW.mainFrame or not MW.mainFrame.useButtons then return end
-	for _, button in ipairs(MW.mainFrame.useButtons) do
-		if button:IsShown() then
-			button:Update()
-		end
-	end
 end
 
 EV.frame:RegisterEvent('PLAYER_LOGOUT')

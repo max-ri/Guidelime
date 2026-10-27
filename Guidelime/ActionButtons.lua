@@ -13,6 +13,8 @@ addon.QT = addon.QT or {}; local QT = addon.QT -- Data/QuestTools
 
 addon.AB = addon.AB or {}; local AB = addon.AB -- ActionButtons
 
+local CD_RANGE_CHECK_INTERVAL = 0.2
+
 -- for key bindings
 _G["BINDING_NAME_GUIDELIME_TARGET_1"] = L.TARGET_1
 _G["BINDING_NAME_GUIDELIME_USE_ITEM_1"] = string.format(L.USE_ITEM_X, 1)
@@ -59,6 +61,35 @@ function AB.showTargetButtonPortrait(button)
 	button.texture:Hide()
 end
 
+local function onUpdateButton(self, elapsed)
+	self.timer = self.timer + elapsed
+	if self.timer < CD_RANGE_CHECK_INTERVAL then return end
+	self.timer = 0		
+    local start, duration, enable, inRange
+	if self.spell then
+    	start, duration, enable = GetSpellCooldown(self.spell)
+		inRange = not InCombatLockdown() and UnitExists("target") and C_Spell.IsSpellInRange(self.spell, "target")
+	elseif self.useItemId then
+    	start, duration, enable = QT.GetItemCooldown(self.useItemId)
+		if C_Item.ItemHasRange(self.useItemId) then
+			inRange = not InCombatLockdown() and UnitExists("target") and C_Item.IsItemInRange(self.useItemId, "target")
+		end
+	end
+    if enable == 1 and duration > 0 then
+        self.cooldown:Show()
+        self.cooldown:SetCooldown(start, duration)
+    else
+        self.cooldown:Hide()
+    end
+	if inRange == false then
+    	self.hotkey:SetVertexColor(1, 0.1, 0.1) 
+	elseif inRange == true then
+    	self.hotkey:SetVertexColor(0.8, 0.8, 0.8)
+	else
+    	self.hotkey:SetVertexColor(0.8, 0.8, 0.8)
+	end			
+end
+
 function AB.createTargetButton(i)
 	local button = MW.mainFrame.targetButtons[i]
 	if not button then
@@ -82,8 +113,13 @@ function AB.createTargetButton(i)
 		button.hotkey:SetSize(32, 10)
 		button.hotkey:SetPoint("TOPRIGHT", button, 0, -1)
 		button.hotkey:SetJustifyH("RIGHT")
+		button.cooldown = CreateFrame("Cooldown", nil, button, "CooldownFrameTemplate")
+        button.cooldown:SetSize(32, 32)
+        button.cooldown:SetPoint("CENTER", button, "CENTER", 0, 0)
 		button:RegisterForClicks("AnyUp", "AnyDown")
 		button:SetMouseClickEnabled(true)
+		button.timer = 0
+		button:HookScript("OnUpdate", onUpdateButton)
 		MW.mainFrame.targetButtons[i] = button
 	end
 	button:ClearAllPoints()
@@ -168,9 +204,8 @@ local function keyBindButton(button, bindingName, buttonName, functionName)
 		SetOverrideBindingClick(button, true, key, buttonName)
 		if addon.debugging then print("LIME: binding " .. key .. " to " .. functionName) end
 		GuidelimeData.keyBound = true
-		button.hotkey:Show()
 	else
-		button.hotkey:Hide()
+		button.hotkey:SetText((button.spell or button.useItemId) and "•" or "")
 	end
 end
 
@@ -198,7 +233,7 @@ function AB.updateTargetButtons()
 				elseif element.t == "USE_ITEM" and element.targetNpcId and element.useItemId > 0 and
 					not (step.useItemElement and element.generated) and not (element.attached and element.attached.completed) then
 					hasButton = true
-				elseif element.t == "SPELL" and (element.spell or element.spellId) and not element.completed and element.targetNpcId then
+				elseif element.t == "SPELL" and (element.spell or element.spellId) and element.targetNpcId then
 					hasButton = true
 				end
 				if hasButton then
@@ -226,12 +261,14 @@ function AB.updateTargetButtons()
 							t = {name = name, index = #targets + 1, marker = marker, npcId = element.targetNpcId}
 							table.insert(targets, t)
 						end
-						if element.useItemId then t.useItemId = element.useItemId end
+						t.useItemId = element.useItemId
 						if element.spell or element.spellId then 
 							local id
 							if element.spellId and GetSpellInfo(element.spellId) then id = element.spellId end
 							if id == nil then id = SP.getSpellId(element.spell) end
 							t.spell = GetSpellInfo(id)
+						else
+							t.spell = nil
 						end
 					end
 				end
@@ -339,20 +376,8 @@ function AB.createUseItemButton(i)
 		button.count:SetJustifyH("RIGHT")
 		button:RegisterForClicks("AnyUp", "AnyDown")
 		button:SetMouseClickEnabled(true)
-		button.Update = function(self)
-            local start, duration, enable
-			if self.spellId then
-            	start, duration, enable = GetSpellCooldown(self.spellId)
-			else
-            	start, duration, enable = QT.GetItemCooldown(self.itemId)
-			end
-            if enable == 1 and duration > 0 then
-                self.cooldown:Show()
-                self.cooldown:SetCooldown(start, duration)
-            else
-                self.cooldown:Hide()
-            end
-		end
+		button.timer = 0
+		button:HookScript("OnUpdate", onUpdateButton)
 		MW.mainFrame.useButtons[i] = button
 	end
 	button.spellId = nil
@@ -388,27 +413,27 @@ function AB.updateUseItemButtons()
 					button:SetPoint("TOP" .. GuidelimeDataChar.showUseItemButtons, MW.mainFrame, "TOP" .. GuidelimeDataChar.showUseItemButtons, 
 						GuidelimeDataChar.showUseItemButtons == "LEFT" and -36 or (GuidelimeDataChar.mainFrameShowScrollBar and 60 or 37), 
 						39 - i * 41 - startPos)
-					button.itemId = element.useItemId
-					button.texture:SetTexture(GetItemIcon(button.itemId))
-					local name = EV.GetItemInfo(button.itemId)
+					button.useItemId = element.useItemId
+					button.spell = nil
+					button.texture:SetTexture(GetItemIcon(button.useItemId))
+					local name = EV.GetItemInfo(button.useItemId)
 					if name then
 						button:SetAttribute("type", "item")
 						button:SetAttribute("item", name)
-						--F.setTooltip(button, name .. "\n" .. (QT.getUseItemTooltip(button.itemId) or ""))
-						F.setTooltip(button, "item:" .. button.itemId, function(self, s) 
+						--F.setTooltip(button, name .. "\n" .. (QT.getUseItemTooltip(button.useItemId) or ""))
+						F.setTooltip(button, "item:" .. button.useItemId, function(self, s) 
 							GameTooltip:SetHyperlink(s)
 							GameTooltip:AddLine(getTooltipHint())
 						end)
 						keyBindButton(button, "GUIDELIME_USE_ITEM_" .. i, "GuidelimeUseItemButton" .. i, name)
 					end
-					local count = GetItemCount(button.itemId) or 0
+					local count = GetItemCount(button.useItemId) or 0
 					button.count:SetText(count ~= 1 and count or "")
 					button.texture:SetAlpha((count > 0 and 1) or 0.5)
 					button:Show()
-					button:Update()
 					table.insert(previousIds, element.useItemId)
 					i = i + 1
-				elseif element.t == "SPELL" and element.spellId ~= 0 and not element.completed and not element.targetNpcId then
+				elseif element.t == "SPELL" and element.spellId ~= 0 and not element.targetNpcId then
 					local id
 					if element.spellId and GetSpellInfo(element.spellId) then id = element.spellId end
 					if id == nil then id = SP.getSpellId(element.spell) end
@@ -424,6 +449,8 @@ function AB.updateUseItemButtons()
 							GuidelimeDataChar.showUseItemButtons == "LEFT" and -36 or (GuidelimeDataChar.mainFrameShowScrollBar and 60 or 37), 
 							39 - i * 41 - startPos)
 						button.spellId = id
+						button.spell = name
+						button.useItemId = nul
 						button.texture:SetTexture(icon or addon.icons.SPELL)
 						button.texture:SetAlpha(1)
 						button:SetAttribute("type", "spell")
@@ -445,8 +472,8 @@ function AB.updateUseItemButtons()
 							GameTooltip:AddLine(getTooltipHint())
 						end)
 						keyBindButton(button, "GUIDELIME_USE_ITEM_" .. i, "GuidelimeUseItemButton" .. i, name)
+						button.count:SetText("")
 						button:Show()
-						button:Update()
 						if GuidelimeDataChar.maxNumOfItemButtons > 0 and i >= GuidelimeDataChar.maxNumOfItemButtons then break end
 						i = i + 1
 					end
