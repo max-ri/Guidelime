@@ -32426,6 +32426,76 @@ SP.spells = {
 			["icon"] = 132164,
 			["minRange"] = 0,
 			["maxRange"] = 30,
-			["name"] = "Tame Beast"
-		}
+			["name"] = "Tame Beast",
+		},
+		["TELEPORTORGRIMMAR"] = {
+			["maxRange"] = 0,
+			["minRange"] = 0,
+			["castTime"] = 9408,
+			["id"] = {
+				3567
+			},
+			["icon"] = 135759,
+			["name"] = "Teleport: Orgrimmar",
+		},
+		["PORTALORGRIMMAR"] = {
+			["maxRange"] = 10,
+			["minRange"] = 0,
+			["castTime"] = 9408,
+			["id"] = {
+				11417
+			},
+			["icon"] = 135744,
+			["name"] = "Portal: Orgrimmar",
+		},
+		["TELEPORTUNDERCITY"] = {
+			["maxRange"] = 0,
+			["minRange"] = 0,
+			["castTime"] = 9408,
+			["id"] = {
+				3563
+			},
+			["icon"] = 135766,
+			["name"] = "Teleport: Undercity",
+		},
+		["PORTALUNDERCITY"] = {
+			["maxRange"] = 10,
+			["minRange"] = 0,
+			["castTime"] = 9408,
+			["id"] = {
+				11418
+			},
+			["icon"] = 135751,
+			["name"] = "Portal: Undercity",
+		},
+		["TELEPORTTHUNDERBLUFF"] = {
+			["maxRange"] = 0,
+			["minRange"] = 0,
+			["castTime"] = 9408,
+			["id"] = {
+				3566
+			},
+			["icon"] = 135765,
+			["name"] = "Teleport: Thunder Bluff",
+		},
+		["PORTALTHUNDERBLUFF"] = {
+			["maxRange"] = 10,
+			["minRange"] = 0,
+			["castTime"] = 9408,
+			["id"] = {
+				11420
+			},
+			["icon"] = 135750,
+			["name"] = "Portal: Thunder Bluff",
+		},
+		["TELEPORTMOONGLADE"] = {
+			["maxRange"] = 0,
+			["minRange"] = 0,
+			["castTime"] = 9408,
+			["id"] = {
+				18960
+			},
+			["icon"] = 135758,
+			["name"] = "Teleport: Moonglade",
+		},
 	}
