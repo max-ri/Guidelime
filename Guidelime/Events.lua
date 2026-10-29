@@ -697,7 +697,7 @@ EV.frame:RegisterEvent('UI_INFO_MESSAGE')
 function EV.frame:UI_INFO_MESSAGE(errorType, message)
 	if message == ERR_NEWTAXIPATH then
 		if addon.debugging then print("LIME: ERR_NEWTAXIPATH", EV.gossipNpc) end
-		EV.recordStep("[P][TAR" .. EV.gossipNpc .. (EV.gossipNpcName or "") .. "]", true)
+		EV.recordStep("[P][TAR" .. (EV.gossipNpc or "") .. (EV.gossipNpcName or "") .. "]", true)
 		CG.completeSemiAutomaticByType("GET_FLIGHT_POINT")
 	end
 end
