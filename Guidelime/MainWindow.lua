@@ -542,98 +542,98 @@ function MW.updateMainFrame(reset)
 		CG.updateSteps()
 
 		local time
-			if addon.debugging then time = debugprofilestop() end
+		if addon.debugging then time = debugprofilestop() end
 
-			if GuidelimeDataChar.showTitle then
-				MW.mainFrame.titleBox:SetText(CG.currentGuide.name)
-				MW.mainFrame.titleBox:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
-				MW.mainFrame.titleBox:Show()
-				MW.mainFrame.titleLine:Show()
-			else
-				MW.mainFrame.titleBox:Hide()
-				MW.mainFrame.titleLine:Hide()
-			end
-			layoutSearchButton()
-			layoutSearchBox()
-			local prev
-			for i, step in ipairs(CG.currentGuide.steps) do
-				if CG.stepIsVisible(step) then
-					if step.active or GuidelimeData.maxNumOfSteps == 0 or (CG.currentGuide.lastActiveIndex ~= nil and i - CG.currentGuide.lastActiveIndex < GuidelimeData.maxNumOfSteps) then
-						if MW.mainFrame.steps[i] == nil then
-							MW.mainFrame.steps[i] = F.addCheckbox(MW.mainFrame.scrollChild, nil, "")
-							MW.mainFrame.steps[i]:SetScript("OnClick", function()
-								if not MW.mainFrame.steps[i]:GetChecked() or MW.mainFrame.steps[i].skipText == nil or MW.mainFrame.steps[i].skipText == "" then
-									CG.setStepSkip(MW.mainFrame.steps[i]:GetChecked(), i)
-									CG.updateSteps()
-								else
-									MW.mainFrame.steps[i]:SetChecked(false)
-									local _, lines = MW.mainFrame.steps[i].skipText:gsub("\n", "\n")
-									--if addon.debugging then print("LIME: " .. MW.mainFrame.steps[i].skipText .. lines) end
-									F.createPopupFrame(MW.mainFrame.steps[i].skipText, function()
-										MW.mainFrame.steps[i]:SetChecked(true)
-										CG.setStepSkip(true, i)
-										CG.updateSteps()
-									end, true, 120 + lines * 10):Show()
-								end
-							end)
-							MW.mainFrame.steps[i].textBox = F.addMultilineText(MW.mainFrame.steps[i], nil, nil, "", function(self, button)
-								self:HighlightText(0, 0)
-								onMouseUp(self, button, true, i)
-							end)
-							MW.mainFrame.steps[i].textBox:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
-							MW.mainFrame.steps[i].textBox:HookScript("OnMouseDown", function(self, button)
-								onMouseDown(self, button, CG.currentGuide.steps[i].clickable)
-							end)
-							MW.mainFrame.steps[i].textBox:SetBackdrop({
-								bgFile = "Interface\\AddOns\\" .. addonName .. "\\Icons\\TitleHighlight",
-								tile = false, edgeSize = 1
-							})
-							setStepSearchHighlight(MW.mainFrame.steps[i], false)
-						end
-						MW.mainFrame.steps[i].textBox:SetPoint("TOPLEFT", MW.mainFrame.steps[i], "TOPLEFT", 35, -9)
-						MW.mainFrame.steps[i].textBox:SetWidth(MW.mainFrame.scrollChild:GetWidth() - 40)
-						MW.mainFrame.steps[i]:SetAlpha(1)
-						MW.mainFrame.steps[i]:Show()
-						MW.mainFrame.steps[i].visible = true
-						if prev then
-							MW.mainFrame.steps[i]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -35, -MW.GAP)
-						else
-							MW.mainFrame.steps[i]:SetPoint("TOPLEFT", MW.mainFrame.scrollChild, "TOPLEFT", 0, -MW.GAP)
-						end
-						MW.mainFrame.steps[i]:SetChecked(step.completed or step.skip)
-						MW.mainFrame.steps[i]:SetEnabled(not step.completed or step.skip)
-
-						MW.mainFrame.steps[i].textBox:Show()
-						MW.mainFrame.steps[i].optionalStep = step.optional and not step.completeWithNext
-						setStepSearchHighlight(MW.mainFrame.steps[i], MW.mainFrame.steps[i].searchHighlight)
-						CG.updateStepText(i)
-
-						prev = MW.mainFrame.steps[i].textBox
-					end
-				end
-			end
-
-			MW.mainFrame.bottomElement = prev
-
-			for i, message in ipairs(MW.mainFrame.message) do
-				if not prev then
-					message:SetPoint("TOPLEFT", MW.mainFrame.scrollChild, "TOPLEFT", 10, -15)
-				elseif i == 1 then
-					message:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -25, -15)
-				else
-					message:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -15)
-				end
-				prev = message
-			end
-
-			updateStepSearch()
-			C_Timer.After(0.1, function()
-				if MW.mainFrame.searchMatch == nil then CG.scrollToFirstActive() end
-			end)
-			if MW.mainFrame.waitMessage ~= nil then MW.mainFrame.waitMessage:Hide() end
-			if addon.debugging then print("LIME: updateMainFrame " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
+		if GuidelimeDataChar.showTitle then
+			MW.mainFrame.titleBox:SetText(CG.currentGuide.name)
+			MW.mainFrame.titleBox:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
+			MW.mainFrame.titleBox:Show()
+			MW.mainFrame.titleLine:Show()
+		else
+			MW.mainFrame.titleBox:Hide()
+			MW.mainFrame.titleLine:Hide()
 		end
+		layoutSearchButton()
+		layoutSearchBox()
+		local prev
+		for i, step in ipairs(CG.currentGuide.steps) do
+			if CG.stepIsVisible(step) then
+				if step.active or GuidelimeData.maxNumOfSteps == 0 or (CG.currentGuide.lastActiveIndex ~= nil and i - CG.currentGuide.lastActiveIndex < GuidelimeData.maxNumOfSteps) then
+					if MW.mainFrame.steps[i] == nil then
+						MW.mainFrame.steps[i] = F.addCheckbox(MW.mainFrame.scrollChild, nil, "")
+						MW.mainFrame.steps[i]:SetScript("OnClick", function()
+							if not MW.mainFrame.steps[i]:GetChecked() or MW.mainFrame.steps[i].skipText == nil or MW.mainFrame.steps[i].skipText == "" then
+								CG.setStepSkip(MW.mainFrame.steps[i]:GetChecked(), i)
+								CG.updateSteps()
+							else
+								MW.mainFrame.steps[i]:SetChecked(false)
+								local _, lines = MW.mainFrame.steps[i].skipText:gsub("\n", "\n")
+								--if addon.debugging then print("LIME: " .. MW.mainFrame.steps[i].skipText .. lines) end
+								F.createPopupFrame(MW.mainFrame.steps[i].skipText, function()
+									MW.mainFrame.steps[i]:SetChecked(true)
+									CG.setStepSkip(true, i)
+									CG.updateSteps()
+								end, true, 120 + lines * 10):Show()
+							end
+						end)
+						MW.mainFrame.steps[i].textBox = F.addMultilineText(MW.mainFrame.steps[i], nil, nil, "", function(self, button)
+							self:HighlightText(0, 0)
+							onMouseUp(self, button, true, i)
+						end)
+						MW.mainFrame.steps[i].textBox:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
+						MW.mainFrame.steps[i].textBox:HookScript("OnMouseDown", function(self, button)
+							onMouseDown(self, button, CG.currentGuide.steps[i].clickable)
+						end)
+						MW.mainFrame.steps[i].textBox:SetBackdrop({
+							bgFile = "Interface\\AddOns\\" .. addonName .. "\\Icons\\TitleHighlight",
+							tile = false, edgeSize = 1
+						})
+						setStepSearchHighlight(MW.mainFrame.steps[i], false)
+					end
+					MW.mainFrame.steps[i].textBox:SetPoint("TOPLEFT", MW.mainFrame.steps[i], "TOPLEFT", 35, -9)
+					MW.mainFrame.steps[i].textBox:SetWidth(MW.mainFrame.scrollChild:GetWidth() - 40)
+					MW.mainFrame.steps[i]:SetAlpha(1)
+					MW.mainFrame.steps[i]:Show()
+					MW.mainFrame.steps[i].visible = true
+					if prev then
+						MW.mainFrame.steps[i]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -35, -MW.GAP)
+					else
+						MW.mainFrame.steps[i]:SetPoint("TOPLEFT", MW.mainFrame.scrollChild, "TOPLEFT", 0, -MW.GAP)
+					end
+					MW.mainFrame.steps[i]:SetChecked(step.completed or step.skip)
+					MW.mainFrame.steps[i]:SetEnabled(not step.completed or step.skip)
+
+					MW.mainFrame.steps[i].textBox:Show()
+					MW.mainFrame.steps[i].optionalStep = step.optional and not step.completeWithNext
+					setStepSearchHighlight(MW.mainFrame.steps[i], MW.mainFrame.steps[i].searchHighlight)
+					CG.updateStepText(i)
+
+					prev = MW.mainFrame.steps[i].textBox
+				end
+			end
+		end
+
+		MW.mainFrame.bottomElement = prev
+
+		for i, message in ipairs(MW.mainFrame.message) do
+			if not prev then
+				message:SetPoint("TOPLEFT", MW.mainFrame.scrollChild, "TOPLEFT", 10, -15)
+			elseif i == 1 then
+				message:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -25, -15)
+			else
+				message:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -15)
+			end
+			prev = message
+		end
+
+		updateStepSearch()
+		C_Timer.After(0.1, function()
+			if MW.mainFrame.searchMatch == nil then CG.scrollToFirstActive() end
+		end)
+		if MW.mainFrame.waitMessage ~= nil then MW.mainFrame.waitMessage:Hide() end
+		if addon.debugging then print("LIME: updateMainFrame " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	end
+end
 
 function MW.showMainFrame()
 	if not addon.dataLoaded then addon.loadData() end
