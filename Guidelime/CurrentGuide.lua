@@ -1036,6 +1036,7 @@ end
 function CG.stepIsVisible(step)
 	return ((not step.completed and (not step.skip or not step.available)) or GuidelimeDataChar.showCompletedSteps) and
 			(step.available or GuidelimeDataChar.showUnavailableSteps) and
+			(step.active or step.completed or step.skip or GuidelimeDataChar.showUpcomingSteps) and
 			D.hasRequirements(step)
 end
 
@@ -1069,7 +1070,7 @@ local function keepFading()
 		C_Timer.After(0.1, function()
 			keepFading()
 		end)
-	elseif update and (not GuidelimeDataChar.showCompletedSteps or not GuidelimeDataChar.showUnavailableSteps) then
+	elseif update and (not GuidelimeDataChar.showCompletedSteps or not GuidelimeDataChar.showUnavailableSteps or not GuidelimeDataChar.showUpcomingSteps) then
 		MW.updateMainFrame()
 	end
 end

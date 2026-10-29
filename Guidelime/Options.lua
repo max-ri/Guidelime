@@ -255,7 +255,7 @@ function O.fillOptions()
 	O.optionsFrame.mainFrameLocked:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = O.optionsFrame.mainFrameLocked
 	
-	O.optionsFrame.showCompletedSteps = F.addCheckOption(content, GuidelimeDataChar, "mainFrameShowScrollBar", L.MAIN_FRAME_SHOW_SCROLLBAR, nil, function()
+	O.optionsFrame.showScrollBar = F.addCheckOption(content, GuidelimeDataChar, "mainFrameShowScrollBar", L.MAIN_FRAME_SHOW_SCROLLBAR, nil, function()
 		MW.mainFrame.scrollFrame.ScrollBar:SetAlpha(GuidelimeDataChar.mainFrameShowScrollBar and 1 or 0)
 		MW.mainFrame.scrollFrame.ScrollBar:SetEnabled(GuidelimeDataChar.mainFrameShowScrollBar)
 		MW.mainFrame.scrollFrame.ScrollBar:SetFrameLevel(GuidelimeDataChar.mainFrameShowScrollBar and 1000 or 0)
@@ -264,8 +264,8 @@ function O.fillOptions()
 			AB.updateUseItemButtons()
 		end
 	end)
-	O.optionsFrame.showCompletedSteps:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
-	prev = O.optionsFrame.showCompletedSteps
+	O.optionsFrame.showScrollBar:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	prev = O.optionsFrame.showScrollBar
 
 	O.optionsFrame.showTitle = F.addCheckOption(content, GuidelimeDataChar, "showTitle", L.SHOW_GUIDE_TITLE, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
@@ -290,6 +290,14 @@ function O.fillOptions()
 	end)
 	O.optionsFrame.showUnavailableSteps:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = O.optionsFrame.showUnavailableSteps
+	
+	O.optionsFrame.showUpcomingSteps = F.addCheckOption(content, GuidelimeDataChar, "showUpcomingSteps", L.SHOW_UPCOMING_STEPS, nil, function()
+		if GuidelimeDataChar.mainFrameShowing then
+			MW.updateMainFrame()
+		end
+	end)
+	O.optionsFrame.showUpcomingSteps:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	prev = O.optionsFrame.showUpcomingSteps
 	
 	checkbox = F.addCheckOption(content, GuidelimeData, "showQuestLevels", L.SHOW_SUGGESTED_QUEST_LEVELS, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then

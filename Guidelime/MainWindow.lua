@@ -175,6 +175,14 @@ function MW.showContextMenu(questId, anchor, index)
 			MW.updateMainFrame()
 		end
     	UIDropDownMenu_AddButton(info)
+		info.text, info.checked, info.func = L.SHOW_UPCOMING_STEPS, GuidelimeDataChar.showUpcomingSteps, function()
+			GuidelimeDataChar.showUpcomingSteps = not GuidelimeDataChar.showUpcomingSteps
+			if O.optionsFrame ~= nil then
+				O.optionsFrame.showUpcomingSteps:SetChecked(GuidelimeDataChar.showUpcomingSteps)
+			end
+			MW.updateMainFrame()
+		end
+    	UIDropDownMenu_AddButton(info)
 		info.text, info.checked, info.func = L.SHOW_MARKERS_ON .. " " .. L.MAP, GuidelimeData.showMapMarkersGOTO or GuidelimeData.showMapMarkersLOC, Guidelime.toggleMapMarkers
     	UIDropDownMenu_AddButton(info)
 		info.text, info.checked, info.func = L.SHOW_MARKERS_ON .. " " .. L.MINIMAP, GuidelimeData.showMinimapMarkersGOTO or GuidelimeData.showMinimapMarkersLOC, Guidelime.toggleMinimapMarkers

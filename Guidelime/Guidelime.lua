@@ -157,6 +157,7 @@ function addon.loadData()
 		showTitle = true,
 		showCompletedSteps = false,
 		showUnavailableSteps = true,
+		showUpcomingSteps = true,
 		showArrow = true,
 		arrowX = 0,
 		arrowY = -20,
