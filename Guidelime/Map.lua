@@ -278,7 +278,14 @@ function M.showMapIcons()
 			end
 			if self.tooltip ~= nil and self.tooltip ~= "" then 
 				GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,-32)
-				GameTooltip:SetText(self.tooltip)
+				GameTooltip:SetText(self.tooltip, nil, 1, true)
+				-- The Classic client can still size SetText to the full string width.
+				-- Constrain long arrow targets while letting short ones stay compact.
+				if GameTooltipTextLeft1 then
+					local textWidth = GameTooltipTextLeft1:GetStringWidth()
+					GameTooltipTextLeft1:SetWidth(math.min(400, textWidth))
+					GameTooltipTextLeft1:SetWordWrap(true)
+				end
 				GameTooltip:Show()
 				F.showingTooltip = true 
 			end 
@@ -286,6 +293,10 @@ function M.showMapIcons()
 		M.arrowFrame:SetScript("OnLeave", function(self) 
 			if self.tooltip ~= nil and self.tooltip ~= "" and F.showingTooltip then 
 				GameTooltip:Hide()
+				if GameTooltipTextLeft1 then
+					GameTooltipTextLeft1:SetWidth(0)
+					GameTooltipTextLeft1:SetWordWrap(false)
+				end
 				F.showingTooltip = false 
 			end 
 		end)
