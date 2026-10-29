@@ -252,7 +252,13 @@ end
 local function setStepSearchHighlight(stepFrame, highlighted)
 	if stepFrame == nil or stepFrame.textBox == nil then return end
 	stepFrame.searchHighlight = highlighted
-	stepFrame.textBox:SetBackdropColor(highlighted and 0.2 or 0, highlighted and 0.6 or 0, highlighted and 0.2 or 0, highlighted and 1 or 0)
+	if highlighted then
+		stepFrame.textBox:SetBackdropColor(0.2, 0.6, 0.2, 1)
+	elseif stepFrame.optionalStep then
+		stepFrame.textBox:SetBackdropColor(0.1, 0.35, 0.75, 1)
+	else
+		stepFrame.textBox:SetBackdropColor(0, 0, 0, 0)
+	end
 end
 
 local function layoutSearchButton()
@@ -590,6 +596,8 @@ function MW.updateMainFrame(reset)
 						MW.mainFrame.steps[i]:SetEnabled(not step.completed or step.skip)
 
 						MW.mainFrame.steps[i].textBox:Show()
+						MW.mainFrame.steps[i].optionalStep = step.optional and not step.completeWithNext
+						setStepSearchHighlight(MW.mainFrame.steps[i], MW.mainFrame.steps[i].searchHighlight)
 						CG.updateStepText(i)
 
 						prev = MW.mainFrame.steps[i].textBox
