@@ -218,6 +218,33 @@ local function onMouseDown(self, button, dontMove)
 	end
 end
 
+local function saveMainFramePosition()
+	local _, _, rel, x, y = MW.mainFrame:GetPoint()
+	x = math.floor(tonumber(x)); y = math.floor(tonumber(y))
+	if rel ~= GuidelimeDataChar.mainFrameRelative or x ~= GuidelimeDataChar.mainFrameX or GuidelimeDataChar.mainFrameY ~= y then
+		if rel ~= GuidelimeDataChar.mainFrameRelative then
+			local toBorder = rel:match("LEFT$") or rel:match("RIGHT$")
+			if toBorder then
+				local toCenter = toBorder == "LEFT" and "RIGHT" or "LEFT"
+				for _, buttons in ipairs({"showTargetButtons", "showUseItemButtons"}) do
+					if GuidelimeDataChar[buttons] then
+						GuidelimeDataChar[buttons] = toCenter
+						if O.optionsFrame then
+							O.optionsFrame[buttons .. toCenter]:SetChecked(true)
+							O.optionsFrame[buttons .. toBorder]:SetChecked(false)
+						end
+					end
+				end
+				MW.updateMainFrame()
+			end
+			GuidelimeDataChar.mainFrameRelative = rel
+		end
+		GuidelimeDataChar.mainFrameX = x
+		GuidelimeDataChar.mainFrameY = y
+		return true
+	end
+end
+
 local function onMouseUp(self, button, isInside, i)
 	local j = i and self.GetCursorPosition and CG.getElementByTextPos(self:GetCursorPosition(), i)
 	local element = i and j and CG.currentGuide.steps[i].elements[j]
@@ -227,11 +254,7 @@ local function onMouseUp(self, button, isInside, i)
 	if button == "LeftButton" then
 		MW.mainFrame:StopMovingOrSizing()
 		MW.mainFrame.lockBtn:SetAlpha(0)
-		local _, _, rel, x, y = MW.mainFrame:GetPoint()
-		x = math.floor(tonumber(x)); y = math.floor(tonumber(y))
-		GuidelimeDataChar.mainFrameRelative = rel
-		GuidelimeDataChar.mainFrameX = x
-		GuidelimeDataChar.mainFrameY = y
+		saveMainFramePosition()
 		if questId then
 			QL.showQuestLogFrame(questId)
 		elseif url then
@@ -273,32 +296,30 @@ local function layoutSearchButton()
 	if MW.mainFrame == nil or MW.mainFrame.searchBtn == nil then return end
 	MW.mainFrame.searchBtn:ClearAllPoints()
 	if GuidelimeDataChar.showTitle and MW.mainFrame.titleBox ~= nil and MW.mainFrame.titleBox:IsShown() then
-		MW.mainFrame.searchBtn:SetPoint("BOTTOMRIGHT", MW.mainFrame.titleBox, "BOTTOMRIGHT", -12, -3)
+		MW.mainFrame.searchBtn:SetPoint("TOPRIGHT", MW.mainFrame.titleBox, "BOTTOMRIGHT", 0, -12)
 	else
-		MW.mainFrame.searchBtn:SetPoint("TOPRIGHT", MW.mainFrame, "TOPRIGHT", -8, -7)
+		MW.mainFrame.searchBtn:SetPoint("TOPRIGHT", MW.mainFrame, "TOPRIGHT", -20, -11)
 	end
 end
 
 local function layoutSearchBox()
 	if MW.mainFrame == nil or MW.mainFrame.scrollFrame == nil then return end
+	MW.mainFrame.scrollFrame:ClearAllPoints()
 	if MW.mainFrame.searchBox ~= nil and MW.mainFrame.searchBox:IsShown() then
 		MW.mainFrame.searchBox:ClearAllPoints()
 		MW.mainFrame.searchBox:SetWidth(math.max(70, MW.mainFrame:GetWidth() - 50))
 		if GuidelimeDataChar.showTitle and MW.mainFrame.titleBox:IsShown() then
-			MW.mainFrame.searchBox:SetPoint("TOPLEFT", MW.mainFrame.titleBox, "BOTTOMLEFT", 10, -10)
+			MW.mainFrame.searchBox:SetPoint("TOPLEFT", MW.mainFrame.titleBox, "BOTTOMLEFT", -10, -10)
 		else
 			MW.mainFrame.searchBox:SetPoint("TOPLEFT", MW.mainFrame, "TOPLEFT", 10, -8)
 		end
-		MW.mainFrame.scrollFrame:ClearAllPoints()
 		MW.mainFrame.scrollFrame:SetPoint("TOPLEFT", MW.mainFrame.searchBox, "BOTTOMLEFT", -10, -5)
-		MW.mainFrame.scrollFrame:SetPoint("BOTTOMRIGHT", MW.mainFrame, "BOTTOMRIGHT", 0, 0)
 	elseif GuidelimeDataChar.showTitle and MW.mainFrame.titleLine:IsShown() then
-		MW.mainFrame.scrollFrame:ClearAllPoints()
 		MW.mainFrame.scrollFrame:SetPoint("TOPLEFT", MW.mainFrame.titleLine)
-		MW.mainFrame.scrollFrame:SetPoint("BOTTOMRIGHT", MW.mainFrame, "BOTTOMRIGHT", 0, 0)
 	else
-		MW.mainFrame.scrollFrame:SetAllPoints(MW.mainFrame)
+		MW.mainFrame.scrollFrame:SetPoint("TOPLEFT", MW.mainFrame, "TOPLEFT", 0, -5)
 	end
+	MW.mainFrame.scrollFrame:SetPoint("BOTTOMRIGHT", MW.mainFrame, "BOTTOMRIGHT", -5, 5)
 end
 
 local function scrollToStep(stepFrame)
@@ -403,7 +424,7 @@ end
 
 local function updateSearchButtonVisibility()
 	if MW.mainFrame == nil then return end
-	setSearchButtonVisible(MW.mainFrame.titleBox ~= nil and MW.mainFrame.titleBox:IsShown() and MW.mainFrame.titleBox:IsMouseOver())
+	setSearchButtonVisible(MW.mainFrame:IsMouseOver())
 end
 
 local function updateSearchButtonVisibilitySoon()
@@ -641,24 +662,30 @@ function MW.showMainFrame()
 	GuidelimeDataChar.mainFrameShowing = true
 	if MW.mainFrame == nil then
 		if addon.debugging then print("LIME: initializing main frame") end
-		MW.mainFrame = CreateFrame("FRAME", nil, UIParent)
+		MW.mainFrame = CreateFrame("FRAME", nil, UIParent, BackdropTemplateMixin and "BackdropTemplate")
 		_G["GuidelimeWindow"] = MW.mainFrame
 		MW.mainFrame:SetWidth(GuidelimeDataChar.mainFrameWidth)
 		MW.mainFrame:SetHeight(GuidelimeDataChar.mainFrameHeight)
 		MW.mainFrame:SetPoint(GuidelimeDataChar.mainFrameRelative, UIParent, GuidelimeDataChar.mainFrameRelative, GuidelimeDataChar.mainFrameX, GuidelimeDataChar.mainFrameY)
-		MW.mainFrame.bg = MW.mainFrame:CreateTexture(nil, "BACKGROUND")
-		MW.mainFrame.bg:SetAllPoints(MW.mainFrame)
-		MW.mainFrame.bg:SetColorTexture(0, 0, 0, GuidelimeDataChar.mainFrameAlpha)
+		MW.mainFrame:SetBackdrop({
+			bgFile = "Interface/Addons/" .. addonName .. "/Icons/Black",
+			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+			edgeSize = 16,
+			insets = { left = 4, right = 4, top = 4, bottom = 4 },
+		})
+		MW.mainFrame:SetBackdropColor(0, 0, 0, GuidelimeDataChar.mainFrameAlpha)
 		MW.mainFrame:SetFrameLevel(998)
 		MW.mainFrame:SetMovable(true)
 		MW.mainFrame:EnableMouse(true)
-			MW.mainFrame:SetResizable(true)
-			F.SetResizeBounds(MW.mainFrame, MW.MIN_WIDTH, MW.MIN_HEIGHT)
-			MW.mainFrame:SetScript("OnMouseDown", onMouseDown)
-			MW.mainFrame:SetScript("OnMouseUp", onMouseUp)
-			MW.mainFrame.sizeGrabber = CreateFrame("Button", nil, MW.mainFrame)
-			MW.mainFrame.sizeGrabber:SetFrameLevel(999)
-			MW.mainFrame.sizeGrabber:SetSize(16, 16)
+		MW.mainFrame:SetResizable(true)
+		F.SetResizeBounds(MW.mainFrame, MW.MIN_WIDTH, MW.MIN_HEIGHT)
+		MW.mainFrame:SetScript("OnMouseDown", onMouseDown)
+		MW.mainFrame:SetScript("OnMouseUp", onMouseUp)
+		MW.mainFrame:SetScript("OnEnter", function() setSearchButtonVisible(true) end)
+		MW.mainFrame:SetScript("OnLeave", updateSearchButtonVisibilitySoon)
+		MW.mainFrame.sizeGrabber = CreateFrame("Button", nil, MW.mainFrame)
+		MW.mainFrame.sizeGrabber:SetFrameLevel(999)
+		MW.mainFrame.sizeGrabber:SetSize(16, 16)
 		MW.mainFrame.sizeGrabber:SetPoint("BOTTOMRIGHT", MW.mainFrame, "BOTTOMRIGHT", -1, 3)
 		MW.mainFrame.sizeGrabber:SetNormalTexture("Interface/CHATFRAME/UI-ChatIM-SizeGrabber-Down")
 		MW.mainFrame.sizeGrabber:SetHighlightTexture("Interface/CHATFRAME/UI-ChatIM-SizeGrabber-Highlight", "ADD")
@@ -669,7 +696,7 @@ function MW.showMainFrame()
 			MW.mainFrame:StopMovingOrSizing()
 			GuidelimeDataChar.mainFrameWidth, GuidelimeDataChar.mainFrameHeight = MW.mainFrame:GetSize()
 			MW.mainFrame.scrollChild:SetSize(MW.mainFrame:GetSize())
-			MW.mainFrame.titleBox:SetWidth(GuidelimeDataChar.mainFrameWidth)
+			MW.mainFrame.titleBox:SetWidth(GuidelimeDataChar.mainFrameWidth - 40)
 			if O.optionsFrame then
 				O.optionsFrame.mainFrameWidth.editbox:SetText(tostring(math.floor(GuidelimeDataChar.mainFrameWidth)))
 				O.optionsFrame.mainFrameHeight.editbox:SetText(tostring(math.floor(GuidelimeDataChar.mainFrameHeight)))
@@ -678,59 +705,63 @@ function MW.showMainFrame()
 		end)
 		if GuidelimeDataChar.mainFrameLocked then MW.mainFrame.sizeGrabber:Hide() end
 		
-		MW.mainFrame.titleBox = F.addMultilineText(MW.mainFrame, nil, MW.mainFrame:GetWidth(), "")
-		MW.mainFrame.titleBox:SetPoint("TOPLEFT", MW.mainFrame, "TOPLEFT", 0, -5)
+		MW.mainFrame.titleBox = F.addMultilineText(MW.mainFrame, nil, MW.mainFrame:GetWidth() - 40, "")
+		MW.mainFrame.titleBox:SetPoint("TOPLEFT", MW.mainFrame, "TOPLEFT", 20, -5)
 		MW.mainFrame.titleBox:SetJustifyH("CENTER")
 		MW.mainFrame.titleBox:SetScript("OnMouseDown", onMouseDown)
 		MW.mainFrame.titleBox:SetScript("OnMouseUp", function(self, button)
 			CG.scrollToFirstActive()
 			onMouseUp(self, button)
 		end)
-		MW.mainFrame.titleBox:SetScript("OnEnter", function() setSearchButtonVisible(true) end)
-		MW.mainFrame.titleBox:SetScript("OnLeave", updateSearchButtonVisibilitySoon)
 		MW.mainFrame.titleBox:Hide()
 		MW.mainFrame.titleLine = MW.mainFrame:CreateLine()
 		MW.mainFrame.titleLine:SetColorTexture(0.4, 0.4, 0.4)
 		MW.mainFrame.titleLine:SetThickness(1)
-		MW.mainFrame.titleLine:SetStartPoint("BOTTOMLEFT", MW.mainFrame.titleBox, 0, -5)
-		MW.mainFrame.titleLine:SetEndPoint("BOTTOMRIGHT", MW.mainFrame.titleBox, 0, -5)
+		MW.mainFrame.titleLine:SetStartPoint("BOTTOMLEFT", MW.mainFrame.titleBox, -16, -5)
+		MW.mainFrame.titleLine:SetEndPoint("BOTTOMRIGHT", MW.mainFrame.titleBox, 16, -5)
 		MW.mainFrame.titleLine:Hide()
 
-			MW.mainFrame.searchBtn = CreateFrame("BUTTON", nil, MW.mainFrame)
-			MW.mainFrame.searchBtn:SetFrameLevel(9999)
-			MW.mainFrame.searchBtn:SetSize(18, 18)
-			MW.mainFrame.searchBtn.icon = MW.mainFrame.searchBtn:CreateTexture(nil, "ARTWORK")
-			MW.mainFrame.searchBtn.icon:SetTexture("Interface\\Common\\UI-Searchbox-Icon")
-			MW.mainFrame.searchBtn.icon:SetSize(14, 14)
-			MW.mainFrame.searchBtn.icon:SetPoint("CENTER")
-			MW.mainFrame.searchBtn:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square", "ADD")
-			F.setTooltip(MW.mainFrame.searchBtn, SEARCH or "Search")
-			MW.mainFrame.searchBtn:SetScript("OnClick", function()
-				if MW.mainFrame.searchBox:IsShown() then
-					hideStepSearch()
-				else
-					showStepSearch()
-				end
-			end)
-			MW.mainFrame.searchBtn:SetScript("OnEnter", function() setSearchButtonVisible(true) end)
-			MW.mainFrame.searchBtn:SetScript("OnLeave", updateSearchButtonVisibilitySoon)
-			MW.mainFrame.searchBtn:Hide()
+		MW.mainFrame.searchBtn = CreateFrame("BUTTON", nil, MW.mainFrame)
+		MW.mainFrame.searchBtn:SetFrameLevel(9999)
+		MW.mainFrame.searchBtn:SetSize(18, 18)
+		MW.mainFrame.searchBtn.icon = MW.mainFrame.searchBtn:CreateTexture(nil, "ARTWORK")
+		MW.mainFrame.searchBtn.icon:SetTexture("Interface\\Common\\UI-Searchbox-Icon")
+		MW.mainFrame.searchBtn.icon:SetSize(14, 14)
+		MW.mainFrame.searchBtn.icon:SetPoint("CENTER")
+		MW.mainFrame.searchBtn:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square", "ADD")
+		F.setTooltip(MW.mainFrame.searchBtn, SEARCH or "Search")
+		MW.mainFrame.searchBtn:SetScript("OnClick", function()
+			if MW.mainFrame.searchBox:IsShown() then
+				hideStepSearch()
+			else
+				showStepSearch()
+			end
+		end)
+		MW.mainFrame.searchBtn:SetScript("OnEnter", function() setSearchButtonVisible(true) end)
+		MW.mainFrame.searchBtn:SetScript("OnLeave", updateSearchButtonVisibilitySoon)
+		MW.mainFrame.searchBtn:Hide()
 
-			MW.mainFrame.searchBox = CreateFrame("EditBox", nil, MW.mainFrame, "InputBoxTemplate")
-			MW.mainFrame.searchBox:SetFrameLevel(9999)
-			MW.mainFrame.searchBox:SetHeight(20)
-			MW.mainFrame.searchBox:SetFontObject("GameFontNormal")
-			MW.mainFrame.searchBox:SetAutoFocus(false)
-			MW.mainFrame.searchBox:SetScript("OnTextChanged", function() updateStepSearch(true) end)
-			MW.mainFrame.searchBox:SetScript("OnEnterPressed", nextStepSearchMatch)
-			MW.mainFrame.searchBox:SetScript("OnEscapePressed", hideStepSearch)
-			MW.mainFrame.searchBox:SetScript("OnEnter", function() setSearchButtonVisible(true) end)
-			MW.mainFrame.searchBox:SetScript("OnLeave", updateSearchButtonVisibilitySoon)
-			MW.mainFrame.searchBox:Hide()
+		MW.mainFrame.searchBox = CreateFrame("EditBox", nil, MW.mainFrame, "InputBoxTemplate")
+		MW.mainFrame.searchBox:SetFrameLevel(9999)
+		MW.mainFrame.searchBox:SetHeight(20)
+		MW.mainFrame.searchBox:SetFontObject("GameFontNormal")
+		MW.mainFrame.searchBox:SetAutoFocus(false)
+		MW.mainFrame.searchBox:SetScript("OnTextChanged", function() updateStepSearch(true) end)
+		MW.mainFrame.searchBox:SetScript("OnEnterPressed", nextStepSearchMatch)
+		MW.mainFrame.searchBox:SetScript("OnEscapePressed", hideStepSearch)
+		MW.mainFrame.searchBox:SetScript("OnEnter", function() setSearchButtonVisible(true) end)
+		MW.mainFrame.searchBox:SetScript("OnLeave", updateSearchButtonVisibilitySoon)
+		MW.mainFrame.searchBox:Hide()
 
 		MW.mainFrame.scrollFrame = CreateFrame("SCROLLFRAME", nil, MW.mainFrame, "UIPanelScrollFrameTemplate")
-		MW.mainFrame.scrollFrame:SetAllPoints(MW.mainFrame)
+		MW.mainFrame.scrollFrame:SetPoint("TOPLEFT", MW.mainFrame)
+		MW.mainFrame.scrollFrame:SetPoint("BOTTOMRIGHT", MW.mainFrame, "BOTTOMRIGHT", -5, 5)
 		MW.mainFrame.scrollFrame.ScrollBar:SetThumbTexture(addon.icons.SCROLL_THUMB)
+		MW.mainFrame.scrollFrame.ScrollBar:SetPoint("RIGHT", 20, 0)
+		MW.mainFrame.scrollFrame.ScrollBar.ScrollUpButton:SetNormalTexture("Interface/Addons/" .. addonName .. "/Icons/scrollupbutton-up")
+		MW.mainFrame.scrollFrame.ScrollBar.ScrollUpButton:SetPushedTexture("Interface/Addons/" .. addonName .. "/Icons/scrollupbutton-down")
+		MW.mainFrame.scrollFrame.ScrollBar.ScrollDownButton:SetNormalTexture("Interface/Addons/" .. addonName .. "/Icons/scrolldownbutton-up")
+		MW.mainFrame.scrollFrame.ScrollBar.ScrollDownButton:SetPushedTexture("Interface/Addons/" .. addonName .. "/Icons/scrolldownbutton-down")
 		MW.mainFrame.scrollChild = CreateFrame("FRAME", nil, MW.mainFrame)
 		MW.mainFrame.scrollFrame:SetScrollChild(MW.mainFrame.scrollChild);
 		MW.mainFrame.scrollChild:SetSize(MW.mainFrame:GetSize())
@@ -761,13 +792,7 @@ function MW.showMainFrame()
 		MW.mainFrame.lockBtn:SetScript("OnMouseUp", function(self, button)
 			if button == "LeftButton" then
 				MW.mainFrame:StopMovingOrSizing()
-				local _, _, rel, x, y = MW.mainFrame:GetPoint()
-				x = math.floor(tonumber(x)); y = math.floor(tonumber(y))
-				if rel ~= GuidelimeDataChar.mainFrameRelative or x ~= GuidelimeDataChar.mainFrameX or GuidelimeDataChar.mainFrameY ~= y then
-					GuidelimeDataChar.mainFrameRelative = rel
-					GuidelimeDataChar.mainFrameX = x
-					GuidelimeDataChar.mainFrameY = y
-				else
+				if not saveMainFramePosition() then
 					GuidelimeDataChar.mainFrameLocked = not GuidelimeDataChar.mainFrameLocked
 				end
 				if O.optionsFrame ~= nil then O.optionsFrame.mainFrameLocked:SetChecked(GuidelimeDataChar.mainFrameLocked) end

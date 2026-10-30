@@ -224,7 +224,7 @@ function O.fillOptions()
 	O.optionsFrame.mainFrameHeight:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -50)
 	local slider = F.addSliderOption(content, GuidelimeDataChar, "mainFrameAlpha", 0, 1, 0.01, L.MAIN_FRAME_ALPHA, nil, function()
 		if MW.mainFrame ~= nil then 
-			MW.mainFrame.bg:SetColorTexture(0, 0, 0, GuidelimeDataChar.mainFrameAlpha)
+			MW.mainFrame:SetBackdropColor(0, 0, 0, GuidelimeDataChar.mainFrameAlpha)
 		end
 	end)
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -90)
@@ -321,16 +321,16 @@ function O.fillOptions()
 	prev = text
 	local choices = {"LEFT", "RIGHT"}
 	for i, v in ipairs(choices) do
-		content.options["showTargetButtons" .. v] = F.addCheckbox(content, L["BUTTONS_" .. v])
-		content.options["showTargetButtons" .. v]:SetChecked(GuidelimeDataChar.showTargetButtons == v)
-		content.options["showTargetButtons" .. v]:SetScript("OnClick", function()
+		O.optionsFrame["showTargetButtons" .. v] = F.addCheckbox(content, L["BUTTONS_" .. v])
+		O.optionsFrame["showTargetButtons" .. v]:SetChecked(GuidelimeDataChar.showTargetButtons == v)
+		O.optionsFrame["showTargetButtons" .. v]:SetScript("OnClick", function()
 			if InCombatLockdown() then 
-				content.options["showTargetButtons" .. v]:SetChecked(GuidelimeDataChar.showTargetButtons == v)
+				O.optionsFrame["showTargetButtons" .. v]:SetChecked(GuidelimeDataChar.showTargetButtons == v)
 				return 
 			end
-			GuidelimeDataChar.showTargetButtons = content.options["showTargetButtons" .. v]:GetChecked() and v
+			GuidelimeDataChar.showTargetButtons = O.optionsFrame["showTargetButtons" .. v]:GetChecked() and v
 			for _, v2 in ipairs(choices) do
-				content.options["showTargetButtons" .. v2]:SetChecked(GuidelimeDataChar.showTargetButtons == v2)
+				O.optionsFrame["showTargetButtons" .. v2]:SetChecked(GuidelimeDataChar.showTargetButtons == v2)
 			end
 			CG.loadCurrentGuide(false)
 			EV.updateFromQuestLog()
@@ -338,7 +338,7 @@ function O.fillOptions()
 				MW.updateMainFrame()
 			end
 		end)
-		content.options["showTargetButtons" .. v]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", (i - 1) * 170, 0)
+		O.optionsFrame["showTargetButtons" .. v]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", (i - 1) * 170, 0)
 	end
 	local slider = F.addSliderOption(content, GuidelimeDataChar, "maxNumOfTargetButtons", 0, 20, 1, L.MAX_NUM_OF_TARGET_BUTTONS, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
@@ -374,16 +374,16 @@ function O.fillOptions()
 	prev = text
 	local choices = {"LEFT", "RIGHT"}
 	for i, v in ipairs(choices) do
-		content.options["showUseItemButtons" .. v] = F.addCheckbox(content, L["BUTTONS_" .. v])
-		content.options["showUseItemButtons" .. v]:SetChecked(GuidelimeDataChar.showUseItemButtons == v)
-		content.options["showUseItemButtons" .. v]:SetScript("OnClick", function()
+		O.optionsFrame["showUseItemButtons" .. v] = F.addCheckbox(content, L["BUTTONS_" .. v])
+		O.optionsFrame["showUseItemButtons" .. v]:SetChecked(GuidelimeDataChar.showUseItemButtons == v)
+		O.optionsFrame["showUseItemButtons" .. v]:SetScript("OnClick", function()
 			if InCombatLockdown() then 
-				content.options["showUseItemButtons" .. v]:SetChecked(GuidelimeDataChar.showUseItemButtons == v)
+				O.optionsFrame["showUseItemButtons" .. v]:SetChecked(GuidelimeDataChar.showUseItemButtons == v)
 				return 
 			end
-			GuidelimeDataChar.showUseItemButtons = content.options["showUseItemButtons" .. v]:GetChecked() and v
+			GuidelimeDataChar.showUseItemButtons = O.optionsFrame["showUseItemButtons" .. v]:GetChecked() and v
 			for _, v2 in ipairs(choices) do
-				content.options["showUseItemButtons" .. v2]:SetChecked(GuidelimeDataChar.showUseItemButtons == v2)
+				O.optionsFrame["showUseItemButtons" .. v2]:SetChecked(GuidelimeDataChar.showUseItemButtons == v2)
 			end
 			CG.loadCurrentGuide(false)
 			EV.updateFromQuestLog()
@@ -392,7 +392,7 @@ function O.fillOptions()
 			end
 			
 		end)
-		content.options["showUseItemButtons" .. v]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", (i - 1) * 170, 0)
+		O.optionsFrame["showUseItemButtons" .. v]:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", (i - 1) * 170, 0)
 	end
 	local slider = F.addSliderOption(content, GuidelimeDataChar, "maxNumOfItemButtons", 0, 20, 1, L.MAX_NUM_OF_ITEM_BUTTONS, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
