@@ -73,7 +73,8 @@ addon.icons = {
 	CATA = "Interface\\Addons\\" .. addonName .. "\\Icons\\cata",
 	MOP = "Interface\\Addons\\" .. addonName .. "\\Icons\\mop",
 	FOREVER = "Interface\\Addons\\" .. addonName .. "\\Icons\\forever",
-	NOTE = "Interface\\Icons\\INV_Misc_Note_01"
+	NOTE = "Interface\\Icons\\INV_Misc_Note_01",
+	PIN = "Interface\\Addons\\" .. addonName .. "\\Icons\\pushpin",
 
 	--LOC = "Interface\\Icons\\Ability_Tracking",
 	--KILL = "Interface\\Icons\\Ability_Creature_Cursed_02",

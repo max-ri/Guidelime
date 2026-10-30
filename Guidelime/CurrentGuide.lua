@@ -621,6 +621,9 @@ function CG.getStepText(step)
 	local trackQuest = {}
 	local itemText = ""
 
+	if step.active and step.optional and not step.completeWithNext then
+		text = "|T" .. addon.icons.PIN .. ":12|t"
+	end
 	if GuidelimeData.showLineNumbers and step.line ~= nil then text = text .. step.line .. " " end
 	if not step.active then
 		text = text .. GuidelimeData.fontColorInactive
