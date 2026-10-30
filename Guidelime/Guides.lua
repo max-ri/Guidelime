@@ -516,7 +516,7 @@ function G.selectStartGuide()
 	end
 	local matchingGuides = {}
 	for name, guide in pairs(addon.guides) do
-		if guide.minLevel == 1 then
+		if guide.minLevel == 1 and D.applies(guide) then
 			local n = guide.title:lower():gsub("%s+", "")
 			for _, phrase in ipairs(raceStarterZoneDict[D.race]) do
 				if string.find(n, phrase) then
