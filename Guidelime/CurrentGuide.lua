@@ -436,6 +436,13 @@ local function loadStepOnActivation(i)
 	if addon.debugging then print("LIME: loadStepOnActivation " .. i .. " " .. math.floor(debugprofilestop() - time) .. " ms") end
 end
 
+function CG.getGuideTitle()
+	local title = CG.currentGuide.name
+	local guide = addon.guides[GuidelimeDataChar.currentGuide]
+	
+	return title
+end
+
 function CG.getQuestText(id, t, title, colored)
 	local q = ""
 	if (GuidelimeData.showQuestLevels or GuidelimeData.showMinimumQuestLevels) then
@@ -1127,16 +1134,16 @@ end
 local function updateFirstActiveIndex()
 	local oldFirstActiveIndex = CG.currentGuide.firstActiveIndex
 	CG.currentGuide.firstActiveIndex = nil
-	CG.currentGuide.lastActiveIndex = nil
+	CG.currentGuide.activeIndexes = {}
 	for i, step in ipairs(CG.currentGuide.steps) do
 		if (step.active or step.fading ~= nil) then
-			if CG.currentGuide.firstActiveIndex == nil then CG.currentGuide.firstActiveIndex = i end
-			CG.currentGuide.lastActiveIndex = i
+			if CG.currentGuide.firstActiveIndex == nil and (not GuidelimeDataChar.pinOngoingSteps or not step.optional or step.completeWithNext) then CG.currentGuide.firstActiveIndex = i end
+			CG.currentGuide.activeIndexes[i] = true
 		end
 	end
 	if MW.mainFrame.message ~= nil then
 		for _, message in ipairs(MW.mainFrame.message) do
-			if CG.currentGuide.firstActiveIndex ~= nil then
+			if D.length(CG.currentGuide.activeIndexes) == 0 then
 				message:Hide()
 			else
 				message:Show()
@@ -1189,12 +1196,12 @@ end
 
 function CG.scrollToFirstActive()
 	C_Timer.After(0.2, function()
-		if MW.mainFrame:GetTop() then
-			local top = CG.currentGuide.firstActiveIndex ~= nil and 
-				MW.mainFrame.steps ~= nil and
-				MW.mainFrame.steps[CG.currentGuide.firstActiveIndex] ~= nil and
-				MW.mainFrame.steps[CG.currentGuide.firstActiveIndex]:GetTop() ~= nil and
-				MW.mainFrame.steps[CG.currentGuide.firstActiveIndex]:GetTop() + MW.GAP
+		if MW.mainFrame:GetTop() and MW.mainFrame.scrollFrame ~= nil then
+			local top
+			if CG.currentGuide.firstActiveIndex ~= nil and MW.mainFrame.steps ~= nil then
+				local stepFrame = MW.mainFrame.steps[CG.currentGuide.firstActiveIndex]
+				top = stepFrame and stepFrame:GetTop() and stepFrame:GetTop() + MW.GAP
+			end
 			local bottom = MW.mainFrame.bottomElement and MW.mainFrame.bottomElement:GetBottom()
 			for _, message in ipairs(MW.mainFrame.message or {}) do
 				if message:IsShown() then 
@@ -1202,15 +1209,18 @@ function CG.scrollToFirstActive()
 					if not top then top = message:GetTop() + MW.GAP end
 				end
 			end
-			if bottom and MW.mainFrame.scrollFrame:GetTop() - bottom + MW.mainFrame.scrollFrame:GetVerticalScroll() <= MW.mainFrame.scrollFrame:GetHeight() then
+			local scroll = MW.mainFrame.scrollFrame:GetVerticalScroll() or 0
+			if not top then
 				MW.mainFrame.scrollFrame:SetVerticalScroll(0)
-			elseif bottom and top and top < bottom + MW.mainFrame.scrollFrame:GetHeight() then
-				MW.mainFrame.scrollFrame:SetVerticalScroll(MW.mainFrame.scrollFrame:GetVerticalScroll() + 
-					MW.mainFrame.scrollFrame:GetTop() - bottom - MW.mainFrame.scrollFrame:GetHeight())
-			elseif top then
-				MW.mainFrame.scrollFrame:SetVerticalScroll(MW.mainFrame.scrollFrame:GetVerticalScroll() + 
-					MW.mainFrame.scrollFrame:GetTop() - top)
+			elseif bottom and MW.mainFrame.scrollFrame:GetTop() - bottom + scroll <= MW.mainFrame.scrollFrame:GetHeight() then
+				MW.mainFrame.scrollFrame:SetVerticalScroll(0)
+			elseif bottom and top < bottom + MW.mainFrame.scrollFrame:GetHeight() then
+				scroll = scroll + MW.mainFrame.scrollFrame:GetTop() - bottom - MW.mainFrame.scrollFrame:GetHeight()
+			else
+				scroll = scroll + MW.mainFrame.scrollFrame:GetTop() - top
 			end
+			local range = MW.mainFrame.scrollFrame:GetVerticalScrollRange() or 0
+			MW.mainFrame.scrollFrame:SetVerticalScroll(math.max(0, math.min(scroll, range)))
 			if addon.debugging then print("LIME: scrollToFirstActive", MW.mainFrame.scrollFrame:GetVerticalScroll(), CG.currentGuide.firstActiveIndex and CG.currentGuide.steps[CG.currentGuide.firstActiveIndex] and CG.currentGuide.steps[CG.currentGuide.firstActiveIndex].line) end
 		end
 	end)
@@ -1269,17 +1279,17 @@ function CG.updateSteps(completedIndexes)
 	end
 end
 
-function CG.setStepSkip(value, a, b)
-	if a == nil then a = 1; b = #CG.currentGuide.steps end
-	if b == nil then b = a end
-	local indexes = {}
-	for i = a, b do
+function CG.setStepSkip(value, index)
+	CG.setStepsSkip(value, {[index] = true})
+end
+
+function CG.setStepsSkip(value, indexes)
+	for i, _ in pairs(indexes) do
 		local step = CG.currentGuide.steps[i]
 		step.skip = value
 		if not GuidelimeDataChar.progress[CG.currentGuide.name][step.line] then GuidelimeDataChar.progress[CG.currentGuide.name][step.line] = {stepText = step.text} end
 		GuidelimeDataChar.progress[CG.currentGuide.name][step.line].skip = step.skip
 		GuidelimeDataChar.progress[CG.currentGuide.name][step.line].completed = GuidelimeDataChar.progress[CG.currentGuide.name][step.line].completed and value
-		indexes[i] = true
 	end
 	if not value and not GuidelimeDataChar.showUnavailableSteps then
 		MW.updateMainFrame()
@@ -1289,16 +1299,14 @@ function CG.setStepSkip(value, a, b)
 end
 
 function CG.skipCurrentSteps()
-	if CG.currentGuide ~= nil and CG.currentGuide.firstActiveIndex ~= nil and
-		CG.currentGuide.lastActiveIndex ~= nil then
-		CG.setStepSkip(true, CG.currentGuide.firstActiveIndex, CG.currentGuide.lastActiveIndex)
+	if CG.currentGuide ~= nil and CG.currentGuide.activeIndexes ~= nil then
+		CG.setStepsSkip(true, CG.currentGuide.activeIndexes)
 	end
 end
 
 function CG.forEveryActiveElement(func)
-	if CG.currentGuide ~= nil and CG.currentGuide.firstActiveIndex ~= nil and
-		CG.currentGuide.lastActiveIndex ~= nil then
-		for i = CG.currentGuide.firstActiveIndex, CG.currentGuide.lastActiveIndex do
+	if CG.currentGuide ~= nil and CG.currentGuide.activeIndexes ~= nil then
+		for i, _ in pairs(CG.currentGuide.activeIndexes) do
 			local step = CG.currentGuide.steps[i]
 			--if addon.debugging then print("LIME:", step.text, step.optional) end
 			for _, element in ipairs(step.elements) do
@@ -1341,7 +1349,7 @@ function CG.completeSemiAutomatic(element)
 	if not GuidelimeDataChar.progress[CG.currentGuide.name][step.line] then GuidelimeDataChar.progress[CG.currentGuide.name][step.line] = {stepText = step.text} end
 	GuidelimeDataChar.progress[CG.currentGuide.name][step.line].completed = true
 	step.skip = true
-	CG.updateSteps({step.index})
+	CG.updateSteps({[step.index] = true})
 end
 
 function CG.getElementByTextPos(pos, step)
@@ -1352,10 +1360,9 @@ function CG.getElementByTextPos(pos, step)
 end
 
 function CG.simulateCompleteCurrentSteps()
-	if CG.currentGuide ~= nil and CG.currentGuide.firstActiveIndex ~= nil and
-		CG.currentGuide.lastActiveIndex ~= nil then
+	if CG.currentGuide ~= nil and CG.currentGuide.activeIndexes ~= nil then
 		--if addon.debugging then print("LIME:", CG.currentGuide.firstActiveIndex, CG.currentGuide.lastActiveIndex) end
-		for i = CG.currentGuide.firstActiveIndex, CG.currentGuide.lastActiveIndex do
+		for i, _ in pairs(CG.currentGuide.activeIndexes) do
 			local step = CG.currentGuide.steps[i]
 			--if addon.debugging then print("LIME:", step.text, step.optional) end
 			for _, element in ipairs(step.elements) do

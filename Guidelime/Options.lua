@@ -275,6 +275,14 @@ function O.fillOptions()
 	O.optionsFrame.showTitle:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = O.optionsFrame.showTitle
 
+	O.optionsFrame.pinOngoingSteps = F.addCheckOption(content, GuidelimeDataChar, "pinOngoingSteps", L.PIN_ONGOING_STEPS, nil, function()
+		if GuidelimeDataChar.mainFrameShowing then
+			MW.updateMainFrame()
+		end
+	end)
+	O.optionsFrame.pinOngoingSteps:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
+	prev = O.optionsFrame.pinOngoingSteps
+
 	O.optionsFrame.showCompletedSteps = F.addCheckOption(content, GuidelimeDataChar, "showCompletedSteps", L.SHOW_COMPLETED_STEPS, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
 			MW.updateMainFrame()

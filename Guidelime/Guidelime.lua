@@ -75,6 +75,7 @@ addon.icons = {
 	FOREVER = "Interface\\Addons\\" .. addonName .. "\\Icons\\forever",
 	NOTE = "Interface\\Icons\\INV_Misc_Note_01",
 	PIN = "Interface\\Addons\\" .. addonName .. "\\Icons\\pushpin",
+	WOWHEAD = "Interface\\Icons\\INV_Gizmo_Rocketlauncher",
 
 	--LOC = "Interface\\Icons\\Ability_Tracking",
 	--KILL = "Interface\\Icons\\Ability_Creature_Cursed_02",
@@ -156,6 +157,7 @@ function addon.loadData()
 		mainFrameFontSize = 14,
 		mainFrameShowScrollBar = true,
 		showTitle = true,
+		pinOngoingSteps = true,
 		showCompletedSteps = false,
 		showUnavailableSteps = true,
 		showUpcomingSteps = true,
