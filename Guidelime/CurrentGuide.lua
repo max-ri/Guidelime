@@ -436,11 +436,43 @@ local function loadStepOnActivation(i)
 	if addon.debugging then print("LIME: loadStepOnActivation " .. i .. " " .. math.floor(debugprofilestop() - time) .. " ms") end
 end
 
-function CG.getGuideTitle()
-	local title = CG.currentGuide.name
-	local guide = addon.guides[GuidelimeDataChar.currentGuide]
-	
-	return title
+function CG.getGuideTitle(guide)
+	local text = ""
+	if guide.minLevel ~= nil then
+		text = text .. MW.getLevelColor(guide.minLevel) .. guide.minLevel .. "|r"
+	end
+	if guide.minLevel ~= nil or guide.maxLevel ~= nil then
+		text = text .. "-"
+	end
+	if guide.maxLevel ~= nil then
+		text = text .. MW.getLevelColor(guide.maxLevel) .. guide.maxLevel .. "|r"
+	end
+	if guide.minLevel ~= nil or guide.maxLevel ~= nil then
+		text = text .. " "
+	end
+	if guide.title ~= nil then
+		if not D.hasRequirements(guide) then
+			text = text .. MW.COLOR_INACTIVE
+		else
+			text = text .. MW.COLOR_WHITE
+		end					
+		text = text .. guide.title .. "|r "
+	end
+	local showFaction = true
+	if guide.races ~= nil and D.contains(guide.races, D.race) then 
+		text = text .. D.getRaceIconText(D.race, D.sex)
+		if D.races[D.race] ~= "Neutral" then showFaction = false end
+	end
+	if guide.classes ~= nil and D.contains(guide.classes, D.class) then 
+		text = text .. D.getClassIconText(D.class)
+	end
+	if showFaction and guide.faction ~= nil and guide.faction == D.faction then 
+		text = text .. "|T" .. addon.icons[D.faction] .. ":12|t"	
+	end
+	if guide.flavors ~= nil and D.contains(guide.flavors, D.flavor) then 
+		text = text .. "|T" .. addon.icons[D.flavor] .. ":12|t"	
+	end
+	return text
 end
 
 function CG.getQuestText(id, t, title, colored)

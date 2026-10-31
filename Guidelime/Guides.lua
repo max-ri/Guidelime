@@ -399,28 +399,7 @@ function G.showGuides()
 			local guide = addon.guides[name]
 			table.insert(G.guidesFrame.guideOrder, name)
 
-			local text = ""
-			if guide.minLevel ~= nil then
-				text = text .. MW.getLevelColor(guide.minLevel) .. guide.minLevel .. "|r"
-			end
-			if guide.minLevel ~= nil or guide.maxLevel ~= nil then
-				text = text .. "-"
-			end
-			if guide.maxLevel ~= nil then
-				text = text .. MW.getLevelColor(guide.maxLevel) .. guide.maxLevel .. "|r"
-			end
-			if guide.minLevel ~= nil or guide.maxLevel ~= nil then
-				text = text .. " "
-			end
-			if guide.title ~= nil then
-				if D.hasRequirements(guide) then
-					text = text .. MW.COLOR_INACTIVE
-				else
-					text = text .. MW.COLOR_WHITE
-				end					
-				text = text .. guide.title .. "|r"
-			end
-			G.guidesFrame.guides[name] = F.addMultilineText(G.guidesFrame.content, text, 550, nil, function(self)
+			G.guidesFrame.guides[name] = F.addMultilineText(G.guidesFrame.content, CG.getGuideTitle(guide), 550, nil, function(self)
 				selectGuide(self.name)
 			end)
 			if j == 1 then

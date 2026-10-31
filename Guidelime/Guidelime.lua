@@ -76,6 +76,8 @@ addon.icons = {
 	NOTE = "Interface\\Icons\\INV_Misc_Note_01",
 	PIN = "Interface\\Addons\\" .. addonName .. "\\Icons\\pushpin",
 	WOWHEAD = "Interface\\Icons\\INV_Gizmo_Rocketlauncher",
+	Alliance = "Interface\\Addons\\" .. addonName .. "\\Icons\\alliance",
+	Horde = "Interface\\Addons\\" .. addonName .. "\\Icons\\horde",
 
 	--LOC = "Interface\\Icons\\Ability_Tracking",
 	--KILL = "Interface\\Icons\\Ability_Creature_Cursed_02",
