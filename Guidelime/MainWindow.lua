@@ -310,6 +310,13 @@ local function layoutSearchButton()
 	end
 end
 
+local function clearLayout()
+	if MW.mainFrame == nil then return end
+	if MW.mainFrame.scrollFrame then MW.mainFrame.scrollFrame:ClearAllPoints() end
+	if MW.mainFrame.pinnedStepsFrame then MW.mainFrame.pinnedStepsFrame:ClearAllPoints() end
+	if MW.mainFrame.searchBox then MW.mainFrame.searchBox:ClearAllPoints() end
+end
+
 local function layoutSearchBox()
 	if MW.mainFrame == nil or MW.mainFrame.scrollFrame == nil then return end
 	MW.mainFrame.scrollFrame:ClearAllPoints()
@@ -559,6 +566,7 @@ function MW.updateMainFrame(reset)
 				end
 			end
 		end
+		local guide = addon.guides[CG.currentGuide.name]
 		if #MW.mainFrame.message == 0 then
 			MW.mainFrame.message[1] = F.addMultilineText(MW.mainFrame.scrollChild, L.GUIDE_FINISHED .. " " .. L.GUIDE_LOAD_ANOTHER, MW.mainFrame.scrollChild:GetWidth() - 20, nil, function(self, button)
 				if (button == "RightButton") then
@@ -569,7 +577,6 @@ function MW.updateMainFrame(reset)
 			end)
 			MW.mainFrame.message[1]:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
 			MW.mainFrame.message[1]:Hide()
-			local guide = addon.guides[CG.currentGuide.name]
 			if demo then
 				MW.mainFrame.message[2] = F.addMultilineText(MW.mainFrame.scrollChild, 
 					string.format(L.DOWNLOAD_FULL_GUIDE, guide.downloadMinLevel, guide.downloadMaxLevel, guide.download, "\n|cFFAAAAAA" .. guide.downloadUrl), 
@@ -601,7 +608,7 @@ function MW.updateMainFrame(reset)
 			MW.mainFrame.titleLine:Hide()
 		end
 		layoutSearchButton()
-		layoutSearchBox()
+		clearLayout()
 		local prev
 		local pinnedPrev
 		MW.mainFrame.pinnedBottomStep = nil
