@@ -70,7 +70,7 @@ function EV.frame:PLAYER_LOGIN()
 	addon.init()
 	local version = GetAddOnMetadata and GetAddOnMetadata(addonName, "version") or C_AddOns.GetAddOnMetadata(addonName, "version")
 	local wowVersion, _, _, uiVersion = GetBuildInfo()
-	EV.recordMarker(table.concat({UnitName("player")}, " ") .. " (" .. D.race .. " " .. D.class .. " level " .. D.level .. ") logged in (" .. D.flavor .. (D.isHardcore() or " HC " and " ") .. wowVersion .. " UI " .. uiVersion .. " Guidelime " .. version .. ")")
+	EV.recordMarker(table.concat({UnitName("player")}, " ") .. " (" .. D.race .. " " .. D.class .. " level " .. D.level .. ") logged in (" .. D.flavor .. (D.isHardcore() and " HC " or " ") .. wowVersion .. " UI " .. uiVersion .. " Guidelime " .. version .. ")")
 	C_Timer.After(2, function()
 		if not addon.dataLoaded then addon.loadData() end
 		if GuidelimeDataChar.mainFrameShowing then MW.showMainFrame() end
