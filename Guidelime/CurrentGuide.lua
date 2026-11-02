@@ -1175,7 +1175,7 @@ local function updateFirstActiveIndex()
 	end
 	if MW.mainFrame.message ~= nil then
 		for _, message in ipairs(MW.mainFrame.message) do
-			if D.length(CG.currentGuide.activeIndexes) == 0 then
+			if D.length(CG.currentGuide.activeIndexes) > 0 then
 				message:Hide()
 			else
 				message:Show()
