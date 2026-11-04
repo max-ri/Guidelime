@@ -599,7 +599,7 @@ function MW.updateMainFrame(reset)
 		if addon.debugging then time = debugprofilestop() end
 
 		if GuidelimeDataChar.showTitle then
-			MW.mainFrame.titleBox:SetText(MW.COLOR_LIGHT_BLUE .. CG.currentGuide.group .. "|r " .. CG.getGuideTitle(guide))
+			MW.mainFrame.titleBox:SetText(MW.COLOR_LIGHT_BLUE .. CG.currentGuide.group .. "|r\n" .. CG.getGuideTitle(guide))
 			MW.mainFrame.titleBox:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
 			MW.mainFrame.titleBox:Show()
 			MW.mainFrame.titleLine:Show()
