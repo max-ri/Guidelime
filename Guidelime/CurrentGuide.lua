@@ -730,7 +730,7 @@ function CG.getStepText(step)
 					if count >= element.qty then
 						count = element.qty
 					end
-					itemText = string.format("%s\n    - %s%s: %d/%d",itemText,icon,name,count,element.qty)
+					itemText = string.format("%s\n    - %s %d/%d %s", itemText, icon, count, element.qty, name)
 				end
 			end
 			name = element.title or name
