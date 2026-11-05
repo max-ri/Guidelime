@@ -399,8 +399,8 @@ function AB.updateUseItemButtons()
 	local i = 1
 	local startPos = GuidelimeDataChar.showUseItemButtons == GuidelimeDataChar.showTargetButtons and AB.numberOfTargetButtons and AB.numberOfTargetButtons > 0 and (AB.numberOfTargetButtons * 42 + 5) or 0
 	local previousIds = {}
-	for i, _ in pairs(CG.currentGuide.activeIndexes) do
-		local step = CG.currentGuide.steps[i]
+	for j, _ in pairs(CG.currentGuide.activeIndexes) do
+		local step = CG.currentGuide.steps[j]
 		if step.active then
 			for _, element in ipairs(step.elements) do
 				if element.t == "USE_ITEM" and element.useItemId > 0 and not element.targetNpcId and
