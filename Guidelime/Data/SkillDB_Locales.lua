@@ -41,6 +41,7 @@ addon.SK.skillDB_Locales = {
   CLOTH = "Stoff",
   SHIELD = "Schild",
   ARCHAEOLOGY = "Archäologie",
+  LOCKPICKING = "Schlossknacken",
 },
 ["enUS"] = {
   COOKING = "Cooking",
@@ -82,6 +83,7 @@ addon.SK.skillDB_Locales = {
   CLOTH = "Cloth",
   SHIELD = "Shield",
   ARCHAEOLOGY = "Archaeology",
+  LOCKPICKING = "Lockpicking",
 },
 ["esES"] = {
   COOKING = "Cocina",
@@ -123,6 +125,7 @@ addon.SK.skillDB_Locales = {
   CLOTH = "Tela",
   SHIELD = "Escudo",
   ARCHAEOLOGY = "Arqueología",
+  LOCKPICKING = "Forzar cerraduras",
 },
 ["esMX"] = {
   COOKING = "Cocina",
@@ -164,6 +167,7 @@ addon.SK.skillDB_Locales = {
   CLOTH = "Tela",
   SHIELD = "Escudo",
   ARCHAEOLOGY = "Arqueología",
+  LOCKPICKING = "Forzar cerraduras",
 },
 ["frFR"] = {
   COOKING = "Cuisine",
@@ -205,6 +209,7 @@ addon.SK.skillDB_Locales = {
   CLOTH = "Tissu",
   SHIELD = "Bouclier",
   ARCHAEOLOGY = "Archéologie",
+  LOCKPICKING = "Crochetage",
 },
 ["itIT"] = {
   COOKING = "Cucina",
@@ -246,6 +251,7 @@ addon.SK.skillDB_Locales = {
   CLOTH = "Stoffa",
   SHIELD = "Scudo",
   ARCHAEOLOGY = "Archeologia",
+  LOCKPICKING = "Scasso",
 },
 ["koKR"] = {
   COOKING = "요리",
@@ -287,6 +293,7 @@ addon.SK.skillDB_Locales = {
   CLOTH = "천",
   SHIELD = "방패",
   ARCHAEOLOGY = "고고학",
+  LOCKPICKING = "자물쇠 따기",
 },
 ["ptBR"] = {
   COOKING = "Culinária",
@@ -328,6 +335,7 @@ addon.SK.skillDB_Locales = {
   CLOTH = "Tecido",
   SHIELD = "Escudo",
   ARCHAEOLOGY = "Arqueologia",
+  LOCKPICKING = "Arrombamento",
 },
 ["ruRU"] = {
   COOKING = "Кулинария",
@@ -369,6 +377,7 @@ addon.SK.skillDB_Locales = {
   CLOTH = "Ткань",
   SHIELD = "Щит",
   ARCHAEOLOGY = "Археология",
+  LOCKPICKING = "Вскрытие замков",
 },
 ["zhCN"] = {
   COOKING = "烹饪",
@@ -410,6 +419,7 @@ addon.SK.skillDB_Locales = {
   CLOTH = "布甲",
   SHIELD = "盾牌",
   ARCHAEOLOGY = "考古学",
+  LOCKPICKING = "开锁",
 },
 ["zhTW"] = {
   COOKING = "烹飪",
@@ -451,5 +461,6 @@ addon.SK.skillDB_Locales = {
   CLOTH = "布甲",
   SHIELD = "盾牌",
   ARCHAEOLOGY = "考古学",
+  LOCKPICKING = "開鎖",
 },
 }
