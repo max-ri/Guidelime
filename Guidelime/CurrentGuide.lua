@@ -510,8 +510,8 @@ function CG.getQuestText(id, t, title, colored)
 		q = q .. "]"
 	end
 	if colored == nil or colored then q = q .. GuidelimeData["fontColor" .. (t or "ACCEPT")] end
-	q = q .. (title or QT.getQuestNameById(id) or id)
-	if GuidelimeData.showQuestIds then q = q .. "(#" .. id .. ")" end
+	q = q .. (title or QT.getQuestNameById(id) or id or "?")
+	if GuidelimeData.showQuestIds and id then q = q .. "(#" .. id .. ")" end
 	if colored == nil or colored then q = q .. "|r" end
 	return q
 end
