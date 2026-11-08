@@ -539,8 +539,8 @@ function EV.frame:QUEST_GREETING()
 		local selectAvailable = nil
 		EV.openNpcAgain = false
 		for i = 1, GetNumActiveQuests() do
-			local name = GetActiveTitle(i)
-			if EV.isQuestAuto(GuidelimeData.autoTurnInQuests, function(id) return name == QT.getQuestNameById(id) end) then
+			local name, isComplete = GetActiveTitle(i)
+			if isComplete ~= false and EV.isQuestAuto(GuidelimeData.autoTurnInQuests, function(id) return name == QT.getQuestNameById(id) end) then
 				if selectActive == nil then
 					selectActive = i
 				else
