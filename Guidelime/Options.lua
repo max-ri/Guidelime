@@ -240,16 +240,42 @@ function O.fillOptions()
 	end)
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -130)
 
+	local fontLabel = content:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	fontLabel:SetText(L.MAIN_FRAME_FONT or "Guide window font")
+	fontLabel:SetPoint("TOPLEFT", slider, "BOTTOMLEFT", 0, -18)
+	O.optionsFrame.fontDropdown = CreateFrame("Frame", addonName .. "GuideFontDropdown", content, "UIDropDownMenuTemplate")
+	O.optionsFrame.fontDropdown:SetPoint("TOPLEFT", fontLabel, "TOPRIGHT", -10, 5)
+	UIDropDownMenu_Initialize(O.optionsFrame.fontDropdown, function(self, level)
+		for choice, text in pairs(MW.GUIDE_FONTS) do
+			local info = UIDropDownMenu_CreateInfo()
+			info.text = text
+			info.value = choice
+			info.checked = GuidelimeDataChar.mainFrameFont == choice.value
+			info.func = function()
+				GuidelimeDataChar.mainFrameFont = choice
+				UIDropDownMenu_SetText(O.optionsFrame.fontDropdown, MW.GUIDE_FONTS[GuidelimeDataChar.mainFrameFont])
+				if GuidelimeDataChar.mainFrameShowing then MW.updateMainFrame(true) end
+				if M.arrowFrame then
+					M.arrowFrame.text:SetFont(MW.getFontPath(), GuidelimeDataChar.arrowFontSize, "")
+					M.arrowFrame.eta:SetFont(MW.getFontPath(), GuidelimeDataChar.arrowFontSize, "")
+				end
+			end
+			UIDropDownMenu_AddButton(info, level)
+		end
+	end)
+	UIDropDownMenu_SetWidth(O.optionsFrame.fontDropdown, 150)
+	UIDropDownMenu_SetText(O.optionsFrame.fontDropdown, MW.GUIDE_FONTS[GuidelimeDataChar.mainFrameFont])
+
 	slider = F.addSliderOption(content, GuidelimeData, "maxNumOfSteps", 0, 50, 1, L.MAX_NUM_OF_STEPS, nil, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
 			MW.updateMainFrame()
 		end
 	end)
-	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -180)
+	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -200)
 
 	local pinOngoingStepsLabel = content:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	pinOngoingStepsLabel:SetText(L.SHOW_ONGOING_STEPS .. " |T" .. addon.icons.PIN .. ":12|t")
-	pinOngoingStepsLabel:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -220)
+	pinOngoingStepsLabel:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -240)
 	O.optionsFrame.pinOngoingStepsDropdown = CreateFrame("FRAME", "GuidelimePinOngoingStepsDropdown", content, "UIDropDownMenuTemplate")
 	UIDropDownMenu_SetWidth(O.optionsFrame.pinOngoingStepsDropdown, 180)
 	O.optionsFrame.pinOngoingStepsDropdown:SetPoint("TOPLEFT", pinOngoingStepsLabel, "BOTTOMLEFT", -15, -2)
@@ -645,8 +671,8 @@ function O.fillOptions()
 	
 	slider = F.addSliderOption(content, GuidelimeDataChar, "arrowFontSize", 8, 24, 1, L.ARROW_FONT_SIZE, nil, function()
 		if M.arrowFrame ~= nil then 
-			M.arrowFrame.text:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.arrowFontSize, "")
-			M.arrowFrame.eta:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.arrowFontSize, "")
+			M.arrowFrame.text:SetFont(MW.getFontPath(), GuidelimeDataChar.arrowFontSize, "")
+			M.arrowFrame.eta:SetFont(MW.getFontPath(), GuidelimeDataChar.arrowFontSize, "")
 		end
 	end)
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -130)

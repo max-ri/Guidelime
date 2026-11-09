@@ -18,6 +18,13 @@ addon.QUESTIE = addon.QUESTIE or {}; local QUESTIE = addon.QUESTIE -- Data/Quest
 
 addon.MW = addon.MW or {}; local MW = addon.MW -- MainWindow
 
+MW.GUIDE_FONTS = {
+	FRIZQT__ = "Friz Quadrata",
+	ARIALN = "Arial Narrow",
+	MORPHEUS = "Morpheus",
+	SKURRI = "Skurri",
+}
+
 MW.COLOR_QUEST_DEFAULT = "|cFF59C4F1"
 MW.COLOR_LEVEL_RED = "|cFFFF1400"
 MW.COLOR_LEVEL_ORANGE = "|cFFFFA500"
@@ -36,6 +43,10 @@ MW.GAP = 2
 
 MW.MIN_WIDTH = 120
 MW.MIN_HEIGHT = 30
+
+function MW.getFontPath()
+	return "Fonts\\" .. (GuidelimeDataChar.mainFrameFont or "FRIZQT__") .. ".TTF"
+end
 
 function MW.getLevelColor(level)
 	if level == nil then
@@ -557,7 +568,7 @@ function MW.updateMainFrame(reset)
 				G.showGuides()
 			end
 		end)
-		MW.mainFrame.message[1]:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
+		MW.mainFrame.message[1]:SetFont(MW.getFontPath(), GuidelimeDataChar.mainFrameFontSize, "")
 		MW.mainFrame.message[1]:SetPoint("TOPLEFT", MW.mainFrame.scrollChild, "TOPLEFT", 10, -15)
 		MW.mainFrame.message[1]:Show()
 	else
@@ -593,7 +604,7 @@ function MW.updateMainFrame(reset)
 							G.loadGuide(CG.currentGuide.group .. " " .. next)
 						end
 					end)
-					MW.mainFrame.message[i]:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
+					MW.mainFrame.message[i]:SetFont(MW.getFontPath(), GuidelimeDataChar.mainFrameFontSize, "")
 					MW.mainFrame.message[i]:Hide()
 					i = i + 1
 				end
@@ -608,7 +619,7 @@ function MW.updateMainFrame(reset)
 					G.showGuides()
 				end
 			end)
-			MW.mainFrame.message[1]:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
+			MW.mainFrame.message[1]:SetFont(MW.getFontPath(), GuidelimeDataChar.mainFrameFontSize, "")
 			MW.mainFrame.message[1]:Hide()
 			if demo then
 				MW.mainFrame.message[2] = F.addMultilineText(MW.mainFrame.scrollChild, 
@@ -620,7 +631,7 @@ function MW.updateMainFrame(reset)
 						F.showUrlPopup(guide.downloadUrl) 
 					end
 				end)
-				MW.mainFrame.message[2]:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
+				MW.mainFrame.message[2]:SetFont(MW.getFontPath(), GuidelimeDataChar.mainFrameFontSize, "")
 				MW.mainFrame.message[2]:Hide()
 			end
 		end
@@ -633,7 +644,7 @@ function MW.updateMainFrame(reset)
 
 		if GuidelimeDataChar.showTitle then
 			MW.mainFrame.titleBox:SetText(MW.COLOR_LIGHT_BLUE .. CG.currentGuide.group .. "|r\n" .. CG.getGuideTitle(guide))
-			MW.mainFrame.titleBox:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
+			MW.mainFrame.titleBox:SetFont(MW.getFontPath(), GuidelimeDataChar.mainFrameFontSize, "")
 			MW.mainFrame.titleBox:Show()
 			MW.mainFrame.titleLine:Show()
 		else
@@ -673,7 +684,7 @@ function MW.updateMainFrame(reset)
 						self:HighlightText(0, 0)
 						onMouseUp(self, button, true, i)
 					end)
-					stepFrame.textBox:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
+					stepFrame.textBox:SetFont(MW.getFontPath(), GuidelimeDataChar.mainFrameFontSize, "")
 					stepFrame.textBox:HookScript("OnMouseDown", function(self, button)
 						onMouseDown(self, button, CG.currentGuide.steps[i].clickable)
 					end)
@@ -973,7 +984,7 @@ function MW.showMainFrame()
 					MW.showContextMenu()
 				end
 			end)
-			MW.mainFrame.waitMessage:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
+			MW.mainFrame.waitMessage:SetFont(MW.getFontPath(), GuidelimeDataChar.mainFrameFontSize, "")
 			MW.mainFrame.waitMessage:SetPoint("TOPLEFT", MW.mainFrame.scrollChild, "TOPLEFT", 10, -15)
 		end
 	end
@@ -1009,3 +1020,4 @@ function Guidelime.toggleMainFrame()
 		addon.MW.showMainFrame()
 	end
 end
+

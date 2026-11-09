@@ -157,6 +157,7 @@ function addon.loadData()
 		mainFrameHeight = 400,
 		mainFrameAlpha = 0.5,
 		mainFrameFontSize = 14,
+		mainFrameFont = "FRIZQT__",
 		mainFrameShowScrollBar = true,
 		showTitle = true,
 		pinOngoingSteps = "ABOVE",
