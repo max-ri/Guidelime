@@ -147,6 +147,7 @@ function EV.updateFromQuestLog()
 	local checkCompleted = false
 	local questChanged = false
 	local questFound = false
+	local questRemoved = false
 	local questItemsNeeded = {}
 	for _, id in ipairs(CG.questIds) do
 		local q = CG.quests[id]
@@ -203,14 +204,16 @@ function EV.updateFromQuestLog()
 				end					
 			end
 		elseif not q.completed then
+			--if addon.debugging then print("LIME: not in quest log " .. id) end
 			checkCompleted = true
 			if q.logIndex ~= nil and q.logIndex ~= -1 and not isCollapsed[q.sort] then
 				q.logIndex = nil
-				--if addon.debugging then print("LIME: removed log entry ".. id) end
+				if addon.debugging then print("LIME: removed log entry ".. id) end
+				questRemoved = true
 			end
 		end
 	end
-	return checkCompleted, questChanged, questFound
+	return checkCompleted, questChanged, questFound, questRemoved
 end
 
 local function doQuestUpdate()
@@ -219,9 +222,10 @@ local function doQuestUpdate()
 	D.wx, D.wy, D.instance = HBD:GetPlayerWorldPosition()
 	
 	if CG.quests ~= nil then 
-		local checkCompleted, questChanged, questFound = EV.updateFromQuestLog()
+		local checkCompleted, questChanged, questFound, questRemoved = EV.updateFromQuestLog()
 
 		if EV.firstLogUpdate == nil then
+			if addon.debugging then print("LIME: first quest log update") end
 			MW.updateMainFrame()
 		else
 			if not questChanged then
@@ -232,7 +236,7 @@ local function doQuestUpdate()
 			
 			if checkCompleted then
 				if questFound then
-					CG.updateStepsText()
+					CG.updateSteps()
 				end
 				C_Timer.After(0.1, function() 
 					local completed = QT.GetQuestsCompleted()
@@ -246,8 +250,9 @@ local function doQuestUpdate()
 					end
 					if questCompleted == true or GuidelimeDataChar.showCompletedSteps then
 						CG.updateSteps()
-					else
+					elseif questRemoved then
 						-- quest was abandoned so redraw erverything since completed steps might have to be done again
+						if addon.debugging then print("LIME: quest was abandoned") end
 						MW.updateMainFrame()
 					end
 				end)

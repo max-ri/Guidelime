@@ -1075,36 +1075,24 @@ local function updateStepsCompletionAndActivation(completedIndexes)
 	--if addon.debugging then print("LIME: changed", #changedIndexes) end
 end
 
-function CG.stepIsVisible(step)
-	return ((not step.completed and (not step.skip or not step.available)) or GuidelimeDataChar.showCompletedSteps) and
-			(step.available or GuidelimeDataChar.showUnavailableSteps) and
-			(step.active or step.completed or step.skip or GuidelimeDataChar.showUpcomingSteps) and
-			D.hasRequirements(step)
-end
-
 local function keepFading()
 	local update = false
 	local isFading = false
 	for i, step in ipairs(CG.currentGuide.steps) do
 		if step.fading ~= nil then
-			if not CG.stepIsVisible(step) then
-				step.active = false
-				--if addon.debugging then print("LIME: fade out", i, step.fading) end
-				if step.fading <= 0 then
-					step.fading = nil
-					--if addon.debugging then print("LIME: fade out", i) end
-					update = true
-				else
-					step.fading = step.fading - 0.2
-					if step.fading < 0 then step.fading = 0 end
-					if MW.mainFrame.steps ~= nil and MW.mainFrame.steps[i] ~= nil and MW.mainFrame.steps[i].visible then
-						MW.mainFrame.steps[i]:SetAlpha(step.fading)
-					end
-					isFading = true
-				end
-			else
+			step.active = false
+			--if addon.debugging then print("LIME: fade out", i, step.fading) end
+			if step.fading <= 0 then
 				step.fading = nil
-				if MW.mainFrame.steps ~= nil and MW.mainFrame.steps[i] ~= nil and MW.mainFrame.steps[i].visible then MW.mainFrame.steps[i]:SetAlpha(1) end
+				--if addon.debugging then print("LIME: fade out", i) end
+				update = true
+			else
+				step.fading = step.fading - 0.2
+				if step.fading < 0 then step.fading = 0 end
+				if MW.mainFrame.steps ~= nil and MW.mainFrame.steps[i] ~= nil and MW.mainFrame.steps[i].visible then
+					MW.mainFrame.steps[i]:SetAlpha(step.fading)
+				end
+				isFading = true
 			end
 		end
 	end
@@ -1112,7 +1100,7 @@ local function keepFading()
 		C_Timer.After(0.1, function()
 			keepFading()
 		end)
-	elseif update and (not GuidelimeDataChar.showCompletedSteps or not GuidelimeDataChar.showUnavailableSteps or not GuidelimeDataChar.showUpcomingSteps) then
+	elseif update and (not GuidelimeDataChar.showCompletedSteps or not GuidelimeDataChar.showUnavailableSteps or not GuidelimeDataChar.showUpcomingSteps or GuidelimeDataChar.pinOngoingSteps ~= "DISABLED") then
 		MW.updateMainFrame()
 	end
 end
@@ -1169,7 +1157,7 @@ local function updateFirstActiveIndex()
 	CG.currentGuide.activeIndexes = {}
 	for i, step in ipairs(CG.currentGuide.steps) do
 		if (step.active or step.fading ~= nil) then
-			if CG.currentGuide.firstActiveIndex == nil and (not GuidelimeDataChar.pinOngoingSteps or not step.optional or step.completeWithNext) then CG.currentGuide.firstActiveIndex = i end
+			if CG.currentGuide.firstActiveIndex == nil and (GuidelimeDataChar.pinOngoingSteps == "DISABLED" or not step.optional or step.completeWithNext) then CG.currentGuide.firstActiveIndex = i end
 			CG.currentGuide.activeIndexes[i] = true
 		end
 	end
@@ -1251,9 +1239,9 @@ function CG.scrollToFirstActive()
 			else
 				scroll = scroll + MW.mainFrame.scrollFrame:GetTop() - top
 			end
-			local range = MW.mainFrame.scrollFrame:GetVerticalScrollRange() or 0
-			MW.mainFrame.scrollFrame:SetVerticalScroll(math.max(0, math.min(scroll, range)))
-			if addon.debugging then print("LIME: scrollToFirstActive", MW.mainFrame.scrollFrame:GetVerticalScroll(), CG.currentGuide.firstActiveIndex and CG.currentGuide.steps[CG.currentGuide.firstActiveIndex] and CG.currentGuide.steps[CG.currentGuide.firstActiveIndex].line) end
+			scroll = math.max(0, math.min(scroll, MW.mainFrame.scrollFrame:GetVerticalScrollRange() or 0))
+			MW.mainFrame.scrollFrame:SetVerticalScroll(scroll)
+			if addon.debugging then print("LIME: scrollToFirstActive", scroll, CG.currentGuide.firstActiveIndex and CG.currentGuide.steps[CG.currentGuide.firstActiveIndex] and CG.currentGuide.steps[CG.currentGuide.firstActiveIndex].line) end
 		end
 	end)
 end
@@ -1316,14 +1304,16 @@ function CG.setStepSkip(value, index)
 end
 
 function CG.setStepsSkip(value, indexes)
+	local active
 	for i, _ in pairs(indexes) do
 		local step = CG.currentGuide.steps[i]
 		step.skip = value
 		if not GuidelimeDataChar.progress[CG.currentGuide.name][step.line] then GuidelimeDataChar.progress[CG.currentGuide.name][step.line] = {stepText = step.text} end
 		GuidelimeDataChar.progress[CG.currentGuide.name][step.line].skip = step.skip
 		GuidelimeDataChar.progress[CG.currentGuide.name][step.line].completed = GuidelimeDataChar.progress[CG.currentGuide.name][step.line].completed and value
+		if step.active then active = true end
 	end
-	if not value and not GuidelimeDataChar.showUnavailableSteps then
+	if not value or (GuidelimeDataChar.pinOngoingSteps ~= "DISABLED" and GuidelimeDataChar.showCompletedSteps) then
 		MW.updateMainFrame()
 	else
 		CG.updateSteps(indexes)

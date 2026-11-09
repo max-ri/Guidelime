@@ -159,10 +159,15 @@ function MW.showContextMenu(questId, anchor, index)
 			MW.updateMainFrame()
 		end
     	UIDropDownMenu_AddButton(info)
-		info.text, info.checked, info.icon, info.func = L.PIN_ONGOING_STEPS, GuidelimeDataChar.pinOngoingSteps, addon.icons.PIN, function()
-			GuidelimeDataChar.pinOngoingSteps = not GuidelimeDataChar.pinOngoingSteps
+		info.text, info.checked, info.icon, info.func = L.PIN_ONGOING_STEPS, GuidelimeDataChar.pinOngoingSteps ~= "DISABLED", addon.icons.PIN, function()
+			if GuidelimeDataChar.pinOngoingSteps == "DISABLED" then
+				GuidelimeDataChar.pinOngoingSteps = MW.lastPinOngoingSteps or "ABOVE"
+			else
+				MW.lastPinOngoingSteps = GuidelimeDataChar.pinOngoingSteps
+				GuidelimeDataChar.pinOngoingSteps = "DISABLED"
+			end
 			if O.optionsFrame ~= nil then
-				O.optionsFrame.pinOngoingSteps:SetChecked(GuidelimeDataChar.pinOngoingSteps)
+				UIDropDownMenu_SetText(O.optionsFrame.pinOngoingStepsDropdown, L["SHOW_ONGOING_STEPS_" .. GuidelimeDataChar.pinOngoingSteps])
 			end
 			MW.updateMainFrame()
 		end
@@ -217,39 +222,53 @@ function Guidelime.toggleMinimapMarkers()
 	MW.updateMainFrame()
 end
 
-local function onMouseDown(self, button, dontMove)
-	if button == "LeftButton" then
-		if not GuidelimeDataChar.mainFrameLocked and not dontMove then 
-			MW.mainFrame:StartMoving() 
+local function saveFramePosition(parentFrame)
+	local _, _, rel, x, y = parentFrame:GetPoint()
+	x = math.floor(tonumber(x)); y = math.floor(tonumber(y))
+	if parentFrame == MW.mainFrame then
+		if rel ~= GuidelimeDataChar.mainFrameRelative or x ~= GuidelimeDataChar.mainFrameX or GuidelimeDataChar.mainFrameY ~= y then
+			if rel ~= GuidelimeDataChar.mainFrameRelative then
+				local toBorder = rel:match("LEFT$") or rel:match("RIGHT$")
+				if toBorder then
+					local toCenter = toBorder == "LEFT" and "RIGHT" or "LEFT"
+					for _, buttons in ipairs({"showTargetButtons", "showUseItemButtons"}) do
+						if GuidelimeDataChar[buttons] then
+							GuidelimeDataChar[buttons] = toCenter
+							if O.optionsFrame then
+								O.optionsFrame[buttons .. toCenter]:SetChecked(true)
+								O.optionsFrame[buttons .. toBorder]:SetChecked(false)
+							end
+						end
+					end
+					MW.updateMainFrame()
+				end
+				GuidelimeDataChar.mainFrameRelative = rel
+			end
+			GuidelimeDataChar.mainFrameX = x
+			GuidelimeDataChar.mainFrameY = y
+			return true
 		end
-		MW.mainFrame.lockBtn:SetAlpha(1)
+	elseif parentFrame == MW.ongoingFrame then
+		if GuidelimeDataChar.pinOngoingSteps == "MOVABLE" then
+			GuidelimeDataChar.ongoingFrameX = x; GuidelimeDataChar.ongoingFrameY = y; GuidelimeDataChar.ongoingFrameRelative = rel
+		end
 	end
 end
 
-local function saveMainFramePosition()
-	local _, _, rel, x, y = MW.mainFrame:GetPoint()
-	x = math.floor(tonumber(x)); y = math.floor(tonumber(y))
-	if rel ~= GuidelimeDataChar.mainFrameRelative or x ~= GuidelimeDataChar.mainFrameX or GuidelimeDataChar.mainFrameY ~= y then
-		if rel ~= GuidelimeDataChar.mainFrameRelative then
-			local toBorder = rel:match("LEFT$") or rel:match("RIGHT$")
-			if toBorder then
-				local toCenter = toBorder == "LEFT" and "RIGHT" or "LEFT"
-				for _, buttons in ipairs({"showTargetButtons", "showUseItemButtons"}) do
-					if GuidelimeDataChar[buttons] then
-						GuidelimeDataChar[buttons] = toCenter
-						if O.optionsFrame then
-							O.optionsFrame[buttons .. toCenter]:SetChecked(true)
-							O.optionsFrame[buttons .. toBorder]:SetChecked(false)
-						end
-					end
+local function onMouseDown(self, button, dontMove)
+	if button == "LeftButton" then
+		local parentFrame = (self == MW.ongoingFrame or self:GetParent() == MW.ongoingFrame or (self:GetParent() and self:GetParent():GetParent() == MW.ongoingFrame)) and "ongoingFrame" or "mainFrame"
+		if not GuidelimeDataChar[parentFrame .. "Locked"] and not dontMove then 
+			MW[parentFrame]:StartMoving()
+			if parentFrame == "ongoingFrame" then
+				GuidelimeDataChar.pinOngoingSteps = "MOVABLE"
+				MW.ongoingFrame.sizeGrabber:Show()
+				if O.optionsFrame ~= nil then
+					UIDropDownMenu_SetText(O.optionsFrame.pinOngoingStepsDropdown, L["SHOW_ONGOING_STEPS_MOVABLE"])
 				end
-				MW.updateMainFrame()
 			end
-			GuidelimeDataChar.mainFrameRelative = rel
 		end
-		GuidelimeDataChar.mainFrameX = x
-		GuidelimeDataChar.mainFrameY = y
-		return true
+		MW[parentFrame].lockBtn:SetAlpha(1)
 	end
 end
 
@@ -257,12 +276,13 @@ local function onMouseUp(self, button, isInside, i)
 	local j = i and self.GetCursorPosition and CG.getElementByTextPos(self:GetCursorPosition(), i)
 	local element = i and j and CG.currentGuide.steps[i].elements[j]
 	local questId = element and element.questId
-	local url = element and element.url
-	local linkGuide = element and element.linkGuide
 	if button == "LeftButton" then
-		MW.mainFrame:StopMovingOrSizing()
-		MW.mainFrame.lockBtn:SetAlpha(0)
-		saveMainFramePosition()
+		local url = element and element.url
+		local linkGuide = element and element.linkGuide
+		local parentFrame = (self == MW.ongoingFrame or self:GetParent() == MW.ongoingFrame or (self:GetParent() and self:GetParent():GetParent() == MW.ongoingFrame)) and MW.ongoingFrame or MW.mainFrame
+		parentFrame:StopMovingOrSizing()
+		parentFrame.lockBtn:SetAlpha(0)
+		saveFramePosition(parentFrame)
 		if questId then
 			QL.showQuestLogFrame(questId)
 		elseif url then
@@ -320,7 +340,7 @@ end
 local function layoutSearchBox()
 	if MW.mainFrame == nil or MW.mainFrame.scrollFrame == nil then return end
 	MW.mainFrame.scrollFrame:ClearAllPoints()
-	local pinned = GuidelimeDataChar.pinOngoingSteps and MW.mainFrame.pinnedStepsFrame
+	local pinned = GuidelimeDataChar.pinOngoingSteps == "PINNED" and MW.mainFrame.pinnedStepsFrame
 	if pinned and pinned:IsShown() then
 		pinned:ClearAllPoints()
 		if MW.mainFrame.searchBox ~= nil and MW.mainFrame.searchBox:IsShown() then
@@ -340,13 +360,13 @@ local function layoutSearchBox()
 		else
 			MW.mainFrame.searchBox:SetPoint("TOPLEFT", MW.mainFrame, "TOPLEFT", 10, -8)
 		end
-		if pinned and pinned:IsShown() and MW.mainFrame.pinnedBottomStep ~= nil then
-			MW.mainFrame.scrollFrame:SetPoint("TOPLEFT", MW.mainFrame.pinnedBottomStep.textBox, "BOTTOMLEFT", -35, 0)
+		if pinned and pinned:IsShown() and MW.pinnedBottomStep ~= nil then
+			MW.mainFrame.scrollFrame:SetPoint("TOPLEFT", MW.pinnedBottomStep.textBox, "BOTTOMLEFT", -35, 0)
 		else
 			MW.mainFrame.scrollFrame:SetPoint("TOPLEFT", MW.mainFrame.searchBox, "BOTTOMLEFT", -6, -5)
 		end
-	elseif pinned and pinned:IsShown() and MW.mainFrame.pinnedBottomStep ~= nil then
-		MW.mainFrame.scrollFrame:SetPoint("TOPLEFT", MW.mainFrame.pinnedBottomStep.textBox, "BOTTOMLEFT", -35, 0)
+	elseif pinned and pinned:IsShown() and MW.pinnedBottomStep ~= nil then
+		MW.mainFrame.scrollFrame:SetPoint("TOPLEFT", MW.pinnedBottomStep.textBox, "BOTTOMLEFT", -35, 0)
 	elseif GuidelimeDataChar.showTitle and MW.mainFrame.titleLine:IsShown() then
 		MW.mainFrame.scrollFrame:SetPoint("TOPLEFT", MW.mainFrame.titleLine)
 	else
@@ -484,6 +504,19 @@ local function showStepSearch()
 	updateStepSearch(true)
 end
 
+local function updateOngoingFrameHeight()
+	if MW.ongoingFrame:GetTop() and MW.pinnedBottomStep.textBox:GetBottom() then
+		MW.ongoingFrame:SetHeight(MW.ongoingFrame:GetTop() - MW.pinnedBottomStep.textBox:GetBottom() + 10)
+	end
+	-- repeat this in case textBox wasn't setup the last time
+	C_Timer.After(0.2, function()
+		if not MW.ongoingFrame:GetTop() or not MW.pinnedBottomStep.textBox:GetBottom() or math.abs(MW.ongoingFrame:GetTop() - MW.pinnedBottomStep.textBox:GetBottom() + 10 - MW.ongoingFrame:GetHeight()) > 1 then
+			if addon.debugging then print("LIME: updateOngoingFrameHeight needs repeating", MW.ongoingFrame:GetHeight(), "~=", MW.ongoingFrame:GetTop() and MW.pinnedBottomStep.textBox:GetBottom() and MW.ongoingFrame:GetTop() - MW.pinnedBottomStep.textBox:GetBottom() + 10) end
+			updateOngoingFrameHeight()
+		end
+	end)
+end
+
 function MW.updateMainFrame(reset)
 	if MW.mainFrame == nil or not GuidelimeDataChar.mainFrameShowing or not QT.isDataSourceReady() then return end
 	if addon.debugging then print("LIME: updating main frame") end
@@ -611,74 +644,101 @@ function MW.updateMainFrame(reset)
 		clearLayout()
 		local prev
 		local pinnedPrev
-		MW.mainFrame.pinnedBottomStep = nil
+		MW.pinnedBottomStep = nil
 		for i, step in ipairs(CG.currentGuide.steps) do
-			if CG.stepIsVisible(step) then
-				if step.active or GuidelimeData.maxNumOfSteps == 0 or (CG.currentGuide.lastActiveIndex ~= nil and i - CG.currentGuide.lastActiveIndex < GuidelimeData.maxNumOfSteps) then
-					local stepFrame = MW.mainFrame.steps[i]
-					if stepFrame == nil then
-						stepFrame = F.addCheckbox(MW.mainFrame.scrollChild, nil, "")
-						stepFrame:SetScript("OnClick", function()
-							if not stepFrame:GetChecked() or stepFrame.skipText == nil or stepFrame.skipText == "" then
-								CG.setStepSkip(stepFrame:GetChecked(), i)
+			if ((not step.completed and (not step.skip or not step.available)) or GuidelimeDataChar.showCompletedSteps) and
+				(step.available or GuidelimeDataChar.showUnavailableSteps) and
+				(step.active or step.completed or step.skip or GuidelimeDataChar.showUpcomingSteps) and
+				D.hasRequirements(step) and
+				(step.active or GuidelimeData.maxNumOfSteps == 0 or (CG.currentGuide.lastActiveIndex ~= nil and i - CG.currentGuide.lastActiveIndex < GuidelimeData.maxNumOfSteps)) then
+				local stepFrame = MW.mainFrame.steps[i]
+				if stepFrame == nil then
+					stepFrame = F.addCheckbox(MW.mainFrame.scrollChild, nil, "")
+					stepFrame:SetScript("OnClick", function()
+						if not stepFrame:GetChecked() or stepFrame.skipText == nil or stepFrame.skipText == "" then
+							CG.setStepSkip(stepFrame:GetChecked(), i)
+							CG.updateSteps()
+						else
+							stepFrame:SetChecked(false)
+							local _, lines = stepFrame.skipText:gsub("\n", "\n")
+							--if addon.debugging then print("LIME: " .. stepFrame.skipText .. lines) end
+							F.createPopupFrame(stepFrame.skipText, function()
+								stepFrame:SetChecked(true)
+								CG.setStepSkip(true, i)
 								CG.updateSteps()
-							else
-								stepFrame:SetChecked(false)
-								local _, lines = stepFrame.skipText:gsub("\n", "\n")
-								--if addon.debugging then print("LIME: " .. stepFrame.skipText .. lines) end
-								F.createPopupFrame(stepFrame.skipText, function()
-									stepFrame:SetChecked(true)
-									CG.setStepSkip(true, i)
-									CG.updateSteps()
-								end, true, 120 + lines * 10):Show()
-							end
-						end)
-						stepFrame.textBox = F.addMultilineText(stepFrame, nil, nil, "", function(self, button)
-							self:HighlightText(0, 0)
-							onMouseUp(self, button, true, i)
-						end)
-						stepFrame.textBox:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
-						stepFrame.textBox:HookScript("OnMouseDown", function(self, button)
-							onMouseDown(self, button, CG.currentGuide.steps[i].clickable)
-						end)
-						stepFrame.textBox:SetBackdrop({
-							bgFile = "Interface\\AddOns\\" .. addonName .. "\\Icons\\TitleHighlight",
-							tile = false, edgeSize = 1
-						})
-						setStepSearchHighlight(stepFrame, false)
-						MW.mainFrame.steps[i] = stepFrame
-					end
-					stepFrame.textBox:SetPoint("TOPLEFT", stepFrame, "TOPLEFT", 35, -9)
-					stepFrame.textBox:SetWidth(MW.mainFrame.scrollChild:GetWidth() - 40)
-					stepFrame:SetAlpha(1)
-					stepFrame:Show()
-					stepFrame.visible = true
-					stepFrame.optionalStep = step.optional and not step.completeWithNext
-					if GuidelimeDataChar.pinOngoingSteps and step.active and stepFrame.optionalStep then
+							end, true, 120 + lines * 10):Show()
+						end
+					end)
+					stepFrame.textBox = F.addMultilineText(stepFrame, nil, nil, "", function(self, button)
+						self:HighlightText(0, 0)
+						onMouseUp(self, button, true, i)
+					end)
+					stepFrame.textBox:SetFont(GameFontNormal:GetFont(), GuidelimeDataChar.mainFrameFontSize, "")
+					stepFrame.textBox:HookScript("OnMouseDown", function(self, button)
+						onMouseDown(self, button, CG.currentGuide.steps[i].clickable)
+					end)
+					stepFrame.textBox:SetBackdrop({
+						bgFile = "Interface\\AddOns\\" .. addonName .. "\\Icons\\TitleHighlight",
+						tile = false, edgeSize = 1
+					})
+					setStepSearchHighlight(stepFrame, false)
+					MW.mainFrame.steps[i] = stepFrame
+				end
+				stepFrame.textBox:SetPoint("TOPLEFT", stepFrame, "TOPLEFT", 35, -9)
+				stepFrame.textBox:SetWidth(MW.mainFrame.scrollChild:GetWidth() - 40)
+				stepFrame:SetAlpha(1)
+				stepFrame:Show()
+				stepFrame.visible = true
+				stepFrame.optionalStep = step.optional and not step.completeWithNext
+				if GuidelimeDataChar.pinOngoingSteps ~= "DISABLED" and step.active and stepFrame.optionalStep then
+					if GuidelimeDataChar.pinOngoingSteps == "PINNED" then
 						if stepFrame:GetParent() ~= MW.mainFrame.pinnedStepsFrame then stepFrame:SetParent(MW.mainFrame.pinnedStepsFrame) end
 						stepFrame:ClearAllPoints()
 						stepFrame:SetPoint("TOPLEFT", pinnedPrev or MW.mainFrame.pinnedStepsFrame, pinnedPrev and "BOTTOMLEFT" or "TOPLEFT", pinnedPrev and -35 or 0, -MW.GAP)
-						pinnedPrev = stepFrame.textBox
-						MW.mainFrame.pinnedBottomStep = stepFrame
 					else
-						if stepFrame:GetParent() ~= MW.mainFrame.scrollChild then stepFrame:SetParent(MW.mainFrame.scrollChild) end
+						if stepFrame:GetParent() ~= MW.ongoingFrame then stepFrame:SetParent(MW.ongoingFrame) end
 						stepFrame:ClearAllPoints()
-						stepFrame:SetPoint("TOPLEFT", prev or MW.mainFrame.scrollChild, prev and "BOTTOMLEFT" or "TOPLEFT", prev and -35 or 0, -MW.GAP)
-						prev = stepFrame.textBox
+						stepFrame:SetPoint("TOPLEFT", pinnedPrev or MW.ongoingFrame, pinnedPrev and "BOTTOMLEFT" or "TOPLEFT", pinnedPrev and -35 or 4, -MW.GAP)
+						stepFrame.textBox:SetWidth(MW.ongoingFrame:GetWidth() - 48)
 					end
-					stepFrame:SetChecked(step.completed or step.skip)
-					stepFrame:SetEnabled(not step.completed or step.skip)
-
-					stepFrame.textBox:Show()
-					setStepSearchHighlight(stepFrame, stepFrame.searchHighlight)
-					CG.updateStepText(i)
+					pinnedPrev = stepFrame.textBox
+					MW.pinnedBottomStep = stepFrame
+				else
+					if stepFrame:GetParent() ~= MW.mainFrame.scrollChild then stepFrame:SetParent(MW.mainFrame.scrollChild) end
+					stepFrame:ClearAllPoints()
+					stepFrame:SetPoint("TOPLEFT", prev or MW.mainFrame.scrollChild, prev and "BOTTOMLEFT" or "TOPLEFT", prev and -35 or 0, -MW.GAP)
+					prev = stepFrame.textBox
 				end
+				stepFrame:SetChecked(step.completed or step.skip)
+				stepFrame:SetEnabled(not step.completed or step.skip)
+
+				stepFrame.textBox:Show()
+				setStepSearchHighlight(stepFrame, stepFrame.searchHighlight)
+				CG.updateStepText(i)
 			end
 		end
-		if pinnedPrev then
-			MW.mainFrame.pinnedStepsFrame:Show()
+		if MW.pinnedBottomStep then
+			if GuidelimeDataChar.pinOngoingSteps ~= "DISABLED" and GuidelimeDataChar.pinOngoingSteps ~= "PINNED" then
+				MW.ongoingFrame:ClearAllPoints()
+				if GuidelimeDataChar.pinOngoingSteps == "ABOVE" then
+					MW.ongoingFrame:SetPoint("BOTTOMLEFT", MW.mainFrame, "TOPLEFT")
+					MW.ongoingFrame.sizeGrabber:Hide()
+				elseif GuidelimeDataChar.pinOngoingSteps == "BELOW" then
+					MW.ongoingFrame:SetPoint("TOPLEFT", MW.mainFrame, "BOTTOMLEFT")
+					MW.ongoingFrame.sizeGrabber:Hide()
+				else -- MOVAVLE
+					MW.ongoingFrame:SetPoint(GuidelimeDataChar.ongoingFrameRelative, UIParent, GuidelimeDataChar.ongoingFrameRelative, GuidelimeDataChar.ongoingFrameX, GuidelimeDataChar.ongoingFrameY)
+					MW.ongoingFrame.sizeGrabber:Show()
+				end
+				MW.ongoingFrame:SetWidth(GuidelimeDataChar.ongoingFrameWidth)
+				MW.ongoingFrame:Show()
+				updateOngoingFrameHeight()
+			else
+				MW.mainFrame.pinnedStepsFrame:Show()
+			end
 		else
 			MW.mainFrame.pinnedStepsFrame:Hide()
+			MW.ongoingFrame:Hide()
 		end
 		layoutSearchBox()
 
@@ -704,55 +764,110 @@ function MW.updateMainFrame(reset)
 	end
 end
 
+local function createWindow(frame)
+	MW[frame] = CreateFrame("FRAME", nil, UIParent, BackdropTemplateMixin and "BackdropTemplate")
+	MW[frame]:SetBackdrop({
+		bgFile = "Interface/Addons/" .. addonName .. "/Icons/Black",
+		edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+		edgeSize = 16,
+		insets = { left = 4, right = 4, top = 4, bottom = 4 },
+	})
+	MW[frame]:SetBackdropColor(0, 0, 0, GuidelimeDataChar.mainFrameAlpha)
+	MW[frame]:SetFrameLevel(998)
+	MW[frame]:SetMovable(true)
+	MW[frame]:EnableMouse(true)
+	MW[frame]:SetResizable(true)
+	MW[frame]:SetScript("OnMouseDown", onMouseDown)
+	MW[frame]:SetScript("OnMouseUp", onMouseUp)
+
+	MW[frame].sizeGrabber = CreateFrame("Button", nil, MW[frame])
+	MW[frame].sizeGrabber:SetFrameLevel(999)
+	MW[frame].sizeGrabber:SetSize(16, 16)
+	MW[frame].sizeGrabber:SetPoint("BOTTOMRIGHT", MW[frame], "BOTTOMRIGHT", -1, 3)
+	MW[frame].sizeGrabber:SetNormalTexture("Interface/CHATFRAME/UI-ChatIM-SizeGrabber-Down")
+	MW[frame].sizeGrabber:SetHighlightTexture("Interface/CHATFRAME/UI-ChatIM-SizeGrabber-Highlight", "ADD")
+	MW[frame].sizeGrabber:SetScript("OnMouseDown", function(self, button)
+		if not GuidelimeDataChar[frame .. "Locked"] then MW[frame]:StartSizing(frame == "ongoingFrame" and "RIGHT" or nil) end
+	end)
+	MW[frame].sizeGrabber:SetScript("OnMouseUp", function(self, button)
+		MW[frame]:StopMovingOrSizing()
+		local width, height = MW[frame]:GetSize()
+		GuidelimeDataChar[frame .. "Width"] = width
+		if frame == "mainFrame" then 
+			GuidelimeDataChar.mainFrameHeight = height 
+			if GuidelimeDataChar.pinOngoingSteps == "ABOVE" or GuidelimeDataChar.pinOngoingSteps == "BELOW" then
+				GuidelimeDataChar.ongoingFrameWidth = width
+			end
+		end
+		if MW[frame].scrollChild then MW[frame].scrollChild:SetSize(MW[frame]:GetSize()) end
+		if MW[frame].titleBox then MW[frame].titleBox:SetWidth(width - 40) end
+		if O.optionsFrame and frame == "mainFrame" then 
+			O.optionsFrame.mainFrameWidth.editbox:SetText(tostring(math.floor(GuidelimeDataChar.mainFrameWidth)))
+			O.optionsFrame.mainFrameHeight.editbox:SetText(tostring(math.floor(GuidelimeDataChar.mainFrameHeight))) 
+		end
+		MW.updateMainFrame(true)
+	end)
+	if GuidelimeDataChar[frame .. "Locked"] then MW[frame].sizeGrabber:Hide() end
+
+	MW[frame].lockBtn = CreateFrame("BUTTON", "lockBtn", MW[frame])
+	MW[frame].lockBtn:SetFrameLevel(9999)
+	MW[frame].lockBtn:SetSize(24, 24)
+	MW[frame].lockBtn:SetPoint("TOPRIGHT", MW[frame], "TOPRIGHT", 0,0)
+	if GuidelimeDataChar[frame .. "Locked"] then
+		MW[frame].lockBtn:SetNormalTexture("Interface/Buttons/LockButton-Locked-Up")
+		MW[frame].lockBtn:SetPushedTexture("Interface/Buttons/LockButton-Unlocked-Down")
+	else
+		MW[frame].lockBtn:SetNormalTexture("Interface/Buttons/LockButton-Unlocked-Down")
+		MW[frame].lockBtn:SetPushedTexture("Interface/Buttons/LockButton-Unlocked-Down")
+	end
+	
+	MW[frame].lockBtn:SetScript("OnMouseDown", function(self, button)
+		if button == "LeftButton" then
+			MW[frame]:StartMoving() 
+		end
+	end)
+	MW[frame].lockBtn:SetScript("OnMouseUp", function(self, button)
+		if button == "LeftButton" then
+			MW[frame]:StopMovingOrSizing()
+			if not saveFramePosition(MW[frame]) then
+				GuidelimeDataChar[frame .."Locked"] = not GuidelimeDataChar[frame .. "Locked"]
+			end
+			if O.optionsFrame and frame == "mainFrame" then O.optionsFrame.mainFrameLocked:SetChecked(GuidelimeDataChar.mainFrameLocked) end
+			if GuidelimeDataChar[frame .. "Locked"] then
+				MW[frame].lockBtn:SetPushedTexture("Interface/Buttons/LockButton-Unlocked-Down")
+				MW[frame].lockBtn:SetNormalTexture("Interface/Buttons/LockButton-Locked-Up")
+				MW[frame].sizeGrabber:Hide()
+			else
+				MW[frame].lockBtn:SetNormalTexture("Interface/Buttons/LockButton-Unlocked-Down")
+				MW[frame].lockBtn:SetPushedTexture("Interface/Buttons/LockButton-Unlocked-Down")
+				if frame == "mainFrame" or GuidelimeDataChar.pinOngoingSteps == "MOVABLE" then MW[frame].sizeGrabber:Show() end
+			end
+		end
+	end)
+	MW[frame].lockBtn:SetScript("OnEnter", function(self, button)
+		MW[frame].lockBtn:SetAlpha(1)
+	end)
+	MW[frame].lockBtn:SetScript("OnLeave", function(self, button)
+		MW[frame].lockBtn:SetAlpha(0)
+	end)
+	MW[frame].lockBtn:SetAlpha(0)
+end
+
 function MW.showMainFrame()
 	if not addon.dataLoaded then addon.loadData() end
 
 	GuidelimeDataChar.mainFrameShowing = true
 	if MW.mainFrame == nil then
 		if addon.debugging then print("LIME: initializing main frame") end
-		MW.mainFrame = CreateFrame("FRAME", nil, UIParent, BackdropTemplateMixin and "BackdropTemplate")
+		createWindow("mainFrame")
 		_G["GuidelimeWindow"] = MW.mainFrame
 		MW.mainFrame:SetWidth(GuidelimeDataChar.mainFrameWidth)
 		MW.mainFrame:SetHeight(GuidelimeDataChar.mainFrameHeight)
 		MW.mainFrame:SetPoint(GuidelimeDataChar.mainFrameRelative, UIParent, GuidelimeDataChar.mainFrameRelative, GuidelimeDataChar.mainFrameX, GuidelimeDataChar.mainFrameY)
-		MW.mainFrame:SetBackdrop({
-			bgFile = "Interface/Addons/" .. addonName .. "/Icons/Black",
-			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-			edgeSize = 16,
-			insets = { left = 4, right = 4, top = 4, bottom = 4 },
-		})
-		MW.mainFrame:SetBackdropColor(0, 0, 0, GuidelimeDataChar.mainFrameAlpha)
-		MW.mainFrame:SetFrameLevel(998)
-		MW.mainFrame:SetMovable(true)
-		MW.mainFrame:EnableMouse(true)
-		MW.mainFrame:SetResizable(true)
-		F.SetResizeBounds(MW.mainFrame, MW.MIN_WIDTH, MW.MIN_HEIGHT)
-		MW.mainFrame:SetScript("OnMouseDown", onMouseDown)
-		MW.mainFrame:SetScript("OnMouseUp", onMouseUp)
 		MW.mainFrame:SetScript("OnEnter", function() setSearchButtonVisible(true) end)
 		MW.mainFrame:SetScript("OnLeave", updateSearchButtonVisibilitySoon)
-		MW.mainFrame.sizeGrabber = CreateFrame("Button", nil, MW.mainFrame)
-		MW.mainFrame.sizeGrabber:SetFrameLevel(999)
-		MW.mainFrame.sizeGrabber:SetSize(16, 16)
-		MW.mainFrame.sizeGrabber:SetPoint("BOTTOMRIGHT", MW.mainFrame, "BOTTOMRIGHT", -1, 3)
-		MW.mainFrame.sizeGrabber:SetNormalTexture("Interface/CHATFRAME/UI-ChatIM-SizeGrabber-Down")
-		MW.mainFrame.sizeGrabber:SetHighlightTexture("Interface/CHATFRAME/UI-ChatIM-SizeGrabber-Highlight", "ADD")
-		MW.mainFrame.sizeGrabber:SetScript("OnMouseDown", function(self, button)
-			if not GuidelimeDataChar.mainFrameLocked then MW.mainFrame:StartSizing() end
-		end)
-		MW.mainFrame.sizeGrabber:SetScript("OnMouseUp", function(self, button)
-			MW.mainFrame:StopMovingOrSizing()
-			GuidelimeDataChar.mainFrameWidth, GuidelimeDataChar.mainFrameHeight = MW.mainFrame:GetSize()
-			MW.mainFrame.scrollChild:SetSize(MW.mainFrame:GetSize())
-			MW.mainFrame.titleBox:SetWidth(GuidelimeDataChar.mainFrameWidth - 40)
-			if O.optionsFrame then
-				O.optionsFrame.mainFrameWidth.editbox:SetText(tostring(math.floor(GuidelimeDataChar.mainFrameWidth)))
-				O.optionsFrame.mainFrameHeight.editbox:SetText(tostring(math.floor(GuidelimeDataChar.mainFrameHeight)))
-			end
-			MW.updateMainFrame(true)
-		end)
-		if GuidelimeDataChar.mainFrameLocked then MW.mainFrame.sizeGrabber:Hide() end
-		
+		F.SetResizeBounds(MW.mainFrame, MW.MIN_WIDTH, MW.MIN_HEIGHT)
+
 		MW.mainFrame.titleBox = F.addMultilineText(MW.mainFrame, nil, MW.mainFrame:GetWidth() - 40, "")
 		MW.mainFrame.titleBox:SetPoint("TOPLEFT", MW.mainFrame, "TOPLEFT", 20, -5)
 		MW.mainFrame.titleBox:SetJustifyH("CENTER")
@@ -825,48 +940,6 @@ function MW.showMainFrame()
 			MW.mainFrame.scrollFrame.ScrollBar:SetFrameLevel(0)
 		end
 		
-		MW.mainFrame.lockBtn = CreateFrame("BUTTON", "lockBtn", MW.mainFrame)
-		MW.mainFrame.lockBtn:SetFrameLevel(9999)
-		MW.mainFrame.lockBtn:SetSize(24, 24)
-		MW.mainFrame.lockBtn:SetPoint("TOPRIGHT", MW.mainFrame, "TOPRIGHT", 0,0)
-		if GuidelimeDataChar.mainFrameLocked then
-			MW.mainFrame.lockBtn:SetNormalTexture("Interface/Buttons/LockButton-Locked-Up")
-			MW.mainFrame.lockBtn:SetPushedTexture("Interface/Buttons/LockButton-Unlocked-Down")
-		else
-			MW.mainFrame.lockBtn:SetNormalTexture("Interface/Buttons/LockButton-Unlocked-Down")
-			MW.mainFrame.lockBtn:SetPushedTexture("Interface/Buttons/LockButton-Unlocked-Down")
-		end
-		
-		MW.mainFrame.lockBtn:SetScript("OnMouseDown", function(self, button)
-			if button == "LeftButton" then
-				MW.mainFrame:StartMoving() 
-			end
-		end)
-		MW.mainFrame.lockBtn:SetScript("OnMouseUp", function(self, button)
-			if button == "LeftButton" then
-				MW.mainFrame:StopMovingOrSizing()
-				if not saveMainFramePosition() then
-					GuidelimeDataChar.mainFrameLocked = not GuidelimeDataChar.mainFrameLocked
-				end
-				if O.optionsFrame ~= nil then O.optionsFrame.mainFrameLocked:SetChecked(GuidelimeDataChar.mainFrameLocked) end
-				if GuidelimeDataChar.mainFrameLocked then
-					MW.mainFrame.lockBtn:SetPushedTexture("Interface/Buttons/LockButton-Unlocked-Down")
-					MW.mainFrame.lockBtn:SetNormalTexture("Interface/Buttons/LockButton-Locked-Up")
-					MW.mainFrame.sizeGrabber:Hide()
-				else
-					MW.mainFrame.lockBtn:SetNormalTexture("Interface/Buttons/LockButton-Unlocked-Down")
-					MW.mainFrame.lockBtn:SetPushedTexture("Interface/Buttons/LockButton-Unlocked-Down")
-					MW.mainFrame.sizeGrabber:Show()
-				end
-			end
-		end)
-		MW.mainFrame.lockBtn:SetScript("OnEnter", function(self, button)
-			MW.mainFrame.lockBtn:SetAlpha(1)
-		end)
-		MW.mainFrame.lockBtn:SetScript("OnLeave", function(self, button)
-			MW.mainFrame.lockBtn:SetAlpha(0)
-		end)
-		MW.mainFrame.lockBtn:SetAlpha(0)
 		if addon.debugging then
 			MW.mainFrame.reloadBtn = CreateFrame("BUTTON", nil, MW.mainFrame, "UIPanelButtonTemplate")
 			MW.mainFrame.reloadBtn:SetFrameLevel(9999)
@@ -883,6 +956,12 @@ function MW.showMainFrame()
 			MW.mainFrame.inspectBtn:SetAttribute("macrotext","/tinspect Guidelime.addon")
 		end
 
+		createWindow("ongoingFrame")
+		_G["GuidelimeOngoingWindow"] = MW.ongoingFrame
+		MW.ongoingFrame:SetHeight(1)
+		MW.ongoingFrame:SetWidth(GuidelimeDataChar.ongoingFrameWidth)
+		MW.ongoingFrame:Hide()
+		
 		if EV.firstLogUpdate then
 			EV.updateFromQuestLog()
 			MW.updateMainFrame()
@@ -899,6 +978,11 @@ function MW.showMainFrame()
 		end
 	end
 	MW.mainFrame:Show()
+	if GuidelimeDataChar.pinOngoingSteps ~= "DISABLED" and GuidelimeDataChar.pinOngoingSteps ~= "PINNED" and MW.pinnedBottomStep ~= nil then
+		MW.ongoingFrame:Show()
+	else
+		MW.ongoingFrame:Hide()
+	end
 	if MW.mainFrame.waitMessage ~= nil then MW.mainFrame.waitMessage:Show() end
 	if addon.debugging then print("LIME: show main frame done") end
 	if not QUESTIE.waitingForQuestie then
@@ -910,6 +994,7 @@ end
 
 function MW.hideMainFrame()
 	if MW.mainFrame ~= nil then MW.mainFrame:Hide() end
+	if MW.ongoingFrame ~= nil then MW.ongoingFrame:Hide() end
 	M.removeMapIcons()
 	GuidelimeDataChar.mainFrameShowing = false
 	if O.optionsFrame ~= nil then O.optionsFrame.mainFrameShowing:SetChecked(false) end

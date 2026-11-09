@@ -159,7 +159,7 @@ function addon.loadData()
 		mainFrameFontSize = 14,
 		mainFrameShowScrollBar = true,
 		showTitle = true,
-		pinOngoingSteps = true,
+		pinOngoingSteps = "ABOVE",
 		showCompletedSteps = false,
 		showUnavailableSteps = true,
 		showUpcomingSteps = true,
@@ -183,7 +183,8 @@ function addon.loadData()
 		showMinimapButton = true,
 		maxNumOfTargetButtons = 8,
 		maxNumOfItemButtons = 8,
-		showNotes = true
+		showNotes = true,
+		ongoingFrameLocked = false,
 	}
 	addon.noSnapshotOptionsChar = {
 		currentGuide = "",
@@ -221,10 +222,18 @@ function addon.loadData()
 
 	GuidelimeDataChar.version:gsub("(%d+).(%d+)", function(major, minor)
 		if GuidelimeData.debugging then print("LIME: last saved character data version", major, minor) end
+		if tonumber(major) < 6 or (tonumber(major) == 6 and tonumber(minor) < 18) then
+			-- changed pinOngoingSteps from boolean to choice
+			if GuidelimeDataChar.pinOngoingSteps == true 
+				then GuidelimeDataChar.pinOngoingSteps = "ABOVE" end
+			else if not GuidelimeDataChar.pinOngoingSteps then
+				GuidelimeDataChar.pinOngoingSteps = "DISABLED"
+			end
+			GuidelimeDataChar.version = GetAddOnMetadata and GetAddOnMetadata(addonName, "version") or C_AddOns.GetAddOnMetadata(addonName, "version")
+		end
 		if tonumber(major) < 1 or (tonumber(major) == 1 and tonumber(minor) < 2) then
 			--changed default value for showUnavailableSteps
 			GuidelimeDataChar.showUnavailableSteps = true
-			GuidelimeDataChar.version = GetAddOnMetadata and GetAddOnMetadata(addonName, "version") or C_AddOns.GetAddOnMetadata(addonName, "version")
 		end
 		if tonumber(major) == 0 and tonumber(minor) < 41 then
 			GuidelimeDataChar.autoCompleteQuest = nil

@@ -256,6 +256,12 @@ L.RESET_ALL_NOTES = "Delete all notes"
 L.REALLY_RESET_GUIDE_NOTES = 'Really delete all of your notes saved for "%s"?'
 L.REALLY_RESET_ALL_NOTES = "Really delete all of your notes for every guide?"
 L.PIN_ONGOING_STEPS = "Always show ongoing steps at the top"
+L.SHOW_ONGOING_STEPS = "Show ongoing steps"
+L.SHOW_ONGOING_STEPS_DISABLED = "like any other step"
+L.SHOW_ONGOING_STEPS_PINNED = "always at the top"
+L.SHOW_ONGOING_STEPS_ABOVE = "in a separate window above"
+L.SHOW_ONGOING_STEPS_BELOW = "in a separate window below"
+L.SHOW_ONGOING_STEPS_MOVABLE = "in a separate movable window"
 
 -- Word lists used by the plain text parser
 -- Spaces at the start and end of each word will make it so that a match cannot occur in the middle of a word. Spaces will match any whitespace or punctuation marks.

@@ -205,6 +205,10 @@ function O.fillOptions()
 			MW.mainFrame.scrollChild:SetWidth(GuidelimeDataChar.mainFrameWidth)
 			MW.mainFrame.titleBox:SetWidth(GuidelimeDataChar.mainFrameWidth - 40)
 		end
+		if GuidelimeDataChar.pinOngoingSteps == "ABOVE" or GuidelimeDataChar.pinOngoingSteps == "BELOW" then
+			GuidelimeDataChar.ongoingFrameWidth = width
+			if MW.ongoingFrame ~= nil then MW.ongoingFrame:SetWidth(GuidelimeDataChar.mainFrameWidth) end
+		end
 	end, function()
 		if GuidelimeDataChar.mainFrameShowing then
 			MW.updateMainFrame(true)
@@ -243,6 +247,36 @@ function O.fillOptions()
 	end)
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -180)
 
+	local pinOngoingStepsLabel = content:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	pinOngoingStepsLabel:SetText(L.SHOW_ONGOING_STEPS .. " |T" .. addon.icons.PIN .. ":12|t")
+	pinOngoingStepsLabel:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -220)
+	O.optionsFrame.pinOngoingStepsDropdown = CreateFrame("FRAME", "GuidelimePinOngoingStepsDropdown", content, "UIDropDownMenuTemplate")
+	UIDropDownMenu_SetWidth(O.optionsFrame.pinOngoingStepsDropdown, 180)
+	O.optionsFrame.pinOngoingStepsDropdown:SetPoint("TOPLEFT", pinOngoingStepsLabel, "BOTTOMLEFT", -15, -2)
+	UIDropDownMenu_Initialize(O.optionsFrame.pinOngoingStepsDropdown, function(self, level)
+		local values = {"DISABLED", "PINNED", "ABOVE", "BELOW", "MOVABLE"}
+		for _, value in ipairs(values) do
+			local info = UIDropDownMenu_CreateInfo()
+			info.text = L["SHOW_ONGOING_STEPS_" .. value]
+			info.checked = GuidelimeDataChar.pinOngoingSteps == value
+			info.func = function()
+				if value == "MOVABLE" and GuidelimeDataChar.pinOngoingSteps ~= "MOVABLE" then
+					GuidelimeDataChar.ongoingFrameRelative, GuidelimeDataChar.ongoingFrameX, GuidelimeDataChar.ongoingFrameY, GuidelimeDataChar.ongoingFrameWidth = "CENTER", 0, 0, 350
+				elseif value == "ABOVE" or value == "BELOW" then 
+				 	GuidelimeDataChar.ongoingFrameWidth =  GuidelimeDataChar.mainFrameWidth
+				end					
+				GuidelimeDataChar.pinOngoingSteps = value
+				UIDropDownMenu_SetText(O.optionsFrame.pinOngoingStepsDropdown, L["SHOW_ONGOING_STEPS_" .. value])
+				if MW.ongoingFrame then MW.ongoingFrame:SetWidth(GuidelimeDataChar.ongoingFrameWidth) end
+				if GuidelimeDataChar.mainFrameShowing then MW.updateMainFrame() end
+			end
+			UIDropDownMenu_AddButton(info, level)
+		end
+	end)
+	UIDropDownMenu_SetText(O.optionsFrame.pinOngoingStepsDropdown, L["SHOW_ONGOING_STEPS_" .. (GuidelimeDataChar.pinOngoingSteps or "DISABLED")])
+	UIDropDownMenu_JustifyText(O.optionsFrame.pinOngoingStepsDropdown, "LEFT")
+	O.optionsFrame.pinOngoingSteps = O.optionsFrame.pinOngoingStepsDropdown
+
 	O.optionsFrame.mainFrameLocked = F.addCheckOption(content, GuidelimeDataChar, "mainFrameLocked", L.LOCK_MAINFRAME, nil, function()
 		if GuidelimeDataChar.mainFrameLocked then
 	    	MW.mainFrame.lockBtn:SetPushedTexture("Interface/Buttons/LockButton-Unlocked-Down")
@@ -274,14 +308,6 @@ function O.fillOptions()
 	end)
 	O.optionsFrame.showTitle:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
 	prev = O.optionsFrame.showTitle
-
-	O.optionsFrame.pinOngoingSteps = F.addCheckOption(content, GuidelimeDataChar, "pinOngoingSteps", L.PIN_ONGOING_STEPS, nil, function()
-		if GuidelimeDataChar.mainFrameShowing then
-			MW.updateMainFrame()
-		end
-	end)
-	O.optionsFrame.pinOngoingSteps:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, 0)
-	prev = O.optionsFrame.pinOngoingSteps
 
 	O.optionsFrame.showCompletedSteps = F.addCheckOption(content, GuidelimeDataChar, "showCompletedSteps", L.SHOW_COMPLETED_STEPS, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
