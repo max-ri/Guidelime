@@ -284,7 +284,6 @@ function M.showMapIcons()
 				if GameTooltipTextLeft1 then
 					local textWidth = GameTooltipTextLeft1:GetStringWidth()
 					GameTooltipTextLeft1:SetWidth(math.min(400, textWidth))
-					GameTooltipTextLeft1:SetWordWrap(true)
 				end
 				GameTooltip:Show()
 				F.showingTooltip = true 
@@ -293,10 +292,7 @@ function M.showMapIcons()
 		M.arrowFrame:SetScript("OnLeave", function(self) 
 			if self.tooltip ~= nil and self.tooltip ~= "" and F.showingTooltip then 
 				GameTooltip:Hide()
-				if GameTooltipTextLeft1 then
-					GameTooltipTextLeft1:SetWidth(0)
-					GameTooltipTextLeft1:SetWordWrap(false)
-				end
+				if GameTooltipTextLeft1 then GameTooltipTextLeft1:SetWidth(0) end
 				F.showingTooltip = false 
 			end 
 		end)
