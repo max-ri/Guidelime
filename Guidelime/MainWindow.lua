@@ -728,28 +728,28 @@ function MW.updateMainFrame(reset)
 				CG.updateStepText(i)
 			end
 		end
-		if MW.pinnedBottomStep then
-			if GuidelimeDataChar.pinOngoingSteps ~= "DISABLED" and GuidelimeDataChar.pinOngoingSteps ~= "PINNED" then
-				MW.ongoingFrame:ClearAllPoints()
-				if GuidelimeDataChar.pinOngoingSteps == "ABOVE" then
-					MW.ongoingFrame:SetPoint("BOTTOMLEFT", MW.mainFrame, "TOPLEFT")
-					MW.ongoingFrame.sizeGrabber:Hide()
-				elseif GuidelimeDataChar.pinOngoingSteps == "BELOW" then
-					MW.ongoingFrame:SetPoint("TOPLEFT", MW.mainFrame, "BOTTOMLEFT")
-					MW.ongoingFrame.sizeGrabber:Hide()
-				else -- MOVAVLE
-					MW.ongoingFrame:SetPoint(GuidelimeDataChar.ongoingFrameRelative, UIParent, GuidelimeDataChar.ongoingFrameRelative, GuidelimeDataChar.ongoingFrameX, GuidelimeDataChar.ongoingFrameY)
-					MW.ongoingFrame.sizeGrabber:Show()
-				end
-				MW.ongoingFrame:SetWidth(GuidelimeDataChar.ongoingFrameWidth)
-				MW.ongoingFrame:Show()
-				updateOngoingFrameHeight()
-			else
-				MW.mainFrame.pinnedStepsFrame:Show()
-			end
-		else
+		if not MW.pinnedBottomStep or GuidelimeDataChar.pinOngoingSteps == "DISABLED" then
 			MW.mainFrame.pinnedStepsFrame:Hide()
 			MW.ongoingFrame:Hide()
+		elseif GuidelimeDataChar.pinOngoingSteps == "PINNED" then
+			MW.mainFrame.pinnedStepsFrame:Show()
+			MW.ongoingFrame:Hide()
+		else
+			MW.ongoingFrame:ClearAllPoints()
+			if GuidelimeDataChar.pinOngoingSteps == "ABOVE" then
+				MW.ongoingFrame:SetPoint("BOTTOMLEFT", MW.mainFrame, "TOPLEFT")
+				MW.ongoingFrame.sizeGrabber:Hide()
+			elseif GuidelimeDataChar.pinOngoingSteps == "BELOW" then
+				MW.ongoingFrame:SetPoint("TOPLEFT", MW.mainFrame, "BOTTOMLEFT")
+				MW.ongoingFrame.sizeGrabber:Hide()
+			else -- MOVABLE
+				MW.ongoingFrame:SetPoint(GuidelimeDataChar.ongoingFrameRelative, UIParent, GuidelimeDataChar.ongoingFrameRelative, GuidelimeDataChar.ongoingFrameX, GuidelimeDataChar.ongoingFrameY)
+				MW.ongoingFrame.sizeGrabber:Show()
+			end
+			MW.ongoingFrame:SetWidth(GuidelimeDataChar.ongoingFrameWidth or GuidelimeDataChar.mainFrameWidth)
+			MW.ongoingFrame:Show()
+			updateOngoingFrameHeight()
+			MW.mainFrame.pinnedStepsFrame:Hide()
 		end
 		layoutSearchBox()
 
@@ -970,7 +970,7 @@ function MW.showMainFrame()
 		createWindow("ongoingFrame")
 		_G["GuidelimeOngoingWindow"] = MW.ongoingFrame
 		MW.ongoingFrame:SetHeight(1)
-		MW.ongoingFrame:SetWidth(GuidelimeDataChar.ongoingFrameWidth)
+		MW.ongoingFrame:SetWidth(GuidelimeDataChar.ongoingFrameWidth or GuidelimeDataChar.mainFrameWidth)
 		MW.ongoingFrame:Hide()
 		
 		if EV.firstLogUpdate then
