@@ -315,8 +315,8 @@ function AB.updateTargetButtons()
 			button.texture:Show()
 		end
 		button:SetAttribute("macrotext", "/cleartarget\n" .. getTargetMacro(t) .. 
-			(t.useItemId and "\n/use item:" .. t.useItemId or "") ..
-			(t.spell and "\n/cast " .. t.spell or ""))
+			(t.useItemId and "\n/use [exists] item:" .. t.useItemId or "") ..
+			(t.spell and "\n/cast [exists] " .. t.spell or ""))
 		F.setTooltip(button, getTargetTooltip(t))
 		button:SetScript("OnEnter", function(self)
 			if self.tooltip and self.tooltip ~= "" then
