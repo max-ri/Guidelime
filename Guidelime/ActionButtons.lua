@@ -239,7 +239,7 @@ function AB.updateTargetButtons()
 					hasButton = true
 				end
 				if hasButton then
-					if addon.debugging then print("LIME: show target button for npc", targetNpcId) end
+					if addon.debugging then print("LIME: show target button for npc", element.targetNpcId) end
 					if InCombatLockdown() then
 						EV.updateAfterCombat = true
 						return 
@@ -263,14 +263,13 @@ function AB.updateTargetButtons()
 							t = {name = name, index = #targets + 1, marker = marker, npcId = element.targetNpcId}
 							table.insert(targets, t)
 						end
-						t.useItemId = element.useItemId
-						if element.spell or element.spellId then 
+						if addon.debugging then print("LIME: target button with use item", element.useItemId) end
+						t.useItemId = t.useItemId or element.useItemId
+						if not t.spell and (element.spell or element.spellId) then 
 							local id
 							if element.spellId and GetSpellInfo(element.spellId) then id = element.spellId end
 							if id == nil then id = SP.getSpellId(element.spell) end
 							t.spell = GetSpellInfo(id)
-						else
-							t.spell = nil
 						end
 					end
 				end
