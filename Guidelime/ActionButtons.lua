@@ -56,6 +56,7 @@ end
 
 function AB.showTargetButtonPortrait(button)
 	if not button or not UnitExists("target") or (issecretvalue and issecretvalue(UnitName("target"))) or UnitName("target") ~= button.npc then return end
+	if button.useItemId or button.spell then return end
 	SetPortraitTexture(button.portrait, "target")
 	button.portrait:Show()
 	button.texture:Hide()
@@ -269,7 +270,9 @@ function AB.updateTargetButtons()
 							local id
 							if element.spellId and GetSpellInfo(element.spellId) then id = element.spellId end
 							if id == nil then id = SP.getSpellId(element.spell) end
-							t.spell = GetSpellInfo(id)
+							local name, _ ,icon = GetSpellInfo(id)
+							t.spell = name
+							t.spellIcon = icon 
 						end
 					end
 				end
@@ -312,6 +315,13 @@ function AB.updateTargetButtons()
 			button.texture:Hide()
 		else
 			button.portrait:Hide()
+			if button.useItemId then
+				button.texture:SetTexture(GetItemIcon(button.useItemId))
+			elseif button.spell then
+				button.texture:SetTexture(t.spellIcon or addon.icons.SPELL)
+			else
+				button.texture:SetTexture(addon.icons.TARGET_BUTTON)
+			end
 			button.texture:Show()
 		end
 		button:SetAttribute("macrotext", "/cleartarget\n" .. getTargetMacro(t) .. 
