@@ -18,13 +18,6 @@ addon.QUESTIE = addon.QUESTIE or {}; local QUESTIE = addon.QUESTIE -- Data/Quest
 
 addon.MW = addon.MW or {}; local MW = addon.MW -- MainWindow
 
-MW.GUIDE_FONTS = {
-	FRIZQT__ = "Friz Quadrata",
-	ARIALN = "Arial Narrow",
-	MORPHEUS = "Morpheus",
-	SKURRI = "Skurri",
-}
-
 MW.COLOR_QUEST_DEFAULT = "|cFF59C4F1"
 MW.COLOR_LEVEL_RED = "|cFFFF1400"
 MW.COLOR_LEVEL_ORANGE = "|cFFFFA500"
@@ -45,7 +38,7 @@ MW.MIN_WIDTH = 120
 MW.MIN_HEIGHT = 30
 
 function MW.getFontPath()
-	return "Fonts\\" .. (GuidelimeDataChar.mainFrameFont or "FRIZQT__") .. ".TTF"
+	return GuidelimeDataChar.mainFrameFont and ("Fonts\\" .. GuidelimeDataChar.mainFrameFont .. ".TTF") or GameFontNormal:GetFont()
 end
 
 function MW.getLevelColor(level)

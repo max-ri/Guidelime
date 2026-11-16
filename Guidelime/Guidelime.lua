@@ -157,7 +157,6 @@ function addon.loadData()
 		mainFrameHeight = 400,
 		mainFrameAlpha = 0.5,
 		mainFrameFontSize = 14,
-		mainFrameFont = "FRIZQT__",
 		mainFrameShowScrollBar = true,
 		showTitle = true,
 		pinOngoingSteps = "ABOVE",
@@ -223,6 +222,12 @@ function addon.loadData()
 
 	GuidelimeDataChar.version:gsub("(%d+).(%d+)", function(major, minor)
 		if GuidelimeData.debugging then print("LIME: last saved character data version", major, minor) end
+		if tonumber(major) < 6 or (tonumber(major) == 6 and tonumber(minor) < 22) then
+			-- old default for font was FRIZQT__, this was causing problems for non-western clients
+			-- new default is nil which will use GameFontNormal:GetFont() instead
+			if GuidelimeDataChar.mainFrameFont == "FRIZQT__" then GuidelimeDataChar.mainFrameFont = nil end
+			GuidelimeDataChar.version = GetAddOnMetadata and GetAddOnMetadata(addonName, "version") or C_AddOns.GetAddOnMetadata(addonName, "version")
+		end			
 		if tonumber(major) < 6 or (tonumber(major) == 6 and tonumber(minor) < 18) then
 			-- changed pinOngoingSteps from boolean to choice
 			if GuidelimeDataChar.pinOngoingSteps == true 
@@ -230,7 +235,6 @@ function addon.loadData()
 			else if not GuidelimeDataChar.pinOngoingSteps then
 				GuidelimeDataChar.pinOngoingSteps = "DISABLED"
 			end
-			GuidelimeDataChar.version = GetAddOnMetadata and GetAddOnMetadata(addonName, "version") or C_AddOns.GetAddOnMetadata(addonName, "version")
 		end
 		if tonumber(major) < 1 or (tonumber(major) == 1 and tonumber(minor) < 2) then
 			--changed default value for showUnavailableSteps

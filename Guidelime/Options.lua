@@ -250,15 +250,21 @@ function O.fillOptions()
 	fontLabel:SetPoint("TOPLEFT", slider, "BOTTOMLEFT", 0, -18)
 	O.optionsFrame.fontDropdown = CreateFrame("Frame", addonName .. "GuideFontDropdown", content, "UIDropDownMenuTemplate")
 	O.optionsFrame.fontDropdown:SetPoint("TOPLEFT", fontLabel, "TOPRIGHT", -10, 5)
+	local fontTexts = {
+		ARIALN = "Arial Narrow",
+		MORPHEUS = "Morpheus",
+		SKURRI = "Skurri",
+	}
 	UIDropDownMenu_Initialize(O.optionsFrame.fontDropdown, function(self, level)
-		for choice, text in pairs(MW.GUIDE_FONTS) do
+		for _, choice in ipairs({"default", "ARIALN", "MORPHEUS", "SKURRI"}) do
 			local info = UIDropDownMenu_CreateInfo()
-			info.text = text
+			info.text = fontTexts[choice] or L.DEFAULT_FONT
+			if choice == "default" then choice = nil end
 			info.value = choice
-			info.checked = GuidelimeDataChar.mainFrameFont == choice.value
+			info.checked = GuidelimeDataChar.mainFrameFont == choice
 			info.func = function()
 				GuidelimeDataChar.mainFrameFont = choice
-				UIDropDownMenu_SetText(O.optionsFrame.fontDropdown, MW.GUIDE_FONTS[GuidelimeDataChar.mainFrameFont])
+				UIDropDownMenu_SetText(O.optionsFrame.fontDropdown, fontTexts[GuidelimeDataChar.mainFrameFont] or L.DEFAULT_FONT)
 				if GuidelimeDataChar.mainFrameShowing then MW.updateMainFrame(true) end
 				if M.arrowFrame then
 					M.arrowFrame.text:SetFont(MW.getFontPath(), GuidelimeDataChar.arrowFontSize, "")
@@ -269,7 +275,7 @@ function O.fillOptions()
 		end
 	end)
 	UIDropDownMenu_SetWidth(O.optionsFrame.fontDropdown, 150)
-	UIDropDownMenu_SetText(O.optionsFrame.fontDropdown, MW.GUIDE_FONTS[GuidelimeDataChar.mainFrameFont])
+	UIDropDownMenu_SetText(O.optionsFrame.fontDropdown, fontTexts[GuidelimeDataChar.mainFrameFont] or L.DEFAULT_FONT)
 
 	slider = F.addSliderOption(content, GuidelimeData, "maxNumOfSteps", 0, 50, 1, L.MAX_NUM_OF_STEPS, nil, nil, function()
 		if GuidelimeDataChar.mainFrameShowing then
