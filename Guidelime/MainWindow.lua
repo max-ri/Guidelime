@@ -787,6 +787,7 @@ local function createWindow(frame)
 		insets = { left = 4, right = 4, top = 4, bottom = 4 },
 	})
 	MW[frame]:SetBackdropColor(0, 0, 0, GuidelimeDataChar.mainFrameAlpha)
+	MW[frame]:SetBackdropBorderColor(1, 1, 1, GuidelimeDataChar.mainFrameAlpha > 0 and 1 or 0)
 	MW[frame]:SetFrameLevel(998)
 	MW[frame]:SetMovable(true)
 	MW[frame]:EnableMouse(true)

@@ -229,6 +229,11 @@ function O.fillOptions()
 	local slider = F.addSliderOption(content, GuidelimeDataChar, "mainFrameAlpha", 0, 1, 0.01, L.MAIN_FRAME_ALPHA, nil, function()
 		if MW.mainFrame ~= nil then 
 			MW.mainFrame:SetBackdropColor(0, 0, 0, GuidelimeDataChar.mainFrameAlpha)
+			MW.mainFrame:SetBackdropBorderColor(1, 1, 1, GuidelimeDataChar.mainFrameAlpha > 0 and 1 or 0)
+		end
+		if MW.ongoingFrame ~= nil then 
+			MW.ongoingFrame:SetBackdropColor(0, 0, 0, GuidelimeDataChar.mainFrameAlpha)
+			MW.ongoingFrame:SetBackdropBorderColor(1, 1, 1, GuidelimeDataChar.mainFrameAlpha > 0 and 1 or 0)
 		end
 	end)
 	slider:SetPoint("TOPLEFT", prev, "TOPLEFT", 350, -90)
