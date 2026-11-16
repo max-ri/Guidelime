@@ -792,6 +792,7 @@ local function createWindow(frame)
 	MW[frame]:SetMovable(true)
 	MW[frame]:EnableMouse(true)
 	MW[frame]:SetResizable(true)
+	MW[frame]:SetClampedToScreen(true)
 	MW[frame]:SetScript("OnMouseDown", onMouseDown)
 	MW[frame]:SetScript("OnMouseUp", onMouseUp)
 
