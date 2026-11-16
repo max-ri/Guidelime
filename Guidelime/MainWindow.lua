@@ -516,12 +516,15 @@ local function showStepSearch()
 end
 
 local function updateOngoingFrameHeight()
+	if not MW.ongoingFrame or not MW.pinnedBottomStep or not MW.pinnedBottomStep.textBox then return end
 	if MW.ongoingFrame:GetTop() and MW.pinnedBottomStep.textBox:GetBottom() then
 		MW.ongoingFrame:SetHeight(MW.ongoingFrame:GetTop() - MW.pinnedBottomStep.textBox:GetBottom() + 10)
 	end
 	-- repeat this in case textBox wasn't setup the last time
 	C_Timer.After(0.2, function()
-		if not MW.ongoingFrame:GetTop() or not MW.pinnedBottomStep.textBox:GetBottom() or math.abs(MW.ongoingFrame:GetTop() - MW.pinnedBottomStep.textBox:GetBottom() + 10 - MW.ongoingFrame:GetHeight()) > 1 then
+		if not MW.ongoingFrame or not MW.pinnedBottomStep or not MW.pinnedBottomStep.textBox then return end
+		if not MW.ongoingFrame:GetTop() or not MW.pinnedBottomStep.textBox:GetBottom() or 
+			math.abs(MW.ongoingFrame:GetTop() - MW.pinnedBottomStep.textBox:GetBottom() + 10 - MW.ongoingFrame:GetHeight()) > 1 then
 			if addon.debugging then print("LIME: updateOngoingFrameHeight needs repeating", MW.ongoingFrame:GetHeight(), "~=", MW.ongoingFrame:GetTop() and MW.pinnedBottomStep.textBox:GetBottom() and MW.ongoingFrame:GetTop() - MW.pinnedBottomStep.textBox:GetBottom() + 10) end
 			updateOngoingFrameHeight()
 		end
