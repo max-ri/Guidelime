@@ -863,15 +863,13 @@ EV.frame:RegisterEvent('PLAYER_REGEN_ENABLED')
 function EV.frame:PLAYER_REGEN_ENABLED()
 	if EV.updateAfterCombat then
 		EV.updateAfterCombat = false
-		AB.updateTargetButtons()
-		AB.updateUseItemButtons()
+		AB.updateButtons()
 	end
 end
 
 EV.frame:RegisterEvent('UPDATE_BINDINGS')
 function EV.frame:UPDATE_BINDINGS()
-	AB.updateTargetButtons()
-	AB.updateUseItemButtons()
+	AB.updateButtons()
 end
 
 EV.frame:RegisterEvent('PLAYER_LOGOUT')

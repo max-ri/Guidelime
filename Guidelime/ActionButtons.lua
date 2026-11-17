@@ -212,6 +212,11 @@ local function keyBindButton(button, bindingName, buttonName, functionName)
 	end
 end
 
+function AB.updateButtons()
+	AB.updateUseItemButtons()
+	AB.updateTargetButtons()
+end
+
 function AB.updateTargetButtons()
 	if not MW.mainFrame then return end
 	if MW.mainFrame.targetButtons == nil then
@@ -280,11 +285,12 @@ function AB.updateTargetButtons()
 		end
 	end
 	local pos = 1
+	local startPos = GuidelimeDataChar.showUseItemButtons == GuidelimeDataChar.showTargetButtons and AB.numberOfUseButtons and AB.numberOfUseButtons > 0 and (AB.numberOfUseButtons * 41 + 5) or 0
 	if #targets > 1 then
 		local button = AB.createTargetButton("Multi")
 		button.texture2:Hide()
 		button:SetPoint("TOP" .. GuidelimeDataChar.showTargetButtons, MW.mainFrame, "TOP" .. GuidelimeDataChar.showTargetButtons, 
-			GuidelimeDataChar.showTargetButtons == "LEFT" and -36 or (GuidelimeDataChar.mainFrameShowScrollBar and 54 or 36), -3)
+			GuidelimeDataChar.showTargetButtons == "LEFT" and -36 or (GuidelimeDataChar.mainFrameShowScrollBar and 54 or 36), -3 - startPos)
 		button:SetAttribute("macrotext", getTargetMacroMulti(targets))
 		F.setTooltip(button, getTargetTooltipMulti(targets))
 		keyBindButton(button, "GUIDELIME_TARGET_1", "GuidelimeTargetButtonMulti", "multi target")
@@ -303,7 +309,7 @@ function AB.updateTargetButtons()
 		end
 		button:SetPoint("TOP" .. GuidelimeDataChar.showTargetButtons, MW.mainFrame, "TOP" .. GuidelimeDataChar.showTargetButtons, 
 			GuidelimeDataChar.showTargetButtons == "LEFT" and -36 or (GuidelimeDataChar.mainFrameShowScrollBar and 54 or 36), 
-			-3 - (pos - 1) * 41)
+			-3 - (pos - 1) * 41 - startPos)
 		local keepPortrait = button.npcId == t.npcId and button.portrait:IsShown()
 		button.npc = t.name
 		button.npcId = t.npcId
@@ -364,7 +370,6 @@ function AB.updateTargetButtons()
 		AB.showTargetButtonPortrait(button)
 		pos = pos + 1
 	end
-	AB.numberOfTargetButtons = pos - 1
 end
 
 function AB.createUseItemButton(i)
@@ -406,7 +411,6 @@ function AB.updateUseItemButtons()
 	end
 	if not GuidelimeDataChar.showUseItemButtons or not CG.currentGuide or not CG.currentGuide.activeIndexes then return end
 	local i = 1
-	local startPos = GuidelimeDataChar.showUseItemButtons == GuidelimeDataChar.showTargetButtons and AB.numberOfTargetButtons and AB.numberOfTargetButtons > 0 and (AB.numberOfTargetButtons * 42 + 5) or 0
 	local previousIds = {}
 	for j, _ in pairs(CG.currentGuide.activeIndexes) do
 		local step = CG.currentGuide.steps[j]
@@ -423,7 +427,7 @@ function AB.updateUseItemButtons()
 					local button = AB.createUseItemButton(i)
 					button:SetPoint("TOP" .. GuidelimeDataChar.showUseItemButtons, MW.mainFrame, "TOP" .. GuidelimeDataChar.showUseItemButtons, 
 						GuidelimeDataChar.showUseItemButtons == "LEFT" and -36 or (GuidelimeDataChar.mainFrameShowScrollBar and 54 or 36), 
-						-4 - (i - 1) * 41 - startPos)
+						-3 - (i - 1) * 41)
 					button.useItemId = element.useItemId
 					button.spell = nil
 					button.texture:SetTexture(GetItemIcon(button.useItemId))
@@ -492,4 +496,5 @@ function AB.updateUseItemButtons()
 			end
 		end
 	end
+	AB.numberOfUseButtons = i - 1
 end

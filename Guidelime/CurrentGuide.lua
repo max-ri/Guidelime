@@ -431,7 +431,7 @@ local function loadStepOnActivation(i)
 	C_Timer.After(1, function()
 		if addon.debugging then print("LIME: recheck use items for step", step.line) end
 		CG.loadStepUseItems(i, true)
-		AB.updateUseItemButtons()
+		AB.updateButtons()
 	end)
 	if addon.debugging then print("LIME: loadStepOnActivation " .. i .. " " .. math.floor(debugprofilestop() - time) .. " ms") end
 end
@@ -1284,8 +1284,7 @@ function CG.updateSteps(completedIndexes)
 	--if addon.debugging then print("LIME: updateFirstActiveIndex " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
 	M.updateStepsMapIcons()
 	--if addon.debugging then print("LIME: updateStepsMapIcons " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
-	AB.updateTargetButtons()
-	AB.updateUseItemButtons()
+	AB.updateButtons()
 	CG.updateStepsText()
 	if scrollToFirstActive then	CG.scrollToFirstActive() end
 	--if addon.debugging then print("LIME: updateStepsText " .. math.floor(debugprofilestop() - time) .. " ms"); time = debugprofilestop() end
