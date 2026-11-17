@@ -903,6 +903,12 @@ local function updateStepCompletion(i, completedIndexes, playerIsAlive)
 			autoCompleteStep = true
 		end
 	end
+	-- [OR]: step is completed when any of its objectives is completed
+	if step.completeAny and step.completed == false then
+		for _, element in ipairs(step.elements) do
+			if element.completed and element.t ~= "GOTO" and element.t ~= "TEXT" then step.completed = true end
+		end
+	end
 	-- check goto last so that go to does not matter when all other objectives are completed
 	local nonGotoCompleted = step.completed or wasCompleted
 	for _, element in ipairs(step.elements) do
