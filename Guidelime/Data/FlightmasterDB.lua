@@ -71,6 +71,10 @@ FM.flightmasterDB = {
 	[80] = {npcId = 16227, zone = "The Barrens", name = "Bragok", place = "Ratchet", id = 80},
 	[559] = {npcId = 41861, zone = "Mount Hyjal", name = "Fayran Elthas", place = "Summit of Eternity", id = 80},
 	[3242] = {npcId = 260626, zone = "Mount Hyjal", name = "Bluebell", place = "Tainted Foothills", id = 3242},
+	[3203] = {npcId = 255993, zone = "Riverglades", name = "Grakna", place = "Rog'mar", faction = "Horde", id = 3203},
+	[3276] = {npcId = 257087, zone = "Riverglades", name = "Gretchen Mayberry", place = "Farholde Keep", faction = "Alliance", id = 3276},
+	-- TODO: add npcId and name when this is added to the game
+	[3205] = {zone = "Dun Morogh", place = "Tidegear Coast", faction = "Alliance", id = 3205},
 }
 
 -- Burning Crusade
