@@ -69,6 +69,8 @@ FM.flightmasterDB = {
 	[73] = {npcId = 15178, zone = "Silithus", name = "Runk Windtamer", place = "Cenarion Hold", faction = "Horde", id = 73},  
 	[79] = {npcId = 10583, zone = "Un'Goro Crater", name = "Gryfe", place = "Marshal's Refuge", id = 79},
 	[80] = {npcId = 16227, zone = "The Barrens", name = "Bragok", place = "Ratchet", id = 80},
+	[559] = {npcId = 41861, zone = "Mount Hyjal", name = "Fayran Elthas", place = "Summit of Eternity", id = 80},
+	[3242] = {npcId = 260626, zone = "Mount Hyjal", name = "Bluebell", place = "Tainted Foothills", id = 3242},
 }
 
 -- Burning Crusade
