@@ -92,7 +92,8 @@ function QT.getQuestPrequests(id)
 	if QT.questPrequests == nil then QT.questPrequests = {} end
 	if QT.questPrequests[id] ~= nil then
 		local cached = QT.questPrequests[id]
-		return cached == QT_CACHE_NIL and nil or cached
+		if cached == QT_CACHE_NIL then return nil end
+		return cached
 	end
 
 	local result
@@ -113,7 +114,8 @@ function QT.getQuestOneOfPrequests(id)
 	if QT.questOneOfPrequests == nil then QT.questOneOfPrequests = {} end
 	if QT.questOneOfPrequests[id] ~= nil then
 		local cached = QT.questOneOfPrequests[id]
-		return cached == QT_CACHE_NIL and nil or cached
+		if cached == QT_CACHE_NIL then return nil end
+		return cached
 	end
 
 	local result
@@ -193,7 +195,8 @@ function QT.getQuestApplies(id)
 	if QT.questApplies == nil then QT.questApplies = {} end
 	if QT.questApplies[id] ~= nil then
 		local cached = QT.questApplies[id]
-		return cached == QT_CACHE_NIL and nil or cached
+		if cached == QT_CACHE_NIL then return nil end
+		return cached
 	end
 
 	local result = D.applies({

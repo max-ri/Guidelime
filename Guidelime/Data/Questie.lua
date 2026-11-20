@@ -29,6 +29,8 @@ function QUESTIE.isDataSourceReady()
 		C_Timer.After(4, function()
 			if addon.debugging then print("LIME: reload after waiting for Questie") end
 			QUESTIE.waitingForQuestie = false
+			-- drop quest data cached while Questie was not ready (e.g. empty prequests)
+			QT.resetCachedQuestData()
 			CG.loadCurrentGuide(false)
 			EV.updateFromQuestLog()
 			MW.updateMainFrame()
