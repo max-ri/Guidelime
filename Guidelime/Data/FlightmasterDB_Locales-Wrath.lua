@@ -366,7 +366,7 @@ addon.FM.flightmasterDB_Locales = {
 	[439] = "Durotar - ET - CC Prologue Troll Recruit End",
 	[440] = "Durotar - ET - CC Prologue - Troll Battle End",
 	[3251] = "Naxxramas, Dragonblight",
-}
+},
 
 ["zhCN"] = {
 	[1] = "北郡修道院",
@@ -733,7 +733,7 @@ addon.FM.flightmasterDB_Locales = {
 	[439] = "Durotar - ET - CC Prologue Troll Recruit End",
 	[440] = "Durotar - ET - CC Prologue - Troll Battle End",
 	[3251] = "纳克萨玛斯，龙骨荒野",
-}
+},
 
 ["esES"] = {
 	[1] = "Abadía de Villanorte",
@@ -1100,7 +1100,7 @@ addon.FM.flightmasterDB_Locales = {
 	[439] = "Durotar - ET - CC Prologue Troll Recruit End",
 	[440] = "Durotar - ET - CC Prologue - Troll Battle End",
 	[3251] = "Naxxramas, Dragonblight",
-}
+},
 
 ["frFR"] = {
 	[1] = "Abbaye de Comté-du-nord",
@@ -1467,7 +1467,7 @@ addon.FM.flightmasterDB_Locales = {
 	[439] = "Durotar - ET - Prologue CC Recrue troll fin",
 	[440] = "Durotar - ET - Prologue CC Bataille troll fin",
 	[3251] = "Naxxramas, Dragonblight",
-}
+},
 
 ["itIT"] = {
 	[1] = "Northshire Abbey",
@@ -1834,7 +1834,7 @@ addon.FM.flightmasterDB_Locales = {
 	[439] = "Durotar - ET - CC Prologue Troll Recruit End",
 	[440] = "Durotar - ET - CC Prologue - Troll Battle End",
 	[3251] = "Naxxramas, Dragonblight",
-}
+},
 
 ["koKR"] = {
 	[1] = "노스샤이어 대성당",
@@ -2201,7 +2201,7 @@ addon.FM.flightmasterDB_Locales = {
 	[439] = "듀로타 - ET - CC 사전진행 트롤 모집 끝",
 	[440] = "듀로타 - ET - CC 사전진행 - 트롤 전투 끝",
 	[3251] = "Naxxramas, Dragonblight",
-}
+},
 
 ["esMX"] = {
 	[1] = "Abadía de Villanorte",
@@ -2568,7 +2568,7 @@ addon.FM.flightmasterDB_Locales = {
 	[439] = "Durotar - ET - CC Prologue Troll Recruit End",
 	[440] = "Durotar - ET - CC Prologue - Troll Battle End",
 	[3251] = "Naxxramas, Dragonblight",
-}
+},
 
 ["ptBR"] = {
 	[1] = "Abadia de Vila Norte",
@@ -2935,7 +2935,7 @@ addon.FM.flightmasterDB_Locales = {
 	[439] = "Durotar - ET - CC Prólogo Recruta Troll Fim",
 	[440] = "Durotar - ET - CC Prólogo Batalha Troll Fim",
 	[3251] = "Naxxramas, Dragonblight",
-}
+},
 
 ["ruRU"] = {
 	[1] = "Аббатство Североземья",
@@ -3302,7 +3302,7 @@ addon.FM.flightmasterDB_Locales = {
 	[439] = "Durotar - ET - CC Prologue Troll Recruit End",
 	[440] = "Durotar - ET - CC Prologue - Troll Battle End",
 	[3251] = "Naxxramas, Dragonblight",
-}
+},
 
 ["zhTW"] = {
 	[1] = "北郡修道院",
@@ -3669,7 +3669,7 @@ addon.FM.flightmasterDB_Locales = {
 	[439] = "杜洛塔 - ET - CC 序章食人妖徵召結束",
 	[440] = "杜洛塔 - ET - CC 序章食人妖戰鬥結束",
 	[3251] = "Naxxramas, Dragonblight",
-}
+},
 
 ["enUS"] = {
 	[1] = "Northshire Abbey",

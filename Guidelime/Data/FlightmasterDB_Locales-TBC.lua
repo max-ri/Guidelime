@@ -190,7 +190,7 @@ addon.FM.flightmasterDB_Locales = {
 	[212] = "Schiffsbombardement (Ende)",
 	[213] = "Sammelpunkt der Zerschmetterten Sonne",
 	[220] = "",
-}
+},
 
 ["zhCN"] = {
 	[1] = "北郡修道院",
@@ -381,7 +381,7 @@ addon.FM.flightmasterDB_Locales = {
 	[212] = "Quest - Sunwell Daily - Ship Bombing - End",
 	[213] = "破碎残阳基地",
 	[220] = "",
-}
+},
 
 ["esES"] = {
 	[1] = "Abadía de Villanorte",
@@ -572,7 +572,7 @@ addon.FM.flightmasterDB_Locales = {
 	[212] = "Misión, diaria de Fuente del Sol, bombardeo de barco - Final",
 	[213] = "Zona de escala de Sol Devastado",
 	[220] = "",
-}
+},
 
 ["frFR"] = {
 	[1] = "Abbaye de Comté-du-nord",
@@ -763,7 +763,7 @@ addon.FM.flightmasterDB_Locales = {
 	[212] = "Quête - Puits de soleil journalière - Bombardement de navire - Arrivée",
 	[213] = "Zone de rassemblement du Soleil brisé",
 	[220] = "",
-}
+},
 
 ["itIT"] = {
 	[1] = "Northshire Abbey",
@@ -954,7 +954,7 @@ addon.FM.flightmasterDB_Locales = {
 	[212] = "Quest - Sunwell Daily - Ship Bombing - End",
 	[213] = "Shattered Sun Staging Area",
 	[220] = "",
-}
+},
 
 ["koKR"] = {
 	[1] = "노스샤이어 대성당",
@@ -1145,7 +1145,7 @@ addon.FM.flightmasterDB_Locales = {
 	[212] = "Quest - Sunwell Daily - Ship Bombing - End",
 	[213] = "무너진 태양 집결지",
 	[220] = "",
-}
+},
 
 ["esMX"] = {
 	[1] = "Abadía de Villanorte",
@@ -1336,7 +1336,7 @@ addon.FM.flightmasterDB_Locales = {
 	[212] = "Misión, diaria de Fuente del Sol, bombardeo de barco - Fin",
 	[213] = "Zona de Escala de Sol Devastado",
 	[220] = "",
-}
+},
 
 ["ptBR"] = {
 	[1] = "Abadia de Vila Norte",
@@ -1527,7 +1527,7 @@ addon.FM.flightmasterDB_Locales = {
 	[212] = "Missão - Diária da Nascente do Sol - Bombardeio de navio - Fim",
 	[213] = "Bivaque Sol Partido",
 	[220] = "",
-}
+},
 
 ["ruRU"] = {
 	[1] = "Аббатство Североземья",
@@ -1718,7 +1718,7 @@ addon.FM.flightmasterDB_Locales = {
 	[212] = "Задание - Солнечный Колодец, ежедневное - Бомбардировка кораблей - конец",
 	[213] = "Подготовительный плацдарм Расколотого Солнца",
 	[220] = "",
-}
+},
 
 ["zhTW"] = {
 	[1] = "北郡修道院",
@@ -1909,7 +1909,7 @@ addon.FM.flightmasterDB_Locales = {
 	[212] = "任務 - 太陽之井每日 - 轟炸船隻 - 結束",
 	[213] = "破碎之日會所",
 	[220] = "",
-}
+},
 
 ["enUS"] = {
 	[1] = "Northshire Abbey",

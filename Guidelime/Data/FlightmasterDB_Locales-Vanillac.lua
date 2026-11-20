@@ -89,7 +89,7 @@ addon.FM.flightmasterDB_Locales = {
 	[2913] = "Questweg 9571: S03 - Runenschnitzen - Schamane - Stufe 40 Quest - 6 - KJA",
 	[2914] = "Questweg 9574: S03 - Runenschnitzen - Schamane - Stufe 40 Quest - 6 - Flug zurück - KJA",
 	[2930] = "Questweg 9620: S03 - Runenschnitzen - Schamane - Stufe 40 Rune- Verderbtes Feuertotem - Tal Taxi Path - KJA",
-}
+},
 
 ["zhCN"] = {
 	[1] = "北郡修道院",
@@ -179,7 +179,7 @@ addon.FM.flightmasterDB_Locales = {
 	[2913] = "任务路径9571: S03 - 符文铭刻 - 萨满祭司 - 40级任务 - 6 - KJA",
 	[2914] = "任务路径9574: S03 - 符文铭刻 - 萨满祭司 - 40级任务 - 6 - 回程飞行 - KJA",
 	[2930] = "任务路径9620: S03 - 符文铭刻 - 萨满祭司 - 40级符文 - 被腐蚀的火焰图腾 - 塔尔飞行路线 - KJA",
-}
+},
 
 ["esES"] = {
 	[1] = "Abadía de Villanorte",
@@ -269,7 +269,7 @@ addon.FM.flightmasterDB_Locales = {
 	[2913] = "Quest Path 9571: S03 - Runecarving - Shaman - Level 40 Quest - 6 - KJA",
 	[2914] = "Quest Path 9574: S03 - Runecarving - Shaman - Level 40 Quest - 6 - Flight Back - KJA",
 	[2930] = "Quest Path 9620: S03 - Runecarving - Shaman - Level 40 Rune - Corrupted Fire Totem - Tal Taxi Path - KJA",
-}
+},
 
 ["frFR"] = {
 	[1] = "Abbaye de Northshire",
@@ -359,7 +359,7 @@ addon.FM.flightmasterDB_Locales = {
 	[2913] = "Quest Path 9571 : S03 – Gravure runique – Chaman – Quête niveau 40 – 6 – KJA",
 	[2914] = "Quest Path 9574 : S03 – Gravure runique – Chaman – Quête niveau 40 – 6 – Vol de retour – KJA",
 	[2930] = "Quest Path 9620 : S03 – Gravure runique – Chaman – Rune niveau 40 – Totem de feu corrompu – Trajectoire de taxi Tal – KJA",
-}
+},
 
 ["itIT"] = {
 	[1] = "Northshire Abbey",
@@ -449,7 +449,7 @@ addon.FM.flightmasterDB_Locales = {
 	[2913] = "Quest Path 9571: S03 - Runecarving - Shaman - Level 40 Quest - 6 - KJA",
 	[2914] = "Quest Path 9574: S03 - Runecarving - Shaman - Level 40 Quest - 6 - Flight Back - KJA",
 	[2930] = "Quest Path 9620: S03 - Runecarving - Shaman - Level 40 Rune - Corrupted Fire Totem - Tal Taxi Path - KJA",
-}
+},
 
 ["koKR"] = {
 	[1] = "노스샤이어 대성당",
@@ -539,7 +539,7 @@ addon.FM.flightmasterDB_Locales = {
 	[2913] = "퀘스트 경로 9571: S03 - 룬조각술 - 주술사 - 40 레벨 퀘스트 - 6 - KJA",
 	[2914] = "퀘스트 경로 9574: S03 - 룬조각술 - 주술사 - 40 레벨 퀘스트 - 6 - 복귀 비행 - KJA",
 	[2930] = "퀘스트 경로 9620: S03 - 룬조각술 - 주술사 - 40 레벨 룬 - 타락한 불의 토템 - 탈 비행 경로 - KJA",
-}
+},
 
 ["esMX"] = {
 	[1] = "Abadía de Villanorte",
@@ -629,7 +629,7 @@ addon.FM.flightmasterDB_Locales = {
 	[2913] = "Ruta de misión 9571: S03 - Tallado rúnico - Chamán - Misión de nivel 40 - 6 - KJA",
 	[2914] = "Ruta de misión 9574: S03 - Tallado rúnico - Chamán - Misión de nivel 40 - 6 - Vuelo de regreso - KJA",
 	[2930] = "Ruta de misión 9620: S03 - Tallado rúnico - Chamán - Runa de nivel 40 - Tótem de fuego corrupto - Ruta de transporte de Tal - KJA",
-}
+},
 
 ["ptBR"] = {
 	[1] = "Abadia de Vila Norte",
@@ -719,7 +719,7 @@ addon.FM.flightmasterDB_Locales = {
 	[2913] = "Quest Path 9571: S03 - Runecarving - Shaman - Level 40 Quest - 6 - KJA",
 	[2914] = "Quest Path 9574: S03 - Runecarving - Shaman - Level 40 Quest - 6 - Voo de Volta - KJA",
 	[2930] = "Quest Path 9620: S03 - Runecarving - Shaman - Level 40 Rune - Corrupted Fire Totem - Tal Taxi Path - KJA",
-}
+},
 
 ["ruRU"] = {
 	[1] = "Аббатство Североземья",
@@ -809,7 +809,7 @@ addon.FM.flightmasterDB_Locales = {
 	[2913] = "Quest Path 9571: S03 - Runecarving - Shaman - Level 40 Quest - 6 - KJA",
 	[2914] = "Quest Path 9574: S03 - Runecarving - Shaman - Level 40 Quest - 6 - Flight Back - KJA",
 	[2930] = "Quest Path 9620: S03 - Runecarving - Shaman - Level 40 Rune - Corrupted Fire Totem - Tal Taxi Path - KJA",
-}
+},
 
 ["zhTW"] = {
 	[1] = "北郡修道院",
@@ -899,7 +899,7 @@ addon.FM.flightmasterDB_Locales = {
 	[2913] = "Quest Path 9571: S03 - Runecarving - Shaman - Level 40 Quest - 6 - KJA",
 	[2914] = "Quest Path 9574: S03 - Runecarving - Shaman - Level 40 Quest - 6 - Flight Back - KJA",
 	[2930] = "Quest Path 9620: S03 - Runecarving - Shaman - Level 40 Rune - Corrupted Fire Totem - Tal Taxi Path - KJA",
-}
+},
 
 ["enUS"] = {
 	[1] = "Northshire Abbey",

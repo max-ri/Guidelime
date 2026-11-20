@@ -623,7 +623,7 @@ addon.FM.flightmasterDB_Locales = {
 	[1292] = "Quest Path 3886: Timeless Isle 5.4 - Vignette - Source of Water - Bubble Down (RKS)",
 	[1293] = "Landungsstelle der Tushui, Zeitlose Insel",
 	[1294] = "Landungsstelle der Huojin, Zeitlose Insel",
-}
+},
 
 ["zhCN"] = {
 	[1] = "北郡修道院",
@@ -1247,7 +1247,7 @@ addon.FM.flightmasterDB_Locales = {
 	[1292] = "Quest Path 3886: Timeless Isle 5.4 - Vignette - Source of Water - Bubble Down (RKS)",
 	[1293] = "土水派登陆点，永恒岛",
 	[1294] = "火金派登陆点，永恒岛",
-}
+},
 
 ["esES"] = {
 	[1] = "Abadía de Villanorte",
@@ -1871,7 +1871,7 @@ addon.FM.flightmasterDB_Locales = {
 	[1292] = "Quest Path 3886: Timeless Isle 5.4 - Vignette - Source of Water - Bubble Down (RKS)",
 	[1293] = "Desembarco Tushui, Isla Intemporal",
 	[1294] = "Desembarco Huojin, Isla Intemporal",
-}
+},
 
 ["frFR"] = {
 	[1] = "Abbaye de Comté-du-Nord",
@@ -2495,7 +2495,7 @@ addon.FM.flightmasterDB_Locales = {
 	[1292] = "Quest Path 3886: Timeless Isle 5.4 - Vignette - Source of Water - Bubble Down (RKS)",
 	[1293] = "Accostage Tushui, île du Temps figé",
 	[1294] = "Accostage Huojin, île du Temps figé",
-}
+},
 
 ["itIT"] = {
 	[1] = "Northshire Abbey",
@@ -3119,7 +3119,7 @@ addon.FM.flightmasterDB_Locales = {
 	[1292] = "Quest Path 3886: Timeless Isle 5.4 - Vignette - Source of Water - Bubble Down (RKS) [REUSEME]",
 	[1293] = "Tushui Landing, Timeless Isle",
 	[1294] = "Huojin Landing, Timeless Isle",
-}
+},
 
 ["koKR"] = {
 	[1] = "북녘골 수도원",
@@ -3743,7 +3743,7 @@ addon.FM.flightmasterDB_Locales = {
 	[1292] = "Quest Path 3886: Timeless Isle 5.4 - Vignette - Source of Water - Bubble Down (RKS) [REUSEME]",
 	[1293] = "투슈이 상륙지, 영원의 섬",
 	[1294] = "후오진 상륙지, 영원의 섬",
-}
+},
 
 ["esMX"] = {
 	[1] = "Abadía de Villanorte",
@@ -4367,7 +4367,7 @@ addon.FM.flightmasterDB_Locales = {
 	[1292] = "Quest Path 3886: Timeless Isle 5.4 - Vignette - Source of Water - Bubble Down (RKS)",
 	[1293] = "Desembarco Tushui, Isla Intemporal",
 	[1294] = "Desembarco Huojin, Isla Intemporal",
-}
+},
 
 ["ptBR"] = {
 	[1] = "Abadia de Vila Norte",
@@ -4991,7 +4991,7 @@ addon.FM.flightmasterDB_Locales = {
 	[1292] = "Caminho da Missão 3886: Ilha Perene 5.4 - Vinheta - Fonte D'água - Bolhas para Baixo (RKS)",
 	[1293] = "Ancoradouro Tushui, Ilha Perene",
 	[1294] = "Ancoradouro Huojin, Ilha Perene",
-}
+},
 
 ["ruRU"] = {
 	[1] = "Аббатство Североземья",
@@ -5615,7 +5615,7 @@ addon.FM.flightmasterDB_Locales = {
 	[1292] = "Quest Path 3886: Timeless Isle 5.4 - Vignette - Source of Water - Bubble Down (RKS) [REUSEME]",
 	[1293] = "Лагерь Тушуй, Вневременный остров",
 	[1294] = "Лагерь Хоцзинь, Вневременный остров",
-}
+},
 
 ["zhTW"] = {
 	[1] = "北郡修道院",
@@ -6239,7 +6239,7 @@ addon.FM.flightmasterDB_Locales = {
 	[1292] = "Quest Path 3886: Timeless Isle 5.4 - Vignette - Source of Water - Bubble Down (RKS) [REUSEME]",
 	[1293] = "永恆之島，土水平臺",
 	[1294] = "永恆之島，火金平臺",
-}
+},
 
 ["enUS"] = {
 	[1] = "Northshire Abbey",

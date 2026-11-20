@@ -531,7 +531,7 @@ addon.FM.flightmasterDB_Locales = {
 	[781] = "Heiligtum von Malorne, Hyjal",
 	[906] = "Drachenseele (Schlachtzug) - Basis am Wyrmruhtempel",
 	[907] = "Drachenseele (Schlachtzug) - Östlicher Sarlac",
-}
+},
 
 ["zhCN"] = {
 	[1] = "北郡修道院",
@@ -1063,7 +1063,7 @@ addon.FM.flightmasterDB_Locales = {
 	[781] = "玛洛恩庇护所，海加尔",
 	[906] = "巨龙之魂 - 龙眠神殿基地",
 	[907] = "巨龙之魂 - 东部裂口",
-}
+},
 
 ["esES"] = {
 	[1] = "Abadía de Villanorte",
@@ -1595,7 +1595,7 @@ addon.FM.flightmasterDB_Locales = {
 	[781] = "Santuario de Malorne, Hyjal",
 	[906] = "Banda de Alma de Dragón - Base del Templo del Reposo del Dragón",
 	[907] = "Banda Alma de Dragón - Este de Sarlac",
-}
+},
 
 ["frFR"] = {
 	[1] = "Abbaye de Comté-du-Nord",
@@ -2127,7 +2127,7 @@ addon.FM.flightmasterDB_Locales = {
 	[781] = "Sanctuaire de Malorne, Hyjal",
 	[906] = "Raid de l’Âme des dragons - Base du temple du Repos du ver",
 	[907] = "Raid de l’Âme des dragons - Est de Sarlac",
-}
+},
 
 ["itIT"] = {
 	[1] = "Northshire Abbey",
@@ -2659,7 +2659,7 @@ addon.FM.flightmasterDB_Locales = {
 	[781] = "Sanctuary of Malorne, Hyjal",
 	[906] = "Dragon Soul Raid - Wyrmrest Temple Base",
 	[907] = "Dragon Soul Raid - East Sarlac",
-}
+},
 
 ["koKR"] = {
 	[1] = "북녘골 수도원",
@@ -3191,7 +3191,7 @@ addon.FM.flightmasterDB_Locales = {
 	[781] = "말로른의 성역 - 하이잘",
 	[906] = "용의 영혼 공격대 - 고룡쉼터 사원",
 	[907] = "용의 영혼 공격대 - 동쪽 아귀",
-}
+},
 
 ["esMX"] = {
 	[1] = "Abadía de Villanorte",
@@ -3723,7 +3723,7 @@ addon.FM.flightmasterDB_Locales = {
 	[781] = "Santuario de Malorne, Hyjal",
 	[906] = "Banda de Alma de Dragón - Base del Templo del Reposo del Dragón",
 	[907] = "Banda Alma de Dragón - Este de Sarlac",
-}
+},
 
 ["ptBR"] = {
 	[1] = "Abadia de Vila Norte",
@@ -4255,7 +4255,7 @@ addon.FM.flightmasterDB_Locales = {
 	[781] = "Santuário de Malorne, Hyjal",
 	[906] = "Raide da Alma Dragônica – Base do Templo do Repouso das Serpes",
 	[907] = "Raide da Alma Dragônica – Sarlac Leste",
-}
+},
 
 ["ruRU"] = {
 	[1] = "Аббатство Североземья",
@@ -4787,7 +4787,7 @@ addon.FM.flightmasterDB_Locales = {
 	[781] = "Святилище Малорна, Хиджал",
 	[906] = "Рейд \"Душа Дракона\" - Храм Драконьего Покоя",
 	[907] = "Рейд \"Душа Дракона\" - Восточный сарлак",
-}
+},
 
 ["zhTW"] = {
 	[1] = "北郡修道院",
@@ -5319,7 +5319,7 @@ addon.FM.flightmasterDB_Locales = {
 	[781] = "瑪洛尼聖地，海加爾",
 	[906] = "巨龍之魂團隊 - 龍眠神殿基地",
 	[907] = "巨龍之魂團隊 - 什拉克",
-}
+},
 
 ["enUS"] = {
 	[1] = "Northshire Abbey",

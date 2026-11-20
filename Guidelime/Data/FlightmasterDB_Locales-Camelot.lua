@@ -103,7 +103,7 @@ addon.FM.flightmasterDB_Locales = {
 	[3275] = "Hafen von Powderfuse, Flusslande",
 	[3276] = "Burg Farholde, Flusslande",
 	[3361] = "Questweg 12018: 1.60.1 – Die Insel Zephras – Türme der Windbrücke",
-}
+},
 
 ["zhCN"] = {
 	[1] = "北郡修道院",
@@ -207,7 +207,7 @@ addon.FM.flightmasterDB_Locales = {
 	[3275] = "爆破引线港，河林",
 	[3276] = "法霍德要塞，河林",
 	[3361] = "任务路径12018: 1.60.1 - 泽风岛 - 尖塔风之桥",
-}
+},
 
 ["esES"] = {
 	[1] = "Abadía de Villanorte",
@@ -311,7 +311,7 @@ addon.FM.flightmasterDB_Locales = {
 	[3275] = "Puerto Polvofusil, Clarofluvial",
 	[3276] = "Castillo de Farholde, Clarofluvial",
 	[3361] = "Ruta de misión 12018: 1.60.1 - Isla de Zephras - Agujas del Puente de viento",
-}
+},
 
 ["frFR"] = {
 	[1] = "Abbaye de Comté-du-Nord",
@@ -415,7 +415,7 @@ addon.FM.flightmasterDB_Locales = {
 	[3275] = "Port de Poudremèche, rives Claires",
 	[3276] = "Donjon de Fort-Lointain, rives Claires",
 	[3361] = "Chemin de quête 12018 : 1.60.1 – Île de Zéphras – Flèches, pont venteux",
-}
+},
 
 ["itIT"] = {
 	[1] = "Northshire Abbey",
@@ -519,7 +519,7 @@ addon.FM.flightmasterDB_Locales = {
 	[3275] = "Powderfuse Port, Riverglades",
 	[3276] = "Farholde Keep, Riverglades",
 	[3361] = "Quest Path 12018: 1.60.1 - Zephras Isle - Spires Wind Bridge",
-}
+},
 
 ["koKR"] = {
 	[1] = "노스샤이어 대성당",
@@ -623,7 +623,7 @@ addon.FM.flightmasterDB_Locales = {
 	[3275] = "화약심지 항구 - 강물터",
 	[3276] = "파홀드 성채 - 강물터",
 	[3361] = "퀘스트 경로 12018: 1.60.1 - 제프라스 섬 - 첨탑 바람 다리",
-}
+},
 
 ["esMX"] = {
 	[1] = "Abadía de Villanorte",
@@ -727,7 +727,7 @@ addon.FM.flightmasterDB_Locales = {
 	[3275] = "Puerto Polvomecha, Claros del Río",
 	[3276] = "Fortaleza de Farholde, Claros del Río",
 	[3361] = "Ruta de misión 12018: 1.60.1 - Isla Zephras - Puente de viento de los pináculos",
-}
+},
 
 ["ptBR"] = {
 	[1] = "Abadia de Vila Norte",
@@ -831,7 +831,7 @@ addon.FM.flightmasterDB_Locales = {
 	[3275] = "Porto Detonapavio, Sendas do Rio",
 	[3276] = "Bastilha de Ermoforte, Sendas do Rio",
 	[3361] = "Caminho da Missão 12018: 1.60.1 - Ilha de Zefras - Ponte de Vento dos Pináculos",
-}
+},
 
 ["ruRU"] = {
 	[1] = "Аббатство Североземья",
@@ -935,7 +935,7 @@ addon.FM.flightmasterDB_Locales = {
 	[3275] = "Пороховой порт, Лесоречье",
 	[3276] = "Крепость Фархолд, Лесоречье",
 	[3361] = "Quest Path 12018: 1.60.1 - Zephras Isle - Spires Wind Bridge",
-}
+},
 
 ["zhTW"] = {
 	[1] = "北郡修道院",
@@ -1039,7 +1039,7 @@ addon.FM.flightmasterDB_Locales = {
 	[3275] = "火線港，大河林地",
 	[3276] = "遠境堡要塞，大河林地",
 	[3361] = "任務路徑12018: 1.60.1 - 微風島，風橋尖塔",
-}
+},
 
 ["enUS"] = {
 	[1] = "Northshire Abbey",
