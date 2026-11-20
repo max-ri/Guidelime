@@ -34,7 +34,7 @@ Data\Questie.lua
 Data\ClassicCodexCorrections.lua
 Data\ClassicCodex.lua
 Data\FlightmasterDB.lua
-Data\FlightmasterDB_Locales.lua
+Data\FlightmasterDB_Locales-Mists.lua
 Data\SpellDB.lua
 Data\SkillDB.lua
 Data\SkillDB_Locales.lua
