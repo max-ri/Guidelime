@@ -315,6 +315,9 @@ end
 
 function D.applies(guide)
 	if guide == nil then return false end
+	if D.contains(guide.excludedRaces, D.race) then return false end
+	if D.contains(guide.excludedClasses, D.class) then return false end
+	if D.contains(guide.excludedFlavors, D.flavor) then return false end
 	if guide.races ~= nil then
 		if not D.contains(guide.races, D.race) then return false end
 	end

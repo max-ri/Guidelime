@@ -284,12 +284,16 @@ function GP.parseLine(step, guide, strict, nameOnly)
 			end
 		elseif element.t == "GUIDE_APPLIES" then
 			tag:upper():gsub(" ",""):gsub("([^,%d%-<>]+)%s*(%d*)([<>]?)%s*(%-?%d*)", function(c, value1, less, value2)
+				local excluded = c:sub(1, 1) == "!"
+				if excluded then c = c:sub(2) end
 				if D.isClass(c) then
-					if guide.classes == nil then guide.classes = {} end
-					table.insert(guide.classes, D.getClass(c))
+					local key = excluded and "excludedClasses" or "classes"
+					if guide[key] == nil then guide[key] = {} end
+					table.insert(guide[key], D.getClass(c))
 				elseif D.isRace(c) then
-					if guide.races == nil then guide.races = {} end
-					table.insert(guide.races, D.getRace(c))
+					local key = excluded and "excludedRaces" or "races"
+					if guide[key] == nil then guide[key] = {} end
+					table.insert(guide[key], D.getRace(c))
 				elseif D.isFaction(c) then
 					guide.faction = D.getFaction(c)
 				elseif c == "SP" and value1 ~= "" and value2 ~= "" then
@@ -332,8 +336,9 @@ function GP.parseLine(step, guide, strict, nameOnly)
 					-- if none specified spell rank 1 is required
 					if guide.spellMin == nil and guide.spellMax == nil then guide.spellMin = 1 end
 				elseif D.isFlavor(c) then
-					if guide.flavors == nil then guide.flavors = {} end
-					table.insert(guide.flavors, D.getFlavor(c))
+					local key = excluded and "excludedFlavors" or "flavors"
+					if guide[key] == nil then guide[key] = {} end
+					table.insert(guide[key], D.getFlavor(c))
 				elseif c == "HARDCORE" then
 					guide.hardcore = true
 				elseif c == "SOFTCORE" then
@@ -450,10 +455,12 @@ function GP.parseLine(step, guide, strict, nameOnly)
 		elseif element.t == "APPLIES" then
 			local classes, races, flavors = {}, {}, {}
 			tag:upper():gsub(" ",""):gsub("([^,%d%-<>]+)%s*(%d*)([<>]?)%s*(%-?%d*)", function(c, value1, less, value2)
+				local excluded = c:sub(1, 1) == "!"
+				if excluded then c = c:sub(2) end
 				if D.isClass(c) then
-					table.insert(classes, D.getClass(c))
+					if excluded then step.excludedClasses = step.excludedClasses or {}; table.insert(step.excludedClasses, D.getClass(c)) else table.insert(classes, D.getClass(c)) end
 				elseif D.isRace(c) then
-					table.insert(races, D.getRace(c))
+					if excluded then step.excludedRaces = step.excludedRaces or {}; table.insert(step.excludedRaces, D.getRace(c)) else table.insert(races, D.getRace(c)) end
 				elseif D.isFaction(c) then
 					step.faction = D.getFaction(c)
 				elseif c == "SP" and value1 ~= "" and value2 ~= "" then
@@ -510,7 +517,7 @@ function GP.parseLine(step, guide, strict, nameOnly)
 					-- if none specified spell rank 1 is required
 					if step.spellMin == nil and step.spellMax == nil then step.spellMin = 1 end
 				elseif D.isFlavor(c) then
-					table.insert(flavors, D.getFlavor(c))
+					if excluded then step.excludedFlavors = step.excludedFlavors or {}; table.insert(step.excludedFlavors, D.getFlavor(c)) else table.insert(flavors, D.getFlavor(c)) end
 				elseif c == "HARDCORE" then
 					step.hardcore = true
 				elseif c == "SOFTCORE" then
