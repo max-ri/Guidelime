@@ -462,7 +462,7 @@ function AB.updateUseItemButtons()
 						local button = AB.createUseItemButton(i)
 						button:SetPoint("TOP" .. GuidelimeDataChar.showUseItemButtons, MW.mainFrame, "TOP" .. GuidelimeDataChar.showUseItemButtons, 
 							GuidelimeDataChar.showUseItemButtons == "LEFT" and -36 or (GuidelimeDataChar.mainFrameShowScrollBar and 54 or 36), 
-							39 - i * 41 - startPos)
+							39 - i * 41)
 						button.spellId = id
 						button.spell = name
 						button.useItemId = nul
