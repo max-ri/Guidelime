@@ -647,6 +647,9 @@ function CG.getElementIcon(element, prevElement)
 		if D.contains(element.flavors, D.flavor) then
 			text = text .. "|T" .. addon.icons[D.flavor] .. ":12|t"
 		end
+		if element.seasonOfDiscovery then
+			text = text .. "|T" .. addon.icons.SOD .. ":12|t"
+		end
 		return text
 	elseif addon.icons[element.t] ~= nil and (not prevElement or element.t ~= prevElement.t) then
 		return "|T" .. addon.icons[element.t] .. ":12|t"
@@ -788,6 +791,9 @@ function CG.getStepText(step)
 		elseif element.t == "APPLIES" and element.flavors ~= nil then
 			if tooltip ~= "" then tooltip = tooltip .. "\n" end
 			tooltip = tooltip .. L[D.flavor]
+		elseif element.t == "APPLIES" and element.seasonOfDiscovery then
+			if tooltip ~= "" then tooltip = tooltip .. "\n" end
+			tooltip = tooltip .. L.SOD
 		end
 		if element.textStartPos == #text then element.empty = true end
 		if element.empty == nil or not element.empty then prevElement = element end

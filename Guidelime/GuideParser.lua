@@ -526,6 +526,7 @@ function GP.parseLine(step, guide, strict, nameOnly)
 					step.hardcore = excluded
 				elseif c == "SOD" then
 					step.seasonOfDiscovery = not excluded
+					element.seasonOfDiscovery = not excluded
 				else
 					F.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
 					err = true

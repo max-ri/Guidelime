@@ -250,6 +250,7 @@ L.WOTLK = "Wrath of the Lich King"
 L.CATA = "Cataclysm"
 L.MOP = "Mists of Pandaria"
 L.FOREVER = "World of Warcraft Forever"
+L.SOD = "Season of Discovery"
 L.ADD_NOTE = "Add note"
 L.EDIT_NOTE = "Edit note"
 L.SHOW_NOTES = "Show notes"
@@ -314,6 +315,7 @@ L.WORD_LIST_GOTO = "( at )(%d+%.?%d*) ?, ?(%d+%.?%d*)( );( )@ ?(%d+%.?%d*) ?, ?(
 elseif locale == "zhCN" then
 
 L.TITLE = addonName
+L["SOD"] = "探索赛季"
 L["ADD_QUEST_COORDINATES"] = "添加任务座标"
 L["ADD_QUEST_COORDINATES_MESSAGE"] = "如果数据库中有任务座标，将它们添加到所有步骤内；这会取代目前指南内的任务座标。"
 L["ADDED_QUEST_COORDINATES_MESSAGE"] = "已添加%s的任务座标。"
@@ -497,6 +499,7 @@ L["ZONE"] = "地区"
 elseif locale == "zhTW" then
 
 L.TITLE = addonName
+L["SOD"] = "探索賽季"
 L["ADD_QUEST_COORDINATES"] = "添加任務座標"
 L["ADD_QUEST_COORDINATES_MESSAGE"] = "如果資料庫中有任務座標，將它們添加到所有步驟內；這會取代目前指南內的任務座標。"
 L["ADDED_QUEST_COORDINATES_MESSAGE"] = "已添加%s的任務座標。"
@@ -790,6 +793,7 @@ L["ERROR_ZONE_NOT_FOUND"] = "\"%s\" ist keine Zone. Bitte einer der folgenden Zo
 L["ESTIMATE"] = "Dies ist nur eine geschätzte Position."
 L["FLIGHT_POINT"] = "Flugpunkt"
 L["FOREVER"] = "World of Warcraft Forever"
+L["SOD"] = "Saison der Entdeckungen"
 L["GENERAL_OPTIONS"] = "Allgemeine Optionen"
 L["GOTO_INFO"] = "Koordinaten-Info"
 L["GUIDE_FINISHED"] = "Der aktuelle Guide ist abgeschlossen."
@@ -956,6 +960,7 @@ L["ZONE"] = "Zone"
 elseif locale == "frFR" then
 
 L.TITLE = addonName
+L["SOD"] = "Saison de la découverte"
 L["ADD_QUEST_COORDINATES"] = "Ajouter les coordonnées de la quête"
 L["ADD_QUEST_COORDINATES_MESSAGE"] = "Ajoute les coordonnées de toutes les étapes de la quête si elle est disponible dans la base de données de quêtes. Les coordonnées existantes de la quête seront remplacées."
 L["ADDED_QUEST_COORDINATES_MESSAGE"] = "Les coordonnées de la quête %s ont été ajoutées."
@@ -1144,6 +1149,7 @@ L["ZONE"] = "Zone"
 elseif locale == "ruRU" then
 
 L.TITLE = addonName
+L["SOD"] = "Сезон открытий"
 L["ADD_QUEST_COORDINATES"] = "Добавить координаты задания"
 L["ADD_QUEST_COORDINATES_MESSAGE"] = "Добавляет координаты ко всем заданиям, если они доступны в базе данных. Существующие координаты заданий будут заменены."
 L["ADDED_QUEST_COORDINATES_MESSAGE"] = "%s координат(а) добавлено."
@@ -1324,6 +1330,7 @@ L["ZONE"] = "Локация"
 elseif locale == "esES" then
 
 L.TITLE = addonName
+L["SOD"] = "Temporada de descubrimiento"
 L["ADD_QUEST_COORDINATES"] = "Agregar coordenadas de misión."
 L["ADD_QUEST_COORDINATES_MESSAGE"] = "Agrega coordenadas a todos los pasos de la misión si están disponibles en la base de datos. Las coordenadas existentes serán reemplazadas."
 L["ADDED_QUEST_COORDINATES_MESSAGE"] = "Se han agregado las coordenadas de la misión %s"
@@ -1523,6 +1530,7 @@ L["ZONE"] = "Zona"
 elseif locale == "koKR" then
 
 L.TITLE = addonName
+L["SOD"] = "발견의 시즌"
 L["ADD_NOTE"] = "메모 추가"
 L["ADD_QUEST_COORDINATES"] = "퀘스트 좌표 추가"
 L["ADD_QUEST_COORDINATES_MESSAGE"] = [=[퀘스트 데이터베이스에 정보가 있을 경우 모든 퀘스트 단계에 퀘스트 좌표를 추가합니다.
