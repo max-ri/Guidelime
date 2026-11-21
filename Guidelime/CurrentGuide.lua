@@ -472,6 +472,9 @@ function CG.getGuideTitle(guide)
 	if guide.flavors ~= nil and D.contains(guide.flavors, D.flavor) then 
 		text = text .. "|T" .. addon.icons[D.flavor] .. ":12|t"	
 	end
+	if guide.seasonOfDiscovery == true then
+		text = text .. "|T" .. addon.icons.SOD .. ":12|t"
+	end
 	return text
 end
 

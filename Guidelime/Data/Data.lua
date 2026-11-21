@@ -98,6 +98,10 @@ function D.isHardcore()
 	return true
 end
 
+function D.isSeasonOfDiscovery()
+	return C_Seasons and C_Seasons.GetActiveSeason and C_Seasons.GetActiveSeason() == 2
+end
+
 D.reputations = {
 	bootybay = 21,
 	ironforge = 47,
@@ -330,6 +334,9 @@ function D.applies(guide)
 	end
 	if guide.hardcore ~= nil then
 		if guide.hardcore ~= D.isHardcore() then return false end
+	end
+	if guide.seasonOfDiscovery ~= nil then
+		if guide.seasonOfDiscovery ~= D.isSeasonOfDiscovery() then return false end
 	end
 	return true
 end

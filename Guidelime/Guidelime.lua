@@ -73,6 +73,7 @@ addon.icons = {
 	CATA = "Interface\\Addons\\" .. addonName .. "\\Icons\\cata",
 	MOP = "Interface\\Addons\\" .. addonName .. "\\Icons\\mop",
 	FOREVER = "Interface\\Addons\\" .. addonName .. "\\Icons\\forever",
+	SOD = "Interface\\Addons\\" .. addonName .. "\\Icons\\sod",
 	NOTE = "Interface\\Icons\\INV_Misc_Note_01",
 	PIN = "Interface\\Addons\\" .. addonName .. "\\Icons\\pushpin",
 	WOWHEAD = "Interface\\Icons\\INV_Gizmo_Rocketlauncher",

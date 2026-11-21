@@ -340,9 +340,11 @@ function GP.parseLine(step, guide, strict, nameOnly)
 					if guide[key] == nil then guide[key] = {} end
 					table.insert(guide[key], D.getFlavor(c))
 				elseif c == "HARDCORE" then
-					guide.hardcore = true
+					guide.hardcore = not excluded
 				elseif c == "SOFTCORE" then
-					guide.hardcore = false
+					guide.hardcore = excluded
+				elseif c == "SOD" then
+					guide.seasonOfDiscovery = not excluded
 				else
 					F.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
 					err = true
@@ -519,9 +521,11 @@ function GP.parseLine(step, guide, strict, nameOnly)
 				elseif D.isFlavor(c) then
 					if excluded then step.excludedFlavors = step.excludedFlavors or {}; table.insert(step.excludedFlavors, D.getFlavor(c)) else table.insert(flavors, D.getFlavor(c)) end
 				elseif c == "HARDCORE" then
-					step.hardcore = true
+					step.hardcore = not excluded
 				elseif c == "SOFTCORE" then
-					step.hardcore = false
+					step.hardcore = excluded
+				elseif c == "SOD" then
+					step.seasonOfDiscovery = not excluded
 				else
 					F.createPopupFrame(string.format(L.ERROR_CODE_NOT_RECOGNIZED, guide.title or "", code, (step.line or "") .. " " .. step.text)):Show()
 					err = true
