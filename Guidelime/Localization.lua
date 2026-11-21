@@ -1530,7 +1530,7 @@ L["ZONE"] = "Zona"
 elseif locale == "koKR" then
 
 L.TITLE = addonName
-L["SOD"] = "발견의 시즌"
+L["SOD"] = "디스커버리 시즌"
 L["ADD_NOTE"] = "메모 추가"
 L["ADD_QUEST_COORDINATES"] = "퀘스트 좌표 추가"
 L["ADD_QUEST_COORDINATES_MESSAGE"] = [=[퀘스트 데이터베이스에 정보가 있을 경우 모든 퀘스트 단계에 퀘스트 좌표를 추가합니다.

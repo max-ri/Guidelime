@@ -19,7 +19,7 @@ addon.QS = addon.QS or {}; local QS = addon.QS -- QuestScan
 
 addon.EV = addon.EV or {}; local EV = addon.EV -- Events
 
-EV.AUTO_COMPLETE_DELAY = 0.01
+EV.AUTO_COMPLETE_DELAY = 0.1
 EV.BAG_UPDATE_DELAY = 0.3
 
 local function getUnitID()
@@ -628,12 +628,28 @@ function EV.frame:QUEST_ACCEPTED(questLogIndex, questID)
 	if addon.debugging then print ("LIME: QUEST_ACCEPTED", questID, EV.lastQuestNpc) end
 	if questID then EV.recordStep("[QA " .. questID .. " " .. getQuestTitle(questID) .. "]" .. (EV.lastQuestNpc and ("[TAR" .. EV.lastQuestNpc .. EV.lastQuestNpcName .. "]") or ""), true) end
 	EV.lastQuestNpc = nil
+	-- Accepting a quest can activate another quest step 
+	-- Re-run QUEST_GREETING to select the next quest from its refreshed quest list.
+	if (GuidelimeData.autoAcceptQuests or GuidelimeData.autoTurnInQuests) and not IsShiftKeyDown() then 
+		C_Timer.After(0.5, function()
+			if addon.debugging then print("LIME: rechecking NPC for another quest") end
+			EV.frame:QUEST_GREETING()
+		end)
+	end
 end
 
 EV.frame:RegisterEvent('QUEST_TURNED_IN')
 function EV.frame:QUEST_TURNED_IN(questID)
 	if addon.debugging then print ("LIME: QUEST_TURNED_IN", questID) end
 	if questID then EV.recordStep("[QT " .. questID .. " " .. getQuestTitle(questID) .. "]" .. (EV.lastQuestNpc and ("[TAR" .. EV.lastQuestNpc .. EV.lastQuestNpcName .. "]") or ""), true) end
+	-- Turning a quest int can activate another quest step 
+	-- Re-run QUEST_GREETING to select the next quest from its refreshed quest list.
+	if (GuidelimeData.autoAcceptQuests or GuidelimeData.autoTurnInQuests) and not IsShiftKeyDown() then 
+		C_Timer.After(0.5, function()
+			if addon.debugging then print("LIME: rechecking NPC for another quest") end
+			EV.frame:QUEST_GREETING()
+		end)
+	end
 end
 
 EV.frame:RegisterEvent('GOSSIP_CLOSED')
